@@ -1,0 +1,286 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Authentication models (NextAuth.js compatible)
+model Account {
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime? @map("email_verified")
+  image         String?
+  role          UserRole  @default(USER)
+  credits       Int       @default(0)
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  accounts      Account[]
+  sessions      Session[]
+  payments      Payment[]
+  emailEvents   EmailEvent[]
+  creditLogs    CreditLog[]
+  toolUsage     ToolUsage[]
+  content       Content[]
+  adminLogs     AdminLog[]
+
+  @@map("users")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verificationtokens")
+}
+
+// Credit system
+model CreditLog {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  amount    Int      // Can be positive (earned) or negative (spent)
+  reason    String   // "purchase", "tool_usage", "bonus", etc.
+  metadata  Json?
+  createdAt DateTime @default(now()) @map("created_at")
+  
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("credit_logs")
+}
+
+// Tool catalog
+model Tool {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  category    String
+  creditCost  Int      @map("credit_cost")
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  
+  usage       ToolUsage[]
+
+  @@map("tools")
+}
+
+// Tool usage tracking
+model ToolUsage {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  toolId    String   @map("tool_id")
+  credits   Int      // Credits spent for this usage
+  metadata  Json?    // Tool-specific data
+  createdAt DateTime @default(now()) @map("created_at")
+  
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tool      Tool     @relation(fields: [toolId], references: [id], onDelete: Cascade)
+
+  @@map("tool_usage")
+}
+
+// Payment models
+model Payment {
+  id                String        @id @default(cuid())
+  userId            String        @map("user_id")
+  amount            Decimal       @db.Decimal(10, 2)
+  currency          String        @default("ARS")
+  status            PaymentStatus @default(PENDING)
+  mercadoPagoId     String?       @unique @map("mercado_pago_id")
+  preferenceId      String?       @unique @map("preference_id")
+  paymentMethodId   String?       @map("payment_method_id")
+  paymentTypeId     String?       @map("payment_type_id")
+  description       String?
+  externalReference String?       @map("external_reference")
+  credits           Int           @default(0) // Credits awarded for this payment
+  metadata          Json?
+  paidAt            DateTime?     @map("paid_at")
+  createdAt         DateTime      @default(now()) @map("created_at")
+  updatedAt         DateTime      @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("payments")
+}
+
+// Email models
+model EmailEvent {
+  id          String           @id @default(cuid())
+  userId      String?          @map("user_id")
+  email       String
+  event       EmailEventType
+  messageId   String?          @map("message_id")
+  templateId  String?          @map("template_id")
+  subject     String?
+  status      EmailEventStatus @default(SENT)
+  error       String?
+  metadata    Json?
+  processedAt DateTime?        @map("processed_at")
+  createdAt   DateTime         @default(now()) @map("created_at")
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([email])
+  @@index([event])
+  @@index([status])
+  @@map("email_events")
+}
+
+// Content management (for both portals)
+model Content {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  content     String   // Rich text/markdown content
+  portal      Portal   // "IA" or "AMBIENTAL"
+  category    String
+  authorId    String   @map("author_id")
+  isPublished Boolean  @default(false) @map("is_published")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  
+  author      User             @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  sections    EditorSection[]
+
+  @@map("content")
+}
+
+// Content editor sections (for rich editing)
+model EditorSection {
+  id        String   @id @default(cuid())
+  contentId String   @map("content_id")
+  type      String   // "text", "image", "code", "embed"
+  data      Json     // Section-specific data
+  order     Int      // Display order
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  
+  content   Content  @relation(fields: [contentId], references: [id], onDelete: Cascade)
+
+  @@map("editor_sections")
+}
+
+// Admin actions log
+model AdminLog {
+  id        String   @id @default(cuid())
+  adminId   String   @map("admin_id") // User ID of admin
+  action    String   // "credit_adjustment", "user_suspension", etc.
+  details   Json?    // Additional action details
+  targetId  String?  @map("target_id") // ID of affected entity
+  createdAt DateTime @default(now()) @map("created_at")
+  
+  admin     User     @relation(fields: [adminId], references: [id], onDelete: Cascade)
+
+  @@map("admin_logs")
+}
+
+// System models
+model SystemLog {
+  id          String      @id @default(cuid())
+  level       LogLevel
+  message     String
+  context     Json?
+  traceId     String?     @map("trace_id")
+  userId      String?     @map("user_id")
+  ipAddress   String?     @map("ip_address")
+  userAgent   String?     @map("user_agent")
+  endpoint    String?
+  method      String?
+  statusCode  Int?        @map("status_code")
+  duration    Int?        // in milliseconds
+  createdAt   DateTime    @default(now()) @map("created_at")
+
+  @@index([level])
+  @@index([traceId])
+  @@index([userId])
+  @@index([createdAt])
+  @@map("system_logs")
+}
+
+// Enums
+enum UserRole {
+  USER
+  ADMIN
+  MODERATOR
+}
+
+enum PaymentStatus {
+  PENDING
+  APPROVED
+  AUTHORIZED
+  IN_PROCESS
+  IN_MEDIATION
+  REJECTED
+  CANCELLED
+  REFUNDED
+  CHARGED_BACK
+}
+
+enum EmailEventType {
+  WELCOME
+  PAYMENT_SUCCESS
+  PAYMENT_FAILED
+  PASSWORD_RESET
+  EMAIL_VERIFICATION
+  NOTIFICATION
+}
+
+enum EmailEventStatus {
+  SENT
+  DELIVERED
+  OPENED
+  CLICKED
+  BOUNCED
+  COMPLAINED
+  BLOCKED
+  ERROR
+}
+
+enum LogLevel {
+  DEBUG
+  INFO
+  WARN
+  ERROR
+  FATAL
+}
+
+enum Portal {
+  IA
+  AMBIENTAL
+}

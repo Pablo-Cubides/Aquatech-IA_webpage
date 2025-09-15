@@ -1,0 +1,117 @@
+[
+  {
+    "id": "domestika-emprendimiento-sostenible",
+    "slug": "domestika-emprendimiento-sostenible",
+    "type": "course",
+    "title": "Emprendimiento sostenible: de la idea al producto eco",
+    "description": "Define propuesta eco, valida mercado y comunica con marketing verde.",
+    "language": "es",
+    "region": "LatAm",
+    "topics": ["sostenibilidad", "marketing-verde", "emprendimiento"],
+    "level": "intro",
+    "format": "grabado",
+    "platform": "Domestika",
+    "affiliate_network": "Impact",
+    "affiliate_url": "https://www.domestika.org/es/courses/eco?ref=af",
+    "price": 12,
+    "currency": "EUR",
+    "rating_value": 4.9,
+    "rating_count": 1200,
+    "duration_hours": 1.5,
+    "includes": ["certificado"],
+    "images": [
+      {
+        "src": "https://lh3.googleusercontent.com/aida-public/AB6AXuDOgJHwbOF-r9c2LvYn7JplFF-uSjnKMfD-8elW0VGrjV0oO3ltmHSpJFBxQxxRS04pj_-vBszfDbY7grvzfl15cJXe2eExZYb6D_gto2akCswCqOFVywhPKVprzOUjkszdX8MIJGa27Vt76d80wDkndfbGHx0Dtm6IvYh89PrNJ6yI1edFZOBD-kQjQRgVFh7d42IzLqKWETlGzXtj_riQdmPfGE-4gr9GphRk1D-genEwSszrNmya0TM1GFi45CnWorLE6Rbfnz0",
+        "alt": "Curso de emprendimiento sostenible"
+      }
+    ],
+    "badges": ["best-rated"],
+    "published_at": "2024-07-01",
+    "last_verified_at": "2025-06-20"
+  },
+  {
+    "id": "hotmart-ia-educacion-productividad-etica",
+    "slug": "hotmart-ia-educacion-productividad-etica",
+    "type": "course",
+    "title": "IA aplicada a la educación: productividad docente sin perder ética",
+    "description": "Automatiza tareas y crea materiales con IA respetando lineamientos éticos.",
+    "language": "es",
+    "region": "LatAm",
+    "topics": ["educación-IA", "productividad", "IA-aplicada"],
+    "level": "intermedio",
+    "format": "grabado",
+    "platform": "Hotmart",
+    "affiliate_network": "Hotmart",
+    "affiliate_url": "https://go.hotmart.com/ia-edu",
+    "price": 50,
+    "currency": "USD",
+    "rating_value": 4.6,
+    "rating_count": 320,
+    "duration_hours": 8,
+    "includes": ["certificado", "comunidad"],
+    "images": [
+      {
+        "src": "https://lh3.googleusercontent.com/aida-public/AB6AXuAN4xW0bPQWzUYAQkvvVMHyif5ZNR7ROozVbty6BroXhhQqQl-NLEASQDagOYe88H6nvdS9ksQakjE63ppjEjFj99yT_eslsC8UaIVd_e_98ln_wjgDeJmHgObPgQK8EAbhNxCX5VUGQBPDX7PlLY-UlanM6cQSkNW5oKCB_Q_eVFNW54tvML9_zipn34yLoxAxbM0yU6spHOuI3prfF4X2KQAxLPDv7TCnfWhvKlEd3GpNZrDozZwmAqCqFcV_UImfm4N_df1WoYs",
+        "alt": "Curso IA aplicada a educación"
+      }
+    ],
+    "published_at": "2024-10-05",
+    "last_verified_at": "2025-06-15"
+  },
+  {
+    "id": "amazon-lifestraw-personal",
+    "slug": "amazon-lifestraw-personal",
+    "type": "product",
+    "title": "LifeStraw Personal – filtro de agua portátil",
+    "description": "Filtra bacterias y parásitos; sin pilas; reduce consumo de plástico.",
+    "language": "es",
+    "region": "LatAm",
+    "topics": ["agua", "salud", "outdoor"],
+    "platform": "Amazon",
+    "affiliate_network": "Amazon Associates",
+    "affiliate_url": "https://www.amazon.com/-/es/dp/B006QF3TW4",
+    "price": 0,
+    "currency": "USD",
+    "brand": "LifeStraw",
+    "rating_value": 4.8,
+    "rating_count": 80000,
+    "sustainability_flags": ["eco"],
+    "images": [
+      {
+        "src": "https://lh3.googleusercontent.com/aida-public/AB6AXuBkgHyegf0xWv2idaqLPTvDV0i5VfdBMKswOabK2ojej2qNmTF1nhB3CwOTzBSJZgYSQBNjg7DQG4Y_BYbmRQhUE33TFGkYLUGpjjVP1GLbjFEuP_PvNiHCnqjqHH351kQKmhpIcpbPrarSqta7V-f6Oe0g3Whg98dyZRfrZ2zjfmpFOtaByHv4fWqg0POkhFWgS3uoiRCC4e8ixXQjTKF6j8_fio9FXhhs5sVaxkN5VsW-mvEkKiEogPT9FlzCvPzCo4wuH_sFOR8",
+        "alt": "Filtro LifeStraw"
+      }
+    ],
+    "reviews_excerpt": ["Ideal para campo y emergencias", "Muy liviano y confiable", "Amplia comunidad de usuarios"],
+    "badges": ["editor-pick"],
+    "published_at": "2023-01-01",
+    "last_verified_at": "2025-06-18"
+  },
+  {
+    "id": "ebook-ia-impacto-ambiental",
+    "slug": "ebook-ia-impacto-ambiental",
+    "type": "ebook",
+    "title": "Manual práctico de IA para impacto social y ambiental",
+    "description": "Guía en PDF para aplicar IA a proyectos de agua, residuos y energía.",
+    "language": "es",
+    "region": "LatAm",
+    "topics": ["IA-aplicada", "sostenibilidad", "productividad"],
+    "format": "pdf",
+    "platform": "Hotmart",
+    "affiliate_network": "Hotmart",
+    "affiliate_url": "https://go.hotmart.com/ebook-ia-ambiental",
+    "price": 10,
+    "currency": "USD",
+    "rating_value": 5,
+    "rating_count": 30,
+    "images": [
+      {
+        "src": "https://lh3.googleusercontent.com/aida-public/AB6AXuDmaEoVIJrkDsssnt4mDdx5KWwSCXXOQg1OOYWHE9Mnp6i8kbVhR9B7fkRKXoohmm5JdzzoTSH_U2AqBU3DFZSC-Ctnd3Mf4SbYvzgzDZo3fa1odZsp9h3ucy6IkGEFN_iDYgheua2_iIy7gQ6Ekg-qWQyZlfGRcmSBRNB36xloGQgNKL4uLD_JTu3Nq3tJYmd-OTEeESG3EE3NPu7f1UArtV52SCYWMjACy8_vyVEpraqHx2K7a9Le7kMSJumAMU8LZ-TfdcKvbHI",
+        "alt": "Ebook IA práctica"
+      }
+    ],
+    "badges": ["new"],
+    "published_at": "2025-05-10",
+    "last_verified_at": "2025-06-21"
+  }
+]

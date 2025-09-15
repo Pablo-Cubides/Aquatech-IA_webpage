@@ -1,0 +1,64 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Next.js Web (Debug)",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/apps/web/node_modules/next/dist/bin/next",
+      "args": ["dev", "--port", "3000"],
+      "cwd": "${workspaceFolder}/apps/web",
+      "console": "integratedTerminal",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "Next.js API (Debug)",
+      "type": "node", 
+      "request": "launch",
+      "program": "${workspaceFolder}/apps/api/node_modules/next/dist/bin/next",
+      "args": ["dev", "--port", "3001"],
+      "cwd": "${workspaceFolder}/apps/api",
+      "console": "integratedTerminal",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "Attach to Next.js Web",
+      "type": "node",
+      "request": "attach",
+      "port": 9229,
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "Attach to Next.js API",
+      "type": "node",
+      "request": "attach",
+      "port": 9230,
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "FastAPI (uvicorn)",
+      "type": "python",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": ["app.main:app", "--reload"],
+      "jinja": true,
+      "justMyCode": true,
+      "env": { "PYTHONPATH": "${workspaceFolder}" }
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Launch Full Stack",
+      "configurations": [
+        "Next.js Web (Debug)",
+        "Next.js API (Debug)"
+      ]
+    }
+  ]
+}

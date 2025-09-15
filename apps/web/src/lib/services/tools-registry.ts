@@ -1,0 +1,147 @@
+import { Tool } from "../types";
+
+/**
+ * Registro de herramientas IA
+ * TODO: Implementar herramientas reales con microservicios
+ */
+export const iaTools: Tool[] = [
+  {
+    slug: "como-funciona-llm",
+    name: "Cómo funciona un LLM",
+    description:
+      "Explora el funcionamiento interno de los modelos de lenguaje.",
+    type: "public",
+    url: "https://placeholder-llm-demo.vercel.app",
+    owner: "IA-Next",
+    version: "1.0.0",
+    status: "beta",
+    portal: "ia",
+    seo: {
+      title: "Cómo funciona un LLM | Herramientas IA",
+      description:
+        "Descubre cómo funcionan los modelos de lenguaje grande (LLM) de manera interactiva.",
+      keywords: ["LLM", "inteligencia artificial", "modelos de lenguaje"],
+    },
+  },
+  {
+    slug: "sistema-de-difusion",
+    name: "Cómo funciona el sistema de difusión",
+    description:
+      "Comprende los modelos de difusión para generación de imágenes.",
+    type: "public",
+    url: "https://placeholder-diffusion-demo.vercel.app",
+    owner: "IA-Next",
+    version: "1.0.0",
+    status: "beta",
+    portal: "ia",
+    seo: {
+      title: "Sistema de Difusión | Herramientas IA",
+      description:
+        "Aprende cómo funcionan los modelos de difusión para generar imágenes.",
+      keywords: ["difusión", "generación de imágenes", "IA generativa"],
+    },
+  },
+  {
+    slug: "filtros-ia-respuestas",
+    name: "Cómo la IA filtra las respuestas",
+    description: "Entiende los sistemas de filtrado y moderación de contenido.",
+    type: "public",
+    url: "https://placeholder-filters-demo.vercel.app",
+    owner: "IA-Next",
+    version: "1.0.0",
+    status: "beta",
+    portal: "ia",
+    seo: {
+      title: "Filtros de IA | Herramientas IA",
+      description:
+        "Descubre cómo la IA filtra y modera las respuestas generadas.",
+      keywords: ["filtros IA", "moderación", "seguridad IA"],
+    },
+  },
+];
+
+/**
+ * Registro de herramientas ambientales
+ * TODO: Implementar herramientas reales con microservicios
+ */
+export const ambientalTools: Tool[] = [
+  {
+    slug: "visor-mapas-ambientales",
+    name: "Visor de mapas ambientales",
+    description: "Explora datos ambientales en mapas interactivos.",
+    type: "public",
+    url: "https://placeholder-maps-demo.vercel.app",
+    owner: "IA-Next",
+    version: "1.0.0",
+    status: "beta",
+    portal: "ambiental",
+    seo: {
+      title: "Visor de Mapas Ambientales | Herramientas Sostenibles",
+      description:
+        "Visualiza datos ambientales en mapas interactivos y actualizados.",
+      keywords: ["mapas ambientales", "datos ambientales", "sostenibilidad"],
+    },
+  },
+  {
+    slug: "normas-ambientales",
+    name: "Normas ambientales",
+    description: "Consulta normativas y regulaciones ambientales.",
+    type: "public",
+    url: "https://placeholder-normas-demo.vercel.app",
+    owner: "IA-Next",
+    version: "1.0.0",
+    status: "beta",
+    portal: "ambiental",
+    seo: {
+      title: "Normas Ambientales | Herramientas Sostenibles",
+      description:
+        "Accede a las normativas y regulaciones ambientales actualizadas.",
+      keywords: ["normas ambientales", "regulaciones", "legislación ambiental"],
+    },
+  },
+  {
+    slug: "generador-matrices-eia",
+    name: "Generador de matrices de EIA",
+    description: "Crea matrices para evaluación de impacto ambiental.",
+    type: "public",
+    url: "https://placeholder-eia-demo.vercel.app",
+    owner: "IA-Next",
+    version: "1.0.0",
+    status: "beta",
+    portal: "ambiental",
+    seo: {
+      title: "Generador de Matrices EIA | Herramientas Sostenibles",
+      description:
+        "Genera matrices para evaluación de impacto ambiental de forma automatizada.",
+      keywords: ["EIA", "matrices ambientales", "impacto ambiental"],
+    },
+  },
+];
+
+/**
+ * Función para obtener herramientas por portal
+ */
+export function getToolsByPortal(portal: "ia" | "ambiental"): Tool[] {
+  return portal === "ia" ? iaTools : ambientalTools;
+}
+
+/**
+ * Función para obtener una herramienta por slug y portal
+ */
+export function getToolBySlug(
+  slug: string,
+  portal: "ia" | "ambiental",
+): Tool | null {
+  const tools = getToolsByPortal(portal);
+  return tools.find((tool) => tool.slug === slug) || null;
+}
+
+/**
+ * Función para validar si un slug existe
+ */
+export function isValidToolSlug(
+  slug: string,
+  portal: "ia" | "ambiental",
+): boolean {
+  return getToolBySlug(slug, portal) !== null;
+}

@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "github-mcp": {
+      "transport": {
+        "type": "remote",
+        "url": "https://api.githubcopilot.com/mcp"
+      }
+    },
+    // Ejemplo opcional: Playwright MCP para pruebas E2E con el agente
+    // Requiere: npm i -g @playwright/mcp y browsers (npx playwright install)
+    "playwright-mcp": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp"]
+    }
+  }
+}

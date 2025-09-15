@@ -1,0 +1,374 @@
+/* app/globals.css */
+/* Tailwind layers */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ================================
+   1) Base + Tipografías + Selección
+   ================================ */
+@layer base {
+  :root {
+    --font-sans:
+      "Noto Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    --font-display:
+      "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+      Roboto, "Helvetica Neue", Arial;
+
+    /* Tokens neutrales */
+    --radius-xl: 1rem;
+    --radius-2xl: 1.25rem;
+    --shadow-soft: 0 10px 25px -10px rgba(0, 0, 0, 0.25);
+    --shadow-hard: 0 20px 40px -20px rgba(0, 0, 0, 0.4);
+
+    /* Colores IA (oscuro) */
+    --ia-bg: #10111a;
+    --ia-text: #ffffff;
+    --ia-muted: #9aa4af;
+    --ia-accent: #00efff; /* cian */
+    --ia-accent-strong: #0095ff;
+
+    /* Colores Ambiental (claro) */
+    --amb-bg: #f5f9f8;
+    --amb-text: #0d161c;
+    --amb-muted: #5d7989;
+    --amb-primary: #0077b6; /* azul */
+    --amb-success: #10b981; /* verde */
+
+    /* Z-index convención */
+    --z-header: 50;
+    --z-overlay: 60;
+    --z-toast: 70;
+  }
+
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    @apply antialiased;
+    min-height: 100dvh;
+    font-family: var(--font-sans);
+    background: var(--amb-bg);
+    color: var(--amb-text);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  ::selection {
+    background: rgba(0, 239, 255, 0.25);
+  }
+
+  img,
+  svg,
+  video,
+  canvas {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Scrollbar (webkit) */
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /* Focus accesible */
+  :focus-visible {
+    outline: 2px solid var(--ia-accent);
+    outline-offset: 3px;
+  }
+}
+
+/* ================================
+   2) Theming por portal
+   ================================ */
+@layer base {
+  /* IA oscuro */
+  .theme-ia {
+    background: var(--ia-bg);
+    color: var(--ia-text);
+  }
+  .theme-ia a {
+    color: #dbeafe;
+  }
+  .theme-ia .title-accent {
+    color: var(--ia-accent);
+  }
+
+  /* Patrón de fondo IA (grid sutil) */
+  .theme-ia .bg-grid-ia {
+    background-color: var(--ia-bg);
+    background-image:
+      radial-gradient(#00e5ff33 1px, transparent 1px),
+      radial-gradient(#00e5ff33 1px, transparent 1px);
+    background-size:
+      40px 40px,
+      40px 40px;
+    background-position:
+      0 0,
+      20px 20px;
+  }
+
+  /* Ambiental claro */
+  .theme-ambiental {
+    background: var(--amb-bg);
+    color: var(--amb-text);
+  }
+  .theme-ambiental a {
+    color: #1e3a8a;
+  }
+  .theme-ambiental .title-accent {
+    color: var(--amb-primary);
+  }
+
+  /* Patrón de fondo Ambiental (ondas svg) */
+  .theme-ambiental .bg-waves-ambiental {
+    background-color: var(--amb-bg);
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none'/%3e%3cpath d='M0 20C40 20 60 0 100 0C140 0 160 20 200 20C240 20 260 0 300 0' stroke='%230077B644' stroke-width='1'/%3e%3cpath d='M0 40C40 40 60 20 100 20C140 20 160 40 200 40C240 40 260 20 300 20' stroke='%2310B98144' stroke-width='1'/%3e%3c/svg%3e");
+  }
+}
+
+/* ================================
+   3) Componentes (botones, chips, cards, modales)
+   ================================ */
+@layer components {
+  /* Botones base */
+  .btn {
+    @apply inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-bold transition-shadow;
+    box-shadow: var(--shadow-soft);
+  }
+  .btn:disabled {
+    @apply opacity-60 pointer-events-none;
+  }
+
+  /* Primarios sensibles al tema */
+  .theme-ia .btn-primary {
+    background: var(--ia-accent);
+    color: var(--ia-bg);
+  }
+  .theme-ia .btn-primary:hover {
+    background: #ffffff;
+  }
+
+  .theme-ambiental .btn-primary {
+    background: var(--amb-primary);
+    color: #ffffff;
+  }
+  .theme-ambiental .btn-primary:hover {
+    @apply bg-blue-800;
+  }
+
+  /* Outline */
+  .btn-outline {
+    @apply border rounded-full px-5 py-2.5 text-sm font-semibold;
+  }
+  .theme-ia .btn-outline {
+    border-color: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+  }
+  .theme-ambiental .btn-outline {
+    border-color: #d5dde2;
+    color: var(--amb-text);
+  }
+
+  /* Chips */
+  .chip {
+    @apply inline-flex h-8 items-center rounded-full px-4 text-sm font-medium;
+  }
+  .theme-ia .chip {
+    background: rgba(255, 255, 255, 0.08);
+    color: #e5e7eb;
+  }
+  .theme-ambiental .chip {
+    background: #e7eff4;
+    color: var(--amb-text);
+  }
+
+  /* Cards */
+  .card {
+    @apply rounded-2xl p-5;
+    box-shadow: var(--shadow-soft);
+    background: #ffffff;
+  }
+  .theme-ia .card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(6px);
+  }
+
+  /* Glass card */
+  .glass {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(10px);
+  }
+
+  /* Secciones */
+  .section {
+    @apply mx-auto w-full max-w-screen-xl px-4 sm:px-6 lg:px-8;
+  }
+  .section-title {
+    @apply font-display font-bold tracking-tight;
+  }
+
+  /* Modal genérico */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(6px);
+    z-index: var(--z-overlay);
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+  }
+  .modal-panel {
+    width: 100%;
+    max-width: 32rem;
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-hard);
+    overflow: hidden;
+  }
+  .theme-ia .modal-panel {
+    background: #0f1220;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+  }
+  .theme-ambiental .modal-panel {
+    background: #fff;
+    border: 1px solid #e7eef4;
+    color: var(--amb-text);
+  }
+}
+
+/* ================================
+   4) Utilidades (dividers glow, Swiper, motion)
+   ================================ */
+@layer utilities {
+  /* Divisores “glow” */
+  @keyframes glowPulse {
+    0% {
+      opacity: 0.7;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  .divider-glow-vertical {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    transform: translateX(-50%);
+    background: linear-gradient(to bottom, #00efff, #0077b6);
+    box-shadow:
+      0 0 10px #00efff,
+      0 0 20px #00efff,
+      0 0 30px #0077b6,
+      0 0 40px #0077b6;
+    animation: glowPulse 3s ease-in-out infinite alternate;
+  }
+  .divider-glow-horizontal {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 4px;
+    transform: translateY(-50%);
+    background: linear-gradient(to right, #00efff, #0077b6);
+    box-shadow:
+      0 0 10px #00efff,
+      0 0 20px #00efff,
+      0 0 30px #0077b6,
+      0 0 40px #0077b6;
+    animation: glowPulse 3s ease-in-out infinite alternate;
+  }
+
+  /* Ajustes Swiper por tema */
+  .swiper-button-next,
+  .swiper-button-prev {
+    transition: opacity 0.2s ease;
+  }
+  .swiper-button-next:hover,
+  .swiper-button-prev:hover {
+    opacity: 0.85;
+  }
+
+  .theme-ia .swiper-button-next,
+  .theme-ia .swiper-button-prev {
+    color: var(--ia-accent);
+  }
+  .theme-ambiental .swiper-button-next,
+  .theme-ambiental .swiper-button-prev {
+    color: var(--amb-primary);
+  }
+
+  .theme-ia .swiper-pagination-bullet {
+    background: rgba(255, 255, 255, 0.35);
+  }
+  .theme-ia .swiper-pagination-bullet-active {
+    background: var(--ia-accent);
+  }
+
+  .theme-ambiental .swiper-pagination-bullet {
+    background: #c7d2fe;
+  }
+  .theme-ambiental .swiper-pagination-bullet-active {
+    background: var(--amb-primary);
+  }
+
+  /* Safe areas móviles */
+  .pad-safe {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+
+  /* Sombras utilitarias */
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+  .shadow-hard {
+    box-shadow: var(--shadow-hard);
+  }
+
+  /* Aspect helpers */
+  .aspect-video {
+    aspect-ratio: 16 / 9;
+  }
+  .aspect-square {
+    aspect-ratio: 1 / 1;
+  }
+}
+
+/* ================================
+   5) Preferencias de movimiento
+   ================================ */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
