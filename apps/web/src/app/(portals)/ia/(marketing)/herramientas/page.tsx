@@ -201,13 +201,13 @@ export default function IAHerramientasPage() {
                     </ListItem>
                   </ul>
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <Link href="#" className="btn btn-primary focus-ring">
+                    <Link href="/ia/herramientas/modelos-difusion" className="btn btn-primary focus-ring">
                       <PlayIcon />
                       Abrir módulo
                     </Link>
-                    <Link href="#" className="btn btn-secondary focus-ring">
+                    <Link href="https://github.com/Pablo-Cubides/modelos-difusion" target="_blank" rel="noopener noreferrer" className="btn btn-secondary focus-ring">
                       <DocIcon />
-                      Documentación
+                      Ver en GitHub
                     </Link>
                   </div>
                 </div>
@@ -230,7 +230,7 @@ export default function IAHerramientasPage() {
                     </span>
                   </div>
                   <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white leading-tight">
-                    Cómo la IA filtra sus preguntas
+                    Cómo la IA filtra las respuestas
                   </h2>
                   <p className="text-[var(--text-secondary)] mb-8 text-lg leading-relaxed">
                     Comprenda los mecanismos de seguridad y moderación que
@@ -250,13 +250,13 @@ export default function IAHerramientasPage() {
                     </ListItem>
                   </ul>
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <Link href="#" className="btn btn-primary focus-ring">
+                    <Link href="/ia/herramientas/filtrado-ia" className="btn btn-primary focus-ring">
                       <PlayIcon />
                       Abrir módulo
                     </Link>
-                    <Link href="#" className="btn btn-secondary focus-ring">
+                    <Link href="https://github.com/Pablo-Cubides/filtrado-ia" target="_blank" rel="noopener noreferrer" className="btn btn-secondary focus-ring">
                       <DocIcon />
-                      Ver demo
+                      Ver en GitHub
                     </Link>
                   </div>
                 </div>
@@ -445,18 +445,18 @@ export default function IAHerramientasPage() {
                 </li>
                 <li>
                   <Link
-                    href="#"
+                    href="/ia/herramientas/modelos-difusion"
                     className="hover:text-[var(--primary-cyan)] transition-colors text-sm"
                   >
-                    Modelos de difusión (Próximamente)
+                    Modelos de difusión
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="#"
+                    href="/ia/herramientas/filtrado-ia"
                     className="hover:text-[var(--primary-cyan)] transition-colors text-sm"
                   >
-                    Filtrado de IA (Próximamente)
+                    Filtrado de IA
                   </Link>
                 </li>
               </ul>
