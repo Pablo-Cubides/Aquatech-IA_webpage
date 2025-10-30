@@ -24,6 +24,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      "@/tools/llm": path.resolve(__dirname, "./src/app/(portals)/ia/(marketing)/herramientas/como-funcionan-llm/src"),
     },
   },
 });

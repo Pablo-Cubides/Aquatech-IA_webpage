@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { getServerSession } from "next-auth/next";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -77,14 +78,15 @@ export const metadata: Metadata = {
 
 import { ProcessProvider } from "../context/ProcessContext";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await getServerSession();
+
   // Structured data for educational content and SEO
   const structuredData = {
-    "@context": "https://schema.org",
     "@type": "EducationalWebsite",
     "name": "ExploraModelo",
     "description": "Aplicación educativa interactiva que explica paso a paso cómo funcionan los modelos de lenguaje (LLM): tokenización, embeddings, atención, probabilidades y generación autoregresiva",
@@ -169,7 +171,9 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <ProcessProvider>{children}</ProcessProvider>
+        <ProcessProvider user={session?.user}>
+          {children}
+        </ProcessProvider>
       </body>
     </html>
   );

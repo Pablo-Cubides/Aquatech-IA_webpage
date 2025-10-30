@@ -130,7 +130,13 @@ export function appReducer(state: AppState, action: Action): AppState {
 const ProcessContext = createContext<{ state: AppState; dispatch: React.Dispatch<Action> } | undefined>(undefined);
 
 // 4. Crear el Provider
-export function ProcessProvider({ children }: { children: ReactNode }) {
+export function ProcessProvider({ children, user }: { children: ReactNode; user?: any }) {
+  // Store user info for analytics
+  const userRef = React.useRef(user);
+  React.useEffect(() => {
+    userRef.current = user;
+  }, [user]);
+
   // Siempre iniciar desde el paso 0 para evitar problemas de hidratación
   const [state, dispatch] = useReducer(appReducer, initialState);
 
