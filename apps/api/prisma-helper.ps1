@@ -6,9 +6,18 @@ param(
     [string]$Command
 )
 
-# Establecer variables de entorno
-$env:DATABASE_URL = "postgresql://postgres.nzkxfrvejnicvgizlmza:ddSnabadRAHCAxw3@aws-1-sa-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true"
-$env:DIRECT_URL = "postgresql://postgres.nzkxfrvejnicvgizlmza:ddSnabadRAHCAxw3@aws-1-sa-east-1.pooler.supabase.com:5432/postgres"
+# IMPORTANT: Load .env file first!
+# The credentials should be in your .env file, NOT in this script
+# This script now loads from .env file
+
+# Load .env file
+Get-Content .env | ForEach-Object {
+    if ($_ -match '^\s*([^#][^=]+)=(.*)$') {
+        $key = $matches[1].Trim()
+        $value = $matches[2].Trim().Trim('"')
+        Set-Item -Path "env:$key" -Value $value
+    }
+}
 
 # Ejecutar comando de Prisma
 Write-Host "Ejecutando: pnpm prisma $Command" -ForegroundColor Green

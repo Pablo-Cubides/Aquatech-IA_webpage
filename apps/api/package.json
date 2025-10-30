@@ -12,8 +12,8 @@
     "prisma:generate": "prisma generate",
     "prisma:format": "prisma format",
     "prisma:studio": "prisma studio",
-    "prisma:push": "cross-env DATABASE_URL=\"postgresql://postgres.nzkxfrvejnicvgizlmza:ddSnabadRAHCAxw3@aws-1-sa-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true\" DIRECT_URL=\"postgresql://postgres.nzkxfrvejnicvgizlmza:ddSnabadRAHCAxw3@aws-1-sa-east-1.pooler.supabase.com:5432/postgres\" prisma db push",
-    "prisma:migrate": "cross-env DATABASE_URL=\"postgresql://postgres.nzkxfrvejnicvgizlmza:ddSnabadRAHCAxw3@aws-1-sa-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true\" DIRECT_URL=\"postgresql://postgres.nzkxfrvejnicvgizlmza:ddSnabadRAHCAxw3@aws-1-sa-east-1.pooler.supabase.com:5432/postgres\" prisma migrate dev",
+    "prisma:push": "dotenv -e .env -- prisma db push",
+    "prisma:migrate": "dotenv -e .env -- prisma migrate dev",
     "db:push": "pnpm prisma:push",
     "db:studio": "pnpm prisma:studio",
     "postinstall": "prisma generate"
@@ -39,6 +39,7 @@
     "@ia-next/prettier-config": "workspace:*",
     "@types/node": "^24.9.2",
     "cross-env": "^10.1.0",
+    "dotenv-cli": "^11.0.0",
     "eslint": "^9.38.0",
     "prettier": "^3.3.0",
     "prisma": "^6.18.0",

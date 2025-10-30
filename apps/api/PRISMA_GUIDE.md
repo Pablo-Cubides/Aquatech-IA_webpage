@@ -2,7 +2,7 @@
 
 ## 🎯 Problema Resuelto
 
-Prisma tenía problemas parseando el archivo `.env` debido a caracteres especiales en la contraseña. Ahora usamos `cross-env` para establecer las variables de entorno directamente en los scripts.
+Prisma tenía problemas parseando el archivo `.env` debido a caracteres especiales en la contraseña. Ahora usamos `dotenv-cli` para cargar las variables de entorno de forma segura desde el archivo `.env`.
 
 ## 📝 Scripts Disponibles
 
@@ -62,15 +62,25 @@ DATABASE_URL=postgresql://user:password@host:6543/postgres?pgbouncer=true
 DIRECT_URL=postgresql://user:password@host:5432/postgres
 ```
 
+⚠️ **SECURITY WARNING**: Never commit real credentials! Use `.env.example` as template.
+
 - **DATABASE_URL**: Usado para conexiones de la aplicación (pooler - puerto 6543)
 - **DIRECT_URL**: Usado por Prisma para migraciones (directo - puerto 5432)
 
 ## 🚨 Notas Importantes
 
-1. Los scripts `prisma:push` y `prisma:migrate` establecen las variables de entorno automáticamente
-2. No necesitas ejecutar comandos de Prisma manualmente con variables de entorno
-3. El `postinstall` regenera el Prisma Client automáticamente al instalar dependencias
-4. Usa `db:push` en desarrollo, `prisma:migrate` en producción
+1. Los scripts `prisma:push` y `prisma:migrate` cargan las variables de entorno desde `.env` usando `dotenv-cli`
+2. **NUNCA** hardcodees credenciales en package.json o scripts
+3. Asegúrate de que `.env` está en `.gitignore` antes de hacer commit
+4. El `postinstall` regenera el Prisma Client automáticamente al instalar dependencias
+5. Usa `db:push` en desarrollo, `prisma:migrate` en producción
+
+## 🔒 Seguridad
+
+- ✅ Todas las credenciales deben estar en `.env` (no commiteado)
+- ✅ Usa `.env.example` como template sin credenciales reales
+- ✅ Rota las credenciales si son expuestas accidentalmente
+- ✅ No compartas tu archivo `.env` con nadie
 
 ## 📚 Más Información
 
