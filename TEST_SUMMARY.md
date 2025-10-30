@@ -475,10 +475,12 @@ pnpm --filter @ia-next/web test:ui
 - [Accessibility Testing](https://www.w3.org/WAI/test-evaluate/)
 
 ### 6. `validation.test.ts` (33 tests) 🆕
+
 **Path**: `apps/web/src/lib/security/__tests__/validation.test.ts`  
 **Purpose**: Tests security validation and sanitization functions
 
 #### Coverage:
+
 - ✅ **sanitizeInput** (7 tests)
   - HTML tag removal
   - JavaScript protocol removal

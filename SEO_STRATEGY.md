@@ -84,6 +84,7 @@ SEO-friendly URL patterns:
 ```
 
 **Best practices**:
+
 - Lowercase slugs
 - Hyphens for spaces
 - Short and descriptive
@@ -95,7 +96,7 @@ Prevent duplicate content:
 
 ```typescript
 alternates: {
-  canonical: `${baseUrl}/ia/herramientas/${slug}`
+  canonical: `${baseUrl}/ia/herramientas/${slug}`;
 }
 ```
 
@@ -123,6 +124,7 @@ Core Web Vitals improvements:
 - ✅ CDN delivery (Vercel)
 
 **Targets**:
+
 - LCP < 2.5s
 - FID < 100ms
 - CLS < 0.1
@@ -164,6 +166,7 @@ Currently Spanish (es_ES), ready for expansion:
    - Unique per page
 
 3. **Heading Structure**:
+
    ```html
    <h1>Main Title (1 per page)</h1>
    <h2>Section Headings</h2>
@@ -246,12 +249,14 @@ Currently Spanish (es_ES), ready for expansion:
 ### Blog Topics (Planned)
 
 **IA Portal**:
+
 1. "Guía completa: Cómo funcionan los LLMs"
 2. "Top 10 herramientas de IA para empresas en 2024"
 3. "Inteligencia Artificial vs Machine Learning: Diferencias"
 4. "Casos de uso de IA en la industria"
 
 **Environmental Portal**:
+
 1. "Evaluación de Impacto Ambiental: Guía paso a paso"
 2. "Normativa ambiental en Colombia 2024"
 3. "Tecnología para monitoreo ambiental"
@@ -276,12 +281,14 @@ Currently Spanish (es_ES), ready for expansion:
 ### External Linking
 
 **Target sources**:
+
 - Educational institutions (.edu)
 - Government environmental sites (.gov)
 - Industry publications
 - Tech blogs and forums
 
 **Tactics**:
+
 - Guest posting
 - Resource page outreach
 - Broken link building

@@ -43,6 +43,7 @@ API routes are protected with rate limiting using Upstash Redis:
 - ✅ Graceful degradation if Redis is unavailable
 
 **Default limits**:
+
 - 10 requests per minute per IP
 - Configurable per endpoint
 
@@ -66,6 +67,7 @@ API routes are protected with rate limiting using Upstash Redis:
 - ✅ Method restrictions
 
 **Allowed origins**:
+
 - Production: `https://aquatechia.com`
 - Development: `http://localhost:3000`, `http://localhost:3001`
 
@@ -87,6 +89,7 @@ All sensitive data stored in environment variables:
 - ✅ Validation of required variables on startup
 
 **Never committed**:
+
 - Database credentials
 - API keys
 - OAuth secrets
@@ -144,17 +147,17 @@ We will respond within **48 hours** and work with you to resolve the issue.
 // ✅ Good: Rate limiting + validation
 export async function POST(request: Request) {
   // Rate limiting
-  const ip = getClientIP(request.headers)
-  const rateLimit = await rateLimitByIP(ip)
-  
+  const ip = getClientIP(request.headers);
+  const rateLimit = await rateLimitByIP(ip);
+
   if (!rateLimit.success) {
-    return new Response('Too many requests', { status: 429 })
+    return new Response("Too many requests", { status: 429 });
   }
 
   // Input validation
-  const body = await request.json()
-  const sanitized = sanitizeObject(body, ['name', 'email'])
-  
+  const body = await request.json();
+  const sanitized = sanitizeObject(body, ["name", "email"]);
+
   // Process request...
 }
 ```
@@ -164,27 +167,27 @@ export async function POST(request: Request) {
 ```typescript
 // ✅ Good: Parameterized query with Prisma
 await prisma.user.findMany({
-  where: { email: sanitizedEmail }
-})
+  where: { email: sanitizedEmail },
+});
 
 // ❌ Bad: Raw SQL (avoid unless absolutely necessary)
-await prisma.$queryRaw`SELECT * FROM users WHERE email = ${email}`
+await prisma.$queryRaw`SELECT * FROM users WHERE email = ${email}`;
 ```
 
 ### Authentication
 
 ```typescript
 // ✅ Good: Check authentication before sensitive operations
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export async function POST(request: Request) {
-  const session = await getServerSession(authOptions)
-  
+  const session = await getServerSession(authOptions);
+
   if (!session) {
-    return new Response('Unauthorized', { status: 401 })
+    return new Response("Unauthorized", { status: 401 });
   }
-  
+
   // Process authenticated request...
 }
 ```
@@ -209,6 +212,7 @@ We monitor for:
 - ✅ Error rates and types
 
 **Tools**:
+
 - Sentry for error tracking
 - Vercel Analytics for traffic monitoring
 - Upstash Redis for rate limiting metrics
@@ -251,6 +255,7 @@ In case of a security incident:
 ## 📞 Security Team
 
 For security concerns:
+
 - Email: security@aquatechia.com
 - Response Time: Within 48 hours
 - Severity Levels: Critical (24h), High (48h), Medium (1 week), Low (2 weeks)
