@@ -3,9 +3,9 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: false,
   },
-  eslint: {
-    ignoreDuringBuilds: false,
-  },
+  
+  // Turbopack is default in Next.js 16, set empty config to silence warning
+  turbopack: {},
 
   // Transpile packages from the monorepo
   transpilePackages: ["@ia-next/database"],

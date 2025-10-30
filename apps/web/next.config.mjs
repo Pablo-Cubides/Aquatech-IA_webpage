@@ -10,10 +10,9 @@ const nextConfig = {
     // Set to false to enable strict TypeScript checking
     ignoreBuildErrors: false,
   },
-  eslint: {
-    // Set to false to enable ESLint during builds
-    ignoreDuringBuilds: false,
-  },
+  
+  // Turbopack is default in Next.js 16, set empty config to silence warning
+  turbopack: {},
 
   // Transpile packages from the monorepo
   transpilePackages: ["@ia-next/ui", "@ia-next/database"],
@@ -99,19 +98,6 @@ const nextConfig = {
         permanent: true,
       },
     ];
-  },
-
-  // Webpack optimizations
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
-        net: false,
-        tls: false,
-      };
-    }
-    return config;
   },
 };
 
