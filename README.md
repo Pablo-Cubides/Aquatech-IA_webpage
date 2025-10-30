@@ -80,9 +80,10 @@ pnpm build        # Build all applications
 pnpm build:web    # Build web app only
 pnpm build:api    # Build API only
 
-# Database
-pnpm db:push      # Push schema changes
-pnpm db:studio    # Open Prisma Studio
+# Database (ejecutar desde apps/api o usar --filter)
+pnpm --filter @ia-next/api prisma:push      # Push schema changes to DB
+pnpm --filter @ia-next/api prisma:studio    # Open Prisma Studio (visual DB interface)
+pnpm --filter @ia-next/api prisma:migrate   # Create and apply migrations
 
 # Linting & Formatting
 pnpm lint         # Lint all packages

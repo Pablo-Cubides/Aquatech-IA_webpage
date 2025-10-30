@@ -10,16 +10,16 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\""
   },
   "dependencies": {
-    "@prisma/client": "^5.15.0"
+    "@prisma/client": "^6.18.0"
   },
   "devDependencies": {
-    "prisma": "^5.15.0",
-    "@types/node": "^20.14.0",
     "@ia-next/eslint-config": "workspace:*",
     "@ia-next/prettier-config": "workspace:*",
     "@ia-next/typescript-config": "workspace:*",
-    "eslint": "^8.57.0",
+    "@types/node": "^24.9.2",
+    "eslint": "^9.38.0",
     "prettier": "^3.3.0",
-    "typescript": "^5.5.0"
+    "prisma": "^6.18.0",
+    "typescript": "^5.9.3"
   }
 }

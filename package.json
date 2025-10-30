@@ -13,13 +13,23 @@
     "lint": "turbo lint",
     "format": "turbo run format --parallel",
     "typecheck": "turbo typecheck",
+    "test": "turbo run test",
+    "test:watch": "turbo run test:watch",
+    "test:ui": "turbo run test:ui",
     "clean": "turbo clean && rm -rf node_modules",
     "postinstall": "turbo run postinstall --parallel"
   },
   "devDependencies": {
-    "turbo": "^2.0.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@vitejs/plugin-react": "^5.1.0",
+    "@vitest/ui": "^4.0.5",
+    "jsdom": "^27.0.1",
     "prettier": "^3.3.0",
-    "typescript": "^5.5.0"
+    "turbo": "^2.5.8",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.5"
   },
   "engines": {
     "node": ">=18.17.0",
