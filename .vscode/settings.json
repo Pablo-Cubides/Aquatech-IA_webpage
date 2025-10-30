@@ -32,5 +32,11 @@
     ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
     ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
   ],
+  "css.lint.unknownAtRules": "ignore",
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "stylelint.enable": true,
+  "stylelint.validate": ["css", "scss", "postcss"],
   "chat.mcp.access": "all"
 }
