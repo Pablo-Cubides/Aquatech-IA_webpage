@@ -128,10 +128,7 @@ export type NormasQueryInput = z.infer<typeof normasQuerySchema>;
 /**
  * Safe JSON parse with validation
  */
-export function parseJSON<T>(
-  json: string,
-  schema?: z.ZodSchema<T>
-): T | null {
+export function parseJSON<T>(json: string, schema?: z.ZodSchema<T>): T | null {
   try {
     const parsed = JSON.parse(json);
     if (schema) {
@@ -157,7 +154,7 @@ export function sanitizeInput(input: string): string {
  * Create a safe response error
  */
 export function createValidationErrorResponse(
-  error: z.ZodError
+  error: z.ZodError,
 ): Record<string, string[]> {
   const result: Record<string, string[]> = {};
 

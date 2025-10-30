@@ -61,7 +61,7 @@ function validateFileSize(file: File, maxSizeBytes: number): void {
     const sizeMB = (file.size / 1024 / 1024).toFixed(2);
     const maxMB = (maxSizeBytes / 1024 / 1024).toFixed(2);
     throw new FileValidationError(
-      `Archivo muy grande. Máximo: ${maxMB}MB, recibido: ${sizeMB}MB`
+      `Archivo muy grande. Máximo: ${maxMB}MB, recibido: ${sizeMB}MB`,
     );
   }
 }
@@ -72,7 +72,7 @@ function validateFileSize(file: File, maxSizeBytes: number): void {
 function validateMimeType(file: File, allowedMimeTypes: string[]): void {
   if (!allowedMimeTypes.includes(file.type)) {
     throw new FileValidationError(
-      `Tipo de archivo no permitido. Permitidos: ${allowedMimeTypes.join(", ")}`
+      `Tipo de archivo no permitido. Permitidos: ${allowedMimeTypes.join(", ")}`,
     );
   }
 }
@@ -80,12 +80,15 @@ function validateMimeType(file: File, allowedMimeTypes: string[]): void {
 /**
  * Validate file extension
  */
-function validateExtension(fileName: string, allowedExtensions: string[]): void {
+function validateExtension(
+  fileName: string,
+  allowedExtensions: string[],
+): void {
   const ext = fileName.substring(fileName.lastIndexOf(".")).toLowerCase();
 
   if (!allowedExtensions.includes(ext)) {
     throw new FileValidationError(
-      `Extensión de archivo no válida. Permitidas: ${allowedExtensions.join(", ")}`
+      `Extensión de archivo no válida. Permitidas: ${allowedExtensions.join(", ")}`,
     );
   }
 }
@@ -93,10 +96,7 @@ function validateExtension(fileName: string, allowedExtensions: string[]): void 
 /**
  * Check magic bytes (file signature) to prevent MIME type spoofing
  */
-async function validateMagicBytes(
-  file: File,
-  mimeType: string
-): Promise<void> {
+async function validateMagicBytes(file: File, mimeType: string): Promise<void> {
   const header = await file.slice(0, 8).arrayBuffer();
   const view = new Uint8Array(header);
 
@@ -112,17 +112,23 @@ async function validateMagicBytes(
   // XLS file signature: 0xD0 0xCF 0x11 0xE0
   if (mimeType === "application/vnd.ms-excel") {
     if (view[0] !== 0xd0 || view[1] !== 0xcf) {
-      throw new FileValidationError("Firma XLS no detectada. Archivo podría estar corrupto");
+      throw new FileValidationError(
+        "Firma XLS no detectada. Archivo podría estar corrupto",
+      );
     }
   }
 
   // XLSX/XLSM file signature: 0x50 0x4B (PK - ZIP format)
   if (
-    mimeType === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
-    mimeType === "application/vnd.openxmlformats-officedocument.spreadsheetml.macro.sheet"
+    mimeType ===
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+    mimeType ===
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.macro.sheet"
   ) {
     if (view[0] !== 0x50 || view[1] !== 0x4b) {
-      throw new FileValidationError("Firma XLSX no detectada. Archivo podría estar corrupto");
+      throw new FileValidationError(
+        "Firma XLSX no detectada. Archivo podría estar corrupto",
+      );
     }
   }
 
@@ -136,7 +142,12 @@ async function validateMagicBytes(
 
   // PNG signature: 0x89 0x50 0x4E 0x47
   if (mimeType === "image/png") {
-    if (view[0] !== 0x89 || view[1] !== 0x50 || view[2] !== 0x4e || view[3] !== 0x47) {
+    if (
+      view[0] !== 0x89 ||
+      view[1] !== 0x50 ||
+      view[2] !== 0x4e ||
+      view[3] !== 0x47
+    ) {
       throw new FileValidationError("Firma PNG no detectada");
     }
   }
@@ -154,7 +165,7 @@ async function validateMagicBytes(
  */
 export async function validateFile(
   file: File,
-  config: FileValidationConfig = SPREADSHEET_CONFIG
+  config: FileValidationConfig = SPREADSHEET_CONFIG,
 ): Promise<boolean> {
   const {
     maxSizeBytes = 5 * 1024 * 1024,
@@ -201,7 +212,7 @@ export async function validateFile(
  */
 export async function validateFiles(
   files: File[],
-  config?: FileValidationConfig
+  config?: FileValidationConfig,
 ): Promise<boolean> {
   for (const file of files) {
     await validateFile(file, config);
@@ -213,14 +224,12 @@ export async function validateFiles(
  * Sanitize file name to prevent path traversal attacks
  */
 export function sanitizeFileName(fileName: string): string {
-  return (
-    fileName
-      .replace(/\.\.\//g, "") // Remove ../
-      .replace(/\\/g, "") // Remove backslashes
-      .replace(/[/\\]/g, "_") // Replace slashes with underscores
-      .replace(/[^\w\s.-]/g, "") // Remove special characters
-      .slice(0, 255)
-  ); // Limit length
+  return fileName
+    .replace(/\.\.\//g, "") // Remove ../
+    .replace(/\\/g, "") // Remove backslashes
+    .replace(/[/\\]/g, "_") // Replace slashes with underscores
+    .replace(/[^\w\s.-]/g, "") // Remove special characters
+    .slice(0, 255); // Limit length
 }
 
 /**

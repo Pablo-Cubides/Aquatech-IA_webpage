@@ -88,8 +88,7 @@ test.describe("Security Tests", () => {
         });
 
         // Check if CORS headers allow the request
-        const allowOrigin =
-          response.headers.get("Access-Control-Allow-Origin");
+        const allowOrigin = response.headers.get("Access-Control-Allow-Origin");
         return allowOrigin === "https://evil.com";
       } catch (e) {
         return true; // Request was blocked
@@ -192,7 +191,7 @@ test.describe("Security Tests", () => {
     // Follow redirects
     const response = await page.goto(
       `${BASE_URL}/ambiental/autor/herramientas/visualizador-notas`,
-      { waitUntil: "networkidle" }
+      { waitUntil: "networkidle" },
     );
 
     const finalUrl = page.url();
@@ -203,7 +202,7 @@ test.describe("Security Tests", () => {
 
   test("should use 301 permanent redirect", async ({ request }) => {
     const response = await request.head(
-      `${BASE_URL}/ambiental/autor/herramientas/genealogia-app`
+      `${BASE_URL}/ambiental/autor/herramientas/genealogia-app`,
     );
 
     // 301 = Moved Permanently (good for SEO)

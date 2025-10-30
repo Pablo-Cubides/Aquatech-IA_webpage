@@ -14,7 +14,9 @@ export default function Page() {
     <div className="min-h-screen flex items-center justify-center">
       <div className="text-center">
         <div className="text-4xl mb-4">⏳</div>
-        <p className="text-lg text-gray-600">Redirigiendo a Visualizador de Notas...</p>
+        <p className="text-lg text-gray-600">
+          Redirigiendo a Visualizador de Notas...
+        </p>
       </div>
     </div>
   );

@@ -1,9 +1,32 @@
 import { NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
 import { logger } from '@/lib/logger'
+import { rateLimitByIP } from '@/lib/security/rate-limit'
 
 export async function GET(request: Request) {
   try {
+    // SECURITY: Apply rate limiting
+    const ip = request.headers.get('x-forwarded-for') || 'unknown'
+    const rateLimitResult = await rateLimitByIP(ip, {
+      interval: 60 * 1000, // 1 minute
+      uniqueTokenPerInterval: 100, // 100 requests per minute for read operations
+    })
+
+    if (!rateLimitResult.success) {
+      return NextResponse.json(
+        {
+          error: 'Rate limit exceeded. Please try again later.',
+          retryAfter: Math.ceil(rateLimitResult.reset / 1000),
+        },
+        {
+          status: 429,
+          headers: {
+            'Retry-After': Math.ceil(rateLimitResult.reset / 1000).toString(),
+          },
+        },
+      )
+    }
+
     if (!supabase) {
       logger.warn('Supabase not configured', { endpoint: '/api/geojson' })
       return NextResponse.json({ 
@@ -54,6 +77,28 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    // SECURITY: Apply rate limiting (stricter for write operations)
+    const ip = request.headers.get('x-forwarded-for') || 'unknown'
+    const rateLimitResult = await rateLimitByIP(ip, {
+      interval: 60 * 1000, // 1 minute
+      uniqueTokenPerInterval: 20, // 20 requests per minute for write operations
+    })
+
+    if (!rateLimitResult.success) {
+      return NextResponse.json(
+        {
+          error: 'Rate limit exceeded. Please try again later.',
+          retryAfter: Math.ceil(rateLimitResult.reset / 1000),
+        },
+        {
+          status: 429,
+          headers: {
+            'Retry-After': Math.ceil(rateLimitResult.reset / 1000).toString(),
+          },
+        },
+      )
+    }
+
     if (!supabase) {
       logger.warn('Supabase not configured', { endpoint: '/api/geojson', method: 'POST' })
       return NextResponse.json({ 
