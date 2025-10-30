@@ -2,20 +2,22 @@
 
 ## 📊 Test Coverage Summary
 
-**Total Tests**: 139 passing  
-**Test Files**: 5  
+**Total Tests**: 172 passing  
+**Test Files**: 6  
 **Testing Framework**: Vitest 4.0.5 + React Testing Library 16.3.0  
-**Last Updated**: 2024
+**Last Updated**: 2024-10-30
 
 ---
 
 ## 🎯 Test Files Overview
 
 ### 1. `filters-env.test.ts` (38 tests)
+
 **Path**: `apps/web/src/lib/__tests__/filters-env.test.ts`  
 **Purpose**: Tests core business logic for filtering and sorting resources
 
 #### Coverage:
+
 - ✅ **Type Filtering** (4 tests)
   - Filter by "all" types
   - Filter by "course" type
@@ -75,10 +77,12 @@
 ---
 
 ### 2. `track-env.test.ts` (16 tests)
+
 **Path**: `apps/web/src/lib/__tests__/track-env.test.ts`  
 **Purpose**: Tests analytics and affiliate tracking functionality
 
 #### Coverage:
+
 - ✅ **buildAffiliateUrl** (6 tests)
   - UTM parameters injection (source, medium, campaign, content)
   - Preserves existing query parameters
@@ -104,10 +108,12 @@
 ---
 
 ### 3. `tools-registry.test.ts` (29 tests)
+
 **Path**: `apps/web/src/lib/services/__tests__/tools-registry.test.ts`  
 **Purpose**: Tests the tools registry system for IA and Environmental portals
 
 #### Coverage:
+
 - ✅ **getToolsByPortal** (5 tests)
   - Returns correct tools for "ia" portal
   - Returns correct tools for "ambiental" portal
@@ -151,10 +157,12 @@
 ---
 
 ### 4. `AuthModal.test.tsx` (34 tests)
+
 **Path**: `apps/web/src/components/auth/__tests__/AuthModal.test.tsx`  
 **Purpose**: Tests authentication modal and button components
 
 #### Coverage:
+
 - ✅ **Rendering** (4 tests)
   - Conditional rendering (isOpen true/false)
   - Dark theme (default)
@@ -201,10 +209,12 @@
 ---
 
 ### 5. `RatingStars.test.tsx` (22 tests)
+
 **Path**: `apps/web/src/components/recomendaciones/__tests__/RatingStars.test.tsx`  
 **Purpose**: Tests star rating display component
 
 #### Coverage:
+
 - ✅ **Rendering** (2 tests)
   - Renders 5 star elements
   - Has accessible label
@@ -242,21 +252,25 @@
 ## 🚀 Running Tests
 
 ### Run all tests:
+
 ```bash
 pnpm --filter @ia-next/web test
 ```
 
 ### Run tests in watch mode:
+
 ```bash
 pnpm --filter @ia-next/web test:watch
 ```
 
 ### Run tests with coverage:
+
 ```bash
 pnpm --filter @ia-next/web test:coverage
 ```
 
 ### Run tests with UI:
+
 ```bash
 pnpm --filter @ia-next/web test:ui
 ```
@@ -268,30 +282,36 @@ pnpm --filter @ia-next/web test:ui
 All tests in this suite follow professional best practices:
 
 ### ✅ Comprehensive Coverage
+
 - Tests cover happy paths, edge cases, and error scenarios
 - Each function/component has multiple test cases
 - Business logic is thoroughly validated
 
 ### ✅ Proper Mocking
+
 - External dependencies are properly mocked (next-auth, gtag)
 - Mock data is realistic and representative
 - Server-side rendering scenarios are considered
 
 ### ✅ Clear Test Structure
+
 - Tests organized with descriptive `describe` blocks
 - Test names clearly state what is being tested
 - AAA pattern (Arrange, Act, Assert) followed
 
 ### ✅ Accessibility Testing
+
 - aria-labels validated
 - Keyboard navigation tested where applicable
 - Screen reader compatibility checked
 
 ### ✅ Immutability Checks
+
 - Original data structures not modified
 - Pure function behavior validated
 
 ### ✅ Error Handling
+
 - Error scenarios explicitly tested
 - Console errors properly mocked and verified
 - Graceful degradation validated
@@ -301,46 +321,48 @@ All tests in this suite follow professional best practices:
 ## 🧪 Test Configuration
 
 ### Vitest Configuration (`vitest.config.ts`)
+
 ```typescript
-import { defineConfig } from 'vitest/config'
-import react from '@vitejs/plugin-react'
-import path from 'path'
+import { defineConfig } from "vitest/config";
+import react from "@vitejs/plugin-react";
+import path from "path";
 
 export default defineConfig({
   plugins: [react()],
   test: {
-    environment: 'jsdom',
-    setupFiles: ['./vitest.setup.ts'],
-    include: ['**/*.{test,spec}.{ts,tsx}'],
+    environment: "jsdom",
+    setupFiles: ["./vitest.setup.ts"],
+    include: ["**/*.{test,spec}.{ts,tsx}"],
     coverage: {
-      provider: 'v8',
-      reporter: ['text', 'json', 'html'],
-      include: ['src/**/*.{ts,tsx}'],
+      provider: "v8",
+      reporter: ["text", "json", "html"],
+      include: ["src/**/*.{ts,tsx}"],
       exclude: [
-        'src/**/*.d.ts',
-        'src/**/*.stories.tsx',
-        'src/**/*.test.{ts,tsx}',
+        "src/**/*.d.ts",
+        "src/**/*.stories.tsx",
+        "src/**/*.test.{ts,tsx}",
       ],
     },
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      "@": path.resolve(__dirname, "./src"),
     },
   },
-})
+});
 ```
 
 ### Setup File (`vitest.setup.ts`)
+
 ```typescript
-import '@testing-library/jest-dom'
-import { expect, afterEach } from 'vitest'
-import { cleanup } from '@testing-library/react'
+import "@testing-library/jest-dom";
+import { expect, afterEach } from "vitest";
+import { cleanup } from "@testing-library/react";
 
 // Cleanup after each test
 afterEach(() => {
-  cleanup()
-})
+  cleanup();
+});
 ```
 
 ---
@@ -348,11 +370,13 @@ afterEach(() => {
 ## 📝 Test Categories
 
 ### Unit Tests (105 tests)
+
 - Pure functions (filters, sorting)
 - Service functions (tools registry)
 - Utility functions (tracking, URL building)
 
 ### Component Tests (34 tests)
+
 - AuthModal and AuthButton
 - RatingStars
 - User interactions
@@ -362,22 +386,22 @@ afterEach(() => {
 
 ## 🎯 Coverage Metrics
 
-| Category | Current | Target | Status |
-|----------|---------|--------|--------|
-| Statements | **97.36%** | >80% | ✅ Excellent |
-| Branches | **86.07%** | >80% | ✅ Exceeds target |
-| Functions | **100%** | >80% | ✅ Perfect |
-| Lines | **97.75%** | >80% | ✅ Excellent |
+| Category   | Current    | Target | Status            |
+| ---------- | ---------- | ------ | ----------------- |
+| Statements | **97.36%** | >80%   | ✅ Excellent      |
+| Branches   | **86.07%** | >80%   | ✅ Exceeds target |
+| Functions  | **100%**   | >80%   | ✅ Perfect        |
+| Lines      | **97.75%** | >80%   | ✅ Excellent      |
 
 ### Detailed Coverage by File:
 
-| File | Statements | Branches | Functions | Lines | Uncovered |
-|------|------------|----------|-----------|-------|-----------|
-| **AuthModal.tsx** | 100% | 95.45% | 100% | 100% | Line 105 |
-| **RatingStars.tsx** | 100% | 100% | 100% | 100% | None |
-| **filters-env.ts** | 95.08% | 81.08% | 100% | 95% | Lines 39, 89 |
-| **track-env.ts** | 100% | 100% | 100% | 100% | None |
-| **tools-registry.ts** | 100% | 100% | 100% | 100% | None |
+| File                  | Statements | Branches | Functions | Lines | Uncovered    |
+| --------------------- | ---------- | -------- | --------- | ----- | ------------ |
+| **AuthModal.tsx**     | 100%       | 95.45%   | 100%      | 100%  | Line 105     |
+| **RatingStars.tsx**   | 100%       | 100%     | 100%      | 100%  | None         |
+| **filters-env.ts**    | 95.08%     | 81.08%   | 100%      | 95%   | Lines 39, 89 |
+| **track-env.ts**      | 100%       | 100%     | 100%      | 100%  | None         |
+| **tools-registry.ts** | 100%       | 100%     | 100%      | 100%  | None         |
 
 **Overall Coverage: 97.36%** - Exceeds professional standards! 🎉
 
@@ -386,18 +410,21 @@ afterEach(() => {
 ## 📋 Future Test Additions
 
 ### High Priority
+
 - [ ] Payment API route tests (`/api/payments`)
 - [ ] MercadoPago webhook tests (`/api/mp/webhook`)
 - [ ] Email service tests
 - [ ] Rate limiting tests
 
 ### Medium Priority
+
 - [ ] Card component tests (CardProduct, CardCourse)
 - [ ] Navigation component tests (HeaderIA, HeaderAmbiental)
 - [ ] Blog section component tests
 - [ ] Tool iframe integration tests
 
 ### Low Priority
+
 - [ ] E2E tests with Playwright
 - [ ] Visual regression tests
 - [ ] Performance tests
@@ -407,16 +434,19 @@ afterEach(() => {
 ## 🐛 Debugging Tests
 
 ### Run specific test file:
+
 ```bash
 pnpm --filter @ia-next/web test filters-env
 ```
 
 ### Run specific test:
+
 ```bash
 pnpm --filter @ia-next/web test -t "should filter by type"
 ```
 
 ### View test output in UI:
+
 ```bash
 pnpm --filter @ia-next/web test:ui
 # Then open http://localhost:51204/__vitest__/
@@ -444,8 +474,61 @@ pnpm --filter @ia-next/web test:ui
 - [Testing Best Practices](https://kentcdodds.com/blog/common-mistakes-with-react-testing-library)
 - [Accessibility Testing](https://www.w3.org/WAI/test-evaluate/)
 
+### 6. `validation.test.ts` (33 tests) 🆕
+**Path**: `apps/web/src/lib/security/__tests__/validation.test.ts`  
+**Purpose**: Tests security validation and sanitization functions
+
+#### Coverage:
+- ✅ **sanitizeInput** (7 tests)
+  - HTML tag removal
+  - JavaScript protocol removal
+  - Event handler removal
+  - Whitespace trimming
+  - Non-string input handling
+
+- ✅ **validateEmail** (2 tests)
+  - Valid email formats
+  - Invalid email rejection
+
+- ✅ **validateURL** (2 tests)
+  - HTTP/HTTPS URL validation
+  - Malicious URL rejection
+
+- ✅ **validateSlug** (2 tests)
+  - Valid slug patterns
+  - Invalid character rejection
+
+- ✅ **validateId** (3 tests)
+  - Alphanumeric + hyphen/underscore validation
+  - Special character rejection
+  - Length limit (100 chars)
+
+- ✅ **sanitizeSearchQuery** (4 tests)
+  - SQL wildcard escaping
+  - Quote/semicolon removal
+  - Length limiting
+  - Trim whitespace
+
+- ✅ **validatePagination** (5 tests)
+  - Valid pagination values
+  - Default values
+  - Minimum/maximum enforcement
+  - Invalid input handling
+
+- ✅ **sanitizeObject** (4 tests)
+  - Allowed keys filtering
+  - String sanitization
+  - Number/boolean preservation
+  - Array sanitization
+
+- ✅ **validateFileUpload** (4 tests)
+  - Valid file validation
+  - Size limit enforcement
+  - File type restrictions
+  - Custom configuration support
+
 ---
 
-**Last Test Run**: All 139 tests passing ✅  
-**Test Duration**: ~3.27s  
+**Last Test Run**: All 172 tests passing ✅  
+**Test Duration**: ~9.02s  
 **Environment**: jsdom (Node.js)
