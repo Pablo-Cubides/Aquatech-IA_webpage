@@ -12,18 +12,18 @@
 
 The **"Cómo Funcionan los LLM"** tool is successfully integrated into the monorepo and operational. However, the audit identified **4 critical gaps** that need remediation before establishing this as a reference pattern for the remaining 2 tools:
 
-| Category | Status | Severity | Impact |
-|----------|--------|----------|--------|
-| **Authentication** | ❌ Missing | MEDIUM | No user tracking, anyone can use |
-| **Analytics/Logging** | ⚠️ Incomplete | HIGH | Console-only, no production insights |
-| **Database Integration** | ✅ N/A | - | Tool is read-only, no data persistence |
-| **Tests Integration** | ⚠️ Isolated | MEDIUM | Tests exist but separate from monorepo |
-| **Version Compatibility** | ✅ Compatible | - | Inherits from web app versions |
-| **Security** | ✅ Good | - | No exploitable vectors detected |
-| **SEO/Metadata** | ✅ Excellent | - | Comprehensive schema markup included |
-| **Performance** | ✅ Good | - | Self-contained, no bloat |
-| **TypeScript Typing** | ✅ Excellent | - | Fully typed, strict mode compatible |
-| **Code Quality** | ✅ Good | - | Well-organized, readable structure |
+| Category                  | Status        | Severity | Impact                                 |
+| ------------------------- | ------------- | -------- | -------------------------------------- |
+| **Authentication**        | ❌ Missing    | MEDIUM   | No user tracking, anyone can use       |
+| **Analytics/Logging**     | ⚠️ Incomplete | HIGH     | Console-only, no production insights   |
+| **Database Integration**  | ✅ N/A        | -        | Tool is read-only, no data persistence |
+| **Tests Integration**     | ⚠️ Isolated   | MEDIUM   | Tests exist but separate from monorepo |
+| **Version Compatibility** | ✅ Compatible | -        | Inherits from web app versions         |
+| **Security**              | ✅ Good       | -        | No exploitable vectors detected        |
+| **SEO/Metadata**          | ✅ Excellent  | -        | Comprehensive schema markup included   |
+| **Performance**           | ✅ Good       | -        | Self-contained, no bloat               |
+| **TypeScript Typing**     | ✅ Excellent  | -        | Fully typed, strict mode compatible    |
+| **Code Quality**          | ✅ Good       | -        | Well-organized, readable structure     |
 
 ---
 
@@ -103,6 +103,7 @@ Page (wrapper)
 - ✅ No version conflicts detected
 
 **Baseline Versions** (from `apps/web/package.json`):
+
 ```
 React: 19.2.0
 Next.js: 16.0.1
@@ -117,6 +118,7 @@ Tailwind CSS: 3.4.1 (not used by tool - uses custom CSS)
 **Status**: GOOD
 
 **What's Correct**:
+
 - ✅ No hardcoded credentials
 - ✅ `use client` directive prevents server-side exposure
 - ✅ No direct database connections (safe)
@@ -125,6 +127,7 @@ Tailwind CSS: 3.4.1 (not used by tool - uses custom CSS)
 - ✅ localStorage usage has hydration guards (`isMounted` check)
 
 **Potential Risks** (Minor):
+
 - ⚠️ In-memory logging in `api/log/route.ts` resets on deployment
 - ⚠️ No authentication check on `/api/log` endpoint
 - ⚠️ localStorage key not namespaced (risk of collisions)
@@ -136,6 +139,7 @@ Tailwind CSS: 3.4.1 (not used by tool - uses custom CSS)
 **Status**: EXCELLENT
 
 **What's Implemented**:
+
 ```tsx
 // layout.tsx includes:
 ✅ Comprehensive Metadata object
@@ -150,6 +154,7 @@ Tailwind CSS: 3.4.1 (not used by tool - uses custom CSS)
 ```
 
 **Example Schema Coverage**:
+
 - EducationalWebsite schema with teaching topics
 - ScholarlyArticle citations (Attention Is All You Need, GPT-3, BERT)
 - Proper meta tags for search engines (Google, Bing, DuckDuckGo)
@@ -161,6 +166,7 @@ Tailwind CSS: 3.4.1 (not used by tool - uses custom CSS)
 **Status**: EXCELLENT
 
 **Strengths**:
+
 ```typescript
 // Strong typing throughout
 interface AppState {
@@ -171,7 +177,7 @@ interface AppState {
 }
 
 // Type-safe reducer
-export type Action = 
+export type Action =
   | { type: 'START_PROCESS'; payload: { text: string } }
   | { type: 'SET_STEP'; payload: number }
   | ...
@@ -184,6 +190,7 @@ interface StepProps {
 ```
 
 **Code Organization**:
+
 - ✅ Clear separation of concerns (components, context, utils, types)
 - ✅ Single responsibility principle (each step component < 150 lines)
 - ✅ Reusable utilities (`llm-simulation.ts` with 6 main functions)
@@ -214,6 +221,7 @@ interface StepProps {
 **Impact**: No user tracking, credits system not integrated, tool accessible to anyone
 
 **Current State**:
+
 ```typescript
 // NO authentication checks in tool
 // NO user context or session validation
@@ -222,6 +230,7 @@ interface StepProps {
 ```
 
 **What's Needed**:
+
 1. Add NextAuth.js session check in layout.tsx
 2. Implement optional user context (for credits tracking later)
 3. Track user ID with analytics events
@@ -230,6 +239,7 @@ interface StepProps {
 **Implementation Estimate**: 3-4 hours
 
 **Example Code Needed**:
+
 ```typescript
 // New: apps/web/src/app/(portals)/ia/(marketing)/herramientas/como-funcionan-llm/src/app/layout.tsx
 import { getServerSession } from "next-auth/next";
@@ -237,7 +247,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function RootLayout({ children }) {
   const session = await getServerSession(authOptions);
-  
+
   return (
     <html lang="es">
       <body>
@@ -258,6 +268,7 @@ export default async function RootLayout({ children }) {
 **Impact**: No production monitoring, no error tracking, no user insights
 
 **Current State**:
+
 ```typescript
 // apps/web/src/app/(portals)/ia/(marketing)/herramientas/como-funcionan-llm/src/utils/analytics.ts
 export function logEvent(eventName: string, eventData?: any) {
@@ -270,6 +281,7 @@ export function trackPageView(pageName: string) {
 ```
 
 **Problems**:
+
 - ❌ Only logs to console (development-only)
 - ❌ No Sentry integration (errors lost)
 - ❌ No event tracking (can't measure usage)
@@ -278,14 +290,16 @@ export function trackPageView(pageName: string) {
 - ❌ No connection to existing monorepo analytics
 
 **Analytics Usage Found** (~12 calls):
+
 ```typescript
 // In components:
-logEvent('input_changed', { inputLength });
-logEvent('step_changed', { step });
-trackPageView('tool-llm');
+logEvent("input_changed", { inputLength });
+logEvent("step_changed", { step });
+trackPageView("tool-llm");
 ```
 
 **What's Needed**:
+
 1. Replace console logging with Sentry integration
 2. Implement event batching/flushing
 3. Persist logs to server (Supabase or dedicated service)
@@ -295,31 +309,41 @@ trackPageView('tool-llm');
 **Implementation Estimate**: 4-5 hours
 
 **Example New Implementation**:
+
 ```typescript
 // New: apps/web/src/app/(portals)/ia/(marketing)/herramientas/como-funcionan-llm/src/utils/analytics.ts
 import * as Sentry from "@sentry/nextjs";
 
 export function logEvent(eventName: string, eventData?: any, userId?: string) {
   // Client-side logging
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === "development") {
     console.log(`[Event] ${eventName}:`, eventData);
   }
-  
+
   // Send to Sentry
   Sentry.captureMessage(`Tool Event: ${eventName}`, {
-    level: 'info',
-    tags: { tool: 'como-funcionan-llm', event: eventName },
+    level: "info",
+    tags: { tool: "como-funcionan-llm", event: eventName },
     extra: { eventData, userId },
   });
 }
 
-export async function trackEvent(eventName: string, eventData: any, userId?: string) {
+export async function trackEvent(
+  eventName: string,
+  eventData: any,
+  userId?: string,
+) {
   // Server-side logging for better reliability
   try {
-    const response = await fetch('/api/tools/analytics', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ eventName, eventData, userId, tool: 'como-funcionan-llm' }),
+    const response = await fetch("/api/tools/analytics", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        eventName,
+        eventData,
+        userId,
+        tool: "como-funcionan-llm",
+      }),
     });
     return response.json();
   } catch (error) {
@@ -336,6 +360,7 @@ export async function trackEvent(eventName: string, eventData: any, userId?: str
 **Impact**: Tests not part of main test suite, coverage not tracked, maintenance overhead
 
 **Current State**:
+
 ```
 Tool Tests: 7 files in src/context/__tests__/ and src/utils/__tests__/
 ├── processContext.test.tsx  ✅ Context + reducer tests
@@ -351,12 +376,14 @@ Monorepo Tests: 172 tests in apps/web/__tests__/
 ```
 
 **Problems**:
+
 - ❌ Tests run separately from monorepo suite
 - ❌ Coverage not aggregated
 - ❌ No CI/CD integration for tool tests
 - ❌ Duplication of test setup (vitest config)
 
 **What's Needed**:
+
 1. Move tests to monorepo test structure
 2. Add to main `vitest.config.ts`
 3. Include in CI/CD pipeline
@@ -365,6 +392,7 @@ Monorepo Tests: 172 tests in apps/web/__tests__/
 **Implementation Estimate**: 2-3 hours
 
 **New Structure After Migration**:
+
 ```
 apps/web/__tests__/
 ├── tools/
@@ -386,6 +414,7 @@ apps/web/__tests__/
 **Impact**: Code confusion, maintenance overhead, potential build issues
 
 **Files to Remove**:
+
 ```
 ❌ src/app/page_new_design.tsx       # Backup/abandoned design
 ❌ src/app/test-restart.tsx          # Test component
@@ -402,6 +431,7 @@ apps/web/__tests__/
 **Impact**: Metadata duplication, potential cache issues, SEO confusion
 
 **Current Issue**:
+
 ```typescript
 // apps/web/src/app/(portals)/ia/(marketing)/herramientas/como-funcionan-llm/src/app/layout.tsx
 // Has FULL metadata (title, OG, Twitter, etc.)
@@ -412,6 +442,7 @@ apps/web/__tests__/
 ```
 
 **What's Needed**:
+
 1. Option A: Use tool's own metadata (current approach - requires careful canonicalization)
 2. Option B: Move metadata to tool-specific page component (cleaner)
 3. Ensure canonical URL points to correct path: `/ia/herramientas/como-funcionan-llm`
@@ -426,6 +457,7 @@ apps/web/__tests__/
 **Impact**: Data loss on redeploy, limited insights
 
 **Current Implementation** (`api/log/route.ts`):
+
 ```typescript
 let logs: Array<{...}> = [];  // ← Resets on each deployment!
 
@@ -436,11 +468,13 @@ if (logs.length > 100) {
 ```
 
 **Problems**:
+
 - ⚠️ No persistence (Vercel serverless resets)
 - ⚠️ 100-entry limit is very small
 - ⚠️ No querying capability
 
 **What's Needed**:
+
 1. Move to persistent storage (Supabase table)
 2. Implement proper data retention policy
 3. Add analytics dashboard query endpoint
@@ -471,14 +505,16 @@ if (logs.length > 100) {
 Located in: `src/context/__tests__/` and `src/utils/__tests__/`
 
 **File**: `reducer.test.ts` (95 lines)
+
 ```typescript
 ✅ Tests COMPUTE_EMBEDDINGS action
-✅ Tests COMPUTE_ATTENTION action  
+✅ Tests COMPUTE_ATTENTION action
 ✅ Tests COMPUTE_PROBABILITIES action
 ✅ Validates reducer state transitions
 ```
 
 **File**: `processContext.test.tsx` (68 lines)
+
 ```typescript
 ✅ Tests localStorage persistence
 ✅ Tests localStorage mocking
@@ -486,6 +522,7 @@ Located in: `src/context/__tests__/` and `src/utils/__tests__/`
 ```
 
 **Files**: `embedding.test.ts`, `probabilities.test.ts`, `sampling.test.ts`, `tokenize.test.ts`
+
 ```typescript
 ✅ Algorithm testing (unit tests)
 ✅ Edge case handling
@@ -495,6 +532,7 @@ Located in: `src/context/__tests__/` and `src/utils/__tests__/`
 ### 6.2 Test Coverage Status
 
 **Estimated Coverage**: ~70-75% (need to verify)
+
 - ✅ Core algorithms well-tested
 - ⚠️ Component rendering tests likely minimal
 - ⚠️ Integration tests between steps missing
@@ -502,6 +540,7 @@ Located in: `src/context/__tests__/` and `src/utils/__tests__/`
 - ⚠️ Analytics integration tests missing (will be needed after fix)
 
 **What's Missing**:
+
 ```typescript
 // Component tests for UI logic:
 - InputStep.tsx (user input, demo selection)
@@ -537,18 +576,18 @@ Located in: `src/context/__tests__/` and `src/utils/__tests__/`
 - ✅ No conflicts with main app
 
 **Design System Tokens** (Isolated):
+
 ```css
 /* Tool-specific variables */
---primary: #00EFFF      /* Cyan (matches IA portal) */
---secondary: #0095FF    /* Blue */
---accent: #FF6B9D       /* Pink */
---background: #10111A   /* Dark */
---text: #FFFFFF         /* Light */
+--primary: #00efff /* Cyan (matches IA portal) */ --secondary: #0095ff
+  /* Blue */ --accent: #ff6b9d /* Pink */ --background: #10111a /* Dark */
+  --text: #ffffff /* Light */;
 ```
 
 ### 7.2 Potential Issues
 
 **Concern**: CSS class names are GLOBAL (not scoped)
+
 ```css
 .btn { ... }
 .card { ... }
@@ -567,16 +606,17 @@ Located in: `src/context/__tests__/` and `src/utils/__tests__/`
 
 ### 8.1 Performance Metrics
 
-| Metric | Current | Target | Status |
-|--------|---------|--------|--------|
-| Initial Load | ~45KB (gzipped) | <50KB | ✅ GOOD |
-| LCP | ~1.2s | <2.5s | ✅ GOOD |
-| CLS | ~0.05 | <0.1 | ✅ EXCELLENT |
-| Interactive | ~2s | <3s | ✅ GOOD |
+| Metric       | Current         | Target | Status       |
+| ------------ | --------------- | ------ | ------------ |
+| Initial Load | ~45KB (gzipped) | <50KB  | ✅ GOOD      |
+| LCP          | ~1.2s           | <2.5s  | ✅ GOOD      |
+| CLS          | ~0.05           | <0.1   | ✅ EXCELLENT |
+| Interactive  | ~2s             | <3s    | ✅ GOOD      |
 
 ### 8.2 Performance Optimizations (Already Present)
 
 ✅ **Good Patterns**:
+
 - No external API calls
 - Efficient state management (useReducer)
 - localStorage debouncing
@@ -585,6 +625,7 @@ Located in: `src/context/__tests__/` and `src/utils/__tests__/`
 - Hydration-safe rendering (isMounted checks)
 
 ⚠️ **Potential Improvements**:
+
 - Lazy load step components (only show current step + neighbors)
 - Memoize expensive computations (embedding calculations)
 - Compress static data (demo texts, vocabulary)
@@ -613,6 +654,7 @@ Located in: `src/context/__tests__/` and `src/utils/__tests__/`
 #### Phase 1: Critical Fixes (BLOCKING ACCEPTANCE)
 
 **1.1 Remove Stale Files** (30 minutes)
+
 ```bash
 # Delete unused files
 rm src/app/page_new_design.tsx
@@ -620,6 +662,7 @@ rm src/app/test-restart.tsx
 ```
 
 **1.2 Integrate NextAuth Authentication** (3-4 hours)
+
 ```typescript
 // Add to layout.tsx
 // Add user context to ProcessProvider
@@ -627,6 +670,7 @@ rm src/app/test-restart.tsx
 ```
 
 **1.3 Integrate Sentry Analytics** (4-5 hours)
+
 ```typescript
 // Replace console logging with Sentry
 // Add event batching
@@ -636,6 +680,7 @@ rm src/app/test-restart.tsx
 #### Phase 2: Important Improvements (3-5 hours)
 
 **2.1 Migrate Tests to Monorepo** (2-3 hours)
+
 ```bash
 # Move test files to apps/web/__tests__/tools/como-funcionan-llm/
 # Update import paths
@@ -643,6 +688,7 @@ rm src/app/test-restart.tsx
 ```
 
 **2.2 Add Component Tests** (3-4 hours)
+
 ```typescript
 // Create tests for all step components
 // Add integration tests
@@ -650,6 +696,7 @@ rm src/app/test-restart.tsx
 ```
 
 **2.3 Add Server-Side Analytics** (3-4 hours)
+
 ```typescript
 // Create /api/tools/analytics endpoint
 // Persist to Supabase
@@ -659,12 +706,14 @@ rm src/app/test-restart.tsx
 #### Phase 3: Polish (Optional, 1-2 hours)
 
 **3.1 Layout Metadata Canonicalization** (1 hour)
+
 ```typescript
 // Ensure correct canonical URL
 // Verify OG image paths
 ```
 
 **3.2 CSS Organization** (1 hour)
+
 ```typescript
 // Consider CSS module migration
 // Or namespace class names
@@ -778,13 +827,13 @@ Before accepting any new tool:
 
 ## 12. 📊 Risk Assessment
 
-| Risk | Probability | Impact | Mitigation |
-|------|-------------|--------|-----------|
-| Authentication not working | Medium | High | Test NextAuth in tool immediately |
-| Analytics data loss | Low | Medium | Use persistent storage (Supabase) |
-| Build failures with new tools | Low | High | Run full build before accepting |
-| Test coverage gaps | Medium | Medium | Add component tests |
-| SEO duplicate content | Low | Medium | Ensure unique canonical URLs |
+| Risk                          | Probability | Impact | Mitigation                        |
+| ----------------------------- | ----------- | ------ | --------------------------------- |
+| Authentication not working    | Medium      | High   | Test NextAuth in tool immediately |
+| Analytics data loss           | Low         | Medium | Use persistent storage (Supabase) |
+| Build failures with new tools | Low         | High   | Run full build before accepting   |
+| Test coverage gaps            | Medium      | Medium | Add component tests               |
+| SEO duplicate content         | Low         | Medium | Ensure unique canonical URLs      |
 
 ---
 
@@ -795,6 +844,7 @@ Before accepting any new tool:
 ### Key Findings
 
 **✅ Strengths**:
+
 - Excellent code quality and TypeScript typing
 - Comprehensive SEO/metadata
 - Good security (no vulnerabilities)
@@ -802,13 +852,15 @@ Before accepting any new tool:
 - Self-contained, no conflicts
 
 **⚠️ Gaps**:
+
 - Missing NextAuth authentication
 - Incomplete analytics (console-only, needs Sentry)
 - Tests isolated from monorepo
 - Some stale files need cleanup
 
-**✅ Recommendation**: 
+**✅ Recommendation**:
 Approve tool as-is for use, but **DO NOT accept additional tools** until:
+
 1. NextAuth authentication integrated ✓
 2. Sentry analytics implemented ✓
 3. Tests migrated to monorepo ✓

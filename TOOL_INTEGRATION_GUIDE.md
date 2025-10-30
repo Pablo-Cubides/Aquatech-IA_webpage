@@ -1,6 +1,7 @@
 # 🔧 Guía de Integración de Herramientas Educativas
 
 ## Tabla de Contenidos
+
 1. [Overview](#overview)
 2. [Pre-Requisitos](#pre-requisitos)
 3. [Estructura de Carpetas](#estructura-de-carpetas)
@@ -16,14 +17,16 @@
 
 ## Overview
 
-Este documento define el proceso estándar para integrar nuevas herramientas educativas interactivas en el monorepo Aquatech IA. 
+Este documento define el proceso estándar para integrar nuevas herramientas educativas interactivas en el monorepo Aquatech IA.
 
 **Herramientas a Integrar**:
+
 1. ✅ **Como Funcionan los LLM** - Completada (referencia)
 2. ⏳ **Cómo Funcionan los Modelos de Difusión** - En progreso
 3. ⏳ **Cómo la IA Filtra las Respuestas** - Pendiente
 
 **Portales**:
+
 - **IA Portal** (Dark Theme): `/ia/herramientas/{slug}`
 - **Environmental Portal** (Light Theme): `/ambiental/herramientas/{slug}`
 
@@ -38,12 +41,14 @@ Este documento define el proceso estándar para integrar nuevas herramientas edu
    - Credenciales de git configuradas
 
 2. **Dependencias Globales**
+
    ```bash
    node --version  # v20.x o superior
    pnpm --version  # v9.x o superior
    ```
 
 3. **Monorepo Actualizado**
+
    ```bash
    cd d:\Empresas\AquatechIA\webpage
    git pull origin main
@@ -104,15 +109,16 @@ apps/web/src/app/(portals)/{PORTAL}/{GROUP}/herramientas/{TOOL_SLUG}/
 
 ### Variables de Carpeta
 
-| Variable | Valor (Ejemplo) | Descripción |
-|----------|---|---|
-| `{PORTAL}` | `ia` o `ambiental` | Portal destino |
-| `{GROUP}` | `(marketing)` | Grupo de rutas (entre paréntesis) |
-| `{TOOL_SLUG}` | `como-funcionan-llm` | URL-friendly slug |
+| Variable      | Valor (Ejemplo)      | Descripción                       |
+| ------------- | -------------------- | --------------------------------- |
+| `{PORTAL}`    | `ia` o `ambiental`   | Portal destino                    |
+| `{GROUP}`     | `(marketing)`        | Grupo de rutas (entre paréntesis) |
+| `{TOOL_SLUG}` | `como-funcionan-llm` | URL-friendly slug                 |
 
 ### Ejemplos Reales
 
 **IA Portal - Marketing:**
+
 ```
 apps/web/src/app/(portals)/ia/(marketing)/herramientas/como-funcionan-llm/
 apps/web/src/app/(portals)/ia/(marketing)/herramientas/modelos-difusion/
@@ -120,6 +126,7 @@ apps/web/src/app/(portals)/ia/(marketing)/herramientas/filtrado-ia/
 ```
 
 **Environmental Portal:**
+
 ```
 apps/web/src/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambientales/
 ```
@@ -142,6 +149,7 @@ cd {TOOL_SLUG}
 ```
 
 **Ejemplo Real:**
+
 ```bash
 cd d:\Temp
 git clone https://github.com/YOUR_GITHUB/modelos-difusion.git modelos-difusion
@@ -188,7 +196,8 @@ Get-ChildItem -Filter "page_backup.tsx" -Recurse | Remove-Item
 ### Paso 3: Copiar a Monorepo
 
 ```bash
-# Desde d:\Temp\{TOOL_SLUG}, copiar TODO al destino
+# Desde d:\Temp\{TOOL_SLUG}, copiar TODO al destino que se especifique puede ser en un portal ambos segun indicacion
+
 
 # IA Portal Example:
 Copy-Item -Recurse -Force "d:\Temp\modelos-difusion\*" `
@@ -202,6 +211,7 @@ Copy-Item -Recurse -Force "d:\Temp\visor-mapas\*" `
 ### Paso 4: Actualizar layout.tsx
 
 **Copiar template de referencia:**
+
 ```bash
 # Copiar del proyecto ya integrado
 Copy-Item `
@@ -210,6 +220,7 @@ Copy-Item `
 ```
 
 **Actualizar metadatos** en el nuevo layout.tsx:
+
 ```typescript
 // CAMBIAR ESTOS VALORES:
 title: "ExploraModelo | Aprende cómo funcionan los Modelos de Difusión paso a paso"
@@ -224,6 +235,7 @@ canonical: "/ia/herramientas/modelos-difusion"  // ⭐ Importante
 ### Paso 5: Actualizar analytics.ts
 
 **Copiar template:**
+
 ```bash
 Copy-Item `
   "d:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\herramientas\como-funcionan-llm\src\utils\analytics.ts" `
@@ -235,6 +247,7 @@ Copy-Item `
 ### Paso 6: Actualizar Context (si aplica)
 
 Si la herramienta tiene contexto específico, actualizar solo nombres internos:
+
 ```typescript
 // Cambiar nombres para distinguir:
 // ProcessContext.tsx → DiffusionContext.tsx
@@ -248,7 +261,7 @@ En: `apps/web/src/app/(portals)/ia/(marketing)/herramientas/{SLUG}/page.tsx`
 
 ```typescript
 // Simple re-export del archivo real
-export { default } from './src/app/page';
+export { default } from "./src/app/page";
 ```
 
 ### Paso 8: Configurar Enlaces
@@ -315,13 +328,13 @@ pnpm --filter @ia-next/web test
 
 ### Error Comunes & Soluciones
 
-| Error | Causa | Solución |
-|-------|-------|----------|
-| `Cannot find module './src/app/page'` | Wrapper page.tsx incorrecto | Verificar export en `page.tsx` raíz |
-| `ENOENT: no such file or directory` | Carpeta mal nombrada | Usar kebab-case: `modelos-difusion` |
-| `Metadata error` | layout.tsx sin metadatos | Copiar template y actualizar |
-| `Module resolution` | Paths relativos rotos | Usar @/tools/llm alias solo en tests |
-| 404 en herramienta | Enlaces no configurados | Actualizar `herramientas/page.tsx` |
+| Error                                 | Causa                       | Solución                             |
+| ------------------------------------- | --------------------------- | ------------------------------------ |
+| `Cannot find module './src/app/page'` | Wrapper page.tsx incorrecto | Verificar export en `page.tsx` raíz  |
+| `ENOENT: no such file or directory`   | Carpeta mal nombrada        | Usar kebab-case: `modelos-difusion`  |
+| `Metadata error`                      | layout.tsx sin metadatos    | Copiar template y actualizar         |
+| `Module resolution`                   | Paths relativos rotos       | Usar @/tools/llm alias solo en tests |
+| 404 en herramienta                    | Enlaces no configurados     | Actualizar `herramientas/page.tsx`   |
 
 ---
 
@@ -354,12 +367,12 @@ export default async function RootLayout({
 ### Actualizar ProcessProvider
 
 ```typescript
-export function ProcessProvider({ 
-  children, 
-  user 
-}: { 
-  children: ReactNode; 
-  user?: any 
+export function ProcessProvider({
+  children,
+  user,
+}: {
+  children: ReactNode;
+  user?: any;
 }) {
   const userRef = React.useRef(user);
   React.useEffect(() => {
@@ -381,20 +394,20 @@ export function ProcessProvider({
 Template ya incluido, estructura:
 
 ```typescript
-import * as Sentry from '@sentry/nextjs';
+import * as Sentry from "@sentry/nextjs";
 
 export const logEvent = (
-  eventName: string, 
-  params?: Record<string, unknown>, 
-  userId?: string
+  eventName: string,
+  params?: Record<string, unknown>,
+  userId?: string,
 ) => {
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === "development") {
     console.log(`[Event] ${eventName}`, params);
   }
 
   Sentry.captureMessage(`Tool Event: ${eventName}`, {
-    level: 'info',
-    tags: { tool: 'tool-slug', event: eventName },
+    level: "info",
+    tags: { tool: "tool-slug", event: eventName },
     extra: params || {},
   });
 };
@@ -403,15 +416,15 @@ export const logEvent = (
 ### Uso en Componentes
 
 ```typescript
-import { logEvent, trackToolEvent } from '@/tools/llm/utils/analytics';
+import { logEvent, trackToolEvent } from "@/tools/llm/utils/analytics";
 
 // En componentes:
 const handleStepChange = (step: number) => {
-  trackToolEvent('step_changed', { step, toolName: 'Diffusion' }, user?.email);
+  trackToolEvent("step_changed", { step, toolName: "Diffusion" }, user?.email);
 };
 
 const handleError = (error: Error) => {
-  trackError(error, { component: 'DiffusionVisualization' }, user?.email);
+  trackError(error, { component: "DiffusionVisualization" }, user?.email);
 };
 ```
 
@@ -421,7 +434,8 @@ const handleError = (error: Error) => {
 
 ### 1. Actualizar herramientas/page.tsx Principal
 
-**Ubicación:** 
+**Ubicación:**
+
 ```
 apps/web/src/app/(portals)/ia/(marketing)/herramientas/page.tsx
 ```
@@ -431,32 +445,32 @@ Debe incluir array de herramientas con estructura:
 ```typescript
 const TOOLS = [
   {
-    id: 'como-funcionan-llm',
-    title: 'Cómo Funcionan los LLM',
-    description: 'Explora paso a paso...',
-    icon: '🧠',
-    href: '/ia/herramientas/como-funcionan-llm',
-    demoUrl: 'https://github.com/user/como-funcionan-llm',
-    status: 'Disponible'
+    id: "como-funcionan-llm",
+    title: "Cómo Funcionan los LLM",
+    description: "Explora paso a paso...",
+    icon: "🧠",
+    href: "/ia/herramientas/como-funcionan-llm",
+    demoUrl: "https://github.com/user/como-funcionan-llm",
+    status: "Disponible",
   },
   {
-    id: 'modelos-difusion',
-    title: 'Cómo Funcionan los Modelos de Difusión',
-    description: 'Visualiza la generación de imágenes...',
-    icon: '🎨',
-    href: '/ia/herramientas/modelos-difusion',
-    demoUrl: 'https://github.com/user/modelos-difusion',
-    status: 'Disponible'
+    id: "modelos-difusion",
+    title: "Cómo Funcionan los Modelos de Difusión",
+    description: "Visualiza la generación de imágenes...",
+    icon: "🎨",
+    href: "/ia/herramientas/modelos-difusion",
+    demoUrl: "https://github.com/user/modelos-difusion",
+    status: "Disponible",
   },
   {
-    id: 'filtrado-ia',
-    title: 'Cómo la IA Filtra las Respuestas',
-    description: 'Entiende mecanismos de seguridad...',
-    icon: '🔒',
-    href: '/ia/herramientas/filtrado-ia',
-    demoUrl: 'https://github.com/user/filtrado-ia',
-    status: 'Próximamente'
-  }
+    id: "filtrado-ia",
+    title: "Cómo la IA Filtra las Respuestas",
+    description: "Entiende mecanismos de seguridad...",
+    icon: "🔒",
+    href: "/ia/herramientas/filtrado-ia",
+    demoUrl: "https://github.com/user/filtrado-ia",
+    status: "Próximamente",
+  },
 ];
 ```
 
@@ -477,12 +491,13 @@ Si hay navegación estructurada:
 ### 3. Actualizar Sitemap (automático)
 
 El sitemap se genera automáticamente si:
+
 - Ruta existe en estructura Next.js
 - No está en `private_routes`
 
 ```typescript
 // apps/web/src/app/sitemap.ts
-const private_routes = ['/api', '/auth', '/perfil', '/admin'];
+const private_routes = ["/api", "/auth", "/perfil", "/admin"];
 ```
 
 ✅ Herramientas públicas se incluyen automáticamente.
@@ -516,7 +531,7 @@ pnpm --filter @ia-next/web test
 # Verifica Sentry recibe eventos (en dashboard Sentry)
 
 # 7. Verificar no hay archivos temporales
-Get-ChildItem -Recurse -Include "*.tmp", "*.bak", ".DS_Store" | 
+Get-ChildItem -Recurse -Include "*.tmp", "*.bak", ".DS_Store" |
   Remove-Item -Force
 
 # 8. Git status limpio
@@ -612,6 +627,7 @@ git push origin main
 ## Estructura de Commit por Herramienta
 
 ### Commit 1: Herramienta Base
+
 ```
 feat: Add 'Tool Name' educational tool
 
@@ -622,6 +638,7 @@ feat: Add 'Tool Name' educational tool
 ```
 
 ### Commit 2: Enlaces & Configuración
+
 ```
 feat: Configure 'Tool Name' in tools registry
 
@@ -642,15 +659,16 @@ ERROR: Cannot find module '../context/ProcessContext'
 ```
 
 **Solución**: Verificar paths relativos en componentes:
+
 ```typescript
 // ❌ INCORRECTO en monorepo
-import { useProcess } from '../../../context/ProcessContext';
+import { useProcess } from "../../../context/ProcessContext";
 
 // ✅ CORRECTO
-import { useProcess } from '@/tools/llm/context/ProcessContext';
+import { useProcess } from "@/tools/llm/context/ProcessContext";
 
 // ✅ O relativo correcto desde ubicación
-import { useProcess } from '../context/ProcessContext';
+import { useProcess } from "../context/ProcessContext";
 ```
 
 ### Problema: Build incluye rutas duplicadas
@@ -669,6 +687,7 @@ ERROR: Sentry events not appearing in dashboard
 ```
 
 **Verificación**:
+
 1. `SENTRY_AUTH_TOKEN` configurado en `.env.local`
 2. `@sentry/nextjs` inicializado en `instrumentation.ts`
 3. Llamadas usan formato correcto: `Sentry.captureMessage()`

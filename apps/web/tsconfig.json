@@ -8,9 +8,19 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@/components/*": ["./src/components/*"],
+      "@/components/*": [
+        "./src/components/*",
+        "./src/app/(portals)/ia/(marketing)/herramientas/visor-difusion/src/components/*",
+        "./src/app/(portals)/ambiental/(marketing)/herramientas/generador-matrices/src/components/*",
+        "./src/app/(portals)/ambiental/(marketing)/herramientas/analisis-correlaciones/src/components/*"
+      ],
       "@/styles/*": ["./src/styles/*"],
-      "@/lib/*": ["./src/lib/*"],
+      "@/lib/*": [
+        "./src/lib/*",
+        "./src/app/(portals)/ia/(marketing)/herramientas/visor-difusion/src/lib/*",
+        "./src/app/(portals)/ambiental/(marketing)/herramientas/generador-matrices/src/lib/*",
+        "./src/app/(portals)/ambiental/(marketing)/herramientas/analisis-correlaciones/src/lib/*"
+      ],
       "@/tools/llm/*": [
         "./src/app/(portals)/ia/(marketing)/herramientas/como-funcionan-llm/src/*"
       ]
