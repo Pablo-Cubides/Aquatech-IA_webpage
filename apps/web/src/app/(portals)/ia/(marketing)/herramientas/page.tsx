@@ -129,13 +129,13 @@ export default function IAHerramientasPage() {
                     </ListItem>
                   </ul>
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <Link href="#" className="btn btn-primary focus-ring">
+                    <Link href="/ia/herramientas/como-funcionan-llm" className="btn btn-primary focus-ring">
                       <PlayIcon />
                       Abrir módulo
                     </Link>
-                    <Link href="#" className="btn btn-secondary focus-ring">
+                    <Link href="https://github.com/Pablo-Cubides/Como_funcionan_llm" target="_blank" rel="noopener noreferrer" className="btn btn-secondary focus-ring">
                       <DocIcon />
-                      Ver demo
+                      Ver en GitHub
                     </Link>
                   </div>
                 </div>
@@ -437,7 +437,7 @@ export default function IAHerramientasPage() {
               <ul className="space-y-2 text-[var(--text-secondary)]">
                 <li>
                   <Link
-                    href="#"
+                    href="/ia/herramientas/como-funcionan-llm"
                     className="hover:text-[var(--primary-cyan)] transition-colors text-sm"
                   >
                     Cómo funcionan los LLMs
@@ -448,7 +448,7 @@ export default function IAHerramientasPage() {
                     href="#"
                     className="hover:text-[var(--primary-cyan)] transition-colors text-sm"
                   >
-                    Modelos de difusión
+                    Modelos de difusión (Próximamente)
                   </Link>
                 </li>
                 <li>
@@ -456,7 +456,7 @@ export default function IAHerramientasPage() {
                     href="#"
                     className="hover:text-[var(--primary-cyan)] transition-colors text-sm"
                   >
-                    Filtrado de IA
+                    Filtrado de IA (Próximamente)
                   </Link>
                 </li>
               </ul>
