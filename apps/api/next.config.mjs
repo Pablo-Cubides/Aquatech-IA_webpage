@@ -3,7 +3,7 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: false,
   },
-  
+
   // Turbopack is default in Next.js 16, set empty config to silence warning
   turbopack: {},
 

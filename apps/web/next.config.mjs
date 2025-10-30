@@ -10,7 +10,7 @@ const nextConfig = {
     // Set to false to enable strict TypeScript checking
     ignoreBuildErrors: false,
   },
-  
+
   // Turbopack is default in Next.js 16, set empty config to silence warning
   turbopack: {},
 
