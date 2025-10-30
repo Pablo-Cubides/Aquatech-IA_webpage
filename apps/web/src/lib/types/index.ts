@@ -22,6 +22,72 @@ export interface Tool {
 }
 
 /**
+ * Tipos para normas-ambientales tool
+ */
+
+export const SECTOR_NORMALIZATION_MAP: Record<string, string> = {
+  "agua": "water",
+  "aire": "air",
+  "suelo": "soil",
+  "energia": "energy",
+  "residuos": "waste",
+}
+
+export interface WaterUseSector {
+  id: string
+  name?: string
+  nombre?: string
+  description?: string
+  descripcion?: string
+  icon?: string
+}
+
+export const WATER_USE_SECTORS: WaterUseSector[] = [
+  { id: "industrial", name: "Industrial" },
+  { id: "agricultural", name: "Agricultural" },
+  { id: "domestic", name: "Domestic" },
+  { id: "recreational", name: "Recreational" },
+]
+
+export type RegulatorySource = "national" | "regional" | "local"
+
+/**
+ * Country information from normas-ambientales API
+ */
+export interface Country {
+  code: string
+  name: string
+  flag?: string
+  [key: string]: any
+}
+
+/**
+ * Country standards data - collection of water quality and environmental standards
+ */
+export interface WaterQualityRecord {
+  parameter?: string
+  parametro?: string
+  limit?: string | number
+  limite?: string | number
+  unit?: string
+  unidad?: string
+  notes?: string[] | string
+  notas?: string[] | string
+  _sector?: string
+  categoria?: string
+  [key: string]: any
+}
+
+export interface CountryStandards {
+  records?: WaterQualityRecord[]
+  registros?: WaterQualityRecord[]
+  country?: string
+  domain?: string
+  dominio?: string
+  [key: string]: any
+}
+
+/**
  * Tipos para autenticación y perfil de usuario
  */
 

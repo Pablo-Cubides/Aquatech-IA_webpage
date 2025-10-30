@@ -11,15 +11,30 @@
       "@/components/*": [
         "./src/components/*",
         "./src/app/(portals)/ia/(marketing)/herramientas/visor-difusion/src/components/*",
+        "./src/app/(portals)/ia/(marketing)/herramientas/filtrado-ia/src/components/*",
         "./src/app/(portals)/ambiental/(marketing)/herramientas/generador-matrices/src/components/*",
-        "./src/app/(portals)/ambiental/(marketing)/herramientas/analisis-correlaciones/src/components/*"
+        "./src/app/(portals)/ambiental/(marketing)/herramientas/analisis-correlaciones/src/components/*",
+        "./src/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambientales/src/components/*",
+        "./src/app/(portals)/ambiental/(marketing)/herramientas/normas-ambientales/src/components/*"
       ],
       "@/styles/*": ["./src/styles/*"],
       "@/lib/*": [
         "./src/lib/*",
         "./src/app/(portals)/ia/(marketing)/herramientas/visor-difusion/src/lib/*",
+        "./src/app/(portals)/ia/(marketing)/herramientas/filtrado-ia/src/lib/*",
         "./src/app/(portals)/ambiental/(marketing)/herramientas/generador-matrices/src/lib/*",
-        "./src/app/(portals)/ambiental/(marketing)/herramientas/analisis-correlaciones/src/lib/*"
+        "./src/app/(portals)/ambiental/(marketing)/herramientas/analisis-correlaciones/src/lib/*",
+        "./src/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambientales/src/lib/*",
+        "./src/app/(portals)/ambiental/(marketing)/herramientas/normas-ambientales/src/lib/*"
+      ],
+      "@/lib/types/*": [
+        "./src/app/(portals)/ambiental/(marketing)/herramientas/normas-ambientales/src/lib/types/*"
+      ],
+      "@/types": [
+        "./src/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambientales/src/types"
+      ],
+      "@/types/*": [
+        "./src/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambientales/src/types/*"
       ],
       "@/tools/llm/*": [
         "./src/app/(portals)/ia/(marketing)/herramientas/como-funcionan-llm/src/*"
