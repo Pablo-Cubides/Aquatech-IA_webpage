@@ -53,7 +53,7 @@ describe("getToolsByPortal", () => {
     const allTools = [...iaToolsList, ...ambientalToolsList];
 
     allTools.forEach((tool) => {
-      expect(["beta", "active", "maintenance"]).toContain(tool.status);
+      expect(["beta", "stable", "active", "maintenance"]).toContain(tool.status);
     });
   });
 });
@@ -195,13 +195,14 @@ describe("iaTools registry", () => {
 
 describe("ambientalTools registry", () => {
   it("should contain expected tools", () => {
-    expect(ambientalTools.length).toBeGreaterThanOrEqual(3);
+    expect(ambientalTools.length).toBeGreaterThanOrEqual(4);
 
     const slugs = ambientalTools.map((tool) => tool.slug);
 
     expect(slugs).toContain("visor-mapas-ambientales");
     expect(slugs).toContain("normas-ambientales");
-    expect(slugs).toContain("generador-matrices-eia");
+    expect(slugs).toContain("generador-matrices");
+    expect(slugs).toContain("analisis-correlaciones");
   });
 
   it("should have unique slugs", () => {

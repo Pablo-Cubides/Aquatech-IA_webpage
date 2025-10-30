@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from "react";
 
 interface SelectContextType {
   value: string;
@@ -11,12 +11,14 @@ interface SelectContextType {
   disabled?: boolean;
 }
 
-const SelectContext = React.createContext<SelectContextType | undefined>(undefined);
+const SelectContext = React.createContext<SelectContextType | undefined>(
+  undefined,
+);
 
 const useSelectContext = () => {
   const context = React.useContext(SelectContext);
   if (!context) {
-    throw new Error('Select components must be used within a Select provider');
+    throw new Error("Select components must be used within a Select provider");
   }
   return context;
 };
@@ -28,7 +30,12 @@ interface SelectProps {
   disabled?: boolean;
 }
 
-function Select({ value = '', onValueChange, children, disabled = false }: SelectProps) {
+function Select({
+  value = "",
+  onValueChange,
+  children,
+  disabled = false,
+}: SelectProps) {
   const [internalValue, setInternalValue] = useState(value);
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -39,14 +46,18 @@ function Select({ value = '', onValueChange, children, disabled = false }: Selec
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
 
     if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
+      return () =>
+        document.removeEventListener("mousedown", handleClickOutside);
     }
   }, [isOpen]);
 
@@ -79,7 +90,7 @@ interface SelectTriggerProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const SelectTrigger = React.forwardRef<HTMLDivElement, SelectTriggerProps>(
-  ({ className = '', children, ...props }, ref) => {
+  ({ className = "", children, ...props }, ref) => {
     const { isOpen, setIsOpen } = useSelectContext();
 
     return (
@@ -90,13 +101,17 @@ const SelectTrigger = React.forwardRef<HTMLDivElement, SelectTriggerProps>(
         {...props}
       >
         {children}
-        <span className={`text-gray-400 ml-2 transition-transform ${isOpen ? 'rotate-180' : ''}`}>▼</span>
+        <span
+          className={`text-gray-400 ml-2 transition-transform ${isOpen ? "rotate-180" : ""}`}
+        >
+          ▼
+        </span>
       </div>
     );
-  }
+  },
 );
 
-SelectTrigger.displayName = 'SelectTrigger';
+SelectTrigger.displayName = "SelectTrigger";
 
 interface SelectValueProps {
   placeholder?: string;
@@ -112,7 +127,7 @@ interface SelectContentProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
-  ({ className = '', children, ...props }, ref) => {
+  ({ className = "", children, ...props }, ref) => {
     const { isOpen } = useSelectContext();
 
     if (!isOpen) return null;
@@ -126,10 +141,10 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
         <div className="overflow-y-auto max-h-64">{children}</div>
       </div>
     );
-  }
+  },
 );
 
-SelectContent.displayName = 'SelectContent';
+SelectContent.displayName = "SelectContent";
 
 interface SelectItemProps extends React.HTMLAttributes<HTMLDivElement> {
   value: string;
@@ -137,7 +152,7 @@ interface SelectItemProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
-  ({ value, children, className = '', onClick, ...props }, ref) => {
+  ({ value, children, className = "", onClick, ...props }, ref) => {
     const { onValueChange } = useSelectContext();
 
     const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -155,10 +170,10 @@ const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
         {children}
       </div>
     );
-  }
+  },
 );
 
-SelectItem.displayName = 'SelectItem';
+SelectItem.displayName = "SelectItem";
 
 export { Select, SelectTrigger, SelectValue, SelectContent, SelectItem };
 export default Select;

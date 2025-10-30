@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import * as Sentry from "@sentry/nextjs"
+import * as Sentry from "@sentry/nextjs";
 
 export const logEvent = (
   eventName: string,
@@ -7,7 +7,7 @@ export const logEvent = (
   userId?: string,
 ) => {
   if (process.env.NODE_ENV === "development") {
-    console.log("[Analytics Event]", params || "")
+    console.log("[Analytics Event]", params || "");
   }
 
   try {
@@ -19,23 +19,23 @@ export const logEvent = (
         ...(userId && { userId }),
       },
       extra: params || {},
-    })
+    });
   } catch (error) {
-    console.error("Failed to log event to Sentry:", error)
+    console.error("Failed to log event to Sentry:", error);
   }
-}
+};
 
 export const trackPageView = (path: string, userId?: string) => {
-  logEvent("page_view", { page_path: path }, userId)
-}
+  logEvent("page_view", { page_path: path }, userId);
+};
 
 export const trackToolEvent = (
   eventType: string,
   details?: Record<string, unknown>,
   userId?: string,
 ) => {
-  logEvent("tool_" + eventType, details, userId)
-}
+  logEvent("tool_" + eventType, details, userId);
+};
 
 export const trackError = (
   error: Error,
@@ -48,5 +48,5 @@ export const trackError = (
       ...(userId && { userId }),
     },
     extra: context || {},
-  })
-}
+  });
+};

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Portal Ambiental - Gestión Ambiental con tecnología sostenible",
@@ -113,66 +114,94 @@ export default function AmbientalPage() {
           </p>
 
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {/* Card 1 */}
-            <article className="rounded-2xl border border-[#E5EDF2] bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-              <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
-                <img
-                  alt="Visor de mapas ambientales"
-                  className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
-                  src="https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=400&h=300&fit=crop&crop=center"
-                />
-              </div>
-              <h3 className="mt-4 text-xl font-semibold">
-                Visor de mapas ambientales
-              </h3>
-              <p className="mt-2 text-sm text-gray-700">
-                Visualización interactiva de datos geoespaciales ambientales en
-                tiempo real.
-              </p>
-              <button className="mt-4 w-full rounded-lg bg-[#0077B6]/10 py-2 font-semibold text-[#0077B6] transition-colors hover:bg-[#0077B6]/15">
-                Abrir
-              </button>
-            </article>
+            {/* Card 1 - Visor de Mapas Ambientales */}
+            <Link href="/ambiental/herramientas/visor-mapas-ambientales">
+              <article className="rounded-2xl border border-[#E5EDF2] bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg cursor-pointer h-full flex flex-col">
+                <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
+                  <img
+                    alt="Visor de mapas ambientales"
+                    className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+                    src="https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=400&h=300&fit=crop&crop=center"
+                  />
+                </div>
+                <h3 className="mt-4 text-xl font-semibold">
+                  Visor de mapas ambientales
+                </h3>
+                <p className="mt-2 text-sm text-gray-700 flex-grow">
+                  Visualización interactiva de datos geoespaciales ambientales en
+                  tiempo real.
+                </p>
+                <button className="mt-4 w-full rounded-lg bg-[#0077B6]/10 py-2 font-semibold text-[#0077B6] transition-colors hover:bg-[#0077B6]/15 focus:outline-none focus:ring-2 focus:ring-[#0077B6]/50">
+                  Abrir
+                </button>
+              </article>
+            </Link>
 
-            {/* Card 2 */}
-            <article className="rounded-2xl border border-[#E5EDF2] bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-              <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
-                <img
-                  alt="Normas ambientales"
-                  className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
-                  src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=400&h=300&fit=crop&crop=center"
-                />
-              </div>
-              <h3 className="mt-4 text-xl font-semibold">Normas ambientales</h3>
-              <p className="mt-2 text-sm text-gray-700">
-                Base de datos completa de regulaciones y normativas ambientales
-                vigentes.
-              </p>
-              <button className="mt-4 w-full rounded-lg bg-[#0077B6]/10 py-2 font-semibold text-[#0077B6] transition-colors hover:bg-[#0077B6]/15">
-                Abrir
-              </button>
-            </article>
+            {/* Card 2 - Normas Ambientales */}
+            <Link href="/ambiental/herramientas/normas-ambientales">
+              <article className="rounded-2xl border border-[#E5EDF2] bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg cursor-pointer h-full flex flex-col">
+                <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
+                  <img
+                    alt="Normas ambientales"
+                    className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+                    src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=400&h=300&fit=crop&crop=center"
+                  />
+                </div>
+                <h3 className="mt-4 text-xl font-semibold">Normas ambientales</h3>
+                <p className="mt-2 text-sm text-gray-700 flex-grow">
+                  Base de datos completa de regulaciones y normativas ambientales
+                  vigentes.
+                </p>
+                <button className="mt-4 w-full rounded-lg bg-[#0077B6]/10 py-2 font-semibold text-[#0077B6] transition-colors hover:bg-[#0077B6]/15 focus:outline-none focus:ring-2 focus:ring-[#0077B6]/50">
+                  Abrir
+                </button>
+              </article>
+            </Link>
 
-            {/* Card 3 */}
-            <article className="rounded-2xl border border-[#E5EDF2] bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-              <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
-                <img
-                  alt="Generador de matrices de EIA"
-                  className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
-                  src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop&crop=center"
-                />
-              </div>
-              <h3 className="mt-4 text-xl font-semibold">
-                Generador de matrices de EIA
-              </h3>
-              <p className="mt-2 text-sm text-gray-700">
-                Herramienta para crear y gestionar matrices de Evaluación de
-                Impacto Ambiental.
-              </p>
-              <button className="mt-4 w-full rounded-lg bg-[#0077B6]/10 py-2 font-semibold text-[#0077B6] transition-colors hover:bg-[#0077B6]/15">
-                Abrir
-              </button>
-            </article>
+            {/* Card 3 - Generador de Matrices EIA */}
+            <Link href="/ambiental/herramientas/generador-matrices">
+              <article className="rounded-2xl border border-[#E5EDF2] bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg cursor-pointer h-full flex flex-col">
+                <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
+                  <img
+                    alt="Generador de matrices de EIA"
+                    className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+                    src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop&crop=center"
+                  />
+                </div>
+                <h3 className="mt-4 text-xl font-semibold">
+                  Generador de matrices de EIA
+                </h3>
+                <p className="mt-2 text-sm text-gray-700 flex-grow">
+                  Herramienta para crear y gestionar matrices de Evaluación de
+                  Impacto Ambiental.
+                </p>
+                <button className="mt-4 w-full rounded-lg bg-[#0077B6]/10 py-2 font-semibold text-[#0077B6] transition-colors hover:bg-[#0077B6]/15 focus:outline-none focus:ring-2 focus:ring-[#0077B6]/50">
+                  Abrir
+                </button>
+              </article>
+            </Link>
+
+            {/* Card 4 - Análisis de Correlaciones */}
+            <Link href="/ambiental/herramientas/analisis-correlaciones">
+              <article className="rounded-2xl border border-[#E5EDF2] bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg cursor-pointer h-full flex flex-col">
+                <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
+                  <img
+                    alt="Análisis de correlaciones"
+                    className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop&crop=center"
+                  />
+                </div>
+                <h3 className="mt-4 text-xl font-semibold">
+                  Análisis de correlaciones
+                </h3>
+                <p className="mt-2 text-sm text-gray-700 flex-grow">
+                  Herramienta avanzada para análisis de correlaciones en datos ambientales.
+                </p>
+                <button className="mt-4 w-full rounded-lg bg-[#0077B6]/10 py-2 font-semibold text-[#0077B6] transition-colors hover:bg-[#0077B6]/15 focus:outline-none focus:ring-2 focus:ring-[#0077B6]/50">
+                  Abrir
+                </button>
+              </article>
+            </Link>
           </div>
         </div>
       </section>

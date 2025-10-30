@@ -1,19 +1,26 @@
 "use client";
+import React, { ReactNode } from "react";
 
-import React, { createContext, useContext, ReactNode, useRef, useEffect } from "react";
-
-export function ProcessProvider({
-  children,
-  user,
-}: {
-  children: ReactNode;
-  user?: any;
-}) {
-  const userRef = useRef(user);
-  
-  useEffect(() => {
-    userRef.current = user;
-  }, [user]);
-
-  return <>{children}</>;
+interface ProcessContextType {
+  toolName: string;
+  userId?: string;
 }
+
+const ProcessContext = React.createContext<ProcessContextType | undefined>(
+  undefined,
+);
+
+export const ProcessProvider: React.FC<{
+  children: ReactNode;
+  toolName: string;
+}> = ({ children, toolName }) => {
+  return (
+    <ProcessContext.Provider
+      value={{
+        toolName,
+      }}
+    >
+      {children}
+    </ProcessContext.Provider>
+  );
+};
