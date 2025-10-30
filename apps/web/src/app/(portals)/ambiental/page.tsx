@@ -128,8 +128,8 @@ export default function AmbientalPage() {
                   Visor de mapas ambientales
                 </h3>
                 <p className="mt-2 text-sm text-gray-700 flex-grow">
-                  Visualización interactiva de datos geoespaciales ambientales en
-                  tiempo real.
+                  Visualización interactiva de datos geoespaciales ambientales
+                  en tiempo real.
                 </p>
                 <button className="mt-4 w-full rounded-lg bg-[#0077B6]/10 py-2 font-semibold text-[#0077B6] transition-colors hover:bg-[#0077B6]/15 focus:outline-none focus:ring-2 focus:ring-[#0077B6]/50">
                   Abrir
@@ -147,10 +147,12 @@ export default function AmbientalPage() {
                     src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=400&h=300&fit=crop&crop=center"
                   />
                 </div>
-                <h3 className="mt-4 text-xl font-semibold">Normas ambientales</h3>
+                <h3 className="mt-4 text-xl font-semibold">
+                  Normas ambientales
+                </h3>
                 <p className="mt-2 text-sm text-gray-700 flex-grow">
-                  Base de datos completa de regulaciones y normativas ambientales
-                  vigentes.
+                  Base de datos completa de regulaciones y normativas
+                  ambientales vigentes.
                 </p>
                 <button className="mt-4 w-full rounded-lg bg-[#0077B6]/10 py-2 font-semibold text-[#0077B6] transition-colors hover:bg-[#0077B6]/15 focus:outline-none focus:ring-2 focus:ring-[#0077B6]/50">
                   Abrir
@@ -195,7 +197,8 @@ export default function AmbientalPage() {
                   Análisis de correlaciones
                 </h3>
                 <p className="mt-2 text-sm text-gray-700 flex-grow">
-                  Herramienta avanzada para análisis de correlaciones en datos ambientales.
+                  Herramienta avanzada para análisis de correlaciones en datos
+                  ambientales.
                 </p>
                 <button className="mt-4 w-full rounded-lg bg-[#0077B6]/10 py-2 font-semibold text-[#0077B6] transition-colors hover:bg-[#0077B6]/15 focus:outline-none focus:ring-2 focus:ring-[#0077B6]/50">
                   Abrir

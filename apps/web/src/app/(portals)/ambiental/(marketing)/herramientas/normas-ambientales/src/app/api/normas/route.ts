@@ -6,6 +6,7 @@ import { ZodError } from 'zod';
 import { appendFileSync } from 'fs';
 import { normalizeData, mergeCandidates } from '../../../lib/utils';
 import { logger } from '@/lib/logger';
+import { rateLimitByIP } from '@/lib/security/rate-limit';
 import { REGULATORY_SOURCES, validateDomain, validateCountry, validateSector, sanitizeFilename } from '@/lib/constants';
 import type { RegulatorySource } from '@/lib/constants';
 import { SECTOR_NORMALIZATION_MAP } from '@/lib/types';
@@ -418,6 +419,28 @@ export function normalizeResponseFormat(data: AnyRecord, domain: string, country
 
 
 export async function GET(request: NextRequest) {
+  // SECURITY: Apply rate limiting
+  const ip = request.headers.get('x-forwarded-for') || 'unknown';
+  const rateLimitResult = await rateLimitByIP(ip, {
+    interval: 60 * 1000, // 1 minute
+    uniqueTokenPerInterval: 50, // 50 requests per minute for read operations
+  });
+
+  if (!rateLimitResult.success) {
+    return NextResponse.json(
+      {
+        error: 'Rate limit exceeded. Please try again later.',
+        retryAfter: Math.ceil(rateLimitResult.reset / 1000),
+      },
+      {
+        status: 429,
+        headers: {
+          'Retry-After': Math.ceil(rateLimitResult.reset / 1000).toString(),
+        },
+      }
+    );
+  }
+
   const { searchParams } = new URL(request.url);
   const countryParam = searchParams.get('pais');
   const domainParam = searchParams.get('dominio') || 'agua';

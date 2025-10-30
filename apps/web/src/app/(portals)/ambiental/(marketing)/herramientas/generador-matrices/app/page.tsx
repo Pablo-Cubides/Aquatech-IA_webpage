@@ -1,4 +1,4 @@
-import HeroTabs from '../src/components/HeroTabs';
+import HeroTabs from "../src/components/HeroTabs";
 
 export default async function Home() {
   // Default knowledge structure (will be populated from file server-side)

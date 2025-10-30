@@ -53,7 +53,9 @@ describe("getToolsByPortal", () => {
     const allTools = [...iaToolsList, ...ambientalToolsList];
 
     allTools.forEach((tool) => {
-      expect(["beta", "stable", "active", "maintenance"]).toContain(tool.status);
+      expect(["beta", "stable", "active", "maintenance"]).toContain(
+        tool.status,
+      );
     });
   });
 });

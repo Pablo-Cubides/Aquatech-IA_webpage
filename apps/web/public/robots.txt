@@ -1,0 +1,52 @@
+# Robots.txt for AquatechIA
+# Controls search engine crawler behavior
+
+User-agent: *
+Allow: /
+Allow: /ia/
+Allow: /ambiental/
+Allow: /privacy/
+Allow: /terms/
+Disallow: /api/
+Disallow: /admin/
+Disallow: /*.json$
+Disallow: /.env
+Disallow: /.next/
+Disallow: /node_modules/
+
+# Specific rules for Google
+User-agent: Googlebot
+Allow: /
+Allow: /ia/
+Allow: /ambiental/
+Disallow: /api/
+Crawl-delay: 0
+Request-rate: 100/1m
+
+# Specific rules for Bingbot
+User-agent: Bingbot
+Allow: /
+Allow: /ia/
+Allow: /ambiental/
+Disallow: /api/
+Crawl-delay: 1
+Request-rate: 30/1m
+
+# Block bad bots
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+# Sitemap location
+Sitemap: https://aquatechia.com/sitemap.xml
+
+# Global crawl delay (in seconds)
+Crawl-delay: 1
+
+# Request rate limit (requests per timeframe)
+Request-rate: 50/1m

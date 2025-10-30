@@ -97,6 +97,22 @@ const nextConfig = {
         destination: "/ambiental",
         permanent: true,
       },
+      // Author tools - consolidate to IA portal (301 redirects)
+      {
+        source: "/ambiental/autor/herramientas/ruleta-academica",
+        destination: "/ia/autor/herramientas/ruleta-academica",
+        permanent: true,
+      },
+      {
+        source: "/ambiental/autor/herramientas/genealogia-app",
+        destination: "/ia/autor/herramientas/genealogia-app",
+        permanent: true,
+      },
+      {
+        source: "/ambiental/autor/herramientas/visualizador-notas",
+        destination: "/ia/autor/herramientas/visualizador-notas",
+        permanent: true,
+      },
     ];
   },
 };

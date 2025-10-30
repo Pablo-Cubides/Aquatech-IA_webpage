@@ -13,6 +13,7 @@ Todas las herramientas están en rutas accesibles y compilan correctamente.
 **Tipo**: Data Analysis Tool
 
 ### 📂 Estructura de Archivos
+
 ```
 analisis-correlaciones/
 ├── page.tsx (wrapper que re-exporta ./src/app/page)
@@ -35,8 +36,9 @@ analisis-correlaciones/
 ```
 
 ### 🔧 Características
+
 - **Entrada**: CSV, XLSX con datos numéricos
-- **Análisis**: 
+- **Análisis**:
   - Correlación de Pearson
   - Correlación de Spearman
   - Correlación de Kendall
@@ -44,6 +46,7 @@ analisis-correlaciones/
 - **Dependencias**: `papaparse`, `simple-statistics`, `xlsx`
 
 ### ✅ Checklist de Integración
+
 - [x] Wrapper page.tsx conecta correctamente
 - [x] ProcessContext.tsx incluida
 - [x] analytics.ts incluida
@@ -54,10 +57,12 @@ analisis-correlaciones/
 - [ ] Theme claro (light) aplicado
 
 ### 🔗 Acceso
+
 - URL: `/ambiental/herramientas/analisis-correlaciones`
 - Link actualizado en página principal: ✅ Sí
 
 ### 📊 Relación al Registry
+
 - ✅ Agregado a `tools-registry.ts`
 - Slug: `analisis-correlaciones`
 - URL: `/ambiental/herramientas/analisis-correlaciones`
@@ -72,6 +77,7 @@ analisis-correlaciones/
 **Tipo**: EIA Assessment Tool
 
 ### 📂 Estructura de Archivos
+
 ```
 generador-matrices/
 ├── page.tsx (wrapper - re-exporta ./app/page)
@@ -103,6 +109,7 @@ generador-matrices/
 ```
 
 ### 🔧 Características
+
 - **Propósito**: Crear y gestionar matrices de Evaluación de Impacto Ambiental
 - **Funcionalidades**:
   - Crear nuevos casos EIA
@@ -113,6 +120,7 @@ generador-matrices/
 - **API Routes**: 4 endpoints principales
 
 ### ✅ Checklist de Integración
+
 - [x] Wrapper page.tsx conecta
 - [x] Rutas dinámicas generadas correctamente
 - [x] API routes compiladas
@@ -123,6 +131,7 @@ generador-matrices/
 - [ ] Autenticación para "admin" (¿protegida?)
 
 ### 🔗 Acceso
+
 - URL Principal: `/ambiental/herramientas/generador-matrices`
 - Subrutas:
   - `/generador-matrices/matrices` - Selector
@@ -133,6 +142,7 @@ generador-matrices/
 - Link actualizado en página principal: ✅ Sí
 
 ### 📊 Relación al Registry
+
 - ✅ Agregado a `tools-registry.ts`
 - Slug: `generador-matrices`
 - URL: `/ambiental/herramientas/generador-matrices`
@@ -147,6 +157,7 @@ generador-matrices/
 **Tipo**: Regulatory Database Tool
 
 ### 📂 Estructura de Archivos
+
 ```
 normas-ambientales/
 ├── page.tsx (wrapper con ProcessProvider ✅)
@@ -195,6 +206,7 @@ normas-ambientales/
 ```
 
 ### 🔧 Características
+
 - **Propósito**: Base de datos de normativas ambientales de Latinoamérica
 - **Dominios**: Agua, Aire, Residuos Sólidos, Vertimientos
 - **Países**: Colombia, Chile, México, Perú, Argentina, Brasil, EEUU, UE, El Salvador, China, Ecuador
@@ -202,6 +214,7 @@ normas-ambientales/
 - **Datos**: Normativas, estándares, fuentes oficiales
 
 ### ✅ Checklist de Integración
+
 - [x] Wrapper con ProcessProvider
 - [x] Página landing funciona
 - [x] API routes implementadas
@@ -213,6 +226,7 @@ normas-ambientales/
 - [ ] Datos JSON cargados (¿verificar?)
 
 ### 🔗 Acceso
+
 - URL Principal: `/ambiental/herramientas/normas-ambientales`
 - Subrutas:
   - `/normas-ambientales` - Landing
@@ -222,6 +236,7 @@ normas-ambientales/
 - Link actualizado en página principal: ✅ Sí
 
 ### 📊 Relación al Registry
+
 - ✅ Agregado a `tools-registry.ts`
 - Slug: `normas-ambientales`
 - URL: `/ambiental/herramientas/normas-ambientales`
@@ -236,6 +251,7 @@ normas-ambientales/
 **Tipo**: GIS/Mapping Tool
 
 ### 📂 Estructura de Archivos
+
 ```
 visor-mapas-ambientales/
 ├── page.tsx (wrapper con ProcessProvider ✅)
@@ -271,8 +287,9 @@ visor-mapas-ambientales/
 ```
 
 ### 🔧 Características
+
 - **Propósito**: Visualización interactiva de datos ambientales en mapas
-- **Tecnología**: 
+- **Tecnología**:
   - MapLibre GL (mapas interactivos)
   - Supabase (si backend existe)
 - **Funcionalidades**:
@@ -283,6 +300,7 @@ visor-mapas-ambientales/
 - **Dependencias**: `maplibre-gl`, `@supabase/supabase-js` ✅ (agregadas)
 
 ### ✅ Checklist de Integración
+
 - [x] Wrapper con ProcessProvider
 - [x] MapComponent compilado
 - [x] maplibre-gl CSS importada correctamente ✅
@@ -294,6 +312,7 @@ visor-mapas-ambientales/
 - [ ] Supabase credentials configuradas (¿verificar?)
 
 ### 🔗 Acceso
+
 - URL Principal: `/ambiental/herramientas/visor-mapas-ambientales`
 - Subrutas:
   - `/visor-mapas-ambientales` - Mapa
@@ -301,6 +320,7 @@ visor-mapas-ambientales/
 - Link actualizado en página principal: ✅ Sí
 
 ### 📊 Relación al Registry
+
 - ✅ Agregado a `tools-registry.ts`
 - Slug: `visor-mapas-ambientales`
 - URL: `/ambiental/herramientas/visor-mapas-ambientales`
@@ -310,20 +330,20 @@ visor-mapas-ambientales/
 
 ## 📊 COMPARATIVA DE HERRAMIENTAS
 
-| Aspecto | Análisis | Generador | Normas | Visor |
-|---------|----------|-----------|--------|-------|
-| **Status** | ✅ Compiling | ✅ Compiling | ✅ Compiling | ✅ Compiling |
-| **Ruta** | `/analisis-...` | `/generador-...` | `/normas-...` | `/visor-mapas-...` |
-| **ProcessProvider** | ❓ Verificar | ❓ Verificar | ✅ Sí | ✅ Sí |
-| **Analytics** | ✅ Sí | ❓ Verificar | ✅ Sí | ✅ Sí |
-| **Tests** | ❓ Verificar | ❓ Verificar | ❓ Verificar | ✅ Sí (2 archivos) |
-| **CSS Globals** | ✅ Sí | ✅ Sí | ✅ Sí | ✅ Sí (con maplibre) |
-| **Types TypeScript** | ❓ Verificar | ❓ Verificar | ✅ Sí (fixed) | ✅ Sí (fixed) |
-| **API Routes** | ❌ No | ✅ Sí (4) | ✅ Sí (3) | ✅ Sí (3) |
-| **Componentes UI** | ✅ Básicos | ✅ Complejos | ✅ Complejos | ✅ MapComponent |
-| **Dependencias Extra** | papaparse, xlsx | Excel export | zod | maplibre-gl, supabase |
-| **Integración Registry** | ✅ Sí | ✅ Sí | ✅ Sí | ✅ Sí |
-| **Link en Home** | ✅ Sí | ✅ Sí | ✅ Sí | ✅ Sí |
+| Aspecto                  | Análisis        | Generador        | Normas        | Visor                 |
+| ------------------------ | --------------- | ---------------- | ------------- | --------------------- |
+| **Status**               | ✅ Compiling    | ✅ Compiling     | ✅ Compiling  | ✅ Compiling          |
+| **Ruta**                 | `/analisis-...` | `/generador-...` | `/normas-...` | `/visor-mapas-...`    |
+| **ProcessProvider**      | ❓ Verificar    | ❓ Verificar     | ✅ Sí         | ✅ Sí                 |
+| **Analytics**            | ✅ Sí           | ❓ Verificar     | ✅ Sí         | ✅ Sí                 |
+| **Tests**                | ❓ Verificar    | ❓ Verificar     | ❓ Verificar  | ✅ Sí (2 archivos)    |
+| **CSS Globals**          | ✅ Sí           | ✅ Sí            | ✅ Sí         | ✅ Sí (con maplibre)  |
+| **Types TypeScript**     | ❓ Verificar    | ❓ Verificar     | ✅ Sí (fixed) | ✅ Sí (fixed)         |
+| **API Routes**           | ❌ No           | ✅ Sí (4)        | ✅ Sí (3)     | ✅ Sí (3)             |
+| **Componentes UI**       | ✅ Básicos      | ✅ Complejos     | ✅ Complejos  | ✅ MapComponent       |
+| **Dependencias Extra**   | papaparse, xlsx | Excel export     | zod           | maplibre-gl, supabase |
+| **Integración Registry** | ✅ Sí           | ✅ Sí            | ✅ Sí         | ✅ Sí                 |
+| **Link en Home**         | ✅ Sí           | ✅ Sí            | ✅ Sí         | ✅ Sí                 |
 
 ---
 
@@ -332,6 +352,7 @@ visor-mapas-ambientales/
 **Archivo**: `/apps/web/src/app/(portals)/ambiental/page.tsx`
 
 ### ✅ Cambios Realizados
+
 1. Importado `Link` de `next/link`
 2. Agregado botón/card para `analisis-correlaciones` (4ª herramienta)
 3. Todos los botones "Abrir" ahora tienen enlaces funcionales
@@ -340,6 +361,7 @@ visor-mapas-ambientales/
 6. Agregado `h-full` para consistencia visual
 
 ### 🔗 Enlaces Configurados
+
 ```tsx
 // Card 1: Visor de Mapas
 <Link href="/ambiental/herramientas/visor-mapas-ambientales">
@@ -359,10 +381,10 @@ visor-mapas-ambientales/
 ## 🧪 TESTS - ESTADO ACTUAL
 
 ### Archivos de Tests Encontrados
+
 1. ✅ `visor-mapas-ambientales/src/app/page.test.tsx`
    - Describe: "Página Principal - Mapa Ambiental"
    - Tests: 3+ suite de tests
-   
 2. ✅ `visor-mapas-ambientales/src/components/MapComponent.test.tsx`
    - Describe: "MapComponent"
    - Tests para: renderizado, interactividad
@@ -373,11 +395,11 @@ visor-mapas-ambientales/
 
 4. ❓ `analisis-correlaciones/`
    - Verificar si existen tests
-   
 5. ❓ `generador-matrices/`
    - Verificar si existen tests
 
 ### Comando para Ejecutar Tests
+
 ```bash
 pnpm --filter @ia-next/web test
 ```
@@ -387,6 +409,7 @@ pnpm --filter @ia-next/web test
 ## 📈 PRÓXIMAS ACCIONES RECOMENDADAS
 
 ### 🔴 Críticas (Bloquean producción)
+
 1. [ ] Ejecutar `pnpm --filter @ia-next/web test` - ¿Todos pasan?
 2. [ ] Verificar ProcessProvider en `analisis-correlaciones`
 3. [ ] Verificar ProcessProvider en `generador-matrices`
@@ -394,6 +417,7 @@ pnpm --filter @ia-next/web test
 5. [ ] Verificar Supabase credentials para `visor-mapas-ambientales`
 
 ### 🟡 Importantes (Antes de producción)
+
 1. [ ] Crear tests para `analisis-correlaciones` (si faltan)
 2. [ ] Crear tests para `generador-matrices` (si faltan)
 3. [ ] Validar AuthModal en rutas privadas (admin, casos personales)
@@ -401,6 +425,7 @@ pnpm --filter @ia-next/web test
 5. [ ] Revisar responsividad en mobile
 
 ### 🟢 Mejoras (Post-launch)
+
 1. [ ] Optimizar imágenes stock en página principal
 2. [ ] Agregar breadcrumbs a herramientas
 3. [ ] Implementar sitemap dinámico unificado
@@ -414,6 +439,7 @@ pnpm --filter @ia-next/web test
 **Estado**: ✅ **4/4 HERRAMIENTAS COMPILANDO**
 
 Todas las 4 herramientas del portal Ambiental están:
+
 - ✅ Compilando sin errores
 - ✅ Rutas accesibles desde página principal
 - ✅ Integradas en registry
@@ -422,4 +448,3 @@ Todas las 4 herramientas del portal Ambiental están:
 - ✅ Analytics integrada
 
 **Próximo paso**: Ejecutar tests y validar comportamiento en runtime.
-

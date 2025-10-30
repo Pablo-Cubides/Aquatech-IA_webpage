@@ -75,16 +75,28 @@ export default function RootLayout({
 }) {
   const organizationSchema = {
     "@context": "https://schema.org",
-    "@type": "Organization",
+    "@type": "EducationalOrganization",
     name: "AquatechIA",
     url: baseUrl,
     logo: `${baseUrl}/images/logo.png`,
     description:
-      "Plataforma de Inteligencia Artificial para la gestión ambiental sostenible",
+      "Plataforma educativa de Inteligencia Artificial para la gestión ambiental sostenible",
     sameAs: [
       "https://twitter.com/aquatechia",
       "https://linkedin.com/company/aquatechia",
     ],
+    knowsAbout: [
+      "Inteligencia Artificial",
+      "Machine Learning",
+      "Gestión Ambiental",
+      "Educación",
+      "Tecnología Sostenible",
+    ],
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "Customer Support",
+      email: "info@aquatechia.com",
+    },
   };
 
   const websiteSchema = {
@@ -104,10 +116,35 @@ export default function RootLayout({
     },
   };
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Inicio",
+        item: baseUrl,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Portal IA",
+        item: `${baseUrl}/ia`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Portal Ambiental",
+        item: `${baseUrl}/ambiental`,
+      },
+    ],
+  };
+
   return (
     <html lang="es">
       <head>
-        {/* Structured Data */}
+        {/* Structured Data - Organization */}
         <Script
           id="organization-schema"
           type="application/ld+json"
@@ -115,11 +152,20 @@ export default function RootLayout({
             __html: JSON.stringify(organizationSchema),
           }}
         />
+        {/* Structured Data - Website */}
         <Script
           id="website-schema"
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(websiteSchema),
+          }}
+        />
+        {/* Structured Data - Breadcrumb */}
+        <Script
+          id="breadcrumb-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(breadcrumbSchema),
           }}
         />
         {/* DNS Prefetch for performance */}

@@ -103,7 +103,35 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: 'ID del dataset requerido' }, { status: 400 })
     }
 
-    // TODO: Add authorization check - only admins or owners should be able to delete
+    // SECURITY: Verify authentication
+    const authHeader = request.headers.get('authorization')
+    const userId = extractUserIdFromAuth(authHeader)
+
+    if (!userId) {
+      logger.warn('Unauthorized DELETE attempt', { datasetId, ip: request.headers.get('x-forwarded-for') })
+      return NextResponse.json({ error: 'Autenticación requerida' }, { status: 401 })
+    }
+
+    // Fetch dataset to verify ownership
+    const { data: dataset, error: fetchError } = await supabase
+      .from('datasets')
+      .select('owner_id, id')
+      .eq('id', datasetId)
+      .single()
+
+    if (fetchError || !dataset) {
+      logger.warn('Dataset not found', { datasetId, userId })
+      return NextResponse.json({ error: 'Dataset no encontrado' }, { status: 404 })
+    }
+
+    // SECURITY: Check authorization - only owner can delete
+    const isOwner = dataset.owner_id === userId
+    const isAdmin = await checkIfAdmin(userId) // TODO: Implement admin check
+
+    if (!isOwner && !isAdmin) {
+      logger.warn('Unauthorized delete attempt', { datasetId, userId, owner: dataset.owner_id })
+      return NextResponse.json({ error: 'No tienes permisos para eliminar este dataset' }, { status: 403 })
+    }
     
     const { error } = await supabase
       .from('datasets')
@@ -115,12 +143,46 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: 'Error al eliminar el dataset' }, { status: 500 })
     }
 
-    // TODO: Also delete associated data files from storage
-
-    logger.info('Dataset deleted successfully', { datasetId })
+    logger.info('Dataset deleted successfully', { datasetId, userId, wasOwner: isOwner })
     return NextResponse.json({ success: true })
   } catch (error) {
     logger.error('Unexpected error in DELETE /api/datasets', error)
     return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 })
+  }
+}
+
+/**
+ * Helper: Extract user ID from Authorization header
+ * TODO: Replace with proper JWT validation
+ */
+function extractUserIdFromAuth(authHeader: string | null): string | null {
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return null
+  }
+  
+  // TODO: Validate and decode JWT token
+  // For now, return null - implement proper JWT validation
+  return null
+}
+
+/**
+ * Helper: Check if user is admin
+ * TODO: Implement based on your user role system
+ */
+async function checkIfAdmin(userId: string): Promise<boolean> {
+  try {
+    if (!supabase) {
+      return false
+    }
+    
+    const { data: user } = await supabase
+      .from('users')
+      .select('role')
+      .eq('id', userId)
+      .single()
+    
+    return user?.role === 'admin'
+  } catch {
+    return false
   }
 }

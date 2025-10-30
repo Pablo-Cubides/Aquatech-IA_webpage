@@ -17,10 +17,5 @@
     "declaration-block-trailing-semicolon": null,
     "no-descending-specificity": null
   },
-  "ignoreFiles": [
-    "node_modules/**",
-    ".next/**",
-    "dist/**",
-    "build/**"
-  ]
+  "ignoreFiles": ["node_modules/**", ".next/**", "dist/**", "build/**"]
 }
