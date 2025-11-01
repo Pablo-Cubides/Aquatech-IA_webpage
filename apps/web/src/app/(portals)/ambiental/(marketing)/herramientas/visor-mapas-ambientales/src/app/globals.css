@@ -1,5 +1,5 @@
 /* MapLibre GL CSS - MUST be at the top */
-@import "maplibre-gl/dist/maplibre-gl.css";
+@import url("maplibre-gl/dist/maplibre-gl.css");
 
 /* Tailwind CSS directives */
 @tailwind base;
@@ -66,20 +66,20 @@ body {
     padding: 0;
     margin: -1px;
     overflow: hidden;
-    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
     white-space: nowrap;
     border-width: 0;
   }
 
   /* Reveal on focus - for skip links */
-  .focus\:not-sr-only:focus {
+  .focus-not-sr-only:focus {
     position: static;
     width: auto;
     height: auto;
     padding: inherit;
     margin: inherit;
     overflow: visible;
-    clip: auto;
+    clip-path: unset;
     white-space: normal;
   }
 }

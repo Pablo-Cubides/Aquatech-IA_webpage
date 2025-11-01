@@ -14,8 +14,9 @@
         ]
       }
     ],
-    "declaration-block-trailing-semicolon": null,
-    "no-descending-specificity": null
+    "import-notation": false,
+    "property-no-deprecated": false,
+    "selector-class-pattern": null
   },
   "ignoreFiles": ["node_modules/**", ".next/**", "dist/**", "build/**"]
 }
