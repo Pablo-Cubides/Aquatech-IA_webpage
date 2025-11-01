@@ -38,5 +38,6 @@
   },
   "stylelint.enable": true,
   "stylelint.validate": ["css", "scss", "postcss"],
+  "stylelint.ignoreDisables": false,
   "chat.mcp.access": "all"
 }
