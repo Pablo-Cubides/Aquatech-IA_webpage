@@ -48,40 +48,52 @@ async function processImageToSvg(inputPath, outputPath, logo) {
   try {
     console.log(`  → Leyendo y procesando imagen...`);
 
-    // Leer imagen con Sharp
+    // Leer imagen con Sharp - IMPORTANTE: leer RAW con alpha
     const image = sharp(inputPath);
     const metadata = await image.metadata();
     const width = metadata.width;
     const height = metadata.height;
 
-    // Convertir a buffer con procesamiento
-    const processedBuffer = await image
-      .greyscale()              // Escala de grises
-      .normalise()              // Normalizar histograma
-      .threshold(128)            // Binario (blanco/negro)
+    // Obtener datos RAW RGBA 
+    const rawData = await image
+      .raw()
       .toBuffer();
 
     console.log(`  ✓ Imagen procesada (${width}x${height}px)`);
+    console.log(`  → Extrayendo píxeles opacos...`);
 
-    // Extraer píxeles
-    const pixels = [];
-    for (let i = 0; i < processedBuffer.length; i += 4) {
-      const gray = processedBuffer[i];
-      pixels.push(gray > 128 ? 1 : 0);
+    // Extraer píxeles donde hay contenido (alpha > 100)
+    // RGBA format: 4 bytes por píxel
+    const opaquePixels = [];
+    for (let i = 0; i < rawData.length; i += 4) {
+      const r = rawData[i];
+      const g = rawData[i + 1];
+      const b = rawData[i + 2];
+      const a = rawData[i + 3];
+
+      // Si hay alpha significativo, es parte del logo
+      if (a > 100) {
+        const brightness = (r * 0.299 + g * 0.587 + b * 0.114);
+        opaquePixels.push(brightness > 128 ? 1 : 0);
+      } else {
+        opaquePixels.push(0); // Transparente = fondo
+      }
     }
 
-    console.log(`  → Detectando bordes y trazando contornos...`);
+    console.log(`  → Detectando contornos...`);
 
-    // Detectar bordes (Sobel)
-    const edges = detectEdges(pixels, width, height);
-
-    console.log(`  ✓ Bordes detectados`);
-    console.log(`  → Generando paths vectoriales...`);
+    // Encontrar bounding box del contenido
+    const bounds = findBounds(opaquePixels, width, height);
+    console.log(`  ✓ Contenido en: [${bounds.minX}, ${bounds.minY}, ${bounds.maxX}, ${bounds.maxY}]`);
 
     // Extraer contornos
-    const paths = extractPaths(edges, width, height);
+    const contours = findContours(opaquePixels, width, height);
 
-    console.log(`  ✓ ${paths.length} contorno(s) encontrado(s)`);
+    console.log(`  ✓ ${contours.length} contorno(s) encontrado(s)`);
+    console.log(`  → Generando paths vectoriales...`);
+
+    // Convertir contornos a paths SVG
+    const paths = contours.map(contour => simplifyPath(contour, 1));
 
     // Generar SVG
     const svg = generateSVG(paths, width, height);
@@ -109,118 +121,132 @@ async function processImageToSvg(inputPath, outputPath, logo) {
 }
 
 /**
- * Detectar bordes usando filtro Sobel
+ * Encontrar bounding box del contenido
  */
-function detectEdges(pixels, width, height) {
-  const edges = new Uint8Array(pixels.length);
+function findBounds(pixels, width, height) {
+  let minX = width, minY = height, maxX = 0, maxY = 0;
+  let found = false;
 
-  const sobelX = [
-    [-1, 0, 1],
-    [-2, 0, 2],
-    [-1, 0, 1]
-  ];
-
-  const sobelY = [
-    [-1, -2, -1],
-    [0, 0, 0],
-    [1, 2, 1]
-  ];
-
-  for (let y = 1; y < height - 1; y++) {
-    for (let x = 1; x < width - 1; x++) {
-      const idx = y * width + x;
-
-      let gx = 0, gy = 0;
-
-      for (let ky = 0; ky < 3; ky++) {
-        for (let kx = 0; kx < 3; kx++) {
-          const pidx = (y + ky - 1) * width + (x + kx - 1);
-          const pixel = pixels[pidx] ? 255 : 0;
-
-          gx += sobelX[ky][kx] * pixel;
-          gy += sobelY[ky][kx] * pixel;
-        }
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      if (pixels[y * width + x] > 0) {
+        minX = Math.min(minX, x);
+        minY = Math.min(minY, y);
+        maxX = Math.max(maxX, x);
+        maxY = Math.max(maxY, y);
+        found = true;
       }
-
-      const magnitude = Math.sqrt(gx * gx + gy * gy);
-      edges[idx] = magnitude > 50 ? 255 : 0;
     }
   }
 
-  return edges;
+  return found ? { minX, minY, maxX, maxY } : { minX: 0, minY: 0, maxX: width, maxY: height };
 }
 
 /**
- * Extraer paths de los bordes detectados
+ * Encontrar contornos usando Moore-Neighbor Tracing
  */
-function extractPaths(edges, width, height) {
-  const paths = [];
-  const visited = new Uint8Array(edges.length);
+function findContours(pixels, width, height) {
+  const visited = new Uint8Array(pixels.length);
+  const contours = [];
 
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
       const idx = y * width + x;
 
-      if (edges[idx] > 0 && !visited[idx]) {
-        const path = traceEdge(edges, visited, width, height, x, y);
-        if (path.length > 3) {
-          paths.push(simplifyPath(path));
+      // Buscar píxeles de borde (tiene píxel opaco vecino vacío)
+      if (pixels[idx] > 0 && !visited[idx]) {
+        let isBorder = false;
+
+        for (let dy = -1; dy <= 1; dy++) {
+          for (let dx = -1; dx <= 1; dx++) {
+            const nx = x + dx;
+            const ny = y + dy;
+
+            if (nx < 0 || nx >= width || ny < 0 || ny >= height) {
+              isBorder = true;
+              break;
+            }
+
+            if (pixels[ny * width + nx] === 0) {
+              isBorder = true;
+              break;
+            }
+          }
+          if (isBorder) break;
+        }
+
+        if (isBorder) {
+          const contour = traceContour(pixels, visited, width, height, x, y);
+          if (contour.length > 5) {
+            contours.push(contour);
+          }
         }
       }
     }
   }
 
-  return paths;
+  return contours;
 }
 
 /**
- * Rastrear un borde individual
+ * Rastrear contorno individual
  */
-function traceEdge(edges, visited, width, height, startX, startY) {
-  const path = [];
+function traceContour(pixels, visited, width, height, startX, startY) {
+  const contour = [];
   let x = startX;
   let y = startY;
-  const maxSteps = width * height;
+  let direction = 0;
+
+  const directions = [
+    { dx: 1, dy: 0 },
+    { dx: 1, dy: 1 },
+    { dx: 0, dy: 1 },
+    { dx: -1, dy: 1 },
+    { dx: -1, dy: 0 },
+    { dx: -1, dy: -1 },
+    { dx: 0, dy: -1 },
+    { dx: 1, dy: -1 }
+  ];
+
+  const maxSteps = width * height * 2;
   let steps = 0;
 
   do {
-    if (visited[y * width + x]) break;
+    contour.push({ x, y });
     visited[y * width + x] = 1;
-    path.push({ x, y });
 
-    // Buscar siguiente píxel del borde
     let found = false;
-    for (let dy = -1; dy <= 1; dy++) {
-      for (let dx = -1; dx <= 1; dx++) {
-        if (dx === 0 && dy === 0) continue;
 
-        const nx = x + dx;
-        const ny = y + dy;
+    for (let i = 0; i < 8; i++) {
+      const nextDir = (direction + i) % 8;
+      const { dx, dy } = directions[nextDir];
+      const nx = x + dx;
+      const ny = y + dy;
 
-        if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
-          const nidx = ny * width + nx;
-          if (edges[nidx] > 0 && !visited[nidx]) {
-            x = nx;
-            y = ny;
-            found = true;
-            break;
-          }
+      if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
+        const nidx = ny * width + nx;
+
+        if (pixels[nidx] > 0 && !visited[nidx]) {
+          x = nx;
+          y = ny;
+          direction = nextDir;
+          found = true;
+          break;
         }
       }
-      if (found) break;
     }
 
     if (!found) break;
     steps++;
-  } while (steps < maxSteps);
+  } while (steps < maxSteps && !(x === startX && y === startY && contour.length > 10));
 
-  return path;
+  return contour;
 }
 
 /**
  * Simplificar path reduciendo puntos colineales
  */
-function simplifyPath(path, tolerance = 2) {
+function simplifyPath(path, tolerance = 1) {
   if (path.length < 3) return path;
 
   const simplified = [path[0]];
