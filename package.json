@@ -28,6 +28,7 @@
     "@vitest/ui": "^4.0.5",
     "jimp": "^1.6.0",
     "jsdom": "^27.0.1",
+    "mlhelper": "^0.2.0",
     "potrace": "^2.1.8",
     "potrace-wasm": "^1.0.4",
     "prettier": "^3.3.0",
