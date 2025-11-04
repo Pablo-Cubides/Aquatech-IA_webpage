@@ -1,0 +1,17 @@
+{
+  "pais": "Colombia",
+  "dominio": "calidad-aire",
+  "normativeReference_es": "Resolución 2254/2017",
+  "registros": [
+    { "parametro": "PM10", "limite": "30 µg/m³", "notas": ["Límite a partir de 2030 (Anual)"] },
+    { "parametro": "PM10", "limite": "50 µg/m³", "notas": ["Límite a partir de 2030 (24 horas)"] },
+    { "parametro": "PM2.5", "limite": "15 µg/m³", "notas": ["Límite a partir de 2030 (Anual)"] },
+    { "parametro": "PM2.5", "limite": "25 µg/m³", "notas": ["Límite a partir de 2030 (24 horas)"] },
+    { "parametro": "SO2", "limite": "50 µg/m³", "notas": ["Límite a partir de 2030 (24 horas)"] },
+    { "parametro": "SO2", "limite": "100 µg/m³", "notas": ["Límite a partir de 2030 (1 hora)"] },
+    { "parametro": "NO2", "limite": "40 µg/m³", "notas": ["Límite a partir de 2030 (Anual)"] },
+    { "parametro": "NO2", "limite": "100 µg/m³", "notas": ["Límite a partir de 2030 (1 hora)"] },
+    { "parametro": "O3", "limite": "100 µg/m³", "notas": ["Límite a partir de 2030 (8 horas)"] },
+    { "parametro": "CO", "limite": "5,000 µg/m³", "notas": ["Límite a partir de 2030 (8 horas)"] }
+  ]
+}

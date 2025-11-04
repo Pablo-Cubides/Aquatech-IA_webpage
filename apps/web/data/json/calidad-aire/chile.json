@@ -1,0 +1,27 @@
+{
+  "pais": "Chile",
+  "dominio": "calidad-aire",
+  "normativeReference_es": "Normas Primarias de Calidad del Aire (Compilación de Decretos Supremos)",
+  "registros": [
+    { "parametro": "PM2.5", "limite": "15 µg/m³", "notas": ["Anual"] },
+    { "parametro": "PM2.5", "limite": "50 µg/m³", "notas": ["24 horas"] },
+    { "parametro": "PM10", "limite": "50 µg/m³", "notas": ["Anual"] },
+    { "parametro": "PM10", "limite": "150 µg/m³", "notas": ["24 horas"] },
+    { "parametro": "SO2", "limite": "60 µg/m³", "notas": ["Anual"] },
+    { "parametro": "SO2", "limite": "150 µg/m³", "notas": ["24 horas"] },
+    { "parametro": "NO2", "limite": "40 µg/m³", "notas": ["Anual"] },
+    { "parametro": "NO2", "limite": "100 µg/m³", "notas": ["24 horas"] },
+    { "parametro": "O3", "limite": "120 µg/m³", "notas": ["8 horas"] },
+    { "parametro": "CO", "limite": "10 mg/m³", "notas": ["8 horas"] },
+    { "parametro": "Benceno", "limite": "3 µg/m³", "notas": ["Anual"] }
+  ]
+,
+  "normativeSources": [
+    {
+      "name": "Normas Calidad del aire",
+      "url": "https://normasaire.mma.gob.cl/nambientales/normas-de-calidad-del-aire/",
+      "description": "Normas de calidad aire",
+      "type": "official"
+    }
+  ]
+}

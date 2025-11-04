@@ -1,0 +1,70 @@
+{
+  "pais": "Colombia",
+  "dominio": "residuos-solidos",
+  "normativeReference_es": "Decreto 4741/2005, Decreto 2981/2013, Ley 2232/2022, Res 1407/2018, Res 472/2017",
+  "registros": [
+    {
+      "categoria": "Peligrosos (RESPEL)",
+      "parametro": "Clasificación",
+      "limite": "Clasificación vía Anexos I, II, III",
+      "referencia": { "norma": "Decreto 4741 de 2005 (en Decreto 1076 de 2015)" },
+      "notas": ["Autoridad: Ministerio de Ambiente y Desarrollo Sostenible; Autoridades Ambientales Regionales"]
+    },
+    {
+      "categoria": "Peligrosos (RESPEL)",
+      "parametro": "Registro",
+      "limite": "Registro de generadores por volumen",
+      "referencia": { "norma": "Decreto 4741 de 2005" },
+      "notas": ["Autoridad: Ministerio de Ambiente y Desarrollo Sostenible; Autoridades Ambientales Regionales"]
+    },
+    {
+      "categoria": "Peligrosos (RESPEL)",
+      "parametro": "Responsabilidad",
+      "limite": "De la cuna a la tumba. Plan de Gestión interno requerido",
+      "referencia": { "norma": "Decreto 4741 de 2005" },
+      "notas": ["Autoridad: Ministerio de Ambiente y Desarrollo Sostenible; Autoridades Ambientales Regionales"]
+    },
+    {
+      "categoria": "Municipales/Ordinarios",
+      "parametro": "Servicio de Aseo",
+      "limite": "Define el 'servicio público de aseo'. Responsabilidad municipal.",
+      "referencia": { "norma": "Decreto 2981 de 2013" },
+      "notas": ["Autoridad: Municipios y Distritos"]
+    },
+    {
+      "categoria": "Municipales/Ordinarios",
+      "parametro": "Plásticos de un solo uso",
+      "limite": "Prohibición de plásticos de un solo uso específicos",
+      "referencia": { "norma": "Ley 2232 de 2022" },
+      "notas": ["Autoridad: ANLA (para REP); Superintendencia de Servicios Públicos"]
+    },
+    {
+      "categoria": "Municipales/Ordinarios",
+      "parametro": "REP Envases",
+      "limite": "REP obligatoria para envases",
+      "referencia": { "norma": "Res. 1407 de 2018" },
+      "notas": ["Autoridad: ANLA (para REP)"]
+    },
+    {
+      "categoria": "RCD",
+      "parametro": "Generadores",
+      "limite": "Obligaciones para grandes vs. pequeños generadores. Separación en obra obligatoria.",
+      "referencia": { "norma": "Resolución 472 de 2017" },
+      "notas": ["Autoridad: Ministerio de Ambiente y Desarrollo Sostenible"]
+    },
+    {
+      "categoria": "RCD",
+      "parametro": "Disposición",
+      "limite": "Prohibición de disposición en rellenos sanitarios. Reglas para 'puntos limpios' y plantas de aprovechamiento.",
+      "referencia": { "norma": "Resolución 472 de 2017" },
+      "notas": ["Autoridad: Autoridades Ambientales Regionales"]
+    },
+    {
+      "categoria": "Orgánicos",
+      "parametro": "Gestión",
+      "limite": "La gestión es responsabilidad municipal a través de planes locales (PGIRS) que promueven la separación y valorización (compostaje).",
+      "referencia": { "norma": "Integrado en los PGIRS municipales (bajo Decreto 2981)" },
+      "notas": ["Autoridad: Municipios y Distritos"]
+    }
+  ]
+}
