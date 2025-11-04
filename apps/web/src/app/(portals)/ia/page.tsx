@@ -28,39 +28,39 @@ export const metadata: Metadata = {
 
 export default function IAPage() {
   return (
-    <main className="bg-[#10111A] text-[#B6C2DF]">
+    <main className="bg-black text-white">
       {/* Hero */}
       <section className="relative overflow-hidden py-32 text-center">
         <div className="absolute inset-0 opacity-5 [background-image:url('https://www.transparenttextures.com/patterns/az-subtle.png')]"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#10111A]"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black"></div>
 
         <div className="container relative mx-auto px-4">
           <div className="mx-auto max-w-4xl">
             <h1
-              className="text-5xl md:text-7xl font-bold text-[#F3F6FF]"
+              className="text-5xl md:text-7xl font-bold text-white"
               style={{ fontFamily: "Space Grotesk, sans-serif" }}
             >
               Inteligencia Artificial aplicada al agua y al ambiente
             </h1>
-            <p className="mt-6 text-lg text-[#F3F6FF]">
+            <p className="mt-6 text-lg text-gray-300">
               Explora modelos generativos, visualizaciones y herramientas
               prácticas.
             </p>
 
             <div className="mt-10 flex flex-wrap justify-center gap-4">
-              <button className="rounded-lg bg-[#00EFFF] px-8 py-3 text-base font-bold text-[#10111A] transition-transform hover:scale-105">
+              <button className="rounded-lg bg-cyan-400 px-8 py-3 text-base font-bold text-black transition-all duration-300 ease-out hover:bg-white hover:shadow-lg hover:shadow-cyan-500/50 hover:-translate-y-1 active:translate-y-0">
                 Explorar herramientas
               </button>
-              <button className="rounded-lg border-2 border-[#00EFFF] px-8 py-3 text-base font-bold text-[#00EFFF] transition-colors hover:bg-[#00EFFF] hover:text-[#10111A]">
+              <button className="rounded-lg border-2 border-cyan-400 px-8 py-3 text-base font-bold text-cyan-400 transition-all duration-300 ease-out hover:bg-cyan-400 hover:text-black hover:shadow-lg hover:shadow-cyan-500/50 hover:-translate-y-1 active:translate-y-0">
                 Conocer más
               </button>
             </div>
           </div>
 
-          <div className="group mx-auto mt-16 aspect-video max-w-5xl overflow-hidden rounded-2xl">
+          <div className="group mx-auto mt-16 aspect-video max-w-5xl overflow-hidden rounded-2xl shadow-lg">
             <img
               alt="Inteligencia Artificial y Tecnología"
-              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
               src="/images/technology-hero.jpg"
             />
           </div>
@@ -72,19 +72,19 @@ export default function IAPage() {
         <div className="container mx-auto grid grid-cols-1 items-center gap-12 px-4 md:grid-cols-2">
           <div>
             <h2
-              className="text-4xl font-bold text-[#F3F6FF]"
+              className="text-4xl font-bold text-white"
               style={{ fontFamily: "Space Grotesk, sans-serif" }}
             >
               Nosotros
             </h2>
-            <p className="mt-4 text-lg">
+            <p className="mt-4 text-lg text-gray-300">
               Aquatech IA se dedica a aprovechar la inteligencia artificial para
               abordar desafíos ambientales críticos. Nuestra misión es
               proporcionar soluciones innovadoras para la gestión del agua y el
               medio ambiente, fomentando un futuro sostenible a través de la
               tecnología.
             </p>
-            <button className="mt-8 rounded-lg border border-white/20 px-6 py-2 font-medium transition-colors hover:border-[#00EFFF] hover:text-[#00EFFF]">
+            <button className="mt-8 rounded-lg border border-cyan-400 px-6 py-2 font-medium text-cyan-400 transition-all duration-300 ease-out hover:bg-cyan-400 hover:text-black hover:-translate-y-1">
               Leer más
             </button>
           </div>
@@ -92,7 +92,7 @@ export default function IAPage() {
           <div className="flex justify-center">
             <img
               alt="Innovación en IA Ambiental"
-              className="h-auto w-full max-w-md rounded-2xl object-cover"
+              className="h-auto w-full max-w-md rounded-2xl object-cover shadow-lg transition-transform duration-300 hover:scale-105"
               src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&h=400&fit=crop&crop=center"
             />
           </div>
@@ -100,10 +100,10 @@ export default function IAPage() {
       </section>
 
       {/* Herramientas */}
-      <section id="herramientas" className="bg-[#131522] py-24">
+      <section id="herramientas" className="bg-gray-950 py-24">
         <div className="container mx-auto px-4">
           <h2
-            className="text-center text-4xl font-bold text-[#F3F6FF]"
+            className="text-center text-4xl font-bold text-white"
             style={{ fontFamily: "Space Grotesk, sans-serif" }}
           >
             Herramientas (IA)
@@ -111,64 +111,64 @@ export default function IAPage() {
 
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {/* Card 1 */}
-            <div className="rounded-2xl border border-white/10 bg-[#141725] p-6 transition-all hover:-translate-y-1 hover:shadow-[0_0_15px_0_rgba(0,239,255,0.3)]">
+            <div className="rounded-2xl border border-cyan-500/30 bg-gray-900/50 p-6 transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20">
               <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
                 <img
                   alt="Análisis de Agua con IA"
-                  className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+                  className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
                   src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400&h=300&fit=crop&crop=center"
                 />
               </div>
-              <h3 className="mt-4 text-xl font-bold text-[#F3F6FF]">
+              <h3 className="mt-4 text-xl font-bold text-white">
                 Cómo funciona un LLM
               </h3>
-              <p className="mt-2 text-sm">
+              <p className="mt-2 text-sm text-gray-300">
                 Descubre el funcionamiento interno de los modelos de lenguaje y
                 su aplicación en el análisis de datos ambientales.
               </p>
-              <button className="mt-4 w-full rounded-lg bg-[#00EFFF]/10 py-2 font-semibold text-[#00EFFF] transition-colors hover:bg-[#00EFFF]/20">
+              <button className="mt-4 w-full rounded-lg bg-cyan-500/15 py-2 font-semibold text-cyan-400 transition-all duration-300 hover:bg-cyan-500/25 hover:shadow-lg hover:shadow-cyan-500/30">
                 Abrir
               </button>
             </div>
 
             {/* Card 2 */}
-            <div className="rounded-2xl border border-white/10 bg-[#141725] p-6 transition-all hover:-translate-y-1 hover:shadow-[0_0_15px_0_rgba(0,239,255,0.3)]">
+            <div className="rounded-2xl border border-cyan-500/30 bg-gray-900/50 p-6 transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20">
               <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
                 <img
                   alt="Sistema de Difusión"
-                  className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+                  className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
                   src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=300&fit=crop&crop=center"
                 />
               </div>
-              <h3 className="mt-4 text-xl font-bold text-[#F3F6FF]">
+              <h3 className="mt-4 text-xl font-bold text-white">
                 Cómo funciona el sistema de difusión
               </h3>
-              <p className="mt-2 text-sm">
+              <p className="mt-2 text-sm text-gray-300">
                 Explora los modelos de difusión para la generación de contenido
                 y su aplicación en visualizaciones ambientales.
               </p>
-              <button className="mt-4 w-full rounded-lg bg-[#00EFFF]/10 py-2 font-semibold text-[#00EFFF] transition-colors hover:bg-[#00EFFF]/20">
+              <button className="mt-4 w-full rounded-lg bg-cyan-500/15 py-2 font-semibold text-cyan-400 transition-all duration-300 hover:bg-cyan-500/25 hover:shadow-lg hover:shadow-cyan-500/30">
                 Abrir
               </button>
             </div>
 
             {/* Card 3 */}
-            <div className="rounded-2xl border border-white/10 bg-[#141725] p-6 transition-all hover:-translate-y-1 hover:shadow-[0_0_15px_0_rgba(0,239,255,0.3)]">
+            <div className="rounded-2xl border border-cyan-500/30 bg-gray-900/50 p-6 transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20">
               <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
                 <img
                   alt="Filtros de IA"
-                  className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+                  className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
                   src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=400&h=300&fit=crop&crop=center"
                 />
               </div>
-              <h3 className="mt-4 text-xl font-bold text-[#F3F6FF]">
+              <h3 className="mt-4 text-xl font-bold text-white">
                 Cómo la IA filtra las respuestas
               </h3>
-              <p className="mt-2 text-sm">
+              <p className="mt-2 text-sm text-gray-300">
                 Comprende los mecanismos de filtrado y validación que utilizan
                 los sistemas de IA para generar respuestas precisas.
               </p>
-              <button className="mt-4 w-full rounded-lg bg-[#00EFFF]/10 py-2 font-semibold text-[#00EFFF] transition-colors hover:bg-[#00EFFF]/20">
+              <button className="mt-4 w-full rounded-lg bg-cyan-500/15 py-2 font-semibold text-cyan-400 transition-all duration-300 hover:bg-cyan-500/25 hover:shadow-lg hover:shadow-cyan-500/30">
                 Abrir
               </button>
             </div>
@@ -180,7 +180,7 @@ export default function IAPage() {
       <section id="blog" className="py-24">
         <div className="container mx-auto px-4">
           <h2
-            className="text-center text-4xl font-bold text-[#F3F6FF]"
+            className="text-center text-4xl font-bold text-white"
             style={{ fontFamily: "Space Grotesk, sans-serif" }}
           >
             Blog
@@ -188,85 +188,76 @@ export default function IAPage() {
 
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {/* Post 1 */}
-            <div className="group overflow-hidden rounded-2xl border border-white/10 bg-[#131522] transition-all hover:-translate-y-1 hover:shadow-[0_0_15px_0_rgba(0,239,255,0.15)]">
+            <div className="group overflow-hidden rounded-2xl border border-cyan-500/20 bg-gray-900/30 transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20">
               <img
                 alt="IA en la Gestión del Agua"
-                className="h-56 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-110"
                 src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=250&fit=crop&crop=center"
               />
               <div className="p-6">
-                <p className="text-xs">24 MAYO, 2024</p>
-                <h3 className="mt-2 text-lg font-bold text-[#F3F6FF]">
+                <p className="text-xs text-gray-400">24 MAYO, 2024</p>
+                <h3 className="mt-2 text-lg font-bold text-white">
                   El Papel de la IA en la Gestión Sostenible del Agua
                 </h3>
-                <p className="mt-2 text-sm">
+                <p className="mt-2 text-sm text-gray-400">
                   Explore cómo la IA está revolucionando la gestión de recursos
                   hídricos.
                 </p>
                 <a
-                  className="mt-4 inline-block font-semibold text-[#00EFFF]"
+                  className="mt-4 inline-block font-semibold text-cyan-400 transition-all duration-300 group-hover:translate-x-1"
                   href="#"
                 >
-                  Leer{" "}
-                  <span className="transition-transform duration-300 group-hover:translate-x-1">
-                    →
-                  </span>
+                  Leer →
                 </a>
               </div>
             </div>
 
             {/* Post 2 */}
-            <div className="group overflow-hidden rounded-2xl border border-white/10 bg-[#131522] transition-all hover:-translate-y-1 hover:shadow-[0_0_15px_0_rgba(0,239,255,0.15)]">
+            <div className="group overflow-hidden rounded-2xl border border-cyan-500/20 bg-gray-900/30 transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20">
               <img
                 alt="Monitoreo Ambiental con IA"
-                className="h-56 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-110"
                 src="https://images.unsplash.com/photo-1473773508845-188df298d2d1?w=400&h=250&fit=crop&crop=center"
               />
               <div className="p-6">
-                <p className="text-xs">18 MAYO, 2024</p>
-                <h3 className="mt-2 text-lg font-bold text-[#F3F6FF]">
+                <p className="text-xs text-gray-400">18 MAYO, 2024</p>
+                <h3 className="mt-2 text-lg font-bold text-white">
                   Soluciones de IA para el Monitoreo Ambiental
                 </h3>
-                <p className="mt-2 text-sm">
+                <p className="mt-2 text-sm text-gray-400">
                   Descubra cómo las herramientas de IA mejoran el monitoreo
                   ambiental.
                 </p>
                 <a
-                  className="mt-4 inline-block font-semibold text-[#00EFFF]"
+                  className="mt-4 inline-block font-semibold text-cyan-400 transition-all duration-300 group-hover:translate-x-1"
                   href="#"
                 >
-                  Leer{" "}
-                  <span className="transition-transform duration-300 group-hover:translate-x-1">
-                    →
-                  </span>
+                  Leer →
                 </a>
               </div>
             </div>
 
             {/* Post 3 */}
-            <div className="group overflow-hidden rounded-2xl border border-white/10 bg-[#131522] transition-all hover:-translate-y-1 hover:shadow-[0_0_15px_0_rgba(0,239,255,0.15)]">
+            <div className="group overflow-hidden rounded-2xl border border-cyan-500/20 bg-gray-900/30 transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20">
               <img
                 alt="Futuro de la IA Ambiental"
-                className="h-56 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-110"
                 src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=250&fit=crop&crop=center"
               />
               <div className="p-6">
-                <p className="text-xs">12 MAYO, 2024</p>
-                <h3 className="mt-2 text-lg font-bold text-[#F3F6FF]">
+                <p className="text-xs text-gray-400">12 MAYO, 2024</p>
+                <h3 className="mt-2 text-lg font-bold text-white">
                   El Futuro de la IA en la Conservación Ambiental
                 </h3>
-                <p className="mt-2 text-sm">
+                <p className="mt-2 text-sm text-gray-400">
                   Conozca las tendencias emergentes y futuras aplicaciones de la
                   IA.
                 </p>
                 <a
-                  className="mt-4 inline-block font-semibold text-[#00EFFF]"
+                  className="mt-4 inline-block font-semibold text-cyan-400 transition-all duration-300 group-hover:translate-x-1"
                   href="#"
                 >
-                  Leer{" "}
-                  <span className="transition-transform duration-300 group-hover:translate-x-1">
-                    →
-                  </span>
+                  Leer →
                 </a>
               </div>
             </div>
@@ -275,11 +266,11 @@ export default function IAPage() {
       </section>
 
       {/* Autor */}
-      <section id="autor" className="bg-[#131522] py-24">
+      <section id="autor" className="bg-gray-950 py-24">
         <div className="container mx-auto flex flex-col items-center gap-8 px-4 text-center md:flex-row md:text-left">
           <img
             alt="Elena Rodriguez"
-            className="h-40 w-40 rounded-full object-cover"
+            className="h-40 w-40 rounded-full object-cover shadow-lg shadow-cyan-500/20 transition-transform duration-300 hover:scale-105"
             src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=200&h=200&fit=crop&crop=face"
           />
           <div className="flex-1">

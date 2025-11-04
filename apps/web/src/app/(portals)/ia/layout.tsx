@@ -46,17 +46,17 @@ export const metadata: Metadata = {
 export default function IALayout({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className={`${notoSans.variable} ${spaceGrotesk.variable} min-h-screen flex flex-col bg-[#10111A] text-[#B6C2DF]`}
+      className={`${notoSans.variable} ${spaceGrotesk.variable} min-h-screen flex flex-col bg-black text-white`}
       style={
         {
           fontFamily: "var(--font-noto), 'Noto Sans', sans-serif",
           // CSS custom properties for IA theme
           "--primary-cyan": "#00efff",
-          "--text-primary": "#f3f6ff",
-          "--text-secondary": "#b6c2df",
-          "--dark-bg-1": "#10111a",
-          "--dark-bg-2": "#131522",
-          "--dark-bg-3": "#141725",
+          "--text-primary": "#ffffff",
+          "--text-secondary": "#cccccc",
+          "--dark-bg-1": "#000000",
+          "--dark-bg-2": "#0a0a0f",
+          "--dark-bg-3": "#131522",
         } as React.CSSProperties
       }
     >

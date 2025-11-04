@@ -1,25 +1,25 @@
 #!/usr/bin/env node
 
-import { Jimp } from 'jimp';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { Jimp } from "jimp";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const projectRoot = path.join(__dirname, '..');
-const imagesDir = path.join(projectRoot, 'apps/web/public/images');
+const projectRoot = path.join(__dirname, "..");
+const imagesDir = path.join(projectRoot, "apps/web/public/images");
 
 const LOGOS = [
   {
-    input: 'Aquatech-ia logo dark 512.png',
-    output: 'logo-dark.svg',
-    description: 'Logo oscuro - Fondos claros (Portal Ambiental)',
+    input: "Aquatech-ia logo dark 512.png",
+    output: "logo-dark.svg",
+    description: "Logo oscuro - Fondos claros (Portal Ambiental)",
   },
   {
-    input: 'Aquatech-ia logo light 512.png',
-    output: 'logo-light.svg',
-    description: 'Logo claro - Fondos oscuros (Portal IA)',
-  }
+    input: "Aquatech-ia logo light 512.png",
+    output: "logo-light.svg",
+    description: "Logo claro - Fondos oscuros (Portal IA)",
+  },
 ];
 
 console.log(`
@@ -59,7 +59,7 @@ class ComponentLabeler {
 
   label() {
     let nextLabel = 1;
-    
+
     // Two-pass labeling
     for (let y = 0; y < this.height; y++) {
       for (let x = 0; x < this.width; x++) {
@@ -77,7 +77,8 @@ class ComponentLabeler {
             for (let dy = -1; dy <= 1; dy++) {
               for (let dx = -1; dx <= 1; dx++) {
                 if (dx === 0 && dy === 0) continue;
-                const nx = cx + dx, ny = cy + dy;
+                const nx = cx + dx,
+                  ny = cy + dy;
                 if (this.getPixel(nx, ny) > 0 && this.getLabel(nx, ny) === 0) {
                   this.setLabel(nx, ny, nextLabel);
                   queue.push([nx, ny]);
@@ -86,7 +87,8 @@ class ComponentLabeler {
             }
           }
 
-          if (component.length > 9) { // Filtrar componentes muy pequeñas (ruido)
+          if (component.length > 9) {
+            // Filtrar componentes muy pequeñas (ruido)
             this.components.push(component);
           }
 
@@ -106,18 +108,21 @@ function extractContour(component) {
   // Encontrar punto más a la izquierda-arriba
   let startPoint = component[0];
   for (const pt of component) {
-    if (pt[0] < startPoint[0] || (pt[0] === startPoint[0] && pt[1] < startPoint[1])) {
+    if (
+      pt[0] < startPoint[0] ||
+      (pt[0] === startPoint[0] && pt[1] < startPoint[1])
+    ) {
       startPoint = pt;
     }
   }
 
   // Usar puntos del componente como contorno (simplificado)
   const points = component.slice();
-  
+
   // Ordenar por ángulo para obtener contorno
   const centroid = [
     points.reduce((s, p) => s + p[0], 0) / points.length,
-    points.reduce((s, p) => s + p[1], 0) / points.length
+    points.reduce((s, p) => s + p[1], 0) / points.length,
   ];
 
   points.sort((a, b) => {
@@ -162,7 +167,7 @@ function pointLineDistance(point, lineStart, lineEnd) {
 
   const num = Math.abs((y2 - y1) * px - (x2 - x1) * py + x2 * y1 - y2 * x1);
   const den = Math.sqrt((y2 - y1) ** 2 + (x2 - x1) ** 2);
-  
+
   return den === 0 ? 0 : num / den;
 }
 
@@ -196,7 +201,10 @@ async function convertWithComponentLabeling(inputPath, outputPath) {
     let threshold = 127;
     let maxVar = 0;
     for (let t = 0; t < 256; t++) {
-      let w0 = 0, w1 = 0, sum0 = 0, sum1 = 0;
+      let w0 = 0,
+        w1 = 0,
+        sum0 = 0,
+        sum1 = 0;
       for (let i = 0; i < t; i++) {
         w0 += histogram[i];
         sum0 += i * histogram[i];
@@ -206,7 +214,8 @@ async function convertWithComponentLabeling(inputPath, outputPath) {
         sum1 += i * histogram[i];
       }
       if (w0 === 0 || w1 === 0) continue;
-      const mu0 = sum0 / w0, mu1 = sum1 / w1;
+      const mu0 = sum0 / w0,
+        mu1 = sum1 / w1;
       const variance = w0 * w1 * Math.pow(mu0 - mu1, 2);
       if (variance > maxVar) {
         maxVar = variance;
@@ -237,10 +246,12 @@ async function convertWithComponentLabeling(inputPath, outputPath) {
     const labeler = new ComponentLabeler(dilated, width, height);
     const components = labeler.label();
 
-    console.log(`  → Encontradas ${components.length} componentes (filtradas de ruido)`);
+    console.log(
+      `  → Encontradas ${components.length} componentes (filtradas de ruido)`,
+    );
 
     if (components.length === 0) {
-      throw new Error('No se encontraron componentes válidas');
+      throw new Error("No se encontraron componentes válidas");
     }
 
     console.log(`  → Extrayendo y simplificando contornos...`);
@@ -255,18 +266,20 @@ async function convertWithComponentLabeling(inputPath, outputPath) {
       }
     }
 
-    console.log(`  → Generando SVG con ${contours.length} contornos simplificados...`);
+    console.log(
+      `  → Generando SVG con ${contours.length} contornos simplificados...`,
+    );
     let svg = `<?xml version="1.0" encoding="UTF-8"?>
 <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
 `;
 
     for (const contour of contours) {
-      let pathData = 'M';
+      let pathData = "M";
       for (let i = 0; i < contour.length; i++) {
         const [x, y] = contour[i];
-        pathData += `${i === 0 ? ' ' : 'L'}${Math.round(x)},${Math.round(y)}`;
+        pathData += `${i === 0 ? " " : "L"}${Math.round(x)},${Math.round(y)}`;
       }
-      pathData += 'Z';
+      pathData += "Z";
 
       svg += `  <path d="${pathData}" fill="#000000" stroke="none"/>\n`;
     }

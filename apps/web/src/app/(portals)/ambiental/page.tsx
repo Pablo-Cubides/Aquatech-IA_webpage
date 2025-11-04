@@ -29,41 +29,41 @@ export const metadata: Metadata = {
 
 export default function AmbientalPage() {
   return (
-    <main className="bg-[#F5F9F8] text-[#0D161C]">
+    <main className="bg-white text-black">
       {/* HERO */}
       <section className="relative overflow-hidden py-24 md:py-32 text-center">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#F5F9F8]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white" />
         </div>
 
         <div className="container relative mx-auto px-4">
           <div className="mx-auto max-w-4xl">
             <h1
-              className="text-5xl font-bold md:text-7xl"
+              className="text-5xl font-bold md:text-7xl text-black"
               style={{ fontFamily: "Space Grotesk, sans-serif" }}
             >
               Gestión Ambiental con tecnología para un futuro sostenible
             </h1>
-            <p className="mt-6 text-lg text-gray-700">
+            <p className="mt-6 text-lg text-gray-600">
               Mapas, normas y herramientas para proteger nuestros recursos
               naturales.
             </p>
 
             <div className="mt-10 flex flex-wrap justify-center gap-4">
-              <button className="rounded-lg bg-[#10B981] px-8 py-3 text-base font-bold text-white transition-transform hover:scale-105">
+              <button className="rounded-lg bg-green-600 px-8 py-3 text-base font-bold text-white transition-all duration-300 ease-out hover:bg-green-700 hover:shadow-lg hover:shadow-green-500/50 hover:-translate-y-1 active:translate-y-0">
                 Explorar herramientas
               </button>
-              <button className="rounded-lg border-2 border-[#0077B6] px-8 py-3 text-base font-bold text-[#0077B6] transition-colors hover:bg-[#0077B6] hover:text-white">
+              <button className="rounded-lg border-2 border-blue-600 px-8 py-3 text-base font-bold text-blue-600 transition-all duration-300 ease-out hover:bg-blue-600 hover:text-white hover:shadow-lg hover:shadow-blue-500/50 hover:-translate-y-1 active:translate-y-0">
                 Conocer más
               </button>
             </div>
           </div>
 
-          <div className="group mx-auto mt-16 aspect-video max-w-5xl overflow-hidden rounded-2xl">
+          <div className="group mx-auto mt-16 aspect-video max-w-5xl overflow-hidden rounded-2xl shadow-lg">
             <img
               src="/images/mountains-hero.jpg"
               alt="Naturaleza y sostenibilidad ambiental"
-              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
           </div>
         </div>
@@ -74,17 +74,17 @@ export default function AmbientalPage() {
         <div className="container mx-auto grid grid-cols-1 items-center gap-12 px-4 md:grid-cols-2">
           <div>
             <h2
-              className="text-4xl font-bold"
+              className="text-4xl font-bold text-black"
               style={{ fontFamily: "Space Grotesk, sans-serif" }}
             >
               Nosotros
             </h2>
-            <p className="mt-4 text-lg text-gray-700">
+            <p className="mt-4 text-lg text-gray-600">
               Nuestra misión es aprovechar la tecnología para mejorar la gestión
               ambiental, fomentando un futuro sostenible a través de soluciones
               innovadoras y una toma de decisiones informada.
             </p>
-            <button className="mt-8 rounded-lg border border-[#0077B6] px-6 py-2 font-medium text-[#0077B6] transition-colors hover:bg-[#0077B6] hover:text-white">
+            <button className="mt-8 rounded-lg border border-blue-600 px-6 py-2 font-medium text-blue-600 transition-all duration-300 ease-out hover:bg-blue-600 hover:text-white hover:-translate-y-1">
               Leer más
             </button>
           </div>
@@ -92,7 +92,7 @@ export default function AmbientalPage() {
           <div className="flex justify-center">
             <img
               alt="Equipo de gestión ambiental"
-              className="h-auto w-full max-w-md rounded-2xl object-cover shadow"
+              className="h-auto w-full max-w-md rounded-2xl object-cover shadow-lg transition-transform duration-300 hover:scale-105"
               src="https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?w=500&h=400&fit=crop&crop=center"
             />
           </div>

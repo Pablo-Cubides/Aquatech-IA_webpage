@@ -29,7 +29,7 @@ export default function Home() {
       {/* Header */}
       <header className="w-full max-w-5xl mx-auto pt-10 pb-8">
         <h1
-          className="text-center text-4xl font-bold tracking-wide text-[#0D161C]"
+          className="text-center text-4xl font-bold tracking-wide text-gray-900"
           style={{ fontFamily: "var(--font-space)" }}
         >
           Aquatech IA
@@ -42,23 +42,23 @@ export default function Home() {
         <Link
           href="/ia"
           aria-label="Ir al portal de Inteligencia Artificial"
-          className="bg-[#10111A] rounded-2xl shadow-lg flex flex-col items-center py-10 px-6 transition-transform duration-300 hover:scale-[1.02]"
+          className="group bg-black rounded-2xl shadow-lg flex flex-col items-center py-10 px-6 transition-all duration-500 ease-out hover:shadow-2xl hover:-translate-y-1"
         >
           <Image
             src="/images/technology-hero.jpg"
             alt="Ilustración tecnológica abstracta de IA"
             width={480}
             height={270}
-            className="object-cover rounded-xl mb-8 shadow-md"
+            className="object-cover rounded-xl mb-8 shadow-md transition-transform duration-500 group-hover:scale-105"
             priority
           />
           <h2
-            className="text-white text-4xl font-bold mb-4 text-center"
+            className="text-white text-4xl font-bold mb-4 text-center transition-colors duration-300 group-hover:text-cyan-400"
             style={{ fontFamily: "var(--font-space)" }}
           >
             Inteligencia Artificial
           </h2>
-          <p className="text-gray-300 text-lg text-center">
+          <p className="text-gray-400 text-lg text-center transition-colors duration-300 group-hover:text-gray-200">
             Modelos generativos e inteligencia artificial para la vida diaria.
           </p>
         </Link>
@@ -67,23 +67,23 @@ export default function Home() {
         <Link
           href="/ambiental"
           aria-label="Ir al portal de Gestión Ambiental"
-          className="bg-white rounded-2xl shadow-lg flex flex-col items-center py-10 px-6 transition-transform duration-300 hover:scale-[1.02]"
+          className="group bg-white rounded-2xl shadow-lg flex flex-col items-center py-10 px-6 transition-all duration-500 ease-out hover:shadow-2xl hover:-translate-y-1"
         >
           <Image
             src="/images/mountains-hero.jpg"
             alt="Ilustración paisajística azul y verde"
             width={480}
             height={270}
-            className="object-cover rounded-xl mb-8 shadow-md"
+            className="object-cover rounded-xl mb-8 shadow-md transition-transform duration-500 group-hover:scale-105"
             priority
           />
           <h2
-            className="text-[#0D161C] text-4xl font-bold mb-4 text-center"
+            className="text-gray-900 text-4xl font-bold mb-4 text-center transition-colors duration-300 group-hover:text-blue-600"
             style={{ fontFamily: "var(--font-space)" }}
           >
             Gestión Ambiental
           </h2>
-          <p className="text-gray-600 text-lg text-center">
+          <p className="text-gray-600 text-lg text-center transition-colors duration-300 group-hover:text-gray-900">
             Mapas, normas y herramientas para un futuro sostenible.
           </p>
         </Link>

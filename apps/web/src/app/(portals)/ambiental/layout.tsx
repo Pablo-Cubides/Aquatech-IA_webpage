@@ -29,15 +29,15 @@ export default function AmbientalLayout({
 }) {
   return (
     <div
-      className={`${notoSans.variable} ${spaceGrotesk.variable} min-h-screen flex flex-col bg-white text-[#0D161C]`}
+      className={`${notoSans.variable} ${spaceGrotesk.variable} min-h-screen flex flex-col bg-white text-black`}
       style={
         {
           fontFamily: "var(--font-noto)",
           "--primary-blue": "#0077B6",
           "--success-green": "#10B981",
-          "--text-primary": "#0D161C",
-          "--text-secondary": "#5D7989",
-          "--light-bg": "#F5F9F8",
+          "--text-primary": "#000000",
+          "--text-secondary": "#666666",
+          "--light-bg": "#ffffff",
         } as React.CSSProperties
       }
     >

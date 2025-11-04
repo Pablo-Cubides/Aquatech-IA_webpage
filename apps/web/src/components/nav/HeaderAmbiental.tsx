@@ -8,11 +8,11 @@ export default function HeaderAmbiental() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 bg-white/80 px-10 py-3 backdrop-blur-md">
+    <header className="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-blue-600/20 bg-white/80 px-10 py-3 backdrop-blur-md transition-all duration-300">
       <div className="flex items-center gap-6">
         {/* Logo y nombre */}
-        <div className="flex items-center gap-2">
-          <div className="rounded-full bg-[#0077B6] p-2">
+        <div className="flex items-center gap-2 transition-transform duration-300 hover:scale-105">
+          <div className="rounded-full bg-blue-600 p-2 shadow-lg shadow-blue-500/50">
             <svg
               className="h-6 w-6 text-white"
               fill="currentColor"
@@ -22,20 +22,20 @@ export default function HeaderAmbiental() {
               <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
             </svg>
           </div>
-          <h1 className="text-xl font-bold text-[#0D161C]">Aquatech IA</h1>
+          <h1 className="text-xl font-bold text-black transition-colors duration-300 hover:text-blue-600">Aquatech IA</h1>
         </div>
 
         {/* Selector de portales */}
-        <div className="flex h-9 items-center justify-center rounded-full bg-gray-100 p-1 text-sm">
+        <div className="flex h-9 items-center justify-center rounded-full bg-gray-100 p-1 text-sm border border-gray-300">
           <Link
             href="/ia"
-            className="px-4 py-1 font-medium text-gray-600 hover:text-[#0077B6] transition-colors"
+            className="px-4 py-1 font-medium text-gray-600 transition-all duration-300 hover:text-blue-600"
           >
             IA
           </Link>
           <Link
             href="/ambiental"
-            className="rounded-full bg-[#0077B6] px-4 py-1 font-semibold text-white"
+            className="rounded-full bg-blue-600 px-4 py-1 font-semibold text-white transition-all duration-300"
           >
             Ambiental
           </Link>
@@ -47,31 +47,31 @@ export default function HeaderAmbiental() {
         <nav className="flex items-center gap-6 text-sm font-medium">
           <Link
             href="/ambiental/nosotros"
-            className="text-gray-700 transition-colors hover:text-[#0077B6]"
+            className="text-gray-600 transition-colors duration-300 hover:text-blue-600"
           >
             Nosotros
           </Link>
           <Link
             href="/ambiental/blog"
-            className="text-gray-700 transition-colors hover:text-[#0077B6]"
+            className="text-gray-600 transition-colors duration-300 hover:text-blue-600"
           >
             Blog
           </Link>
           <Link
             href="/ambiental/herramientas"
-            className="text-gray-700 transition-colors hover:text-[#0077B6]"
+            className="text-gray-600 transition-colors duration-300 hover:text-blue-600"
           >
             Herramientas
           </Link>
           <Link
             href="/ambiental/autor"
-            className="text-gray-700 transition-colors hover:text-[#0077B6]"
+            className="text-gray-600 transition-colors duration-300 hover:text-blue-600"
           >
             Autor
           </Link>
           <Link
             href="/ambiental/productos"
-            className="text-gray-700 transition-colors hover:text-[#0077B6]"
+            className="text-gray-600 transition-colors duration-300 hover:text-blue-600"
           >
             Productos
           </Link>
@@ -85,7 +85,7 @@ export default function HeaderAmbiental() {
 
       {/* Botón menú móvil */}
       <button
-        className="lg:hidden rounded-lg p-2 text-gray-700 hover:bg-gray-100"
+        className="lg:hidden rounded-lg p-2 text-gray-700 transition-colors duration-300 hover:bg-gray-100 hover:text-blue-600"
         onClick={() => setIsMenuOpen(!isMenuOpen)}
         aria-label="Toggle menu"
       >
@@ -115,39 +115,39 @@ export default function HeaderAmbiental() {
 
       {/* Menú móvil */}
       {isMenuOpen && (
-        <div className="absolute top-full left-0 right-0 bg-white border-b border-gray-200 lg:hidden">
+        <div className="absolute top-full left-0 right-0 bg-white border-b border-blue-600/20 lg:hidden">
           <nav className="flex flex-col p-4 space-y-3">
             <Link
               href="/ambiental/nosotros"
-              className="text-gray-700 hover:text-[#0077B6] py-2"
+              className="text-gray-600 transition-colors duration-300 hover:text-blue-600 py-2"
               onClick={() => setIsMenuOpen(false)}
             >
               Nosotros
             </Link>
             <Link
               href="/ambiental/blog"
-              className="text-gray-700 hover:text-[#0077B6] py-2"
+              className="text-gray-600 transition-colors duration-300 hover:text-blue-600 py-2"
               onClick={() => setIsMenuOpen(false)}
             >
               Blog
             </Link>
             <Link
               href="/ambiental/herramientas"
-              className="text-gray-700 hover:text-[#0077B6] py-2"
+              className="text-gray-600 transition-colors duration-300 hover:text-blue-600 py-2"
               onClick={() => setIsMenuOpen(false)}
             >
               Herramientas
             </Link>
             <Link
               href="/ambiental/autor"
-              className="text-gray-700 hover:text-[#0077B6] py-2"
+              className="text-gray-600 transition-colors duration-300 hover:text-blue-600 py-2"
               onClick={() => setIsMenuOpen(false)}
             >
               Autor
             </Link>
             <Link
               href="/ambiental/productos"
-              className="text-gray-700 hover:text-[#0077B6] py-2"
+              className="text-gray-600 transition-colors duration-300 hover:text-blue-600 py-2"
               onClick={() => setIsMenuOpen(false)}
             >
               Productos
