@@ -1,16 +1,15 @@
 #!/usr/bin/env node
 
 /**
- * 🎨 CONVERSOR PNG A SVG - MÁXIMA CALIDAD
+ * 🎨 CONVERSOR PNG A SVG - MÁXIMA CALIDAD CON JIMP
  * 
- * Usa Sharp para procesamiento profesional + algoritmo de tracing vectorial
- * 100% Node.js, sin dependencias externas del sistema operativo
+ * Vectorización profesional usando algoritmo de potrace puro en JavaScript
  * 
  * Ejecutar:
  *   npm run convert:svg
  */
 
-import sharp from 'sharp';
+import { Jimp } from 'jimp';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -42,66 +41,51 @@ console.log(`
 `);
 
 /**
- * Procesar imagen con Sharp y extraer datos de píxeles
+ * Procesar imagen PNG a SVG usando Jimp + algoritmo de contorno
  */
 async function processImageToSvg(inputPath, outputPath, logo) {
   try {
-    console.log(`  → Leyendo y procesando imagen...`);
+    console.log(`  → Leyendo imagen PNG...`);
 
-    // Leer imagen con Sharp - IMPORTANTE: leer RAW con alpha
-    const image = sharp(inputPath);
-    const metadata = await image.metadata();
-    const width = metadata.width;
-    const height = metadata.height;
+    // Leer imagen con Jimp
+    const image = await Jimp.read(inputPath);
+    const width = image.width;
+    const height = image.height;
 
-    // Obtener datos RAW RGBA 
-    const rawData = await image
-      .raw()
-      .toBuffer();
+    console.log(`  ✓ Imagen cargada (${width}x${height}px)`);
+    console.log(`  → Detectando bordes y vectorizando...`);
 
-    console.log(`  ✓ Imagen procesada (${width}x${height}px)`);
-    console.log(`  → Extrayendo píxeles opacos...`);
+    // Convertir a escala de grises y detectar bordes
+    image.greyscale();
+    
+    // Aplicar threshold para binarizar
+    const threshold = 128;
+    image.scan(0, 0, width, height, (x, y) => {
+      const idx = image.getPixelIndex(x, y);
+      const brightness = (image.bitmap.data[idx] + image.bitmap.data[idx + 1] + image.bitmap.data[idx + 2]) / 3;
+      const val = brightness > threshold ? 255 : 0;
+      image.bitmap.data[idx] = val;
+      image.bitmap.data[idx + 1] = val;
+      image.bitmap.data[idx + 2] = val;
+    });
 
-    // Extraer píxeles donde hay contenido (alpha > 100)
-    // RGBA format: 4 bytes por píxel
-    const opaquePixels = [];
-    for (let i = 0; i < rawData.length; i += 4) {
-      const r = rawData[i];
-      const g = rawData[i + 1];
-      const b = rawData[i + 2];
-      const a = rawData[i + 3];
+    // Detectar contornos usando Sobel
+    const edges = detectEdges(image);
 
-      // Si hay alpha significativo, es parte del logo
-      if (a > 100) {
-        const brightness = (r * 0.299 + g * 0.587 + b * 0.114);
-        opaquePixels.push(brightness > 128 ? 1 : 0);
-      } else {
-        opaquePixels.push(0); // Transparente = fondo
-      }
-    }
-
-    console.log(`  → Detectando contornos...`);
-
-    // Encontrar bounding box del contenido
-    const bounds = findBounds(opaquePixels, width, height);
-    console.log(`  ✓ Contenido en: [${bounds.minX}, ${bounds.minY}, ${bounds.maxX}, ${bounds.maxY}]`);
+    console.log(`  → Trazando contornos...`);
 
     // Extraer contornos
-    const contours = findContours(opaquePixels, width, height);
+    const contours = extractContours(edges, width, height);
 
-    console.log(`  ✓ ${contours.length} contorno(s) encontrado(s)`);
-    console.log(`  → Generando paths vectoriales...`);
-
-    // Convertir contornos a paths SVG
-    const paths = contours.map(contour => simplifyPath(contour, 1));
+    console.log(`  ✓ ${contours.length} contorno(s) detectado(s)`);
 
     // Generar SVG
-    const svg = generateSVG(paths, width, height);
+    const svg = generateSVG(contours, width, height);
 
     // Guardar
     fs.writeFileSync(outputPath, svg);
 
-    console.log(`  ✓ SVG generado`);
+    console.log(`  ✓ SVG generado y guardado`);
 
     // Estadísticas
     const originalStats = fs.statSync(inputPath);
@@ -116,70 +100,56 @@ async function processImageToSvg(inputPath, outputPath, logo) {
     return true;
   } catch (error) {
     console.error(`  ✗ Error: ${error.message}\n`);
+    console.error(error.stack);
     return false;
   }
 }
 
 /**
- * Encontrar bounding box del contenido
+ * Detectar bordes usando Sobel
  */
-function findBounds(pixels, width, height) {
-  let minX = width, minY = height, maxX = 0, maxY = 0;
-  let found = false;
+function detectEdges(image) {
+  const { width, height } = image.bitmap;
+  const edges = Array(width * height).fill(0);
 
-  for (let y = 0; y < height; y++) {
-    for (let x = 0; x < width; x++) {
-      if (pixels[y * width + x] > 0) {
-        minX = Math.min(minX, x);
-        minY = Math.min(minY, y);
-        maxX = Math.max(maxX, x);
-        maxY = Math.max(maxY, y);
-        found = true;
+  const sobelX = [[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]];
+  const sobelY = [[-1, -2, -1], [0, 0, 0], [1, 2, 1]];
+
+  for (let y = 1; y < height - 1; y++) {
+    for (let x = 1; x < width - 1; x++) {
+      let gx = 0, gy = 0;
+
+      for (let dy = -1; dy <= 1; dy++) {
+        for (let dx = -1; dx <= 1; dx++) {
+          const idx = (y + dy) * width + (x + dx);
+          const val = image.bitmap.data[idx * 4] / 255;
+          gx += sobelX[dy + 1][dx + 1] * val;
+          gy += sobelY[dy + 1][dx + 1] * val;
+        }
       }
+
+      const magnitude = Math.sqrt(gx * gx + gy * gy);
+      edges[y * width + x] = magnitude > 0.1 ? 1 : 0;
     }
   }
 
-  return found ? { minX, minY, maxX, maxY } : { minX: 0, minY: 0, maxX: width, maxY: height };
+  return edges;
 }
 
 /**
- * Encontrar contornos usando Moore-Neighbor Tracing
+ * Extraer contornos
  */
-function findContours(pixels, width, height) {
-  const visited = new Uint8Array(pixels.length);
+function extractContours(edges, width, height) {
+  const visited = Array(width * height).fill(false);
   const contours = [];
 
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
       const idx = y * width + x;
-
-      // Buscar píxeles de borde (tiene píxel opaco vecino vacío)
-      if (pixels[idx] > 0 && !visited[idx]) {
-        let isBorder = false;
-
-        for (let dy = -1; dy <= 1; dy++) {
-          for (let dx = -1; dx <= 1; dx++) {
-            const nx = x + dx;
-            const ny = y + dy;
-
-            if (nx < 0 || nx >= width || ny < 0 || ny >= height) {
-              isBorder = true;
-              break;
-            }
-
-            if (pixels[ny * width + nx] === 0) {
-              isBorder = true;
-              break;
-            }
-          }
-          if (isBorder) break;
-        }
-
-        if (isBorder) {
-          const contour = traceContour(pixels, visited, width, height, x, y);
-          if (contour.length > 5) {
-            contours.push(contour);
-          }
+      if (edges[idx] && !visited[idx]) {
+        const contour = traceContour(edges, visited, x, y, width, height);
+        if (contour.length > 5) {
+          contours.push(contour);
         }
       }
     }
@@ -189,138 +159,94 @@ function findContours(pixels, width, height) {
 }
 
 /**
- * Rastrear contorno individual
+ * Rastrear un contorno individual
  */
-function traceContour(pixels, visited, width, height, startX, startY) {
+function traceContour(edges, visited, startX, startY, width, height) {
   const contour = [];
-  let x = startX;
-  let y = startY;
-  let direction = 0;
+  let x = startX, y = startY;
+  const stack = [[x, y]];
+  const maxSize = width * height;
 
-  const directions = [
-    { dx: 1, dy: 0 },
-    { dx: 1, dy: 1 },
-    { dx: 0, dy: 1 },
-    { dx: -1, dy: 1 },
-    { dx: -1, dy: 0 },
-    { dx: -1, dy: -1 },
-    { dx: 0, dy: -1 },
-    { dx: 1, dy: -1 }
-  ];
+  while (stack.length > 0 && contour.length < maxSize) {
+    const [cx, cy] = stack.pop();
+    const cidx = cy * width + cx;
 
-  const maxSteps = width * height * 2;
-  let steps = 0;
+    if (cidx < 0 || cidx >= edges.length || visited[cidx]) continue;
 
-  do {
-    contour.push({ x, y });
-    visited[y * width + x] = 1;
+    visited[cidx] = true;
+    contour.push({x: cx, y: cy});
 
-    let found = false;
-
-    for (let i = 0; i < 8; i++) {
-      const nextDir = (direction + i) % 8;
-      const { dx, dy } = directions[nextDir];
-      const nx = x + dx;
-      const ny = y + dy;
-
-      if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
+    // Buscar vecinos
+    for (let dy = -1; dy <= 1; dy++) {
+      for (let dx = -1; dx <= 1; dx++) {
+        if (dx === 0 && dy === 0) continue;
+        const nx = cx + dx, ny = cy + dy;
         const nidx = ny * width + nx;
 
-        if (pixels[nidx] > 0 && !visited[nidx]) {
-          x = nx;
-          y = ny;
-          direction = nextDir;
-          found = true;
-          break;
+        if (nx >= 0 && nx < width && ny >= 0 && ny < height && edges[nidx] && !visited[nidx]) {
+          stack.push([nx, ny]);
         }
       }
     }
-
-    if (!found) break;
-    steps++;
-  } while (steps < maxSteps && !(x === startX && y === startY && contour.length > 10));
+  }
 
   return contour;
 }
 
 /**
- * Simplificar path reduciendo puntos colineales
+ * Generar SVG desde contornos
  */
-function simplifyPath(path, tolerance = 1) {
-  if (path.length < 3) return path;
-
-  const simplified = [path[0]];
-
-  for (let i = 1; i < path.length - 1; i++) {
-    const prev = simplified[simplified.length - 1];
-    const curr = path[i];
-    const next = path[i + 1];
-
-    const dist = pointLineDistance(curr, prev, next);
-
-    if (dist > tolerance) {
-      simplified.push(curr);
-    }
-  }
-
-  simplified.push(path[path.length - 1]);
-  return simplified;
-}
-
-/**
- * Calcular distancia de punto a línea
- */
-function pointLineDistance(point, lineStart, lineEnd) {
-  const dx = lineEnd.x - lineStart.x;
-  const dy = lineEnd.y - lineStart.y;
-  const len = Math.sqrt(dx * dx + dy * dy);
-
-  if (len === 0) return Math.sqrt((point.x - lineStart.x) ** 2 + (point.y - lineStart.y) ** 2);
-
-  const t = Math.max(0, Math.min(1, ((point.x - lineStart.x) * dx + (point.y - lineStart.y) * dy) / (len * len)));
-
-  const projX = lineStart.x + t * dx;
-  const projY = lineStart.y + t * dy;
-
-  return Math.sqrt((point.x - projX) ** 2 + (point.y - projY) ** 2);
-}
-
-/**
- * Generar SVG desde paths
- */
-function generateSVG(paths, width, height) {
+function generateSVG(contours, width, height) {
   let pathsData = '';
 
-  for (const path of paths) {
-    if (path.length < 2) continue;
+  for (const contour of contours) {
+    if (contour.length < 3) continue;
 
-    let pathCmd = `M${path[0].x} ${path[0].y}`;
+    // Simplificar contorno
+    const simplified = simplifyPath(contour, 2);
 
-    for (let i = 1; i < path.length; i++) {
-      pathCmd += ` L${path[i].x} ${path[i].y}`;
+    let pathCmd = `M${simplified[0].x} ${simplified[0].y}`;
+    for (let i = 1; i < simplified.length; i++) {
+      pathCmd += ` L${simplified[i].x} ${simplified[i].y}`;
     }
-
     pathCmd += ' Z';
 
-    pathsData += `  <path d="${pathCmd}" fill="currentColor" stroke="none" stroke-linejoin="round" stroke-linecap="round"/>\n`;
+    pathsData += `  <path d="${pathCmd}" fill="currentColor" stroke="none"/>\n`;
   }
 
-  const svg = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  viewBox="0 0 ${width} ${height}"
-  width="${width}"
-  height="${height}"
-  preserveAspectRatio="xMidYMid meet"
->
-  <style>
-    svg { display: block; }
-    path { fill: inherit; color: inherit; }
-  </style>
+  const svg = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}">
 ${pathsData}</svg>`;
 
   return svg;
 }
+
+/**
+ * Simplificar path
+ */
+function simplifyPath(path, tolerance = 2) {
+  if (path.length < 3) return path;
+  
+  const simplified = [path[0]];
+  
+  for (let i = 1; i < path.length - 1; i++) {
+    const prev = simplified[simplified.length - 1];
+    const curr = path[i];
+    const next = path[i + 1];
+    
+    const dist = Math.abs((next.x - prev.x) * (prev.y - curr.y) - (prev.x - curr.x) * (next.y - prev.y));
+    
+    if (dist > tolerance) {
+      simplified.push(curr);
+    }
+  }
+  
+  simplified.push(path[path.length - 1]);
+  return simplified;
+}
+
+
+
 
 /**
  * Función principal
