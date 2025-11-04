@@ -21,31 +21,10 @@ export default function MapComponent({
   useEffect(() => {
     if (!mapContainer.current) return
 
-    // Initialize map
+    // Initialize map with CartoDB basemap (better CORS support)
     map.current = new maplibregl.Map({
       container: mapContainer.current,
-      style: {
-        version: 8,
-        sources: {
-          'osm-tiles': {
-            type: 'raster',
-            tiles: [
-              'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
-              'https://b.tile.openstreetmap.org/{z}/{x}/{y}.png',
-              'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            ],
-            tileSize: 256,
-            attribution: '© OpenStreetMap contributors',
-          },
-        },
-        layers: [
-          {
-            id: 'osm-tiles',
-            type: 'raster',
-            source: 'osm-tiles',
-          },
-        ],
-      },
+      style: 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
       center: [-74.0721, 4.7110], // Bogotá, Colombia
       zoom: 10,
     })

@@ -4,20 +4,20 @@ import Link from "next/link";
 
 export default function FooterIA() {
   return (
-    <footer className="bg-[#141725] py-16 text-[#B6C2DF]">
+    <footer className="bg-gray-950 py-16 text-gray-300 border-t border-cyan-500/20">
       <div className="mx-auto max-w-7xl px-4">
         <div className="grid grid-cols-1 gap-12 text-center md:grid-cols-4 md:text-left">
           {/* Marca */}
           <div>
-            <h3 className="text-lg font-bold text-[#F3F6FF]">Aquatech IA</h3>
-            <p className="mt-2 text-sm">
+            <h3 className="text-lg font-bold text-white">Aquatech IA</h3>
+            <p className="mt-2 text-sm text-gray-400">
               Tecnología para un futuro sostenible.
             </p>
             <div className="mt-4 flex justify-center gap-4 md:justify-start">
               <a
                 aria-label="LinkedIn"
                 href="#"
-                className="hover:text-[#00EFFF] transition-colors"
+                className="text-gray-400 transition-colors duration-300 hover:text-cyan-400"
               >
                 <svg
                   fill="currentColor"
@@ -32,7 +32,7 @@ export default function FooterIA() {
               <a
                 aria-label="X (Twitter)"
                 href="#"
-                className="hover:text-[#00EFFF] transition-colors"
+                className="text-gray-400 transition-colors duration-300 hover:text-cyan-400"
               >
                 <svg
                   fill="currentColor"
@@ -47,7 +47,7 @@ export default function FooterIA() {
               <a
                 aria-label="YouTube"
                 href="#"
-                className="hover:text-[#00EFFF] transition-colors"
+                className="text-gray-400 transition-colors duration-300 hover:text-cyan-400"
               >
                 <svg
                   fill="currentColor"
@@ -64,37 +64,37 @@ export default function FooterIA() {
 
           {/* Mapa del sitio */}
           <div>
-            <h3 className="text-sm font-bold uppercase tracking-wider text-[#F3F6FF]">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-white">
               Mapa del sitio
             </h3>
             <nav className="mt-4 flex flex-col gap-2">
               <Link
                 href="/ia/nosotros"
-                className="text-sm hover:text-[#00EFFF] transition-colors"
+                className="text-sm text-gray-400 transition-colors duration-300 hover:text-cyan-400"
               >
                 Nosotros
               </Link>
               <Link
                 href="/ia/blog"
-                className="text-sm hover:text-[#00EFFF] transition-colors"
+                className="text-sm text-gray-400 transition-colors duration-300 hover:text-cyan-400"
               >
                 Blog
               </Link>
               <Link
                 href="/ia/herramientas"
-                className="text-sm hover:text-[#00EFFF] transition-colors"
+                className="text-sm text-gray-400 transition-colors duration-300 hover:text-cyan-400"
               >
                 Herramientas
               </Link>
               <Link
                 href="/ia/autor"
-                className="text-sm hover:text-[#00EFFF] transition-colors"
+                className="text-sm text-gray-400 transition-colors duration-300 hover:text-cyan-400"
               >
                 Autor
               </Link>
               <Link
                 href="/ia/productos"
-                className="text-sm hover:text-[#00EFFF] transition-colors"
+                className="text-sm text-gray-400 transition-colors duration-300 hover:text-cyan-400"
               >
                 Productos
               </Link>
@@ -103,25 +103,25 @@ export default function FooterIA() {
 
           {/* Recursos */}
           <div>
-            <h3 className="text-sm font-bold uppercase tracking-wider text-[#F3F6FF]">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-white">
               Recursos
             </h3>
             <nav className="mt-4 flex flex-col gap-2">
               <Link
                 href="/soporte"
-                className="text-sm hover:text-[#00EFFF] transition-colors"
+                className="text-sm text-gray-400 transition-colors duration-300 hover:text-cyan-400"
               >
                 Soporte
               </Link>
               <Link
                 href="/faq"
-                className="text-sm hover:text-[#00EFFF] transition-colors"
+                className="text-sm text-gray-400 transition-colors duration-300 hover:text-cyan-400"
               >
                 FAQ
               </Link>
               <Link
                 href="/contacto"
-                className="text-sm hover:text-[#00EFFF] transition-colors"
+                className="text-sm text-gray-400 transition-colors duration-300 hover:text-cyan-400"
               >
                 Contacto
               </Link>
@@ -130,10 +130,10 @@ export default function FooterIA() {
 
           {/* Newsletter */}
           <div>
-            <h3 className="text-sm font-bold uppercase tracking-wider text-[#F3F6FF]">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-white">
               Newsletter
             </h3>
-            <p className="mt-4 text-sm">
+            <p className="mt-4 text-sm text-gray-400">
               Suscríbete para recibir las últimas noticias sobre IA.
             </p>
             <form
@@ -148,13 +148,13 @@ export default function FooterIA() {
                 type="email"
                 required
                 placeholder="Tu email"
-                className="w-full rounded-l-lg border-0 bg-white/5 px-4 py-2 text-sm text-[#F3F6FF]
-                           placeholder:text-[#8EA0C0] focus:outline-none focus:ring-1 focus:ring-[#00EFFF]"
+                className="w-full rounded-l-lg bg-gray-900/50 border border-cyan-500/30 px-4 py-2 text-sm text-white
+                           placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-all duration-300"
               />
               <button
                 type="submit"
-                className="rounded-r-lg bg-[#00EFFF] px-4 py-2 text-sm font-bold text-[#10111A]
-                           hover:opacity-90 transition-opacity flex items-center justify-center"
+                className="rounded-r-lg bg-cyan-500 px-4 py-2 text-sm font-bold text-black
+                           hover:bg-cyan-400 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/50 flex items-center justify-center"
               >
                 <svg
                   className="h-4 w-4"
