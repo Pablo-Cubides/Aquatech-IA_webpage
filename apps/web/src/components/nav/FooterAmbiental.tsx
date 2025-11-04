@@ -4,20 +4,20 @@ import Link from "next/link";
 
 export default function FooterAmbiental() {
   return (
-    <footer className="bg-gray-50 py-16 text-gray-600">
+    <footer className="bg-white py-16 text-gray-600 border-t border-blue-600/20">
       <div className="mx-auto max-w-7xl px-4">
         <div className="grid grid-cols-1 gap-12 text-center md:grid-cols-4 md:text-left">
           {/* Marca */}
           <div>
-            <h3 className="text-lg font-bold text-[#0D161C]">Aquatech IA</h3>
-            <p className="mt-2 text-sm">
+            <h3 className="text-lg font-bold text-black">Aquatech IA</h3>
+            <p className="mt-2 text-sm text-gray-600">
               Tecnología para un futuro sostenible.
             </p>
             <div className="mt-4 flex justify-center gap-4 md:justify-start">
               <a
                 aria-label="LinkedIn"
                 href="#"
-                className="hover:text-[#0077B6] transition-colors"
+                className="text-gray-600 transition-colors duration-300 hover:text-blue-600"
               >
                 <svg
                   fill="currentColor"
@@ -32,7 +32,7 @@ export default function FooterAmbiental() {
               <a
                 aria-label="X"
                 href="#"
-                className="hover:text-[#0077B6] transition-colors"
+                className="text-gray-600 transition-colors duration-300 hover:text-blue-600"
               >
                 <svg
                   fill="currentColor"
@@ -47,7 +47,7 @@ export default function FooterAmbiental() {
               <a
                 aria-label="YouTube"
                 href="#"
-                className="hover:text-[#0077B6] transition-colors"
+                className="text-gray-600 transition-colors duration-300 hover:text-blue-600"
               >
                 <svg
                   fill="currentColor"
@@ -64,37 +64,37 @@ export default function FooterAmbiental() {
 
           {/* Mapa del sitio */}
           <div>
-            <h3 className="text-sm font-bold uppercase tracking-wider text-[#0D161C]">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-black">
               Mapa del sitio
             </h3>
             <nav className="mt-4 flex flex-col gap-2">
               <Link
                 href="/ambiental/nosotros"
-                className="text-sm hover:text-[#0077B6] transition-colors"
+                className="text-sm text-gray-600 transition-colors duration-300 hover:text-blue-600"
               >
                 Nosotros
               </Link>
               <Link
                 href="/ambiental/blog"
-                className="text-sm hover:text-[#0077B6] transition-colors"
+                className="text-sm text-gray-600 transition-colors duration-300 hover:text-blue-600"
               >
                 Blog
               </Link>
               <Link
                 href="/ambiental/herramientas"
-                className="text-sm hover:text-[#0077B6] transition-colors"
+                className="text-sm text-gray-600 transition-colors duration-300 hover:text-blue-600"
               >
                 Herramientas
               </Link>
               <Link
                 href="/ambiental/autor"
-                className="text-sm hover:text-[#0077B6] transition-colors"
+                className="text-sm text-gray-600 transition-colors duration-300 hover:text-blue-600"
               >
                 Autor
               </Link>
               <Link
                 href="/ambiental/productos"
-                className="text-sm hover:text-[#0077B6] transition-colors"
+                className="text-sm text-gray-600 transition-colors duration-300 hover:text-blue-600"
               >
                 Productos
               </Link>
@@ -103,25 +103,25 @@ export default function FooterAmbiental() {
 
           {/* Recursos */}
           <div>
-            <h3 className="text-sm font-bold uppercase tracking-wider text-[#0D161C]">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-black">
               Recursos
             </h3>
             <nav className="mt-4 flex flex-col gap-2">
               <Link
                 href="/soporte"
-                className="text-sm hover:text-[#0077B6] transition-colors"
+                className="text-sm text-gray-600 transition-colors duration-300 hover:text-blue-600"
               >
                 Soporte
               </Link>
               <Link
                 href="/faq"
-                className="text-sm hover:text-[#0077B6] transition-colors"
+                className="text-sm text-gray-600 transition-colors duration-300 hover:text-blue-600"
               >
                 FAQ
               </Link>
               <Link
                 href="/contacto"
-                className="text-sm hover:text-[#0077B6] transition-colors"
+                className="text-sm text-gray-600 transition-colors duration-300 hover:text-blue-600"
               >
                 Contacto
               </Link>
@@ -130,10 +130,10 @@ export default function FooterAmbiental() {
 
           {/* Newsletter */}
           <div>
-            <h3 className="text-sm font-bold uppercase tracking-wider text-[#0D161C]">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-black">
               Newsletter
             </h3>
-            <p className="mt-4 text-sm">
+            <p className="mt-4 text-sm text-gray-600">
               Suscríbete para recibir las últimas noticias.
             </p>
             <form
@@ -147,17 +147,17 @@ export default function FooterAmbiental() {
                 type="email"
                 required
                 placeholder="Tu email"
-                className="w-full rounded-l-lg border border-gray-300 bg-white px-4 py-2 text-sm text-[#0D161C]
-                           placeholder:text-gray-500 focus:ring-1 focus:ring-[#0077B6] focus:border-[#0077B6]"
+                className="w-full rounded-l-lg border border-blue-600/30 bg-white px-4 py-2 text-sm text-black
+                           placeholder:text-gray-500 focus:ring-1 focus:ring-blue-600 focus:border-blue-600 transition-all duration-300"
               />
               <button
                 type="submit"
-                className="rounded-r-lg bg-[#0077B6] px-4 py-2 text-sm font-bold text-white
-                           hover:bg-[#005f8a] transition-colors"
+                className="rounded-r-lg bg-blue-600 px-4 py-2 text-sm font-bold text-white
+                           hover:bg-blue-700 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/50"
               >
                 Enviar
               </button>
-            </form>
+            </form>>
           </div>
         </div>
 
