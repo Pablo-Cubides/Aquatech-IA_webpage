@@ -1,20 +1,20 @@
 body {
   font-family: 'Inter', Arial, sans-serif;
-  background: #fff;
-  color: #222;
+  background: #10111A;
+  color: #ffffff;
   margin: 0;
   padding: 0;
 }
 
 .case-btn:focus {
-  outline: 2px solid #1976d2;
+  outline: 2px solid #00EFFF;
 }
 
 ::-webkit-scrollbar {
   width: 8px;
-  background: #e3f2fd;
+  background: #1a1b2e;
 }
 ::-webkit-scrollbar-thumb {
-  background: #90caf9;
+  background: #00EFFF;
   border-radius: 4px;
 }
