@@ -293,9 +293,9 @@ export default function IAAutorPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
 
-      <main className="body-font bg-[var(--bg-primary)] text-[var(--text-secondary)]">
+      <main className="body-font bg-[#10111A] text-gray-400">
         {/* Header con breadcrumb */}
-        <header className="bg-[var(--bg-secondary)]/80 backdrop-blur border-b border-[var(--border-secondary)] sticky top-0 z-40">
+        <header className="bg-[#1a1b2e]/80 backdrop-blur border-b border-[rgba(0,239,255,0.1)] sticky top-0 z-40">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               <nav aria-label="Breadcrumb" className="text-sm">
@@ -303,7 +303,7 @@ export default function IAAutorPage() {
                   <li>
                     <Link
                       href="/ia"
-                      className="text-[var(--text-muted)] hover:text-[var(--accent-primary)] transition-colors"
+                      className="text-gray-500 hover:text-[#00efff] transition-colors"
                     >
                       Portal IA
                     </Link>
@@ -314,7 +314,7 @@ export default function IAAutorPage() {
                   <li>
                     <Link
                       href="/ia/blog"
-                      className="text-[var(--text-muted)] hover:text-[var(--accent-primary)] transition-colors"
+                      className="text-gray-500 hover:text-[#00efff] transition-colors"
                     >
                       Blog
                     </Link>
@@ -322,7 +322,7 @@ export default function IAAutorPage() {
                   <li>
                     <ChevronRight className="text-gray-500" />
                   </li>
-                  <li className="font-medium text-[var(--accent-primary)]">
+                  <li className="font-medium text-[#00efff]">
                     Pablo Cubides
                   </li>
                 </ol>
@@ -330,7 +330,7 @@ export default function IAAutorPage() {
 
               <Link
                 href="/ia/blog"
-                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-[var(--accent-primary)] hover:bg-white/5 rounded-lg transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-[#00efff] hover:bg-white/5 rounded-lg transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" />
                 Volver al Blog
@@ -340,10 +340,10 @@ export default function IAAutorPage() {
         </header>
 
         {/* HERO Section */}
-        <section className="gradient-bg py-16 md:py-24 border-b border-[var(--border-secondary)] relative overflow-hidden">
+        <section className="gradient-bg py-16 md:py-24 border-b border-[rgba(0,239,255,0.1)] relative overflow-hidden">
           <div className="absolute inset-0 pointer-events-none opacity-20">
-            <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-[var(--accent-primary)] rounded-full blur-3xl opacity-20"></div>
-            <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-[var(--accent-purple)] rounded-full blur-3xl opacity-20"></div>
+            <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-[#00efff] rounded-full blur-3xl opacity-20"></div>
+            <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-[#0095FF] rounded-full blur-3xl opacity-20"></div>
           </div>
 
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative">
@@ -355,16 +355,16 @@ export default function IAAutorPage() {
                 </span>
               </div>
 
-              <h1 className="title-font text-4xl md:text-5xl lg:text-6xl font-bold text-[var(--text-primary)] leading-tight">
+              <h1 className="title-font text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
                 Pablo Andrés Cubides Guerrero
               </h1>
-              <p className="mt-3 text-lg md:text-xl text-[var(--text-primary)] font-medium">
+              <p className="mt-3 text-lg md:text-xl text-white font-medium">
                 Ingeniero Químico · M. Sc. en Ingeniería Ambiental · Docente
                 universitario · Desarrollador en IA, redes neuronales y
                 optimización
               </p>
 
-              <p className="mt-4 text-[var(--text-secondary)] max-w-2xl leading-relaxed">
+              <p className="mt-4 text-gray-400 max-w-2xl leading-relaxed">
                 IA aplicada a optimización, modelación de procesos con redes
                 neuronales, análisis de datos y desarrollo de software. Integro
                 LLMs y agentes, modelos generativos y visión por computador con
@@ -384,14 +384,14 @@ export default function IAAutorPage() {
                   href="https://www.linkedin.com/in/pacubidesg"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center rounded-lg border border-[var(--accent-primary)] text-[var(--accent-primary)] px-6 py-3 font-semibold hover:bg-white/5 transition-colors"
+                  className="inline-flex items-center justify-center rounded-lg border border-[#00efff] text-[#00efff] px-6 py-3 font-semibold hover:bg-white/5 transition-colors"
                 >
                   <Linkedin className="w-5 h-5 mr-2" />
                   LinkedIn
                 </a>
                 <Link
                   href="#articulos"
-                  className="inline-flex items-center justify-center rounded-lg border border-[var(--border-secondary)] px-6 py-3 font-semibold hover:bg-white/5 transition-colors text-[var(--text-primary)]"
+                  className="inline-flex items-center justify-center rounded-lg border border-[rgba(0,239,255,0.1)] px-6 py-3 font-semibold hover:bg-white/5 transition-colors text-white"
                 >
                   <Brain className="w-5 h-5 mr-2" />
                   Ver Artículos IA
@@ -412,7 +412,7 @@ export default function IAAutorPage() {
                 ].map((tag) => (
                   <span
                     key={tag}
-                    className="inline-flex items-center rounded-full bg-white/5 border border-[var(--border-primary)] px-4 py-2 text-sm font-medium text-[var(--text-secondary)] hover:border-[var(--accent-primary)] transition-colors"
+                    className="inline-flex items-center rounded-full bg-white/5 border border-[rgba(0,239,255,0.1)] px-4 py-2 text-sm font-medium text-gray-400 hover:border-[#00efff] transition-colors"
                   >
                     {tag}
                   </span>
@@ -428,7 +428,7 @@ export default function IAAutorPage() {
                   alt="Retrato de Pablo Andrés Cubides Guerrero - IA Specialist"
                   width={360}
                   height={360}
-                  className="relative rounded-full border-4 border-[var(--bg-secondary)] shadow-xl glow-effect"
+                  className="relative rounded-full border-4 border-[#1a1b2e] shadow-xl glow-effect"
                   priority
                 />
               </div>
@@ -437,13 +437,13 @@ export default function IAAutorPage() {
         </section>
 
         {/* SOBRE EL AUTOR */}
-        <section className="py-16 md:py-24 bg-[var(--bg-secondary)]">
+        <section className="py-16 md:py-24 bg-[#1a1b2e]">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-7">
-              <h2 className="title-font text-3xl md:text-4xl mb-6 text-[var(--text-primary)]">
+              <h2 className="title-font text-3xl md:text-4xl mb-6 text-white">
                 Resumen ejecutivo
               </h2>
-              <div className="space-y-4 text-[var(--text-secondary)] leading-relaxed">
+              <div className="space-y-4 text-gray-400 leading-relaxed">
                 <p>
                   Profesional colombiano con enfoque en IA y redes neuronales
                   aplicado a optimización, modelación de procesos, análisis de
@@ -453,8 +453,8 @@ export default function IAAutorPage() {
                   Latinoamérica.
                 </p>
 
-                <div className="bg-gradient-to-r from-[var(--accent-purple)]/10 to-[var(--accent-pink)]/10 border border-[var(--accent-purple)]/20 rounded-lg p-4 mt-6">
-                  <h3 className="title-font text-lg font-semibold text-[var(--text-primary)] mb-3">
+                <div className="bg-gradient-to-r from-[rgba(0,239,255,0.1)] to-[rgba(0,149,255,0.1)] border border-[rgba(0,239,255,0.2)] rounded-lg p-4 mt-6">
+                  <h3 className="title-font text-lg font-semibold text-white mb-3">
                     Lo que aporto a equipos y organizaciones
                   </h3>
                   <ul className="list-disc ml-5 space-y-2 text-sm">
@@ -481,7 +481,7 @@ export default function IAAutorPage() {
               </div>
             </div>
             <div className="lg:col-span-5">
-              <div className="rounded-xl overflow-hidden border border-[var(--border-secondary)]">
+              <div className="rounded-xl overflow-hidden border border-[rgba(0,239,255,0.1)]">
                 <Image
                   src="/images/authors/pablo-cubides-ai-work.jpg"
                   alt="Pablo Cubides trabajando en arquitecturas de IA"
@@ -497,7 +497,7 @@ export default function IAAutorPage() {
         {/* COMPETENCIAS CLAVE */}
         <section className="py-16 md:py-24">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <h2 className="title-font text-3xl md:text-4xl text-[var(--text-primary)] text-center mb-10">
+            <h2 className="title-font text-3xl md:text-4xl text-white text-center mb-10">
               Competencias clave en IA
             </h2>
 
@@ -521,7 +521,7 @@ export default function IAAutorPage() {
               ].map((tag) => (
                 <span
                   key={tag}
-                  className="inline-flex items-center rounded-full bg-[var(--bg-secondary)] border border-[var(--border-primary)] px-4 py-2 text-sm font-medium text-[var(--text-secondary)] shadow-sm hover:border-[var(--accent-primary)] hover:shadow-md transition-all"
+                  className="inline-flex items-center rounded-full bg-[#1a1b2e] border border-[rgba(0,239,255,0.1)] px-4 py-2 text-sm font-medium text-gray-400 shadow-sm hover:border-[#00efff] hover:shadow-md transition-all"
                 >
                   {tag}
                 </span>
@@ -549,9 +549,9 @@ export default function IAAutorPage() {
         </section>
 
         {/* PROYECTOS DE IA */}
-        <section className="py-16 md:py-24 bg-[var(--bg-secondary)]">
+        <section className="py-16 md:py-24 bg-[#1a1b2e]">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <h2 className="title-font text-3xl md:text-4xl text-[var(--text-primary)] text-center mb-12">
+            <h2 className="title-font text-3xl md:text-4xl text-white text-center mb-12">
               Proyectos y desarrollos de IA
             </h2>
 
@@ -585,7 +585,7 @@ export default function IAAutorPage() {
         {/* STACK TECNOLÓGICO */}
         <section className="py-16 md:py-24">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <h2 className="title-font text-3xl md:text-4xl text-[var(--text-primary)] text-center mb-12">
+            <h2 className="title-font text-3xl md:text-4xl text-white text-center mb-12">
               Stack tecnológico IA
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -611,10 +611,10 @@ export default function IAAutorPage() {
         {/* ARTÍCULOS DESTACADOS */}
         <section
           id="articulos"
-          className="py-16 md:py-24 bg-[var(--bg-secondary)]"
+          className="py-16 md:py-24 bg-[#1a1b2e]"
         >
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <h2 className="title-font text-3xl md:text-4xl text-[var(--text-primary)] text-center mb-12">
+            <h2 className="title-font text-3xl md:text-4xl text-white text-center mb-12">
               Artículos recientes sobre IA
             </h2>
 
@@ -657,10 +657,10 @@ export default function IAAutorPage() {
         {/* FAQ */}
         <section className="py-16 md:py-24">
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-            <h2 className="title-font text-3xl md:text-4xl text-[var(--text-primary)] text-center mb-10">
+            <h2 className="title-font text-3xl md:text-4xl text-white text-center mb-10">
               Preguntas frecuentes sobre IA
             </h2>
-            <div className="divide-y divide-[var(--border-secondary)] rounded-xl border border-[var(--border-secondary)] bg-[var(--bg-tertiary)]">
+            <div className="divide-y divide-[rgba(0,239,255,0.1)] rounded-xl border border-[rgba(0,239,255,0.1)] bg-[#1a1b2e]">
               <Faq
                 q="¿Qué construyes con LLMs y agentes?"
                 a="Asistentes, automatizaciones y prototipos productivos con RAG/agentes, integrados a FastAPI y Next.js, con observabilidad completa y buenas prácticas de desarrollo."
@@ -678,13 +678,13 @@ export default function IAAutorPage() {
         </section>
 
         {/* HERRAMIENTAS ESTUDIANTILES */}
-        <section className="py-16 md:py-24 bg-[var(--bg-secondary)]">
+        <section className="py-16 md:py-24 bg-[#1a1b2e]">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <h2 className="title-font text-3xl md:text-4xl mb-4">
                 Herramientas para Estudiantes
               </h2>
-              <p className="text-[var(--text-secondary)] max-w-2xl mx-auto">
+              <p className="text-gray-400 max-w-2xl mx-auto">
                 Recursos interactivos diseñados para mejorar tu experiencia de
                 aprendizaje en IA y tecnología.
               </p>
@@ -692,36 +692,36 @@ export default function IAAutorPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {/* Consulta tu Nota */}
-              <article className="bg-[var(--bg-primary)] rounded-2xl p-6 border border-[var(--border-primary)] hover:border-[var(--accent-cyan)] transition-all duration-300 hover:shadow-lg group">
+              <article className="bg-[#10111A] rounded-2xl p-6 border border-[rgba(0,239,255,0.1)] hover:border-[#00efff] transition-all duration-300 hover:shadow-lg group">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-[var(--accent-cyan)] to-[var(--accent-purple)] flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-[#00efff] to-[#0095FF] flex items-center justify-center">
                     <FileText className="w-6 h-6 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold group-hover:text-[var(--accent-cyan)] transition-colors">
+                  <h3 className="text-xl font-bold group-hover:text-[#00efff] transition-colors">
                     Consulta tu Nota
                   </h3>
                 </div>
-                <p className="text-[var(--text-secondary)] mb-6 leading-relaxed">
+                <p className="text-gray-400 mb-6 leading-relaxed">
                   Revisa tus calificaciones, progreso y retroalimentación de
                   manera rápida y organizada.
                 </p>
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center gap-2 text-sm">
-                    <div className="w-2 h-2 rounded-full bg-[var(--accent-cyan)]"></div>
+                    <div className="w-2 h-2 rounded-full bg-[#00efff]"></div>
                     <span>Historial completo</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm">
-                    <div className="w-2 h-2 rounded-full bg-[var(--accent-purple)]"></div>
+                    <div className="w-2 h-2 rounded-full bg-[#0095FF]"></div>
                     <span>Estadísticas detalladas</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm">
-                    <div className="w-2 h-2 rounded-full bg-[var(--accent-pink)]"></div>
+                    <div className="w-2 h-2 rounded-full bg-[#00efff]"></div>
                     <span>Exportar reportes</span>
                   </div>
                 </div>
                 <Link
                   href="/ia/autor/herramientas/consulta-nota"
-                  className="inline-flex items-center gap-2 w-full justify-center bg-gradient-to-r from-[var(--accent-cyan)] to-[var(--accent-purple)] text-white font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-opacity"
+                  className="inline-flex items-center gap-2 w-full justify-center bg-gradient-to-r from-[#00efff] to-[#0095FF] text-white font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-opacity"
                 >
                   <FileText className="w-4 h-4" />
                   Consultar Notas
@@ -729,36 +729,36 @@ export default function IAAutorPage() {
               </article>
 
               {/* Ruleta de Preguntas */}
-              <article className="bg-[var(--bg-primary)] rounded-2xl p-6 border border-[var(--border-primary)] hover:border-[var(--accent-purple)] transition-all duration-300 hover:shadow-lg group">
+              <article className="bg-[#10111A] rounded-2xl p-6 border border-[rgba(0,239,255,0.1)] hover:border-[#0095FF] transition-all duration-300 hover:shadow-lg group">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-[var(--accent-purple)] to-[var(--accent-pink)] flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-[#0095FF] to-[#00efff] flex items-center justify-center">
                     <RotateCcw className="w-6 h-6 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold group-hover:text-[var(--accent-purple)] transition-colors">
+                  <h3 className="text-xl font-bold group-hover:text-[#0095FF] transition-colors">
                     Ruleta de Preguntas
                   </h3>
                 </div>
-                <p className="text-[var(--text-secondary)] mb-6 leading-relaxed">
+                <p className="text-gray-400 mb-6 leading-relaxed">
                   Genera preguntas aleatorias sobre IA, machine learning y
                   programación para estudiar.
                 </p>
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center gap-2 text-sm">
-                    <div className="w-2 h-2 rounded-full bg-[var(--accent-purple)]"></div>
+                    <div className="w-2 h-2 rounded-full bg-[#0095FF]"></div>
                     <span>Múltiples categorías</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm">
-                    <div className="w-2 h-2 rounded-full bg-[var(--accent-pink)]"></div>
+                    <div className="w-2 h-2 rounded-full bg-[#00efff]"></div>
                     <span>Niveles de dificultad</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm">
-                    <div className="w-2 h-2 rounded-full bg-[var(--accent-cyan)]"></div>
+                    <div className="w-2 h-2 rounded-full bg-[#0095FF]"></div>
                     <span>Explicaciones detalladas</span>
                   </div>
                 </div>
                 <Link
                   href="/ia/autor/herramientas/ruleta-preguntas"
-                  className="inline-flex items-center gap-2 w-full justify-center bg-gradient-to-r from-[var(--accent-purple)] to-[var(--accent-pink)] text-white font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-opacity"
+                  className="inline-flex items-center gap-2 w-full justify-center bg-gradient-to-r from-[#0095FF] to-[#00efff] text-white font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-opacity"
                 >
                   <RotateCcw className="w-4 h-4" />
                   Girar Ruleta
@@ -766,36 +766,36 @@ export default function IAAutorPage() {
               </article>
 
               {/* Análisis de Correlaciones */}
-              <article className="bg-[var(--bg-primary)] rounded-2xl p-6 border border-[var(--border-primary)] hover:border-[var(--accent-pink)] transition-all duration-300 hover:shadow-lg group">
+              <article className="bg-[#10111A] rounded-2xl p-6 border border-[rgba(0,239,255,0.1)] hover:border-[#00efff] transition-all duration-300 hover:shadow-lg group">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-[var(--accent-pink)] to-[var(--accent-orange)] flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-[#00efff] to-[#0095FF] flex items-center justify-center">
                     <TrendingUp className="w-6 h-6 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold group-hover:text-[var(--accent-pink)] transition-colors">
+                  <h3 className="text-xl font-bold group-hover:text-[#00efff] transition-colors">
                     Análisis de Correlaciones
                   </h3>
                 </div>
-                <p className="text-[var(--text-secondary)] mb-6 leading-relaxed">
+                <p className="text-gray-400 mb-6 leading-relaxed">
                   Visualiza y analiza correlaciones entre variables con gráficos
                   interactivos y estadísticas.
                 </p>
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center gap-2 text-sm">
-                    <div className="w-2 h-2 rounded-full bg-[var(--accent-pink)]"></div>
+                    <div className="w-2 h-2 rounded-full bg-[#00efff]"></div>
                     <span>Gráficos interactivos</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm">
-                    <div className="w-2 h-2 rounded-full bg-[var(--accent-orange)]"></div>
+                    <div className="w-2 h-2 rounded-full bg-[#0095FF]"></div>
                     <span>Matrices de correlación</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm">
-                    <div className="w-2 h-2 rounded-full bg-[var(--accent-purple)]"></div>
+                    <div className="w-2 h-2 rounded-full bg-[#00efff]"></div>
                     <span>Exportar análisis</span>
                   </div>
                 </div>
                 <Link
                   href="/ia/autor/herramientas/analisis-correlaciones"
-                  className="inline-flex items-center gap-2 w-full justify-center bg-gradient-to-r from-[var(--accent-pink)] to-[var(--accent-orange)] text-white font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-opacity"
+                  className="inline-flex items-center gap-2 w-full justify-center bg-gradient-to-r from-[#00efff] to-[#0095FF] text-white font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-opacity"
                 >
                   <TrendingUp className="w-4 h-4" />
                   Analizar Datos

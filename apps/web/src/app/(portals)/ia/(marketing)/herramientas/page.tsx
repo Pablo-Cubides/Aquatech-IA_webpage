@@ -30,18 +30,18 @@ export default function IAHerramientasPage() {
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight bg-gradient-to-br from-white to-[#00efff] bg-clip-text text-transparent mb-6">
               Herramientas de IA
             </h1>
-            <p className="text-lg md:text-xl text-[var(--text-secondary)] mb-8 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-gray-400 mb-8 max-w-3xl mx-auto leading-relaxed">
               Explore nuestros módulos de inteligencia artificial diseñados para
               potenciar la gestión y el análisis en el sector del agua.
             </p>
 
             {/* Breadcrumb */}
             <nav className="flex justify-center mb-8" aria-label="Breadcrumb">
-              <ol className="flex items-center space-x-2 text-sm text-[var(--text-secondary)]">
+              <ol className="flex items-center space-x-2 text-sm text-gray-400">
                 <li>
                   <Link
                     href="/ia"
-                    className="hover:text-[var(--primary-cyan)] transition-colors"
+                    className="hover:text-[#00efff] transition-colors"
                   >
                     Inicio
                   </Link>
@@ -59,7 +59,7 @@ export default function IAHerramientasPage() {
                     />
                   </svg>
                 </li>
-                <li className="text-[var(--primary-cyan)] font-medium">
+                <li className="text-[#00efff] font-medium">
                   Herramientas
                 </li>
               </ol>
@@ -67,23 +67,23 @@ export default function IAHerramientasPage() {
 
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-              <div className="bg-[var(--panel-bg)]/50 backdrop-blur-sm rounded-xl p-6 border border-[var(--border-color)]">
-                <div className="text-3xl font-bold text-[var(--primary-cyan)] mb-2">
+              <div className="bg-[#1a1b2e]/50 backdrop-blur-sm rounded-xl p-6 border border-[rgba(0,239,255,0.1)]">
+                <div className="text-3xl font-bold text-[#00efff] mb-2">
                   3
                 </div>
-                <div className="text-[var(--text-secondary)]">
+                <div className="text-gray-400">
                   Módulos Disponibles
                 </div>
               </div>
-              <div className="bg-[var(--panel-bg)]/50 backdrop-blur-sm rounded-xl p-6 border border-[var(--border-color)]">
-                <div className="text-3xl font-bold text-[var(--secondary-cyan)] mb-2">
+              <div className="bg-[#1a1b2e]/50 backdrop-blur-sm rounded-xl p-6 border border-[rgba(0,239,255,0.1)]">
+                <div className="text-3xl font-bold text-[#0095FF] mb-2">
                   100%
                 </div>
-                <div className="text-[var(--text-secondary)]">Interactivos</div>
+                <div className="text-gray-400">Interactivos</div>
               </div>
-              <div className="bg-[var(--panel-bg)]/50 backdrop-blur-sm rounded-xl p-6 border border-[var(--border-color)]">
+              <div className="bg-[#1a1b2e]/50 backdrop-blur-sm rounded-xl p-6 border border-[rgba(0,239,255,0.1)]">
                 <div className="text-3xl font-bold text-white mb-2">24/7</div>
-                <div className="text-[var(--text-secondary)]">Acceso</div>
+                <div className="text-gray-400">Acceso</div>
               </div>
             </div>
           </div>
@@ -112,7 +112,7 @@ export default function IAHerramientasPage() {
                   <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white leading-tight">
                     Cómo funcionan los LLMs
                   </h2>
-                  <p className="text-[var(--text-secondary)] mb-8 text-lg leading-relaxed">
+                  <p className="text-gray-400 mb-8 text-lg leading-relaxed">
                     Descubra los componentes fundamentales de los Grandes
                     Modelos de Lenguaje (LLMs) y su proceso para generar texto
                     coherente y relevante.
@@ -129,11 +129,11 @@ export default function IAHerramientasPage() {
                     </ListItem>
                   </ul>
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <Link href="/ia/herramientas/como-funcionan-llm" className="btn btn-primary focus-ring">
+                    <Link href="/ia/herramientas/como-funcionan-llm" className="inline-flex items-center gap-2 px-6 py-3 bg-[#00efff] text-[#10111A] rounded-lg font-semibold hover:bg-white transition-colors">
                       <PlayIcon />
                       Abrir módulo
                     </Link>
-                    <Link href="https://github.com/Pablo-Cubides/Como_funcionan_llm" target="_blank" rel="noopener noreferrer" className="btn btn-secondary focus-ring">
+                    <Link href="https://github.com/Pablo-Cubides/Como_funcionan_llm" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 bg-[#0095FF] text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors">
                       <DocIcon />
                       Ver en GitHub
                     </Link>
@@ -184,7 +184,7 @@ export default function IAHerramientasPage() {
                   <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white leading-tight">
                     Cómo funcionan los modelos de difusión
                   </h2>
-                  <p className="text-[var(--text-secondary)] mb-8 text-lg leading-relaxed">
+                  <p className="text-gray-400 mb-8 text-lg leading-relaxed">
                     Explore el proceso iterativo de los modelos de difusión para
                     generar imágenes de alta calidad a partir de ruido
                     gaussiano.
@@ -201,11 +201,11 @@ export default function IAHerramientasPage() {
                     </ListItem>
                   </ul>
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <Link href="/ia/herramientas/modelos-difusion" className="btn btn-primary focus-ring">
+                    <Link href="/ia/herramientas/modelos-difusion" className="inline-flex items-center gap-2 px-6 py-3 bg-[#00efff] text-[#10111A] rounded-lg font-semibold hover:bg-white transition-colors">
                       <PlayIcon />
                       Abrir módulo
                     </Link>
-                    <Link href="https://github.com/Pablo-Cubides/modelos-difusion" target="_blank" rel="noopener noreferrer" className="btn btn-secondary focus-ring">
+                    <Link href="https://github.com/Pablo-Cubides/modelos-difusion" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 bg-[#0095FF] text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors">
                       <DocIcon />
                       Ver en GitHub
                     </Link>
@@ -232,7 +232,7 @@ export default function IAHerramientasPage() {
                   <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white leading-tight">
                     Cómo la IA filtra las respuestas
                   </h2>
-                  <p className="text-[var(--text-secondary)] mb-8 text-lg leading-relaxed">
+                  <p className="text-gray-400 mb-8 text-lg leading-relaxed">
                     Comprenda los mecanismos de seguridad y moderación que
                     utiliza la IA para analizar y clasificar las entradas del
                     usuario.
@@ -250,11 +250,11 @@ export default function IAHerramientasPage() {
                     </ListItem>
                   </ul>
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <Link href="/ia/herramientas/filtrado-ia" className="btn btn-primary focus-ring">
+                    <Link href="/ia/herramientas/filtrado-ia" className="inline-flex items-center gap-2 px-6 py-3 bg-[#00efff] text-[#10111A] rounded-lg font-semibold hover:bg-white transition-colors">
                       <PlayIcon />
                       Abrir módulo
                     </Link>
-                    <Link href="https://github.com/Pablo-Cubides/filtrado-ia" target="_blank" rel="noopener noreferrer" className="btn btn-secondary focus-ring">
+                    <Link href="https://github.com/Pablo-Cubides/filtrado-ia" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 bg-[#0095FF] text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors">
                       <DocIcon />
                       Ver en GitHub
                     </Link>
@@ -277,18 +277,18 @@ export default function IAHerramientasPage() {
           </div>
 
           {/* Call to Action */}
-          <section className="mt-20 md:mt-32 bg-gradient-to-r from-[var(--panel-bg)] to-[var(--deep-blue)] rounded-2xl p-8 md:p-12 text-center border border-[var(--border-color)] relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-[var(--primary-cyan)]/5 to-[var(--secondary-cyan)]/5"></div>
+          <section className="mt-20 md:mt-32 bg-gradient-to-r from-[#1a1b2e] to-[#0d0e17] rounded-2xl p-8 md:p-12 text-center border border-[rgba(0,239,255,0.1)] relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-[rgba(0,239,255,0.05)] to-[rgba(0,149,255,0.05)]"></div>
             <div className="relative">
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
                 ¿Interesado en desarrollar IA personalizada?
               </h2>
-              <p className="text-xl mb-8 text-[var(--text-secondary)] max-w-2xl mx-auto">
+              <p className="text-xl mb-8 text-gray-400 max-w-2xl mx-auto">
                 Nuestro equipo puede crear soluciones de IA específicas para sus
                 necesidades en el sector acuático.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href="/ia/contacto" className="btn btn-primary">
+                <Link href="/ia/contacto" className="inline-flex items-center gap-2 px-6 py-3 bg-[#00efff] text-[#10111A] rounded-lg font-semibold hover:bg-white transition-colors">
                   <svg
                     className="w-5 h-5"
                     fill="none"
@@ -304,7 +304,7 @@ export default function IAHerramientasPage() {
                   </svg>
                   Contactar Ahora
                 </Link>
-                <Link href="/ia/nosotros" className="btn btn-secondary">
+                <Link href="/ia/nosotros" className="inline-flex items-center gap-2 px-6 py-3 bg-[#0095FF] text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors">
                   <svg
                     className="w-5 h-5"
                     fill="none"
@@ -330,7 +330,7 @@ export default function IAHerramientasPage() {
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
                 ¿Por qué elegir nuestros módulos de IA?
               </h2>
-              <p className="text-lg text-[var(--text-secondary)] max-w-3xl mx-auto">
+              <p className="text-lg text-gray-400 max-w-3xl mx-auto">
                 Tecnología de vanguardia aplicada al aprendizaje y comprensión
                 de la inteligencia artificial
               </p>
@@ -365,13 +365,13 @@ export default function IAHerramientasPage() {
               ].map((feature, index) => (
                 <div
                   key={index}
-                  className="bg-[var(--panel-bg)]/50 p-6 rounded-xl border border-[var(--border-color)] text-center group hover:border-[var(--primary-cyan)]/30 transition-all backdrop-blur-sm"
+                  className="bg-[#1a1b2e]/50 p-6 rounded-xl border border-[rgba(0,239,255,0.1)] text-center group hover:border-[rgba(0,239,255,0.3)] transition-all backdrop-blur-sm"
                 >
                   <div className="text-4xl mb-4">{feature.icon}</div>
-                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[var(--primary-cyan)] transition-colors">
+                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#00efff] transition-colors">
                     {feature.title}
                   </h3>
-                  <p className="text-[var(--text-secondary)]">
+                  <p className="text-gray-400">
                     {feature.description}
                   </p>
                 </div>
@@ -382,14 +382,14 @@ export default function IAHerramientasPage() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-[var(--panel-bg)] border-t border-[var(--border-color)] mt-20">
+      <footer className="bg-[#1a1b2e] border-t border-[rgba(0,239,255,0.1)] mt-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid md:grid-cols-3 gap-8 text-center md:text-left">
             <div>
-              <h3 className="text-xl font-bold mb-4 text-[var(--primary-cyan)]">
+              <h3 className="text-xl font-bold mb-4 text-[#00efff]">
                 AquatechIA
               </h3>
-              <p className="text-[var(--text-secondary)]">
+              <p className="text-gray-400">
                 Democratizando el conocimiento de IA para el sector acuático.
               </p>
             </div>
@@ -397,11 +397,11 @@ export default function IAHerramientasPage() {
               <h3 className="text-lg font-semibold mb-4 text-white">
                 Enlaces Rápidos
               </h3>
-              <ul className="space-y-2 text-[var(--text-secondary)]">
+              <ul className="space-y-2 text-gray-400">
                 <li>
                   <Link
                     href="/ia"
-                    className="hover:text-[var(--primary-cyan)] transition-colors"
+                    className="hover:text-[#00efff] transition-colors"
                   >
                     Inicio
                   </Link>
@@ -409,7 +409,7 @@ export default function IAHerramientasPage() {
                 <li>
                   <Link
                     href="/ia/blog"
-                    className="hover:text-[var(--primary-cyan)] transition-colors"
+                    className="hover:text-[#00efff] transition-colors"
                   >
                     Blog
                   </Link>
@@ -417,7 +417,7 @@ export default function IAHerramientasPage() {
                 <li>
                   <Link
                     href="/ia/nosotros"
-                    className="hover:text-[var(--primary-cyan)] transition-colors"
+                    className="hover:text-[#00efff] transition-colors"
                   >
                     Nosotros
                   </Link>
@@ -425,7 +425,7 @@ export default function IAHerramientasPage() {
                 <li>
                   <Link
                     href="/ia/contacto"
-                    className="hover:text-[var(--primary-cyan)] transition-colors"
+                    className="hover:text-[#00efff] transition-colors"
                   >
                     Contacto
                   </Link>
@@ -434,11 +434,11 @@ export default function IAHerramientasPage() {
             </div>
             <div>
               <h3 className="text-lg font-semibold mb-4 text-white">Módulos</h3>
-              <ul className="space-y-2 text-[var(--text-secondary)]">
+              <ul className="space-y-2 text-gray-400">
                 <li>
                   <Link
                     href="/ia/herramientas/como-funcionan-llm"
-                    className="hover:text-[var(--primary-cyan)] transition-colors text-sm"
+                    className="hover:text-[#00efff] transition-colors text-sm"
                   >
                     Cómo funcionan los LLMs
                   </Link>
@@ -446,7 +446,7 @@ export default function IAHerramientasPage() {
                 <li>
                   <Link
                     href="/ia/herramientas/modelos-difusion"
-                    className="hover:text-[var(--primary-cyan)] transition-colors text-sm"
+                    className="hover:text-[#00efff] transition-colors text-sm"
                   >
                     Modelos de difusión
                   </Link>
@@ -454,7 +454,7 @@ export default function IAHerramientasPage() {
                 <li>
                   <Link
                     href="/ia/herramientas/filtrado-ia"
-                    className="hover:text-[var(--primary-cyan)] transition-colors text-sm"
+                    className="hover:text-[#00efff] transition-colors text-sm"
                   >
                     Filtrado de IA
                   </Link>
@@ -462,8 +462,8 @@ export default function IAHerramientasPage() {
               </ul>
             </div>
           </div>
-          <div className="border-t border-[var(--border-color)] mt-8 pt-8 text-center">
-            <p className="text-[var(--text-secondary)]">
+          <div className="border-t border-[rgba(0,239,255,0.1)] mt-8 pt-8 text-center">
+            <p className="text-gray-400">
               © 2024 AquatechIA. Todos los derechos reservados.
             </p>
           </div>
@@ -478,7 +478,7 @@ function ListItem({ children }: { children: React.ReactNode }) {
   return (
     <li className="flex items-start">
       <svg
-        className="w-6 h-6 text-[var(--primary-cyan)] mr-4 flex-shrink-0 mt-1"
+        className="w-6 h-6 text-[#00efff] mr-4 flex-shrink-0 mt-1"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -491,7 +491,7 @@ function ListItem({ children }: { children: React.ReactNode }) {
           d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
         />
       </svg>
-      <span className="text-[var(--text-secondary)] text-lg">{children}</span>
+      <span className="text-gray-400 text-lg">{children}</span>
     </li>
   );
 }
