@@ -293,9 +293,9 @@ export default function IAAutorPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
 
-      <main className="body-font bg-[#10111A] text-gray-400">
+      <main className="body-font bg-[#000000] text-[#CCCCCC]">
         {/* Header con breadcrumb */}
-        <header className="bg-[#1a1b2e]/80 backdrop-blur border-b border-[rgba(0,239,255,0.1)] sticky top-0 z-40">
+  <header className="bg-[#000000]/80 backdrop-blur border-b border-[rgba(0,239,255,0.1)] sticky top-0 z-40">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               <nav aria-label="Breadcrumb" className="text-sm">
@@ -322,9 +322,7 @@ export default function IAAutorPage() {
                   <li>
                     <ChevronRight className="text-gray-500" />
                   </li>
-                  <li className="font-medium text-[#00efff]">
-                    Pablo Cubides
-                  </li>
+                  <li className="font-medium text-[#00efff]">Pablo Cubides</li>
                 </ol>
               </nav>
 
@@ -434,16 +432,16 @@ export default function IAAutorPage() {
               </div>
             </div>
           </div>
-        </section>
+  </section>
 
-        {/* SOBRE EL AUTOR */}
-        <section className="py-16 md:py-24 bg-[#1a1b2e]">
+  {/* SOBRE EL AUTOR */}
+  <section className="py-16 md:py-24 bg-[#000000]">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-7">
               <h2 className="title-font text-3xl md:text-4xl mb-6 text-white">
                 Resumen ejecutivo
               </h2>
-              <div className="space-y-4 text-gray-400 leading-relaxed">
+              <div className="space-y-4 text-[#CCCCCC] leading-relaxed">
                 <p>
                   Profesional colombiano con enfoque en IA y redes neuronales
                   aplicado a optimización, modelación de procesos, análisis de
@@ -548,8 +546,8 @@ export default function IAAutorPage() {
           </div>
         </section>
 
-        {/* PROYECTOS DE IA */}
-        <section className="py-16 md:py-24 bg-[#1a1b2e]">
+  {/* PROYECTOS DE IA */}
+  <section className="py-16 md:py-24 bg-[#000000]">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <h2 className="title-font text-3xl md:text-4xl text-white text-center mb-12">
               Proyectos y desarrollos de IA
@@ -608,11 +606,8 @@ export default function IAAutorPage() {
           </div>
         </section>
 
-        {/* ARTÍCULOS DESTACADOS */}
-        <section
-          id="articulos"
-          className="py-16 md:py-24 bg-[#1a1b2e]"
-        >
+  {/* ARTÍCULOS DESTACADOS */}
+  <section id="articulos" className="py-16 md:py-24 bg-[#000000]">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <h2 className="title-font text-3xl md:text-4xl text-white text-center mb-12">
               Artículos recientes sobre IA
@@ -677,8 +672,8 @@ export default function IAAutorPage() {
           </div>
         </section>
 
-        {/* HERRAMIENTAS ESTUDIANTILES */}
-        <section className="py-16 md:py-24 bg-[#1a1b2e]">
+  {/* HERRAMIENTAS ESTUDIANTILES */}
+  <section className="py-16 md:py-24 bg-[#000000]">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <h2 className="title-font text-3xl md:text-4xl mb-4">
