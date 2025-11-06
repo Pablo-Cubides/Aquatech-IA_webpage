@@ -1,4 +1,4 @@
-"revisa el diseno use client";
+"use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import maplibregl from "maplibre-gl";
@@ -26,8 +26,9 @@ export default function MapComponent({
     try {
       // Use a simpler style that doesn't require external CORS
       // or use the OpenStreetMap compatible style
-      const styleUrl = "https://tile.openstreetmap.org/styles/positron/style.json";
-      
+      const styleUrl =
+        "https://tile.openstreetmap.org/styles/positron/style.json";
+
       map.current = new maplibregl.Map({
         container: mapContainer.current,
         // Use a style that works without CORS issues - fallback to simple OSM style
@@ -61,10 +62,12 @@ export default function MapComponent({
 
     // Add navigation controls with better positioning
     const navControl = new maplibregl.NavigationControl();
-    map.current.addControl(navControl, "top-right");
+    if (map.current) {
+      map.current.addControl(navControl, "top-right");
+    }
 
     // Add fullscreen control (if available)
-    if ("FullscreenControl" in maplibregl) {
+    if ("FullscreenControl" in maplibregl && map.current) {
       map.current.addControl(
         new (maplibregl as any).FullscreenControl(),
         "top-right",
@@ -76,7 +79,9 @@ export default function MapComponent({
       setMapLoaded(true);
     };
 
-    map.current.on("load", handleLoad);
+    if (map.current) {
+      map.current.on("load", handleLoad);
+    }
 
     return () => {
       if (map.current) {

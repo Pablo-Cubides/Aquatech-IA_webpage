@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { getServerSession } from "next-auth/next";
 import "./globals.css";
+import { ProviderWrapper } from "./ProviderWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -78,13 +78,11 @@ export const metadata: Metadata = {
 
 import { ProcessProvider } from "../context/ProcessContext";
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getServerSession();
-
   // Structured data for educational content and SEO
   const structuredData = {
     "@type": "EducationalWebsite",
@@ -171,7 +169,7 @@ export default async function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <ProcessProvider user={session?.user}>
+        <ProcessProvider>
           {children}
         </ProcessProvider>
       </body>
