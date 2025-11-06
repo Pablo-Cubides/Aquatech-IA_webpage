@@ -111,7 +111,10 @@ export default function IAPage() {
 
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {/* Card 1 */}
-            <a href="/ia/herramientas/como-funcionan-llm" className="rounded-2xl border border-cyan-500/30 bg-gray-900/50 p-6 transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20">
+            <a
+              href="/ia/herramientas/como-funcionan-llm"
+              className="rounded-2xl border border-cyan-500/30 bg-gray-900/50 p-6 transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20"
+            >
               <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
                 <img
                   alt="Análisis de Agua con IA"
@@ -132,7 +135,10 @@ export default function IAPage() {
             </a>
 
             {/* Card 2 */}
-            <a href="/ia/herramientas/visor-difusion" className="rounded-2xl border border-cyan-500/30 bg-gray-900/50 p-6 transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20">
+            <a
+              href="/ia/herramientas/visor-difusion"
+              className="rounded-2xl border border-cyan-500/30 bg-gray-900/50 p-6 transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20"
+            >
               <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
                 <img
                   alt="Visor de Difusión"
@@ -153,7 +159,10 @@ export default function IAPage() {
             </a>
 
             {/* Card 3 */}
-            <a href="/ia/herramientas/filtrado-ia" className="rounded-2xl border border-cyan-500/30 bg-gray-900/50 p-6 transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20">
+            <a
+              href="/ia/herramientas/filtrado-ia"
+              className="rounded-2xl border border-cyan-500/30 bg-gray-900/50 p-6 transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20"
+            >
               <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
                 <img
                   alt="Filtros de IA"

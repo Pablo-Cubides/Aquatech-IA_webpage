@@ -1,0 +1,69 @@
+.content {
+  flex: 1;
+  min-width: 350px;
+  max-width: 700px;
+}
+.title {
+  color: #1976d2;
+  font-weight: 700;
+}
+.introCard {
+  background: #e3f2fd;
+  border-radius: 16px;
+  padding: 32px;
+  text-align: center;
+  color: #1976d2;
+  font-size: 22px;
+  margin-top: 40px;
+}
+.lesson {
+  background: #fff3e0;
+  border-radius: 12px;
+  padding: 20px;
+  color: #333;
+  font-size: 18px;
+  margin: 12px 0 18px;
+  border-left: 4px solid #fb8c00;
+}
+.steps {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.card {
+  border-radius: 12px;
+  padding: 18px;
+  min-height: 120px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.alert {
+  background: #ffebee;
+  color: #c62828;
+}
+.problem {
+  background: #fffde7;
+  color: #f57f17;
+}
+.align {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+.navBtns button {
+  background: #e0e0e0;
+  color: #333;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+.navBtns button:focus-visible {
+  outline: 3px solid #90caf9;
+}
+.reviewBanner {
+  background: #ffebee;
+  border-radius: 8px;
+  padding: 10px;
+  color: #b71c1c;
+  margin-bottom: 12px;
+}
