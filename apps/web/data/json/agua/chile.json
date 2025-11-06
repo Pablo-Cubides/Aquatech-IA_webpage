@@ -9,7 +9,10 @@
       "normativeReference_url": "https://ciperchile.cl/pdfs/11-2013/norovirus/NCh409.pdf",
       "parameters": [
         { "parametro": "Escherichia coli", "limite": "Ausencia en 100 mL" },
-        { "parametro": "Bacterias coliformes totales", "limite": "Se acepta presencia en 10% de las muestras mensuales (si se analizan 10)" },
+        {
+          "parametro": "Bacterias coliformes totales",
+          "limite": "Se acepta presencia en 10% de las muestras mensuales (si se analizan 10)"
+        },
         { "parametro": "Turbiedad", "limite": "Media mensual 2 UNT" },
         { "parametro": "Arsénico", "limite": "0,01 mg/L" },
         { "parametro": "Cadmio", "limite": "0,01 mg/L" },
@@ -39,8 +42,14 @@
         { "parametro": "Cloruro", "limite": "400 mg/L" },
         { "parametro": "Sulfato", "limite": "500 mg/L" },
         { "parametro": "Sólidos disueltos totales", "limite": "1500 mg/L" },
-        { "parametro": "Cloro libre residual (mínimo en red)", "limite": "0,2 mg/L" },
-        { "parametro": "Cloro libre residual (máximo en red)", "limite": "2,0 mg/L" }
+        {
+          "parametro": "Cloro libre residual (mínimo en red)",
+          "limite": "0,2 mg/L"
+        },
+        {
+          "parametro": "Cloro libre residual (máximo en red)",
+          "limite": "2,0 mg/L"
+        }
       ]
     },
     "riego": {
@@ -70,7 +79,10 @@
       "normativeReference": "Norma Chilena oficial NCh409/1",
       "normativeReference_url": "https://ciperchile.cl/pdfs/11-2013/norovirus/NCh409.pdf",
       "parameters": [
-        { "parametro": "Cumplimiento", "limite": "El agua para la bebida de animales debe cumplir con la Norma Chilena NCH 409 (agua potable)."}
+        {
+          "parametro": "Cumplimiento",
+          "limite": "El agua para la bebida de animales debe cumplir con la Norma Chilena NCH 409 (agua potable)."
+        }
       ]
     },
     "recreacion": {
@@ -79,8 +91,14 @@
       "normativeReference_url": "https://www.bcn.cl/leychile/navegar?idNorma=178272",
       "parameters": [
         { "parametro": "pH", "limite": "6,5 - 8,3" },
-        { "parametro": "Coliformes fecales", "limite": "Máximo 1.000 NMP/100 mL" },
-        { "parametro": "Claridad", "limite": "Visualización de disco Secchi a 1,20 m" },
+        {
+          "parametro": "Coliformes fecales",
+          "limite": "Máximo 1.000 NMP/100 mL"
+        },
+        {
+          "parametro": "Claridad",
+          "limite": "Visualización de disco Secchi a 1,20 m"
+        },
         { "parametro": "Sólidos flotantes y espumas", "limite": "Ausentes" },
         { "parametro": "Aceites y grasas", "limite": "Máximo 5 mg/L" },
         { "parametro": "Temperatura", "limite": "Máximo 30 °C" }
@@ -94,9 +112,15 @@
         { "parametro": "Oxígeno disuelto", "limite": "Mínimo 5 mg/L" },
         { "parametro": "pH", "limite": "6,0 - 9,0" },
         { "parametro": "Alcalinidad total", "limite": "Mínimo 20 mg/L de" },
-        { "parametro": "Temperatura", "limite": "No debe aumentar el valor natural en más de 3°C" },
+        {
+          "parametro": "Temperatura",
+          "limite": "No debe aumentar el valor natural en más de 3°C"
+        },
         { "parametro": "Sólidos flotantes y espumas", "limite": "Ausentes" },
-        { "parametro": "Petróleo o hidrocarburos", "limite": "Sin detección visual ni olor perceptible" }
+        {
+          "parametro": "Petróleo o hidrocarburos",
+          "limite": "Sin detección visual ni olor perceptible"
+        }
       ]
     },
     "reutilizacion_aguas_grises": {
@@ -104,8 +128,14 @@
       "normativeReference": "Ley 21075 Regula la recolección, reutilización y disposición de aguas grises",
       "normativeReference_url": "https://www.bcn.cl/leychile/navegar?idNorma=1115066",
       "parameters": [
-        { "parametro": "Usos Urbanos", "limite": "Riego de jardines, descarga de aparatos sanitarios. Parámetros regulados: Escherichia coli, Turbiedad, pH, Cloro Libre Residual, entre otros." },
-        { "parametro": "Usos Recreativos y Ornamentales", "limite": "Riego de áreas verdes públicas, campos deportivos, jardines ornamentales. Parámetros regulados: Similares al uso urbano, pero con límites potencialmente más estrictos." }
+        {
+          "parametro": "Usos Urbanos",
+          "limite": "Riego de jardines, descarga de aparatos sanitarios. Parámetros regulados: Escherichia coli, Turbiedad, pH, Cloro Libre Residual, entre otros."
+        },
+        {
+          "parametro": "Usos Recreativos y Ornamentales",
+          "limite": "Riego de áreas verdes públicas, campos deportivos, jardines ornamentales. Parámetros regulados: Similares al uso urbano, pero con límites potencialmente más estrictos."
+        }
       ]
     }
   }

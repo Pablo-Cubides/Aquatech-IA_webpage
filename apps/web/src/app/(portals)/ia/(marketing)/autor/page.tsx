@@ -295,7 +295,7 @@ export default function IAAutorPage() {
 
       <main className="body-font bg-[#000000] text-[#CCCCCC]">
         {/* Header con breadcrumb */}
-  <header className="bg-[#000000]/80 backdrop-blur border-b border-[rgba(0,239,255,0.1)] sticky top-0 z-40">
+        <header className="bg-[#000000]/80 backdrop-blur border-b border-[rgba(0,239,255,0.1)] sticky top-0 z-40">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               <nav aria-label="Breadcrumb" className="text-sm">
@@ -362,7 +362,7 @@ export default function IAAutorPage() {
                 optimización
               </p>
 
-              <p className="mt-4 text-gray-400 max-w-2xl leading-relaxed">
+              <p className="mt-4 text-[#CCCCCC] max-w-2xl leading-relaxed">
                 IA aplicada a optimización, modelación de procesos con redes
                 neuronales, análisis de datos y desarrollo de software. Integro
                 LLMs y agentes, modelos generativos y visión por computador con
@@ -410,7 +410,7 @@ export default function IAAutorPage() {
                 ].map((tag) => (
                   <span
                     key={tag}
-                    className="inline-flex items-center rounded-full bg-white/5 border border-[rgba(0,239,255,0.1)] px-4 py-2 text-sm font-medium text-gray-400 hover:border-[#00efff] transition-colors"
+                    className="inline-flex items-center rounded-full bg-white/5 border border-[rgba(0,239,255,0.1)] px-4 py-2 text-sm font-medium text-[#CCCCCC] hover:border-[#00efff] transition-colors"
                   >
                     {tag}
                   </span>
@@ -426,16 +426,16 @@ export default function IAAutorPage() {
                   alt="Retrato de Pablo Andrés Cubides Guerrero - IA Specialist"
                   width={360}
                   height={360}
-                  className="relative rounded-full border-4 border-[#1a1b2e] shadow-xl glow-effect"
+                  className="relative rounded-full border-4 border-[#333333] shadow-xl glow-effect"
                   priority
                 />
               </div>
             </div>
           </div>
-  </section>
+        </section>
 
-  {/* SOBRE EL AUTOR */}
-  <section className="py-16 md:py-24 bg-[#000000]">
+        {/* SOBRE EL AUTOR */}
+        <section className="py-16 md:py-24 bg-[#000000]">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-7">
               <h2 className="title-font text-3xl md:text-4xl mb-6 text-white">
@@ -519,7 +519,7 @@ export default function IAAutorPage() {
               ].map((tag) => (
                 <span
                   key={tag}
-                  className="inline-flex items-center rounded-full bg-[#1a1b2e] border border-[rgba(0,239,255,0.1)] px-4 py-2 text-sm font-medium text-gray-400 shadow-sm hover:border-[#00efff] hover:shadow-md transition-all"
+                  className="inline-flex items-center rounded-full bg-[#10111A] border border-[rgba(0,239,255,0.1)] px-4 py-2 text-sm font-medium text-[#CCCCCC] shadow-sm hover:border-[#00efff] hover:shadow-md transition-all"
                 >
                   {tag}
                 </span>
@@ -546,8 +546,8 @@ export default function IAAutorPage() {
           </div>
         </section>
 
-  {/* PROYECTOS DE IA */}
-  <section className="py-16 md:py-24 bg-[#000000]">
+        {/* PROYECTOS DE IA */}
+        <section className="py-16 md:py-24 bg-[#000000]">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <h2 className="title-font text-3xl md:text-4xl text-white text-center mb-12">
               Proyectos y desarrollos de IA
@@ -606,8 +606,8 @@ export default function IAAutorPage() {
           </div>
         </section>
 
-  {/* ARTÍCULOS DESTACADOS */}
-  <section id="articulos" className="py-16 md:py-24 bg-[#000000]">
+        {/* ARTÍCULOS DESTACADOS */}
+        <section id="articulos" className="py-16 md:py-24 bg-[#000000]">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <h2 className="title-font text-3xl md:text-4xl text-white text-center mb-12">
               Artículos recientes sobre IA
@@ -655,7 +655,7 @@ export default function IAAutorPage() {
             <h2 className="title-font text-3xl md:text-4xl text-white text-center mb-10">
               Preguntas frecuentes sobre IA
             </h2>
-            <div className="divide-y divide-[rgba(0,239,255,0.1)] rounded-xl border border-[rgba(0,239,255,0.1)] bg-[#1a1b2e]">
+            <div className="divide-y divide-[rgba(0,239,255,0.1)] rounded-xl border border-[rgba(0,239,255,0.1)] bg-[#10111A]">
               <Faq
                 q="¿Qué construyes con LLMs y agentes?"
                 a="Asistentes, automatizaciones y prototipos productivos con RAG/agentes, integrados a FastAPI y Next.js, con observabilidad completa y buenas prácticas de desarrollo."
@@ -672,14 +672,14 @@ export default function IAAutorPage() {
           </div>
         </section>
 
-  {/* HERRAMIENTAS ESTUDIANTILES */}
-  <section className="py-16 md:py-24 bg-[#000000]">
+        {/* HERRAMIENTAS ESTUDIANTILES */}
+        <section className="py-16 md:py-24 bg-[#000000]">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <h2 className="title-font text-3xl md:text-4xl mb-4">
                 Herramientas para Estudiantes
               </h2>
-              <p className="text-gray-400 max-w-2xl mx-auto">
+              <p className="text-[#CCCCCC] max-w-2xl mx-auto">
                 Recursos interactivos diseñados para mejorar tu experiencia de
                 aprendizaje en IA y tecnología.
               </p>

@@ -8,14 +8,14 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <div className="bg-[#10111A] text-white min-h-screen">
+    <div className="bg-[#000000] text-white min-h-screen">
       <div className="max-w-4xl mx-auto py-12 px-4 md:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-12">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-[#00EFFF]">
             Términos de Servicio
           </h1>
-          <p className="text-gray-400 text-lg">
+          <p className="text-[#CCCCCC] text-lg">
             Última actualización: {new Date().toLocaleDateString("es-ES")}
           </p>
         </div>

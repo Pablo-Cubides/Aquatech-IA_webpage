@@ -4,7 +4,12 @@ import fs from "fs";
 export const runtime = "nodejs";
 
 // Camachi domains
-const VALID_DOMAINS = ["agua", "calidad-aire", "residuos-solidos", "vertimientos"];
+const VALID_DOMAINS = [
+  "agua",
+  "calidad-aire",
+  "residuos-solidos",
+  "vertimientos",
+];
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
@@ -13,14 +18,16 @@ export async function GET(request: Request) {
   if (!dominio) {
     return Response.json(
       { error: "Dominio requerido. Opciones: " + VALID_DOMAINS.join(", ") },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
   if (!VALID_DOMAINS.includes(dominio)) {
     return Response.json(
-      { error: `Dominio inválido. Opciones válidas: ${VALID_DOMAINS.join(", ")}` },
-      { status: 400 }
+      {
+        error: `Dominio inválido. Opciones válidas: ${VALID_DOMAINS.join(", ")}`,
+      },
+      { status: 400 },
     );
   }
 
@@ -30,7 +37,7 @@ export async function GET(request: Request) {
     if (!fs.existsSync(domainDir)) {
       return Response.json(
         { error: `Dominio no encontrado: ${dominio}` },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -43,7 +50,8 @@ export async function GET(request: Request) {
           const filePath = path.join(domainDir, file);
           const content = fs.readFileSync(filePath, "utf-8");
           const data = JSON.parse(content);
-          const countryName = data.pais || data.country || file.replace(".json", "");
+          const countryName =
+            data.pais || data.country || file.replace(".json", "");
           const countryCode = file.replace(".json", "").toUpperCase();
 
           return {
@@ -67,7 +75,7 @@ export async function GET(request: Request) {
     console.error("Error reading countries:", error);
     return Response.json(
       { error: "Error al leer datos de países" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -29,7 +29,8 @@ export default function AmbientalHerramientasPage() {
               Herramientas Ambientales
             </h1>
             <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Explora nuestras herramientas especializadas para análisis ambiental, evaluación de impacto y gestión de regulaciones.
+              Explora nuestras herramientas especializadas para análisis
+              ambiental, evaluación de impacto y gestión de regulaciones.
             </p>
 
             {/* Breadcrumb */}
@@ -56,21 +57,15 @@ export default function AmbientalHerramientasPage() {
                     />
                   </svg>
                 </li>
-                <li className="text-[#0077B6] font-medium">
-                  Herramientas
-                </li>
+                <li className="text-[#0077B6] font-medium">Herramientas</li>
               </ol>
             </nav>
 
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
               <div className="bg-white/50 backdrop-blur-sm rounded-xl p-6 border border-blue-200">
-                <div className="text-3xl font-bold text-[#0077B6] mb-2">
-                  3
-                </div>
-                <div className="text-gray-600">
-                  Herramientas Disponibles
-                </div>
+                <div className="text-3xl font-bold text-[#0077B6] mb-2">3</div>
+                <div className="text-gray-600">Herramientas Disponibles</div>
               </div>
               <div className="bg-white/50 backdrop-blur-sm rounded-xl p-6 border border-blue-200">
                 <div className="text-3xl font-bold text-[#10B981] mb-2">
@@ -110,25 +105,31 @@ export default function AmbientalHerramientasPage() {
                     Visor de Mapas Ambientales
                   </h2>
                   <p className="text-gray-600 mb-8 text-lg leading-relaxed">
-                    Visualiza datos ambientales geoespaciales con capas interactivas para análisis territorial y monitoreo de proyectos.
+                    Visualiza datos ambientales geoespaciales con capas
+                    interactivas para análisis territorial y monitoreo de
+                    proyectos.
                   </p>
                   <ul className="space-y-4 mb-10 flex-grow">
-                    <ListItem>
-                      Capas geoespaciales personalizables
-                    </ListItem>
-                    <ListItem>
-                      Análisis de cobertura y uso del suelo
-                    </ListItem>
+                    <ListItem>Capas geoespaciales personalizables</ListItem>
+                    <ListItem>Análisis de cobertura y uso del suelo</ListItem>
                     <ListItem>
                       Exportación de datos en múltiples formatos
                     </ListItem>
                   </ul>
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <Link href="/ambiental/herramientas/visor-mapas-ambientales" className="btn btn-primary focus-ring">
+                    <Link
+                      href="/ambiental/herramientas/visor-mapas-ambientales"
+                      className="btn btn-primary focus-ring"
+                    >
                       <PlayIcon />
                       Abrir herramienta
                     </Link>
-                    <Link href="https://github.com" target="_blank" rel="noopener noreferrer" className="btn btn-secondary focus-ring">
+                    <Link
+                      href="https://github.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-secondary focus-ring"
+                    >
                       <DocIcon />
                       Documentación
                     </Link>
@@ -180,25 +181,28 @@ export default function AmbientalHerramientasPage() {
                     Generador de Matrices de EIA
                   </h2>
                   <p className="text-gray-600 mb-8 text-lg leading-relaxed">
-                    Crea matrices de evaluación de impacto ambiental (Leopold, Conesa, Battelle) automáticamente según tu proyecto.
+                    Crea matrices de evaluación de impacto ambiental (Leopold,
+                    Conesa, Battelle) automáticamente según tu proyecto.
                   </p>
                   <ul className="space-y-4 mb-10 flex-grow">
-                    <ListItem>
-                      Múltiples metodologías de EIA
-                    </ListItem>
-                    <ListItem>
-                      Cálculos automatizados de impacto
-                    </ListItem>
-                    <ListItem>
-                      Generación de reportes y exportación
-                    </ListItem>
+                    <ListItem>Múltiples metodologías de EIA</ListItem>
+                    <ListItem>Cálculos automatizados de impacto</ListItem>
+                    <ListItem>Generación de reportes y exportación</ListItem>
                   </ul>
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <Link href="/ambiental/herramientas/generador-matrices" className="btn btn-primary focus-ring">
+                    <Link
+                      href="/ambiental/herramientas/generador-matrices"
+                      className="btn btn-primary focus-ring"
+                    >
                       <PlayIcon />
                       Abrir herramienta
                     </Link>
-                    <Link href="https://github.com" target="_blank" rel="noopener noreferrer" className="btn btn-secondary focus-ring">
+                    <Link
+                      href="https://github.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-secondary focus-ring"
+                    >
                       <DocIcon />
                       Documentación
                     </Link>
@@ -226,25 +230,28 @@ export default function AmbientalHerramientasPage() {
                     Normas Ambientales por País
                   </h2>
                   <p className="text-gray-600 mb-8 text-lg leading-relaxed">
-                    Accede a la base de datos actualizada de regulaciones ambientales por país y sector, con análisis comparativo.
+                    Accede a la base de datos actualizada de regulaciones
+                    ambientales por país y sector, con análisis comparativo.
                   </p>
                   <ul className="space-y-4 mb-10 flex-grow">
-                    <ListItem>
-                      Base de datos de normas actualizada
-                    </ListItem>
-                    <ListItem>
-                      Búsqueda por país, sector y tema
-                    </ListItem>
-                    <ListItem>
-                      Análisis comparativo de regulaciones
-                    </ListItem>
+                    <ListItem>Base de datos de normas actualizada</ListItem>
+                    <ListItem>Búsqueda por país, sector y tema</ListItem>
+                    <ListItem>Análisis comparativo de regulaciones</ListItem>
                   </ul>
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <Link href="/ambiental/herramientas/normas-ambientales" className="btn btn-primary focus-ring">
+                    <Link
+                      href="/ambiental/herramientas/normas-ambientales"
+                      className="btn btn-primary focus-ring"
+                    >
                       <PlayIcon />
                       Abrir herramienta
                     </Link>
-                    <Link href="https://github.com" target="_blank" rel="noopener noreferrer" className="btn btn-secondary focus-ring">
+                    <Link
+                      href="https://github.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-secondary focus-ring"
+                    >
                       <DocIcon />
                       Documentación
                     </Link>
@@ -274,7 +281,8 @@ export default function AmbientalHerramientasPage() {
                 ¿Necesitas una herramienta personalizada?
               </h2>
               <p className="text-xl mb-8 text-gray-600 max-w-2xl mx-auto">
-                Nuestro equipo puede desarrollar soluciones específicas para tus necesidades de análisis ambiental.
+                Nuestro equipo puede desarrollar soluciones específicas para tus
+                necesidades de análisis ambiental.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/ambiental/contacto" className="btn btn-primary">
@@ -359,9 +367,7 @@ export default function AmbientalHerramientasPage() {
                   <h3 className="text-xl font-bold text-black mb-3 group-hover:text-[#0077B6] transition-colors">
                     {feature.title}
                   </h3>
-                  <p className="text-gray-600">
-                    {feature.description}
-                  </p>
+                  <p className="text-gray-600">{feature.description}</p>
                 </div>
               ))}
             </div>

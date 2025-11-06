@@ -20,7 +20,7 @@ const noto = Noto_Sans({
 export default function RuletaPreguntasIAPage() {
   return (
     <div
-      className={`${space.variable} ${noto.variable} min-h-screen bg-[#10111A] text-white`}
+      className={`${space.variable} ${noto.variable} min-h-screen bg-[#000000] text-white`}
     >
       {/* Design System */}
       <style jsx global>{`
@@ -28,10 +28,10 @@ export default function RuletaPreguntasIAPage() {
           --primary-cyan: #00efff;
           --accent-purple: #8b5cf6;
           --accent-pink: #ec4899;
-          --deep-blue: #10111a;
-          --panel-bg: #1a1b2e;
+          --deep-blue: #000000;
+          --panel-bg: #10111a;
           --text-primary: #ffffff;
-          --text-secondary: #b0bec5;
+          --text-secondary: #CCCCCC;
           --border-color: rgba(0, 239, 255, 0.1);
         }
 

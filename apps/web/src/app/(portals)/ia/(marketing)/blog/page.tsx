@@ -41,13 +41,13 @@ export default function BlogIA() {
   const featuredArticles = articles.slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-[#10111A] text-white">
+    <div className="min-h-screen bg-[#000000] text-white">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-cyan-600">
+      <div className="bg-gradient-to-r from-[#00EFFF] to-[#0095FF]">
         <div className="max-w-6xl mx-auto px-6 py-16">
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-6">Blog IA</h1>
-            <p className="text-xl md:text-2xl text-cyan-100 mb-8 max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl text-[#CCCCCC] mb-8 max-w-3xl mx-auto">
               Explora el futuro de la inteligencia artificial: desde fundamentos
               técnicos hasta aplicaciones revolucionarias que están
               transformando nuestro mundo
@@ -55,13 +55,13 @@ export default function BlogIA() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="#articulos"
-                className="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-cyan-50 transition-colors"
+                className="bg-[#00EFFF] text-[#000000] px-8 py-3 rounded-full font-semibold hover:bg-white transition-colors"
               >
                 Explorar Artículos
               </Link>
               <Link
                 href="/ia/nosotros"
-                className="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-blue-600 transition-colors"
+                className="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-[#00EFFF] hover:text-[#000000] transition-colors"
               >
                 Conoce Nuestro Equipo
               </Link>
@@ -71,7 +71,7 @@ export default function BlogIA() {
       </div>
 
       {/* Artículos Destacados */}
-      <section className="py-16 bg-gray-900/50">
+      <section className="py-16 bg-[#10111A]">
         <div className="max-w-6xl mx-auto px-6">
           <h2 className="text-3xl font-bold text-white mb-12 text-center">
             Artículos Destacados
@@ -103,7 +103,7 @@ export default function BlogIA() {
                   <p className="text-gray-300 mb-4 line-clamp-2">
                     {article.excerpt}
                   </p>
-                  <div className="flex items-center justify-between text-sm text-gray-400">
+                  <div className="flex items-center justify-between text-sm text-[#CCCCCC]">
                     <div className="flex items-center space-x-2">
                       <Image
                         src={article.author.avatar}
@@ -225,7 +225,7 @@ export default function BlogIA() {
                         <p className="text-sm font-medium text-white">
                           {article.author.name}
                         </p>
-                        <p className="text-xs text-gray-400">{article.date}</p>
+                        <p className="text-xs text-[#CCCCCC]">{article.date}</p>
                       </div>
                     </div>
                     <div className="flex flex-wrap gap-1">
@@ -251,7 +251,7 @@ export default function BlogIA() {
               <h3 className="text-xl font-semibold text-white mb-2">
                 No se encontraron artículos
               </h3>
-              <p className="text-gray-400">
+              <p className="text-[#CCCCCC]">
                 Intenta ajustar tus filtros de búsqueda o explorar otras
                 categorías.
               </p>

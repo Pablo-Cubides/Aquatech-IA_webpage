@@ -10,10 +10,10 @@ export const metadata: Metadata = {
 
 export default function NosotrosPage() {
   return (
-    <main className="bg-[#10111A] text-[#F3F6FF]">
+    <main className="bg-[#000000] text-[#FFFFFF]">
       {/* HERO */}
-      <section className="relative overflow-hidden bg-[#131522] py-20 sm:py-28 lg:py-32">
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#131522] via-transparent to-[#10111A] opacity-60" />
+      <section className="relative overflow-hidden bg-[#000000] py-20 sm:py-28 lg:py-32">
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#000000] via-transparent to-[#000000] opacity-60" />
         <div
           aria-hidden
           className="absolute inset-0 opacity-20"
@@ -30,7 +30,7 @@ export default function NosotrosPage() {
             >
               Sobre Aquatech IA
             </h1>
-            <p className="mx-auto mt-4 max-w-lg text-lg text-[#B6C2DF] lg:mx-0">
+            <p className="mx-auto mt-4 max-w-lg text-lg text-[#CCCCCC] lg:mx-0">
               Unimos modelos generativos y ciencia ambiental para tomar mejores
               decisiones sobre el agua y el territorio.
             </p>
@@ -43,7 +43,7 @@ export default function NosotrosPage() {
               </Link>
               <Link
                 href="/ia/blog"
-                className="inline-block rounded-lg border border-white/20 bg-[#141725] px-6 py-3 text-base font-bold transition-all duration-200 hover:scale-105 hover:border-[#00EFFF] hover:text-[#00EFFF]"
+                className="inline-block rounded-lg border border-white/20 bg-[#10111A] px-6 py-3 text-base font-bold transition-all duration-200 hover:scale-105 hover:border-[#00EFFF] hover:text-[#00EFFF]"
               >
                 Conocer el blog
               </Link>
@@ -64,10 +64,10 @@ export default function NosotrosPage() {
       </section>
 
       {/* MISIÓN & VISIÓN */}
-      <section className="bg-[#10111A] py-20 sm:py-24">
+      <section className="bg-[#000000] py-20 sm:py-24">
         <div className="mx-auto grid max-w-screen-xl grid-cols-1 gap-8 px-4 sm:px-6 md:grid-cols-2 lg:px-8">
           {/* Misión */}
-          <article className="flex flex-col items-start rounded-lg border border-white/10 bg-[#141725] p-8 transition-all hover:-translate-y-1 hover:shadow-[0_0_15px_0_rgba(0,239,255,0.3)]">
+          <article className="flex flex-col items-start rounded-lg border border-white/10 bg-[#10111A] p-8 transition-all hover:-translate-y-1 hover:shadow-[0_0_15px_0_rgba(0,239,255,0.3)]">
             <div className="mb-4 rounded-full bg-[#00EFFF]/10 p-3">
               <svg
                 className="text-[#00EFFF]"
@@ -133,7 +133,7 @@ export default function NosotrosPage() {
           </article>
 
           {/* Visión */}
-          <article className="flex flex-col items-start rounded-lg border border-white/10 bg-[#141725] p-8 transition-all hover:-translate-y-1 hover:shadow-[0_0_15px_0_rgba(0,239,255,0.3)]">
+          <article className="flex flex-col items-start rounded-lg border border-white/10 bg-[#10111A] p-8 transition-all hover:-translate-y-1 hover:shadow-[0_0_15px_0_rgba(0,239,255,0.3)]">
             <div className="mb-4 rounded-full bg-[#00EFFF]/10 p-3">
               <svg
                 className="text-[#00EFFF]"
@@ -200,7 +200,7 @@ export default function NosotrosPage() {
       </section>
 
       {/* VALORES */}
-      <section className="bg-[#131522] py-20 sm:py-24">
+      <section className="bg-[#000000] py-20 sm:py-24">
         <div className="mx-auto max-w-screen-xl px-4 text-center sm:px-6 lg:px-8">
           <h2
             className="text-3xl font-bold sm:text-4xl"
@@ -227,7 +227,7 @@ export default function NosotrosPage() {
             ].map(([title, copy]) => (
               <div
                 key={title}
-                className="rounded-lg border border-white/10 bg-[#141725] p-6 text-center transition-all hover:-translate-y-1 hover:shadow-[0_0_15px_0_rgba(0,239,255,0.2)]"
+                className="rounded-lg border border-white/10 bg-[#10111A] p-6 text-center transition-all hover:-translate-y-1 hover:shadow-[0_0_15px_0_rgba(0,239,255,0.2)]"
               >
                 <h3 className="text-xl font-bold">{title}</h3>
                 <p className="mt-2 text-sm text-[#B6C2DF]">{copy}</p>
@@ -260,7 +260,7 @@ export default function NosotrosPage() {
             ].map(([kpi, label]) => (
               <div
                 key={kpi}
-                className="rounded-lg border border-white/10 bg-[#141725] p-6 text-center transition-all hover:-translate-y-1 hover:shadow-[0_0_15px_0_rgba(0,239,255,0.2)]"
+                className="rounded-lg border border-white/10 bg-[#10111A] p-6 text-center transition-all hover:-translate-y-1 hover:shadow-[0_0_15px_0_rgba(0,239,255,0.2)]"
               >
                 <div className="text-3xl font-bold text-[#00EFFF]">{kpi}</div>
                 <p className="mt-2 text-sm text-[#B6C2DF]">{label}</p>
@@ -271,7 +271,7 @@ export default function NosotrosPage() {
       </section>
 
       {/* FAQ */}
-      <section className="bg-[#131522] py-20 sm:py-24">
+      <section className="bg-[#000000] py-20 sm:py-24">
         <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h2
@@ -289,7 +289,7 @@ export default function NosotrosPage() {
             {faqItems.map(({ q, a }) => (
               <details
                 key={q}
-                className="group overflow-hidden rounded-lg border border-white/10 bg-[#141725]"
+                className="group overflow-hidden rounded-lg border border-white/10 bg-[#10111A]"
               >
                 <summary className="flex cursor-pointer list-none items-center justify-between p-5 hover:bg-white/5">
                   <span className="font-medium">{q}</span>
@@ -314,7 +314,7 @@ export default function NosotrosPage() {
       </section>
 
       {/* CTA FINAL */}
-      <section className="bg-gradient-to-tr from-[#00EFFF]/20 to-[#131522] py-20 sm:py-24">
+      <section className="bg-gradient-to-tr from-[#00EFFF]/20 to-[#000000] py-20 sm:py-24">
         <div className="mx-auto max-w-screen-xl px-4 text-center sm:px-6 lg:px-8">
           <h2
             className="mx-auto max-w-3xl text-3xl font-bold md:text-4xl"
@@ -335,7 +335,7 @@ export default function NosotrosPage() {
             </Link>
             <Link
               href="/ia/productos"
-              className="inline-block rounded-lg border border-white/20 bg-[#141725] px-8 py-4 text-lg font-bold transition-all duration-200 hover:scale-105 hover:border-[#00EFFF] hover:text-[#00EFFF]"
+                className="inline-block rounded-lg border border-white/20 bg-[#10111A] px-8 py-4 text-lg font-bold transition-all duration-200 hover:scale-105 hover:border-[#00EFFF] hover:text-[#00EFFF]"
             >
               Ver productos
             </Link>

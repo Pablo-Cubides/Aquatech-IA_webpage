@@ -4,15 +4,15 @@
 
 :root {
   --bg: #000000;
-  --surface: #10111A;
-  --primary: #00EFFF;
-  --secondary: #0095FF;
-  --accent: #0095FF;
+  --surface: #10111a;
+  --primary: #00efff;
+  --secondary: #0095ff;
+  --accent: #0095ff;
   --glow-cyan: rgba(0, 239, 255, 0.3);
   --glow-red: rgba(0, 149, 255, 0.3);
   --glow-gold: rgba(0, 239, 255, 0.2);
-  --text-primary: #FFFFFF;
-  --text-secondary: #CCCCCC;
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
   --border: #333333;
 }
 

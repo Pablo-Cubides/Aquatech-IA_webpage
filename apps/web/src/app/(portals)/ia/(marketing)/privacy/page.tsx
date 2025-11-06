@@ -9,14 +9,14 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <div className="bg-[#10111A] text-white min-h-screen">
+    <div className="bg-[#000000] text-white min-h-screen">
       <div className="max-w-4xl mx-auto py-12 px-4 md:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-12">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-[#00EFFF]">
             Política de Privacidad
           </h1>
-          <p className="text-gray-400 text-lg">
+                      <p className="text-gray-400 text-sm mt-4">
             Última actualización: {new Date().toLocaleDateString("es-ES")}
           </p>
         </div>
@@ -34,7 +34,7 @@ export default function PrivacyPage() {
               educativos y herramientas de gestión ambiental.
             </p>
             <div className="bg-gray-900 p-4 rounded-lg">
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-[#CCCCCC]">
                 📧 Email:{" "}
                 <span className="text-gray-200">privacy@aquatechia.com</span>
               </p>

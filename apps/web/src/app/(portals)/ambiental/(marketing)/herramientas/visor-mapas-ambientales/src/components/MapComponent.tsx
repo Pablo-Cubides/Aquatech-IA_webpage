@@ -113,32 +113,32 @@ export default function MapComponent({
           source: "points",
           filter: ["has", "point_count"],
           paint: {
-              "circle-color": [
-                "step",
-                ["get", "point_count"],
-                "#0077B6", // Primary (navy-light) for small clusters
-                10,
-                "#10B981", // Success/secondary for medium clusters
-                50,
-                "#FF3333", // Warning/Error color for large clusters
-                100,
-                "#FF3333", // Red for 100+
-              ],
-              "circle-radius": [
-                "step",
-                ["get", "point_count"],
-                15,
-                10,
-                20,
-                50,
-                25,
-                100,
-                30,
-              ],
-              "circle-stroke-width": 2,
-              "circle-stroke-color": "#000000",
-              "circle-opacity": 0.9,
-            },
+            "circle-color": [
+              "step",
+              ["get", "point_count"],
+              "#0077B6", // Primary (navy-light) for small clusters
+              10,
+              "#10B981", // Success/secondary for medium clusters
+              50,
+              "#FF3333", // Warning/Error color for large clusters
+              100,
+              "#FF3333", // Red for 100+
+            ],
+            "circle-radius": [
+              "step",
+              ["get", "point_count"],
+              15,
+              10,
+              20,
+              50,
+              25,
+              100,
+              30,
+            ],
+            "circle-stroke-width": 2,
+            "circle-stroke-color": "#000000",
+            "circle-opacity": 0.9,
+          },
         } as any);
 
         // Cluster click handler - zoom in
@@ -155,7 +155,7 @@ export default function MapComponent({
       }
 
       // Add individual points layer
-        map.current.addLayer({
+      map.current.addLayer({
         id: "points-layer",
         type: "circle",
         source: "points",

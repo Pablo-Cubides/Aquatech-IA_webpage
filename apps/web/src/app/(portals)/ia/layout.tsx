@@ -56,7 +56,7 @@ export default function IALayout({ children }: { children: React.ReactNode }) {
           "--text-secondary": "#cccccc",
           "--dark-bg-1": "#000000",
           "--dark-bg-2": "#0a0a0f",
-          "--dark-bg-3": "#131522",
+          "--dark-bg-3": "#10111A",
         } as React.CSSProperties
       }
     >

@@ -42,7 +42,7 @@ export default function IAPage() {
             >
               Inteligencia Artificial aplicada al agua y al ambiente
             </h1>
-            <p className="mt-6 text-lg text-gray-300">
+            <p className="mt-6 text-lg text-[#CCCCCC]">
               Explora modelos generativos, visualizaciones y herramientas
               prácticas.
             </p>
@@ -77,7 +77,7 @@ export default function IAPage() {
             >
               Nosotros
             </h2>
-            <p className="mt-4 text-lg text-gray-300">
+            <p className="mt-4 text-lg text-[#CCCCCC]">
               Aquatech IA se dedica a aprovechar la inteligencia artificial para
               abordar desafíos ambientales críticos. Nuestra misión es
               proporcionar soluciones innovadoras para la gestión del agua y el
@@ -100,7 +100,7 @@ export default function IAPage() {
       </section>
 
       {/* Herramientas */}
-      <section id="herramientas" className="bg-gray-950 py-24">
+      <section id="herramientas" className="bg-[#10111A] py-24">
         <div className="container mx-auto px-4">
           <h2
             className="text-center text-4xl font-bold text-white"
@@ -195,7 +195,7 @@ export default function IAPage() {
                 src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=250&fit=crop&crop=center"
               />
               <div className="p-6">
-                <p className="text-xs text-gray-400">24 MAYO, 2024</p>
+                <p className="text-xs text-[#CCCCCC]">24 MAYO, 2024</p>
                 <h3 className="mt-2 text-lg font-bold text-white">
                   El Papel de la IA en la Gestión Sostenible del Agua
                 </h3>
@@ -266,7 +266,7 @@ export default function IAPage() {
       </section>
 
       {/* Autor */}
-      <section id="autor" className="bg-gray-950 py-24">
+      <section id="autor" className="bg-[#10111A] py-24">
         <div className="container mx-auto flex flex-col items-center gap-8 px-4 text-center md:flex-row md:text-left">
           <img
             alt="Elena Rodriguez"
@@ -336,7 +336,7 @@ export default function IAPage() {
 
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {/* Producto 1 */}
-            <div className="group overflow-hidden rounded-2xl border border-white/10 bg-[#131522] transition-all hover:-translate-y-1 hover:shadow-[0_0_15px_0_rgba(0,239,255,0.15)]">
+            <div className="group overflow-hidden rounded-2xl border border-white/10 bg-[#10111A] transition-all hover:-translate-y-1 hover:shadow-[0_0_15px_0_rgba(0,239,255,0.15)]">
               <div className="relative">
                 <img
                   alt="Producto IA para Gestión Hídrica"
@@ -356,7 +356,7 @@ export default function IAPage() {
             </div>
 
             {/* Producto 2 */}
-            <div className="group overflow-hidden rounded-2xl border border-white/10 bg-[#131522] transition-all hover:-translate-y-1 hover:shadow-[0_0_15px_0_rgba(0,239,255,0.15)]">
+            <div className="group overflow-hidden rounded-2xl border border-white/10 bg-[#10111A] transition-all hover:-translate-y-1 hover:shadow-[0_0_15px_0_rgba(0,239,255,0.15)]">
               <div className="relative">
                 <img
                   alt="Producto Análisis de Datos Ambientales"
@@ -379,7 +379,7 @@ export default function IAPage() {
             </div>
 
             {/* Producto 3 */}
-            <div className="group overflow-hidden rounded-2xl border border-white/10 bg-[#131522] transition-all hover:-translate-y-1 hover:shadow-[0_0_15px_0_rgba(0,239,255,0.15)]">
+            <div className="group overflow-hidden rounded-2xl border border-white/10 bg-[#10111A] transition-all hover:-translate-y-1 hover:shadow-[0_0_15px_0_rgba(0,239,255,0.15)]">
               <div className="relative">
                 <img
                   alt="Producto IA en Conservación"

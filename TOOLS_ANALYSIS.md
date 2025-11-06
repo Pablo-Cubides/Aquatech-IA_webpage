@@ -9,6 +9,7 @@ Se realizó análisis comprehensivo de 4 herramientas principales del portal Amb
 ## 1. 🌍 **Normas Ambientales**
 
 ### Ubicación
+
 ```
 apps/web/src/app/(portals)/ambiental/(marketing)/herramientas/normas-ambientales/
 ├── page.tsx                           # Wrapper (13 líneas)
@@ -42,6 +43,7 @@ apps/web/src/app/(portals)/ambiental/(marketing)/herramientas/normas-ambientales
 ### Arquitectura de Datos
 
 #### **Flujo de Datos**
+
 ```
 User Input
     ↓
@@ -59,6 +61,7 @@ Regulatory Data (23 parameters with limits)
 ```
 
 #### **API Routes (Nuevos)**
+
 1. **`/api/paises`** (ACTUALIZADO)
    - Lee: `data/json/{dominio}/*.json`
    - Retorna: Lista de países con códigos y nombres
@@ -83,6 +86,7 @@ Regulatory Data (23 parameters with limits)
      - Manejo de corrupted data
 
 #### **Datos Integrados**
+
 ```
 data/json/
 ├── agua/                    (10 archivos)
@@ -102,6 +106,7 @@ data/json/
 ```
 
 **Ejemplo: colombia.json (agua)**
+
 - Países: Colombia
 - Dominio: agua
 - Ref normativa: "Resolución 2115 de 2007, Decreto 1594 de 1984, Resolución 1256 de 2021"
@@ -187,6 +192,7 @@ data/json/
 ## 2. 🗺️ **Visor de Mapas Ambientales**
 
 ### Ubicación
+
 ```
 apps/web/src/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambientales/
 ├── page.tsx
@@ -201,6 +207,7 @@ apps/web/src/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambien
 ```
 
 ### Tecnología
+
 - **Framework**: Leaflet + React-Leaflet
 - **Basemap**: CartoDB Voyager (ACTUALIZADO - antes OpenStreetMap)
 - **GeoJSON**: Datos ambientales dinámicos
@@ -213,19 +220,22 @@ apps/web/src/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambien
    - ✅ CartoDB Voyager: Mejor CORS support, mejor resolución
 
 **Antes:**
+
 ```tsx
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { ... })
 ```
 
 **Después:**
+
 ```tsx
-L.tileLayer('https://{s}.basemaps.cartocdn.com/voyager/{z}/{x}/{y}{r}.png', {
-  attribution: '...',
-  maxZoom: 19
-})
+L.tileLayer("https://{s}.basemaps.cartocdn.com/voyager/{z}/{x}/{y}{r}.png", {
+  attribution: "...",
+  maxZoom: 19,
+});
 ```
 
 ### Performance ✅
+
 - ✅ No más tile errors
 - ✅ Tiles cargando correctamente
 - ✅ Zoom levels 0-19 soportados
@@ -257,6 +267,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/voyager/{z}/{x}/{y}{r}.png', {
 ## 3. 📊 **Generador de Matrices de EIA**
 
 ### Ubicación
+
 ```
 apps/web/src/app/(portals)/ambiental/(marketing)/herramientas/generador-matrices/
 ├── page.tsx                        # Wrapper
@@ -278,6 +289,7 @@ apps/web/src/app/(portals)/ambiental/(marketing)/herramientas/generador-matrices
 ```
 
 ### Características
+
 - ✅ 5+ tipos de matrices de EIA
 - ✅ Project management (create, edit, delete)
 - ✅ Export a CSV/XLSX
@@ -285,6 +297,7 @@ apps/web/src/app/(portals)/ambiental/(marketing)/herramientas/generador-matrices
 - ✅ Admin panel para templates
 
 ### Estado ✅
+
 - ✅ Carga sin errores async
 - ✅ UI moderna con nuevo design system
 - ✅ APIs funcionales
@@ -314,6 +327,7 @@ apps/web/src/app/(portals)/ambiental/(marketing)/herramientas/generador-matrices
 ## 4. 🔗 **Análisis de Correlaciones**
 
 ### Ubicación
+
 ```
 apps/web/src/app/(portals)/ambiental/(marketing)/herramientas/analisis-correlaciones/
 ├── page.tsx
@@ -324,11 +338,13 @@ apps/web/src/app/(portals)/ambiental/(marketing)/herramientas/analisis-correlaci
 ```
 
 ### Características
+
 - ✅ Análisis de correlaciones entre variables
 - ✅ Visualizaciones interactivas
 - ✅ Export de resultados
 
 ### Estado ✅
+
 - ✅ Funcional
 - ✅ UI moderna
 
@@ -336,28 +352,31 @@ apps/web/src/app/(portals)/ambiental/(marketing)/herramientas/analisis-correlaci
 
 ## 📊 Tabla Comparativa de Herramientas
 
-| Herramienta | Status | Datos | Tests | Performance | Notas |
-|-----------|--------|-------|-------|-------------|-------|
-| **Normas Ambientales** | ✅ OK | ✅ Real (42 files) | ❌ No | ⚡ Caché 15min | Refactor: >600 líneas |
-| **Visor Mapas** | ✅ OK | ⚠️ Mock | ❌ No | ⚡ CartoDB OK | Agregar datos reales |
-| **Gen. Matrices** | ✅ OK | ⚠️ Local | ❌ No | ⚡ OK | Mover a BD |
-| **Correlaciones** | ✅ OK | ⚠️ Mock | ❌ No | ⚡ OK | Datos demo suficientes |
+| Herramienta            | Status | Datos              | Tests | Performance    | Notas                  |
+| ---------------------- | ------ | ------------------ | ----- | -------------- | ---------------------- |
+| **Normas Ambientales** | ✅ OK  | ✅ Real (42 files) | ❌ No | ⚡ Caché 15min | Refactor: >600 líneas  |
+| **Visor Mapas**        | ✅ OK  | ⚠️ Mock            | ❌ No | ⚡ CartoDB OK  | Agregar datos reales   |
+| **Gen. Matrices**      | ✅ OK  | ⚠️ Local           | ❌ No | ⚡ OK          | Mover a BD             |
+| **Correlaciones**      | ✅ OK  | ⚠️ Mock            | ❌ No | ⚡ OK          | Datos demo suficientes |
 
 ---
 
 ## 🎯 Próximos Pasos (Prioridad)
 
 ### Alta Prioridad 🔴
+
 1. ✅ **[COMPLETADO]** Integrar datos reales de normas ambientales
 2. ⏳ Agregar tests unitarios (mínimo para APIs críticas)
 3. ⏳ Refactorizar `normas-ambientales/src/app/explorar/page.tsx` (>600 líneas)
 
 ### Media Prioridad 🟡
+
 1. ⏳ Agregar datos reales a visor de mapas
 2. ⏳ Persistencia en BD para Generador de Matrices
 3. ⏳ Mejorar UX con breadcrumbs y contexto
 
 ### Baja Prioridad 🟢
+
 1. ⏳ Vector tiles para mapas
 2. ⏳ Clustering de markers
 3. ⏳ Temas alternativos
@@ -367,6 +386,7 @@ apps/web/src/app/(portals)/ambiental/(marketing)/herramientas/analisis-correlaci
 ## 📝 Conclusión
 
 Todas las herramientas están **funcionando correctamente** tras integración de datos. La arquitectura es **sólida** pero hay **oportunidades de optimización** en:
+
 - Refactorización de componentes grandes
 - Adición de tests
 - Persistencia de datos

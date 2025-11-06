@@ -3,7 +3,12 @@ import fs from "fs";
 
 export const runtime = "nodejs";
 
-const VALID_DOMAINS = ["agua", "calidad-aire", "residuos-solidos", "vertimientos"];
+const VALID_DOMAINS = [
+  "agua",
+  "calidad-aire",
+  "residuos-solidos",
+  "vertimientos",
+];
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
@@ -13,14 +18,14 @@ export async function GET(request: Request) {
   if (!dominio || !pais) {
     return Response.json(
       { error: "Parámetros requeridos: dominio, pais" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
   if (!VALID_DOMAINS.includes(dominio)) {
     return Response.json(
       { error: `Dominio inválido. Opciones: ${VALID_DOMAINS.join(", ")}` },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -30,13 +35,13 @@ export async function GET(request: Request) {
       "data",
       "json",
       dominio,
-      `${pais}.json`
+      `${pais}.json`,
     );
 
     if (!fs.existsSync(countryFile)) {
       return Response.json(
         { error: `País no encontrado: ${pais}` },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -57,9 +62,6 @@ export async function GET(request: Request) {
     });
   } catch (error) {
     console.error("Error reading sectors:", error);
-    return Response.json(
-      { error: "Error al leer sectores" },
-      { status: 500 }
-    );
+    return Response.json({ error: "Error al leer sectores" }, { status: 500 });
   }
 }

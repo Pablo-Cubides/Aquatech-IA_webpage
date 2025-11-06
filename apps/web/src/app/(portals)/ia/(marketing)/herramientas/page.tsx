@@ -389,13 +389,13 @@ export default function IAHerramientasPage() {
               ].map((feature, index) => (
                 <div
                   key={index}
-                  className="bg-[#1a1b2e]/50 p-6 rounded-xl border border-[rgba(0,239,255,0.1)] text-center group hover:border-[rgba(0,239,255,0.3)] transition-all backdrop-blur-sm"
+                  className="bg-[#10111A]/50 p-6 rounded-xl border border-[rgba(0,239,255,0.1)] text-center group hover:border-[rgba(0,239,255,0.3)] transition-all backdrop-blur-sm"
                 >
                   <div className="text-4xl mb-4">{feature.icon}</div>
                   <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#00efff] transition-colors">
                     {feature.title}
                   </h3>
-                  <p className="text-gray-400">{feature.description}</p>
+                  <p className="text-[#CCCCCC]">{feature.description}</p>
                 </div>
               ))}
             </div>
@@ -404,14 +404,14 @@ export default function IAHerramientasPage() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-[#1a1b2e] border-t border-[rgba(0,239,255,0.1)] mt-20">
+      <footer className="bg-[#10111A] border-t border-[rgba(0,239,255,0.1)] mt-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid md:grid-cols-3 gap-8 text-center md:text-left">
             <div>
               <h3 className="text-xl font-bold mb-4 text-[#00efff]">
                 AquatechIA
               </h3>
-              <p className="text-gray-400">
+              <p className="text-[#CCCCCC]">
                 Democratizando el conocimiento de IA para el sector acuático.
               </p>
             </div>
@@ -485,7 +485,7 @@ export default function IAHerramientasPage() {
             </div>
           </div>
           <div className="border-t border-[rgba(0,239,255,0.1)] mt-8 pt-8 text-center">
-            <p className="text-gray-400">
+            <p className="text-[#CCCCCC]">
               © 2024 AquatechIA. Todos los derechos reservados.
             </p>
           </div>
@@ -513,7 +513,7 @@ function ListItem({ children }: { children: React.ReactNode }) {
           d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
         />
       </svg>
-      <span className="text-gray-400 text-lg">{children}</span>
+      <span className="text-[#CCCCCC] text-lg">{children}</span>
     </li>
   );
 }

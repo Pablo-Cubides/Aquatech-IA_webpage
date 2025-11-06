@@ -14,7 +14,7 @@
   }
 
   button:focus-visible {
-    outline: 2px solid #00EFFF;
+    outline: 2px solid #00efff;
     outline-offset: 2px;
     box-shadow: 0 0 15px rgba(0, 239, 255, 0.8);
   }

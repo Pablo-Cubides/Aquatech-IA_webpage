@@ -13,7 +13,7 @@ export default function IaError({ error, reset }: Props) {
       <div className="text-center">
         <h1 className="text-6xl font-bold text-[#0095FF] mb-4">Error</h1>
         <h2 className="text-2xl mb-4">Algo salió mal</h2>
-        <p className="text-gray-400 mb-8">
+        <p className="text-[#CCCCCC] mb-8">
           Ha ocurrido un error inesperado en el portal IA.
         </p>
         {/* TODO: Botón retry estilizado */}

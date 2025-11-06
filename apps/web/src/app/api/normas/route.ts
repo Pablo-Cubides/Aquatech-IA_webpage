@@ -3,7 +3,12 @@ import fs from "fs";
 
 export const runtime = "nodejs";
 
-const VALID_DOMAINS = ["agua", "calidad-aire", "residuos-solidos", "vertimientos"];
+const VALID_DOMAINS = [
+  "agua",
+  "calidad-aire",
+  "residuos-solidos",
+  "vertimientos",
+];
 
 // Cache con TTL simple
 const cache = new Map<string, { data: unknown; expiry: number }>();
@@ -35,14 +40,14 @@ export async function GET(request: Request) {
   if (!dominio || !pais) {
     return Response.json(
       { error: "Parámetros requeridos: dominio, pais (sector es opcional)" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
   if (!VALID_DOMAINS.includes(dominio)) {
     return Response.json(
       { error: `Dominio inválido. Opciones: ${VALID_DOMAINS.join(", ")}` },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -62,13 +67,13 @@ export async function GET(request: Request) {
       "data",
       "json",
       dominio,
-      `${pais}.json`
+      `${pais}.json`,
     );
 
     if (!fs.existsSync(countryFile)) {
       return Response.json(
         { error: `País no encontrado: ${pais}` },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -85,7 +90,7 @@ export async function GET(request: Request) {
     } else if (sector) {
       return Response.json(
         { error: `Sector no encontrado: ${sector}` },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -105,9 +110,6 @@ export async function GET(request: Request) {
     });
   } catch (error) {
     console.error("Error reading norms:", error);
-    return Response.json(
-      { error: "Error al leer normas" },
-      { status: 500 }
-    );
+    return Response.json({ error: "Error al leer normas" }, { status: 500 });
   }
 }

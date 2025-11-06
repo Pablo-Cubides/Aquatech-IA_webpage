@@ -166,17 +166,17 @@ export default function ProductosIAPage() {
 
   return (
     <div
-      className={`${noto.variable} ${space.variable} min-h-screen bg-[#10111A] text-white`}
+      className={`${noto.variable} ${space.variable} min-h-screen bg-[#000000] text-white`}
     >
       {/* Design System */}
       <style jsx global>{`
         :root {
           --primary-cyan: #00efff;
           --secondary-cyan: #0095ff;
-          --deep-blue: #10111a;
-          --panel-bg: #1a1b2e;
+          --deep-blue: #000000;
+          --panel-bg: #10111a;
           --text-primary: #ffffff;
-          --text-secondary: #b0bec5;
+          --text-secondary: #CCCCCC;
           --border-color: rgba(0, 239, 255, 0.1);
           --accent-purple: #8b5cf6;
           --accent-pink: #ec4899;
@@ -193,7 +193,7 @@ export default function ProductosIAPage() {
             Roboto,
             "Helvetica Neue",
             Arial;
-          background-color: var(--deep-blue);
+          background-color: #000000;
           color: var(--text-primary);
         }
 
