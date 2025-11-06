@@ -19,20 +19,45 @@ export default function MapComponent({
   const map = useRef<maplibregl.Map | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
 
-  // Initialize map with CartoDB basemap and optimizations
+  // Initialize map with optimized basemap and error handling
   useEffect(() => {
     if (!mapContainer.current) return;
 
-    map.current = new maplibregl.Map({
-      container: mapContainer.current,
-      style: "https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json",
-      center: [-74.0721, 4.711], // Bogotá, Colombia
-      zoom: 4, // Start with zoom 4 to see all data
-      minZoom: 2,
-      maxZoom: 19,
-      pitch: 0,
-      bearing: 0,
-    });
+    try {
+      // Use a simpler style that doesn't require external CORS
+      // or use the OpenStreetMap compatible style
+      const styleUrl = "https://tile.openstreetmap.org/styles/positron/style.json";
+      
+      map.current = new maplibregl.Map({
+        container: mapContainer.current,
+        // Use a style that works without CORS issues - fallback to simple OSM style
+        style: {
+          version: 8,
+          sources: {
+            osm: {
+              type: "raster",
+              tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
+              tileSize: 256,
+            },
+          },
+          layers: [
+            {
+              id: "osm",
+              type: "raster",
+              source: "osm",
+            },
+          ],
+        },
+        center: [-74.0721, 4.711], // Bogotá, Colombia
+        zoom: 4, // Start with zoom 4 to see all data
+        minZoom: 2,
+        maxZoom: 19,
+        pitch: 0,
+        bearing: 0,
+      });
+    } catch (err) {
+      console.error("Error inicializando mapa:", err);
+    }
 
     // Add navigation controls with better positioning
     const navControl = new maplibregl.NavigationControl();

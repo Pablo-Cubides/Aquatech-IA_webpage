@@ -80,7 +80,9 @@ export default function HomePage() {
       const res = await fetch(`/api/sectores?dominio=${selectedDomain}&pais=${countryCode}`);
       if (!res.ok) throw new Error('No se pudieron cargar los sectores');
       const data = await res.json();
-      setAvailableSectors(data.sectors || []);
+      // Ensure sectors is always an array
+      const sectors = Array.isArray(data.sectors) ? data.sectors : [];
+      setAvailableSectors(sectors);
     } catch (e) { 
       console.error(e); 
       setAvailableSectors([]); 
@@ -234,12 +236,14 @@ export default function HomePage() {
                 ) : availableSectors.length > 0 ? (
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-3">
                     {availableSectors.map(sectorId => {
+                      // Ensure sectorId is a string
+                      const sectorIdStr = typeof sectorId === 'string' ? sectorId : String(sectorId);
                       // Use smart icon matching instead of static WATER_USE_SECTORS
-                      const sectorInfo = WATER_USE_SECTORS.find(s => s.id === sectorId) || {
-                        id: sectorId,
-                        nombre: sectorId.replace(/_/g, ' ').replace(/-/g, ' '),
-                        descripcion: `Datos para ${sectorId}`,
-                        icon: getSectorEmoji(sectorId) // ← Smart matching!
+                      const sectorInfo = WATER_USE_SECTORS.find(s => s.id === sectorIdStr) || {
+                        id: sectorIdStr,
+                        nombre: sectorIdStr.replace(/_/g, ' ').replace(/-/g, ' '),
+                        descripcion: `Datos para ${sectorIdStr}`,
+                        icon: getSectorEmoji(sectorIdStr) // ← Smart matching!
                       };
                       return (
                         <SectorCard
