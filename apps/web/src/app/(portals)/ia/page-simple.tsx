@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 export default function IAPage() {
   return (
-    <main className="bg-[#10111A] text-[#B6C2DF]">
+    <main className="bg-[#000000] text-[#CCCCCC]">
       <section className="py-32 text-center">
         <div className="container mx-auto px-4">
           <h1 className="text-5xl md:text-7xl font-bold text-[#F3F6FF]">
