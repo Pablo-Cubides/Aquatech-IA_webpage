@@ -27,7 +27,7 @@ export default function TermsPage() {
             <h2 className="text-2xl font-bold mb-4 text-[#0095FF]">
               1. Aceptación de Términos
             </h2>
-            <p className="text-gray-300">
+            <p className="text-[#CCCCCC]">
               Al acceder y usar AquatechIA, aceptas estar vinculado por estos
               Términos de Servicio. Si no aceptas estos términos, no debes usar
               nuestros servicios.
@@ -39,8 +39,8 @@ export default function TermsPage() {
             <h2 className="text-2xl font-bold mb-4 text-[#0095FF]">
               2. Descripción del Servicio
             </h2>
-            <p className="text-gray-300 mb-4">AquatechIA proporciona:</p>
-            <ul className="space-y-2 text-gray-300 ml-4">
+            <p className="text-[#CCCCCC] mb-4">AquatechIA proporciona:</p>
+            <ul className="space-y-2 text-[#CCCCCC] ml-4">
               <li>✓ Plataforma educativa sobre Inteligencia Artificial</li>
               <li>✓ Herramientas de gestión y análisis ambiental</li>
               <li>✓ Recursos de aprendizaje interactivos</li>
@@ -53,7 +53,7 @@ export default function TermsPage() {
             <h2 className="text-2xl font-bold mb-4 text-[#0095FF]">
               3. Cuenta de Usuario
             </h2>
-            <div className="space-y-4 text-gray-300">
+            <div className="space-y-4 text-[#CCCCCC]">
               <p>
                 Para usar ciertos servicios, debes crear una cuenta
                 proporcionando información precisa. Eres responsable de:
@@ -71,8 +71,8 @@ export default function TermsPage() {
             <h2 className="text-2xl font-bold mb-4 text-[#0095FF]">
               4. Uso Aceptable
             </h2>
-            <p className="text-gray-300 mb-4">No debes:</p>
-            <ul className="space-y-2 text-gray-300 ml-4">
+            <p className="text-[#CCCCCC] mb-4">No debes:</p>
+            <ul className="space-y-2 text-[#CCCCCC] ml-4">
               <li>🚫 Usar la plataforma para actividades ilegales</li>
               <li>🚫 Acosar, amenazar o discriminar a otros usuarios</li>
               <li>
@@ -91,12 +91,12 @@ export default function TermsPage() {
             <h2 className="text-2xl font-bold mb-4 text-[#0095FF]">
               5. Derechos de Propiedad Intelectual
             </h2>
-            <p className="text-gray-300 mb-4">
+            <p className="text-[#CCCCCC] mb-4">
               Todos los contenidos de AquatechIA (texto, gráficos, logos,
               imágenes, código) son propiedad de AquatechIA o sus licenciantes y
               están protegidos por derechos de autor.
             </p>
-            <p className="text-gray-300">
+            <p className="text-[#CCCCCC]">
               Se te otorga una licencia limitada para usar el contenido para
               fines educativos personales. No puedes reproducir, distribuir o
               transmitir contenido sin autorización explícita.
@@ -108,13 +108,13 @@ export default function TermsPage() {
             <h2 className="text-2xl font-bold mb-4 text-[#0095FF]">
               6. Contenido del Usuario
             </h2>
-            <p className="text-gray-300 mb-4">
+            <p className="text-[#CCCCCC] mb-4">
               Al cargar contenido en AquatechIA, otorgas a AquatechIA una
               licencia mundial, no exclusiva, libre de regalías para usar ese
               contenido.
             </p>
-            <p className="text-gray-300">Garantizas que tu contenido:</p>
-            <ul className="space-y-2 text-gray-300 ml-4 mt-2">
+            <p className="text-[#CCCCCC]">Garantizas que tu contenido:</p>
+            <ul className="space-y-2 text-[#CCCCCC] ml-4 mt-2">
               <li>✓ No infringe derechos de terceros</li>
               <li>✓ No contiene malware o código malicioso</li>
               <li>✓ Cumple con todas las leyes aplicables</li>
@@ -126,15 +126,15 @@ export default function TermsPage() {
             <h2 className="text-2xl font-bold mb-4 text-[#0095FF]">
               7. Limitación de Responsabilidad
             </h2>
-            <p className="text-gray-300 mb-4">
+            <p className="text-[#CCCCCC] mb-4">
               <strong>DESCARGO DE RESPONSABILIDAD:</strong> La plataforma se
               proporciona "tal cual" sin garantías de ningún tipo.
             </p>
-            <p className="text-gray-300 mb-4">
+            <p className="text-[#CCCCCC] mb-4">
               En la máxima medida permitida por la ley, AquatechIA no es
               responsable por:
             </p>
-            <ul className="space-y-2 text-gray-300 ml-4">
+            <ul className="space-y-2 text-[#CCCCCC] ml-4">
               <li>• Daños directos, indirectos o consecuentes</li>
               <li>• Pérdida de datos o ingresos</li>
               <li>• Interrupciones del servicio</li>
@@ -148,11 +148,11 @@ export default function TermsPage() {
             <h2 className="text-2xl font-bold mb-4 text-[#0095FF]">
               8. Indemnización
             </h2>
-            <p className="text-gray-300">
+            <p className="text-[#CCCCCC]">
               Aceptas indemnizar y eximir a AquatechIA de cualquier reclamo,
               pérdida o gasto (incluyendo honorarios legales) resultantes de:
             </p>
-            <ul className="space-y-2 text-gray-300 ml-4 mt-2">
+            <ul className="space-y-2 text-[#CCCCCC] ml-4 mt-2">
               <li>• Tu incumplimiento de estos términos</li>
               <li>• Tu uso de la plataforma</li>
               <li>• Tu contenido violando derechos de terceros</li>
@@ -164,7 +164,7 @@ export default function TermsPage() {
             <h2 className="text-2xl font-bold mb-4 text-[#0095FF]">
               9. Modificación de Servicios
             </h2>
-            <p className="text-gray-300">
+            <p className="text-[#CCCCCC]">
               AquatechIA se reserva el derecho a modificar o discontinuar
               servicios en cualquier momento. Te notificaremos de cambios
               significativos con antelación razonable.
@@ -176,15 +176,15 @@ export default function TermsPage() {
             <h2 className="text-2xl font-bold mb-4 text-[#0095FF]">
               10. Terminación
             </h2>
-            <p className="text-gray-300">
+            <p className="text-[#CCCCCC]">
               AquatechIA puede terminar tu cuenta si:
             </p>
-            <ul className="space-y-2 text-gray-300 ml-4 mt-2">
+            <ul className="space-y-2 text-[#CCCCCC] ml-4 mt-2">
               <li>• Incumples estos términos</li>
               <li>• Tu conducta es dañina para otros usuarios</li>
               <li>• Participas en actividades ilegales</li>
             </ul>
-            <p className="text-gray-300 mt-4">
+            <p className="text-[#CCCCCC] mt-4">
               Puedes cancelar tu cuenta en cualquier momento desde tu perfil.
             </p>
           </section>
@@ -194,7 +194,7 @@ export default function TermsPage() {
             <h2 className="text-2xl font-bold mb-4 text-[#0095FF]">
               11. Ley Aplicable
             </h2>
-            <p className="text-gray-300">
+            <p className="text-[#CCCCCC]">
               Estos términos se rigen por las leyes de Colombia, sin considerar
               conflictos de leyes. Cualquier litigio se resolverá en los
               juzgados de Bogotá.
@@ -206,17 +206,17 @@ export default function TermsPage() {
             <h2 className="text-2xl font-bold mb-4 text-[#0095FF]">
               12. Contacto
             </h2>
-            <p className="text-gray-300 mb-4">
+            <p className="text-[#CCCCCC] mb-4">
               Para preguntas sobre estos términos:
             </p>
             <div className="bg-gray-900 p-6 rounded-lg border border-gray-800">
-              <p className="text-gray-300">
+              <p className="text-[#CCCCCC]">
                 📧 <strong>Email:</strong> legal@aquatechia.com
               </p>
-              <p className="text-gray-300 mt-3">
+              <p className="text-[#CCCCCC] mt-3">
                 🌐 <strong>Sitio web:</strong> https://aquatechia.com
               </p>
-              <p className="text-gray-300 mt-3">
+              <p className="text-[#CCCCCC] mt-3">
                 📍 <strong>Ubicación:</strong> Bogotá, Colombia
               </p>
             </div>

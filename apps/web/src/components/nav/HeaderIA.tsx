@@ -38,7 +38,7 @@ export default function HeaderIA() {
           </Link>
           <Link
             href="/ambiental"
-            className="px-4 py-1 font-medium text-gray-400 transition-all duration-300 hover:text-cyan-400"
+            className="px-4 py-1 font-medium text-[#CCCCCC] transition-all duration-300 hover:text-cyan-400"
           >
             Ambiental
           </Link>
@@ -51,31 +51,31 @@ export default function HeaderIA() {
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
           <Link
             href="/ia/nosotros"
-            className="text-gray-400 transition-colors duration-300 hover:text-cyan-400"
+            className="text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400"
           >
             Nosotros
           </Link>
           <Link
             href="/ia/blog"
-            className="text-gray-400 transition-colors duration-300 hover:text-cyan-400"
+            className="text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400"
           >
             Blog
           </Link>
           <Link
             href="/ia/herramientas"
-            className="text-gray-400 transition-colors duration-300 hover:text-cyan-400"
+            className="text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400"
           >
             Herramientas
           </Link>
           <Link
             href="/ia/autor"
-            className="text-gray-400 transition-colors duration-300 hover:text-cyan-400"
+            className="text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400"
           >
             Autor
           </Link>
           <Link
             href="/ia/productos"
-            className="text-gray-400 transition-colors duration-300 hover:text-cyan-400"
+            className="text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400"
           >
             Productos
           </Link>
@@ -87,7 +87,7 @@ export default function HeaderIA() {
         </div>
 
         {/* Menú móvil (placeholder) */}
-        <button className="md:hidden p-2 text-gray-400 transition-colors duration-300 hover:text-cyan-400">
+        <button className="md:hidden p-2 text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400">
           <svg
             className="h-6 w-6"
             fill="none"

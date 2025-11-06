@@ -59,7 +59,7 @@ export default function PatternTimeline({ currentPattern, patterns }: Props) {
                     transition-all duration-300 cursor-default
                     ${isActive 
                       ? 'bg-gradient-cyber text-black scale-125 shadow-glow-cyan animate-pulse-slow' 
-                      : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:scale-110'
+                      : 'bg-white/5 text-[#CCCCCC] hover:bg-white/10 hover:scale-110'
                     }
                   `}
                   title={`${pattern}: ${desc}`}
@@ -75,7 +75,7 @@ export default function PatternTimeline({ currentPattern, patterns }: Props) {
                 {/* Label */}
                 <div className={`
                   mt-2 text-xs font-semibold transition-all duration-300
-                  ${isActive ? 'text-primary scale-110' : 'text-gray-500 group-hover:text-gray-300'}
+                  ${isActive ? 'text-primary scale-110' : 'text-[#CCCCCC] group-hover:text-[#CCCCCC]'}
                 `}>
                   {pattern}
                 </div>
@@ -96,7 +96,7 @@ export default function PatternTimeline({ currentPattern, patterns }: Props) {
       <div className="mt-6 text-center">
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-cyber/10 border border-primary/30">
           <span className="text-2xl">{patternEmojis[currentPattern]}</span>
-          <span className="text-sm font-medium text-gray-300">
+          <span className="text-sm font-medium text-[#CCCCCC]">
             {patternDescriptionsShort[currentPattern]}
           </span>
         </div>

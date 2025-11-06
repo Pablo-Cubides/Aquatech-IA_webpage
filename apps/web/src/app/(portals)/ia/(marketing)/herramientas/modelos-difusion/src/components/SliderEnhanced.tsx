@@ -67,7 +67,7 @@ export default function SliderEnhanced({
 
       {/* Tooltip */}
       {showTooltip && description && (
-        <div className="glass p-3 rounded-lg text-xs text-gray-300 animate-scale-in">
+        <div className="glass p-3 rounded-lg text-xs text-[#CCCCCC] animate-scale-in">
           {description}
         </div>
       )}
@@ -142,7 +142,7 @@ export default function SliderEnhanced({
         </div>
 
         {/* Mini marcadores en el track */}
-        <div className="absolute bottom-0 left-0 right-0 flex justify-between px-1 text-xs text-gray-500">
+        <div className="absolute bottom-0 left-0 right-0 flex justify-between px-1 text-xs text-[#CCCCCC]">
           <span>{min}</span>
           <span>{max}</span>
         </div>

@@ -29,7 +29,7 @@ export default function AcademicReferences({ links, compact = false }: Props) {
             <span className="text-primary group-hover:text-secondary transition-colors">
               {link.icon || '📚'}
             </span>
-            <span className="text-gray-400 group-hover:text-white transition-colors">
+            <span className="text-[#CCCCCC] group-hover:text-white transition-colors">
               {link.source}
             </span>
             <svg className="w-3 h-3 opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -63,7 +63,7 @@ export default function AcademicReferences({ links, compact = false }: Props) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
               </svg>
             </div>
-            <p className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors line-clamp-1">
+            <p className="text-sm text-[#CCCCCC] group-hover:text-[#CCCCCC] transition-colors line-clamp-1">
               {link.title}
             </p>
           </div>

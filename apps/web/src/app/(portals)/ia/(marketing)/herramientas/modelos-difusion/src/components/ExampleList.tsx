@@ -34,7 +34,7 @@ export default function ExampleList({ examples, highlighted }: { examples: Ex[];
               <div className="flex-1 pt-1">
                 <p className={`
                   text-sm leading-relaxed transition-colors duration-300
-                  ${isHighlighted ? 'text-white font-medium' : 'text-gray-300'}
+                  ${isHighlighted ? 'text-white font-medium' : 'text-[#CCCCCC]'}
                 `}>
                   {ex.text}
                 </p>

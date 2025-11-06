@@ -44,7 +44,7 @@ function ParamCard({title, summary}:{title:string; summary:string}){
   return (
     <div className="glass rounded-xl p-5 hover:scale-[1.02] transition-all duration-300 cursor-default border-2 border-transparent hover:border-primary/30">
       <h3 className="text-md font-bold text-gradient mb-3">{title}</h3>
-      <p className="text-sm text-gray-300 leading-relaxed">{summary}</p>
+      <p className="text-sm text-[#CCCCCC] leading-relaxed">{summary}</p>
     </div>
   )
 }
@@ -215,7 +215,7 @@ export default function Home(){
           <h1 className="text-3xl md:text-4xl font-bold leading-tight mb-2">
             <span className="text-gradient">ExploraModelo</span>
           </h1>
-          <p className="text-sm text-gray-400 max-w-3xl leading-relaxed">
+          <p className="text-sm text-[#CCCCCC] max-w-3xl leading-relaxed">
             Guía académica interactiva de parámetros de decodificación — Experimenta cómo Temperatura, Top-k, Top-p y Penalización afectan las salidas de modelos de lenguaje
           </p>
         </div>
@@ -227,13 +227,13 @@ export default function Home(){
           <button 
             key={n} 
             onClick={()=>setActiveStep(n)} 
-            className={`step-dot transition-all duration-300 ${activeStep===n ? 'bg-gradient-cyber text-black scale-110' : 'bg-white/5 text-gray-400 hover:bg-white/10'}`} 
+            className={`step-dot transition-all duration-300 ${activeStep===n ? 'bg-gradient-cyber text-black scale-110' : 'bg-white/5 text-[#CCCCCC] hover:bg-white/10'}`} 
             aria-label={`Ir al paso ${n}`}
           >
             {n}
           </button>
         ))}
-        <div className="ml-4 text-sm text-gray-400 hidden md:block">
+        <div className="ml-4 text-sm text-[#CCCCCC] hidden md:block">
           <span className={activeStep === 1 ? 'text-primary font-semibold' : ''}>1 Qué es</span>
           <span className="mx-2">•</span>
           <span className={activeStep === 2 ? 'text-primary font-semibold' : ''}>2 Parámetros</span>
@@ -250,7 +250,7 @@ export default function Home(){
           <StepHeader num={1} title="¿Qué hace esta app?" />
           <div className="glass-strong rounded-2xl p-6 mb-6 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-cyber opacity-5 blur-3xl rounded-full" />
-            <p className="text-gray-300 leading-relaxed relative z-10">
+            <p className="text-[#CCCCCC] leading-relaxed relative z-10">
               Esta aplicación es un recurso académico que demuestra, paso a paso, cómo los parámetros de decodificación 
               (<span className="text-primary font-semibold">Temperatura</span>, 
               <span className="text-secondary font-semibold"> Top-k</span>, 
@@ -287,7 +287,7 @@ export default function Home(){
                   </div>
                   <h3 className="text-2xl font-bold text-gradient">Temperatura</h3>
                 </div>
-                <p className="text-sm text-gray-300 mb-6 leading-relaxed">{academic.temperatura.summary} En esta sección profundizamos en cómo la temperatura afecta la distribución de probabilidad y ejemplos prácticos de cuándo ajustar T para tareas específicas (e.g., redacción formal vs brainstorming).</p>
+                <p className="text-sm text-[#CCCCCC] mb-6 leading-relaxed">{academic.temperatura.summary} En esta sección profundizamos en cómo la temperatura afecta la distribución de probabilidad y ejemplos prácticos de cuándo ajustar T para tareas específicas (e.g., redacción formal vs brainstorming).</p>
                 
                 {/* Referencias académicas */}
                 <div className="mb-6">
@@ -310,7 +310,7 @@ export default function Home(){
                   </div>
                   <h3 className="text-2xl font-bold text-gradient">Top‑k</h3>
                 </div>
-                <p className="text-sm text-gray-300 mb-6 leading-relaxed">{academic.topk.summary} Aquí profundizamos en el trade-off entre control y diversidad al fijar un k fijo, y ejemplos de ajustes para tareas de completado o generación controlada.</p>
+                <p className="text-sm text-[#CCCCCC] mb-6 leading-relaxed">{academic.topk.summary} Aquí profundizamos en el trade-off entre control y diversidad al fijar un k fijo, y ejemplos de ajustes para tareas de completado o generación controlada.</p>
                 
                 {/* Referencias académicas */}
                 <div className="mb-6">
@@ -333,7 +333,7 @@ export default function Home(){
                   </div>
                   <h3 className="text-2xl font-bold text-gradient">Top‑p</h3>
                 </div>
-                <p className="text-sm text-gray-300 mb-6 leading-relaxed">{academic.topp.summary} Profundizamos en cómo el núcleo adaptativo evita forzar un tamaño fijo y ejemplos prácticos para diferentes tareas (resumen, diálogo, creatividad).</p>
+                <p className="text-sm text-[#CCCCCC] mb-6 leading-relaxed">{academic.topp.summary} Profundizamos en cómo el núcleo adaptativo evita forzar un tamaño fijo y ejemplos prácticos para diferentes tareas (resumen, diálogo, creatividad).</p>
                 
                 {/* Referencias académicas */}
                 <div className="mb-6">
@@ -356,7 +356,7 @@ export default function Home(){
                   </div>
                   <h3 className="text-2xl font-bold text-gradient">Penalización por repetición</h3>
                 </div>
-                <p className="text-sm text-gray-300 mb-6 leading-relaxed">{academic.repetition.summary} Estrategias para ajustar la penalización y ejemplos sobre cómo evitar repeticiones sin perder coherencia semántica.</p>
+                <p className="text-sm text-[#CCCCCC] mb-6 leading-relaxed">{academic.repetition.summary} Estrategias para ajustar la penalización y ejemplos sobre cómo evitar repeticiones sin perder coherencia semántica.</p>
                 <ExampleList examples={academic.repetition.examples} highlighted={highlighted ? highlighted.replace('r-','') : null} />
                 <div className="mt-6 flex justify-between">
                   <button onClick={()=>setSubStep(2)} className="btn btn-ghost">← Anterior: Top-p</button>
@@ -462,7 +462,7 @@ export default function Home(){
                 
                 <div className="relative z-10">
                   <p className="text-xs uppercase tracking-wider text-primary/80 mb-2 font-bold">Caso de ejemplo</p>
-                  <p className="text-sm italic text-gray-400 mb-4">{currentCase.title}...</p>
+                  <p className="text-sm italic text-[#CCCCCC] mb-4">{currentCase.title}...</p>
                   
                   <div aria-live="polite" role="status" className="mt-6 text-2xl md:text-3xl leading-relaxed font-medium whitespace-pre-wrap min-h-[10rem]">
                     {displayed}
@@ -498,7 +498,7 @@ export default function Home(){
               {/* Interpretación del comportamiento */}
               <div className="glass rounded-xl p-6">
                 <h3 className="text-lg font-bold text-gradient mb-3">Interpretación del Patrón {selectedPattern}</h3>
-                <p className="text-gray-300 leading-relaxed mb-4">{patternDescriptions[selectedPattern]}</p>
+                <p className="text-[#CCCCCC] leading-relaxed mb-4">{patternDescriptions[selectedPattern]}</p>
                 
                 <div className="flex gap-2 flex-wrap">
                   {(() => {
@@ -564,7 +564,7 @@ export default function Home(){
         </section>
       )}
 
-      <footer className="text-center text-sm text-gray-500 mt-16 pb-8 border-t border-white/5 pt-8">
+      <footer className="text-center text-sm text-[#CCCCCC] mt-16 pb-8 border-t border-white/5 pt-8">
         <div className="flex items-center justify-center gap-2 mb-3">
           <div className="w-8 h-8 rounded-lg bg-gradient-cyber flex items-center justify-center">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">

@@ -16,7 +16,7 @@ export default function PrivacyPage() {
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-[#00EFFF]">
             Política de Privacidad
           </h1>
-                      <p className="text-gray-400 text-sm mt-4">
+          <p className="text-[#CCCCCC] text-sm mt-4">
             Última actualización: {new Date().toLocaleDateString("es-ES")}
           </p>
         </div>
@@ -28,7 +28,7 @@ export default function PrivacyPage() {
             <h2 className="text-2xl font-bold mb-4 text-[#0095FF]">
               1. Responsable del Tratamiento de Datos
             </h2>
-            <p className="text-gray-300 mb-4">
+            <p className="text-[#CCCCCC] mb-4">
               <strong>AquatechIA</strong> es el responsable del tratamiento de
               tus datos personales en el contexto de nuestros servicios
               educativos y herramientas de gestión ambiental.
@@ -38,7 +38,7 @@ export default function PrivacyPage() {
                 📧 Email:{" "}
                 <span className="text-gray-200">privacy@aquatechia.com</span>
               </p>
-              <p className="text-sm text-gray-400 mt-2">
+              <p className="text-sm text-[#CCCCCC] mt-2">
                 🌐 Sitio web:{" "}
                 <span className="text-gray-200">https://aquatechia.com</span>
               </p>
@@ -50,10 +50,10 @@ export default function PrivacyPage() {
             <h2 className="text-2xl font-bold mb-4 text-[#0095FF]">
               2. ¿Qué Datos Recopilamos?
             </h2>
-            <p className="text-gray-300 mb-4">
+            <p className="text-[#CCCCCC] mb-4">
               Recopilamos los siguientes tipos de datos:
             </p>
-            <ul className="space-y-3 text-gray-300">
+            <ul className="space-y-3 text-[#CCCCCC]">
               <li className="flex gap-3">
                 <span className="text-[#00EFFF]">▪</span>
                 <span>
@@ -98,10 +98,10 @@ export default function PrivacyPage() {
             <h2 className="text-2xl font-bold mb-4 text-[#0095FF]">
               3. Base Legal para el Tratamiento
             </h2>
-            <p className="text-gray-300 mb-4">
+            <p className="text-[#CCCCCC] mb-4">
               Tratamos tus datos bajo las siguientes bases legales:
             </p>
-            <ul className="space-y-2 text-gray-300 ml-4">
+            <ul className="space-y-2 text-[#CCCCCC] ml-4">
               <li>
                 ✓ <strong>Consentimiento:</strong> Proporcionado al registrarte
               </li>
@@ -125,8 +125,8 @@ export default function PrivacyPage() {
             <h2 className="text-2xl font-bold mb-4 text-[#0095FF]">
               4. Cómo Usamos Tus Datos
             </h2>
-            <p className="text-gray-300 mb-4">Utilizamos tus datos para:</p>
-            <ul className="space-y-2 text-gray-300 ml-4">
+            <p className="text-[#CCCCCC] mb-4">Utilizamos tus datos para:</p>
+            <ul className="space-y-2 text-[#CCCCCC] ml-4">
               <li>✓ Proporcionar y mejorar nuestros servicios</li>
               <li>✓ Personalizar tu experiencia educativa</li>
               <li>✓ Enviar notificaciones y actualizaciones</li>
@@ -141,8 +141,8 @@ export default function PrivacyPage() {
             <h2 className="text-2xl font-bold mb-4 text-[#0095FF]">
               5. Derechos del Usuario (GDPR)
             </h2>
-            <p className="text-gray-300 mb-4">Tienes derecho a:</p>
-            <ul className="space-y-3 text-gray-300">
+            <p className="text-[#CCCCCC] mb-4">Tienes derecho a:</p>
+            <ul className="space-y-3 text-[#CCCCCC]">
               <li className="flex gap-3">
                 <span className="text-[#00EFFF]">🔐</span>
                 <span>
@@ -183,7 +183,7 @@ export default function PrivacyPage() {
                 </span>
               </li>
             </ul>
-            <p className="text-gray-400 text-sm mt-4">
+            <p className="text-[#CCCCCC] text-sm mt-4">
               Para ejercer estos derechos, contacta a:{" "}
               <strong>privacy@aquatechia.com</strong>
             </p>
@@ -194,10 +194,10 @@ export default function PrivacyPage() {
             <h2 className="text-2xl font-bold mb-4 text-[#0095FF]">
               6. Compartir Datos con Terceros
             </h2>
-            <p className="text-gray-300 mb-4">
+            <p className="text-[#CCCCCC] mb-4">
               Solo compartimos tus datos con terceros en los siguientes casos:
             </p>
-            <ul className="space-y-2 text-gray-300 ml-4">
+            <ul className="space-y-2 text-[#CCCCCC] ml-4">
               <li>
                 🔸 <strong>Proveedores:</strong> Supabase (base de datos),
                 Sentry (monitoreo)
@@ -211,7 +211,7 @@ export default function PrivacyPage() {
                 explícitamente
               </li>
             </ul>
-            <p className="text-gray-400 text-sm mt-4">
+            <p className="text-[#CCCCCC] text-sm mt-4">
               No vendemos ni alquilamos tus datos personales a terceros.
             </p>
           </section>
@@ -221,11 +221,11 @@ export default function PrivacyPage() {
             <h2 className="text-2xl font-bold mb-4 text-[#0095FF]">
               7. Seguridad de Datos
             </h2>
-            <p className="text-gray-300 mb-4">
+            <p className="text-[#CCCCCC] mb-4">
               Implementamos medidas de seguridad técnicas y organizativas para
               proteger tus datos:
             </p>
-            <ul className="space-y-2 text-gray-300 ml-4">
+            <ul className="space-y-2 text-[#CCCCCC] ml-4">
               <li>🛡️ Encriptación en tránsito (HTTPS/TLS)</li>
               <li>🛡️ Encriptación en reposo para datos sensibles</li>
               <li>🛡️ Autenticación segura (NextAuth.js)</li>
@@ -239,10 +239,10 @@ export default function PrivacyPage() {
             <h2 className="text-2xl font-bold mb-4 text-[#0095FF]">
               8. Retención de Datos
             </h2>
-            <p className="text-gray-300 mb-4">
+            <p className="text-[#CCCCCC] mb-4">
               Conservamos tus datos personales durante el tiempo necesario para:
             </p>
-            <ul className="space-y-2 text-gray-300 ml-4">
+            <ul className="space-y-2 text-[#CCCCCC] ml-4">
               <li>
                 📅 <strong>Datos de Cuenta:</strong> Mientras tu cuenta esté
                 activa
@@ -264,14 +264,14 @@ export default function PrivacyPage() {
             <h2 className="text-2xl font-bold mb-4 text-[#0095FF]">
               9. Cookies y Tecnologías de Rastreo
             </h2>
-            <p className="text-gray-300 mb-4">Utilizamos cookies para:</p>
-            <ul className="space-y-2 text-gray-300 ml-4">
+            <p className="text-[#CCCCCC] mb-4">Utilizamos cookies para:</p>
+            <ul className="space-y-2 text-[#CCCCCC] ml-4">
               <li>🍪 Mantener tu sesión activa</li>
               <li>🍪 Recordar preferencias</li>
               <li>🍪 Analizar uso (Google Analytics)</li>
               <li>🍪 Mejorar seguridad (CSRF tokens)</li>
             </ul>
-            <p className="text-gray-400 text-sm mt-4">
+            <p className="text-[#CCCCCC] text-sm mt-4">
               Puedes gestionar cookies desde las preferencias de tu navegador.
             </p>
           </section>
@@ -281,7 +281,7 @@ export default function PrivacyPage() {
             <h2 className="text-2xl font-bold mb-4 text-[#0095FF]">
               10. Cambios a Esta Política
             </h2>
-            <p className="text-gray-300">
+            <p className="text-[#CCCCCC]">
               Podemos actualizar esta política ocasionalmente. Te notificaremos
               de cambios significativos mediante email o publicando la nueva
               política en nuestro sitio.
@@ -293,11 +293,11 @@ export default function PrivacyPage() {
             <h3 className="text-lg font-bold mb-3 text-[#00EFFF]">
               ¿Preguntas?
             </h3>
-            <p className="text-gray-300 mb-4">
+            <p className="text-[#CCCCCC] mb-4">
               Si tienes preguntas sobre esta política o cómo manejamos tus
               datos, por favor contáctanos:
             </p>
-            <div className="text-gray-300 space-y-2">
+            <div className="text-[#CCCCCC] space-y-2">
               <p>
                 📧 <strong>Email:</strong> privacy@aquatechia.com
               </p>

@@ -31,7 +31,7 @@ export default function RuletaPreguntasIAPage() {
           --deep-blue: #000000;
           --panel-bg: #10111a;
           --text-primary: #ffffff;
-          --text-secondary: #CCCCCC;
+          --text-secondary: #cccccc;
           --border-color: rgba(0, 239, 255, 0.1);
         }
 

@@ -149,19 +149,19 @@ export default function PatternRadarChart({ temperature, topK, topP, repetitionP
       <div className="grid grid-cols-2 gap-2 mt-3 text-xs w-full">
         <div className="flex items-center gap-1">
           <div className="w-2 h-2 rounded-full bg-primary" />
-          <span className="text-gray-400">T: {temperature.toFixed(2)}</span>
+          <span className="text-[#CCCCCC]">T: {temperature.toFixed(2)}</span>
         </div>
         <div className="flex items-center gap-1">
           <div className="w-2 h-2 rounded-full bg-secondary" />
-          <span className="text-gray-400">K: {topK}</span>
+          <span className="text-[#CCCCCC]">K: {topK}</span>
         </div>
         <div className="flex items-center gap-1">
           <div className="w-2 h-2 rounded-full bg-accent" />
-          <span className="text-gray-400">P: {topP.toFixed(2)}</span>
+          <span className="text-[#CCCCCC]">P: {topP.toFixed(2)}</span>
         </div>
         <div className="flex items-center gap-1">
           <div className="w-2 h-2 rounded-full bg-white" />
-          <span className="text-gray-400">R: {repetitionPenalty.toFixed(2)}</span>
+          <span className="text-[#CCCCCC]">R: {repetitionPenalty.toFixed(2)}</span>
         </div>
       </div>
     </div>

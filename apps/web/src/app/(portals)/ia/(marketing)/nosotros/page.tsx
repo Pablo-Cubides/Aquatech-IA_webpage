@@ -90,12 +90,12 @@ export default function NosotrosPage() {
             >
               Misión
             </h2>
-            <p className="mt-3 text-lg text-[#B6C2DF]">
+            <p className="mt-3 text-lg text-[#CCCCCC]">
               Acelerar soluciones ambientales con IA abierta, validada y
               responsable, convirtiendo datos complejos en decisiones operables
               para instituciones, empresas y ciudadanía.
             </p>
-            <ul className="mt-4 list-disc space-y-2 pl-5 text-[#B6C2DF]">
+            <ul className="mt-4 list-disc space-y-2 pl-5 text-[#CCCCCC]">
               <li>
                 <span className="font-medium text-[#F3F6FF]">
                   Democratizar la IA ambiental:
@@ -158,12 +158,12 @@ export default function NosotrosPage() {
             >
               Visión
             </h2>
-            <p className="mt-3 text-lg text-[#B6C2DF]">
+            <p className="mt-3 text-lg text-[#CCCCCC]">
               Ser la plataforma de referencia en IA ambiental de habla hispana:
               ética por diseño, modular, interoperable y con ecosistema de
               aliados que lleve soluciones del laboratorio al territorio.
             </p>
-            <ul className="mt-4 list-disc space-y-2 pl-5 text-[#B6C2DF]">
+            <ul className="mt-4 list-disc space-y-2 pl-5 text-[#CCCCCC]">
               <li>
                 <span className="font-medium text-[#F3F6FF]">
                   IA ética por defecto:
@@ -208,7 +208,7 @@ export default function NosotrosPage() {
           >
             Nuestros Valores
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-lg text-[#B6C2DF]">
+          <p className="mx-auto mt-3 max-w-2xl text-lg text-[#CCCCCC]">
             Principios que guían cada línea de código y cada decisión
             estratégica.
           </p>
@@ -230,7 +230,7 @@ export default function NosotrosPage() {
                 className="rounded-lg border border-white/10 bg-[#10111A] p-6 text-center transition-all hover:-translate-y-1 hover:shadow-[0_0_15px_0_rgba(0,239,255,0.2)]"
               >
                 <h3 className="text-xl font-bold">{title}</h3>
-                <p className="mt-2 text-sm text-[#B6C2DF]">{copy}</p>
+                <p className="mt-2 text-sm text-[#CCCCCC]">{copy}</p>
               </div>
             ))}
           </div>
@@ -280,7 +280,7 @@ export default function NosotrosPage() {
             >
               Preguntas Frecuentes
             </h2>
-            <p className="mt-3 text-lg text-[#B6C2DF]">
+            <p className="mt-3 text-lg text-[#CCCCCC]">
               Respuestas claras a tus dudas más comunes.
             </p>
           </div>
@@ -306,7 +306,7 @@ export default function NosotrosPage() {
                     />
                   </svg>
                 </summary>
-                <div className="px-5 pb-5 text-[#B6C2DF]">{a}</div>
+                <div className="px-5 pb-5 text-[#CCCCCC]">{a}</div>
               </details>
             ))}
           </div>
@@ -322,7 +322,7 @@ export default function NosotrosPage() {
           >
             ¿Listo para explorar el futuro del agua y el medio ambiente?
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-lg text-[#B6C2DF]">
+          <p className="mx-auto mt-4 max-w-xl text-lg text-[#CCCCCC]">
             Sumérgete en nuestras herramientas, descubre nuestros productos o
             colabora con nosotros.
           </p>
@@ -335,7 +335,7 @@ export default function NosotrosPage() {
             </Link>
             <Link
               href="/ia/productos"
-                className="inline-block rounded-lg border border-white/20 bg-[#10111A] px-8 py-4 text-lg font-bold transition-all duration-200 hover:scale-105 hover:border-[#00EFFF] hover:text-[#00EFFF]"
+              className="inline-block rounded-lg border border-white/20 bg-[#10111A] px-8 py-4 text-lg font-bold transition-all duration-200 hover:scale-105 hover:border-[#00EFFF] hover:text-[#00EFFF]"
             >
               Ver productos
             </Link>

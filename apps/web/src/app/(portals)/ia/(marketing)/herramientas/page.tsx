@@ -419,7 +419,7 @@ export default function IAHerramientasPage() {
               <h3 className="text-lg font-semibold mb-4 text-white">
                 Enlaces Rápidos
               </h3>
-              <ul className="space-y-2 text-gray-400">
+              <ul className="space-y-2 text-[#CCCCCC]">
                 <li>
                   <Link
                     href="/ia"
@@ -456,7 +456,7 @@ export default function IAHerramientasPage() {
             </div>
             <div>
               <h3 className="text-lg font-semibold mb-4 text-white">Módulos</h3>
-              <ul className="space-y-2 text-gray-400">
+              <ul className="space-y-2 text-[#CCCCCC]">
                 <li>
                   <Link
                     href="/ia/herramientas/como-funcionan-llm"

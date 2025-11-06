@@ -148,7 +148,7 @@ export default function FooterAmbiental() {
                 required
                 placeholder="Tu email"
                 className="w-full rounded-l-lg border border-blue-600/30 bg-white px-4 py-2 text-sm text-black
-                           placeholder:text-gray-500 focus:ring-1 focus:ring-blue-600 focus:border-blue-600 transition-all duration-300"
+                           placeholder:text-[#CCCCCC] focus:ring-1 focus:ring-blue-600 focus:border-blue-600 transition-all duration-300"
               />
               <button
                 type="submit"

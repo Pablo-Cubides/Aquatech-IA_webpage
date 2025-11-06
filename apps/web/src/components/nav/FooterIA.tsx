@@ -4,20 +4,20 @@ import Link from "next/link";
 
 export default function FooterIA() {
   return (
-    <footer className="bg-gray-950 py-16 text-gray-300 border-t border-cyan-500/20">
+    <footer className="bg-gray-950 py-16 text-[#CCCCCC] border-t border-cyan-500/20">
       <div className="mx-auto max-w-7xl px-4">
         <div className="grid grid-cols-1 gap-12 text-center md:grid-cols-4 md:text-left">
           {/* Marca */}
           <div>
             <h3 className="text-lg font-bold text-white">Aquatech IA</h3>
-            <p className="mt-2 text-sm text-gray-400">
+            <p className="mt-2 text-sm text-[#CCCCCC]">
               Tecnología para un futuro sostenible.
             </p>
             <div className="mt-4 flex justify-center gap-4 md:justify-start">
               <a
                 aria-label="LinkedIn"
                 href="#"
-                className="text-gray-400 transition-colors duration-300 hover:text-cyan-400"
+                className="text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400"
               >
                 <svg
                   fill="currentColor"
@@ -32,7 +32,7 @@ export default function FooterIA() {
               <a
                 aria-label="X (Twitter)"
                 href="#"
-                className="text-gray-400 transition-colors duration-300 hover:text-cyan-400"
+                className="text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400"
               >
                 <svg
                   fill="currentColor"
@@ -47,7 +47,7 @@ export default function FooterIA() {
               <a
                 aria-label="YouTube"
                 href="#"
-                className="text-gray-400 transition-colors duration-300 hover:text-cyan-400"
+                className="text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400"
               >
                 <svg
                   fill="currentColor"
@@ -70,31 +70,31 @@ export default function FooterIA() {
             <nav className="mt-4 flex flex-col gap-2">
               <Link
                 href="/ia/nosotros"
-                className="text-sm text-gray-400 transition-colors duration-300 hover:text-cyan-400"
+                className="text-sm text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400"
               >
                 Nosotros
               </Link>
               <Link
                 href="/ia/blog"
-                className="text-sm text-gray-400 transition-colors duration-300 hover:text-cyan-400"
+                className="text-sm text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400"
               >
                 Blog
               </Link>
               <Link
                 href="/ia/herramientas"
-                className="text-sm text-gray-400 transition-colors duration-300 hover:text-cyan-400"
+                className="text-sm text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400"
               >
                 Herramientas
               </Link>
               <Link
                 href="/ia/autor"
-                className="text-sm text-gray-400 transition-colors duration-300 hover:text-cyan-400"
+                className="text-sm text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400"
               >
                 Autor
               </Link>
               <Link
                 href="/ia/productos"
-                className="text-sm text-gray-400 transition-colors duration-300 hover:text-cyan-400"
+                className="text-sm text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400"
               >
                 Productos
               </Link>
@@ -109,19 +109,19 @@ export default function FooterIA() {
             <nav className="mt-4 flex flex-col gap-2">
               <Link
                 href="/soporte"
-                className="text-sm text-gray-400 transition-colors duration-300 hover:text-cyan-400"
+                className="text-sm text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400"
               >
                 Soporte
               </Link>
               <Link
                 href="/faq"
-                className="text-sm text-gray-400 transition-colors duration-300 hover:text-cyan-400"
+                className="text-sm text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400"
               >
                 FAQ
               </Link>
               <Link
                 href="/contacto"
-                className="text-sm text-gray-400 transition-colors duration-300 hover:text-cyan-400"
+                className="text-sm text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400"
               >
                 Contacto
               </Link>
@@ -133,7 +133,7 @@ export default function FooterIA() {
             <h3 className="text-sm font-bold uppercase tracking-wider text-white">
               Newsletter
             </h3>
-            <p className="mt-4 text-sm text-gray-400">
+            <p className="mt-4 text-sm text-[#CCCCCC]">
               Suscríbete para recibir las últimas noticias sobre IA.
             </p>
             <form
@@ -149,7 +149,7 @@ export default function FooterIA() {
                 required
                 placeholder="Tu email"
                 className="w-full rounded-l-lg bg-gray-900/50 border border-cyan-500/30 px-4 py-2 text-sm text-white
-                           placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-all duration-300"
+                           placeholder:text-[#CCCCCC] focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-all duration-300"
               />
               <button
                 type="submit"

@@ -122,7 +122,7 @@ export default function IAPage() {
               <h3 className="mt-4 text-xl font-bold text-white">
                 Cómo funciona un LLM
               </h3>
-              <p className="mt-2 text-sm text-gray-300">
+              <p className="mt-2 text-sm text-[#CCCCCC]">
                 Descubre el funcionamiento interno de los modelos de lenguaje y
                 su aplicación en el análisis de datos ambientales.
               </p>
@@ -143,7 +143,7 @@ export default function IAPage() {
               <h3 className="mt-4 text-xl font-bold text-white">
                 Cómo funciona el sistema de difusión
               </h3>
-              <p className="mt-2 text-sm text-gray-300">
+              <p className="mt-2 text-sm text-[#CCCCCC]">
                 Explora los modelos de difusión para la generación de contenido
                 y su aplicación en visualizaciones ambientales.
               </p>
@@ -164,7 +164,7 @@ export default function IAPage() {
               <h3 className="mt-4 text-xl font-bold text-white">
                 Cómo la IA filtra las respuestas
               </h3>
-              <p className="mt-2 text-sm text-gray-300">
+              <p className="mt-2 text-sm text-[#CCCCCC]">
                 Comprende los mecanismos de filtrado y validación que utilizan
                 los sistemas de IA para generar respuestas precisas.
               </p>
@@ -199,7 +199,7 @@ export default function IAPage() {
                 <h3 className="mt-2 text-lg font-bold text-white">
                   El Papel de la IA en la Gestión Sostenible del Agua
                 </h3>
-                <p className="mt-2 text-sm text-gray-400">
+                <p className="mt-2 text-sm text-[#CCCCCC]">
                   Explore cómo la IA está revolucionando la gestión de recursos
                   hídricos.
                 </p>
@@ -220,11 +220,11 @@ export default function IAPage() {
                 src="https://images.unsplash.com/photo-1473773508845-188df298d2d1?w=400&h=250&fit=crop&crop=center"
               />
               <div className="p-6">
-                <p className="text-xs text-gray-400">18 MAYO, 2024</p>
+                <p className="text-xs text-[#CCCCCC]">18 MAYO, 2024</p>
                 <h3 className="mt-2 text-lg font-bold text-white">
                   Soluciones de IA para el Monitoreo Ambiental
                 </h3>
-                <p className="mt-2 text-sm text-gray-400">
+                <p className="mt-2 text-sm text-[#CCCCCC]">
                   Descubra cómo las herramientas de IA mejoran el monitoreo
                   ambiental.
                 </p>
@@ -245,11 +245,11 @@ export default function IAPage() {
                 src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=250&fit=crop&crop=center"
               />
               <div className="p-6">
-                <p className="text-xs text-gray-400">12 MAYO, 2024</p>
+                <p className="text-xs text-[#CCCCCC]">12 MAYO, 2024</p>
                 <h3 className="mt-2 text-lg font-bold text-white">
                   El Futuro de la IA en la Conservación Ambiental
                 </h3>
-                <p className="mt-2 text-sm text-gray-400">
+                <p className="mt-2 text-sm text-[#CCCCCC]">
                   Conozca las tendencias emergentes y futuras aplicaciones de la
                   IA.
                 </p>

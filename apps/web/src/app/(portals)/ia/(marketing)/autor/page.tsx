@@ -303,24 +303,24 @@ export default function IAAutorPage() {
                   <li>
                     <Link
                       href="/ia"
-                      className="text-gray-500 hover:text-[#00efff] transition-colors"
+                      className="text-[#CCCCCC] hover:text-[#00efff] transition-colors"
                     >
                       Portal IA
                     </Link>
                   </li>
                   <li>
-                    <ChevronRight className="text-gray-500" />
+                    <ChevronRight className="text-[#CCCCCC]" />
                   </li>
                   <li>
                     <Link
                       href="/ia/blog"
-                      className="text-gray-500 hover:text-[#00efff] transition-colors"
+                      className="text-[#CCCCCC] hover:text-[#00efff] transition-colors"
                     >
                       Blog
                     </Link>
                   </li>
                   <li>
-                    <ChevronRight className="text-gray-500" />
+                    <ChevronRight className="text-[#CCCCCC]" />
                   </li>
                   <li className="font-medium text-[#00efff]">Pablo Cubides</li>
                 </ol>
@@ -696,7 +696,7 @@ export default function IAAutorPage() {
                     Consulta tu Nota
                   </h3>
                 </div>
-                <p className="text-gray-400 mb-6 leading-relaxed">
+                <p className="text-[#CCCCCC] mb-6 leading-relaxed">
                   Revisa tus calificaciones, progreso y retroalimentación de
                   manera rápida y organizada.
                 </p>
@@ -733,7 +733,7 @@ export default function IAAutorPage() {
                     Ruleta de Preguntas
                   </h3>
                 </div>
-                <p className="text-gray-400 mb-6 leading-relaxed">
+                <p className="text-[#CCCCCC] mb-6 leading-relaxed">
                   Genera preguntas aleatorias sobre IA, machine learning y
                   programación para estudiar.
                 </p>
@@ -770,7 +770,7 @@ export default function IAAutorPage() {
                     Análisis de Correlaciones
                   </h3>
                 </div>
-                <p className="text-gray-400 mb-6 leading-relaxed">
+                <p className="text-[#CCCCCC] mb-6 leading-relaxed">
                   Visualiza y analiza correlaciones entre variables con gráficos
                   interactivos y estadísticas.
                 </p>
