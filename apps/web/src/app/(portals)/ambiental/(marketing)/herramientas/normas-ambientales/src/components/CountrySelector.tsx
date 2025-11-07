@@ -1,10 +1,17 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useRouter } from "next/navigation";
 
-import { getFlagEmoji } from '@/lib/constants';
+import { getFlagEmoji } from "@/lib/constants";
+import { API_BASE, ROUTE_BASE } from "@/lib/api";
 
 interface ApiCountry {
   code: string;
@@ -16,17 +23,20 @@ interface Country extends ApiCountry {
 }
 
 export function CountrySelector({ domain }: { domain: string }) {
-  const [selectedCountry, setSelectedCountry] = useState<string>('');
+  const [selectedCountry, setSelectedCountry] = useState<string>("");
   const [availableCountries, setAvailableCountries] = useState<Country[]>([]);
   const router = useRouter();
 
   useEffect(() => {
     async function fetchCountries() {
       try {
-        const response = await fetch(`/api/paises?dominio=${domain}`);
-        if (!response.ok) throw new Error('Failed to fetch countries');
+        const response = await fetch(`${API_BASE}/paises?dominio=${domain}`);
+        if (!response.ok) throw new Error("Failed to fetch countries");
         const data: { countries: ApiCountry[] } = await response.json();
-        const enhanced = data.countries.map(c => ({ ...c, flag: getFlagEmoji(c.code, c.name) }));
+        const enhanced = data.countries.map((c) => ({
+          ...c,
+          flag: getFlagEmoji(c.code, c.name),
+        }));
         setAvailableCountries(enhanced);
       } catch (e) {
         console.error(e);
@@ -37,19 +47,19 @@ export function CountrySelector({ domain }: { domain: string }) {
 
   // Load saved country from localStorage
   useEffect(() => {
-    const saved = localStorage.getItem('selected-country');
-    if (saved && availableCountries.find(c => c.code === saved)) {
+    const saved = localStorage.getItem("selected-country");
+    if (saved && availableCountries.find((c) => c.code === saved)) {
       setSelectedCountry(saved);
     }
   }, [availableCountries]);
 
   const handleCountryChange = (countryCode: string) => {
     setSelectedCountry(countryCode);
-    localStorage.setItem('selected-country', countryCode);
-    
+    localStorage.setItem("selected-country", countryCode);
+
     // Auto-navigate to explore page with selected country and domain
     setTimeout(() => {
-      router.push(`/explorar?pais=${countryCode}&dominio=${domain}`);
+      router.push(`${ROUTE_BASE}/explorar?pais=${countryCode}&dominio=${domain}`);
     }, 500);
   };
 

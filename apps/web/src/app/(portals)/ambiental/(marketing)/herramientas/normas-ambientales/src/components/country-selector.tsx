@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useRouter } from 'next/navigation';
+import { ROUTE_BASE } from '@/lib/api';
 
 const AVAILABLE_COUNTRIES = [
   { code: 'argentina', name: 'Argentina', flag: '🇦🇷' },
@@ -32,7 +33,7 @@ export function CountrySelector() {
     
     // Auto-navigate to explore page with selected country
     setTimeout(() => {
-      router.push(`/explorar?pais=${countryCode}`);
+  router.push(`${ROUTE_BASE}/explorar?pais=${countryCode}`);
     }, 500);
   };
 

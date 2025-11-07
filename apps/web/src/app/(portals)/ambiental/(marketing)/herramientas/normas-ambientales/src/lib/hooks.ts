@@ -1,65 +1,36 @@
-import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { CountryStandards, Country } from '@/lib/types';
 import { DOMINIOS } from '@/lib/constants';
 import { getFlagEmoji } from '@/lib/constants';
+import { API_BASE, ROUTE_BASE } from '@/lib/api';
 
 type AnyRecord = Record<string, unknown>;
 
-// Debounced search hook
-export function useDebouncedSearch(initialValue: string, delay: number) {
+// Lightweight debounced search hook
+export function useDebouncedSearch(initialValue: string, delay = 300) {
   const [value, setValue] = useState(initialValue);
   const [debouncedValue, setDebouncedValue] = useState(initialValue);
 
   useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
-
-    return () => {
-      clearTimeout(handler);
-    };
+    const id = setTimeout(() => setDebouncedValue(value), delay);
+    return () => clearTimeout(id);
   }, [value, delay]);
 
   return { value, debouncedValue, setValue };
 }
 
-// Memoization hook for expensive computations
-// Note: ESLint prefers inline functions and array literals for useMemo
-export function useMemoizedValue<T>(factory: () => T, deps: React.DependencyList): T {
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  return useMemo(factory, deps);
-}
-
-// Hook for debounced callbacks
-export function useDebouncedCallback<T extends (...args: any[]) => any>(
-  callback: T,
-  delay: number
-): T {
-  const callbackRef = useRef(callback);
-
-  useEffect(() => {
-    callbackRef.current = callback;
-  }, [callback]);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  return useCallback(
-    ((...args: any[]) => {
-      const timeoutId = setTimeout(() => callbackRef.current(...args), delay);
-      return () => clearTimeout(timeoutId);
-    }) as T,
-    [delay]
-  );
-}
-
+// Core hook used by the explorar page
 export function useExplorarState() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  // State management
+  // Selections
   const [selectedDomain, setSelectedDomain] = useState<string>('agua');
   const [selectedCountry, setSelectedCountry] = useState<string>('');
   const [selectedSector, setSelectedSector] = useState<string>('');
+
+  // Data containers
   const [availableCountries, setAvailableCountries] = useState<Country[]>([]);
   const [availableSectors, setAvailableSectors] = useState<string[] | null>(null);
   const [data, setData] = useState<CountryStandards | null>(null);
@@ -67,48 +38,44 @@ export function useExplorarState() {
   const [error, setError] = useState('');
   const [lastFetchUrl, setLastFetchUrl] = useState<string>('');
 
-  // Search with debouncing
   const { value: searchQuery, debouncedValue: debouncedSearchQuery, setValue: setSearchQuery } = useDebouncedSearch('', 300);
 
-  // Initialize from URL params (sync with url changes)
+  // Sync selections from URL params
   useEffect(() => {
     const dominio = searchParams.get('dominio') || 'agua';
-    const pais = searchParams.get('pais');
-    const rawSectorFromUrl = searchParams.get('sector');
-    const sectorFromUrl = rawSectorFromUrl ? String(rawSectorFromUrl).replace(/_/g, '-') : null;
+    const pais = searchParams.get('pais') || '';
+    const rawSector = searchParams.get('sector');
+    const sectorFromUrl = rawSector ? String(rawSector).replace(/_/g, '-') : null;
 
     setSelectedDomain(dominio);
-    if (pais) {
-      setSelectedCountry(pais);
-    }
-    if (sectorFromUrl) {
-      setSelectedSector(sectorFromUrl);
-    }
+    setSelectedCountry(pais);
+    if (sectorFromUrl) setSelectedSector(sectorFromUrl);
   }, [searchParams]);
 
-  // Load countries when domain changes
+  // Fetch countries for selected domain
   useEffect(() => {
     async function fetchCountries() {
       try {
-        const res = await fetch(`/ambiental/herramientas/normas-ambientales/src/app/api/paises?dominio=${selectedDomain}`);
+        const res = await fetch(`${API_BASE}/paises?dominio=${selectedDomain}`);
         if (!res.ok) throw new Error('No se pudieron cargar países');
-        const data = await res.json();
-        const countries = (data.countries || []).map((c: AnyRecord) => {
-          const code = String((c as AnyRecord).code ?? '');
-          const name = String((c as AnyRecord).name ?? '');
-          return { ...(c as AnyRecord), code, name, flag: getFlagEmoji(code, name) || '🏳️' } as Country;
+        const payload = await res.json();
+        const countries = (payload.countries || []).map((c: any) => {
+          const code = String(c.code ?? '');
+          const name = String(c.name ?? '');
+          return { ...(c || {}), code, name, flag: getFlagEmoji(code, name) || '🏳️' } as Country;
         });
         setAvailableCountries(countries);
-        setData(null); // Clear data when domain changes
+        setData(null);
       } catch (e) {
-        console.error(e);
+        console.error('[explorar] fetchCountries ERROR', e);
         setAvailableCountries([]);
       }
     }
+
     fetchCountries();
   }, [selectedDomain]);
 
-  // Load sectors when country or domain changes (not when URL params change to avoid loops)
+  // Fetch sectors for selected country + domain
   useEffect(() => {
     if (!selectedCountry) {
       setAvailableSectors(null);
@@ -118,69 +85,50 @@ export function useExplorarState() {
 
     async function fetchSectors() {
       try {
-        const res = await fetch(`/ambiental/herramientas/normas-ambientales/src/app/api/sectores?dominio=${selectedDomain}&pais=${selectedCountry}`);
+        const res = await fetch(`${API_BASE}/sectores?dominio=${selectedDomain}&pais=${selectedCountry}`);
         if (!res.ok) throw new Error('No se pudieron cargar sectores');
-        const data = await res.json();
-        const sectors = data.sectors || [];
+        const payload = await res.json();
+        const sectors = Array.isArray(payload.sectors) ? payload.sectors : [];
+        const normalized = sectors.map((s: string) => String(s).replace(/_/g, '-'));
+        setAvailableSectors(normalized);
 
-        // Normalize sectors to use hyphens (e.g. 'agua-potable') so they match URL slugs
-        const normalizedSectors = sectors.map((s: string) => String(s).replace(/_/g, '-'));
-        setAvailableSectors(normalizedSectors);
-
-        // Auto-select sector: prefer sector from URL (if valid), otherwise first sector
         const sectorFromUrl = searchParams.get('sector');
-        const normSectorFromUrl = sectorFromUrl ? String(sectorFromUrl).replace(/_/g, '-') : null;
-
-        if (normalizedSectors.length > 0) {
-          if (normSectorFromUrl && normalizedSectors.includes(normSectorFromUrl)) {
-            setSelectedSector(normSectorFromUrl);
-          } else {
-            setSelectedSector(normalizedSectors[0]);
-          }
-        } else {
-          setSelectedSector('');
-        }
+        const normFromUrl = sectorFromUrl ? String(sectorFromUrl).replace(/_/g, '-') : null;
+        if (normalized.length > 0) {
+          if (normFromUrl && normalized.includes(normFromUrl)) setSelectedSector(normFromUrl);
+          else setSelectedSector(normalized[0]);
+        } else setSelectedSector('');
       } catch (e) {
-        console.error('[explorar] fetchSectors ERROR:', e);
+        console.error('[explorar] fetchSectors ERROR', e);
         setAvailableSectors([]);
         setSelectedSector('');
       }
     }
+
     fetchSectors();
   }, [selectedCountry, selectedDomain]);
 
-  // Load data when country, domain, or sector changes
+  // Fetch norms/data when selections change
   useEffect(() => {
     if (!selectedCountry) {
       setData(null);
       setLoading(false);
       return;
     }
-
-    if (!availableSectors) {
-      // Don't load data until sectors are available
-      return;
-    }
+    if (!availableSectors) return; // wait for sectors
 
     async function loadCountryData() {
       setLoading(true);
       setError('');
       try {
-        let url: string;
-        // If we have sectors available and a specific sector selected, filter by sector
-        if (availableSectors && availableSectors.length > 0 && selectedSector) {
-          url = `/ambiental/herramientas/normas-ambientales/src/app/api/normas?pais=${selectedCountry}&dominio=${selectedDomain}&sector=${selectedSector}`;
-        } else {
-          // If no sectors available yet (still loading) or no sector selected, load all data
-          url = `/ambiental/herramientas/normas-ambientales/src/app/api/normas?pais=${selectedCountry}&dominio=${selectedDomain}`;
-        }
-
+        const url = (availableSectors && availableSectors.length > 0 && selectedSector)
+          ? `${API_BASE}/normas?pais=${selectedCountry}&dominio=${selectedDomain}&sector=${selectedSector}`
+          : `${API_BASE}/normas?pais=${selectedCountry}&dominio=${selectedDomain}`;
         setLastFetchUrl(url);
         const res = await fetch(url);
         if (!res.ok) throw new Error('No se pudieron cargar los datos');
-        const countryData = await res.json();
-
-        setData(countryData as CountryStandards);
+        const payload = await res.json();
+        setData(payload as CountryStandards);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Error desconocido');
         setData(null);
@@ -190,97 +138,62 @@ export function useExplorarState() {
     }
 
     loadCountryData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedCountry, selectedDomain, selectedSector]);
+  }, [selectedCountry, selectedDomain, selectedSector, availableSectors]);
 
-  // Computed values with memoization
-  const currentDominio = useMemo(() =>
-    DOMINIOS.find(d => d.id === selectedDomain) || DOMINIOS[0],
-    [selectedDomain]
-  );
-
-  const countryInfo = useMemo(() =>
-    availableCountries.find(c => c.code === selectedCountry),
-    [availableCountries, selectedCountry]
-  );
-
-  const records = useMemo(() =>
-    (data?.records || data?.registros || []) as AnyRecord[],
-    [data]
-  );
+  const currentDominio = useMemo(() => DOMINIOS.find(d => d.id === selectedDomain) || DOMINIOS[0], [selectedDomain]);
+  const countryInfo = useMemo(() => availableCountries.find(c => c.code === selectedCountry), [availableCountries, selectedCountry]);
+  const records = useMemo(() => (data?.records || data?.registros || []) as AnyRecord[], [data]);
 
   const filteredRecords = useMemo(() => {
     if (!debouncedSearchQuery) return records;
-
-    const query = debouncedSearchQuery.toLowerCase();
-    return records.filter((record) => {
-      const param = String(record.parameter ?? record.parametro ?? '').toLowerCase();
-      const limit = String(record.limit ?? record.limite ?? '').toLowerCase();
-      const unit = String(record.unit ?? record.unidad ?? '').toLowerCase();
-      const notes = String(((record.notes ?? record.notas) as unknown[] ?? []).map(String).join(' ')).toLowerCase();
-
-      return param.includes(query) || limit.includes(query) || unit.includes(query) || notes.includes(query);
+    const q = debouncedSearchQuery.toLowerCase();
+    return records.filter(r => {
+      const param = String((r as any).parameter ?? (r as any).parametro ?? '').toLowerCase();
+      const limit = String((r as any).limit ?? (r as any).limite ?? '').toLowerCase();
+      const unit = String((r as any).unit ?? (r as any).unidad ?? '').toLowerCase();
+      const notes = String((((r as any).notes ?? (r as any).notas) as any[] ?? []).map(String).join(' ')).toLowerCase();
+      return param.includes(q) || limit.includes(q) || unit.includes(q) || notes.includes(q);
     });
   }, [records, debouncedSearchQuery]);
 
   const sectionsToDisplay = useMemo(() => {
-    const sections: Record<string, AnyRecord[]> = {};
-    filteredRecords.forEach((record) => {
-      const sectionKey = String(record._sector ?? record.categoria ?? 'general');
-      if (!sections[sectionKey]) {
-        sections[sectionKey] = [];
-      }
-      sections[sectionKey].push(record);
+    const out: Record<string, AnyRecord[]> = {};
+    filteredRecords.forEach(rec => {
+      const key = String((rec as any)._sector ?? (rec as any).categoria ?? 'general');
+      out[key] = out[key] || [];
+      out[key].push(rec);
     });
-    return sections;
+    return out;
   }, [filteredRecords]);
 
-  // Event handlers with useCallback
   const handleDomainChange = useCallback((domainId: string) => {
     setSelectedDomain(domainId);
     setSelectedCountry('');
     setData(null);
-    
-    // Update URL with new domain, clear country and sector
     const params = new URLSearchParams(searchParams.toString());
     params.set('dominio', domainId);
     params.delete('pais');
     params.delete('sector');
-    
-    const newUrl = `/explorar?${params.toString()}`;
-    router.push(newUrl, { scroll: false });
+  router.push(`${ROUTE_BASE}/explorar?${params.toString()}`, { scroll: false });
   }, [searchParams, router]);
 
   const handleCountryChange = useCallback((countryCode: string) => {
     setSelectedCountry(countryCode);
     setSearchQuery('');
-    
-    // Update URL with new country, clear sector
     const params = new URLSearchParams(searchParams.toString());
     params.set('pais', countryCode);
     params.delete('sector');
-    
-    const newUrl = `/explorar?${params.toString()}`;
-    router.push(newUrl, { scroll: false });
+  router.push(`${ROUTE_BASE}/explorar?${params.toString()}`, { scroll: false });
   }, [searchParams, router, setSearchQuery]);
 
   const handleSectorChange = useCallback((sector: string) => {
     setSelectedSector(sector);
-    
-    // Update URL with new sector
     const params = new URLSearchParams(searchParams.toString());
-    if (sector) {
-      params.set('sector', sector);
-    } else {
-      params.delete('sector');
-    }
-    
-    const newUrl = `/explorar?${params.toString()}`;
-    router.push(newUrl, { scroll: false });
+    if (sector) params.set('sector', sector); else params.delete('sector');
+  router.push(`${ROUTE_BASE}/explorar?${params.toString()}`, { scroll: false });
   }, [searchParams, router]);
 
   return {
-    // State
     selectedDomain,
     selectedCountry,
     selectedSector,
@@ -292,15 +205,11 @@ export function useExplorarState() {
     lastFetchUrl,
     searchQuery,
     debouncedSearchQuery,
-
-    // Computed values
     currentDominio,
     countryInfo,
     records,
     filteredRecords,
     sectionsToDisplay,
-
-    // Handlers
     handleDomainChange,
     handleCountryChange,
     handleSectorChange,
