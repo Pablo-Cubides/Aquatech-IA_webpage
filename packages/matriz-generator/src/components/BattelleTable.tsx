@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { ImpactoBase } from "@types/index";
+import type { ImpactoBase } from "@types";
 
 interface BattelleTableProps {
   impactos: ImpactoBase[];
