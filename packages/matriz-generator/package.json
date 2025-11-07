@@ -1,0 +1,57 @@
+{
+  "name": "@ia-next/matriz-generator",
+  "version": "1.0.0",
+  "description": "Generador de Matrices de Evaluación de Impacto Ambiental",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    },
+    "./components": {
+      "types": "./src/components/index.d.ts",
+      "default": "./src/components/index.js"
+    },
+    "./lib": {
+      "types": "./src/lib/index.d.ts",
+      "default": "./src/lib/index.js"
+    },
+    "./types": {
+      "types": "./src/types/index.d.ts",
+      "default": "./src/types/index.js"
+    }
+  },
+  "scripts": {
+    "test": "vitest",
+    "test:watch": "vitest --watch"
+  },
+  "peerDependencies": {
+    "next": "^15.x",
+    "react": "^18.x",
+    "react-dom": "^18.x"
+  },
+  "dependencies": {
+    "csv-stringify": "^6.2.0",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^3.0.2",
+    "jspdf-autotable": "^5.0.2",
+    "pdf-lib": "^1.17.1",
+    "recharts": "^2.5.0",
+    "xlsx": "^0.18.5",
+    "framer-motion": "^10.0.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.0.0",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.0.0",
+    "@types/html2canvas": "^0.5.35",
+    "@types/jspdf": "^1.3.3",
+    "@types/node": "^24.3.1",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "jsdom": "^22.1.0",
+    "vitest": "^1.3.0",
+    "typescript": "^5.0.0"
+  }
+}
