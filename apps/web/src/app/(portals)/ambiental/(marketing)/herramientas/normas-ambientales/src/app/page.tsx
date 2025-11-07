@@ -15,6 +15,7 @@ import { WATER_USE_SECTORS, WaterUseSector } from "@/lib/types";
 import { getSectorEmoji } from "@/lib/sectorIcons";
 import { useState } from "react";
 import { DOMINIOS, getFlagEmoji } from "@/lib/constants";
+import { API_BASE } from "@/lib/api";
 
 // Data types
 interface ApiCountry {
@@ -79,7 +80,17 @@ export default function HomePage() {
     setAvailableSectors([]);
     setIsLoadingCountries(true);
     try {
-      const res = await fetch(`/api/paises?dominio=${domain}`);
+      let res = await fetch(`${API_BASE}/paises?dominio=${domain}`);
+
+      // Fallback: some dev servers mount the route at /api/paises
+      if (!res.ok) {
+        try {
+          res = await fetch(`/api/paises?dominio=${domain}`);
+        } catch (inner) {
+          // ignore and let outer handler catch
+        }
+      }
+
       if (!res.ok)
         throw new Error("No se pudieron cargar los países del dominio");
       const data = await res.json();
@@ -103,14 +114,26 @@ export default function HomePage() {
 
     setIsLoadingSectors(true);
     try {
-      const res = await fetch(
-        `/api/sectores?dominio=${selectedDomain}&pais=${countryCode}`,
+      let res = await fetch(
+        `${API_BASE}/sectores?dominio=${selectedDomain}&pais=${countryCode}`,
       );
+
+      // Fallback to global route if portal-mounted route missing
+      if (!res.ok) {
+        try {
+          res = await fetch(`/api/sectores?dominio=${selectedDomain}&pais=${countryCode}`);
+        } catch (inner) {
+          // swallow and outer catch will handle
+        }
+      }
+
       if (!res.ok) throw new Error("No se pudieron cargar los sectores");
       const data = await res.json();
       // Ensure sectors is always an array and remove duplicates
       const sectors = Array.isArray(data.sectors) ? data.sectors : [];
-      const uniqueSectors = Array.from(new Set(sectors.map((s: any) => String(s)))) as string[];
+      const uniqueSectors = Array.from(
+        new Set(sectors.map((s: any) => String(s))),
+      ) as string[];
       setAvailableSectors(uniqueSectors);
     } catch (e) {
       console.error(e);
@@ -391,7 +414,9 @@ export default function HomePage() {
                       asChild
                       className="border-2 border-blue-300 hover:bg-blue-50 font-semibold"
                     >
-                      <Link href="/ambiental/herramientas/normas-ambientales/fundamentos">Ver Fundamentos</Link>
+                      <Link href="/ambiental/herramientas/normas-ambientales/fundamentos">
+                        Ver Fundamentos
+                      </Link>
                     </Button>
                   </div>
                 </div>

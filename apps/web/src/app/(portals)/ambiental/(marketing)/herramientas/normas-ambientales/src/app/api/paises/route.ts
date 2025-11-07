@@ -75,7 +75,22 @@ export async function GET(request: NextRequest) {
   cleanupCache();
 
   try {
-    const jsonDir = path.join(process.cwd(), 'data', 'json');
+    // Primary expected data directory
+    let jsonDir = path.join(process.cwd(), 'data', 'json');
+
+    // If the standard location doesn't exist (common in dev branches),
+    // try the `normativas_temp` staging folder as a fallback.
+    if (!fs.existsSync(jsonDir)) {
+      const alt = path.join(process.cwd(), 'normativas_temp', 'data', 'json');
+      if (fs.existsSync(alt)) {
+        logger.warn('data_json_missing_using_alternative', { usedPath: alt });
+        jsonDir = alt;
+      } else {
+        // No data directory found - fail early so the caller gets a clear error
+        throw new Error(`data/json directory not found in ${process.cwd()} (tried ${jsonDir} and ${alt})`);
+      }
+    }
+
     const domains = domain ? [domain] : fs.readdirSync(jsonDir, { withFileTypes: true })
       .filter(dirent => dirent.isDirectory() && !dirent.name.startsWith('_'))
       .map(dirent => dirent.name);
