@@ -64,7 +64,7 @@ export default function AmbientalHerramientasPage() {
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
               <div className="bg-white/50 backdrop-blur-sm rounded-xl p-6 border border-blue-200">
-                <div className="text-3xl font-bold text-[#0077B6] mb-2">3</div>
+                <div className="text-3xl font-bold text-[#0077B6] mb-2">4</div>
                 <div className="text-gray-600">Herramientas Disponibles</div>
               </div>
               <div className="bg-white/50 backdrop-blur-sm rounded-xl p-6 border border-blue-200">
@@ -267,6 +267,67 @@ export default function AmbientalHerramientasPage() {
                     <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
                       ✓ Disponible
                     </span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            {/* Herramienta 4: Análisis de Correlaciones */}
+            <article className="bg-gradient-to-br from-blue-50 to-white border border-blue-200 transition-all duration-300 hover:-translate-y-2 hover:shadow-lg hover:shadow-blue-500/10 hover:border-[#0077B6]/30 backdrop-blur-sm rounded-2xl overflow-hidden">
+              <div className="grid lg:grid-cols-2 lg:gap-8 items-center">
+                <div className="h-64 lg:h-full min-h-[400px] overflow-hidden relative">
+                  <img
+                    alt="Análisis de correlaciones ambientales con mapa de calor"
+                    className="w-full h-full object-cover tool-image"
+                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=80"
+                  />
+                  <div className="absolute top-4 right-4">
+                    <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
+                      ✓ Disponible
+                    </span>
+                  </div>
+                </div>
+                <div className="p-8 md:p-12 lg:p-16 flex flex-col">
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    <span className="bg-gradient-to-br from-[rgba(0,119,182,0.15)] to-[rgba(16,185,129,0.15)] border border-[#0077B6]/20 text-[#0077B6] text-xs px-3 py-1 rounded-full font-medium backdrop-blur-sm">
+                      Análisis
+                    </span>
+                    <span className="bg-gradient-to-br from-[rgba(0,119,182,0.15)] to-[rgba(16,185,129,0.15)] border border-[#0077B6]/20 text-[#0077B6] text-xs px-3 py-1 rounded-full font-medium backdrop-blur-sm">
+                      Correlación
+                    </span>
+                    <span className="bg-gradient-to-br from-[rgba(0,119,182,0.15)] to-[rgba(16,185,129,0.15)] border border-[#0077B6]/20 text-[#0077B6] text-xs px-3 py-1 rounded-full font-medium backdrop-blur-sm">
+                      Datos
+                    </span>
+                  </div>
+                  <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black leading-tight">
+                    Análisis de Correlaciones Ambientales
+                  </h2>
+                  <p className="text-gray-600 mb-8 text-lg leading-relaxed">
+                    Visualiza y analiza correlaciones entre variables ambientales
+                    usando matrices de calor interactivas y estadística avanzada.
+                  </p>
+                  <ul className="space-y-4 mb-10 flex-grow">
+                    <ListItem>Cálculo automático de correlaciones</ListItem>
+                    <ListItem>Matrices de calor interactivas</ListItem>
+                    <ListItem>Exportación de análisis y visualizaciones</ListItem>
+                  </ul>
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <Link
+                      href="/ambiental/herramientas/analisis-correlaciones"
+                      className="btn btn-primary focus-ring"
+                    >
+                      <PlayIcon />
+                      Abrir herramienta
+                    </Link>
+                    <Link
+                      href="https://github.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-secondary focus-ring"
+                    >
+                      <DocIcon />
+                      Documentación
+                    </Link>
                   </div>
                 </div>
               </div>

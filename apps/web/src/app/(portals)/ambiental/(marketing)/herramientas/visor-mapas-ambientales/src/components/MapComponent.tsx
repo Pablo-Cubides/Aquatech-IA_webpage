@@ -189,7 +189,7 @@ export default function MapComponent({
         id: "points-layer",
         type: "circle",
         source: "points",
-        filter: data.length > 100 ? ["!", ["has", "point_count"]] : undefined,
+        filter: data.length > 100 ? ["!", ["has", "point_count"]] : ["all"],
         paint: {
           "circle-color": "#0077B6",
           "circle-radius": 5,

@@ -108,9 +108,10 @@ export default function HomePage() {
       );
       if (!res.ok) throw new Error("No se pudieron cargar los sectores");
       const data = await res.json();
-      // Ensure sectors is always an array
+      // Ensure sectors is always an array and remove duplicates
       const sectors = Array.isArray(data.sectors) ? data.sectors : [];
-      setAvailableSectors(sectors);
+      const uniqueSectors = Array.from(new Set(sectors.map((s: any) => String(s)))) as string[];
+      setAvailableSectors(uniqueSectors);
     } catch (e) {
       console.error(e);
       setAvailableSectors([]);
