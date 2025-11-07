@@ -1,6 +1,3 @@
-/* MapLibre GL CSS - MUST be at the top */
-@import url("maplibre-gl/dist/maplibre-gl.css");
-
 /* Tailwind CSS directives */
 @tailwind base;
 @tailwind components;

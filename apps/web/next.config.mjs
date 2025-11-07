@@ -15,7 +15,7 @@ const nextConfig = {
   turbopack: {},
 
   // Transpile packages from the monorepo
-  transpilePackages: ["@ia-next/ui", "@ia-next/database"],
+  transpilePackages: ["@ia-next/ui", "@ia-next/database", "maplibre-gl"],
 
   // Environment variables to expose to client (only non-sensitive)
   env: {

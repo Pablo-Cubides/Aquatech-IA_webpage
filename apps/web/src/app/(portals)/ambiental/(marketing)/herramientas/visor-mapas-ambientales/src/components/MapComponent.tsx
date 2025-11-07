@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import maplibregl from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
 import type { GeoJSONFeature } from "@/types";
 
 interface MapComponentProps {
@@ -21,49 +22,66 @@ export default function MapComponent({
 
   // Initialize map with optimized basemap and error handling
   useEffect(() => {
-    if (!mapContainer.current) return;
-
-    try {
-      // Use CartoDB Positron - reliable and doesn't require authentication
-      // CartoDB provides free tiles with no API key required
-      map.current = new maplibregl.Map({
-        container: mapContainer.current,
-        style: {
-          version: 8,
-          sources: {
-            carto: {
-              type: "raster",
-              tiles: [
-                "https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
-                "https://b.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
-                "https://c.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
-                "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
-              ],
-              tileSize: 256,
-              attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-              maxzoom: 19
-            },
-          },
-          layers: [
-            {
-              id: "carto-tiles",
-              type: "raster",
-              source: "carto",
-              minzoom: 0,
-              maxzoom: 22
-            },
-          ],
-        },
-        center: [-74.0721, 4.711], // Bogotá, Colombia
-        zoom: 4, // Start with zoom 4 to see all data
-        minZoom: 2,
-        maxZoom: 19,
-        pitch: 0,
-        bearing: 0,
-      });
-    } catch (err) {
-      console.error("Error inicializando mapa:", err);
+    if (!mapContainer.current) {
+      console.log("Map container not available");
+      return;
     }
+
+    // Ensure container has dimensions before initializing
+    const initializeMap = () => {
+      const rect = mapContainer.current?.getBoundingClientRect();
+      if (!rect || rect.width === 0 || rect.height === 0) {
+        console.log("Container not ready, retrying...");
+        setTimeout(initializeMap, 100);
+        return;
+      }
+
+      console.log("Initializing map with dimensions:", rect.width, rect.height);
+
+      try {
+        // Use OpenStreetMap tiles directly - completely free, no API key required
+        // Configure to avoid CORS issues by using HTTPS and proper headers
+        map.current = new maplibregl.Map({
+          container: mapContainer.current!,
+          style: {
+            version: 8,
+            sources: {
+              osm: {
+                type: "raster",
+                tiles: [
+                  "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+                ],
+                tileSize: 256,
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                maxzoom: 19
+              },
+            },
+            layers: [
+              {
+                id: "osm-tiles",
+                type: "raster",
+                source: "osm",
+                minzoom: 0,
+                maxzoom: 22
+              },
+            ],
+          },
+          center: [-74.0721, 4.711], // Bogotá, Colombia
+          zoom: 4, // Start with zoom 4 to see all data
+          minZoom: 2,
+          maxZoom: 19,
+          pitch: 0,
+          bearing: 0,
+        });
+
+        console.log("Map initialized successfully");
+      } catch (err) {
+        console.error("Error inicializando mapa:", err);
+      }
+    };
+
+    // Small delay to ensure DOM is ready
+    setTimeout(initializeMap, 50);
 
     // Add navigation controls with better positioning
     const navControl = new maplibregl.NavigationControl();
@@ -79,7 +97,29 @@ export default function MapComponent({
       );
     }
 
-    // Mark map as loaded
+    // Add event listeners for debugging
+    if (map.current) {
+      map.current.on('load', () => {
+        console.log('Map loaded successfully');
+        setMapLoaded(true);
+      });
+
+      map.current.on('error', (e) => {
+        console.error('Map error:', e);
+      });
+
+      map.current.on('sourcedata', (e) => {
+        if (e.sourceId === 'osm' && e.isSourceLoaded) {
+          console.log('OSM tiles loaded successfully via proxy');
+        }
+      });
+
+      map.current.on('sourcedataabort', (e) => {
+        console.error('Tile loading aborted:', e);
+      });
+    }
+
+    // Mark map as loaded (fallback)
     const handleLoad = () => {
       setMapLoaded(true);
     };
@@ -98,12 +138,19 @@ export default function MapComponent({
 
   // Update data layers with optimizations
   useEffect(() => {
-    if (!map.current || !mapLoaded) return;
+    if (!map.current || !mapLoaded) {
+      console.log('Map not ready for data layers:', { map: !!map.current, mapLoaded });
+      return;
+    }
+
+    console.log('Adding data layers for', data.length, 'points');
 
     const geojsonData = {
       type: "FeatureCollection" as const,
       features: data,
     };
+
+    console.log('GeoJSON data:', geojsonData);
 
     // Update layers function
     const updateLayers = () => {
@@ -139,6 +186,8 @@ export default function MapComponent({
         clusterRadius: 50,
         buffer: 128,
       } as any);
+
+      console.log('Added points source with clustering:', data.length > 100);
 
       // Add cluster layer if there are many points
       if (data.length > 100) {
@@ -189,43 +238,53 @@ export default function MapComponent({
         map.current.on("click", "points-cluster", handleClusterClick);
       }
 
-      // Add individual points layer
-      map.current.addLayer({
-        id: "points-layer",
-        type: "circle",
-        source: "points",
-        filter: data.length > 100 ? ["!", ["has", "point_count"]] : ["all"],
-        paint: {
-          "circle-color": "#0077B6",
-          "circle-radius": 5,
-          "circle-stroke-width": 2,
-          "circle-stroke-color": "#000000",
-          "circle-opacity": 0.9,
-        },
-      } as any);
+      // Add individual points layer - simplified for debugging
+      const pointsLayerId = "points-layer";
+      if (map.current.getLayer(pointsLayerId)) {
+        map.current.removeLayer(pointsLayerId);
+      }
 
-      // Point click handler
-      const handlePointClick = (e: any) => {
+      const pointsLayer = {
+        id: pointsLayerId,
+        type: "circle" as const,
+        source: "points",
+        paint: {
+          "circle-color": "#FF0000", // Bright red for visibility
+          "circle-radius": 8,
+          "circle-stroke-width": 3,
+          "circle-stroke-color": "#FFFFFF",
+          "circle-opacity": 1.0,
+        },
+      };
+
+      console.log('Adding simplified points layer:', pointsLayer);
+      map.current.addLayer(pointsLayer as any);
+
+      // Add click handler
+      map.current.on("click", pointsLayerId, (e: any) => {
+        console.log('Point clicked:', e.features);
         if (onPointClick && e.features?.[0]) {
           onPointClick(e.features[0] as any as GeoJSONFeature);
         }
-      };
-      map.current.on("click", "points-layer", handlePointClick);
+      });
 
-      // Cursor hover effects
-      const handleMouseEnter = () => {
+      // Add hover effects
+      map.current.on("mouseenter", pointsLayerId, () => {
         if (map.current) map.current.getCanvas().style.cursor = "pointer";
-      };
-      const handleMouseLeave = () => {
+      });
+      map.current.on("mouseleave", pointsLayerId, () => {
         if (map.current) map.current.getCanvas().style.cursor = "";
-      };
+      });
 
-      map.current.on("mouseenter", "points-layer", handleMouseEnter);
-      map.current.on("mouseleave", "points-layer", handleMouseLeave);
-      if (data.length > 100) {
-        map.current.on("mouseenter", "points-cluster", handleMouseEnter);
-        map.current.on("mouseleave", "points-cluster", handleMouseLeave);
-      }
+      console.log('Points layer added successfully - checking if visible');
+
+      // Force a map refresh
+      setTimeout(() => {
+        if (map.current) {
+          map.current.triggerRepaint();
+          console.log('Map repainted');
+        }
+      }, 100);
 
       // Fit bounds to data
       if (data.length > 0) {
