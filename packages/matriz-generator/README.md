@@ -5,6 +5,7 @@ Generador de Matrices de Evaluación de Impacto Ambiental (EIA) - Paquete NPM lo
 ## 📋 Descripción
 
 Herramienta educativa interactiva que permite:
+
 - Aprender sobre matrices de EIA (Leopold, Conesa, Battelle-Columbus)
 - Construir matrices completas paso a paso
 - Comparar diferentes metodologías
@@ -13,11 +14,13 @@ Herramienta educativa interactiva que permite:
 ## 🎯 Características
 
 ### ✅ Metodologías Soportadas
+
 - **Leopold**: Matriz clásica con magnitud e importancia
 - **Conesa**: Evaluación multicriterio con 10 atributos
 - **Battelle-Columbus**: Sistema cuantitativo por parámetros
 
 ### 📊 Funcionalidades
+
 - Constructor interactivo paso a paso
 - Comparación de matrices
 - Selector automático de metodología
@@ -31,7 +34,7 @@ Herramienta educativa interactiva que permite:
 
 ```tsx
 // En app/portals/ambiental/herramientas/generador-matrices/page.tsx
-import { MatrizGenerator } from '@ia-next/matriz-generator';
+import { MatrizGenerator } from "@ia-next/matriz-generator";
 
 export default function GeneradorMatricesPage() {
   return <MatrizGenerator />;
@@ -39,6 +42,7 @@ export default function GeneradorMatricesPage() {
 ```
 
 ### Rutas Disponibles
+
 - `/selector` - Selector de matriz
 - `/builder/[caseId]/[matriz]` - Constructor paso a paso
 - `/comparar/[caseId]` - Comparación de metodologías
@@ -77,7 +81,9 @@ packages/matriz-generator/
 ## 🔧 Configuración
 
 ### Path Aliases
+
 El paquete usa path aliases para facilitar imports:
+
 ```tsx
 @components/*      → ./src/components/*
 @lib/*            → ./src/lib/*
@@ -86,6 +92,7 @@ El paquete usa path aliases para facilitar imports:
 ```
 
 ### Dependencias
+
 - `next@15.x` (peer dependency)
 - `react@18.x` (peer dependency)
 - `jspdf`, `xlsx`, `recharts`, `html2canvas`
@@ -93,14 +100,17 @@ El paquete usa path aliases para facilitar imports:
 ## 📝 Casos de Uso
 
 ### Caso: Vía Regional
+
 - 5 acciones (desmonte, excavación, construcción, etc.)
 - 7 factores (aire, agua, suelo, vegetación, fauna, empleo, movilidad)
 
 ### Caso: Minería
+
 - 6 acciones (remoción vegetal, vías, explotación, transporte, etc.)
 - 8 factores (aire, ruido, aguas, ecosistemas, salud, economía, paisaje)
 
 ### Caso: Ecoturismo
+
 - 5 acciones (cabañas, senderos, operación, residuos, educación)
 - 6 factores (agua, fauna, hábitats, cultura, economía)
 
@@ -110,7 +120,7 @@ Para integrar en el portal principal:
 
 ```tsx
 // apps/web/src/app/(portals)/ambiental/herramientas/generador-matrices/page.tsx
-import MatrizGeneratorWrapper from '@ia-next/matriz-generator';
+import MatrizGeneratorWrapper from "@ia-next/matriz-generator";
 
 export default function GeneradorMatricesPortal() {
   return (

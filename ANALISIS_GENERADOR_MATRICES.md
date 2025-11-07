@@ -12,34 +12,35 @@ El **Generador de Matrices** es una aplicación Next.js 15 **completamente funci
 
 ### ✅ FORTALEZAS
 
-| Aspecto | Detalles |
-|---------|----------|
-| **Arquitectura** | Next.js 15 (App Router) con estructura clara y modular |
-| **Funcionalidades** | 3 metodologías completas (Leopold, Conesa, Battelle-Columbus) |
-| **Interactividad** | Componentes ricos: sliders, formularios, gráficos en tiempo real |
-| **Exportación** | PDF, Excel, CSV con datos y cálculos completos |
-| **SEO** | Metadata completa, sitemap, robots.txt |
-| **Performance** | Bundle optimizado (~102 KB), lazy loading |
-| **Seguridad** | Headers de seguridad, validación, sin variables expuestas |
-| **Testing** | 4/4 tests pasando (Vitest + Testing Library) |
-| **Documentación** | README exhaustivo, comentarios en código |
-| **UX/Design** | Responsive, interface educativa clara, accesibilidad A11y |
+| Aspecto             | Detalles                                                         |
+| ------------------- | ---------------------------------------------------------------- |
+| **Arquitectura**    | Next.js 15 (App Router) con estructura clara y modular           |
+| **Funcionalidades** | 3 metodologías completas (Leopold, Conesa, Battelle-Columbus)    |
+| **Interactividad**  | Componentes ricos: sliders, formularios, gráficos en tiempo real |
+| **Exportación**     | PDF, Excel, CSV con datos y cálculos completos                   |
+| **SEO**             | Metadata completa, sitemap, robots.txt                           |
+| **Performance**     | Bundle optimizado (~102 KB), lazy loading                        |
+| **Seguridad**       | Headers de seguridad, validación, sin variables expuestas        |
+| **Testing**         | 4/4 tests pasando (Vitest + Testing Library)                     |
+| **Documentación**   | README exhaustivo, comentarios en código                         |
+| **UX/Design**       | Responsive, interface educativa clara, accesibilidad A11y        |
 
 ### ⚠️ PROBLEMAS DE INTEGRACIÓN
 
-| Problema | Severidad | Causa | Impacto |
-|----------|-----------|-------|--------|
-| **Rutas relativas hardcodeadas** | 🔴 CRÍTICA | Imports como `../../../src/components/...` | Fallan al cambiar estructura |
-| **process.cwd() en page.tsx** | 🔴 CRÍTICA | Lee archivos del sistema (line 6 de `app/page.tsx`) | No funciona en monorepo |
-| **Dependencias duplicadas** | 🟠 MODERADA | Algunas librerías ya en monorepo | Bundle más grande |
-| **Path resolution** | 🟠 MODERADA | Sin `tsconfig.json` con paths personalizadas | Imports complicados |
-| **Knowledge JSON** | 🟡 MENOR | Ubicación relativa `content/knowledge/` | Fácil de resolver |
+| Problema                         | Severidad   | Causa                                               | Impacto                      |
+| -------------------------------- | ----------- | --------------------------------------------------- | ---------------------------- |
+| **Rutas relativas hardcodeadas** | 🔴 CRÍTICA  | Imports como `../../../src/components/...`          | Fallan al cambiar estructura |
+| **process.cwd() en page.tsx**    | 🔴 CRÍTICA  | Lee archivos del sistema (line 6 de `app/page.tsx`) | No funciona en monorepo      |
+| **Dependencias duplicadas**      | 🟠 MODERADA | Algunas librerías ya en monorepo                    | Bundle más grande            |
+| **Path resolution**              | 🟠 MODERADA | Sin `tsconfig.json` con paths personalizadas        | Imports complicados          |
+| **Knowledge JSON**               | 🟡 MENOR    | Ubicación relativa `content/knowledge/`             | Fácil de resolver            |
 
 ---
 
 ## 🗂️ ANÁLISIS DE ESTRUCTURA
 
 ### Estructura Actual del Repo
+
 ```
 temp-matrices-analysis/
 ├── app/                              # ← Routes (Next.js 15)
@@ -76,16 +77,18 @@ temp-matrices-analysis/
 ### Problema de Rutas (CRÍTICO)
 
 **Ejemplo del problema:**
+
 ```tsx
 // ❌ En app/builder/[caseId]/[matriz]/page.tsx (línea 5)
-import LeopoldGrid from '../../../../src/components/LeopoldGrid';
+import LeopoldGrid from "../../../../src/components/LeopoldGrid";
 //                    ^^^^^^^^^^^^^ Estos paths son hardcodeados
 
 // ❌ En app/comparar/[caseId]/page.tsx (línea 1)
-import LeopoldGrid from '../../../src/components/LeopoldGrid';
+import LeopoldGrid from "../../../src/components/LeopoldGrid";
 ```
 
 **Por qué falla en monorepo:**
+
 ```
 Ruta actual en monorepo:
 /apps/web/src/app/(portals)/ambiental/herramientas/generador-matrices/
@@ -109,12 +112,14 @@ Pero los imports de ../../../../ no resuelven a src/components/
 **Riesgo:** Bajo
 
 **Estrategia:**
+
 1. Copiar toda la estructura "tal cual"
 2. Crear un `tsconfig.json` con path aliases en la carpeta raíz
 3. Crear wrapper `page.tsx` simple que exponga `app/page.tsx`
 4. Ajustar imports a usar aliases (`@components/...`)
 
 **Implementación:**
+
 ```
 apps/web/src/app/(portals)/ambiental/herramientas/generador-matrices/
 ├── app/                          # Estructura original
@@ -128,6 +133,7 @@ apps/web/src/app/(portals)/ambiental/herramientas/generador-matrices/
 ```
 
 **tsconfig.json personalizado:**
+
 ```json
 {
   "compilerOptions": {
@@ -143,15 +149,17 @@ apps/web/src/app/(portals)/ambiental/herramientas/generador-matrices/
 ```
 
 **Cambios necesarios en imports:**
+
 ```tsx
 // Antes
-import LeopoldGrid from '../../../../src/components/LeopoldGrid';
+import LeopoldGrid from "../../../../src/components/LeopoldGrid";
 
 // Después
-import LeopoldGrid from '@components/LeopoldGrid';
+import LeopoldGrid from "@components/LeopoldGrid";
 ```
 
 **Pros:**
+
 - ✅ Mantiene estructura original intacta
 - ✅ Compatible con monorepo
 - ✅ Fácil de mantener
@@ -159,6 +167,7 @@ import LeopoldGrid from '@components/LeopoldGrid';
 - ✅ Zero cambios en lógica
 
 **Contras:**
+
 - ⚠️ Requiere batch replacement de imports (~20-30 cambios)
 - ⚠️ Requiere archivo `tsconfig.json` específico
 
@@ -174,6 +183,7 @@ import LeopoldGrid from '@components/LeopoldGrid';
 Convertir Generador de Matrices en un **paquete NPM local** dentro del monorepo.
 
 **Estructura:**
+
 ```
 packages/
 ├── matriz-generator/              # ✨ NUEVO paquete
@@ -191,6 +201,7 @@ apps/web/
 ```
 
 **Ventajas:**
+
 - ✅ Reutilizable en otros apps
 - ✅ Build independiente
 - ✅ Import simple: `import { MatrizGenerator } from '@ia-next/matriz-generator'`
@@ -198,6 +209,7 @@ apps/web/
 - ✅ Zero conflictos de rutas
 
 **Contras:**
+
 - ⚠️ Requiere más setup inicial
 - ⚠️ Complejidad adicional en monorepo config
 
@@ -213,6 +225,7 @@ apps/web/
 Desplegar Generador de Matrices como aplicación separada y embebida en un iframe.
 
 **Estructura:**
+
 ```
 /matriz-studio/                     # App separada en Vercel
 /apps/web/src/app/.../generador-matrices/
@@ -220,11 +233,12 @@ Desplegar Generador de Matrices como aplicación separada y embebida en un ifram
 ```
 
 **Implementación del iframe:**
+
 ```tsx
 export default function GeneradorMatrices() {
   return (
     <div className="w-full h-screen">
-      <iframe 
+      <iframe
         src="https://matriz-studio.vercel.app"
         className="w-full h-full border-0"
         title="Generador de Matrices EIA"
@@ -236,11 +250,13 @@ export default function GeneradorMatrices() {
 ```
 
 **Pros:**
+
 - ✅ Muy rápido de implementar
 - ✅ App completamente independiente
 - ✅ Fácil de actualizar
 
 **Contras:**
+
 - ❌ UX degradada (iframe delays, no fullscreen)
 - ❌ Analytics complicadas
 - ❌ No comparte contexto de autenticación
@@ -261,6 +277,7 @@ export default function GeneradorMatrices() {
 Refactorizar completamente la estructura para que funcione como sub-app del monorepo.
 
 **Cambios:**
+
 1. Mover `app/` → `src/app/`
 2. Reorganizar imports con alias
 3. Usar `process.cwd()` alternativa (con checks)
@@ -271,11 +288,13 @@ Refactorizar completamente la estructura para que funcione como sub-app del mono
 Estructura limpia, production-ready, integrada perfectamente.
 
 **Pros:**
+
 - ✅ Estructura más limpia
 - ✅ Mejor integración
 - ✅ Más mantenible
 
 **Contras:**
+
 - ⚠️ Más tiempo de implementación
 - ⚠️ Riesgo de introducir bugs
 - ⚠️ Requiere testing exhaustivo
@@ -287,6 +306,7 @@ Estructura limpia, production-ready, integrada perfectamente.
 ### ✅ **MEJOR OPCIÓN: OPCIÓN 2 - PAQUETE NPM LOCAL**
 
 **Por qué:**
+
 1. **Escalabilidad:** Puede ser usado por otros portals/apps
 2. **Mantenibilidad:** Código aislado y sin conflictos
 3. **Performance:** Build independiente, cache optimizado
@@ -294,6 +314,7 @@ Estructura limpia, production-ready, integrada perfectamente.
 5. **Seguridad:** Sin conflictos de rutas o dependencias
 
 **Plan de acción:**
+
 ```
 1. Crear packages/matriz-generator/
 2. Mover código de temp-matrices-analysis
@@ -313,6 +334,7 @@ Estructura limpia, production-ready, integrada perfectamente.
 ### 🟢 **ALTERNATIVA RÁPIDA: OPCIÓN 1 - WRAPPER CON ALIAS**
 
 Si necesitas resultado **MÁS RÁPIDO** (sin perder calidad):
+
 - Usar OPCIÓN 1
 - Implementar en 2-3 horas
 - Resultado funcional inmediato
@@ -323,20 +345,28 @@ Si necesitas resultado **MÁS RÁPIDO** (sin perder calidad):
 ## ⚠️ PROBLEMAS A RESOLVER
 
 ### 1. **process.cwd() en page.tsx**
+
 ```tsx
 // ❌ Problema (línea 6 de app/page.tsx)
-const kbPath = path.join(process.cwd(), 'content', 'knowledge', 'knowledge.json');
+const kbPath = path.join(
+  process.cwd(),
+  "content",
+  "knowledge",
+  "knowledge.json",
+);
 
 // ✅ Solución
-import knowledge from '@content/knowledge/knowledge.json';
+import knowledge from "@content/knowledge/knowledge.json";
 // O usar dynamic import con fallback
 ```
 
 ### 2. **Rutas relativas hardcodeadas**
+
 - ~25-30 imports en componentes
 - Solución: Usar aliases o refactorizar a `@components/...`
 
 ### 3. **Dependencies duplicadas**
+
 - Tailwind, Next, React, TypeScript
 - Solución: Usar desde root o resolver en monorepo
 
@@ -344,20 +374,21 @@ import knowledge from '@content/knowledge/knowledge.json';
 
 ## 📈 MATRIZ DE DECISIÓN
 
-| Criterio | Opción 1 | Opción 2 | Opción 3 | Opción 4 |
-|----------|----------|----------|----------|----------|
-| Velocidad | ⚡⚡⚡ | ⚡⚡ | ⚡⚡⚡⚡ | ⚡ |
-| Calidad | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ |
-| Escalabilidad | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐ | ⭐⭐⭐⭐ |
-| Mantenibilidad | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐ |
-| Riesgo | 🟢 Bajo | 🟢 Bajo | 🟠 Medio | 🟡 Bajo-Medio |
-| **SCORE** | **8.5/10** | **9.5/10** | **4/10** | **8/10** |
+| Criterio       | Opción 1   | Opción 2   | Opción 3 | Opción 4      |
+| -------------- | ---------- | ---------- | -------- | ------------- |
+| Velocidad      | ⚡⚡⚡     | ⚡⚡       | ⚡⚡⚡⚡ | ⚡            |
+| Calidad        | ⭐⭐⭐⭐   | ⭐⭐⭐⭐⭐ | ⭐⭐     | ⭐⭐⭐⭐⭐    |
+| Escalabilidad  | ⭐⭐⭐     | ⭐⭐⭐⭐⭐ | ⭐       | ⭐⭐⭐⭐      |
+| Mantenibilidad | ⭐⭐⭐     | ⭐⭐⭐⭐⭐ | ⭐⭐     | ⭐⭐⭐⭐      |
+| Riesgo         | 🟢 Bajo    | 🟢 Bajo    | 🟠 Medio | 🟡 Bajo-Medio |
+| **SCORE**      | **8.5/10** | **9.5/10** | **4/10** | **8/10**      |
 
 ---
 
 ## 🚦 NEXT STEPS
 
 ### **SI ELIGES OPCIÓN 2 (Recomendado):**
+
 1. ✅ Crear estructura `packages/matriz-generator/`
 2. ✅ Copiar código original
 3. ✅ Configurar `package.json` con exports
@@ -367,6 +398,7 @@ import knowledge from '@content/knowledge/knowledge.json';
 7. ✅ Commit y deploy
 
 ### **SI ELIGES OPCIÓN 1 (Rápido):**
+
 1. ✅ Copiar estructura a `herramientas/generador-matrices/`
 2. ✅ Crear `tsconfig.json` con aliases
 3. ✅ Batch replace imports (~30 cambios)

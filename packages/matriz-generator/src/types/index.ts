@@ -1,4 +1,4 @@
-export type Fase = 'preoperativa' | 'operativa' | 'cierre';
+export type Fase = "preoperativa" | "operativa" | "cierre";
 
 export type Action = {
   id: string;
@@ -7,20 +7,20 @@ export type Action = {
   desc?: string;
 };
 
-export type Medio = 'fisico' | 'biotico' | 'social';
+export type Medio = "fisico" | "biotico" | "social";
 
 export type Factor = {
   id: string;
   medio: Medio;
   nombre: string;
-  sensibilidad: 'baja' | 'media' | 'alta';
+  sensibilidad: "baja" | "media" | "alta";
 };
 
 export type ImpactoBase = {
   id: string;
   actionId: string;
   factorId: string;
-  signo: '+' | '-';
+  signo: "+" | "-";
 };
 
 export type LeopoldCell = {
@@ -32,10 +32,19 @@ export type LeopoldCell = {
 
 export type ConesaImpact = {
   impactoId: string;
-  signo: '+' | '-';
-  IN: number; EX: number; MO: number; PE: number; RV: number; SI: number; AC: number; EF: number; PR: number; MC: number;
+  signo: "+" | "-";
+  IN: number;
+  EX: number;
+  MO: number;
+  PE: number;
+  RV: number;
+  SI: number;
+  AC: number;
+  EF: number;
+  PR: number;
+  MC: number;
   I: number;
-  categoria: 'Irrelevante' | 'Moderado' | 'Severo' | 'Crítico';
+  categoria: "Irrelevante" | "Moderado" | "Severo" | "Crítico";
 };
 
 export type BattelleParam = {
@@ -49,7 +58,11 @@ export type BattelleParam = {
   uia: number;
 };
 
-export type BattelleCategory = 'FÍSICO-QUÍMICO' | 'BIOLÓGICO' | 'CULTURAL' | 'ECOLÓGICO-ESTÉTICO';
+export type BattelleCategory =
+  | "FÍSICO-QUÍMICO"
+  | "BIOLÓGICO"
+  | "CULTURAL"
+  | "ECOLÓGICO-ESTÉTICO";
 
 export type BattelleImpact = {
   impactoId: string;
@@ -63,14 +76,14 @@ export type BattelleImpact = {
 };
 
 export type Justificacion = {
-  entidad: 'impacto' | 'parametro';
+  entidad: "impacto" | "parametro";
   refId: string;
   markdown: string;
 };
 
 export type Medida = {
   impactoId: string;
-  tipo: 'prevención' | 'mitigación' | 'corrección' | 'compensación';
+  tipo: "prevención" | "mitigación" | "corrección" | "compensación";
   texto: string;
 };
 
@@ -85,7 +98,7 @@ export type Case = {
 export type Proyecto = {
   id: string;
   caseId: string;
-  matriz: 'leopold' | 'conesa' | 'battelle';
+  matriz: "leopold" | "conesa" | "battelle";
   acciones: Action[];
   factores: Factor[];
   impactos: ImpactoBase[];

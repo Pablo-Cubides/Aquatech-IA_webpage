@@ -3,13 +3,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#0b72ef',
-        accent: '#16a34a'
+        primary: "#0b72ef",
+        accent: "#16a34a",
       },
       fontSize: {
-        xl: ['1.375rem', { lineHeight: '1.25' }]
-      }
-    }
+        xl: ["1.375rem", { lineHeight: "1.25" }],
+      },
+    },
   },
-  plugins: []
-}
+  plugins: [],
+};
