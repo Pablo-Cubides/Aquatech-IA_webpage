@@ -24,28 +24,33 @@ export default function MapComponent({
     if (!mapContainer.current) return;
 
     try {
-      // Use a simpler style that doesn't require external CORS
-      // or use the OpenStreetMap compatible style
-      const styleUrl =
-        "https://tile.openstreetmap.org/styles/positron/style.json";
-
+      // Use CartoDB Positron - reliable and doesn't require authentication
+      // CartoDB provides free tiles with no API key required
       map.current = new maplibregl.Map({
         container: mapContainer.current,
-        // Use a style that works without CORS issues - fallback to simple OSM style
         style: {
           version: 8,
           sources: {
-            osm: {
+            carto: {
               type: "raster",
-              tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
+              tiles: [
+                "https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
+                "https://b.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
+                "https://c.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
+                "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
+              ],
               tileSize: 256,
+              attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+              maxzoom: 19
             },
           },
           layers: [
             {
-              id: "osm",
+              id: "carto-tiles",
               type: "raster",
-              source: "osm",
+              source: "carto",
+              minzoom: 0,
+              maxzoom: 22
             },
           ],
         },

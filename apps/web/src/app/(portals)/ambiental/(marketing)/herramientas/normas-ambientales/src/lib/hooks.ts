@@ -90,7 +90,7 @@ export function useExplorarState() {
   useEffect(() => {
     async function fetchCountries() {
       try {
-        const res = await fetch(`/api/paises?dominio=${selectedDomain}`);
+        const res = await fetch(`/ambiental/herramientas/normas-ambientales/src/app/api/paises?dominio=${selectedDomain}`);
         if (!res.ok) throw new Error('No se pudieron cargar países');
         const data = await res.json();
         const countries = (data.countries || []).map((c: AnyRecord) => {
@@ -118,7 +118,7 @@ export function useExplorarState() {
 
     async function fetchSectors() {
       try {
-        const res = await fetch(`/api/sectores?dominio=${selectedDomain}&pais=${selectedCountry}`);
+        const res = await fetch(`/ambiental/herramientas/normas-ambientales/src/app/api/sectores?dominio=${selectedDomain}&pais=${selectedCountry}`);
         if (!res.ok) throw new Error('No se pudieron cargar sectores');
         const data = await res.json();
         const sectors = data.sectors || [];
@@ -169,10 +169,10 @@ export function useExplorarState() {
         let url: string;
         // If we have sectors available and a specific sector selected, filter by sector
         if (availableSectors && availableSectors.length > 0 && selectedSector) {
-          url = `/api/normas?pais=${selectedCountry}&dominio=${selectedDomain}&sector=${selectedSector}`;
+          url = `/ambiental/herramientas/normas-ambientales/src/app/api/normas?pais=${selectedCountry}&dominio=${selectedDomain}&sector=${selectedSector}`;
         } else {
           // If no sectors available yet (still loading) or no sector selected, load all data
-          url = `/api/normas?pais=${selectedCountry}&dominio=${selectedDomain}`;
+          url = `/ambiental/herramientas/normas-ambientales/src/app/api/normas?pais=${selectedCountry}&dominio=${selectedDomain}`;
         }
 
         setLastFetchUrl(url);

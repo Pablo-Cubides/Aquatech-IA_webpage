@@ -37,8 +37,8 @@ function SectorCard({
   country?: string;
 }) {
   const href = country
-    ? `/explorar?dominio=${domain}&pais=${country}&sector=${sector.id}`
-    : `/explorar?dominio=${domain}&sector=${sector.id}`;
+    ? `/ambiental/herramientas/normas-ambientales/explorar?dominio=${domain}&pais=${country}&sector=${sector.id}`
+    : `/ambiental/herramientas/normas-ambientales/explorar?dominio=${domain}&sector=${sector.id}`;
 
   return (
     <Link href={href}>
@@ -350,7 +350,7 @@ export default function HomePage() {
                   </div>
                   <div className="flex justify-center">
                     <Link
-                      href={`/explorar?dominio=${selectedDomain}&pais=${selectedCountry}`}
+                      href={`/ambiental/herramientas/normas-ambientales/explorar?dominio=${selectedDomain}&pais=${selectedCountry}`}
                     >
                       <Button
                         size="lg"
@@ -391,7 +391,7 @@ export default function HomePage() {
                       asChild
                       className="border-2 border-blue-300 hover:bg-blue-50 font-semibold"
                     >
-                      <Link href="/fundamentos">Ver Fundamentos</Link>
+                      <Link href="/ambiental/herramientas/normas-ambientales/fundamentos">Ver Fundamentos</Link>
                     </Button>
                   </div>
                 </div>

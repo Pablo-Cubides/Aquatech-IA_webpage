@@ -212,7 +212,7 @@ function ExplorarContent() {
               asChild
               className="text-white hover:bg-white/10"
             >
-              <Link href="/" className="inline-flex items-center gap-2">
+              <Link href="/ambiental/herramientas/normas-ambientales" className="inline-flex items-center gap-2">
                 <ArrowLeft className="w-4 h-4" />
                 Volver
               </Link>
