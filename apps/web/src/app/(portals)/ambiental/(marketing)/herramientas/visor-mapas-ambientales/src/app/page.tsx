@@ -1,146 +1,345 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import dynamic from 'next/dynamic'
-import UploadWizard from '@/components/UploadWizard'
-import type { DatasetMetadata, GeoJSONFeature, FilterState, User } from '@/types'
-import { logger } from '@/lib/logger'
+import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
+import UploadWizard from "../components/UploadWizard";
+import type {
+  DatasetMetadata,
+  GeoJSONFeature,
+  FilterState,
+  User,
+} from "@/types";
+import { logger } from "@/lib/logger";
 
 // Dynamically import MapComponent to avoid SSR issues
-const MapComponent = dynamic(
-  () => import('@/components/MapComponent'),
-  { ssr: false, loading: () => <div className="w-full h-full bg-gray-100 flex items-center justify-center">Cargando mapa...</div> }
-)
+const MapComponent = dynamic(() => import("../components/MapComponent"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+      Cargando mapa...
+    </div>
+  ),
+});
 
 export default function HomePage() {
-  const [user, setUser] = useState<User | null>(null)
-  const [datasets, setDatasets] = useState<DatasetMetadata[]>([])
-  const [selectedDataset, setSelectedDataset] = useState<DatasetMetadata | null>(null)
-  const [availableDates, setAvailableDates] = useState<string[]>([])
-  const [selectedDate, setSelectedDate] = useState<string>('')
-  const [currentData, setCurrentData] = useState<GeoJSONFeature[]>([])
-  const [selectedFeature, setSelectedFeature] = useState<GeoJSONFeature | null>(null)
-  const [showUploadWizard, setShowUploadWizard] = useState(false)
+  const [user, setUser] = useState<User | null>(null);
+  const [datasets, setDatasets] = useState<DatasetMetadata[]>([]);
+  const [selectedDataset, setSelectedDataset] =
+    useState<DatasetMetadata | null>(null);
+  const [availableDates, setAvailableDates] = useState<string[]>([]);
+  const [selectedDate, setSelectedDate] = useState<string>("");
+  const [unfilteredData, setUnfilteredData] = useState<GeoJSONFeature[]>([]);
+  const [currentData, setCurrentData] = useState<GeoJSONFeature[]>([]);
+  const [selectedFeature, setSelectedFeature] = useState<GeoJSONFeature | null>(
+    null,
+  );
+  const [showUploadWizard, setShowUploadWizard] = useState(false);
   const [filters, setFilters] = useState<FilterState>({
-    parameters: []
-  })
+    parameters: [],
+  });
 
   // Mock login for development
   useEffect(() => {
     setUser({
-      id: '1',
-      email: 'usuario@ejemplo.com',
-      role: 'uploader'
-    })
-  }, [])
+      id: "1",
+      email: "usuario@ejemplo.com",
+      role: "uploader",
+    });
+  }, []);
 
   // Mock datasets for development
   useEffect(() => {
     const mockDatasets: DatasetMetadata[] = [
       {
-        id: '1',
-        name: 'Monitoreo Río Magdalena 2024',
-        description: 'Datos de calidad del agua del Río Magdalena',
-        owner_id: '1',
-        created_at: '2024-01-01T00:00:00Z',
-        updated_at: '2024-01-01T00:00:00Z',
+        id: "1",
+        name: "Monitoreo Río Magdalena 2024",
+        description: "Datos de calidad del agua del Río Magdalena",
+        owner_id: "1",
+        created_at: "2024-01-01T00:00:00Z",
+        updated_at: "2024-01-01T00:00:00Z",
         column_mapping: {
-          lat: 'latitud',
-          lon: 'longitud',
-          fecha: 'fecha_muestreo',
-          pais: 'pais',
-          departamento: 'departamento',
-          ciudad: 'municipio',
+          lat: "latitud",
+          lon: "longitud",
+          fecha: "fecha_muestreo",
+          pais: "pais",
+          departamento: "departamento",
+          ciudad: "municipio",
           parameters: {
-            'DBO': 'dbo_mg_l',
-            'DQO': 'dqo_mg_l',
-            'pH': 'ph'
-          }
+            DBO: "dbo_mg_l",
+            DQO: "dqo_mg_l",
+            pH: "ph",
+          },
         },
-        available_dates: ['2024-01-15', '2024-01-16', '2024-01-17', '2024-01-18', '2024-01-19'],
-        parameters: ['DBO', 'DQO', 'pH'],
+        available_dates: [
+          "2024-01-15",
+          "2024-01-16",
+          "2024-01-17",
+          "2024-01-18",
+          "2024-01-19",
+        ],
+        parameters: ["DBO", "DQO", "pH"],
         units: {
-          'DBO': 'mg/L',
-          'DQO': 'mg/L',
-          'pH': 'unidades'
-        }
-      }
-    ]
-    setDatasets(mockDatasets)
-  }, [])
+          DBO: "mg/L",
+          DQO: "mg/L",
+          pH: "unidades",
+        },
+      },
+    ];
+    setDatasets(mockDatasets);
+  }, []);
 
   // Handle dataset selection
   useEffect(() => {
     if (selectedDataset) {
-      setAvailableDates(selectedDataset.available_dates)
-      setSelectedDate(selectedDataset.available_dates[0] || '')
-      setFilters({ parameters: [] })
+      console.log("[PAGE] Dataset selected:", selectedDataset.name);
+      setAvailableDates(selectedDataset.available_dates);
+      setSelectedDate(selectedDataset.available_dates[0] || "");
+      // Auto-select first parameter
+      const firstParam = selectedDataset.parameters[0];
+      setFilters({ parameters: firstParam ? [firstParam] : [] });
+      console.log(
+        "[PAGE] Set date to:",
+        selectedDataset.available_dates[0],
+        "and auto-selected parameter:",
+        firstParam,
+      );
     }
-  }, [selectedDataset])
+  }, [selectedDataset]);
 
   // Load data for selected date
   useEffect(() => {
+    console.log("[PAGE] Load data effect triggered:", {
+      hasDataset: !!selectedDataset,
+      hasDate: !!selectedDate,
+      dataset: selectedDataset?.name,
+      date: selectedDate,
+    });
+
     if (selectedDataset && selectedDate) {
-      // Mock data for development
-      const mockData: GeoJSONFeature[] = [
-        {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [-74.0721, 4.7110] // Bogotá
+      // Mock data base - different data per date
+      const allMockData: Record<string, GeoJSONFeature[]> = {
+        "2024-01-15": [
+          {
+            type: "Feature",
+            geometry: { type: "Point", coordinates: [-74.0721, 4.711] },
+            properties: {
+              id: "1",
+              fecha: "2024-01-15",
+              pais: "Colombia",
+              departamento: "Cundinamarca",
+              ciudad: "Bogotá",
+              DBO: 25.5,
+              DQO: 45.2,
+              pH: 7.2,
+              estacion: "EST-001",
+            },
           },
-          properties: {
-            id: '1',
-            fecha: selectedDate,
-            pais: 'Colombia',
-            departamento: 'Cundinamarca', 
-            ciudad: 'Bogotá',
-            DBO: 25.5,
-            DQO: 45.2,
-            pH: 7.2,
-            estacion: 'EST-001'
-          }
-        },
-        {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [-74.0821, 4.7210]
+          {
+            type: "Feature",
+            geometry: { type: "Point", coordinates: [-74.0821, 4.721] },
+            properties: {
+              id: "2",
+              fecha: "2024-01-15",
+              pais: "Colombia",
+              departamento: "Cundinamarca",
+              ciudad: "Bogotá",
+              DBO: 18.3,
+              DQO: 32.1,
+              pH: 6.9,
+              estacion: "EST-002",
+            },
           },
-          properties: {
-            id: '2',
-            fecha: selectedDate,
-            pais: 'Colombia',
-            departamento: 'Cundinamarca',
-            ciudad: 'Bogotá',
-            DBO: 18.3,
-            DQO: 32.1,
-            pH: 6.9,
-            estacion: 'EST-002'
-          }
-        }
-      ]
-      setCurrentData(mockData)
+        ],
+        "2024-01-16": [
+          {
+            type: "Feature",
+            geometry: { type: "Point", coordinates: [-74.0621, 4.701] },
+            properties: {
+              id: "3",
+              fecha: "2024-01-16",
+              pais: "Colombia",
+              departamento: "Cundinamarca",
+              ciudad: "Bogotá",
+              DBO: 22.1,
+              DQO: 38.5,
+              pH: 7.0,
+              estacion: "EST-003",
+            },
+          },
+          {
+            type: "Feature",
+            geometry: { type: "Point", coordinates: [-74.0421, 4.681] },
+            properties: {
+              id: "3b",
+              fecha: "2024-01-16",
+              pais: "Colombia",
+              departamento: "Cundinamarca",
+              ciudad: "Bogotá",
+              // Este punto solo tiene pH, no DBO ni DQO
+              pH: 7.5,
+              estacion: "EST-003B",
+            },
+          },
+        ],
+        "2024-01-17": [
+          {
+            type: "Feature",
+            geometry: { type: "Point", coordinates: [-74.0921, 4.731] },
+            properties: {
+              id: "4",
+              fecha: "2024-01-17",
+              pais: "Colombia",
+              departamento: "Cundinamarca",
+              ciudad: "Bogotá",
+              DBO: 28.7,
+              DQO: 52.3,
+              pH: 7.4,
+              estacion: "EST-004",
+            },
+          },
+          {
+            type: "Feature",
+            geometry: { type: "Point", coordinates: [-74.0521, 4.691] },
+            properties: {
+              id: "5",
+              fecha: "2024-01-17",
+              pais: "Colombia",
+              departamento: "Cundinamarca",
+              ciudad: "Bogotá",
+              DBO: 15.2,
+              DQO: 28.9,
+              pH: 6.8,
+              estacion: "EST-005",
+            },
+          },
+        ],
+        "2024-01-18": [
+          {
+            type: "Feature",
+            geometry: { type: "Point", coordinates: [-74.0771, 4.716] },
+            properties: {
+              id: "6",
+              fecha: "2024-01-18",
+              pais: "Colombia",
+              departamento: "Cundinamarca",
+              ciudad: "Bogotá",
+              DBO: 20.5,
+              DQO: 35.8,
+              pH: 7.1,
+              estacion: "EST-006",
+            },
+          },
+        ],
+        "2024-01-19": [
+          {
+            type: "Feature",
+            geometry: { type: "Point", coordinates: [-74.0671, 4.706] },
+            properties: {
+              id: "7",
+              fecha: "2024-01-19",
+              pais: "Colombia",
+              departamento: "Cundinamarca",
+              ciudad: "Bogotá",
+              DBO: 19.8,
+              DQO: 33.4,
+              pH: 6.95,
+              estacion: "EST-007",
+            },
+          },
+          {
+            type: "Feature",
+            geometry: { type: "Point", coordinates: [-74.0871, 4.726] },
+            properties: {
+              id: "8",
+              fecha: "2024-01-19",
+              pais: "Colombia",
+              departamento: "Cundinamarca",
+              ciudad: "Bogotá",
+              DBO: 24.3,
+              DQO: 41.7,
+              pH: 7.3,
+              estacion: "EST-008",
+            },
+          },
+          {
+            type: "Feature",
+            geometry: { type: "Point", coordinates: [-74.0571, 4.696] },
+            properties: {
+              id: "9",
+              fecha: "2024-01-19",
+              pais: "Colombia",
+              departamento: "Cundinamarca",
+              ciudad: "Bogotá",
+              DBO: 17.5,
+              DQO: 30.2,
+              pH: 6.85,
+              estacion: "EST-009",
+            },
+          },
+        ],
+      };
+
+      const dataForDate = allMockData[selectedDate] || [];
+      console.log(
+        "[PAGE] Loading data for date",
+        selectedDate,
+        ":",
+        dataForDate.length,
+        "points",
+      );
+      setUnfilteredData(dataForDate);
+    } else {
+      console.log("[PAGE] NOT loading data - conditions not met");
+      setUnfilteredData([]);
     }
-  }, [selectedDataset, selectedDate])
+  }, [selectedDataset, selectedDate]);
+
+  // Apply parameter filters
+  useEffect(() => {
+    if (filters.parameters.length === 0) {
+      // No parameters selected - show NO points
+      console.log(
+        "[PAGE] No parameters selected - hiding all points (user must select at least one parameter)",
+      );
+      setCurrentData([]);
+    } else {
+      // Filter data to show points that have AT LEAST ONE of the selected parameters
+      const filtered = unfilteredData.filter((feature) => {
+        return filters.parameters.some((param) => {
+          const value = feature.properties[param];
+          return value !== null && value !== undefined;
+        });
+      });
+      console.log(
+        "[PAGE] Showing points with parameters:",
+        filters.parameters.join(", "),
+        "→",
+        filtered.length,
+        "of",
+        unfilteredData.length,
+        "points",
+      );
+      setCurrentData(filtered);
+    }
+  }, [unfilteredData, filters.parameters]);
 
   const handleLogin = (email: string, password: string) => {
     // Mock login
     setUser({
-      id: '1',
+      id: "1",
       email,
-      role: 'uploader'
-    })
-  }
+      role: "uploader",
+    });
+  };
 
   const handleUploadComplete = (data: any) => {
-    logger.info('Upload completed successfully', { 
+    logger.info("Upload completed successfully", {
       datasetId: data?.datasetId,
-      recordCount: data?.recordCount 
-    })
-    setShowUploadWizard(false)
+      recordCount: data?.recordCount,
+    });
+    setShowUploadWizard(false);
     // TODO: Process uploaded data and refresh datasets
-  }
+  };
 
   if (!user) {
     return (
@@ -156,16 +355,22 @@ export default function HomePage() {
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-            <form className="space-y-6" onSubmit={(e) => {
-              e.preventDefault()
-              const formData = new FormData(e.currentTarget)
-              handleLogin(
-                formData.get('email') as string,
-                formData.get('password') as string
-              )
-            }}>
+            <form
+              className="space-y-6"
+              onSubmit={(e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                handleLogin(
+                  formData.get("email") as string,
+                  formData.get("password") as string,
+                );
+              }}
+            >
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Correo electrónico
                 </label>
                 <div className="mt-1">
@@ -182,7 +387,10 @@ export default function HomePage() {
               </div>
 
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Contraseña
                 </label>
                 <div className="mt-1">
@@ -205,7 +413,10 @@ export default function HomePage() {
               </div>
 
               <div className="text-center">
-                <a href="#" className="text-sm text-primary-600 hover:text-primary-500">
+                <a
+                  href="#"
+                  className="text-sm text-primary-600 hover:text-primary-500"
+                >
                   ¿No tienes cuenta? Regístrate
                 </a>
               </div>
@@ -213,14 +424,14 @@ export default function HomePage() {
           </div>
         </div>
       </main>
-    )
+    );
   }
 
   return (
     <>
       {/* Skip Link for Accessibility */}
-      <a 
-        href="#main-content" 
+      <a
+        href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-50 focus:p-4 focus:bg-primary-600 focus:text-white focus:font-semibold"
       >
         Saltar al contenido principal
@@ -228,30 +439,38 @@ export default function HomePage() {
 
       <main id="main-content" className="h-screen flex flex-col">
         {/* Header */}
-        <header className="bg-white shadow-sm border-b border-gray-200" role="banner">
+        <header
+          className="bg-white shadow-sm border-b border-gray-200"
+          role="banner"
+        >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center py-4">
               <div className="flex items-center space-x-4">
-                <h1 className="text-xl font-semibold text-gray-900">Mapa Ambiental</h1>
-                <select 
+                <h1 className="text-xl font-semibold text-gray-900">
+                  Mapa Ambiental
+                </h1>
+                <select
                   className="input-field w-64"
-                  value={selectedDataset?.id || ''}
+                  value={selectedDataset?.id || ""}
                   onChange={(e) => {
-                    const dataset = datasets.find(d => d.id === e.target.value)
-                    setSelectedDataset(dataset || null)
+                    const dataset = datasets.find(
+                      (d) => d.id === e.target.value,
+                    );
+                    setSelectedDataset(dataset || null);
                   }}
                   aria-label="Seleccionar dataset de datos ambientales"
                   aria-describedby="dataset-description"
                 >
                   <option value="">Seleccionar dataset...</option>
-                  {datasets.map(dataset => (
+                  {datasets.map((dataset) => (
                     <option key={dataset.id} value={dataset.id}>
                       {dataset.name}
                     </option>
                   ))}
                 </select>
                 <span id="dataset-description" className="sr-only">
-                  Seleccione un conjunto de datos ambientales para visualizar en el mapa
+                  Seleccione un conjunto de datos ambientales para visualizar en
+                  el mapa
                 </span>
               </div>
               <div className="flex items-center space-x-4">
@@ -264,8 +483,8 @@ export default function HomePage() {
                 >
                   📖 Guía de uso
                 </a>
-                {(user.role === 'admin' || user.role === 'uploader') && (
-                  <button 
+                {(user.role === "admin" || user.role === "uploader") && (
+                  <button
                     className="btn-primary"
                     onClick={() => setShowUploadWizard(true)}
                     aria-label="Abrir asistente para subir nuevos datos ambientales"
@@ -273,7 +492,7 @@ export default function HomePage() {
                     + Subir datos
                   </button>
                 )}
-                <button 
+                <button
                   className="btn-secondary"
                   onClick={() => setUser(null)}
                   aria-label="Cerrar sesión y volver al inicio"
@@ -282,7 +501,7 @@ export default function HomePage() {
                 </button>
               </div>
             </div>
-            
+
             {/* Date tabs */}
             {selectedDataset && (
               <div className="border-t border-gray-200 pt-2">
@@ -292,8 +511,8 @@ export default function HomePage() {
                       key={date}
                       className={`px-4 py-2 text-sm font-medium border-b-2 whitespace-nowrap transition-colors ${
                         selectedDate === date
-                          ? 'text-primary-600 border-primary-500'
-                          : 'text-gray-600 border-transparent hover:text-gray-900 hover:border-gray-300'
+                          ? "text-primary-600 border-primary-500"
+                          : "text-gray-600 border-transparent hover:text-gray-900 hover:border-gray-300"
                       }`}
                       onClick={() => setSelectedDate(date)}
                     >
@@ -310,17 +529,24 @@ export default function HomePage() {
         <div className="flex-1 flex">
           {/* Filters panel */}
           <aside className="w-80 bg-white border-r border-gray-200 p-6 overflow-y-auto">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Filtros</h2>
-            
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+              Filtros
+            </h2>
+
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   País
                 </label>
-                <select 
+                <select
                   className="input-field"
-                  value={filters.pais || ''}
-                  onChange={(e) => setFilters({ ...filters, pais: e.target.value || undefined })}
+                  value={filters.pais || ""}
+                  onChange={(e) =>
+                    setFilters({
+                      ...filters,
+                      pais: e.target.value || undefined,
+                    })
+                  }
                 >
                   <option value="">Todos los países</option>
                   <option value="Colombia">Colombia</option>
@@ -331,10 +557,15 @@ export default function HomePage() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Departamento
                 </label>
-                <select 
+                <select
                   className="input-field"
-                  value={filters.departamento || ''}
-                  onChange={(e) => setFilters({ ...filters, departamento: e.target.value || undefined })}
+                  value={filters.departamento || ""}
+                  onChange={(e) =>
+                    setFilters({
+                      ...filters,
+                      departamento: e.target.value || undefined,
+                    })
+                  }
                 >
                   <option value="">Todos los departamentos</option>
                   <option value="Cundinamarca">Cundinamarca</option>
@@ -345,10 +576,15 @@ export default function HomePage() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Ciudad
                 </label>
-                <select 
+                <select
                   className="input-field"
-                  value={filters.ciudad || ''}
-                  onChange={(e) => setFilters({ ...filters, ciudad: e.target.value || undefined })}
+                  value={filters.ciudad || ""}
+                  onChange={(e) =>
+                    setFilters({
+                      ...filters,
+                      ciudad: e.target.value || undefined,
+                    })
+                  }
                 >
                   <option value="">Todas las ciudades</option>
                   <option value="Bogotá">Bogotá</option>
@@ -359,24 +595,34 @@ export default function HomePage() {
                 <>
                   <hr className="my-4" />
                   <div>
-                    <h3 className="text-sm font-medium text-gray-700 mb-2">Parámetros</h3>
+                    <h3 className="text-sm font-medium text-gray-700 mb-2">
+                      Parámetros
+                    </h3>
                     <div className="space-y-2">
                       {selectedDataset.parameters.map((param) => (
                         <label key={param} className="flex items-center">
-                          <input 
-                            type="checkbox" 
-                            className="rounded border-gray-300 text-primary-600 focus:ring-primary-500" 
+                          <input
+                            type="checkbox"
+                            className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                             checked={filters.parameters.includes(param)}
                             onChange={(e) => {
                               if (e.target.checked) {
-                                setFilters({ ...filters, parameters: [...filters.parameters, param] })
+                                setFilters({
+                                  ...filters,
+                                  parameters: [...filters.parameters, param],
+                                });
                               } else {
-                                setFilters({ ...filters, parameters: filters.parameters.filter(p => p !== param) })
+                                setFilters({
+                                  ...filters,
+                                  parameters: filters.parameters.filter(
+                                    (p) => p !== param,
+                                  ),
+                                });
                               }
                             }}
                           />
                           <span className="ml-2 text-sm text-gray-700">
-                            {param} ({selectedDataset.units[param] || 'N/A'})
+                            {param} ({selectedDataset.units[param] || "N/A"})
                           </span>
                         </label>
                       ))}
@@ -390,11 +636,11 @@ export default function HomePage() {
           {/* Map container */}
           <div className="flex-1 relative">
             <MapComponent
-              data={selectedDataset && selectedDate ? currentData : []}
+              data={currentData}
               onPointClick={setSelectedFeature}
               selectedParameters={filters.parameters}
             />
-            
+
             {/* Overlay message when no dataset is selected */}
             {!selectedDataset && (
               <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center pointer-events-none">
@@ -409,7 +655,7 @@ export default function HomePage() {
                 </div>
               </div>
             )}
-            
+
             {/* Overlay message when dataset is selected but no date */}
             {selectedDataset && !selectedDate && (
               <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center pointer-events-none">
@@ -428,18 +674,37 @@ export default function HomePage() {
 
           {/* Details panel */}
           <aside className="w-80 bg-white border-l border-gray-200 p-6 overflow-y-auto">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Detalles del punto</h2>
-            
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+              Detalles del punto
+            </h2>
+
             {selectedFeature ? (
               <div className="space-y-4">
                 <div>
-                  <h3 className="font-medium text-gray-900">Información general</h3>
+                  <h3 className="font-medium text-gray-900">
+                    Información general
+                  </h3>
                   <div className="mt-2 space-y-1">
-                    <p className="text-sm"><span className="font-medium">Estación:</span> {selectedFeature.properties.estacion || 'N/A'}</p>
-                    <p className="text-sm"><span className="font-medium">Fecha:</span> {selectedFeature.properties.fecha}</p>
-                    <p className="text-sm"><span className="font-medium">País:</span> {selectedFeature.properties.pais}</p>
-                    <p className="text-sm"><span className="font-medium">Departamento:</span> {selectedFeature.properties.departamento}</p>
-                    <p className="text-sm"><span className="font-medium">Ciudad:</span> {selectedFeature.properties.ciudad}</p>
+                    <p className="text-sm">
+                      <span className="font-medium">Estación:</span>{" "}
+                      {selectedFeature.properties.estacion || "N/A"}
+                    </p>
+                    <p className="text-sm">
+                      <span className="font-medium">Fecha:</span>{" "}
+                      {selectedFeature.properties.fecha}
+                    </p>
+                    <p className="text-sm">
+                      <span className="font-medium">País:</span>{" "}
+                      {selectedFeature.properties.pais}
+                    </p>
+                    <p className="text-sm">
+                      <span className="font-medium">Departamento:</span>{" "}
+                      {selectedFeature.properties.departamento}
+                    </p>
+                    <p className="text-sm">
+                      <span className="font-medium">Ciudad:</span>{" "}
+                      {selectedFeature.properties.ciudad}
+                    </p>
                   </div>
                 </div>
 
@@ -447,14 +712,19 @@ export default function HomePage() {
                   <h3 className="font-medium text-gray-900">Parámetros</h3>
                   <div className="mt-2 space-y-2">
                     {selectedDataset?.parameters.map((param) => {
-                      const value = selectedFeature.properties[param]
-                      const unit = selectedDataset.units[param] || ''
+                      const value = selectedFeature.properties[param];
+                      const unit = selectedDataset.units[param] || "";
                       return (
-                        <div key={param} className="flex justify-between text-sm">
+                        <div
+                          key={param}
+                          className="flex justify-between text-sm"
+                        >
                           <span className="font-medium">{param}:</span>
-                          <span>{value !== undefined ? `${value} ${unit}` : 'N/A'}</span>
+                          <span>
+                            {value !== undefined ? `${value} ${unit}` : "N/A"}
+                          </span>
                         </div>
-                      )
+                      );
                     })}
                   </div>
                 </div>
@@ -476,5 +746,5 @@ export default function HomePage() {
         />
       )}
     </>
-  )
+  );
 }

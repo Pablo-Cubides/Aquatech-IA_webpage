@@ -30,6 +30,8 @@ export function middleware(request: NextRequest) {
       "img-src 'self' data: https: blob:",
       "connect-src 'self' https://www.google-analytics.com https://*.supabase.co https://*.vercel.app",
       "frame-src 'self' https://accounts.google.com",
+      "worker-src 'self' blob:",
+      "child-src 'self' blob:",
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",
