@@ -73,8 +73,17 @@ export async function GET(request: NextRequest) {
 
     // If country is specified, read sectors from that country's JSON
     if (country) {
-      const filePath = path.join(process.cwd(), 'data', 'json', domain, `${sanitizeFilename(country)}.json`);
-      
+      let filePath = path.join(process.cwd(), 'data', 'json', domain, `${sanitizeFilename(country)}.json`);
+
+      // Fallback to normativas_temp if data/json is not present in this workspace
+      if (!fs.existsSync(filePath)) {
+        const alt = path.join(process.cwd(), 'normativas_temp', 'data', 'json', domain, `${sanitizeFilename(country)}.json`);
+        if (fs.existsSync(alt)) {
+          filePath = alt;
+          logger.warn('sectores_using_alternative_data_path', { usedPath: alt });
+        }
+      }
+
       if (!fs.existsSync(filePath)) {
         return NextResponse.json({ sectors: [], domain, country, error: 'País no encontrado' }, { status: 404 });
       }

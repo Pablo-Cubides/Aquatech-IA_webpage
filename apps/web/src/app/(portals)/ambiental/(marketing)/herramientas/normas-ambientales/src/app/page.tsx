@@ -129,11 +129,30 @@ export default function HomePage() {
 
       if (!res.ok) throw new Error("No se pudieron cargar los sectores");
       const data = await res.json();
-      // Ensure sectors is always an array and remove duplicates
+
+      // Ensure sectors is always an array and normalize entries to string ids
       const sectors = Array.isArray(data.sectors) ? data.sectors : [];
-      const uniqueSectors = Array.from(
-        new Set(sectors.map((s: any) => String(s))),
-      ) as string[];
+
+      const normalized = sectors.map((s: any) => {
+        // If the sector is already a string, use it
+        if (typeof s === 'string') return s;
+
+        // If it's an object, try to extract a stable id or name
+        if (s && typeof s === 'object') {
+          if (s.id) return String(s.id);
+          if (s.slug) return String(s.slug);
+          if (s.name) return String(s.name).toLowerCase().replace(/\s+/g, '-');
+        }
+
+        // Fallback to coercion (avoid producing [object Object])
+        try {
+          return JSON.stringify(s);
+        } catch {
+          return String(s);
+        }
+      });
+
+      const uniqueSectors = Array.from(new Set(normalized)).map(String) as string[];
       setAvailableSectors(uniqueSectors);
     } catch (e) {
       console.error(e);
