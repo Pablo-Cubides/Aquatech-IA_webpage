@@ -121,7 +121,9 @@ export default function HomePage() {
       // Fallback to global route if portal-mounted route missing
       if (!res.ok) {
         try {
-          res = await fetch(`/api/sectores?dominio=${selectedDomain}&pais=${countryCode}`);
+          res = await fetch(
+            `/api/sectores?dominio=${selectedDomain}&pais=${countryCode}`,
+          );
         } catch (inner) {
           // swallow and outer catch will handle
         }
@@ -135,13 +137,13 @@ export default function HomePage() {
 
       const normalized = sectors.map((s: any) => {
         // If the sector is already a string, use it
-        if (typeof s === 'string') return s;
+        if (typeof s === "string") return s;
 
         // If it's an object, try to extract a stable id or name
-        if (s && typeof s === 'object') {
+        if (s && typeof s === "object") {
           if (s.id) return String(s.id);
           if (s.slug) return String(s.slug);
-          if (s.name) return String(s.name).toLowerCase().replace(/\s+/g, '-');
+          if (s.name) return String(s.name).toLowerCase().replace(/\s+/g, "-");
         }
 
         // Fallback to coercion (avoid producing [object Object])
@@ -152,7 +154,9 @@ export default function HomePage() {
         }
       });
 
-      const uniqueSectors = Array.from(new Set(normalized)).map(String) as string[];
+      const uniqueSectors = Array.from(new Set(normalized)).map(
+        String,
+      ) as string[];
       setAvailableSectors(uniqueSectors);
     } catch (e) {
       console.error(e);

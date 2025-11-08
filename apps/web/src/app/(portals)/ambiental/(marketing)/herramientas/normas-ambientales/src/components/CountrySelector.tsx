@@ -59,7 +59,9 @@ export function CountrySelector({ domain }: { domain: string }) {
 
     // Auto-navigate to explore page with selected country and domain
     setTimeout(() => {
-      router.push(`${ROUTE_BASE}/explorar?pais=${countryCode}&dominio=${domain}`);
+      router.push(
+        `${ROUTE_BASE}/explorar?pais=${countryCode}&dominio=${domain}`,
+      );
     }, 500);
   };
 

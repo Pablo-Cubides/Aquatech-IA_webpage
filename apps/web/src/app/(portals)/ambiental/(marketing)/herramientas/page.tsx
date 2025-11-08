@@ -303,13 +303,16 @@ export default function AmbientalHerramientasPage() {
                     Análisis de Correlaciones Ambientales
                   </h2>
                   <p className="text-gray-600 mb-8 text-lg leading-relaxed">
-                    Visualiza y analiza correlaciones entre variables ambientales
-                    usando matrices de calor interactivas y estadística avanzada.
+                    Visualiza y analiza correlaciones entre variables
+                    ambientales usando matrices de calor interactivas y
+                    estadística avanzada.
                   </p>
                   <ul className="space-y-4 mb-10 flex-grow">
                     <ListItem>Cálculo automático de correlaciones</ListItem>
                     <ListItem>Matrices de calor interactivas</ListItem>
-                    <ListItem>Exportación de análisis y visualizaciones</ListItem>
+                    <ListItem>
+                      Exportación de análisis y visualizaciones
+                    </ListItem>
                   </ul>
                   <div className="flex flex-col sm:flex-row gap-4">
                     <Link

@@ -1,0 +1,13 @@
+/* minimal globals for generator app */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+  height: 100%;
+}
+
+/* primary color */
+:root {
+  --primary: #0077B6;
+}

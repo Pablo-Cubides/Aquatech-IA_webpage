@@ -1,9 +1,13 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { logger } from '@/lib/logger';
-import { SECTOR_NORMALIZATION_MAP } from '@/lib/types';
-import path from 'path';
-import fs from 'fs';
-import { validateDomain, validateCountry, sanitizeFilename } from '@/lib/constants';
+import { NextRequest, NextResponse } from "next/server";
+import { logger } from "@/lib/logger";
+import { SECTOR_NORMALIZATION_MAP } from "@/lib/types";
+import path from "path";
+import fs from "fs";
+import {
+  validateDomain,
+  validateCountry,
+  sanitizeFilename,
+} from "@/lib/constants";
 
 // Global declarations for Node.js environment
 declare const URL: typeof globalThis.URL;
@@ -22,16 +26,16 @@ const MAX_CACHE_SIZE = 100;
 
 function cleanupCache() {
   if (cache.size < MAX_CACHE_SIZE) return;
-  
+
   const now = Date.now();
   const entries = Array.from(cache.entries());
-  
+
   for (const [key, entry] of entries) {
     if (now - entry.ts > TTL_MS) {
       cache.delete(key);
     }
   }
-  
+
   if (cache.size >= MAX_CACHE_SIZE) {
     const sorted = entries.sort((a, b) => a[1].hits - b[1].hits);
     const toRemove = sorted.slice(0, Math.floor(MAX_CACHE_SIZE * 0.2));
@@ -42,29 +46,32 @@ function cleanupCache() {
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const domainParam = searchParams.get('dominio') || 'agua';
-    const countryParam = searchParams.get('pais');
+    const domainParam = searchParams.get("dominio") || "agua";
+    const countryParam = searchParams.get("pais");
 
     // SECURITY: Validate input parameters
     const domain = validateDomain(domainParam);
     const country = validateCountry(countryParam);
 
     if (!domain) {
-      return NextResponse.json({ sectors: [], error: 'Dominio no válido' }, { status: 400 });
+      return NextResponse.json(
+        { sectors: [], error: "Dominio no válido" },
+        { status: 400 },
+      );
     }
 
-    const cacheKey = `sectors:${domain}:${country || 'none'}`;
+    const cacheKey = `sectors:${domain}:${country || "none"}`;
 
     // Check cache first
     const cached = cache.get(cacheKey);
     if (cached && Date.now() - cached.ts < TTL_MS) {
       cached.hits++;
-      logger.info('sectores:cache_hit', { cacheKey, hits: cached.hits });
-      
+      logger.info("sectores:cache_hit", { cacheKey, hits: cached.hits });
+
       return NextResponse.json(cached.value, {
         headers: {
-          'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=1800',
-          'X-Cache-Status': 'HIT',
+          "Cache-Control": "public, s-maxage=900, stale-while-revalidate=1800",
+          "X-Cache-Status": "HIT",
         },
       });
     }
@@ -73,79 +80,107 @@ export async function GET(request: NextRequest) {
 
     // If country is specified, read sectors from that country's JSON
     if (country) {
-      let filePath = path.join(process.cwd(), 'data', 'json', domain, `${sanitizeFilename(country)}.json`);
-
-      // Fallback to normativas_temp if data/json is not present in this workspace
-      if (!fs.existsSync(filePath)) {
-        const alt = path.join(process.cwd(), 'normativas_temp', 'data', 'json', domain, `${sanitizeFilename(country)}.json`);
-        if (fs.existsSync(alt)) {
-          filePath = alt;
-          logger.warn('sectores_using_alternative_data_path', { usedPath: alt });
-        }
-      }
+      const filePath = path.join(
+        process.cwd(),
+        "data",
+        "json",
+        domain,
+        `${sanitizeFilename(country)}.json`,
+      );
 
       if (!fs.existsSync(filePath)) {
-        return NextResponse.json({ sectors: [], domain, country, error: 'País no encontrado' }, { status: 404 });
+        return NextResponse.json(
+          { sectors: [], domain, country, error: "País no encontrado" },
+          { status: 404 },
+        );
       }
 
-      const fileContent = fs.readFileSync(filePath, 'utf8');
+      const fileContent = fs.readFileSync(filePath, "utf8");
       const countryData = JSON.parse(fileContent);
 
       let rawSectors: string[] = [];
 
       // For agua and vertimientos domains: sectors are in countryData.sectors object keys
-      if (countryData.sectors && typeof countryData.sectors === 'object') {
+      if (countryData.sectors && typeof countryData.sectors === "object") {
         rawSectors = Object.keys(countryData.sectors);
       }
-      // For other domains (calidad-aire, residuos-solidos): 
+      // For other domains (calidad-aire, residuos-solidos):
       // they don't have subsections by sector - all data is in registros[]
       // In this case, return empty sectors array or a single "todos" sector
       else {
-        rawSectors = ['todos'];
+        rawSectors = ["todos"];
       }
 
       // Normalizar sectores: aplicar el mapa de normalización para unificar variantes
-      const normalizedSectors = Array.from(
-        new Set(
-          rawSectors.map(s => SECTOR_NORMALIZATION_MAP[s] || s)
-        )
+      const normalizedKeys = Array.from(
+        new Set(rawSectors.map((s) => SECTOR_NORMALIZATION_MAP[s] || s)),
       ).sort();
 
-      logger.info(`sectores:listed_for_country`, { domain, country, rawCount: rawSectors.length, normalizedCount: normalizedSectors.length });
+      // Convertir a formato { id, label } para que el cliente tenga un id estable y una etiqueta legible
+      const makeLabel = (key: string) =>
+        String(key)
+          .replace(/_/g, " ")
+          .replace(/-/g, " ")
+          .replace(/\s+/g, " ")
+          .trim()
+          .replace(/(^|\s)\w/g, (c) => c.toUpperCase());
 
-      const result = { sectors: normalizedSectors, domain, country, count: normalizedSectors.length };
-      
+      const normalizedSectors = normalizedKeys.map((k) => ({
+        id: String(k).replace(/_/g, "-").replace(/\s+/g, "-").toLowerCase(),
+        label: makeLabel(k),
+      }));
+
+      logger.info(`sectores:listed_for_country`, {
+        domain,
+        country,
+        rawCount: rawSectors.length,
+        normalizedCount: normalizedSectors.length,
+      });
+
+      const result = {
+        sectors: normalizedSectors,
+        domain,
+        country,
+        count: normalizedSectors.length,
+      };
+
       // Store in cache
       cache.set(cacheKey, { ts: Date.now(), value: result, hits: 0 });
 
       return NextResponse.json(result, {
         headers: {
-          'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=1800',
-          'X-Cache-Status': 'MISS',
+          "Cache-Control": "public, s-maxage=900, stale-while-revalidate=1800",
+          "X-Cache-Status": "MISS",
         },
       });
     }
 
     // If no country specified, return empty sectors (client should select country first)
     logger.info(`sectores:listed_all_countries_required`, { domain });
-    
-    const result = { sectors: [], domain, message: 'Se requiere especificar un país (pais query param)' };
-    
+
+    const result = {
+      sectors: [],
+      domain,
+      message: "Se requiere especificar un país (pais query param)",
+    };
+
     // Cache this too
     cache.set(cacheKey, { ts: Date.now(), value: result, hits: 0 });
-    
+
     return NextResponse.json(result, {
       status: 200,
       headers: {
-        'Cache-Control': 'public, s-maxage=300',
-        'X-Cache-Status': 'MISS',
+        "Cache-Control": "public, s-maxage=300",
+        "X-Cache-Status": "MISS",
       },
     });
   } catch (error) {
-    logger.error('Error fetching sectors', { error: error instanceof Error ? error.message : String(error) });
+    logger.error("Error fetching sectors", {
+      error: error instanceof Error ? error.message : String(error),
+    });
     return NextResponse.json(
-      { sectors: [], error: 'Error al cargar sectores' },
-      { status: 500 }
+      { sectors: [], error: "Error al cargar sectores" },
+      { status: 500 },
     );
   }
 }
