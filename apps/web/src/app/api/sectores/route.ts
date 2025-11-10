@@ -30,12 +30,14 @@ export async function GET(request: Request) {
   }
 
   try {
+    // Normalize country filename to lower-case slug
+    const countrySlug = String(pais).toLowerCase();
     const countryFile = path.join(
       process.cwd(),
       "data",
       "json",
       dominio,
-      `${pais}.json`,
+      `${countrySlug}.json`,
     );
 
     if (!fs.existsSync(countryFile)) {
@@ -48,9 +50,12 @@ export async function GET(request: Request) {
     const content = fs.readFileSync(countryFile, "utf-8");
     const data = JSON.parse(content);
 
+    // Return empty array if no sectors exist (e.g., calidad-aire, residuos-solidos)
     const sectors = Object.keys(data.sectors || {}).map((sectorKey) => ({
-      key: sectorKey,
-      name: data.sectors[sectorKey].name || sectorKey,
+      id: sectorKey.replace(/_/g, "-").toLowerCase(),
+      label:
+        data.sectors[sectorKey].name ||
+        sectorKey.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase()),
     }));
 
     return Response.json({

@@ -6,6 +6,7 @@
     "agua_potable": {
       "name": "Agua para Consumo Humano (Resolución 2115 de 2007)",
       "normativeReference": "Resolucion 2115 de 2007",
+      "normativeReference_url": "https://minvivienda.gov.co/sites/default/files/normativa/2115%20-%202007.pdf",
       "parameters": [
         { "parametro": "Color aparente", "limite": "15 UPC" },
         { "parametro": "Olor y sabor", "limite": "Aceptable" },
@@ -35,21 +36,32 @@
     "uso_agricola": {
       "name": "Criterios de Calidad para Uso Agrícola (Decreto 1594 de 1984, Art. 41)",
       "normativeReference": "Decreto 1594 de 1984",
+      "normativeReference_url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=18617",
       "parameters": [
-        { "parametro": "Coliformes totales", "limite": "(para riego de frutas y hortalizas)" },
-        { "parametro": "Coliformes fecales", "limite": "(para riego de frutas y hortalizas)" },
+        {
+          "parametro": "Coliformes totales",
+          "limite": "(para riego de frutas y hortalizas)"
+        },
+        {
+          "parametro": "Coliformes fecales",
+          "limite": "(para riego de frutas y hortalizas)"
+        },
         { "parametro": "Arsénico", "limite": "0,1 mg/L" },
         { "parametro": "Cadmio", "limite": "0,01 mg/L" },
         { "parametro": "Cromo", "limite": "0,1 mg/L" },
         { "parametro": "Plomo", "limite": "5,0 mg/L" },
         { "parametro": "Mercurio", "limite": "0,001 mg/L" },
         { "parametro": "Selenio", "limite": "0,02 mg/L" },
-        { "parametro": "Boro", "limite": "0,3 - 4,0 mg/L (depende del cultivo)" }
+        {
+          "parametro": "Boro",
+          "limite": "0,3 - 4,0 mg/L (depende del cultivo)"
+        }
       ]
     },
     "uso_pecuario": {
       "name": "Criterios de Calidad para Uso Pecuario (Decreto 1594 de 1984, Art. 42)",
       "normativeReference": "Decreto 1594 de 1984",
+      "normativeReference_url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=18617",
       "parameters": [
         { "parametro": "Coliformes totales", "limite": "5.000 NMP/100 ml" },
         { "parametro": "Arsénico", "limite": "0,2 mg/L" },
@@ -62,19 +74,24 @@
       ]
     },
     "recreacion": {
-        "name": "Criterios de Calidad para Fines Recreativos (Contacto Primario) (Decreto 1594 de 1984, Art. 43)",
-        "normativeReference": "Decreto 1594 de 1984",
-        "parameters": [
-            { "parametro": "Coliformes totales", "limite": "NMP/100 ml" },
-            { "parametro": "Coliformes fecales", "limite": "NMP/100 ml" },
-            { "parametro": "pH", "limite": "5,0 - 9,0" },
-            { "parametro": "Oxígeno Disuelto", "limite": "mg/L" },
-            { "parametro": "Grasas y aceites", "limite": "Ausencia de película visible" }
-        ]
+      "name": "Criterios de Calidad para Fines Recreativos (Contacto Primario) (Decreto 1594 de 1984, Art. 43)",
+      "normativeReference": "Decreto 1594 de 1984",
+      "normativeReference_url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=18617",
+      "parameters": [
+        { "parametro": "Coliformes totales", "limite": "NMP/100 ml" },
+        { "parametro": "Coliformes fecales", "limite": "NMP/100 ml" },
+        { "parametro": "pH", "limite": "5,0 - 9,0" },
+        { "parametro": "Oxígeno Disuelto", "limite": "mg/L" },
+        {
+          "parametro": "Grasas y aceites",
+          "limite": "Ausencia de película visible"
+        }
+      ]
     },
     "reuso_agricola": {
       "name": "Criterios de Calidad para el Reúso de Aguas Residuales en Uso Agrícola (Resolución 1256 de 2021)",
       "normativeReference": "Resolucion 1256 de 2021",
+      "normativeReference_url": "https://www.minambiente.gov.co/wp-content/uploads/2021/12/Resolucion-1256-de-2021.pdf",
       "parameters": [
         { "parametro": "Escherichia coli", "limite": "1000 UFC/100 mL" },
         { "parametro": "Huevos de Helmintos", "limite": "1 Huevos/L" },

@@ -1,4 +1,5 @@
-import { generateEmbedding, computeProbabilities } from '../../utils/llm-simulation';
+import { describe, it, expect } from 'vitest';
+import { generateEmbedding, computeProbabilities } from '../llm-simulation';
 
 describe('computeProbabilities', () => {
   it('should return normalized probabilities that sum to ~1', () => {

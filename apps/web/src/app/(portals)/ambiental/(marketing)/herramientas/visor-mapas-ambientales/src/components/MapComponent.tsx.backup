@@ -1,0 +1,274 @@
+"use client";
+
+import { useEffect, useRef, useState, useCallback } from "react";
+import maplibregl from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
+import type { GeoJSONFeature } from "@/types";
+import { MAPBOX_CONFIG } from "../config/mapbox";
+
+interface MapComponentProps {
+  data: GeoJSONFeature[];
+  onPointClick?: (feature: GeoJSONFeature) => void;
+  selectedParameters: string[];
+}
+
+export default function MapComponent({
+  data,
+  onPointClick,
+  selectedParameters,
+}: MapComponentProps) {
+  console.log("[MAP] MapComponent rendered with:", {
+    dataLength: data.length,
+    data,
+  });
+
+  const mapContainer = useRef<HTMLDivElement>(null);
+  const map = useRef<maplibregl.Map | null>(null);
+  const [mapLoaded, setMapLoaded] = useState(false);
+
+  // Initialize map with optimized basemap and error handling
+  useEffect(() => {
+    if (!mapContainer.current) {
+      console.log("Map container not available");
+      return;
+    }
+
+    // Ensure container has dimensions before initializing
+    const initializeMap = () => {
+      const rect = mapContainer.current?.getBoundingClientRect();
+      if (!rect || rect.width === 0 || rect.height === 0) {
+        console.log("Container not ready, retrying...");
+        setTimeout(initializeMap, 100);
+        return;
+      }
+
+      console.log("Initializing map with dimensions:", rect.width, rect.height);
+
+      try {
+        // Use local proxy to OpenStreetMap tiles - eliminates CORS issues completely
+        // Tiles are served through /api/tiles/[z]/[x]/[y] API route
+
+        map.current = new maplibregl.Map({
+          container: mapContainer.current!,
+          style: MAPBOX_CONFIG.style,
+          center: [-74.0721, 4.711], // Bogotá, Colombia
+          zoom: 4, // Start with zoom 4 to see all data
+          minZoom: 2,
+          maxZoom: 19,
+          pitch: 0,
+          bearing: 0,
+        });
+
+        console.log("Map instance created, adding load listener...");
+
+        // CRITICAL: Add event listeners IMMEDIATELY after creating map instance
+        // This must be INSIDE initializeMap where map.current is guaranteed to exist
+        map.current.on("load", () => {
+          console.log("Map load event fired! Setting mapLoaded to true");
+          setMapLoaded(true);
+
+          // Add controls AFTER map is fully loaded
+          const navControl = new maplibregl.NavigationControl();
+          map.current?.addControl(navControl, "top-right");
+
+          // Add fullscreen control if available
+          if ("FullscreenControl" in maplibregl && map.current) {
+            map.current.addControl(
+              new (maplibregl as any).FullscreenControl(),
+              "top-right",
+            );
+          }
+        });
+
+        map.current.on("error", (e) => {
+          console.error("Map error:", e);
+        });
+
+        map.current.on("sourcedata", (e) => {
+          if (e.sourceId === "osm" && e.isSourceLoaded) {
+            console.log("OSM tiles loaded successfully via proxy");
+          }
+        });
+
+        // Note: sourcedataabort is normal when zooming/panning quickly
+        // No need to log this as it's not an actual error
+      } catch (err) {
+        console.error("Error inicializando mapa:", err);
+      }
+    };
+
+    // Small delay to ensure DOM is ready
+    setTimeout(initializeMap, 50);
+
+    return () => {
+      if (map.current) {
+        map.current.remove();
+        map.current = null;
+      }
+    };
+  }, []);
+
+  // Update data layers - SIMPLIFIED AND FIXED
+  useEffect(() => {
+    if (!map.current || !mapLoaded) {
+      return;
+    }
+
+    console.log("[MAP] === UPDATING DATA ===", data.length, "points");
+
+    // Create standard GeoJSON FeatureCollection
+    const geojsonData: GeoJSON.FeatureCollection<GeoJSON.Geometry> = {
+      type: "FeatureCollection",
+      features: data.map((f) => ({
+        type: "Feature",
+        geometry: f.geometry,
+        properties: f.properties,
+      })),
+    };
+
+    console.log("[MAP] GeoJSON created:", geojsonData);
+
+    // Check if source exists
+    const existingSource = map.current.getSource("points") as maplibregl.GeoJSONSource;
+
+    if (existingSource) {
+      // Source exists - just update data
+      console.log("[MAP] Updating existing source");
+      existingSource.setData(geojsonData);
+    } else {
+      // Create source and layers for the first time
+      console.log("[MAP] Creating source and layers");
+      
+      map.current.addSource("points", {
+        type: "geojson",
+        data: geojsonData,
+      });
+
+      // Add points layer
+      map.current.addLayer({
+        id: "points-layer",
+        type: "circle",
+        source: "points",
+        paint: {
+          "circle-radius": 20,
+          "circle-color": "#FF0000",
+          "circle-stroke-color": "#FFFFFF",
+          "circle-stroke-width": 5,
+        },
+      });
+      
+      console.log("[MAP] Layers created");
+      
+      // Verify layer exists
+      const layerExists = map.current.getLayer(pointsLayerId);
+      console.log("[MAP] Layer exists:", !!layerExists);
+      
+      // Check source data
+      const source = map.current.getSource("points");
+      console.log("[MAP] Source exists:", !!source);
+      if (source && (source as any)._data) {
+        console.log("[MAP] Source data features count:", (source as any)._data.features?.length);
+      }
+      
+      // Get all layers to see where our layer is
+      const allLayers = map.current.getStyle().layers;
+      console.log("[MAP] Total layers:", allLayers?.length);
+      console.log("[MAP] All layer IDs:", allLayers?.map(l => l.id));
+      console.log("[MAP] Our layer index:", allLayers?.findIndex(l => l.id === pointsLayerId));
+      
+      // Verify the layer paint properties are applied
+      const layerStyle = map.current.getLayer(pointsLayerId);
+      if (layerStyle) {
+        console.log("[MAP] Layer paint properties:", (layerStyle as any).paint);
+        console.log("[MAP] Layer type:", (layerStyle as any).type);
+        console.log("[MAP] Layer source:", (layerStyle as any).source);
+      }
+      
+      // Log actual coordinates from the source
+      console.log("[MAP] GeoJSON features with coordinates:");
+      geojsonData.features.forEach((f, i) => {
+        console.log(`  Feature ${i}:`, f.geometry.coordinates, "props:", f.properties?.id);
+      });
+      
+      // Query rendered features after a delay
+      setTimeout(() => {
+        if (map.current) {
+          const features = map.current.queryRenderedFeatures({ layers: [pointsLayerId] });
+          console.log("[MAP] Rendered features count:", features.length);
+          if (features.length === 0) {
+            console.error("[MAP] NO FEATURES RENDERED! Checking layer visibility...");
+            const layer = map.current.getLayer(pointsLayerId);
+            console.log("[MAP] Layer visibility:", (layer as any)?.visibility);
+            console.log("[MAP] Layer layout:", (layer as any)?.layout);
+            
+            // Try to get paint values directly
+            const circleColor = map.current.getPaintProperty(pointsLayerId, 'circle-color');
+            const circleRadius = map.current.getPaintProperty(pointsLayerId, 'circle-radius');
+            const circleOpacity = map.current.getPaintProperty(pointsLayerId, 'circle-opacity');
+            console.log("[MAP] Paint values - color:", circleColor, "radius:", circleRadius, "opacity:", circleOpacity);
+          } else {
+            console.log("[MAP] ✅ Features ARE rendering! Count:", features.length);
+          }
+        }
+      }, 500);
+
+      // Add click handler
+      map.current.on("click", pointsLayerId, (e: any) => {
+        console.log("Point clicked:", e.features);
+        if (onPointClick && e.features?.[0]) {
+          onPointClick(e.features[0] as any as GeoJSONFeature);
+        }
+      });
+
+      // Add hover effects
+      map.current.on("mouseenter", pointsLayerId, () => {
+        if (map.current) map.current.getCanvas().style.cursor = "pointer";
+      });
+      map.current.on("mouseleave", pointsLayerId, () => {
+        if (map.current) map.current.getCanvas().style.cursor = "";
+      });
+
+      console.log("Points layer added successfully - checking if visible");
+
+      // Force a map refresh
+      setTimeout(() => {
+        if (map.current) {
+          map.current.triggerRepaint();
+          console.log("Map repainted");
+        }
+      }, 100);
+
+      // Fit bounds to data
+      if (data.length > 0) {
+        console.log("[MAP] Fitting bounds to", data.length, "points");
+        const bounds = new maplibregl.LngLatBounds();
+        data.forEach((feature) => {
+          const coords = (feature.geometry as any).coordinates as [
+            number,
+            number,
+          ];
+          console.log("[MAP] Extending bounds to:", coords);
+          bounds.extend(coords);
+        });
+        console.log("[MAP] Final bounds:", bounds.toArray());
+        map.current.fitBounds(bounds, { padding: 50, maxZoom: 16 });
+        console.log("[MAP] fitBounds called");
+      } else {
+        console.log("[MAP] No data to fit bounds");
+      }
+    };
+
+    // Update layers - if we get here, the map is already loaded (mapLoaded === true)
+    // So we can directly call updateLayers
+    console.log("[MAP] Calling updateLayers directly (map already loaded)");
+    updateLayers();
+  }, [data, onPointClick, mapLoaded, selectedParameters]);
+
+  return (
+    <div
+      ref={mapContainer}
+      className="w-full h-full"
+      style={{ minHeight: "400px" }}
+    />
+  );
+}

@@ -6,6 +6,7 @@
     "agua_potable": {
       "name": "Agua para Consumo Humano (Agua Potable)",
       "normativeReference": "Codigo Alimentario Argentino (CAA)",
+      "normativeReference_url": "https://www.argentina.gob.ar/sites/default/files/2018/05/capitulo_xii_aguas_actualiz_2021-08.pdf",
       "parameters": [
         { "parametro": "Turbiedad", "limite": "3 NTU" },
         { "parametro": "Color", "limite": "5 escala Pt-Co" },
@@ -36,13 +37,19 @@
         { "parametro": "Selenio (Se)", "limite": "0,01 mg/L" },
         { "parametro": "Sólidos disueltos totales", "limite": "1500 mg/L" },
         { "parametro": "Sulfatos", "limite": "400 mg/L" },
-        { "parametro": "Cloro activo residual (Cl)", "limite": "mín.: 0,2 mg/L" },
+        {
+          "parametro": "Cloro activo residual (Cl)",
+          "limite": "mín.: 0,2 mg/L"
+        },
         { "parametro": "Trihalometanos (THM)", "limite": "100 µg/L" },
         { "parametro": "Aldrin + Dieldrin", "limite": "0,03 µg/L" },
         { "parametro": "Clordano", "limite": "0,30 µg/L" },
         { "parametro": "DDT (Total + Isómeros)", "limite": "1,00 µg/L" },
         { "parametro": "Detergentes", "limite": "500 (0,50 mg/L) µg/L" },
-        { "parametro": "Heptacloro + Heptacloroepóxido", "limite": "0,10 µg/L" },
+        {
+          "parametro": "Heptacloro + Heptacloroepóxido",
+          "limite": "0,10 µg/L"
+        },
         { "parametro": "Lindano", "limite": "3,00 µg/L" },
         { "parametro": "Metoxicloro", "limite": "30,0 µg/L" },
         { "parametro": "2,4 D", "limite": "100 µg/L" },
@@ -71,6 +78,7 @@
     "uso_agricola": {
       "name": "Niveles Guía de Calidad de Agua para Irrigación (Uso Agrícola)",
       "normativeReference": "Niveles Guia Nacionales de Calidad de Agua Ambiente - Metodologia para Riego",
+      "normativeReference_url": "https://www.argentina.gob.ar/sites/default/files/documento4.pdf",
       "parameters": [
         { "parametro": "Coliformes fecales", "limite": "1000 NMP/100 ml" },
         { "parametro": "pH", "limite": "6,0 - 9,0" },
@@ -92,6 +100,7 @@
     "actividades_recreativas": {
       "name": "Niveles Guía de Calidad de Agua para Actividades Recreativas con Contacto Directo",
       "normativeReference": "Cuidado del agua de las piletas",
+      "normativeReference_url": "https://www.argentina.gob.ar/anmat/comunidad/informacion-de-interes-para-tu-salud/cuidado-del-agua#:~:text=Recomendaciones,precauciones%20y%20condiciones%20de%20almacenamiento.",
       "parameters": [
         { "parametro": "Coliformes fecales", "limite": "200 NMP/100 ml" },
         { "parametro": "pH", "limite": "6,5 - 8,5" },
@@ -104,6 +113,7 @@
     "proteccion_vida_acuatica": {
       "name": "Niveles Guía de Calidad de Agua para Protección de Vida Acuática (Agua Dulce Superficial)",
       "normativeReference": "Sistema Nacional de Areas Marinas Protegidas",
+      "normativeReference_url": "https://www.argentina.gob.ar/normativa/nacional/ley-27037-239542/actualizacion",
       "parameters": [
         { "parametro": "Amonio no ionizable", "limite": "20 µg/L" },
         { "parametro": "Arsénico (Total)", "limite": "50 µg/L" },

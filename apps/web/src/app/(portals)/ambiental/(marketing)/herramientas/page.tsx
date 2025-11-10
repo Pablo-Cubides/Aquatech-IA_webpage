@@ -157,7 +157,7 @@ export default function AmbientalHerramientasPage() {
                   <img
                     alt="Herramienta de generación de matrices de EIA"
                     className="w-full h-full object-cover tool-image"
-                    src="https://images.unsplash.com/photo-1516321318423-f06f70d504d0?auto=format&fit=crop&w=1600&q=80"
+                    src="/tools/generador-matrices.svg"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
@@ -303,13 +303,16 @@ export default function AmbientalHerramientasPage() {
                     Análisis de Correlaciones Ambientales
                   </h2>
                   <p className="text-gray-600 mb-8 text-lg leading-relaxed">
-                    Visualiza y analiza correlaciones entre variables ambientales
-                    usando matrices de calor interactivas y estadística avanzada.
+                    Visualiza y analiza correlaciones entre variables
+                    ambientales usando matrices de calor interactivas y
+                    estadística avanzada.
                   </p>
                   <ul className="space-y-4 mb-10 flex-grow">
                     <ListItem>Cálculo automático de correlaciones</ListItem>
                     <ListItem>Matrices de calor interactivas</ListItem>
-                    <ListItem>Exportación de análisis y visualizaciones</ListItem>
+                    <ListItem>
+                      Exportación de análisis y visualizaciones
+                    </ListItem>
                   </ul>
                   <div className="flex flex-col sm:flex-row gap-4">
                     <Link

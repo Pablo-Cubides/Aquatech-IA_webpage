@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
-import path from 'path';
-import fs from 'fs';
-import { logger } from '@/lib/logger';
-import { validateDomain } from '@/lib/constants';
+import { NextRequest, NextResponse } from "next/server";
+import path from "path";
+import fs from "fs";
+import { logger } from "@/lib/logger";
+import { validateDomain } from "@/lib/constants";
 
 // Global declarations for Node.js environment
 declare const URL: typeof globalThis.URL;
@@ -22,17 +22,17 @@ const MAX_CACHE_SIZE = 50;
 // Cache cleanup function
 function cleanupCache() {
   if (cache.size < MAX_CACHE_SIZE) return;
-  
+
   const now = Date.now();
   const entries = Array.from(cache.entries());
-  
+
   // Remove expired entries first
   for (const [key, entry] of entries) {
     if (now - entry.ts > TTL_MS) {
       cache.delete(key);
     }
   }
-  
+
   // If still over limit, remove least recently used
   if (cache.size >= MAX_CACHE_SIZE) {
     const sorted = entries.sort((a, b) => a[1].hits - b[1].hits);
@@ -50,23 +50,26 @@ function cleanupCache() {
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const domainParam = searchParams.get('dominio');
+  const domainParam = searchParams.get("dominio");
 
   // SECURITY: Validate domain parameter
   const domain = validateDomain(domainParam);
 
-  const cacheKey = `countries:${domain || 'all'}`;
+  const cacheKey = `countries:${domain || "all"}`;
 
   // Check cache first (PERFORMANCE BOOST)
   const cached = cache.get(cacheKey);
   if (cached && Date.now() - cached.ts < TTL_MS) {
     cached.hits++;
-    logger.info('countries:cache_hit', { domain: domain || 'all', hits: cached.hits });
-    
+    logger.info("countries:cache_hit", {
+      domain: domain || "all",
+      hits: cached.hits,
+    });
+
     return NextResponse.json(cached.value, {
       headers: {
-        'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=1800',
-        'X-Cache-Status': 'HIT',
+        "Cache-Control": "public, s-maxage=900, stale-while-revalidate=1800",
+        "X-Cache-Status": "HIT",
       },
     });
   }
@@ -75,25 +78,22 @@ export async function GET(request: NextRequest) {
   cleanupCache();
 
   try {
-    // Primary expected data directory
-    let jsonDir = path.join(process.cwd(), 'data', 'json');
+    // Primary data directory
+    const jsonDir = path.join(process.cwd(), "data", "json");
 
-    // If the standard location doesn't exist (common in dev branches),
-    // try the `normativas_temp` staging folder as a fallback.
     if (!fs.existsSync(jsonDir)) {
-      const alt = path.join(process.cwd(), 'normativas_temp', 'data', 'json');
-      if (fs.existsSync(alt)) {
-        logger.warn('data_json_missing_using_alternative', { usedPath: alt });
-        jsonDir = alt;
-      } else {
-        // No data directory found - fail early so the caller gets a clear error
-        throw new Error(`data/json directory not found in ${process.cwd()} (tried ${jsonDir} and ${alt})`);
-      }
+      // No data directory found - fail early so the caller gets a clear error
+      throw new Error(`data/json directory not found in ${process.cwd()}`);
     }
 
-    const domains = domain ? [domain] : fs.readdirSync(jsonDir, { withFileTypes: true })
-      .filter(dirent => dirent.isDirectory() && !dirent.name.startsWith('_'))
-      .map(dirent => dirent.name);
+    const domains = domain
+      ? [domain]
+      : fs
+          .readdirSync(jsonDir, { withFileTypes: true })
+          .filter(
+            (dirent) => dirent.isDirectory() && !dirent.name.startsWith("_"),
+          )
+          .map((dirent) => dirent.name);
 
     const countriesMap: Record<string, string> = {};
 
@@ -101,16 +101,20 @@ export async function GET(request: NextRequest) {
       const dir = path.join(jsonDir, d);
       if (!fs.existsSync(dir)) continue;
 
-      const files = fs.readdirSync(dir).filter(f => f.endsWith('.json'));
+      const files = fs.readdirSync(dir).filter((f) => f.endsWith(".json"));
 
       for (const f of files) {
-        const base = f.replace(/\.json$/i, '');
+        const base = f.replace(/\.json$/i, "");
         const code = base.toLowerCase();
         try {
-          const txt = fs.readFileSync(path.join(dir, f), 'utf8');
+          const txt = fs.readFileSync(path.join(dir, f), "utf8");
           const obj = JSON.parse(txt);
           const countryName = obj.country || obj.pais;
-          if (obj && typeof countryName === 'string' && countryName.length > 0) {
+          if (
+            obj &&
+            typeof countryName === "string" &&
+            countryName.length > 0
+          ) {
             countriesMap[code] = countryName.trim() || code;
           }
         } catch {
@@ -119,26 +123,35 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    const countries = Object.keys(countriesMap)
-      .map(code => ({ code, name: countriesMap[code] }));
+    const countries = Object.keys(countriesMap).map((code) => ({
+      code,
+      name: countriesMap[code],
+    }));
 
     // Sort alphabetically by name
     countries.sort((a, b) => a.name.localeCompare(b.name));
 
     const result = { countries };
-    
+
     // Store in cache with hit tracking
     cache.set(cacheKey, { ts: Date.now(), value: result, hits: 0 });
-    logger.info('countries:cache_set', { domain: domain || 'all', count: countries.length, cacheSize: cache.size });
-    
+    logger.info("countries:cache_set", {
+      domain: domain || "all",
+      count: countries.length,
+      cacheSize: cache.size,
+    });
+
     return NextResponse.json(result, {
       headers: {
-        'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=1800',
-        'X-Cache-Status': 'MISS',
+        "Cache-Control": "public, s-maxage=900, stale-while-revalidate=1800",
+        "X-Cache-Status": "MISS",
       },
     });
   } catch (e) {
-    logger.error('Error listing countries', { domain: domain || 'all', error: String(e) });
+    logger.error("Error listing countries", {
+      domain: domain || "all",
+      error: String(e),
+    });
     return NextResponse.json({ countries: [] }, { status: 500 });
   }
 }

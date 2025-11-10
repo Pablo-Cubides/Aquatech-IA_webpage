@@ -101,8 +101,9 @@ export const ambientalTools: Tool[] = [
   },
   {
     slug: "generador-matrices",
-    name: "Generador de matrices de EIA",
-    description: "Crea matrices para evaluación de impacto ambiental.",
+    name: "Generador de Matrices EIA",
+    description:
+      "Herramienta educativa para crear matrices de Evaluación de Impacto Ambiental (Leopold, Conesa, Battelle).",
     type: "public",
     url: "/ambiental/herramientas/generador-matrices",
     owner: "IA-Next",
@@ -110,12 +111,20 @@ export const ambientalTools: Tool[] = [
     status: "stable",
     portal: "ambiental",
     seo: {
-      title: "Generador de Matrices EIA | Herramientas Sostenibles",
+      title: "Generador de Matrices EIA | Herramientas Ambientales",
       description:
-        "Genera matrices para evaluación de impacto ambiental de forma automatizada.",
-      keywords: ["EIA", "matrices ambientales", "impacto ambiental"],
+        "Crea matrices de evaluación de impacto ambiental con metodologías Leopold, Conesa y Battelle-Columbus paso a paso.",
+      keywords: [
+        "matriz leopold",
+        "matriz conesa",
+        "battelle columbus",
+        "EIA",
+        "evaluación ambiental",
+        "impacto ambiental",
+      ],
     },
   },
+  // 'generador-matrices' removed: tool implemented as a separate package
   {
     slug: "analisis-correlaciones",
     name: "Análisis de correlaciones",
