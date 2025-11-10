@@ -203,8 +203,8 @@ describe("ambientalTools registry", () => {
 
     expect(slugs).toContain("visor-mapas-ambientales");
     expect(slugs).toContain("normas-ambientales");
-    expect(slugs).toContain("generador-matrices");
     expect(slugs).toContain("analisis-correlaciones");
+    expect(slugs).toContain("generador-matrices");
   });
 
   it("should have unique slugs", () => {

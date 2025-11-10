@@ -18,6 +18,7 @@
     "@auth/prisma-adapter": "^2.10.0",
     "@ia-next/typescript-config": "workspace:*",
     "@ia-next/ui": "workspace:*",
+    "@ia-next/matriz-generator": "workspace:*",
     "@sentry/nextjs": "^10.22.0",
     "@upstash/ratelimit": "^2.0.6",
     "@upstash/redis": "^1.35.6",

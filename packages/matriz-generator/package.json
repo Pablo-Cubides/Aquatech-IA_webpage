@@ -11,7 +11,7 @@
     },
     "./components": {
       "types": "./src/components/index.d.ts",
-      "default": "./src/components/index.js"
+      "default": "./src/components/index.ts"
     },
     "./lib": {
       "types": "./src/lib/index.d.ts",

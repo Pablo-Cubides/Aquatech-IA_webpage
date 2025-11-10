@@ -151,6 +151,9 @@ importers:
       '@auth/prisma-adapter':
         specifier: ^2.10.0
         version: 2.10.0(@prisma/client@6.18.0)
+      '@ia-next/matriz-generator':
+        specifier: workspace:*
+        version: link:../../packages/matriz-generator
       '@ia-next/typescript-config':
         specifier: workspace:*
         version: link:../../packages/@ia-next/typescript-config
