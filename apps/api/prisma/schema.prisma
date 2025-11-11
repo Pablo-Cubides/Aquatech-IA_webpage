@@ -182,6 +182,24 @@ model Content {
   @@map("content")
 }
 
+// Notes table for student grade visualizer
+model Note {
+  id         String   @id @default(cuid())
+  university String
+  course     String
+  code       String
+  grade      Float
+  studentName String?
+  metadata   Json?
+  uploadedBy String?  @map("uploaded_by")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@map("notes")
+  @@index([university])
+  @@index([course])
+  @@index([code])
+}
+
 // Content editor sections (for rich editing)
 model EditorSection {
   id        String   @id @default(cuid())

@@ -2,6 +2,10 @@
 
 import Link from "next/link";
 import { Space_Grotesk, Noto_Sans } from "next/font/google";
+import dynamic from 'next/dynamic';
+import React from 'react';
+
+const UploadNotesComponent = dynamic(() => import('./UploadNotes'), { ssr: false });
 
 // TODO: Move metadata to layout.tsx file
 
@@ -18,6 +22,41 @@ const noto = Noto_Sans({
 });
 
 export default function ConsultaNotaIAPage() {
+  // client-side state handled below
+  const [universities, setUniversities] = React.useState<string[]>([]);
+  const [courses, setCourses] = React.useState<string[]>([]);
+  const [university, setUniversity] = React.useState<string>('');
+  const [course, setCourse] = React.useState<string>('');
+  const [code, setCode] = React.useState<string>('');
+  const [result, setResult] = React.useState<any>(null);
+
+  React.useEffect(() => {
+    // fetch universities
+    fetch('/api/notes')
+      .then((r) => r.json())
+      .then((data) => setUniversities(data.universities || []))
+      .catch(() => setUniversities([]));
+  }, []);
+
+  React.useEffect(() => {
+    if (!university) return setCourses([]);
+    fetch(`/api/notes?university=${encodeURIComponent(university)}`)
+      .then((r) => r.json())
+      .then((data) => setCourses(data.courses || []))
+      .catch(() => setCourses([]));
+  }, [university]);
+
+  const handleSearch = async (e?: React.FormEvent) => {
+    e?.preventDefault();
+    const params = new URLSearchParams();
+    if (university) params.set('university', university);
+    if (course) params.set('course', course);
+    if (code) params.set('code', code);
+    const res = await fetch('/api/notes?' + params.toString());
+    const json = await res.json();
+    setResult(json);
+  };
+
   return (
     <div
       className={`${space.variable} ${noto.variable} min-h-screen bg-[#000000] text-white`}
@@ -100,9 +139,7 @@ export default function ConsultaNotaIAPage() {
               </li>
               <ChevronRight className="w-4 h-4 text-[var(--text-secondary)]" />
               <li>
-                <span className="text-[var(--primary-cyan)]">
-                  Consulta tu Nota
-                </span>
+                <span className="text-[var(--primary-cyan)]">Consulta tu Nota</span>
               </li>
             </ol>
           </nav>
@@ -134,28 +171,90 @@ export default function ConsultaNotaIAPage() {
           {/* App Container */}
           <div className="container-app mb-12">
             <div className="app-content">
-              <div className="text-center py-20">
-                <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-r from-[var(--primary-cyan)] to-[var(--accent-purple)] flex items-center justify-center">
-                  <FileText className="w-12 h-12 text-white" />
-                </div>
-                <h3 className="text-2xl font-bold mb-4">
-                  Aplicación en Desarrollo
-                </h3>
-                <p className="text-[var(--text-secondary)] mb-8 max-w-md mx-auto">
-                  Esta herramienta está siendo desarrollada. Pronto podrás
-                  consultar tus notas y estadísticas académicas aquí.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <button className="px-6 py-3 bg-gradient-to-r from-[var(--primary-cyan)] to-[var(--accent-purple)] text-white font-semibold rounded-lg hover:opacity-90 transition-opacity">
-                    Notificarme cuando esté lista
-                  </button>
-                  <Link
-                    href="/ia/autor/pablo-cubides"
-                    className="px-6 py-3 border border-[var(--border-color)] text-[var(--text-primary)] font-semibold rounded-lg hover:bg-white/5 transition-colors"
+              <form onSubmit={handleSearch} className="max-w-3xl mx-auto py-8">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                  <select
+                    value={university}
+                    onChange={(e) => setUniversity(e.target.value)}
+                    className="p-3 bg-black/40 border border-[var(--border-color)] rounded"
                   >
-                    Volver al perfil
-                  </Link>
+                    <option value="">Selecciona Universidad</option>
+                    {universities.map((u) => (
+                      <option key={u} value={u}>
+                        {u}
+                      </option>
+                    ))}
+                  </select>
+
+                  <select
+                    value={course}
+                    onChange={(e) => setCourse(e.target.value)}
+                    className="p-3 bg-black/40 border border-[var(--border-color)] rounded"
+                  >
+                    <option value="">Selecciona Curso</option>
+                    {courses.map((c) => (
+                      <option key={c} value={c}>
+                        {c}
+                      </option>
+                    ))}
+                  </select>
+
+                  <input
+                    value={code}
+                    onChange={(e) => setCode(e.target.value)}
+                    placeholder="Código estudiante"
+                    className="p-3 bg-black/40 border border-[var(--border-color)] rounded"
+                  />
                 </div>
+
+                <div className="flex gap-3 justify-center">
+                  <button className="px-6 py-3 bg-gradient-to-r from-[var(--primary-cyan)] to-[var(--accent-purple)] text-white font-semibold rounded-lg">
+                    Consultar
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setUniversity('');
+                      setCourse('');
+                      setCode('');
+                      setResult(null);
+                    }}
+                    className="px-6 py-3 border border-[var(--border-color)] text-[var(--text-primary)] font-semibold rounded-lg"
+                  >
+                    Reiniciar
+                  </button>
+                </div>
+              </form>
+
+              <div className="max-w-3xl mx-auto mt-8">
+                {result?.note ? (
+                  <div className="p-6 bg-black/30 rounded">
+                    <h4 className="font-bold mb-2">Resultado</h4>
+                    <div>Universidad: {result.note.university}</div>
+                    <div>Curso: {result.note.course}</div>
+                    <div>Código: {result.note.code}</div>
+                    <div>Nombre: {result.note.studentName || '—'}</div>
+                    <div className="mt-2 font-semibold">Nota: {result.note.grade}</div>
+                  </div>
+                ) : result?.notes ? (
+                  <div className="grid gap-3">
+                    {result.notes.map((n: any) => (
+                      <div key={n.id} className="p-4 bg-black/20 rounded">
+                        <div className="font-semibold">{n.code} — {n.studentName || '—'}</div>
+                        <div className="text-sm text-[var(--text-secondary)]">{n.course} • {n.university} • Nota: {n.grade}</div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-[var(--text-secondary)]">No hay resultados</div>
+                )}
+              </div>
+              {/* Admin upload component */}
+              <div className="max-w-3xl mx-auto mt-8">
+                {/* lazy client import to avoid adding xlsx to server bundle */}
+                {/* eslint-disable-next-line @next/next/no-async-client-component */}
+                {/* @ts-ignore */}
+                <UploadNotesComponent />
               </div>
             </div>
           </div>
