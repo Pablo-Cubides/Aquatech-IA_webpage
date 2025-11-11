@@ -1,7 +1,7 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import type { Casos, Caso } from '../types/caso';
+import React, { createContext, useContext, useEffect, useState } from "react";
+import type { Casos, Caso } from "../types/caso";
 
 interface CasosContextValue {
   casos: Casos;
@@ -15,9 +15,34 @@ const CasosContext = createContext<CasosContextValue | undefined>(undefined);
 
 // Heurística simple para detectar contenido sensible que debe revisarse
 function detectSensitive(caso: Caso) {
-  const text = [caso.frase, caso.contexto, caso.sin_filtro, caso.razon_filtro, caso.coherencia_humana].join(' ').toLowerCase();
-  const keywords = ['bomba', 'explos', 'fentanil', 'drog', 'suicid', 'pedo', 'hack', 'hackear', 'dirección', 'doxx', 'adolf', 'hitler', 'menor', 'sexual', 'abuso', 'evadir impuestos'];
-  return keywords.some(k => text.includes(k));
+  const text = [
+    caso.frase,
+    caso.contexto,
+    caso.sin_filtro,
+    caso.razon_filtro,
+    caso.coherencia_humana,
+  ]
+    .join(" ")
+    .toLowerCase();
+  const keywords = [
+    "bomba",
+    "explos",
+    "fentanil",
+    "drog",
+    "suicid",
+    "pedo",
+    "hack",
+    "hackear",
+    "dirección",
+    "doxx",
+    "adolf",
+    "hitler",
+    "menor",
+    "sexual",
+    "abuso",
+    "evadir impuestos",
+  ];
+  return keywords.some((k) => text.includes(k));
 }
 
 export const CasosProvider = ({ children }: { children: React.ReactNode }) => {
@@ -27,31 +52,45 @@ export const CasosProvider = ({ children }: { children: React.ReactNode }) => {
   const load = async () => {
     // Intentar backend primero
     try {
-      const base = (typeof window !== 'undefined' && (window as any).LOCATION_API_BASE) || '';
-      const api = base + '/casos';
-      const res = await fetch(api, { cache: 'no-store' });
+      const base =
+        (typeof window !== "undefined" && (window as any).LOCATION_API_BASE) ||
+        "";
+      const api = base + "/casos";
+      const res = await fetch(api, { cache: "no-store" });
       if (res.ok) {
         const data = await res.json();
-        const withFlags = (Array.isArray(data) ? data : []).map((c: Caso) => ({ ...c, requires_review: detectSensitive(c) }));
+        const withFlags = (Array.isArray(data) ? data : []).map((c: Caso) => ({
+          ...c,
+          requires_review: detectSensitive(c),
+        }));
         setCasos(withFlags);
         return;
       }
     } catch (e) {
       // ignore and try fallback
-      console.warn('Fallo al cargar desde backend, intentando fallback public:', e);
+      console.warn(
+        "Fallo al cargar desde backend, intentando fallback public:",
+        e,
+      );
     }
 
     try {
-      const resLocal = await fetch('/casos.json', { cache: 'no-store' });
+      // Load from this module's public folder so the app doesn't rely on the global /public
+      const resLocal = await fetch("/filtrado-ia/casos.json", {
+        cache: "no-store",
+      });
       if (resLocal.ok) {
         const lista = await resLocal.json();
         const arr = Array.isArray(lista) ? lista : [];
-        const withFlags = arr.map((c: Caso) => ({ ...c, requires_review: detectSensitive(c) }));
+        const withFlags = arr.map((c: Caso) => ({
+          ...c,
+          requires_review: detectSensitive(c),
+        }));
         setCasos(withFlags);
         return;
       }
     } catch (e) {
-      console.error('Error cargando casos desde /casos.json', e);
+      console.error("Error cargando casos desde /filtrado-ia/casos.json", e);
       setCasos([]);
     }
   };
@@ -67,16 +106,21 @@ export const CasosProvider = ({ children }: { children: React.ReactNode }) => {
   const value: CasosContextValue = {
     casos,
     selectedIndex,
-    selectedCaso: selectedIndex >= 0 && selectedIndex < casos.length ? casos[selectedIndex] : null,
+    selectedCaso:
+      selectedIndex >= 0 && selectedIndex < casos.length
+        ? casos[selectedIndex]
+        : null,
     selectCaso,
     reload: load,
   };
 
-  return <CasosContext.Provider value={value}>{children}</CasosContext.Provider>;
+  return (
+    <CasosContext.Provider value={value}>{children}</CasosContext.Provider>
+  );
 };
 
 export function useCasos() {
   const ctx = useContext(CasosContext);
-  if (!ctx) throw new Error('useCasos debe usarse dentro de CasosProvider');
+  if (!ctx) throw new Error("useCasos debe usarse dentro de CasosProvider");
   return ctx;
 }

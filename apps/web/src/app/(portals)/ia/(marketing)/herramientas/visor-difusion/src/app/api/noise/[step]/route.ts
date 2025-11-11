@@ -2,8 +2,24 @@ import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 
-// noise images live under public/static/noise/noise_step_X.png
-const STATIC_NOISE_DIR = path.join(process.cwd(), "public", "static", "noise");
+// Use app-local noise images under the visor-difusion app only. Do not
+// rely on public/static. This keeps all app files self-contained.
+const STATIC_NOISE_DIR = path.join(
+  process.cwd(),
+  "apps",
+  "web",
+  "src",
+  "app",
+  "(portals)",
+  "ia",
+  "(marketing)",
+  "herramientas",
+  "visor-difusion",
+  "src",
+  "components",
+  "static",
+  "noise",
+);
 
 export async function GET(
   request: NextRequest,

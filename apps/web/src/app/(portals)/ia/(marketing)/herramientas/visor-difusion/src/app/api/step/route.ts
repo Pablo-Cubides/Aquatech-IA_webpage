@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-import { loadDynamicCases } from '../_lib/cases';
-import { checkRateLimit, getClientIp } from '@/lib/rateLimit';
+import { NextRequest, NextResponse } from "next/server";
+import fs from "fs";
+import path from "path";
+import { loadDynamicCases } from "../_lib/cases";
+import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
 
 interface StepRequest {
   prompt_id: string;
@@ -20,13 +20,14 @@ const EDUCATIONAL_TEXTS: Record<number, string> = {
   7: "🌟 Paso 7: Se perfeccionan los detalles y se añaden texturas más realistas. La imagen está casi completa.",
   8: "💫 Paso 8: Refinamiento final de detalles y ajuste de colores. Los últimos retoques hacen la imagen más realista.",
   9: "🎉 Paso 9: Imagen final generada. El proceso de difusión ha transformado completamente el ruido en una imagen coherente.",
-  10: "✅ Proceso completado. La imagen ha pasado por todo el proceso de difusión, desde ruido puro hasta el resultado final detallado."
+  10: "✅ Proceso completado. La imagen ha pasado por todo el proceso de difusión, desde ruido puro hasta el resultado final detallado.",
 };
 
 function generatePlaceholderImage(text: string): string {
   // For simplicity, return a base64 encoded 1x1 pixel PNG
   // In a real implementation, you might generate a proper placeholder
-  const placeholder = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==';
+  const placeholder =
+    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==";
   return placeholder;
 }
 
@@ -40,11 +41,14 @@ function loadStepImageB64(caseId: string, step: number): string {
   const fileIndex = step - 1;
 
   if (fileIndex < 0 || fileIndex >= stepFiles.length) {
-    const adjustedIndex = Math.min(stepFiles.length - 1, Math.max(0, fileIndex));
+    const adjustedIndex = Math.min(
+      stepFiles.length - 1,
+      Math.max(0, fileIndex),
+    );
     const imagePath = stepFiles[adjustedIndex];
     try {
       const imageData = fs.readFileSync(imagePath);
-      return imageData.toString('base64');
+      return imageData.toString("base64");
     } catch (error) {
       console.error(`Error loading image ${imagePath}`, error as Error);
       return generatePlaceholderImage(`Error: Paso ${step}`);
@@ -54,7 +58,7 @@ function loadStepImageB64(caseId: string, step: number): string {
   const imagePath = stepFiles[fileIndex];
   try {
     const imageData = fs.readFileSync(imagePath);
-    return imageData.toString('base64');
+    return imageData.toString("base64");
   } catch (error) {
     console.error(`Error loading image ${imagePath}`, error as Error);
     return generatePlaceholderImage(`Error: Paso ${step}`);
@@ -67,7 +71,9 @@ const predefinedCases = loadDynamicCases();
 export async function POST(request: NextRequest) {
   try {
     // Rate limiting: máximo 100 requests por hora
-    const headers = request.headers ? Object.fromEntries(request.headers.entries()) : {};
+    const headers = request.headers
+      ? Object.fromEntries(request.headers.entries())
+      : {};
     const ip = getClientIp(headers);
     const rateLimit = checkRateLimit(ip, {
       interval: 3600000, // 1 hora
@@ -76,13 +82,18 @@ export async function POST(request: NextRequest) {
 
     if (!rateLimit.success) {
       return NextResponse.json(
-        { error: 'Demasiadas solicitudes. Intenta de nuevo en ' + rateLimit.retryAfter + ' segundos.' },
-        { 
+        {
+          error:
+            "Demasiadas solicitudes. Intenta de nuevo en " +
+            rateLimit.retryAfter +
+            " segundos.",
+        },
+        {
           status: 429,
           headers: {
-            'Retry-After': rateLimit.retryAfter.toString(),
-          }
-        }
+            "Retry-After": rateLimit.retryAfter.toString(),
+          },
+        },
       );
     }
 
@@ -90,7 +101,7 @@ export async function POST(request: NextRequest) {
     const { prompt_id, step } = body;
 
     if (!predefinedCases[prompt_id]) {
-      return NextResponse.json({ error: 'Case not found' }, { status: 404 });
+      return NextResponse.json({ error: "Case not found" }, { status: 404 });
     }
 
     const caseData = predefinedCases[prompt_id];
@@ -100,11 +111,14 @@ export async function POST(request: NextRequest) {
       normalizedStep = caseData.total_steps;
     }
 
-  const stepImage = loadStepImageB64(prompt_id, normalizedStep);
-  // Public URL for the step image (if files are served from /static)
-  const intermediateImageUrl = `/static/cases/${prompt_id}/step_${normalizedStep}.png`;
-    const educationalText = EDUCATIONAL_TEXTS[normalizedStep] || `Step ${normalizedStep}: progressing`;
-    const isFinished = caseData.total_steps > 0 && normalizedStep >= caseData.total_steps;
+    const stepImage = loadStepImageB64(prompt_id, normalizedStep);
+    // Public URL for the step image (if files are served from /static)
+    const intermediateImageUrl = `/static/cases/${prompt_id}/step_${normalizedStep}.png`;
+    const educationalText =
+      EDUCATIONAL_TEXTS[normalizedStep] ||
+      `Step ${normalizedStep}: progressing`;
+    const isFinished =
+      caseData.total_steps > 0 && normalizedStep >= caseData.total_steps;
 
     return NextResponse.json({
       step: normalizedStep,
@@ -115,7 +129,10 @@ export async function POST(request: NextRequest) {
       total_steps: caseData.total_steps,
     });
   } catch (error) {
-    console.error('Error in /step', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    console.error("Error in /step", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
   }
 }

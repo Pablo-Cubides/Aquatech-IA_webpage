@@ -66,7 +66,7 @@ export default function IAHerramientasPage() {
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
               <div className="bg-[#1a1b2e]/50 backdrop-blur-sm rounded-xl p-6 border border-[rgba(0,239,255,0.1)]">
-                <div className="text-3xl font-bold text-[#00efff] mb-2">3</div>
+                <div className="text-3xl font-bold text-[#00efff] mb-2">4</div>
                 <div className="text-[#CCCCCC]">Módulos Disponibles</div>
               </div>
               <div className="bg-[#1a1b2e]/50 backdrop-blur-sm rounded-xl p-6 border border-[rgba(0,239,255,0.1)]">
@@ -156,7 +156,7 @@ export default function IAHerramientasPage() {
               </div>
             </article>
 
-            {/* Herramienta 2: Modelos de Difusión */}
+            {/* Herramienta 2: Parámetros de Decodificación (Top-k / Top-p) */}
             <article className="bg-gradient-to-br from-[#1a1b2e] to-[#10111a] border border-[rgba(0,239,255,0.1)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_25px_-5px_rgba(0,239,255,0.1),0_8px_10px_-6px_rgba(0,239,255,0.1),0_0_0_1px_rgba(0,239,255,0.2)] hover:border-[rgba(0,239,255,0.3)] backdrop-blur-sm rounded-2xl overflow-hidden">
               <div className="grid lg:grid-cols-2 lg:gap-8 items-center">
                 <div className="h-64 lg:h-full min-h-[400px] overflow-hidden relative">
@@ -174,37 +174,39 @@ export default function IAHerramientasPage() {
                 <div className="p-8 md:p-12 lg:p-16 flex flex-col">
                   <div className="flex flex-wrap gap-2 mb-6">
                     <span className="bg-gradient-to-br from-[rgba(0,239,255,0.15)] to-[rgba(0,149,255,0.15)] border border-[rgba(0,239,255,0.2)] text-[#00efff] text-xs px-3 py-1 rounded-full font-medium backdrop-blur-sm">
-                      Difusión
+                      Decodificación
                     </span>
                     <span className="bg-gradient-to-br from-[rgba(0,239,255,0.15)] to-[rgba(0,149,255,0.15)] border border-[rgba(0,239,255,0.2)] text-[#00efff] text-xs px-3 py-1 rounded-full font-medium backdrop-blur-sm">
-                      Generación
+                      Top-k
                     </span>
                     <span className="bg-gradient-to-br from-[rgba(0,239,255,0.15)] to-[rgba(0,149,255,0.15)] border border-[rgba(0,239,255,0.2)] text-[#00efff] text-xs px-3 py-1 rounded-full font-medium backdrop-blur-sm">
-                      U-Net
+                      Top-p
                     </span>
                   </div>
                   <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white leading-tight">
-                    Cómo funcionan los modelos de difusión
+                    Explorador de Parámetros de Decodificación
                   </h2>
                   <p className="text-[#CCCCCC] mb-8 text-lg leading-relaxed">
-                    Explore el proceso iterativo de los modelos de difusión para
-                    generar imágenes de alta calidad a partir de ruido
-                    gaussiano.
+                    Aprende cómo parámetros como Temperature, Top-k y Top-p
+                    afectan la generación de texto en modelos de lenguaje y
+                    prueba combinaciones en un playground interactivo.
                   </p>
                   <ul className="space-y-4 mb-10 flex-grow">
                     <ListItem>
-                      Proceso de adición y eliminación de ruido controlado
+                      Visualice el efecto de Temperature, Top-k y Top-p
                     </ListItem>
                     <ListItem>
-                      Rol de la arquitectura U-Net y el scheduler temporal
+                      Simulador interactivo para entender trade-offs entre
+                      control y diversidad
                     </ListItem>
                     <ListItem>
-                      Generación de imágenes y guiado por texto avanzado
+                      Descargue ejemplos y compare salidas para distintos
+                      parámetros
                     </ListItem>
                   </ul>
                   <div className="flex flex-col sm:flex-row gap-4">
                     <Link
-                      href="/ia/herramientas/modelos-difusion"
+                      href="/ia/herramientas/parametros-decodificacion"
                       className="inline-flex items-center gap-2 px-6 py-3 bg-[#00efff] text-[#10111A] rounded-lg font-semibold hover:bg-white transition-colors"
                     >
                       <PlayIcon />
@@ -288,6 +290,75 @@ export default function IAHerramientasPage() {
                     <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
                       ✓ Disponible
                     </span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            {/* Herramienta 4: Visor de Difusión */}
+            <article className="bg-gradient-to-br from-[#1a1b2e] to-[#10111a] border border-[rgba(0,239,255,0.1)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_25px_-5px_rgba(0,239,255,0.1),0_8px_10px_-6px_rgba(0,239,255,0.1),0_0_0_1px_rgba(0,239,255,0.2)] hover:border-[rgba(0,239,255,0.3)] backdrop-blur-sm rounded-2xl overflow-hidden">
+              <div className="grid lg:grid-cols-2 lg:gap-8 items-center">
+                <div className="h-64 lg:h-full min-h-[400px] overflow-hidden relative">
+                  <img
+                    alt="Visor interactivo para visualizar el proceso de difusión y resultados"
+                    className="w-full h-full object-cover tool-image"
+                    src="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=1600&q=80"
+                  />
+                  <div className="absolute top-4 right-4">
+                    <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
+                      ✓ Disponible
+                    </span>
+                  </div>
+                </div>
+                <div className="p-8 md:p-12 lg:p-16 flex flex-col">
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    <span className="bg-gradient-to-br from-[rgba(0,239,255,0.15)] to-[rgba(0,149,255,0.15)] border border-[rgba(0,239,255,0.2)] text-[#00efff] text-xs px-3 py-1 rounded-full font-medium backdrop-blur-sm">
+                      Visualizador
+                    </span>
+                    <span className="bg-gradient-to-br from-[rgba(0,239,255,0.15)] to-[rgba(0,149,255,0.15)] border border-[rgba(0,239,255,0.2)] text-[#00efff] text-xs px-3 py-1 rounded-full font-medium backdrop-blur-sm">
+                      Difusión
+                    </span>
+                    <span className="bg-gradient-to-br from-[rgba(0,239,255,0.15)] to-[rgba(0,149,255,0.15)] border border-[rgba(0,239,255,0.2)] text-[#00efff] text-xs px-3 py-1 rounded-full font-medium backdrop-blur-sm">
+                      Interactivo
+                    </span>
+                  </div>
+                  <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white leading-tight">
+                    Visor de Difusión
+                  </h2>
+                  <p className="text-[#CCCCCC] mb-8 text-lg leading-relaxed">
+                    Visualice paso a paso cómo los modelos de difusión generan
+                    imágenes y explore parámetros e iteraciones en una interfaz
+                    interactiva.
+                  </p>
+                  <ul className="space-y-4 mb-10 flex-grow">
+                    <ListItem>
+                      Reproduzca la secuencia de denoising y observe cambios por
+                      paso
+                    </ListItem>
+                    <ListItem>
+                      Ajuste parámetros como guía por texto y ruido inicial
+                    </ListItem>
+                    <ListItem>
+                      Compare resultados con diferentes schedulers y seeds
+                    </ListItem>
+                  </ul>
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <Link
+                      href="/ia/herramientas/visor-difusion"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-[#00efff] text-[#10111A] rounded-lg font-semibold hover:bg-white transition-colors"
+                    >
+                      <PlayIcon />
+                      Abrir módulo
+                    </Link>
+                    <Link
+                      href="https://github.com/Pablo-Cubides/visor-difusion"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-[#0095FF] text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors"
+                    >
+                      <DocIcon />
+                      Ver en GitHub
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -467,10 +538,10 @@ export default function IAHerramientasPage() {
                 </li>
                 <li>
                   <Link
-                    href="/ia/herramientas/modelos-difusion"
+                    href="/ia/herramientas/parametros-decodificacion"
                     className="hover:text-[#00efff] transition-colors text-sm"
                   >
-                    Modelos de difusión
+                    Parámetros de Decodificación
                   </Link>
                 </li>
                 <li>
@@ -479,6 +550,14 @@ export default function IAHerramientasPage() {
                     className="hover:text-[#00efff] transition-colors text-sm"
                   >
                     Filtrado de IA
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/ia/herramientas/visor-difusion"
+                    className="hover:text-[#00efff] transition-colors text-sm"
+                  >
+                    Visor de Difusión
                   </Link>
                 </li>
               </ul>
