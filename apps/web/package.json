@@ -16,8 +16,10 @@
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.10.0",
+    "@prisma/client": "^6.18.0",
     "@ia-next/typescript-config": "workspace:*",
     "@ia-next/ui": "workspace:*",
+    "@ia-next/database": "workspace:*",
     "@ia-next/matriz-generator": "workspace:*",
     "@sentry/nextjs": "^10.22.0",
     "@upstash/ratelimit": "^2.0.6",

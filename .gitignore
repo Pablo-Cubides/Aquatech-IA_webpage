@@ -30,6 +30,16 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+next_dev.log
+next_dev.err
+*.log
+
+# Test files
+test-*.ps1
+test-*.js
+test-*.csv
+create-*.js
+create-*.sql
 
 # Runtime data
 pids

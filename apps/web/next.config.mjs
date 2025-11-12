@@ -15,7 +15,11 @@ const nextConfig = {
   turbopack: {},
 
   // Transpile packages from the monorepo
-  transpilePackages: ["@ia-next/ui", "@ia-next/database", "maplibre-gl"],
+  // Note: '@ia-next/database' is intentionally NOT transpiled here because
+  // it provides a runtime JS entry in packages/@ia-next/database/dist which
+  // Next should import directly. Transpiling the package forces Next to
+  // resolve TypeScript source which can cause module resolution errors.
+  transpilePackages: ["@ia-next/ui", "maplibre-gl"],
 
   // Environment variables to expose to client (only non-sensitive)
   env: {

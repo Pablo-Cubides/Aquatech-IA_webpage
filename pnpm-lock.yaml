@@ -14,6 +14,9 @@ importers:
       maplibre-gl:
         specifier: ^5.10.0
         version: 5.10.0
+      pg:
+        specifier: ^8.16.3
+        version: 8.16.3
       zod:
         specifier: ^4.1.5
         version: 4.1.5
@@ -151,6 +154,9 @@ importers:
       '@auth/prisma-adapter':
         specifier: ^2.10.0
         version: 2.10.0(@prisma/client@6.18.0)
+      '@ia-next/database':
+        specifier: workspace:*
+        version: link:../../packages/@ia-next/database
       '@ia-next/matriz-generator':
         specifier: workspace:*
         version: link:../../packages/matriz-generator
@@ -160,6 +166,9 @@ importers:
       '@ia-next/ui':
         specifier: workspace:*
         version: link:../../packages/@ia-next/ui
+      '@prisma/client':
+        specifier: ^6.18.0
+        version: 6.18.0(prisma@6.18.0)(typescript@5.9.3)
       '@sentry/nextjs':
         specifier: ^10.22.0
         version: 10.22.0(@opentelemetry/context-async-hooks@2.2.0)(@opentelemetry/core@2.2.0)(@opentelemetry/sdk-trace-base@2.2.0)(next@16.0.1)(react@19.2.0)(webpack@5.102.1)
@@ -10746,9 +10755,27 @@ packages:
     requiresBuild: true
     dev: false
 
+  /pg-cloudflare@1.2.7:
+    resolution: {integrity: sha512-YgCtzMH0ptvZJslLM1ffsY4EuGaU0cx4XSdXLRFae8bPP4dS5xL1tNB3k2o/N64cHJpwU7dxKli/nZ2lUa5fLg==}
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /pg-connection-string@2.9.1:
+    resolution: {integrity: sha512-nkc6NpDcvPVpZXxrreI/FOtX3XemeLl8E0qFr6F2Lrm/I8WOnaWNhIPK2Z7OHpw7gh5XJThi6j6ppgNoaT1w4w==}
+    dev: false
+
   /pg-int8@1.0.1:
     resolution: {integrity: sha512-WCtabS6t3c8SkpDBUlb1kjOs7l66xsGdKpIPZsg4wR+B3+u9UAum2odSsF9tnvxg80h4ZxLWMy4pRjOsFIqQpw==}
     engines: {node: '>=4.0.0'}
+    dev: false
+
+  /pg-pool@3.10.1(pg@8.16.3):
+    resolution: {integrity: sha512-Tu8jMlcX+9d8+QVzKIvM/uJtp07PKr82IUOYEphaWcoBhIYkoHpLXN3qO59nAI11ripznDsEzEv8nUxBVWajGg==}
+    peerDependencies:
+      pg: '>=8.0'
+    dependencies:
+      pg: 8.16.3
     dev: false
 
   /pg-protocol@1.10.3:
@@ -10764,6 +10791,30 @@ packages:
       postgres-bytea: 1.0.0
       postgres-date: 1.0.7
       postgres-interval: 1.2.0
+    dev: false
+
+  /pg@8.16.3:
+    resolution: {integrity: sha512-enxc1h0jA/aq5oSDMvqyW3q89ra6XIIDZgCX9vkMrnz5DFTw/Ny3Li2lFQ+pt3L6MCgm/5o2o8HW9hiJji+xvw==}
+    engines: {node: '>= 16.0.0'}
+    peerDependencies:
+      pg-native: '>=3.0.1'
+    peerDependenciesMeta:
+      pg-native:
+        optional: true
+    dependencies:
+      pg-connection-string: 2.9.1
+      pg-pool: 3.10.1(pg@8.16.3)
+      pg-protocol: 1.10.3
+      pg-types: 2.2.0
+      pgpass: 1.0.5
+    optionalDependencies:
+      pg-cloudflare: 1.2.7
+    dev: false
+
+  /pgpass@1.0.5:
+    resolution: {integrity: sha512-FdW9r/jQZhSeohs1Z3sI1yxFQNFvMcnmfuj4WBMUTxOrAyLMaTcE1aAMBiTlbMNaXvBCQuVi0R7hd8udDSP7ug==}
+    dependencies:
+      split2: 4.2.0
     dev: false
 
   /phin@2.9.3:
@@ -12117,6 +12168,11 @@ packages:
   /source-map@0.6.1:
     resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==}
     engines: {node: '>=0.10.0'}
+    dev: false
+
+  /split2@4.2.0:
+    resolution: {integrity: sha512-UcjcJOWknrNkF6PLX83qcHM6KHgVKNkV62Y8a5uYDVv9ydGQVwAHMKqHdJje1VTWpljG0WYpCDhrCdAOYH4TWg==}
+    engines: {node: '>= 10.x'}
     dev: false
 
   /ssf@0.11.2:
