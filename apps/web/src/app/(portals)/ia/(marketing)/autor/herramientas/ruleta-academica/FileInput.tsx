@@ -233,11 +233,7 @@ const FileInput = ({
             </div>
           </div>
 
-          {error && (
-            <p className="text-2xl text-red-500">
-              {error}
-            </p>
-          )}
+          {error && <p className="text-2xl text-red-500">{error}</p>}
 
           {isLoading && (
             <p className="text-xl text-white">Procesando archivo...</p>
@@ -250,10 +246,7 @@ const FileInput = ({
               </h3>
               <div className="space-y-4">
                 {questionsPreview.slice(0, 10).map((question, index) => (
-                  <p
-                    key={index}
-                    className="text-xl text-white"
-                  >
+                  <p key={index} className="text-xl text-white">
                     {index + 1}. {question}
                   </p>
                 ))}

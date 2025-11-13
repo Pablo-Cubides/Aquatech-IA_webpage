@@ -168,9 +168,9 @@ const QuestionWheel = ({ questions }: QuestionWheelProps) => {
             transform: `rotate(${rotation}deg)`,
             width: wheelSize,
             height: wheelSize,
-            border: '8px solid #fff',
-            boxShadow: '0 0 30px rgba(0,0,0,0.6)',
-            transition: 'transform 0.1s linear'
+            border: "8px solid #fff",
+            boxShadow: "0 0 30px rgba(0,0,0,0.6)",
+            transition: "transform 0.1s linear",
           }}
         >
           <svg

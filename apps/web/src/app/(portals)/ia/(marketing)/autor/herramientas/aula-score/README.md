@@ -48,12 +48,14 @@ apps/web/src/app/(portals)/ia/(marketing)/autor/herramientas/aula-score/
 ## Flujo de uso
 
 ### Paso 1: Configuración
+
 1. Accede a `/ia/autor/herramientas/aula-score`
 2. Selecciona número de grupos (1-30)
 3. Ingresa nombres únicos para cada grupo
 4. Haz clic en "Ir a Clasificación"
 
 ### Paso 2: Scoreboard
+
 1. Se muestra modal de countdown "3...2...1"
 2. Al terminar, los grupos se ordenan aleatoriamente (una única vez)
 3. Usa +1 y -1 para ajustar puntajes
@@ -61,6 +63,7 @@ apps/web/src/app/(portals)/ia/(marketing)/autor/herramientas/aula-score/
 5. Usa botón "+ Agregar grupo" para nuevos grupos (sin reordenar)
 
 ### Paso 3: Temporizador (opcional)
+
 1. Haz clic en el ícono ⏱️ en la esquina superior derecha
 2. Configura minutos (0-9) y segundos (0-59)
 3. Haz clic en "Iniciar" para comenzar la cuenta regresiva
@@ -78,6 +81,7 @@ apps/web/src/app/(portals)/ia/(marketing)/autor/herramientas/aula-score/
 ## Pruebas manuales
 
 ### Test 1: Validación de grupos
+
 ```
 1. Intenta ingresar 31 grupos
    ✓ Debe mostrar error "El número de grupos debe estar entre 1 y 30"
@@ -93,6 +97,7 @@ apps/web/src/app/(portals)/ia/(marketing)/autor/herramientas/aula-score/
 ```
 
 ### Test 2: Countdown
+
 ```
 1. Navega a /clasificacion
    ✓ Debe mostrarse modal "Preparar inicio"
@@ -104,6 +109,7 @@ apps/web/src/app/(portals)/ia/(marketing)/autor/herramientas/aula-score/
 ```
 
 ### Test 3: Puntuación
+
 ```
 1. Haz clic en botón +1 de un grupo
    ✓ Score debe incrementar
@@ -119,6 +125,7 @@ apps/web/src/app/(portals)/ia/(marketing)/autor/herramientas/aula-score/
 ```
 
 ### Test 4: Agregar grupo tardío
+
 ```
 1. Haz clic en "+ Agregar grupo"
    ✓ Debe abrirse modal "Agregar grupo"
@@ -132,6 +139,7 @@ apps/web/src/app/(portals)/ia/(marketing)/autor/herramientas/aula-score/
 ```
 
 ### Test 5: Temporizador
+
 ```
 1. Haz clic en ícono ⏱️
    ✓ Debe abrirse modal "Temporizador"
@@ -157,6 +165,7 @@ apps/web/src/app/(portals)/ia/(marketing)/autor/herramientas/aula-score/
 ```
 
 ### Test 6: Tema claro/oscuro
+
 ```
 1. Haz clic en toggle tema (☀️/🌙) en esquina superior derecha
    ✓ Colores deben cambiar (claro a oscuro o viceversa)
@@ -170,6 +179,7 @@ apps/web/src/app/(portals)/ia/(marketing)/autor/herramientas/aula-score/
 ```
 
 ### Test 7: Sin persistencia
+
 ```
 1. Configura 3 grupos y comienza el juego
 
@@ -183,30 +193,39 @@ apps/web/src/app/(portals)/ia/(marketing)/autor/herramientas/aula-score/
 ## Componentes principales
 
 ### Modal.tsx
+
 Base para modales con accesibilidad (role, aria-modal, foco atrapado)
 
 ### CountdownModal.tsx
+
 Countdown animado con "animate-pulse". Duración fija: 3 segundos
 
 ### TimerModal.tsx
+
 Timer configurable con inputs de minutos/segundos, estados running/paused, interval cleanup
 
 ### ScoreCard.tsx
+
 Tarjeta individual de grupo con display de score y botones +1/-1
 
 ### ThemeToggle.tsx
+
 Toggle persistente de tema que alterna `data-theme` en `<html>`
 
 ### ThemeToggle.tsx
+
 Toggle persistente de tema que alterna `data-theme` en `<html>`
 
 ## Utilitarios
 
 ### shuffleArray(array)
+
 Fisher-Yates shuffle. Llamada una única vez tras countdown.
 
 ### validateGroupNames(names)
+
 Valida:
+
 - No vacíos
 - Únicos (case-insensitive)
 - Máximo 30
@@ -215,6 +234,7 @@ Valida:
 ## Colores y tema
 
 Variables CSS (theme.css):
+
 - `--primary-color`: #3b82f6 (botones principales)
 - `--secondary-color`: #8b5cf6 (botones secundarios)
 - `--success-color`: #10b981 (botones +1)

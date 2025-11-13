@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { Modal } from './Modal';
+import { useEffect, useState } from "react";
+import { Modal } from "./Modal";
 
 interface TimerModalProps {
   isOpen: boolean;
@@ -51,7 +51,9 @@ export function TimerModal({ isOpen, onClose }: TimerModalProps) {
     if (!isRunning || remainingMs <= 0) {
       if (remainingMs <= 0 && isRunning) {
         setIsRunning(false);
-        new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAAB9AAACABAAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj==').play();
+        new Audio(
+          "data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAAB9AAACABAAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj==",
+        ).play();
       }
       return;
     }
@@ -75,7 +77,8 @@ export function TimerModal({ isOpen, onClose }: TimerModalProps) {
         {/* Display del tiempo */}
         <div className="text-center">
           <div className="text-6xl font-bold text-primary-color font-mono">
-            {String(displayMinutes).padStart(1, '0')}:{String(displaySeconds).padStart(2, '0')}
+            {String(displayMinutes).padStart(1, "0")}:
+            {String(displaySeconds).padStart(2, "0")}
           </div>
         </div>
 
@@ -83,25 +86,37 @@ export function TimerModal({ isOpen, onClose }: TimerModalProps) {
         {!isRunning && !isPaused && (
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-2">Minutos (0-9)</label>
+              <label className="block text-sm font-medium mb-2">
+                Minutos (0-9)
+              </label>
               <input
                 type="number"
                 min="0"
                 max="9"
                 value={minutes}
-                onChange={(e) => setMinutes(Math.min(9, Math.max(0, parseInt(e.target.value) || 0)))}
+                onChange={(e) =>
+                  setMinutes(
+                    Math.min(9, Math.max(0, parseInt(e.target.value) || 0)),
+                  )
+                }
                 className="input-primary"
                 disabled={isRunning}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-2">Segundos (0-59)</label>
+              <label className="block text-sm font-medium mb-2">
+                Segundos (0-59)
+              </label>
               <input
                 type="number"
                 min="0"
                 max="59"
                 value={seconds}
-                onChange={(e) => setSeconds(Math.min(59, Math.max(0, parseInt(e.target.value) || 0)))}
+                onChange={(e) =>
+                  setSeconds(
+                    Math.min(59, Math.max(0, parseInt(e.target.value) || 0)),
+                  )
+                }
                 className="input-primary"
                 disabled={isRunning}
               />
@@ -112,7 +127,11 @@ export function TimerModal({ isOpen, onClose }: TimerModalProps) {
         {/* Botones de control */}
         <div className="flex gap-3">
           {!isRunning && !isPaused && (
-            <button onClick={handleStart} className="btn-primary flex-1" disabled={totalMs === 0 || totalMs > maxMs}>
+            <button
+              onClick={handleStart}
+              className="btn-primary flex-1"
+              disabled={totalMs === 0 || totalMs > maxMs}
+            >
               Iniciar
             </button>
           )}

@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { AddGroupModal } from '../components/AddGroupModal';
-import { CountdownModal } from '../components/CountdownModal';
-import { ScoreCard } from '../components/ScoreCard';
-import { ThemeToggle } from '../components/ThemeToggle';
-import { TimerModal } from '../components/TimerModal';
-import { shuffleArray } from '../lib/utils';
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { AddGroupModal } from "../components/AddGroupModal";
+import { CountdownModal } from "../components/CountdownModal";
+import { ScoreCard } from "../components/ScoreCard";
+import { ThemeToggle } from "../components/ThemeToggle";
+import { TimerModal } from "../components/TimerModal";
+import { shuffleArray } from "../lib/utils";
 
 interface Group {
   id: string;
@@ -26,9 +26,9 @@ export default function ClassificationPage() {
 
   // Cargar grupos del sessionStorage
   useEffect(() => {
-    const stored = sessionStorage.getItem('aula-score-groups');
+    const stored = sessionStorage.getItem("aula-score-groups");
     if (!stored) {
-      router.push('/ia/autor/herramientas/aula-score');
+      router.push("/ia/autor/herramientas/aula-score");
       return;
     }
 
@@ -50,11 +50,7 @@ export default function ClassificationPage() {
   // Incrementar puntos
   const handleIncrement = (id: string) => {
     setGroups((prev) =>
-      prev.map((g) =>
-        g.id === id
-          ? { ...g, score: g.score + 1 }
-          : g
-      )
+      prev.map((g) => (g.id === id ? { ...g, score: g.score + 1 } : g)),
     );
   };
 
@@ -62,10 +58,8 @@ export default function ClassificationPage() {
   const handleDecrement = (id: string) => {
     setGroups((prev) =>
       prev.map((g) =>
-        g.id === id && g.score > 0
-          ? { ...g, score: g.score - 1 }
-          : g
-      )
+        g.id === id && g.score > 0 ? { ...g, score: g.score - 1 } : g,
+      ),
     );
   };
 
@@ -103,7 +97,7 @@ export default function ClassificationPage() {
               ⏱️
             </button>
             <button
-              onClick={() => router.push('/ia/autor/herramientas/aula-score')}
+              onClick={() => router.push("/ia/autor/herramientas/aula-score")}
               className="btn-secondary"
             >
               Nueva sesión
@@ -142,7 +136,10 @@ export default function ClassificationPage() {
       </div>
 
       {/* Modales */}
-      <CountdownModal isOpen={showCountdown && !isStarted} onComplete={handleCountdownComplete} />
+      <CountdownModal
+        isOpen={showCountdown && !isStarted}
+        onComplete={handleCountdownComplete}
+      />
 
       <AddGroupModal
         isOpen={showAddGroup}

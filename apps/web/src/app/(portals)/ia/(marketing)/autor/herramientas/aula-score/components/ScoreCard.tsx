@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 interface ScoreCardProps {
   id: string;
@@ -8,7 +8,13 @@ interface ScoreCardProps {
   onDecrement: () => void;
 }
 
-export function ScoreCard({ id, name, score, onIncrement, onDecrement }: ScoreCardProps) {
+export function ScoreCard({
+  id,
+  name,
+  score,
+  onIncrement,
+  onDecrement,
+}: ScoreCardProps) {
   return (
     <div className="card flex flex-col items-center justify-center p-8 min-h-48">
       <h3 className="heading-tertiary text-center mb-6 text-xl">{name}</h3>

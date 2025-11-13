@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
 interface ModalProps {
   isOpen: boolean;
@@ -10,7 +10,13 @@ interface ModalProps {
   closeButton?: boolean;
 }
 
-export function Modal({ isOpen, title, children, onClose, closeButton = true }: ModalProps) {
+export function Modal({
+  isOpen,
+  title,
+  children,
+  onClose,
+  closeButton = true,
+}: ModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
