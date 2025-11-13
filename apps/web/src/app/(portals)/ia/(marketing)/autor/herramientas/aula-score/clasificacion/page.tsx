@@ -18,7 +18,6 @@ interface Group {
 export default function ClassificationPage() {
   const router = useRouter();
   const [groups, setGroups] = useState<Group[]>([]);
-  const [shuffledGroups, setShuffledGroups] = useState<Group[]>([]);
   const [isStarted, setIsStarted] = useState(false);
   const [showCountdown, setShowCountdown] = useState(true);
   const [showAddGroup, setShowAddGroup] = useState(false);
@@ -40,11 +39,10 @@ export default function ClassificationPage() {
   // Cuando se completa el countdown
   const handleCountdownComplete = () => {
     setShowCountdown(false);
-    setIsStarted(true);
     // Barajar solo una vez
     const shuffled = shuffleArray([...groups]);
-    setShuffledGroups(shuffled);
     setGroups(shuffled);
+    setIsStarted(true);
   };
 
   // Incrementar puntos

@@ -25,11 +25,7 @@ export function CountdownModal({ isOpen, onComplete }: CountdownModalProps) {
     if (!hasStarted || count < 0) return;
 
     if (count === 0) {
-      // Reproducir sonido
-      new Audio(
-        "data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAAB9AAACABAAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBg==",
-      ).play();
-      setTimeout(onComplete, 100);
+      setTimeout(onComplete, 300);
       return;
     }
 

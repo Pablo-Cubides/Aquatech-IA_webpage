@@ -51,9 +51,6 @@ export function TimerModal({ isOpen, onClose }: TimerModalProps) {
     if (!isRunning || remainingMs <= 0) {
       if (remainingMs <= 0 && isRunning) {
         setIsRunning(false);
-        new Audio(
-          "data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAAB9AAACABAAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj==",
-        ).play();
       }
       return;
     }
