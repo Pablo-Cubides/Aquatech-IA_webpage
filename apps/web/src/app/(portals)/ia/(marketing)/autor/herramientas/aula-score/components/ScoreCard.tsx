@@ -19,7 +19,7 @@ export function ScoreCard({
     <div className="card flex flex-col items-center justify-center p-8 min-h-48">
       <h3 className="heading-tertiary text-center mb-6 text-xl">{name}</h3>
 
-      <div className="text-7xl font-bold text-primary-color mb-8">{score}</div>
+      <div style={{ fontSize: "4rem" }} className="font-bold text-primary-color mb-8">{score}</div>
 
       <div className="flex gap-4">
         <button

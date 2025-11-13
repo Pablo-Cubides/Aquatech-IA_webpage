@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { AddGroupModal } from "../components/AddGroupModal";
 import { CountdownModal } from "../components/CountdownModal";
 import { ScoreCard } from "../components/ScoreCard";
@@ -22,6 +22,7 @@ export default function ClassificationPage() {
   const [showCountdown, setShowCountdown] = useState(true);
   const [showAddGroup, setShowAddGroup] = useState(false);
   const [showTimer, setShowTimer] = useState(false);
+  const hasShuffledRef = useRef(false);
 
   // Cargar grupos del sessionStorage
   useEffect(() => {
@@ -39,9 +40,12 @@ export default function ClassificationPage() {
   // Cuando se completa el countdown
   const handleCountdownComplete = () => {
     setShowCountdown(false);
-    // Barajar solo una vez
-    const shuffled = shuffleArray([...groups]);
-    setGroups(shuffled);
+    // Barajar solo una vez, guardar el orden
+    if (!hasShuffledRef.current) {
+      const shuffled = shuffleArray([...groups]);
+      setGroups(shuffled);
+      hasShuffledRef.current = true;
+    }
     setIsStarted(true);
   };
 
@@ -71,8 +75,8 @@ export default function ClassificationPage() {
     setGroups((prev) => [...prev, newGroup]);
   };
 
-  // Ordenar por puntaje descendente para mostrar ranking
-  const displayGroups = [...groups].sort((a, b) => b.score - a.score);
+  // No reordenar - mantener el orden del shuffle
+  const displayGroups = groups;
 
   return (
     <div className="min-h-screen bg-background text-foreground p-6">
