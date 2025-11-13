@@ -723,40 +723,40 @@ export default function IAAutorPage() {
                 </Link>
               </article>
 
-              {/* Ruleta de Preguntas */}
+              {/* Ruleta Académica */}
               <article className="bg-[#10111A] rounded-2xl p-6 border border-[rgba(0,239,255,0.1)] hover:border-[#0095FF] transition-all duration-300 hover:shadow-lg group">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-[#0095FF] to-[#00efff] flex items-center justify-center">
                     <RotateCcw className="w-6 h-6 text-white" />
                   </div>
                   <h3 className="text-xl font-bold group-hover:text-[#0095FF] transition-colors">
-                    Ruleta de Preguntas
+                    Ruleta Académica
                   </h3>
                 </div>
                 <p className="text-[#CCCCCC] mb-6 leading-relaxed">
-                  Genera preguntas aleatorias sobre IA, machine learning y
-                  programación para estudiar.
+                  Carga preguntas desde CSV/Excel y juega con una ruleta
+                  interactiva para dinámicas de clase.
                 </p>
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center gap-2 text-sm">
                     <div className="w-2 h-2 rounded-full bg-[#0095FF]"></div>
-                    <span>Múltiples categorías</span>
+                    <span>Carga CSV/XLSX</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm">
                     <div className="w-2 h-2 rounded-full bg-[#00efff]"></div>
-                    <span>Niveles de dificultad</span>
+                    <span>Ruleta animada</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm">
                     <div className="w-2 h-2 rounded-full bg-[#0095FF]"></div>
-                    <span>Explicaciones detalladas</span>
+                    <span>Guarda conjuntos</span>
                   </div>
                 </div>
                 <Link
-                  href="/ia/autor/herramientas/ruleta-preguntas"
+                  href="/ia/autor/herramientas/ruleta-academica"
                   className="inline-flex items-center gap-2 w-full justify-center bg-gradient-to-r from-[#0095FF] to-[#00efff] text-white font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-opacity"
                 >
                   <RotateCcw className="w-4 h-4" />
-                  Girar Ruleta
+                  Abrir Ruleta
                 </Link>
               </article>
 

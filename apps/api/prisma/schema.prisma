@@ -200,6 +200,29 @@ model Note {
   @@index([code])
 }
 
+// Academic wheel question sets
+model QuestionSet {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  questions Question[]
+  createdBy String?    @map("created_by")
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
+
+  @@map("question_sets")
+}
+
+model Question {
+  id             Int         @id @default(autoincrement())
+  text           String
+  questionSet    QuestionSet @relation(fields: [questionSetId], references: [id], onDelete: Cascade)
+  questionSetId  Int         @map("question_set_id")
+  createdAt      DateTime    @default(now()) @map("created_at")
+
+  @@map("questions")
+  @@index([questionSetId])
+}
+
 // Content editor sections (for rich editing)
 model EditorSection {
   id        String   @id @default(cuid())

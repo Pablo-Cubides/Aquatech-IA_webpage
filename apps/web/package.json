@@ -16,17 +16,18 @@
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.10.0",
-    "@prisma/client": "^6.18.0",
-    "@ia-next/typescript-config": "workspace:*",
-    "@ia-next/ui": "workspace:*",
     "@ia-next/database": "workspace:*",
     "@ia-next/matriz-generator": "workspace:*",
+    "@ia-next/typescript-config": "workspace:*",
+    "@ia-next/ui": "workspace:*",
+    "@prisma/client": "^6.18.0",
     "@sentry/nextjs": "^10.22.0",
     "@upstash/ratelimit": "^2.0.6",
     "@upstash/redis": "^1.35.6",
     "csv-stringify": "^6.6.0",
     "d3": "^7.9.0",
     "date-fns": "^4.1.0",
+    "framer-motion": "^10.0.0",
     "html-to-image": "^1.11.13",
     "html2canvas": "^1.4.1",
     "jspdf": "^3.0.3",
@@ -42,7 +43,8 @@
     "react-dom": "^19.2.0",
     "recharts": "^3.3.0",
     "simple-statistics": "^7.8.8",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "zod": "^4.1.5"
   },
   "devDependencies": {
     "@ia-next/eslint-config": "workspace:*",
