@@ -27,6 +27,14 @@ export default function IAHerramientasPage() {
         <div className="absolute inset-0 bg-gradient-radial from-[rgba(0,239,255,0.1)] via-transparent to-transparent"></div>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="max-w-4xl mx-auto text-center">
+            {/* Logo */}
+            <div className="mb-8 flex justify-center">
+              <img
+                src="/images/Portal IA/Aquatech-ia logo light 512.png"
+                alt="Aquatech IA"
+                className="h-40 w-auto object-contain"
+              />
+            </div>
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight bg-gradient-to-br from-white to-[#00efff] bg-clip-text text-transparent mb-6">
               Herramientas de IA
             </h1>

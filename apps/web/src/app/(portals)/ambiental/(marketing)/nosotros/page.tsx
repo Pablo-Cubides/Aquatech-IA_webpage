@@ -12,17 +12,16 @@ export default function AmbientalNosotrosPage() {
     <main className="bg-[#F5F9F8] text-[#0D161C]">
       {/* HERO */}
       <section className="relative overflow-hidden py-20 sm:py-28 lg:py-32 bg-white">
-        {/* Fondos sutiles */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white via-transparent to-[#F5F9F8] opacity-60" />
-        <div
-          className="absolute inset-0 opacity-20"
-          style={{
-            backgroundImage:
-              'url("data:image/svg+xml,%3Csvg%20width%3D%2760%27%20height%3D%2760%27%20viewBox%3D%270%200%2060%2060%27%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%3E%3Cg%20fill%3D%27none%27%20fill-rule%3D%27evenodd%27%3E%3Cg%20fill%3D%27%2322c55e%27%20fill-opacity%3D%270.04%27%3E%3Cpath%20d%3D%27M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%27%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E")',
-          }}
-        />
         <div className="relative mx-auto grid max-w-screen-xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
           <div className="text-center lg:text-left">
+            {/* Logo */}
+            <div className="mb-8 flex justify-center lg:justify-start">
+              <img
+                src="/images/Portal ambiental/Aquatech-ia logo dark 512.png"
+                alt="Aquatech IA"
+                className="h-20 w-auto object-contain"
+              />
+            </div>
             <h1
               className="tracking-tight text-4xl font-bold md:text-5xl lg:text-6xl"
               style={{ fontFamily: "Space Grotesk, sans-serif" }}

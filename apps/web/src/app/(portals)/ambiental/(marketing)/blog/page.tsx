@@ -70,17 +70,17 @@ export default function BlogAmbientalPage() {
   return (
     <main className="min-h-screen bg-[#F9FAFB] text-[#1F2937]">
       {/* HERO */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-blue-50 to-green-50 text-center relative overflow-hidden">
+      <section className="py-16 md:py-24 bg-gradient-to-br from-[#10B981]/20 via-white to-[#0077B6]/15 text-center relative overflow-hidden">
         <div
-          className="absolute inset-0 pointer-events-none opacity-20"
+          className="absolute inset-0 pointer-events-none opacity-10"
           style={{
             backgroundImage:
-              "radial-gradient(circle at 1px 1px, rgba(34,197,94,.15) 1px, transparent 0)",
+              "radial-gradient(circle at 1px 1px, rgba(16,185,129,.3) 1px, transparent 0)",
             backgroundSize: "20px 20px",
           }}
         />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tight bg-gradient-to-r from-[#0077B6] via-[#10B981] to-[#10B981] bg-clip-text text-transparent">
             Blog Ambiental
           </h1>
           <p className="text-lg md:text-xl text-[#4B5563] max-w-3xl mx-auto mt-6">

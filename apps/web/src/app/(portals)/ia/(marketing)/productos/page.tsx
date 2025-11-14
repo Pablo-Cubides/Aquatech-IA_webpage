@@ -309,6 +309,14 @@ export default function ProductosIAPage() {
           </div>
 
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center relative">
+            {/* Logo */}
+            <div className="mb-8 flex justify-center">
+              <img
+                src="/images/Portal IA/Aquatech-ia logo light 512.png"
+                alt="Aquatech IA"
+                className="h-20 w-auto object-contain"
+              />
+            </div>
             <div className="mb-6">
               <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-[var(--accent-purple)] to-[var(--accent-pink)] text-white">
                 <Package className="w-4 h-4 mr-2" />

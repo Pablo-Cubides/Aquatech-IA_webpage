@@ -351,10 +351,10 @@ export default function IAAutorPage() {
                 <img
                   src="/images/Portal IA/Aquatech-ia logo light 512.png"
                   alt="Aquatech IA"
-                  className="h-20 w-auto object-contain drop-shadow-[0_0_20px_rgba(0,239,255,0.5)]"
+                  className="h-40 w-auto object-contain"
                 />
               </div>
-              
+
               <div className="mb-4">
                 <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium tech-gradient text-white">
                   <Cpu className="w-4 h-4 mr-1" />
@@ -429,13 +429,12 @@ export default function IAAutorPage() {
 
             <div className="lg:col-span-5 flex justify-center lg:justify-end">
               <div className="relative">
-                <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-purple)] blur-2xl opacity-30" />
                 <Image
-                  src="/images/authors/pablo-cubides-ia-profile.jpg"
+                  src="/images/Portal IA/Autor/Pablo Cubides.png"
                   alt="Retrato de Pablo Andrés Cubides Guerrero - IA Specialist"
                   width={360}
                   height={360}
-                  className="relative rounded-full border-4 border-[#333333] shadow-xl glow-effect"
+                  className="rounded-full border-4 border-[#333333] shadow-xl"
                   priority
                 />
               </div>

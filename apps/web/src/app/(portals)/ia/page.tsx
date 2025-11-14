@@ -30,48 +30,46 @@ export default function IAPage() {
   return (
     <main className="bg-black text-white">
       {/* Hero */}
-      <section className="relative overflow-hidden py-32 text-center">
-        <div className="absolute inset-0 opacity-5 [background-image:url('https://www.transparenttextures.com/patterns/az-subtle.png')]"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black"></div>
+      <section className="relative overflow-hidden min-h-screen lg:h-screen flex items-center text-center">
+        {/* Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: "url('/images/technology-hero.jpg')" }}
+        >
+          {/* Dark Overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-black"></div>
+        </div>
 
-        <div className="container relative mx-auto px-4">
+        <div className="container relative z-10 mx-auto px-4 py-24">
           <div className="mx-auto max-w-4xl">
             {/* Logo */}
-            <div className="mb-12 flex justify-center">
+            <div className="mb-12 flex justify-center animate-in fade-in slide-in-from-top-4 duration-700">
               <img
-                src="/images/Portal IA/Aquatech-ia logo light 512.png"
+                src="/images/Logo Aquatech - IA 512 - sin fondo.png"
                 alt="Aquatech IA Logo"
-                className="h-32 w-auto object-contain drop-shadow-[0_0_25px_rgba(0,239,255,0.6)]"
+                className="h-64 w-auto object-contain drop-shadow-[0_0_30px_rgba(0,239,255,0.7)]"
               />
             </div>
-            
+
             <h1
-              className="text-5xl md:text-7xl font-bold text-white"
+              className="text-5xl md:text-7xl font-bold text-white animate-in fade-in slide-in-from-top-6 duration-700 delay-150"
               style={{ fontFamily: "Space Grotesk, sans-serif" }}
             >
               Inteligencia Artificial aplicada al agua y al ambiente
             </h1>
-            <p className="mt-6 text-lg text-[#CCCCCC]">
+            <p className="mt-6 text-lg md:text-xl text-[#E0E0E0] animate-in fade-in slide-in-from-top-8 duration-700 delay-300">
               Explora modelos generativos, visualizaciones y herramientas
               prácticas.
             </p>
 
-            <div className="mt-10 flex flex-wrap justify-center gap-4">
-              <button className="rounded-lg bg-cyan-400 px-8 py-3 text-base font-bold text-black transition-all duration-300 ease-out hover:bg-white hover:shadow-lg hover:shadow-cyan-500/50 hover:-translate-y-1 active:translate-y-0">
+            <div className="mt-12 flex flex-wrap justify-center gap-4 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-500">
+              <button className="rounded-lg bg-cyan-400 px-8 py-3 text-base font-bold text-black transition-all duration-300 ease-out hover:bg-white hover:shadow-lg hover:shadow-cyan-500/50 hover:-translate-y-1 hover:scale-105 active:translate-y-0">
                 Explorar herramientas
               </button>
-              <button className="rounded-lg border-2 border-cyan-400 px-8 py-3 text-base font-bold text-cyan-400 transition-all duration-300 ease-out hover:bg-cyan-400 hover:text-black hover:shadow-lg hover:shadow-cyan-500/50 hover:-translate-y-1 active:translate-y-0">
+              <button className="rounded-lg border-2 border-cyan-400 px-8 py-3 text-base font-bold text-cyan-400 backdrop-blur-sm bg-black/30 transition-all duration-300 ease-out hover:bg-cyan-400 hover:text-black hover:shadow-lg hover:shadow-cyan-500/50 hover:-translate-y-1 hover:scale-105 active:translate-y-0">
                 Conocer más
               </button>
             </div>
-          </div>
-
-          <div className="group mx-auto mt-16 aspect-video max-w-5xl overflow-hidden rounded-2xl shadow-lg">
-            <img
-              alt="Inteligencia Artificial y Tecnología"
-              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-              src="/images/technology-hero.jpg"
-            />
           </div>
         </div>
       </section>
@@ -191,6 +189,19 @@ export default function IAPage() {
               </button>
             </a>
           </div>
+
+          {/* Botón Ver más */}
+          <div className="mt-12 text-center">
+            <a
+              href="/ia/herramientas"
+              className="inline-flex items-center gap-2 rounded-lg bg-cyan-500/15 px-8 py-3 font-semibold text-cyan-400 transition-all duration-300 hover:bg-cyan-500/25 hover:shadow-lg hover:shadow-cyan-500/30 hover:-translate-y-1"
+            >
+              Ver más herramientas
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+          </div>
         </div>
       </section>
 
@@ -279,6 +290,19 @@ export default function IAPage() {
                 </a>
               </div>
             </div>
+          </div>
+
+          {/* Botón Ver más */}
+          <div className="mt-12 text-center">
+            <a
+              href="/ia/blog"
+              className="inline-flex items-center gap-2 rounded-lg bg-cyan-500/15 px-8 py-3 font-semibold text-cyan-400 transition-all duration-300 hover:bg-cyan-500/25 hover:shadow-lg hover:shadow-cyan-500/30 hover:-translate-y-1"
+            >
+              Ver más artículos
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
           </div>
         </div>
       </section>

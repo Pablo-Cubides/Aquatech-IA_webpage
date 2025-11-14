@@ -24,6 +24,14 @@ export default function NosotrosPage() {
         />
         <div className="mx-auto grid max-w-screen-xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:gap-16 lg:px-8">
           <div className="text-center lg:text-left">
+            {/* Logo */}
+            <div className="mb-8 flex justify-center lg:justify-start">
+              <img
+                src="/images/Portal IA/Aquatech-ia logo light 512.png"
+                alt="Aquatech IA"
+                className="h-20 w-auto object-contain"
+              />
+            </div>
             <h1
               className="text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl"
               style={{ fontFamily: "Space Grotesk, sans-serif" }}

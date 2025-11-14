@@ -31,49 +31,46 @@ export default function AmbientalPage() {
   return (
     <main className="bg-white text-black">
       {/* HERO */}
-      <section className="relative overflow-hidden py-24 md:py-32 text-center">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white" />
+      <section className="relative overflow-hidden min-h-screen lg:h-screen flex items-center text-center">
+        {/* Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: "url('/images/mountains-hero.jpg')" }}
+        >
+          {/* Light Overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-white/85 via-white/75 to-white"></div>
         </div>
 
-        <div className="container relative mx-auto px-4">
+        <div className="container relative z-10 mx-auto px-4 py-24">
           <div className="mx-auto max-w-4xl">
             {/* Logo */}
-            <div className="mb-12 flex justify-center">
+            <div className="mb-12 flex justify-center animate-in fade-in slide-in-from-top-4 duration-700">
               <img
-                src="/images/Portal ambiental/Aquatech-ia logo dark 512.png"
+                src="/images/Logo Aquatech - IA 512 - sin fondo.png"
                 alt="Aquatech Ambiental Logo"
-                className="h-32 w-auto object-contain drop-shadow-2xl"
+                className="h-64 w-auto object-contain drop-shadow-2xl"
               />
             </div>
-            
+
             <h1
-              className="text-5xl font-bold md:text-7xl text-black"
+              className="text-5xl font-bold md:text-7xl text-gray-900 animate-in fade-in slide-in-from-top-6 duration-700 delay-150"
               style={{ fontFamily: "Space Grotesk, sans-serif" }}
             >
               Gestión Ambiental con tecnología para un futuro sostenible
             </h1>
-            <p className="mt-6 text-lg text-gray-600">
+            <p className="mt-6 text-lg md:text-xl text-gray-700 font-medium animate-in fade-in slide-in-from-top-8 duration-700 delay-300">
               Mapas, normas y herramientas para proteger nuestros recursos
               naturales.
             </p>
 
-            <div className="mt-10 flex flex-wrap justify-center gap-4">
-              <button className="rounded-lg bg-green-600 px-8 py-3 text-base font-bold text-white transition-all duration-300 ease-out hover:bg-green-700 hover:shadow-lg hover:shadow-green-500/50 hover:-translate-y-1 active:translate-y-0">
+            <div className="mt-12 flex flex-wrap justify-center gap-4 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-500">
+              <button className="rounded-lg bg-green-600 px-8 py-3 text-base font-bold text-white transition-all duration-300 ease-out hover:bg-green-700 hover:shadow-xl hover:shadow-green-500/50 hover:-translate-y-1 hover:scale-105 active:translate-y-0">
                 Explorar herramientas
               </button>
-              <button className="rounded-lg border-2 border-blue-600 px-8 py-3 text-base font-bold text-blue-600 transition-all duration-300 ease-out hover:bg-blue-600 hover:text-white hover:shadow-lg hover:shadow-blue-500/50 hover:-translate-y-1 active:translate-y-0">
+              <button className="rounded-lg border-2 border-blue-600 px-8 py-3 text-base font-bold text-blue-600 backdrop-blur-sm bg-white/60 transition-all duration-300 ease-out hover:bg-blue-600 hover:text-white hover:shadow-xl hover:shadow-blue-500/50 hover:-translate-y-1 hover:scale-105 active:translate-y-0">
                 Conocer más
               </button>
             </div>
-          </div>
-
-          <div className="group mx-auto mt-16 aspect-video max-w-5xl overflow-hidden rounded-2xl shadow-lg">
-            <img
-              src="/images/mountains-hero.jpg"
-              alt="Naturaleza y sostenibilidad ambiental"
-              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-            />
           </div>
         </div>
       </section>
@@ -191,29 +188,19 @@ export default function AmbientalPage() {
                 </button>
               </article>
             </Link>
+          </div>
 
-            {/* Card 4 - Análisis de Correlaciones */}
-            <Link href="/ambiental/herramientas/analisis-correlaciones">
-              <article className="rounded-2xl border border-[#E5EDF2] bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg cursor-pointer h-full flex flex-col">
-                <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
-                  <img
-                    alt="Análisis de correlaciones"
-                    className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
-                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop&crop=center"
-                  />
-                </div>
-                <h3 className="mt-4 text-xl font-semibold">
-                  Análisis de correlaciones
-                </h3>
-                <p className="mt-2 text-sm text-gray-700 flex-grow">
-                  Herramienta avanzada para análisis de correlaciones en datos
-                  ambientales.
-                </p>
-                <button className="mt-4 w-full rounded-lg bg-[#0077B6]/10 py-2 font-semibold text-[#0077B6] transition-colors hover:bg-[#0077B6]/15 focus:outline-none focus:ring-2 focus:ring-[#0077B6]/50">
-                  Abrir
-                </button>
-              </article>
-            </Link>
+          {/* Botón Ver más */}
+          <div className="mt-12 text-center">
+            <a
+              href="/ambiental/herramientas"
+              className="inline-flex items-center gap-2 rounded-lg bg-[#10B981]/15 px-8 py-3 font-semibold text-[#10B981] transition-all duration-300 hover:bg-[#10B981]/25 hover:shadow-lg hover:shadow-[#10B981]/30 hover:-translate-y-1"
+            >
+              Ver más herramientas
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
           </div>
         </div>
       </section>
@@ -320,6 +307,19 @@ export default function AmbientalPage() {
                 </a>
               </div>
             </article>
+          </div>
+
+          {/* Botón Ver más */}
+          <div className="mt-12 text-center">
+            <a
+              href="/ambiental/blog"
+              className="inline-flex items-center gap-2 rounded-lg bg-[#10B981]/15 px-8 py-3 font-semibold text-[#10B981] transition-all duration-300 hover:bg-[#10B981]/25 hover:shadow-lg hover:shadow-[#10B981]/30 hover:-translate-y-1"
+            >
+              Ver más artículos
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
           </div>
         </div>
       </section>

@@ -11,7 +11,10 @@ export default function HeaderAmbiental() {
     <header className="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-blue-600/20 bg-white/80 px-10 py-3 backdrop-blur-md transition-all duration-300">
       <div className="flex items-center gap-6">
         {/* Logo y nombre */}
-        <Link href="/ambiental" className="transition-transform duration-300 hover:scale-105">
+        <Link
+          href="/ambiental"
+          className="transition-transform duration-300 hover:scale-105"
+        >
           <img
             src="/images/Portal ambiental/Nombre Aquatech IA dark.png"
             alt="Aquatech IA"

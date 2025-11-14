@@ -317,12 +317,7 @@ export default function AmbientalAutorPage() {
         </header>
 
         {/* HERO Section */}
-        <section className="py-16 md:py-24 border-b border-gray-200 relative overflow-hidden">
-          <div className="absolute inset-0 pointer-events-none opacity-10">
-            <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-[#10B981] rounded-full blur-3xl"></div>
-            <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-[#0077B6] rounded-full blur-3xl"></div>
-          </div>
-
+        <section className="py-16 md:py-24 border-b border-gray-200 bg-white">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative">
             <div className="lg:col-span-7">
               {/* Logo Aquatech */}
@@ -330,10 +325,10 @@ export default function AmbientalAutorPage() {
                 <img
                   src="/images/Portal ambiental/Aquatech-ia logo dark 512.png"
                   alt="Aquatech IA"
-                  className="h-20 w-auto object-contain drop-shadow-xl"
+                  className="h-40 w-auto object-contain"
                 />
               </div>
-              
+
               <div className="mb-4">
                 <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-[#0077B6] to-[#10B981] text-white">
                   <Droplets className="w-4 h-4 mr-1" />
@@ -412,18 +407,19 @@ export default function AmbientalAutorPage() {
             </div>
 
             <div className="lg:col-span-5 flex justify-center lg:justify-end">
-              <div className="relative">
-                <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-[#10B981] to-[#0077B6] blur-2xl opacity-30" />
-                <div className="relative w-80 h-80 bg-gradient-to-br from-[#0077B6] to-[#10B981] rounded-full flex items-center justify-center text-white text-8xl shadow-xl">
-                  👨‍🔬
-                </div>
+              <div className="relative w-80 h-80 bg-gradient-to-br from-[#E8F4F8] to-[#F0FDF4] rounded-full border-4 border-[#0077B6] shadow-xl flex items-center justify-center overflow-hidden">
+                <img
+                  src="/images/Portal ambiental/autor/Pablo Cubides.png"
+                  alt="Retrato de Pablo Andrés Cubides Guerrero - Especialista Ambiental"
+                  className="w-full h-full object-contain"
+                />
               </div>
             </div>
           </div>
         </section>
 
         {/* Resumen ejecutivo */}
-        <section className="py-16 md:py-24 bg-white">
+        <section className="py-16 md:py-24 bg-gray-50">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-7">
               <h2
@@ -470,7 +466,7 @@ export default function AmbientalAutorPage() {
         </section>
 
         {/* Competencias clave */}
-        <section className="py-16 md:py-24">
+        <section className="py-16 md:py-24 bg-white">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <h2
               className={`${spaceGrotesk.className} text-3xl md:text-4xl text-[#023E8A] text-center mb-10`}
@@ -521,7 +517,7 @@ export default function AmbientalAutorPage() {
         </section>
 
         {/* Proyectos destacados */}
-        <section className="py-16 md:py-24 bg-white">
+        <section className="py-16 md:py-24 bg-gray-50">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <h2
               className={`${spaceGrotesk.className} text-3xl md:text-4xl text-[#023E8A] text-center mb-12`}
@@ -556,7 +552,7 @@ export default function AmbientalAutorPage() {
         </section>
 
         {/* Herramientas estudiantiles */}
-        <section className="py-16 md:py-24">
+        <section className="py-16 md:py-24 bg-white">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <h2
               className={`${spaceGrotesk.className} text-3xl md:text-4xl text-[#023E8A] text-center mb-12`}
@@ -720,7 +716,7 @@ export default function AmbientalAutorPage() {
         </section>
 
         {/* Artículos */}
-        <section className="py-16 md:py-24">
+        <section className="py-16 md:py-24 bg-gray-50">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-12">
               <div>
