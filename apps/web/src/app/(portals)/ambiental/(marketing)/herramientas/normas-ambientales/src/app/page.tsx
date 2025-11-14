@@ -178,6 +178,14 @@ export default function HomePage() {
         </div>
         <div className="container relative z-10 px-4 mx-auto">
           <div className="max-w-3xl mx-auto text-center">
+            {/* Logo */}
+            <div className="flex justify-center mb-6">
+              <img
+                src="/images/Portal ambiental/Aquatech IA - Logo Blanco-1.png"
+                alt="Aquatech IA"
+                className="h-16 w-16 object-contain drop-shadow-lg"
+              />
+            </div>
             <div className="flex justify-center gap-2 mb-4">
               <span className="text-4xl">🌍</span>
             </div>

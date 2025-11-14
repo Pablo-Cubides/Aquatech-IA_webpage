@@ -325,6 +325,15 @@ export default function AmbientalAutorPage() {
 
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative">
             <div className="lg:col-span-7">
+              {/* Logo Aquatech */}
+              <div className="mb-6">
+                <img
+                  src="/images/Portal ambiental/Aquatech IA - Logo Blanco-1.png"
+                  alt="Aquatech IA"
+                  className="h-16 w-16 object-contain drop-shadow-lg"
+                />
+              </div>
+              
               <div className="mb-4">
                 <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-[#0077B6] to-[#10B981] text-white">
                   <Droplets className="w-4 h-4 mr-1" />

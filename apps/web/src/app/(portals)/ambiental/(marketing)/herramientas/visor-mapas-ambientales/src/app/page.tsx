@@ -446,6 +446,12 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center py-4">
               <div className="flex items-center space-x-4">
+                {/* Logo */}
+                <img
+                  src="/images/Portal ambiental/Aquatech IA - Logo Blanco-1.png"
+                  alt="Aquatech IA"
+                  className="h-10 w-10 object-contain"
+                />
                 <h1 className="text-xl font-semibold text-gray-900">
                   Mapa Ambiental
                 </h1>

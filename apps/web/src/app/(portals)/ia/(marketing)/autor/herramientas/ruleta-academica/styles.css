@@ -23,9 +23,9 @@
 }
 
 :root {
-  --primary-color: #0ea5e9;
-  --background-dark: #121212;
-  --background-light: #1a1a1a;
+  --primary-color: #00efff;
+  --background-dark: #10111a;
+  --background-light: #000000;
   --text-primary: #ffffff;
   --text-secondary: rgba(255, 255, 255, 0.8);
   --text-muted: rgba(255, 255, 255, 0.5);
@@ -33,7 +33,7 @@
 }
 
 body {
-  background: linear-gradient(to bottom, #121212, #1a1a1a);
+  background: linear-gradient(to bottom, #000000, #10111a);
   color: var(--text-primary);
 }
 

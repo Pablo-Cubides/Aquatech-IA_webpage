@@ -325,6 +325,14 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#0A0E27] text-[#FFFFFF] flex flex-col p-4 sm:p-6 lg:p-8 font-sans">
       <header className="text-center mb-8">
+        {/* Logo */}
+        <div className="mb-6">
+          <img
+            src="/images/Logo Aquatech - IA 512 - sin fondo.png"
+            alt="Aquatech IA"
+            className="h-14 w-14 object-contain drop-shadow-lg mx-auto"
+          />
+        </div>
         <h1 className="text-5xl font-bold bg-gradient-to-r from-[#00D4FF] via-[#00FF88] to-[#FFB700] bg-clip-text text-transparent drop-shadow-lg">
           Visor del Proceso de Difusión
         </h1>

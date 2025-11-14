@@ -36,6 +36,15 @@ export default function IAPage() {
 
         <div className="container relative mx-auto px-4">
           <div className="mx-auto max-w-4xl">
+            {/* Logo */}
+            <div className="mb-8 flex justify-center">
+              <img
+                src="/images/Logo Aquatech - IA 512 - sin fondo.png"
+                alt="Aquatech IA Logo"
+                className="h-24 w-24 object-contain drop-shadow-lg"
+              />
+            </div>
+            
             <h1
               className="text-5xl md:text-7xl font-bold text-white"
               style={{ fontFamily: "Space Grotesk, sans-serif" }}

@@ -132,6 +132,14 @@ export default function InicioPage() {
 
   return (
     <div className="flex flex-col items-center gap-8 py-12 w-full container-primary">
+      {/* Logo */}
+      <div className="mb-4">
+        <img
+          src="/images/Logo Aquatech - IA 512 - sin fondo.png"
+          alt="Aquatech IA"
+          className="h-14 w-14 object-contain drop-shadow-lg"
+        />
+      </div>
       <h1 className="heading-primary">
         Inicio: Cargar o Seleccionar Preguntas
       </h1>

@@ -38,6 +38,15 @@ export default function AmbientalPage() {
 
         <div className="container relative mx-auto px-4">
           <div className="mx-auto max-w-4xl">
+            {/* Logo */}
+            <div className="mb-8 flex justify-center">
+              <img
+                src="/images/Portal ambiental/Aquatech IA - Logo Blanco-1.png"
+                alt="Aquatech Ambiental Logo"
+                className="h-24 w-24 object-contain drop-shadow-lg"
+              />
+            </div>
+            
             <h1
               className="text-5xl font-bold md:text-7xl text-black"
               style={{ fontFamily: "Space Grotesk, sans-serif" }}

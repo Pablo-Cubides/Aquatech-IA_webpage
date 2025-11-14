@@ -3,29 +3,21 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Global CSS variables */
+/* Global CSS variables - Aquatech Ambiental Brand */
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+  --amb-bg: #ffffff;
+  --amb-bg-secondary: #f9fbfa;
+  --amb-text: #000000;
+  --amb-text-secondary: #666666;
+  --amb-primary: #0077b6;
+  --amb-secondary: #10b981;
+  --amb-border: #eeeeee;
+  --amb-error: #ff3333;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  color: var(--amb-text);
+  background: var(--amb-bg);
 }
 
 @layer base {
@@ -37,19 +29,19 @@ body {
 /* Tailwind component classes */
 @layer components {
   .btn-primary {
-    @apply bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+    @apply bg-[var(--amb-primary)] hover:bg-[#005a8d] text-white font-medium py-2 px-4 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--amb-primary)] focus:ring-offset-2;
   }
 
   .btn-secondary {
-    @apply bg-white hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-md border border-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+    @apply bg-white hover:bg-[var(--amb-bg-secondary)] text-[var(--amb-text)] font-medium py-2 px-4 rounded-md border border-[var(--amb-border)] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--amb-primary)] focus:ring-offset-2;
   }
 
   .input-field {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+    @apply w-full px-3 py-2 border border-[var(--amb-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--amb-primary)] focus:border-transparent;
   }
 
   .card {
-    @apply bg-white rounded-lg shadow-md border border-gray-200 p-6;
+    @apply bg-white rounded-lg shadow-md border border-[var(--amb-border)] p-6;
   }
 }
 
