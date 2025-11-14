@@ -31,7 +31,7 @@
       "@/types": ["./src/types"],
       "@/types/*": ["./src/types/*"],
       "@/tools/llm/*": [
-        "./src/app/(portals)/ia/(marketing)/herramientas/como-funcionan-llm/src/*"
+        "./src/app/(portals)/ia/(marketing)/herramientas/explora-modelo/src/*"
       ]
     }
   },

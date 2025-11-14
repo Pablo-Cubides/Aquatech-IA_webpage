@@ -24,7 +24,7 @@ export default function AttentionStep({ onNext }: AttentionStepProps) {
   const getAttentionColor = (weight: number): string => {
     if (weight === 0) return 'bg-slate-800';
     const alpha = Math.pow(weight, 0.5);
-    return `rgba(59, 130, 246, ${alpha})`;
+    return `rgba(0, 239, 255, ${alpha})`;
   };
 
   const attentionData = useMemo(() => {

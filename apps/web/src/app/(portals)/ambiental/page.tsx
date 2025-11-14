@@ -197,8 +197,18 @@ export default function AmbientalPage() {
               className="inline-flex items-center gap-2 rounded-lg bg-[#10B981]/15 px-8 py-3 font-semibold text-[#10B981] transition-all duration-300 hover:bg-[#10B981]/25 hover:shadow-lg hover:shadow-[#10B981]/30 hover:-translate-y-1"
             >
               Ver más herramientas
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
               </svg>
             </a>
           </div>
@@ -316,8 +326,18 @@ export default function AmbientalPage() {
               className="inline-flex items-center gap-2 rounded-lg bg-[#10B981]/15 px-8 py-3 font-semibold text-[#10B981] transition-all duration-300 hover:bg-[#10B981]/25 hover:shadow-lg hover:shadow-[#10B981]/30 hover:-translate-y-1"
             >
               Ver más artículos
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
               </svg>
             </a>
           </div>

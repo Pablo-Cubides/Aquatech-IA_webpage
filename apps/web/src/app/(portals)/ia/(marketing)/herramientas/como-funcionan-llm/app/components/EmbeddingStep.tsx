@@ -20,7 +20,7 @@ export default function EmbeddingStep({ onNext }: EmbeddingStepProps) {
 
   const getValueColor = (value: number): string => {
     // Keep this helper small; intensity variable removed to satisfy linter
-    return value > 0 ? `rgb(239, 68, 68, ${Math.abs(value)})` : `rgb(59, 130, 246, ${Math.abs(value)})`;
+    return value > 0 ? `rgb(239, 68, 68, ${Math.abs(value)})` : `rgb(0, 239, 255, ${Math.abs(value)})`;
   };
 
   if (!processData?.embeddings?.length) {

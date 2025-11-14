@@ -75,6 +75,9 @@ export default function Home(){
   const variantText = currentCase?.variants?.[selectedPattern]
   const safeText: string = typeof variantText === 'string' ? variantText : ''
 
+  // Verify images are accessible - LLM Tune logo path
+  const logoSrc = '/images/portal-ia/herramientas/llm-tune-logo.png'
+
   // Typewriter (uso el mismo patrón seguro)
   useEffect(()=>{
     let cancelled=false
@@ -205,42 +208,70 @@ export default function Home(){
 
   return (
     <main className="max-w-7xl mx-auto p-8 text-white">
-      <header className="mb-8 flex items-center gap-6 animate-slide-down">
-        <div className="w-16 h-16 rounded-2xl shadow-glow-cyan flex items-center justify-center bg-gradient-cyber animate-float">
-          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-            <path d="M20 5L25 15L35 17L27 25L30 35L20 29L10 35L13 25L5 17L15 15L20 5Z" fill="currentColor" className="text-black" />
-          </svg>
+      {/* Enhanced header with LLM Tune logo */}
+      <header className="mb-12 animate-slide-down relative">
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-8 mb-8">
+          {/* Logo and title section */}
+          <div className="flex items-center gap-6 flex-shrink-0">
+            <div className="relative w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden shadow-2xl border-2 border-[#00efff]/30 hover:border-[#00efff] transition-all duration-300 group">
+              <img 
+                src={logoSrc} 
+                alt="LLM Tune" 
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  // Fallback if image not found
+                  (e.target as HTMLImageElement).style.display = 'none'
+                }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-br from-[#00efff]/10 via-transparent to-[#0095ff]/10 group-hover:from-[#00efff]/20 group-hover:to-[#0095ff]/20 transition-all duration-300 pointer-events-none" />
+            </div>
+            <div>
+              <h1 className="text-3xl md:text-5xl font-black leading-tight mb-2">
+                <span className="bg-gradient-to-r from-[#00efff] via-[#0095ff] to-[#10b981] bg-clip-text text-transparent">LLM Tune</span>
+              </h1>
+              <p className="text-sm md:text-base font-semibold text-[#00efff] tracking-wide">
+                Explorador de Parámetros de Decodificación
+              </p>
+            </div>
+          </div>
+
+          {/* Description section */}
+          <div className="flex-1">
+            <div className="glass-strong rounded-xl p-6 border-l-4 border-[#00efff]">
+              <p className="text-sm md:text-base text-[#CCCCCC] leading-relaxed">
+                Plataforma educativa interactiva que demuestra cómo <span className="text-[#00efff] font-semibold">Temperatura</span>, 
+                <span className="text-[#0095ff] font-semibold"> Top-k</span>, 
+                <span className="text-[#10b981] font-semibold"> Top-p</span> y 
+                <span className="text-[#00efff] font-semibold"> Penalización</span> influyen en la generación de texto de modelos de lenguaje grandes.
+              </p>
+            </div>
+          </div>
         </div>
-        <div className="flex-1">
-          <h1 className="text-3xl md:text-4xl font-bold leading-tight mb-2">
-            <span className="text-gradient">ExploraModelo</span>
-          </h1>
-          <p className="text-sm text-[#CCCCCC] max-w-3xl leading-relaxed">
-            Guía académica interactiva de parámetros de decodificación — Experimenta cómo Temperatura, Top-k, Top-p y Penalización afectan las salidas de modelos de lenguaje
-          </p>
-        </div>
+
+        {/* Decorative gradient line */}
+        <div className="h-1 bg-gradient-to-r from-[#00efff] via-[#0095ff] to-[#10b981] rounded-full opacity-60 mb-8" />
       </header>
 
-      {/* Stepper */}
-      <div className="mb-8 stepper">
+      {/* Stepper - Enhanced */}
+      <div className="mb-8 stepper sticky top-0 z-40">
         {[1,2,3,4].map(n=> (
           <button 
             key={n} 
             onClick={()=>setActiveStep(n)} 
-            className={`step-dot transition-all duration-300 ${activeStep===n ? 'bg-gradient-cyber text-black scale-110' : 'bg-white/5 text-[#CCCCCC] hover:bg-white/10'}`} 
+            className={`step-dot transition-all duration-300 ${activeStep===n ? 'bg-gradient-to-r from-[#00efff] to-[#0095ff] text-black scale-110 shadow-lg shadow-[#00efff]/50' : 'bg-white/5 text-[#CCCCCC] hover:bg-white/10 hover:text-[#00efff]'}`} 
             aria-label={`Ir al paso ${n}`}
           >
             {n}
           </button>
         ))}
         <div className="ml-4 text-sm text-[#CCCCCC] hidden md:block">
-          <span className={activeStep === 1 ? 'text-primary font-semibold' : ''}>1 Qué es</span>
-          <span className="mx-2">•</span>
-          <span className={activeStep === 2 ? 'text-primary font-semibold' : ''}>2 Parámetros</span>
-          <span className="mx-2">•</span>
-          <span className={activeStep === 3 ? 'text-primary font-semibold' : ''}>3 Playground</span>
-          <span className="mx-2">•</span>
-          <span className={activeStep === 4 ? 'text-primary font-semibold' : ''}>4 Bibliografía</span>
+          <span className={activeStep === 1 ? 'text-[#00efff] font-semibold' : ''}>📚 Qué es</span>
+          <span className="mx-2 text-[#666]">•</span>
+          <span className={activeStep === 2 ? 'text-[#0095ff] font-semibold' : ''}>⚙️ Parámetros</span>
+          <span className="mx-2 text-[#666]">•</span>
+          <span className={activeStep === 3 ? 'text-[#10b981] font-semibold' : ''}>🎮 Playground</span>
+          <span className="mx-2 text-[#666]">•</span>
+          <span className={activeStep === 4 ? 'text-[#00efff] font-semibold' : ''}>📖 Referencias</span>
         </div>
       </div>
 
@@ -261,11 +292,27 @@ export default function Home(){
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-4">
-            <ParamCard title="🌡️ Temperatura" summary="Controla la aleatoriedad en el muestreo: valores bajos (p.ej. 0.1) concentran probabilidad en el modo más probable; valores intermedios (~0.7) equilibran coherencia y variedad; valores altos (>1.0) amplifican la diversidad y el riesgo de incoherencia." />
-            <ParamCard title="🔢 Top-k" summary="Limita el número absoluto de candidatos considerados en cada paso. Un k pequeño fuerza al modelo a elegir entre muy pocas opciones (salidas predecibles), un k grande permite mucha diversidad but puede introducir ruido." />
-            <ParamCard title="🎯 Top-p" summary="Selecciona el 'núcleo' probabilístico acumulado hasta alcanzar la masa p. A diferencia de top-k, top-p adapta el tamaño del conjunto según la distribución: útil para balance adaptativo entre seguridad y creatividad." />
-            <ParamCard title="🔄 Penalización por repetición" summary="Reduce la probabilidad de volver a escoger tokens ya generados, evitando bucles y muletillas; un valor moderado mejora diversidad sin sacrificar coherencia." />
+          <div className="grid md:grid-cols-2 gap-4 mb-8">
+            <div className="group glass-strong rounded-xl p-6 border-l-4 border-[#00efff] hover:border-[#00efff] hover:shadow-lg hover:shadow-[#00efff]/20 hover:scale-105 transition-all duration-300">
+              <div className="text-3xl mb-3">🌡️</div>
+              <h3 className="text-lg font-bold text-[#00efff] mb-2">Temperatura</h3>
+              <p className="text-sm text-[#CCCCCC] leading-relaxed">Controla la aleatoriedad en el muestreo: valores bajos concentran probabilidad en el modo más probable; valores intermedios equilibran coherencia y variedad; valores altos amplifican la diversidad.</p>
+            </div>
+            <div className="group glass-strong rounded-xl p-6 border-l-4 border-[#0095ff] hover:border-[#0095ff] hover:shadow-lg hover:shadow-[#0095ff]/20 hover:scale-105 transition-all duration-300">
+              <div className="text-3xl mb-3">🔢</div>
+              <h3 className="text-lg font-bold text-[#0095ff] mb-2">Top-k</h3>
+              <p className="text-sm text-[#CCCCCC] leading-relaxed">Limita el número absoluto de candidatos considerados en cada paso. Un k pequeño fuerza salidas predecibles, un k grande permite mucha diversidad pero puede introducir ruido.</p>
+            </div>
+            <div className="group glass-strong rounded-xl p-6 border-l-4 border-[#10b981] hover:border-[#10b981] hover:shadow-lg hover:shadow-[#10b981]/20 hover:scale-105 transition-all duration-300">
+              <div className="text-3xl mb-3">🎯</div>
+              <h3 className="text-lg font-bold text-[#10b981] mb-2">Top-p</h3>
+              <p className="text-sm text-[#CCCCCC] leading-relaxed">Selecciona el núcleo probabilístico acumulado hasta alcanzar la masa p. A diferencia de top-k, top-p adapta el tamaño del conjunto según la distribución.</p>
+            </div>
+            <div className="group glass-strong rounded-xl p-6 border-l-4 border-[#00efff] hover:border-[#00efff] hover:shadow-lg hover:shadow-[#00efff]/20 hover:scale-105 transition-all duration-300">
+              <div className="text-3xl mb-3">🔄</div>
+              <h3 className="text-lg font-bold text-[#00efff] mb-2">Penalización</h3>
+              <p className="text-sm text-[#CCCCCC] leading-relaxed">Reduce la probabilidad de volver a escoger tokens ya generados, evitando bucles y muletillas; un valor moderado mejora diversidad sin sacrificar coherencia.</p>
+            </div>
           </div>
 
           <div className="mt-8 flex justify-end">

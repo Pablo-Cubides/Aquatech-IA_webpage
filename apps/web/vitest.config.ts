@@ -26,7 +26,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
       "@/tools/llm": path.resolve(
         __dirname,
-        "./src/app/(portals)/ia/(marketing)/herramientas/como-funcionan-llm/src",
+        "./src/app/(portals)/ia/(marketing)/herramientas/explora-modelo/src",
       ),
     },
   },

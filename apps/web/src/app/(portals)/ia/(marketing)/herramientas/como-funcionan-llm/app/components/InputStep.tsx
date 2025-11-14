@@ -38,13 +38,13 @@ export default function InputStep({ demoTexts = [], onNext }: InputStepProps) {
   return (
     <div className="p-6 sm:p-10">
       <div className="mb-12 text-center animate-fadeInUp">
-        <div className="inline-flex items-center justify-center w-20 h-20 mb-6 rounded-full shadow-2xl bg-gradient-to-br from-violet-500 to-purple-600 shadow-violet-500/50 animate-pulse">
+        <div className="inline-flex items-center justify-center w-20 h-20 mb-6 rounded-full shadow-2xl bg-gradient-to-br from-cyan-400 to-cyan-600 shadow-cyan-500/50 animate-pulse">
           <span className="text-4xl">✏️</span>
         </div>
         <h1
           className="mb-4 text-4xl font-black sm:text-5xl"
           style={{
-            background: "linear-gradient(135deg, #8b5cf6, #ec4899)",
+            background: "linear-gradient(135deg, #00efff, #0095ff)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundClip: "text",
