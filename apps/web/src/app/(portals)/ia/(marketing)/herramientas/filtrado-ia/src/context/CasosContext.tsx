@@ -75,8 +75,8 @@ export const CasosProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     try {
-      // Load from this module's public folder so the app doesn't rely on the global /public
-      const resLocal = await fetch("/filtrado-ia/casos.json", {
+      // Load from the main public folder
+      const resLocal = await fetch("/casos.json", {
         cache: "no-store",
       });
       if (resLocal.ok) {
@@ -90,7 +90,7 @@ export const CasosProvider = ({ children }: { children: React.ReactNode }) => {
         return;
       }
     } catch (e) {
-      console.error("Error cargando casos desde /filtrado-ia/casos.json", e);
+      console.error("Error cargando casos desde /casos.json", e);
       setCasos([]);
     }
   };

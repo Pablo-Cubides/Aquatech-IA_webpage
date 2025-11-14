@@ -213,18 +213,15 @@ export default function Home(){
         <div className="flex flex-col md:flex-row items-start md:items-center gap-8 mb-8">
           {/* Logo and title section */}
           <div className="flex items-center gap-6 flex-shrink-0">
-            <div className="relative w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden shadow-2xl border-2 border-[#00efff]/30 hover:border-[#00efff] transition-all duration-300 group">
-              <img 
-                src={logoSrc} 
-                alt="LLM Tune" 
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  // Fallback if image not found
-                  (e.target as HTMLImageElement).style.display = 'none'
-                }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-br from-[#00efff]/10 via-transparent to-[#0095ff]/10 group-hover:from-[#00efff]/20 group-hover:to-[#0095ff]/20 transition-all duration-300 pointer-events-none" />
-            </div>
+            <img 
+              src={logoSrc} 
+              alt="LLM Tune" 
+              className="w-20 h-20 md:w-24 md:h-24 object-contain drop-shadow-lg hover:drop-shadow-2xl transition-all duration-300"
+              onError={(e) => {
+                // Fallback if image not found
+                (e.target as HTMLImageElement).style.display = 'none'
+              }}
+            />
             <div>
               <h1 className="text-3xl md:text-5xl font-black leading-tight mb-2">
                 <span className="bg-gradient-to-r from-[#00efff] via-[#0095ff] to-[#10b981] bg-clip-text text-transparent">LLM Tune</span>
