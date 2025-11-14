@@ -685,7 +685,7 @@ export default function IAAutorPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
               {/* Consulta tu Nota */}
               <article className="bg-[#10111A] rounded-2xl p-6 border border-[rgba(0,239,255,0.1)] hover:border-[#00efff] transition-all duration-300 hover:shadow-lg group">
                 <div className="flex items-center gap-3 mb-4">
@@ -794,43 +794,6 @@ export default function IAAutorPage() {
                 >
                   <TrendingUp className="w-4 h-4" />
                   Abrir Aula Score
-                </Link>
-              </article>
-
-              {/* Análisis de Correlaciones */}
-              <article className="bg-[#10111A] rounded-2xl p-6 border border-[rgba(0,239,255,0.1)] hover:border-[#00efff] transition-all duration-300 hover:shadow-lg group">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-[#0095FF] to-[#00efff] flex items-center justify-center">
-                    <Zap className="w-6 h-6 text-white" />
-                  </div>
-                  <h3 className="text-xl font-bold group-hover:text-[#0095FF] transition-colors">
-                    Análisis de Correlaciones
-                  </h3>
-                </div>
-                <p className="text-[#CCCCCC] mb-6 leading-relaxed">
-                  Visualiza y analiza correlaciones entre variables con gráficos
-                  interactivos y estadísticas.
-                </p>
-                <div className="space-y-3 mb-6">
-                  <div className="flex items-center gap-2 text-sm">
-                    <div className="w-2 h-2 rounded-full bg-[#0095FF]"></div>
-                    <span>Gráficos interactivos</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm">
-                    <div className="w-2 h-2 rounded-full bg-[#00efff]"></div>
-                    <span>Matrices de correlación</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm">
-                    <div className="w-2 h-2 rounded-full bg-[#0095FF]"></div>
-                    <span>Exportar análisis</span>
-                  </div>
-                </div>
-                <Link
-                  href="/ia/autor/herramientas/analisis-correlaciones"
-                  className="inline-flex items-center gap-2 w-full justify-center bg-gradient-to-r from-[#0095FF] to-[#00efff] text-white font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-opacity"
-                >
-                  <Zap className="w-4 h-4" />
-                  Analizar Datos
                 </Link>
               </article>
             </div>

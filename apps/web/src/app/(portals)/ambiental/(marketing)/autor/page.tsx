@@ -16,6 +16,7 @@ import {
   Database,
   Sparkles,
   FileText,
+  RotateCcw,
 } from "lucide-react";
 
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], weight: ["700"] });
@@ -558,25 +559,119 @@ export default function AmbientalAutorPage() {
               en ingeniería ambiental
             </p>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <ProjectCard
-                title="Análisis de Correlaciones"
-                desc="Herramienta estadística para análisis de datos ambientales y correlaciones"
-                image=""
-                href="/ambiental/autor/herramientas/analisis-correlaciones"
-              />
-              <ProjectCard
-                title="Consulta Rápida"
-                desc="Sistema de consulta rápida para normativas y procedimientos ambientales"
-                image=""
-                href="/ambiental/autor/herramientas/consulta-nota"
-              />
-              <ProjectCard
-                title="Ruleta de Preguntas"
-                desc="Herramienta educativa interactiva para formación en temas ambientales"
-                image=""
-                href="/ambiental/autor/herramientas/ruleta-preguntas"
-              />
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              {/* Consulta tu Nota */}
+              <article className="bg-white rounded-2xl p-6 border border-gray-200 hover:border-[#0077B6] transition-all duration-300 hover:shadow-lg group">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-[#0077B6] to-[#10B981] flex items-center justify-center">
+                    <FileText className="w-6 h-6 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold group-hover:text-[#0077B6] transition-colors text-[#0D161C]">
+                    Consulta tu Nota
+                  </h3>
+                </div>
+                <p className="text-gray-600 mb-6 leading-relaxed">
+                  Revisa tus calificaciones, progreso y retroalimentación de
+                  manera rápida y organizada.
+                </p>
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-center gap-2 text-sm">
+                    <div className="w-2 h-2 rounded-full bg-[#0077B6]"></div>
+                    <span className="text-gray-700">Historial completo</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <div className="w-2 h-2 rounded-full bg-[#10B981]"></div>
+                    <span className="text-gray-700">
+                      Estadísticas detalladas
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <div className="w-2 h-2 rounded-full bg-[#0077B6]"></div>
+                    <span className="text-gray-700">Exportar reportes</span>
+                  </div>
+                </div>
+                <Link
+                  href="/ia/autor/herramientas/consulta-nota"
+                  className="inline-flex items-center gap-2 w-full justify-center bg-gradient-to-r from-[#0077B6] to-[#10B981] text-white font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-opacity"
+                >
+                  <FileText className="w-4 h-4" />
+                  Consultar Notas
+                </Link>
+              </article>
+
+              {/* Ruleta Académica */}
+              <article className="bg-white rounded-2xl p-6 border border-gray-200 hover:border-[#0077B6] transition-all duration-300 hover:shadow-lg group">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-[#10B981] to-[#0077B6] flex items-center justify-center">
+                    <RotateCcw className="w-6 h-6 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold group-hover:text-[#0077B6] transition-colors text-[#0D161C]">
+                    Ruleta Académica
+                  </h3>
+                </div>
+                <p className="text-gray-600 mb-6 leading-relaxed">
+                  Carga preguntas desde CSV/Excel y juega con una ruleta
+                  interactiva para dinámicas de clase.
+                </p>
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-center gap-2 text-sm">
+                    <div className="w-2 h-2 rounded-full bg-[#10B981]"></div>
+                    <span className="text-gray-700">Carga CSV/XLSX</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <div className="w-2 h-2 rounded-full bg-[#0077B6]"></div>
+                    <span className="text-gray-700">Ruleta animada</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <div className="w-2 h-2 rounded-full bg-[#10B981]"></div>
+                    <span className="text-gray-700">Guarda conjuntos</span>
+                  </div>
+                </div>
+                <Link
+                  href="/ia/autor/herramientas/ruleta-academica"
+                  className="inline-flex items-center gap-2 w-full justify-center bg-gradient-to-r from-[#10B981] to-[#0077B6] text-white font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-opacity"
+                >
+                  <RotateCcw className="w-4 h-4" />
+                  Abrir Ruleta
+                </Link>
+              </article>
+
+              {/* Aula Score */}
+              <article className="bg-white rounded-2xl p-6 border border-gray-200 hover:border-[#0077B6] transition-all duration-300 hover:shadow-lg group">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-[#0077B6] to-[#10B981] flex items-center justify-center">
+                    <TrendingUp className="w-6 h-6 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold group-hover:text-[#0077B6] transition-colors text-[#0D161C]">
+                    Aula Score
+                  </h3>
+                </div>
+                <p className="text-gray-600 mb-6 leading-relaxed">
+                  Scoreboard interactivo para gamificación en clase. Controla
+                  grupos, puntos y tiempo en tiempo real.
+                </p>
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-center gap-2 text-sm">
+                    <div className="w-2 h-2 rounded-full bg-[#0077B6]"></div>
+                    <span className="text-gray-700">Hasta 30 grupos</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <div className="w-2 h-2 rounded-full bg-[#10B981]"></div>
+                    <span className="text-gray-700">Temporizador</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <div className="w-2 h-2 rounded-full bg-[#0077B6]"></div>
+                    <span className="text-gray-700">Tema claro/oscuro</span>
+                  </div>
+                </div>
+                <Link
+                  href="/ia/autor/herramientas/aula-score"
+                  className="inline-flex items-center gap-2 w-full justify-center bg-gradient-to-r from-[#0077B6] to-[#10B981] text-white font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-opacity"
+                >
+                  <TrendingUp className="w-4 h-4" />
+                  Abrir Aula Score
+                </Link>
+              </article>
             </div>
           </div>
         </section>
