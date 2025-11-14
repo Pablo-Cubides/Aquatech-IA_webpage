@@ -347,11 +347,11 @@ export default function IAAutorPage() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative">
             <div className="lg:col-span-7">
               {/* Logo Aquatech */}
-              <div className="mb-6">
+              <div className="mb-8">
                 <img
-                  src="/images/Logo Aquatech - IA 512 - sin fondo.png"
+                  src="/images/Portal IA/Aquatech-ia logo light 512.png"
                   alt="Aquatech IA"
-                  className="h-16 w-16 object-contain drop-shadow-lg"
+                  className="h-20 w-auto object-contain drop-shadow-[0_0_20px_rgba(0,239,255,0.5)]"
                 />
               </div>
               

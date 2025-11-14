@@ -39,11 +39,11 @@ export default function AmbientalPage() {
         <div className="container relative mx-auto px-4">
           <div className="mx-auto max-w-4xl">
             {/* Logo */}
-            <div className="mb-8 flex justify-center">
+            <div className="mb-12 flex justify-center">
               <img
-                src="/images/Portal ambiental/Aquatech IA - Logo Blanco-1.png"
+                src="/images/Portal ambiental/Aquatech-ia logo dark 512.png"
                 alt="Aquatech Ambiental Logo"
-                className="h-24 w-24 object-contain drop-shadow-lg"
+                className="h-32 w-auto object-contain drop-shadow-2xl"
               />
             </div>
             

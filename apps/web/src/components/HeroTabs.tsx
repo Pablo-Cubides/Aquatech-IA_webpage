@@ -22,11 +22,11 @@ export default function HeroTabs({ knowledge }: HeroTabsProps) {
       <div className="bg-white rounded-lg shadow p-8">
         <div className="text-center max-w-4xl mx-auto">
           {/* Logo */}
-          <div className="mb-6">
+          <div className="mb-8">
             <img
-              src="/images/Portal ambiental/Aquatech IA - Logo Blanco-1.png"
+              src="/images/Portal ambiental/Aquatech-ia logo dark 512.png"
               alt="Aquatech IA"
-              className="h-14 w-14 object-contain drop-shadow-lg mx-auto"
+              className="h-16 w-auto object-contain drop-shadow-xl mx-auto"
             />
           </div>
           <h1 className="text-4xl font-bold mb-4">EIA Matrix Studio</h1>

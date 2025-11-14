@@ -9,11 +9,11 @@ export default function Home() {
     <CasosProvider>
       <main style={{ minHeight: '100vh', padding: 0 }}>
         {/* Logo */}
-        <div style={{ textAlign: 'center', margin: '1.5rem 0' }}>
+        <div style={{ textAlign: 'center', margin: '2rem 0 1rem' }}>
           <img
-            src="/images/Logo Aquatech - IA 512 - sin fondo.png"
+            src="/images/Portal IA/Aquatech-ia logo light 512.png"
             alt="Aquatech IA"
-            style={{ height: '56px', width: '56px', objectFit: 'contain', filter: 'drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1))' }}
+            style={{ height: 'auto', width: '80px', objectFit: 'contain', filter: 'drop-shadow(0 0 15px rgba(0, 239, 255, 0.4))' }}
           />
         </div>
         <h1 style={{ textAlign: 'center', color: '#1976d2', margin: '2rem 0 1rem' }}>

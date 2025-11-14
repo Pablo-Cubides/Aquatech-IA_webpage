@@ -133,11 +133,11 @@ export default function InicioPage() {
   return (
     <div className="flex flex-col items-center gap-8 py-12 w-full container-primary">
       {/* Logo */}
-      <div className="mb-4">
+      <div className="mb-6">
         <img
-          src="/images/Logo Aquatech - IA 512 - sin fondo.png"
+          src="/images/Portal IA/Aquatech-ia logo light 512.png"
           alt="Aquatech IA"
-          className="h-14 w-14 object-contain drop-shadow-lg"
+          className="h-16 w-auto object-contain drop-shadow-[0_0_15px_rgba(0,239,255,0.4)]"
         />
       </div>
       <h1 className="heading-primary">

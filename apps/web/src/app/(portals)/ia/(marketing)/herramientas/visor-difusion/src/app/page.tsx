@@ -326,11 +326,11 @@ export default function Home() {
     <div className="min-h-screen bg-[#0A0E27] text-[#FFFFFF] flex flex-col p-4 sm:p-6 lg:p-8 font-sans">
       <header className="text-center mb-8">
         {/* Logo */}
-        <div className="mb-6">
+        <div className="mb-8">
           <img
-            src="/images/Logo Aquatech - IA 512 - sin fondo.png"
+            src="/images/Portal IA/Aquatech-ia logo light 512.png"
             alt="Aquatech IA"
-            className="h-14 w-14 object-contain drop-shadow-lg mx-auto"
+            className="h-16 w-auto object-contain drop-shadow-[0_0_20px_rgba(0,239,255,0.5)] mx-auto"
           />
         </div>
         <h1 className="text-5xl font-bold bg-gradient-to-r from-[#00D4FF] via-[#00FF88] to-[#FFB700] bg-clip-text text-transparent drop-shadow-lg">

@@ -37,11 +37,11 @@ export default function IAPage() {
         <div className="container relative mx-auto px-4">
           <div className="mx-auto max-w-4xl">
             {/* Logo */}
-            <div className="mb-8 flex justify-center">
+            <div className="mb-12 flex justify-center">
               <img
-                src="/images/Logo Aquatech - IA 512 - sin fondo.png"
+                src="/images/Portal IA/Aquatech-ia logo light 512.png"
                 alt="Aquatech IA Logo"
-                className="h-24 w-24 object-contain drop-shadow-lg"
+                className="h-32 w-auto object-contain drop-shadow-[0_0_25px_rgba(0,239,255,0.6)]"
               />
             </div>
             

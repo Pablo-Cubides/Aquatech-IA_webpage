@@ -11,21 +11,13 @@ export default function HeaderAmbiental() {
     <header className="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-blue-600/20 bg-white/80 px-10 py-3 backdrop-blur-md transition-all duration-300">
       <div className="flex items-center gap-6">
         {/* Logo y nombre */}
-        <div className="flex items-center gap-2 transition-transform duration-300 hover:scale-105">
-          <div className="rounded-full bg-blue-600 p-2 shadow-lg shadow-blue-500/50">
-            <svg
-              className="h-6 w-6 text-white"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-            </svg>
-          </div>
-          <h1 className="text-xl font-bold text-black transition-colors duration-300 hover:text-blue-600">
-            Aquatech IA
-          </h1>
-        </div>
+        <Link href="/ambiental" className="transition-transform duration-300 hover:scale-105">
+          <img
+            src="/images/Portal ambiental/Nombre Aquatech IA dark.png"
+            alt="Aquatech IA"
+            className="h-8 w-auto object-contain"
+          />
+        </Link>
 
         {/* Selector de portales */}
         <div className="flex h-9 items-center justify-center rounded-full bg-gray-100 p-1 text-sm border border-gray-300">
