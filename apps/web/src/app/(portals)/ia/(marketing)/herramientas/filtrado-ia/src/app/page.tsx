@@ -8,58 +8,89 @@ export default function Home() {
   return (
     <CasosProvider>
       <main style={{ minHeight: '100vh', padding: 0, background: 'linear-gradient(135deg, rgba(10, 10, 15, 1) 0%, rgba(19, 21, 34, 1) 100%)' }}>
-        {/* Enhanced Header */}
-        <div style={{ padding: '2rem 1rem', textAlign: 'center', borderBottom: '2px solid rgba(0, 239, 255, 0.3)' }}>
-          {/* Logo Section */}
-          <div style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+        {/* Premium Header */}
+        <div style={{
+          padding: '3rem 2rem',
+          background: 'linear-gradient(180deg, rgba(0, 239, 255, 0.08) 0%, transparent 100%)',
+          borderBottom: '2px solid rgba(0, 239, 255, 0.3)',
+          position: 'relative',
+          overflow: 'hidden'
+        }}>
+          {/* Decorative background elements */}
+          <div style={{
+            position: 'absolute',
+            top: -50,
+            right: -50,
+            width: 300,
+            height: 300,
+            background: 'radial-gradient(circle, rgba(0, 239, 255, 0.1) 0%, transparent 70%)',
+            borderRadius: '50%',
+            pointerEvents: 'none'
+          }} />
+          <div style={{
+            position: 'absolute',
+            bottom: -100,
+            left: -100,
+            width: 400,
+            height: 400,
+            background: 'radial-gradient(circle, rgba(0, 149, 255, 0.08) 0%, transparent 70%)',
+            borderRadius: '50%',
+            pointerEvents: 'none'
+          }} />
+          
+          {/* Logo Container */}
+          <div style={{ position: 'relative', zIndex: 1, marginBottom: '2rem' }}>
             <img
-              src="/images/portal-ia/herramientas/filtrado-ia-logo.png"
-              alt="FiltraIA"
+              src="/images/Portal IA/Herramientas/FiltrarIA.png"
+              alt="FiltrarIA"
               style={{
-                height: '50px',
+                height: '80px',
                 width: 'auto',
+                maxWidth: '100%',
                 objectFit: 'contain',
-                filter: 'drop-shadow(0 0 15px rgba(0, 239, 255, 0.4))'
+                filter: 'drop-shadow(0 0 20px rgba(0, 239, 255, 0.5)) drop-shadow(0 0 40px rgba(0, 149, 255, 0.3))',
+                margin: '0 auto',
+                display: 'block'
               }}
               onError={(e) => {
+                console.error('Error loading FiltrarIA logo');
                 (e.target as HTMLImageElement).style.display = 'none'
               }}
             />
-            <div style={{
-              fontSize: '1.5rem',
-              fontWeight: '300',
-              color: 'rgba(200, 200, 200, 0.6)',
-              letterSpacing: '1px'
-            }}>|</div>
-            <h1 style={{
-              fontSize: '2.5rem',
-              fontWeight: '800',
-              margin: 0,
-              background: 'linear-gradient(135deg, #00efff 0%, #0095ff 50%, #10b981 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              textShadow: '0 0 30px rgba(0, 239, 255, 0.1)'
-            }}>
-              FiltraIA
-            </h1>
           </div>
+
           {/* Subtitle */}
-          <p style={{
-            fontSize: '1.1rem',
-            color: 'rgba(200, 220, 255, 0.8)',
-            margin: '0.5rem 0 0 0',
-            fontWeight: '300',
-            letterSpacing: '0.5px'
-          }}>
-            Casos Reales y Riesgos del Entrenamiento de IA
-          </p>
+          <div style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
+            <p style={{
+              fontSize: '1.2rem',
+              color: 'rgba(0, 239, 255, 0.9)',
+              margin: '1rem 0 0 0',
+              fontWeight: '400',
+              letterSpacing: '0.8px',
+              textTransform: 'uppercase'
+            }}>
+              Casos Reales y Riesgos del Entrenamiento de IA
+            </p>
+            <p style={{
+              fontSize: '0.9rem',
+              color: 'rgba(200, 220, 255, 0.7)',
+              margin: '0.5rem 0 0 0',
+              fontWeight: '300',
+              letterSpacing: '0.3px'
+            }}>
+              Explora cómo los filtros de seguridad protegen a los usuarios de contenido peligroso
+            </p>
+          </div>
+
           {/* Decorative gradient line */}
           <div style={{
-            height: '2px',
+            position: 'relative',
+            zIndex: 1,
+            height: '3px',
             background: 'linear-gradient(90deg, transparent 0%, #00efff 25%, #0095ff 50%, #10b981 75%, transparent 100%)',
-            marginTop: '1.5rem',
-            borderRadius: '1px'
+            marginTop: '2rem',
+            borderRadius: '2px',
+            boxShadow: '0 0 20px rgba(0, 239, 255, 0.5)'
           }} />
         </div>
         
