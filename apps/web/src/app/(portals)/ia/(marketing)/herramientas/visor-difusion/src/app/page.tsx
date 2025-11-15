@@ -324,21 +324,34 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#0A0E27] text-[#FFFFFF] flex flex-col p-4 sm:p-6 lg:p-8 font-sans">
-      <header className="text-center mb-8">
-        {/* Logo */}
-        <div className="mb-8">
+      <header className="text-center mb-8 pb-8 border-b-2 border-[#00D4FF]/20">
+        {/* Logo and Title Container */}
+        <div className="mb-8 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+          {/* PixelGen Logo */}
           <img
-            src="/images/Portal IA/Aquatech-ia logo light 512.png"
-            alt="Aquatech IA"
-            className="h-16 w-auto object-contain drop-shadow-[0_0_20px_rgba(0,239,255,0.5)] mx-auto"
+            src="/images/portal-ia/herramientas/pixelgen-logo.png"
+            alt="PixelGen"
+            className="h-14 sm:h-16 w-auto object-contain drop-shadow-[0_0_20px_rgba(0,239,255,0.5)] flex-shrink-0"
+            onError={(e) => {
+              (e.target as HTMLImageElement).style.display = 'none'
+            }}
           />
+          {/* Separator */}
+          <div className="hidden sm:block w-px h-12 bg-gradient-to-b from-transparent via-[#00D4FF]/50 to-transparent" />
+          {/* Title */}
+          <div className="flex-1">
+            <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-[#00D4FF] via-[#00FF88] to-[#FFB700] bg-clip-text text-transparent drop-shadow-lg leading-tight">
+              PixelGen
+            </h1>
+            <p className="text-base sm:text-lg font-medium text-[#00D4FF] mt-1 tracking-wide">
+              Visor del Proceso de Difusión
+            </p>
+          </div>
         </div>
-        <h1 className="text-5xl font-bold bg-gradient-to-r from-[#00D4FF] via-[#00FF88] to-[#FFB700] bg-clip-text text-transparent drop-shadow-lg">
-          Visor del Proceso de Difusión
-        </h1>
-        <p className="text-lg text-[#E8F0FF] mt-3 max-w-2xl mx-auto">
-          Una herramienta educativa para visualizar cómo la IA genera imágenes
-          mediante el proceso de difusión, paso a paso.
+        {/* Description */}
+        <p className="text-base sm:text-lg text-[#E8F0FF] mt-6 max-w-3xl mx-auto leading-relaxed">
+          Una herramienta educativa interactiva para visualizar cómo la IA genera imágenes
+          mediante el proceso de difusión, transformando ruido en arte paso a paso.
         </p>
       </header>
 
