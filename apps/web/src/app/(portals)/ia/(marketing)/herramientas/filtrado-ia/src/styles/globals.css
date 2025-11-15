@@ -1,20 +1,29 @@
 body {
   font-family: "Inter", Arial, sans-serif;
-  background: #000000;
+  background: linear-gradient(135deg, #000000 0%, #0a0a0f 50%, #131522 100%);
   color: #ffffff;
   margin: 0;
   padding: 0;
+  min-height: 100vh;
 }
 
 .case-btn:focus {
   outline: 2px solid #00efff;
+  box-shadow: 0 0 15px rgba(0, 239, 255, 0.8);
 }
 
 ::-webkit-scrollbar {
   width: 8px;
-  background: #000000;
+  background: #0a0a0f;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 239, 255, 0.05);
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #00efff;
+  background: rgba(0, 239, 255, 0.3);
   border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #00efff;
 }
