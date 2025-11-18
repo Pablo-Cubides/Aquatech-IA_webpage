@@ -20,31 +20,105 @@ interface LogContext {
   [key: string]: any;
 }
 
+interface QueuedLog {
+  level: LogLevel;
+  message: string;
+  context?: LogContext;
+  timestamp: Date;
+}
+
 class Logger {
+  private queue: QueuedLog[] = [];
+  private flushInterval: NodeJS.Timeout | null = null;
+  private readonly BATCH_SIZE = 50;
+  private readonly FLUSH_INTERVAL_MS = 5000; // 5 seconds
+  private isFlushing = false;
+
+  constructor() {
+    // Start flush interval
+    this.startFlushInterval();
+
+    // Flush on process exit
+    if (typeof process !== "undefined") {
+      process.on("beforeExit", () => this.flushSync());
+      process.on("SIGINT", () => {
+        this.flushSync();
+        process.exit(0);
+      });
+      process.on("SIGTERM", () => {
+        this.flushSync();
+        process.exit(0);
+      });
+    }
+  }
+
+  private startFlushInterval() {
+    if (this.flushInterval) return;
+
+    this.flushInterval = setInterval(() => {
+      this.flush().catch(console.error);
+    }, this.FLUSH_INTERVAL_MS);
+
+    // Don't keep process alive just for logging
+    if (this.flushInterval.unref) {
+      this.flushInterval.unref();
+    }
+  }
+
+  private async flush(): Promise<void> {
+    if (this.isFlushing || this.queue.length === 0) return;
+
+    this.isFlushing = true;
+    const logsToFlush = this.queue.splice(0, this.BATCH_SIZE);
+
+    try {
+      // Batch insert to database
+      await prisma.systemLog.createMany({
+        data: logsToFlush.map((log) => ({
+          level: log.level,
+          message: log.message,
+          context: log.context || {},
+          traceId: log.context?.traceId,
+          userId: log.context?.userId,
+          ipAddress: log.context?.ipAddress,
+          userAgent: log.context?.userAgent,
+          endpoint: log.context?.endpoint,
+          method: log.context?.method,
+          statusCode: log.context?.statusCode,
+          duration: log.context?.duration,
+          createdAt: log.timestamp,
+        })),
+        skipDuplicates: true,
+      });
+
+      // If there are more logs, schedule another flush immediately
+      if (this.queue.length > 0) {
+        setImmediate(() => this.flush());
+      }
+    } catch (error) {
+      console.error("Failed to flush logs to database:", error);
+      // Re-add logs to queue for retry (at the beginning)
+      this.queue.unshift(...logsToFlush);
+    } finally {
+      this.isFlushing = false;
+    }
+  }
+
+  private flushSync(): void {
+    // Synchronous flush on exit (best effort)
+    if (this.queue.length === 0) return;
+
+    console.log(`[Logger] Flushing ${this.queue.length} remaining logs...`);
+    // In production, you might want to use a synchronous logging service here
+  }
+
   private async log(
     level: LogLevel,
     message: string,
     context?: LogContext,
   ): Promise<void> {
     try {
-      // Log to database
-      await prisma.systemLog.create({
-        data: {
-          level,
-          message,
-          context: context || {},
-          traceId: context?.traceId,
-          userId: context?.userId,
-          ipAddress: context?.ipAddress,
-          userAgent: context?.userAgent,
-          endpoint: context?.endpoint,
-          method: context?.method,
-          statusCode: context?.statusCode,
-          duration: context?.duration,
-        },
-      });
-
-      // Also log to console for development
+      // Always log to console in development
       if (process.env.NODE_ENV === "development") {
         const logMethod =
           level === LogLevel.ERROR || level === LogLevel.FATAL
@@ -55,9 +129,28 @@ class Logger {
 
         logMethod(`[${level}]`, message, context || {});
       }
+
+      // Add to queue for batch processing
+      this.queue.push({
+        level,
+        message,
+        context,
+        timestamp: new Date(),
+      });
+
+      // Immediate flush for critical errors
+      if (level === LogLevel.FATAL || level === LogLevel.ERROR) {
+        await this.flush();
+      }
+
+      // Flush if queue is getting large
+      if (this.queue.length >= this.BATCH_SIZE) {
+        // Don't await - let it flush asynchronously
+        this.flush().catch(console.error);
+      }
     } catch (error) {
-      // Fallback to console if database logging fails
-      console.error("Failed to log to database:", error);
+      // Fallback to console if queueing fails
+      console.error("Failed to queue log:", error);
       console.log(`[${level}]`, message, context || {});
     }
   }
@@ -107,6 +200,11 @@ class Logger {
       statusCode,
       duration,
     });
+  }
+
+  // Manual flush method for testing or shutdown
+  async forceFlush(): Promise<void> {
+    await this.flush();
   }
 }
 

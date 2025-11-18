@@ -87,7 +87,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     className="group block bg-[var(--bg-tertiary)] border border-[var(--border-secondary)] rounded-xl overflow-hidden hover:border-[var(--accent-primary)] transition-colors"
   >
     <div className="aspect-video bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] relative">
-      <div className="absolute inset-0 flex items-center justify-center text-white font-semibold">
+      <div className="absolute inset-0 flex items-center justify-center font-semibold text-white">
         Proyecto IA
       </div>
     </div>
@@ -115,11 +115,11 @@ const ProjectWide: React.FC<ProjectWideProps> = ({
     >
       <div className="flex flex-col lg:flex-row">
         <div className="lg:w-1/2 aspect-video lg:aspect-auto bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] relative">
-          <div className="absolute inset-0 flex items-center justify-center text-white font-semibold">
+          <div className="absolute inset-0 flex items-center justify-center font-semibold text-white">
             {title}
           </div>
         </div>
-        <div className="lg:w-1/2 p-8">
+        <div className="p-8 lg:w-1/2">
           <span className="inline-block px-3 py-1 bg-[var(--accent-primary)] text-white text-sm font-medium rounded-full mb-4">
             {badge}
           </span>
@@ -169,8 +169,8 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 );
 
 const Faq: React.FC<FaqProps> = ({ q, a }) => (
-  <details className="group p-6">
-    <summary className="flex items-center justify-between cursor-pointer list-none">
+  <details className="p-6 group">
+    <summary className="flex items-center justify-between list-none cursor-pointer">
       <h3 className="text-lg font-semibold text-[var(--text-primary)] group-open:text-[var(--accent-primary)] transition-colors">
         {q}
       </h3>
@@ -184,9 +184,9 @@ const Faq: React.FC<FaqProps> = ({ q, a }) => (
 
 export const metadata: Metadata = {
   title:
-    "Pablo Andrés Cubides Guerrero — Autor en IA, redes neuronales y optimización | AquatechIA",
+    "Pablo Cubides — Autor en IA, redes neuronales y optimización | AquatechIA",
   description:
-    "Perfil de autor en IA de Pablo A. Cubides en AquatechIA. Desarrollador full-stack (FastAPI + Next.js), LLMs, RAG, agentes, modelos generativos y visión por computador. Dirección técnica, docencia y transferencia en LATAM.",
+    "Perfil de autor en IA de Pablo Cubides en AquatechIA. Desarrollador full-stack (FastAPI + Next.js), LLMs, RAG, agentes, modelos generativos y visión por computador. Dirección técnica, docencia y transferencia en LATAM.",
   alternates: { canonical: "/ia/autor" },
   openGraph: {
     title:
@@ -206,7 +206,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pablo A. Cubides — IA, redes neuronales y desarrollo full-stack",
+    title: "Pablo Cubides — IA, redes neuronales y desarrollo full-stack",
     description:
       "Prototipos con LLMs y agentes, FastAPI + Next.js, DevOps ligero en Vercel, analítica y optimización.",
   },
@@ -216,7 +216,7 @@ export default function IAAutorPage() {
   const personJsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: "Pablo Andrés Cubides Guerrero",
+    name: "Pablo Cubides",
     jobTitle:
       "Desarrollador en IA, redes neuronales y optimización · Docente universitario",
     email: "mailto:pacubidesg@gmail.com",
@@ -296,7 +296,7 @@ export default function IAAutorPage() {
       <main className="body-font bg-[#000000] text-[#CCCCCC]">
         {/* Header con breadcrumb */}
         <header className="bg-[#000000]/80 backdrop-blur border-b border-[rgba(0,239,255,0.1)] sticky top-0 z-40">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               <nav aria-label="Breadcrumb" className="text-sm">
                 <ol className="flex items-center space-x-2">
@@ -344,28 +344,28 @@ export default function IAAutorPage() {
             <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-[#0095FF] rounded-full blur-3xl opacity-20"></div>
           </div>
 
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative">
+          <div className="relative grid items-center grid-cols-1 gap-10 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 lg:grid-cols-12">
             <div className="lg:col-span-7">
               {/* Logo Aquatech */}
               <div className="mb-8">
                 <img
                   src="/images/Portal IA/Aquatech-ia logo light 512.png"
                   alt="Aquatech IA"
-                  className="h-40 w-auto object-contain"
+                  className="object-contain w-auto h-40"
                 />
               </div>
 
               <div className="mb-4">
-                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium tech-gradient text-white">
+                <span className="inline-flex items-center px-3 py-1 text-sm font-medium text-white rounded-full tech-gradient">
                   <Cpu className="w-4 h-4 mr-1" />
                   IA Specialist
                 </span>
               </div>
 
-              <h1 className="title-font text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
-                Pablo Andrés Cubides Guerrero
+              <h1 className="text-4xl font-bold leading-tight text-white title-font md:text-5xl lg:text-6xl">
+                Pablo Cubides
               </h1>
-              <p className="mt-3 text-lg md:text-xl text-white font-medium">
+              <p className="mt-3 text-lg font-medium text-white md:text-xl">
                 Ingeniero Químico · M. Sc. en Ingeniería Ambiental · Docente
                 universitario · Desarrollador en IA, redes neuronales y
                 optimización
@@ -379,10 +379,10 @@ export default function IAAutorPage() {
                 funcionales.
               </p>
 
-              <div className="mt-6 flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col gap-3 mt-6 sm:flex-row">
                 <a
                   href="mailto:pacubidesg@gmail.com"
-                  className="inline-flex items-center justify-center rounded-lg tech-gradient px-6 py-3 font-semibold text-white hover:opacity-90 transition-opacity glow-effect"
+                  className="inline-flex items-center justify-center px-6 py-3 font-semibold text-white transition-opacity rounded-lg tech-gradient hover:opacity-90 glow-effect"
                 >
                   <Mail className="w-5 h-5 mr-2" />
                   Contactar
@@ -406,7 +406,7 @@ export default function IAAutorPage() {
               </div>
 
               {/* Tech Stack Tags */}
-              <div className="mt-8 flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2 mt-8">
                 {[
                   "Python 3.13.3",
                   "FastAPI",
@@ -427,7 +427,7 @@ export default function IAAutorPage() {
               </div>
             </div>
 
-            <div className="lg:col-span-5 flex justify-center lg:justify-end">
+            <div className="flex justify-center lg:col-span-5 lg:justify-end">
               <div className="relative">
                 <Image
                   src="/images/Portal IA/Autor/Pablo Cubides.png"
@@ -444,9 +444,9 @@ export default function IAAutorPage() {
 
         {/* SOBRE EL AUTOR */}
         <section className="py-16 md:py-24 bg-[#000000]">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-10 items-center">
+          <div className="grid items-center gap-10 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 lg:grid-cols-12">
             <div className="lg:col-span-7">
-              <h2 className="title-font text-3xl md:text-4xl mb-6 text-white">
+              <h2 className="mb-6 text-3xl text-white title-font md:text-4xl">
                 Resumen ejecutivo
               </h2>
               <div className="space-y-4 text-[#CCCCCC] leading-relaxed">
@@ -460,10 +460,10 @@ export default function IAAutorPage() {
                 </p>
 
                 <div className="bg-gradient-to-r from-[rgba(0,239,255,0.1)] to-[rgba(0,149,255,0.1)] border border-[rgba(0,239,255,0.2)] rounded-lg p-4 mt-6">
-                  <h3 className="title-font text-lg font-semibold text-white mb-3">
+                  <h3 className="mb-3 text-lg font-semibold text-white title-font">
                     Lo que aporto a equipos y organizaciones
                   </h3>
-                  <ul className="list-disc ml-5 space-y-2 text-sm">
+                  <ul className="ml-5 space-y-2 text-sm list-disc">
                     <li>
                       <strong>Solución de problemas con IA:</strong> del caso de
                       uso al prototipo (APIs en FastAPI, UIs en Next.js,
@@ -493,7 +493,7 @@ export default function IAAutorPage() {
                   alt="Pablo Cubides trabajando en arquitecturas de IA"
                   width={600}
                   height={400}
-                  className="object-cover h-full w-full"
+                  className="object-cover w-full h-full"
                 />
               </div>
             </div>
@@ -502,12 +502,12 @@ export default function IAAutorPage() {
 
         {/* COMPETENCIAS CLAVE */}
         <section className="py-16 md:py-24">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <h2 className="title-font text-3xl md:text-4xl text-white text-center mb-10">
+          <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <h2 className="mb-10 text-3xl text-center text-white title-font md:text-4xl">
               Competencias clave en IA
             </h2>
 
-            <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-10">
+            <div className="flex flex-wrap justify-center gap-2 mb-10 md:gap-3">
               {[
                 "LLMs",
                 "RAG",
@@ -534,7 +534,7 @@ export default function IAAutorPage() {
               ))}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
               <ExpertiseCard
                 icon={<Brain className="w-6 h-6" />}
                 title="LLMs, RAG y agentes"
@@ -556,12 +556,12 @@ export default function IAAutorPage() {
 
         {/* PROYECTOS DE IA */}
         <section className="py-16 md:py-24 bg-[#000000]">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <h2 className="title-font text-3xl md:text-4xl text-white text-center mb-12">
+          <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <h2 className="mb-12 text-3xl text-center text-white title-font md:text-4xl">
               Proyectos y desarrollos de IA
             </h2>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
               <ProjectWide
                 badge="HUB EDUCATIVO IA (2025–)"
                 title="AquatechIA Platform"
@@ -590,11 +590,11 @@ export default function IAAutorPage() {
 
         {/* STACK TECNOLÓGICO */}
         <section className="py-16 md:py-24">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <h2 className="title-font text-3xl md:text-4xl text-white text-center mb-12">
+          <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <h2 className="mb-12 text-3xl text-center text-white title-font md:text-4xl">
               Stack tecnológico IA
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
               <StackCard
                 icon={<Code className="w-6 h-6" />}
                 title="Lenguajes & Framework"
@@ -616,12 +616,12 @@ export default function IAAutorPage() {
 
         {/* ARTÍCULOS DESTACADOS */}
         <section id="articulos" className="py-16 md:py-24 bg-[#000000]">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <h2 className="title-font text-3xl md:text-4xl text-white text-center mb-12">
+          <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <h2 className="mb-12 text-3xl text-center text-white title-font md:text-4xl">
               Artículos recientes sobre IA
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+            <div className="grid grid-cols-1 gap-8 mb-8 md:grid-cols-2 lg:grid-cols-3">
               <ArticleCard
                 title="Cómo funcionan los LLMs: Guía completa"
                 excerpt="Explicación detallada de la arquitectura Transformer, attention mechanisms y el proceso de entrenamiento de modelos de lenguaje."
@@ -648,7 +648,7 @@ export default function IAAutorPage() {
             <div className="text-center">
               <Link
                 href="/ia/blog?autor=pablo-cubides"
-                className="inline-flex items-center gap-2 px-6 py-3 tech-gradient text-white font-semibold rounded-lg hover:opacity-90 transition-opacity glow-effect"
+                className="inline-flex items-center gap-2 px-6 py-3 font-semibold text-white transition-opacity rounded-lg tech-gradient hover:opacity-90 glow-effect"
               >
                 Ver todos los artículos de IA
                 <ArrowRight className="w-4 h-4" />
@@ -659,8 +659,8 @@ export default function IAAutorPage() {
 
         {/* FAQ */}
         <section className="py-16 md:py-24">
-          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-            <h2 className="title-font text-3xl md:text-4xl text-white text-center mb-10">
+          <div className="max-w-4xl px-4 mx-auto sm:px-6 lg:px-8">
+            <h2 className="mb-10 text-3xl text-center text-white title-font md:text-4xl">
               Preguntas frecuentes sobre IA
             </h2>
             <div className="divide-y divide-[rgba(0,239,255,0.1)] rounded-xl border border-[rgba(0,239,255,0.1)] bg-[#10111A]">
@@ -682,9 +682,9 @@ export default function IAAutorPage() {
 
         {/* HERRAMIENTAS ESTUDIANTILES */}
         <section className="py-16 md:py-24 bg-[#000000]">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <h2 className="title-font text-3xl md:text-4xl mb-4">
+          <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div className="mb-12 text-center">
+              <h2 className="mb-4 text-3xl title-font md:text-4xl">
                 Herramientas para Estudiantes
               </h2>
               <p className="text-[#CCCCCC] max-w-2xl mx-auto">
@@ -693,7 +693,7 @@ export default function IAAutorPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div className="grid max-w-5xl grid-cols-1 gap-8 mx-auto md:grid-cols-2 lg:grid-cols-3">
               {/* Consulta tu Nota */}
               <article className="bg-[#10111A] rounded-2xl p-6 border border-[rgba(0,239,255,0.1)] hover:border-[#00efff] transition-all duration-300 hover:shadow-lg group">
                 <div className="flex items-center gap-3 mb-4">
@@ -708,7 +708,7 @@ export default function IAAutorPage() {
                   Revisa tus calificaciones, progreso y retroalimentación de
                   manera rápida y organizada.
                 </p>
-                <div className="space-y-3 mb-6">
+                <div className="mb-6 space-y-3">
                   <div className="flex items-center gap-2 text-sm">
                     <div className="w-2 h-2 rounded-full bg-[#00efff]"></div>
                     <span>Historial completo</span>
@@ -745,7 +745,7 @@ export default function IAAutorPage() {
                   Carga preguntas desde CSV/Excel y juega con una ruleta
                   interactiva para dinámicas de clase.
                 </p>
-                <div className="space-y-3 mb-6">
+                <div className="mb-6 space-y-3">
                   <div className="flex items-center gap-2 text-sm">
                     <div className="w-2 h-2 rounded-full bg-[#0095FF]"></div>
                     <span>Carga CSV/XLSX</span>
@@ -782,7 +782,7 @@ export default function IAAutorPage() {
                   Scoreboard interactivo para gamificación en clase. Controla
                   grupos, puntos y tiempo en tiempo real.
                 </p>
-                <div className="space-y-3 mb-6">
+                <div className="mb-6 space-y-3">
                   <div className="flex items-center gap-2 text-sm">
                     <div className="w-2 h-2 rounded-full bg-[#00efff]"></div>
                     <span>Hasta 30 grupos</span>
@@ -809,13 +809,13 @@ export default function IAAutorPage() {
         </section>
 
         {/* CTA COLABORACIÓN */}
-        <section className="py-16 md:py-24 tech-gradient text-white relative overflow-hidden">
+        <section className="relative py-16 overflow-hidden text-white md:py-24 tech-gradient">
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
           </div>
 
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center relative">
-            <h2 className="title-font text-3xl md:text-4xl mb-4">
+          <div className="relative px-4 mx-auto text-center max-w-7xl sm:px-6 lg:px-8">
+            <h2 className="mb-4 text-3xl title-font md:text-4xl">
               ¿Construimos tu MVP de IA?
             </h2>
             <p className="max-w-2xl mx-auto mb-8 text-white/90">
@@ -823,7 +823,7 @@ export default function IAAutorPage() {
               modernas de IA. Hablemos de tu caso de uso y de cómo ponerlo en
               producción con LLMs, RAG y agentes inteligentes.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <div className="flex flex-col justify-center gap-3 sm:flex-row">
               <a
                 href="mailto:pacubidesg@gmail.com"
                 className="inline-flex items-center justify-center rounded-lg bg-white px-8 py-3 font-bold text-[var(--accent-purple)] hover:bg-gray-100 transition-colors"
@@ -835,7 +835,7 @@ export default function IAAutorPage() {
                 href="https://www.linkedin.com/in/pacubidesg"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center rounded-lg border border-white px-8 py-3 font-bold text-white hover:bg-white/10 transition-colors"
+                className="inline-flex items-center justify-center px-8 py-3 font-bold text-white transition-colors border border-white rounded-lg hover:bg-white/10"
               >
                 <Linkedin className="w-5 h-5 mr-2" />
                 Conectar en LinkedIn

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
+import { parsePagination, createPaginatedResponse } from "@/lib/pagination";
 
 // Ensure DATABASE_URL is set
 if (!process.env.DATABASE_URL || process.env.DATABASE_URL === "file:./dev.db") {
@@ -64,6 +65,8 @@ function validateNoteData(data: any): { valid: boolean; errors: string[] } {
  * - university: string (optional) - filter by university
  * - course: string (optional) - filter by course
  * - code: string (optional) - search by student code
+ * - page: number (optional) - page number (default: 1)
+ * - limit: number (optional) - items per page (default: 50, max: 100)
  */
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -71,8 +74,13 @@ export async function GET(req: Request) {
   const course = searchParams.get("course")?.trim() || undefined;
   const code = searchParams.get("code")?.trim() || undefined;
 
+  const { skip, take, page, limit } = parsePagination({
+    page: searchParams.get("page"),
+    limit: searchParams.get("limit"),
+  });
+
   try {
-    // Search by code (most specific)
+    // Search by code (most specific) - no pagination for single result
     if (code) {
       const note = await prisma.note.findFirst({
         where: {
@@ -89,7 +97,7 @@ export async function GET(req: Request) {
       });
     }
 
-    // List courses for a university
+    // List courses for a university - no pagination for metadata
     if (university && !course) {
       const courses = await prisma.note.findMany({
         where: { university },
@@ -104,7 +112,7 @@ export async function GET(req: Request) {
       });
     }
 
-    // List universities (no filters)
+    // List universities (no filters) - no pagination for metadata
     if (!university) {
       const universities = await prisma.note.findMany({
         select: { university: true },
@@ -118,22 +126,25 @@ export async function GET(req: Request) {
       });
     }
 
-    // List all notes matching university + course
-    const notes = await prisma.note.findMany({
-      where: {
-        university,
-        ...(course && { course }),
-      },
-      orderBy: {
-        code: "asc",
-      },
-      take: 100,
-    });
+    // List all notes matching university + course - with pagination
+    const where = {
+      university,
+      ...(course && { course }),
+    };
 
-    return NextResponse.json({
-      notes,
-      count: notes.length,
-    });
+    const [notes, total] = await Promise.all([
+      prisma.note.findMany({
+        where,
+        orderBy: { code: "asc" },
+        skip,
+        take,
+      }),
+      prisma.note.count({ where }),
+    ]);
+
+    return NextResponse.json(
+      createPaginatedResponse(notes, total, page, limit),
+    );
   } catch (err: any) {
     console.error("[GET /api/notes] Error:", err);
     return NextResponse.json(

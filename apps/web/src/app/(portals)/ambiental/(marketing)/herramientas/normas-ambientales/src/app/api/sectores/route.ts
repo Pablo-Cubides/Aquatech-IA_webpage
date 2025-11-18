@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { logger } from "@/lib/logger";
+import { sectoresCache } from "@/lib/cache/redis-cache";
 import { SECTOR_NORMALIZATION_MAP } from "@/lib/types";
 import path from "path";
 import fs from "fs";
@@ -12,36 +13,6 @@ import {
 // Global declarations for Node.js environment
 declare const URL: typeof globalThis.URL;
 declare const process: typeof globalThis.process;
-
-// Enhanced in-memory cache
-interface CacheEntry {
-  ts: number;
-  value: unknown;
-  hits: number;
-}
-
-const cache = new Map<string, CacheEntry>();
-const TTL_MS = 1000 * 60 * 15; // 15 minutes
-const MAX_CACHE_SIZE = 100;
-
-function cleanupCache() {
-  if (cache.size < MAX_CACHE_SIZE) return;
-
-  const now = Date.now();
-  const entries = Array.from(cache.entries());
-
-  for (const [key, entry] of entries) {
-    if (now - entry.ts > TTL_MS) {
-      cache.delete(key);
-    }
-  }
-
-  if (cache.size >= MAX_CACHE_SIZE) {
-    const sorted = entries.sort((a, b) => a[1].hits - b[1].hits);
-    const toRemove = sorted.slice(0, Math.floor(MAX_CACHE_SIZE * 0.2));
-    toRemove.forEach(([key]) => cache.delete(key));
-  }
-}
 
 export async function GET(request: NextRequest) {
   try {
@@ -62,21 +33,18 @@ export async function GET(request: NextRequest) {
 
     const cacheKey = `sectors:${domain}:${country || "none"}`;
 
-    // Check cache first
-    const cached = cache.get(cacheKey);
-    if (cached && Date.now() - cached.ts < TTL_MS) {
-      cached.hits++;
-      logger.info("sectores:cache_hit", { cacheKey, hits: cached.hits });
+    // Check Redis cache first
+    const cached = await sectoresCache.get<unknown>(cacheKey);
+    if (cached) {
+      logger.info("sectores:cache_hit", { cacheKey });
 
-      return NextResponse.json(cached.value, {
+      return NextResponse.json(cached, {
         headers: {
           "Cache-Control": "public, s-maxage=900, stale-while-revalidate=1800",
           "X-Cache-Status": "HIT",
         },
       });
     }
-
-    cleanupCache();
 
     // If country is specified, read sectors from that country's JSON
     if (country) {

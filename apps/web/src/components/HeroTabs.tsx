@@ -19,21 +19,16 @@ export default function HeroTabs({ knowledge }: HeroTabsProps) {
 
   return (
     <div className="space-y-8">
-      <div className="bg-white rounded-lg shadow p-8">
-        <div className="text-center max-w-4xl mx-auto">
+      <div className="p-8 bg-white rounded-lg shadow">
+        <div className="max-w-4xl mx-auto text-center">
           {/* Logo */}
-          <div className="mb-8">
+          <div className="flex justify-center mb-8">
             <img
-              src="/images/Portal ambiental/Aquatech-ia logo dark 512.png"
-              alt="Aquatech IA"
-              className="h-16 w-auto object-contain drop-shadow-xl mx-auto"
+              src="/images/Portal ambiental/Herramientas/MatrizIA.png"
+              alt="Matriz IA"
+              className="object-contain w-auto h-64"
             />
           </div>
-          <h1 className="text-4xl font-bold mb-4">EIA Matrix Studio</h1>
-          <p className="text-xl text-gray-700 mb-8">
-            Herramienta educativa visual para aprender, construir y comparar
-            matrices de Evaluación de Impacto Ambiental paso a paso.
-          </p>
 
           <div className="flex justify-center gap-4 mb-8">
             <button
@@ -56,13 +51,13 @@ export default function HeroTabs({ knowledge }: HeroTabsProps) {
             </button>
           </div>
 
-          <div className="bg-gray-50 rounded-lg p-6 text-left">
+          <div className="p-6 text-left rounded-lg bg-gray-50">
             {tab === "fundamentos" && (
               <div>
-                <h3 className="text-2xl font-semibold mb-4">
+                <h3 className="mb-4 text-2xl font-semibold">
                   ¿Qué son las matrices de EIA?
                 </h3>
-                <div className="text-gray-700 leading-relaxed max-h-64 overflow-auto">
+                <div className="overflow-auto leading-relaxed text-gray-700 max-h-64">
                   {knowledge.fundamentos?.[0]?.text?.slice(0, 1500) ??
                     "Las matrices de Evaluación de Impacto Ambiental son herramientas sistemáticas que permiten identificar, valorar y comparar los efectos ambientales de un proyecto sobre los factores del medio ambiente."}
                 </div>
@@ -71,27 +66,27 @@ export default function HeroTabs({ knowledge }: HeroTabsProps) {
 
             {tab === "matrices" && (
               <div>
-                <h3 className="text-2xl font-semibold mb-4">
+                <h3 className="mb-4 text-2xl font-semibold">
                   Tipos de matrices EIA
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="border rounded-lg p-4">
-                    <h4 className="font-bold text-lg">Leopold</h4>
-                    <p className="text-sm text-gray-600 mt-2">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                  <div className="p-4 border rounded-lg">
+                    <h4 className="text-lg font-bold">Leopold</h4>
+                    <p className="mt-2 text-sm text-gray-600">
                       Matriz cuali-cuantitativa clásica. Magnitud (-10 a +10) e
                       Importancia (1-10).
                     </p>
                   </div>
-                  <div className="border rounded-lg p-4">
-                    <h4 className="font-bold text-lg">Conesa</h4>
-                    <p className="text-sm text-gray-600 mt-2">
+                  <div className="p-4 border rounded-lg">
+                    <h4 className="text-lg font-bold">Conesa</h4>
+                    <p className="mt-2 text-sm text-gray-600">
                       Evaluación multicriterio con 10 atributos. Más detallada y
                       precisa.
                     </p>
                   </div>
-                  <div className="border rounded-lg p-4">
-                    <h4 className="font-bold text-lg">Battelle-Columbus</h4>
-                    <p className="text-sm text-gray-600 mt-2">
+                  <div className="p-4 border rounded-lg">
+                    <h4 className="text-lg font-bold">Battelle-Columbus</h4>
+                    <p className="mt-2 text-sm text-gray-600">
                       Sistema por parámetros con UIP y calidades. Enfoque
                       cuantitativo.
                     </p>
@@ -102,7 +97,7 @@ export default function HeroTabs({ knowledge }: HeroTabsProps) {
 
             {tab === "casos" && (
               <div>
-                <h3 className="text-2xl font-semibold mb-4">
+                <h3 className="mb-4 text-2xl font-semibold">
                   Casos de estudio
                 </h3>
                 <p className="text-gray-700">
@@ -116,14 +111,14 @@ export default function HeroTabs({ knowledge }: HeroTabsProps) {
         </div>
       </div>
 
-      <div className="bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-lg p-8 text-center">
-        <h2 className="text-2xl font-bold mb-4">¿Listo para empezar?</h2>
-        <p className="text-lg mb-6">
+      <div className="p-8 text-center text-white rounded-lg bg-gradient-to-r from-blue-600 to-green-600">
+        <h2 className="mb-4 text-2xl font-bold">¿Listo para empezar?</h2>
+        <p className="mb-6 text-lg">
           Sigue nuestro proceso paso a paso para dominar las matrices de EIA
         </p>
         <a
           href="/ambiental/herramientas/generador-matrices/matrices"
-          className="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg text-lg font-semibold hover:shadow-lg transition-shadow"
+          className="inline-block px-8 py-3 text-lg font-semibold text-blue-600 transition-shadow bg-white rounded-lg hover:shadow-lg"
         >
           Siguiente: Conocer las matrices →
         </a>

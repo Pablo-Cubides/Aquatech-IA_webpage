@@ -181,26 +181,22 @@ export default function HomePage() {
             {/* Logo */}
             <div className="flex justify-center mb-8">
               <img
-                src="/images/Portal ambiental/Aquatech-ia logo dark 512.png"
+                src="\images\Gota Aquatech - IA 512 - sin fondo.png"
                 alt="Aquatech IA"
-                className="h-20 w-auto object-contain drop-shadow-2xl"
+                className="object-contain w-auto h-40 drop-shadow-2xl"
               />
             </div>
-            <div className="flex justify-center gap-2 mb-4">
-              <span className="text-4xl">🌍</span>
-            </div>
             <h1 className="mb-6 text-5xl font-bold leading-tight md:text-6xl">
-              Normatividad Ambiental Internacional
+              NormaGlobal
             </h1>
             <p className="mb-8 text-xl leading-relaxed text-blue-100 md:text-2xl">
-              Explora y compara estándares ambientales de múltiples países para
-              agua, aire, residuos y vertimientos
+              Biblioteca de normatividad ambiental
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               <Badge className="bg-blue-500 border-0">💧 Agua</Badge>
-              <Badge className="bg-emerald-500 border-0">💨 Aire</Badge>
+              <Badge className="border-0 bg-emerald-500">💨 Aire</Badge>
               <Badge className="bg-orange-500 border-0">♻️ Residuos</Badge>
-              <Badge className="bg-cyan-500 border-0">🌊 Vertimientos</Badge>
+              <Badge className="border-0 bg-cyan-500">🌊 Vertimientos</Badge>
             </div>
           </div>
         </div>
@@ -443,7 +439,7 @@ export default function HomePage() {
                     <Button
                       variant="outline"
                       asChild
-                      className="border-2 border-blue-300 hover:bg-blue-50 font-semibold"
+                      className="font-semibold border-2 border-blue-300 hover:bg-blue-50"
                     >
                       <Link href="/ambiental/herramientas/normas-ambientales/fundamentos">
                         Ver Fundamentos

@@ -8,14 +8,14 @@ import type {
   GeoJSONFeature,
   FilterState,
   User,
-} from "@/types";
+} from "../types";
 import { logger } from "@/lib/logger";
 
 // Dynamically import MapComponent to avoid SSR issues
 const MapComponent = dynamic(() => import("../components/MapComponent"), {
   ssr: false,
   loading: () => (
-    <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+    <div className="flex items-center justify-center w-full h-full bg-gray-100">
       Cargando mapa...
     </div>
   ),
@@ -305,7 +305,7 @@ export default function HomePage() {
     } else {
       // Filter data to show points that have AT LEAST ONE of the selected parameters
       const filtered = unfilteredData.filter((feature) => {
-        return filters.parameters.some((param) => {
+        return filters.parameters.some((param: string) => {
           const value = feature.properties[param];
           return value !== null && value !== undefined;
         });
@@ -343,18 +343,18 @@ export default function HomePage() {
 
   if (!user) {
     return (
-      <main className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <main className="flex flex-col justify-center min-h-screen py-12 bg-gray-50 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
+          <h2 className="mt-6 text-3xl font-bold tracking-tight text-center text-gray-900">
             Mapa Ambiental
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
+          <p className="mt-2 text-sm text-center text-gray-600">
             Visualización de datos ambientales
           </p>
         </div>
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+          <div className="px-4 py-8 bg-white shadow sm:rounded-lg sm:px-10">
             <form
               className="space-y-6"
               onSubmit={(e) => {
@@ -437,26 +437,23 @@ export default function HomePage() {
         Saltar al contenido principal
       </a>
 
-      <main id="main-content" className="h-screen flex flex-col">
+      <main id="main-content" className="flex flex-col h-screen">
         {/* Header */}
         <header
-          className="bg-white shadow-sm border-b border-gray-200"
+          className="bg-white border-b border-gray-200 shadow-sm"
           role="banner"
         >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center py-4">
+          <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between py-4">
               <div className="flex items-center space-x-3">
                 {/* Logo */}
                 <img
-                  src="/images/Portal ambiental/Aquatech-ia logo dark 512.png"
-                  alt="Aquatech IA"
-                  className="h-9 w-auto object-contain"
+                  src="\images\Portal ambiental\Herramientas\GeoVisor.png"
+                  alt="Gesovisor"
+                  className="object-contain w-auto h-40"
                 />
-                <h1 className="text-xl font-semibold text-gray-900">
-                  Mapa Ambiental
-                </h1>
                 <select
-                  className="input-field w-64"
+                  className="w-64 input-field"
                   value={selectedDataset?.id || ""}
                   onChange={(e) => {
                     const dataset = datasets.find(
@@ -482,7 +479,7 @@ export default function HomePage() {
               <div className="flex items-center space-x-4">
                 <a
                   href="/guia"
-                  className="btn-secondary flex items-center"
+                  className="flex items-center btn-secondary"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Abrir guía de uso en nueva pestaña"
@@ -510,7 +507,7 @@ export default function HomePage() {
 
             {/* Date tabs */}
             {selectedDataset && (
-              <div className="border-t border-gray-200 pt-2">
+              <div className="pt-2 border-t border-gray-200">
                 <div className="flex space-x-1 overflow-x-auto">
                   {availableDates.map((date) => (
                     <button
@@ -532,16 +529,16 @@ export default function HomePage() {
         </header>
 
         {/* Main content */}
-        <div className="flex-1 flex">
+        <div className="flex flex-1">
           {/* Filters panel */}
-          <aside className="w-80 bg-white border-r border-gray-200 p-6 overflow-y-auto">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+          <aside className="p-6 overflow-y-auto bg-white border-r border-gray-200 w-80">
+            <h2 className="mb-4 text-lg font-semibold text-gray-900">
               Filtros
             </h2>
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block mb-1 text-sm font-medium text-gray-700">
                   País
                 </label>
                 <select
@@ -560,7 +557,7 @@ export default function HomePage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block mb-1 text-sm font-medium text-gray-700">
                   Departamento
                 </label>
                 <select
@@ -579,7 +576,7 @@ export default function HomePage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block mb-1 text-sm font-medium text-gray-700">
                   Ciudad
                 </label>
                 <select
@@ -601,15 +598,15 @@ export default function HomePage() {
                 <>
                   <hr className="my-4" />
                   <div>
-                    <h3 className="text-sm font-medium text-gray-700 mb-2">
+                    <h3 className="mb-2 text-sm font-medium text-gray-700">
                       Parámetros
                     </h3>
                     <div className="space-y-2">
-                      {selectedDataset.parameters.map((param) => (
+                      {selectedDataset.parameters.map((param: string) => (
                         <label key={param} className="flex items-center">
                           <input
                             type="checkbox"
-                            className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                            className="border-gray-300 rounded text-primary-600 focus:ring-primary-500"
                             checked={filters.parameters.includes(param)}
                             onChange={(e) => {
                               if (e.target.checked) {
@@ -621,7 +618,7 @@ export default function HomePage() {
                                 setFilters({
                                   ...filters,
                                   parameters: filters.parameters.filter(
-                                    (p) => p !== param,
+                                    (p: string) => p !== param,
                                   ),
                                 });
                               }
@@ -640,7 +637,7 @@ export default function HomePage() {
           </aside>
 
           {/* Map container */}
-          <div className="flex-1 relative">
+          <div className="relative flex-1">
             <MapComponent
               data={currentData}
               onPointClick={setSelectedFeature}
@@ -649,13 +646,13 @@ export default function HomePage() {
 
             {/* Overlay message when no dataset is selected */}
             {!selectedDataset && (
-              <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center pointer-events-none">
-                <div className="bg-white rounded-lg p-6 text-center shadow-lg">
-                  <div className="text-4xl text-gray-300 mb-2">📊</div>
-                  <p className="text-gray-700 font-medium">
+              <div className="absolute inset-0 flex items-center justify-center bg-black pointer-events-none bg-opacity-30">
+                <div className="p-6 text-center bg-white rounded-lg shadow-lg">
+                  <div className="mb-2 text-4xl text-gray-300">📊</div>
+                  <p className="font-medium text-gray-700">
                     Selecciona un dataset para ver los datos
                   </p>
-                  <p className="text-sm text-gray-500 mt-1">
+                  <p className="mt-1 text-sm text-gray-500">
                     El mapa está listo para mostrar los puntos ambientales
                   </p>
                 </div>
@@ -664,13 +661,13 @@ export default function HomePage() {
 
             {/* Overlay message when dataset is selected but no date */}
             {selectedDataset && !selectedDate && (
-              <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center pointer-events-none">
-                <div className="bg-white rounded-lg p-6 text-center shadow-lg">
-                  <div className="text-4xl text-gray-300 mb-2">�</div>
-                  <p className="text-gray-700 font-medium">
+              <div className="absolute inset-0 flex items-center justify-center bg-black pointer-events-none bg-opacity-30">
+                <div className="p-6 text-center bg-white rounded-lg shadow-lg">
+                  <div className="mb-2 text-4xl text-gray-300">�</div>
+                  <p className="font-medium text-gray-700">
                     Selecciona una fecha para ver los datos
                   </p>
-                  <p className="text-sm text-gray-500 mt-1">
+                  <p className="mt-1 text-sm text-gray-500">
                     Dataset: {selectedDataset.name}
                   </p>
                 </div>
@@ -679,8 +676,8 @@ export default function HomePage() {
           </div>
 
           {/* Details panel */}
-          <aside className="w-80 bg-white border-l border-gray-200 p-6 overflow-y-auto">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+          <aside className="p-6 overflow-y-auto bg-white border-l border-gray-200 w-80">
+            <h2 className="mb-4 text-lg font-semibold text-gray-900">
               Detalles del punto
             </h2>
 
@@ -717,7 +714,7 @@ export default function HomePage() {
                 <div>
                   <h3 className="font-medium text-gray-900">Parámetros</h3>
                   <div className="mt-2 space-y-2">
-                    {selectedDataset?.parameters.map((param) => {
+                    {selectedDataset?.parameters.map((param: string) => {
                       const value = selectedFeature.properties[param];
                       const unit = selectedDataset.units[param] || "";
                       return (

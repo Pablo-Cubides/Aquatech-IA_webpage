@@ -36,7 +36,7 @@
 
 @layer components {
   .glass {
-    background-color: rgba(26, 27, 46, 0.92);
+    background-color: rgba(0, 0, 0, 0.92);
     backdrop-filter: blur(15px);
     border: 2px solid rgba(0, 239, 255, 0.6);
     border-radius: 0.75rem;

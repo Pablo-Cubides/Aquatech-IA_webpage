@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
 import { logger } from "@/lib/logger";
+import { prisma } from "@ia-next/database";
 
 export async function GET() {
   try {
@@ -147,11 +150,10 @@ export async function DELETE(request: Request) {
       );
     }
 
-    // SECURITY: Verify authentication
-    const authHeader = request.headers.get("authorization");
-    const userId = extractUserIdFromAuth(authHeader);
+    // SECURITY: Verify authentication with NextAuth
+    const session = await getServerSession(authOptions);
 
-    if (!userId) {
+    if (!session?.user?.id) {
       logger.warn("Unauthorized DELETE attempt", {
         datasetId,
         ip: request.headers.get("x-forwarded-for"),
@@ -161,6 +163,8 @@ export async function DELETE(request: Request) {
         { status: 401 },
       );
     }
+
+    const userId = session.user.id;
 
     // Fetch dataset to verify ownership
     const { data: dataset, error: fetchError } = await supabase
@@ -179,7 +183,7 @@ export async function DELETE(request: Request) {
 
     // SECURITY: Check authorization - only owner can delete
     const isOwner = dataset.owner_id === userId;
-    const isAdmin = await checkIfAdmin(userId); // TODO: Implement admin check
+    const isAdmin = await checkIfAdmin(userId);
 
     if (!isOwner && !isAdmin) {
       logger.warn("Unauthorized delete attempt", {
@@ -222,37 +226,19 @@ export async function DELETE(request: Request) {
 }
 
 /**
- * Helper: Extract user ID from Authorization header
- * TODO: Replace with proper JWT validation
- */
-function extractUserIdFromAuth(authHeader: string | null): string | null {
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return null;
-  }
-
-  // TODO: Validate and decode JWT token
-  // For now, return null - implement proper JWT validation
-  return null;
-}
-
-/**
  * Helper: Check if user is admin
- * TODO: Implement based on your user role system
+ * Uses Prisma to validate user role from database
  */
 async function checkIfAdmin(userId: string): Promise<boolean> {
   try {
-    if (!supabase) {
-      return false;
-    }
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { role: true },
+    });
 
-    const { data: user } = await supabase
-      .from("users")
-      .select("role")
-      .eq("id", userId)
-      .single();
-
-    return user?.role === "admin";
-  } catch {
+    return user?.role === "ADMIN" || user?.role === "MODERATOR";
+  } catch (error) {
+    logger.error("Failed to check admin status", { userId, error });
     return false;
   }
 }

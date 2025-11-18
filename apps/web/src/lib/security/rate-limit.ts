@@ -78,7 +78,24 @@ export async function rateLimit(
     };
   } catch (error) {
     console.error("Rate limiting error:", error);
-    // Fail open - allow request if Redis is down
+    // SECURITY: Fail closed for sensitive endpoints
+    // If identifier suggests sensitive operation, deny on error
+    const isSensitive =
+      identifier.includes("payment") ||
+      identifier.includes("admin") ||
+      identifier.includes("auth") ||
+      identifier.includes("delete");
+
+    if (isSensitive) {
+      return {
+        success: false,
+        limit: config.uniqueTokenPerInterval,
+        remaining: 0,
+        reset: now + window,
+      };
+    }
+
+    // Fail open for read-only operations
     return {
       success: true,
       limit: config.uniqueTokenPerInterval,

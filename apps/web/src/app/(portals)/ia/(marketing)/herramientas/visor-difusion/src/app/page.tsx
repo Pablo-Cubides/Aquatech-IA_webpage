@@ -323,35 +323,27 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0E27] text-[#FFFFFF] flex flex-col p-4 sm:p-6 lg:p-8 font-sans">
+    <div className="min-h-screen bg-[#000106] text-[#FFFFFF] flex flex-col p-4 sm:p-6 lg:p-8 font-sans">
       <header className="text-center mb-8 pb-8 border-b-2 border-[#00D4FF]/20">
         {/* Logo and Title Container */}
-        <div className="mb-8 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+        <div className="flex flex-col items-center justify-center gap-4 mb-8 sm:flex-row sm:gap-6">
           {/* PixelGen Logo */}
           <img
             src="/images/portal-ia/herramientas/pixelgen-logo.png"
             alt="PixelGen"
-            className="h-14 sm:h-16 w-auto object-contain drop-shadow-[0_0_20px_rgba(0,239,255,0.5)] flex-shrink-0"
+            className="flex-shrink-0 object-contain w-auto h-14 sm:h-36"
             onError={(e) => {
-              (e.target as HTMLImageElement).style.display = 'none'
+              (e.target as HTMLImageElement).style.display = "none";
             }}
           />
           {/* Separator */}
           <div className="hidden sm:block w-px h-12 bg-gradient-to-b from-transparent via-[#00D4FF]/50 to-transparent" />
-          {/* Title */}
-          <div className="flex-1">
-            <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-[#00D4FF] via-[#00FF88] to-[#FFB700] bg-clip-text text-transparent drop-shadow-lg leading-tight">
-              PixelGen
-            </h1>
-            <p className="text-base sm:text-lg font-medium text-[#00D4FF] mt-1 tracking-wide">
-              Visor del Proceso de Difusión
-            </p>
-          </div>
         </div>
         {/* Description */}
         <p className="text-base sm:text-lg text-[#E8F0FF] mt-6 max-w-3xl mx-auto leading-relaxed">
-          Una herramienta educativa interactiva para visualizar cómo la IA genera imágenes
-          mediante el proceso de difusión, transformando ruido en arte paso a paso.
+          Una herramienta educativa interactiva para visualizar cómo la IA
+          genera imágenes mediante el proceso de difusión, transformando ruido
+          en arte paso a paso.
         </p>
       </header>
 
@@ -367,23 +359,23 @@ export default function Home() {
           1. Selecciona un Prompt Educativo
         </h2>
         {promptsLoading ? (
-          <div className="flex justify-center items-center py-12">
+          <div className="flex items-center justify-center py-12">
             <div className="spinner"></div>
             <span className="ml-3 text-[#E8F0FF]">
               Cargando casos educativos...
             </span>
           </div>
         ) : prompts.length === 0 ? (
-          <div className="flex justify-center items-center py-12">
+          <div className="flex items-center justify-center py-12">
             <div className="bg-[#FF3366]/20 border border-[#FF3366] text-[#FF3366] px-6 py-4 rounded-lg">
               <p className="font-semibold">❌ No se encontraron casos</p>
-              <p className="text-sm mt-2">
+              <p className="mt-2 text-sm">
                 Verifica la consola (F12) para más detalles
               </p>
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl mx-auto">
+          <div className="grid max-w-6xl grid-cols-1 gap-4 mx-auto md:grid-cols-2 lg:grid-cols-3">
             {prompts.map((prompt) => (
               <div
                 key={prompt.id}
@@ -417,8 +409,8 @@ export default function Home() {
       </div>
 
       {/* --- CONTROLES PRINCIPALES --- */}
-      <div className="glass mb-8 flex flex-col gap-4 max-w-4xl mx-auto w-full">
-        <div className="flex gap-3 flex-wrap justify-center items-center">
+      <div className="flex flex-col w-full max-w-4xl gap-4 mx-auto mb-8 glass">
+        <div className="flex flex-wrap items-center justify-center gap-3">
           <h3 className="text-xl font-semibold text-[#FFFFFF]">
             2. Controla la Simulación
           </h3>
@@ -430,7 +422,7 @@ export default function Home() {
           >
             {isLoading && currentStep === 0 ? (
               <>
-                <span className="spinner mr-2"></span>
+                <span className="mr-2 spinner"></span>
                 Iniciando...
               </>
             ) : (
@@ -447,7 +439,7 @@ export default function Home() {
           >
             {isLoading && !!selectedPromptId ? (
               <>
-                <span className="spinner mr-2"></span>
+                <span className="mr-2 spinner"></span>
                 Procesando...
               </>
             ) : (
@@ -469,7 +461,7 @@ export default function Home() {
           >
             {isExporting ? (
               <>
-                <span className="spinner mr-2"></span>
+                <span className="mr-2 spinner"></span>
                 Generando...
               </>
             ) : (
@@ -480,8 +472,8 @@ export default function Home() {
       </div>
 
       {/* --- PANELES DE VISUALIZACIÓN --- */}
-      <main className="flex-grow grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        <div className="card flex flex-col">
+      <main className="grid flex-grow grid-cols-1 gap-6 mb-8 lg:grid-cols-3">
+        <div className="flex flex-col card">
           <h2 className="text-xl font-semibold mb-4 text-[#00D4FF]">
             Ruido Inicial
           </h2>
@@ -490,7 +482,7 @@ export default function Home() {
               <img
                 src={noiseImage}
                 alt="Ruido Inicial"
-                className="w-full h-full object-contain"
+                className="object-contain w-full h-full"
               />
             ) : (
               <p className="text-[#E8F0FF]">Esperando simulación...</p>
@@ -501,7 +493,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="card flex flex-col">
+        <div className="flex flex-col card">
           <h2 className="text-xl font-semibold mb-4 text-[#00D4FF]">
             Proceso de Difusión
           </h2>
@@ -511,13 +503,13 @@ export default function Home() {
                 <img
                   src={intermediateImage}
                   alt={`Paso ${currentStep - 1}`}
-                  className="absolute top-0 left-0 w-full h-full object-contain"
+                  className="absolute top-0 left-0 object-contain w-full h-full"
                 />
                 {noiseOverlayImage && (
                   <img
                     src={noiseOverlayImage}
                     alt="Capa de ruido"
-                    className="absolute top-0 left-0 w-full h-full object-contain pointer-events-none"
+                    className="absolute top-0 left-0 object-contain w-full h-full pointer-events-none"
                     style={{ opacity: overlayOpacity }}
                   />
                 )}

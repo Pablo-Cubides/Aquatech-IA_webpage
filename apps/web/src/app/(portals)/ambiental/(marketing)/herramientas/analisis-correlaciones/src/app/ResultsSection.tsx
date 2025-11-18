@@ -1,91 +1,207 @@
-"use client"
-import React, { useState } from "react"
-import CorrelationTable from "../components/CorrelationTable"
-import CorrelationHeatmap from "../components/CorrelationHeatmap"
-import ScatterPlot from "../components/ScatterPlot"
-import ExportButtons from "../components/ExportButtons"
+"use client";
+import React, { useState } from "react";
+import dynamic from "next/dynamic";
+import CorrelationTable from "../components/CorrelationTable";
+import CorrelationHeatmap from "../components/CorrelationHeatmap";
+import ExportButtons from "../components/ExportButtons";
+
+// Dynamic import for heavy chart component (recharts)
+const ScatterPlot = dynamic(() => import("../components/ScatterPlot"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex items-center justify-center h-64 bg-gray-50 rounded-lg">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+        <p className="text-gray-600">Cargando gráfico...</p>
+      </div>
+    </div>
+  ),
+});
 
 const methodOptions = [
-  { value: "pearson", label: "Pearson" },
-  { value: "spearman", label: "Spearman" },
-  { value: "kendall", label: "Kendall Tau" },
-]
+  { value: "pearson", label: "Pearson", icon: "📈", desc: "Relación lineal" },
+  {
+    value: "spearman",
+    label: "Spearman",
+    icon: "📊",
+    desc: "Relación monotónica",
+  },
+  {
+    value: "kendall",
+    label: "Kendall Tau",
+    icon: "🎯",
+    desc: "Concordancia ordinal",
+  },
+];
 
 export default function ResultsSection({ result }: { result: any }) {
-  const [method, setMethod] = useState<"pearson" | "spearman" | "kendall">("pearson")
-  const [selectedPair, setSelectedPair] = useState<[string, string] | null>(null)
+  const [method, setMethod] = useState<"pearson" | "spearman" | "kendall">(
+    "pearson",
+  );
+  const [selectedPair, setSelectedPair] = useState<[string, string] | null>(
+    null,
+  );
 
   const handleSelectPair = (a: string, b: string) => {
-    setSelectedPair([a, b])
-  }
+    setSelectedPair([a, b]);
+  };
 
-  const heatmapRef = React.useRef<HTMLDivElement>(null)
+  const heatmapRef = React.useRef<HTMLDivElement>(null);
   return (
-    <div className="flex flex-col gap-8">
-      <div className="mb-2 font-semibold text-center text-green-700">¡Análisis completado!</div>
-      <ExportButtons correlationResults={result.correlation_results} numericColumns={result.numeric_columns} rawData={result.raw_data} heatmapRef={heatmapRef} />
-      <CorrelationTable
-        numericColumns={result.numeric_columns}
-        correlationResults={result.correlation_results}
-      />
-      <div className="mt-8">
-        <div className="flex items-center gap-2 mb-2">
-          <span className="font-semibold">Mapa de calor:</span>
-          <select
-            className="px-2 py-1 text-sm border rounded"
-            value={method}
-            onChange={e => setMethod(e.target.value as any)}
-          >
-            {methodOptions.map(opt => (
-              <option key={opt.value} value={opt.value}>{opt.label}</option>
-            ))}
-          </select>
-        </div>
-        <div ref={heatmapRef}>
-          <CorrelationHeatmap
-            numericColumns={result.numeric_columns}
-            correlationResults={result.correlation_results}
-            method={method}
-            onSelectPair={handleSelectPair}
-            selectedPair={selectedPair}
-          />
-        </div>
+    <div className="flex flex-col gap-12">
+      {/* Export buttons */}
+      <div className="flex flex-wrap gap-4">
+        <ExportButtons
+          correlationResults={result.correlation_results}
+          numericColumns={result.numeric_columns}
+          rawData={result.raw_data}
+          heatmapRef={heatmapRef}
+        />
       </div>
-      {selectedPair && (
-        <div className="mt-8">
-          <ScatterPlot
-            data={result.raw_data.filter((row: any) =>
-              typeof row[selectedPair[0]] === 'number' && typeof row[selectedPair[1]] === 'number')}
-            xKey={selectedPair[0]}
-            yKey={selectedPair[1]}
-          />
+
+      {/* Tabs section */}
+      <div className="space-y-6">
+        <div>
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">
+            Resultados del Análisis
+          </h2>
+
+          {/* Method selector */}
+          <div className="flex flex-wrap gap-3 mb-8">
+            {methodOptions.map((opt) => (
+              <button
+                key={opt.value}
+                onClick={() => setMethod(opt.value as any)}
+                className={`px-4 py-3 rounded-lg font-medium transition-all duration-300 flex items-center gap-2 ${
+                  method === opt.value
+                    ? "bg-gradient-to-r from-cyan-400 to-blue-500 text-white shadow-lg"
+                    : "bg-white border border-slate-200 text-slate-700 hover:border-cyan-300 hover:shadow-md"
+                }`}
+              >
+                <span className="text-lg">{opt.icon}</span>
+                <div className="text-left">
+                  <div className="text-sm leading-none">{opt.label}</div>
+                  <div className="text-xs opacity-75 leading-none mt-1">
+                    {opt.desc}
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+
+          {/* Correlation Table */}
+          <div className="mb-8">
+            <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
+              <span className="w-2 h-2 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full"></span>
+              Tabla de correlaciones
+            </h3>
+            <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+              <CorrelationTable
+                numericColumns={result.numeric_columns}
+                correlationResults={result.correlation_results}
+              />
+            </div>
+          </div>
         </div>
-      )}
-      
-      <div className="p-6 mt-12 border rounded-lg bg-gray-50">
-        <h3 className="mb-4 text-lg font-semibold text-gray-800">¿Qué significan las correlaciones?</h3>
-        <div className="space-y-4 text-sm text-gray-700">
-          <div>
-            <h4 className="mb-1 font-medium text-gray-900">Correlación de Pearson:</h4>
-            <p>Mide la relación lineal entre dos variables. Un valor cercano a 1 indica una correlación positiva fuerte (cuando una variable aumenta, la otra también lo hace). Un valor cercano a -1 indica una correlación negativa fuerte (cuando una variable aumenta, la otra disminuye). Un valor cercano a 0 indica poca o ninguna relación lineal.</p>
+
+        {/* Heatmap */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
+            <span className="w-2 h-2 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full"></span>
+            Mapa de calor:{" "}
+            {methodOptions.find((o) => o.value === method)?.label}
+          </h3>
+          <div
+            ref={heatmapRef}
+            className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm"
+          >
+            <CorrelationHeatmap
+              numericColumns={result.numeric_columns}
+              correlationResults={result.correlation_results}
+              method={method}
+              onSelectPair={handleSelectPair}
+              selectedPair={selectedPair}
+            />
           </div>
-          
-          <div>
-            <h4 className="mb-1 font-medium text-gray-900">Correlación de Spearman:</h4>
-            <p>Evalúa la relación monotónica entre dos variables, basada en rangos en lugar de valores absolutos. Es útil cuando los datos no siguen una distribución normal o cuando hay valores atípicos. Valores cercanos a 1 o -1 indican una relación fuerte, mientras que valores cercanos a 0 sugieren una relación débil o inexistente.</p>
+        </div>
+
+        {/* Scatter plot */}
+        {selectedPair && (
+          <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
+            <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
+              <span className="w-2 h-2 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full"></span>
+              Gráfico de dispersión: {selectedPair[0]} vs {selectedPair[1]}
+            </h3>
+            <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+              <ScatterPlot
+                data={result.raw_data.filter(
+                  (row: any) =>
+                    typeof row[selectedPair[0]] === "number" &&
+                    typeof row[selectedPair[1]] === "number",
+                )}
+                xKey={selectedPair[0]}
+                yKey={selectedPair[1]}
+              />
+            </div>
           </div>
-          
-          <div>
-            <h4 className="mb-1 font-medium text-gray-900">Correlación de Kendall Tau:</h4>
-            <p>Mide la concordancia ordinal entre dos variables, evaluando si los pares de observaciones tienen el mismo orden relativo. Es menos sensible a valores extremos que Pearson y Spearman. Valores cercanos a 1 indican una fuerte concordancia, valores cercanos a -1 indican discordancia fuerte, y valores cercanos a 0 sugieren independencia ordinal.</p>
+        )}
+      </div>
+
+      {/* Educational section */}
+      <div className="bg-gradient-to-br from-slate-50 to-blue-50 border border-slate-200 rounded-2xl p-8">
+        <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+          <span className="text-2xl">📚</span> Guía educativa
+        </h3>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-white border border-slate-200 rounded-xl p-5 hover:shadow-md transition-shadow">
+            <h4 className="font-semibold text-slate-900 mb-2 flex items-center gap-2">
+              <span className="text-lg">📈</span> Correlación de Pearson
+            </h4>
+            <p className="text-sm text-slate-600">
+              Mide la relación lineal entre dos variables. Un valor cercano a{" "}
+              <strong>1</strong> indica correlación positiva fuerte,{" "}
+              <strong>-1</strong> negativa fuerte, y <strong>0</strong> sin
+              relación lineal.
+            </p>
           </div>
-          
-          <div>
-            <h4 className="mb-1 font-medium text-gray-900">Interpretación general:</h4>
-            <p>Correlaciones entre 0.8 y 1.0 (o -0.8 y -1.0) se consideran fuertes. Entre 0.6 y 0.8 (o -0.6 y -0.8) moderadas. Entre 0.3 y 0.6 (o -0.3 y -0.6) débiles. Y por debajo de 0.3 (o -0.3) muy débiles o inexistentes. Recuerda que la correlación no implica causalidad.</p>
+
+          <div className="bg-white border border-slate-200 rounded-xl p-5 hover:shadow-md transition-shadow">
+            <h4 className="font-semibold text-slate-900 mb-2 flex items-center gap-2">
+              <span className="text-lg">📊</span> Correlación de Spearman
+            </h4>
+            <p className="text-sm text-slate-600">
+              Evalúa relaciones monotónicas basadas en rangos. Útil cuando los
+              datos no siguen distribución normal o hay valores atípicos.
+            </p>
           </div>
+
+          <div className="bg-white border border-slate-200 rounded-xl p-5 hover:shadow-md transition-shadow">
+            <h4 className="font-semibold text-slate-900 mb-2 flex items-center gap-2">
+              <span className="text-lg">🎯</span> Correlación de Kendall Tau
+            </h4>
+            <p className="text-sm text-slate-600">
+              Mide concordancia ordinal. Menos sensible a valores extremos.
+              Valores cercanos a <strong>±1</strong> indican fuerte
+              concordancia.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <p className="text-sm text-slate-700">
+            <strong className="text-blue-900">
+              💡 Interpretación general:
+            </strong>{" "}
+            Correlaciones entre <strong>0.8-1.0</strong> son fuertes,{" "}
+            <strong>0.6-0.8</strong> moderadas, <strong>0.3-0.6</strong>{" "}
+            débiles.
+            <strong className="block mt-2">
+              ⚠️ Recuerda: Correlación no implica causalidad.
+            </strong>
+          </p>
         </div>
       </div>
     </div>
-  )
+  );
 }

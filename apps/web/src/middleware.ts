@@ -49,7 +49,9 @@ export function middleware(request: NextRequest) {
   if (request.nextUrl.pathname.startsWith("/api/")) {
     const allowedOrigins = [
       process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com",
-      "http://localhost:3000",
+      ...(process.env.NODE_ENV === "development"
+        ? ["http://localhost:3000", "http://localhost:3001"]
+        : []),
     ];
 
     const origin = request.headers.get("origin");

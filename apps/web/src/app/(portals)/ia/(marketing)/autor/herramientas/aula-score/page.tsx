@@ -74,10 +74,13 @@ export default function ConfigurationPage() {
       <div className="mx-auto max-w-2xl">
         {/* Header */}
         <div className="mb-12 text-center">
-          <h1 className="heading-primary mb-2 text-5xl">Aula Score</h1>
-          <p className="heading-tertiary mb-8 text-foreground-secondary">
-            Aventuras de juego en clase
-          </p>
+          <div className="mb-6">
+            <img
+              src="/images/Portal IA/Autor/Aula Score.png"
+              alt="Aula Score"
+              className="h-40 w-auto mx-auto object-contain"
+            />
+          </div>
           <div className="h-1 w-24 mx-auto bg-gradient-to-r from-primary-color to-secondary-color rounded-full"></div>
         </div>
 

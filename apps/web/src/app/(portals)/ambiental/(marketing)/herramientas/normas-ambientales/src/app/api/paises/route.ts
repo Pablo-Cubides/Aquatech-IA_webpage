@@ -2,44 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import path from "path";
 import fs from "fs";
 import { logger } from "@/lib/logger";
+import { paisesCache } from "@/lib/cache/redis-cache";
 import { validateDomain } from "@/lib/constants";
 
 // Global declarations for Node.js environment
 declare const URL: typeof globalThis.URL;
 declare const process: typeof globalThis.process;
-
-// Enhanced in-memory cache with LRU-like behavior
-interface CacheEntry {
-  ts: number;
-  value: unknown;
-  hits: number;
-}
-
-const cache = new Map<string, CacheEntry>();
-const TTL_MS = 1000 * 60 * 15; // 15 minutes (increased from 5)
-const MAX_CACHE_SIZE = 50;
-
-// Cache cleanup function
-function cleanupCache() {
-  if (cache.size < MAX_CACHE_SIZE) return;
-
-  const now = Date.now();
-  const entries = Array.from(cache.entries());
-
-  // Remove expired entries first
-  for (const [key, entry] of entries) {
-    if (now - entry.ts > TTL_MS) {
-      cache.delete(key);
-    }
-  }
-
-  // If still over limit, remove least recently used
-  if (cache.size >= MAX_CACHE_SIZE) {
-    const sorted = entries.sort((a, b) => a[1].hits - b[1].hits);
-    const toRemove = sorted.slice(0, Math.floor(MAX_CACHE_SIZE * 0.2));
-    toRemove.forEach(([key]) => cache.delete(key));
-  }
-}
 
 // ISO 3166-1 alpha-2 country codes (subset for Latin America and relevant countries)
 // Note: Currently not used but kept for future validation
@@ -57,25 +25,20 @@ export async function GET(request: NextRequest) {
 
   const cacheKey = `countries:${domain || "all"}`;
 
-  // Check cache first (PERFORMANCE BOOST)
-  const cached = cache.get(cacheKey);
-  if (cached && Date.now() - cached.ts < TTL_MS) {
-    cached.hits++;
+  // Check Redis cache first (PERFORMANCE BOOST)
+  const cached = await paisesCache.get<unknown>(cacheKey);
+  if (cached) {
     logger.info("countries:cache_hit", {
       domain: domain || "all",
-      hits: cached.hits,
     });
 
-    return NextResponse.json(cached.value, {
+    return NextResponse.json(cached, {
       headers: {
         "Cache-Control": "public, s-maxage=900, stale-while-revalidate=1800",
         "X-Cache-Status": "HIT",
       },
     });
   }
-
-  // Cleanup cache periodically
-  cleanupCache();
 
   try {
     // Primary data directory
@@ -134,11 +97,10 @@ export async function GET(request: NextRequest) {
     const result = { countries };
 
     // Store in cache with hit tracking
-    cache.set(cacheKey, { ts: Date.now(), value: result, hits: 0 });
+    await paisesCache.set(cacheKey, result);
     logger.info("countries:cache_set", {
       domain: domain || "all",
       count: countries.length,
-      cacheSize: cache.size,
     });
 
     return NextResponse.json(result, {

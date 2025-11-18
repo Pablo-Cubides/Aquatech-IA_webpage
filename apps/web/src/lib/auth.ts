@@ -1,7 +1,10 @@
 import { NextAuthOptions } from "next-auth";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import GoogleProvider from "next-auth/providers/google";
+import { prisma } from "@ia-next/database";
 
 export const authOptions: NextAuthOptions = {
+  adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -9,10 +12,14 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    session: async ({ session, token }) => {
-      if (session?.user && token?.uid) {
+    session: async ({ session, user }) => {
+      if (session?.user && user) {
         // @ts-ignore - Extending session user
-        session.user.id = token.uid as string;
+        session.user.id = user.id;
+        // @ts-ignore - role exists in our User model
+        session.user.role = user.role;
+        // @ts-ignore - credits exists in our User model
+        session.user.credits = user.credits;
       }
       return session;
     },
@@ -24,7 +31,7 @@ export const authOptions: NextAuthOptions = {
     },
   },
   session: {
-    strategy: "jwt",
+    strategy: "database",
   },
   pages: {
     signIn: "/auth/signin",

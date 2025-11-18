@@ -9,15 +9,22 @@ export default function Home() {
     <CasosProvider>
       <main style={{ minHeight: "100vh", padding: 0 }}>
         {/* Logo */}
-        <div style={{ textAlign: "center", margin: "2rem 0 1rem" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            margin: "2rem 0 1rem",
+          }}
+        >
           <img
-            src="/images/Portal IA/Aquatech-ia logo light 512.png"
-            alt="Aquatech IA"
+            src="/images/Portal IA/Herramientas/FiltrarIA.png"
+            alt="FiltrarIA"
             style={{
               height: "auto",
-              width: "80px",
+              width: "440px",
               objectFit: "contain",
-              filter: "drop-shadow(0 0 15px rgba(0, 239, 255, 0.4))",
+              paddingBottom: "1rem",
+              margin: 0,
             }}
           />
         </div>

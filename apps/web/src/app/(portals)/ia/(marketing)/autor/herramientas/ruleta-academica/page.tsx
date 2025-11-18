@@ -135,9 +135,9 @@ export default function InicioPage() {
       {/* Logo */}
       <div className="mb-6">
         <img
-          src="/images/Portal IA/Aquatech-ia logo light 512.png"
-          alt="Aquatech IA"
-          className="h-16 w-auto object-contain drop-shadow-[0_0_15px_rgba(0,239,255,0.4)]"
+          src="/images/Portal IA/Autor/Ruleta academica.png"
+          alt="Ruleta Académica"
+          className="h-40 w-auto)]"
         />
       </div>
       <h1 className="heading-primary">

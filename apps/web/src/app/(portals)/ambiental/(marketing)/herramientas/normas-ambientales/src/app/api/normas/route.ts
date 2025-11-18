@@ -7,6 +7,7 @@ import { appendFileSync } from "fs";
 import { normalizeData, mergeCandidates } from "../../../lib/utils";
 import { logger } from "@/lib/logger";
 import { rateLimitByIP } from "@/lib/security/rate-limit";
+import { normasCache } from "@/lib/cache/redis-cache";
 import {
   REGULATORY_SOURCES,
   validateDomain,
@@ -16,6 +17,7 @@ import {
 } from "@/lib/constants";
 import type { RegulatorySource } from "@/lib/constants";
 import { SECTOR_NORMALIZATION_MAP } from "@/lib/types";
+import { parsePagination, createPaginatedResponse } from "@/lib/pagination";
 
 // Global declarations for Node.js types
 declare const URL: typeof globalThis.URL;
@@ -24,39 +26,6 @@ declare const process: typeof globalThis.process;
 // Narrower types to avoid `any` throughout this file
 type AnyRecord = Record<string, unknown>;
 type MatchedSource = { name: string; url: string; description?: string };
-
-// Enhanced in-memory cache with LRU-like behavior
-interface CacheEntry {
-  ts: number;
-  value: unknown;
-  hits: number;
-}
-
-const cache = new Map<string, CacheEntry>();
-const TTL_MS = 1000 * 60 * 15; // 15 minutes (increased from 5)
-const MAX_CACHE_SIZE = 100; // Prevent memory leaks
-
-// Cache cleanup function
-function cleanupCache() {
-  if (cache.size < MAX_CACHE_SIZE) return;
-
-  const now = Date.now();
-  const entries = Array.from(cache.entries());
-
-  // Remove expired entries first
-  for (const [key, entry] of entries) {
-    if (now - entry.ts > TTL_MS) {
-      cache.delete(key);
-    }
-  }
-
-  // If still over limit, remove least recently used
-  if (cache.size >= MAX_CACHE_SIZE) {
-    const sorted = entries.sort((a, b) => a[1].hits - b[1].hits);
-    const toRemove = sorted.slice(0, Math.floor(MAX_CACHE_SIZE * 0.2));
-    toRemove.forEach(([key]) => cache.delete(key));
-  }
-}
 
 /**
  * Country-specific sector name mappings
@@ -598,6 +567,12 @@ export async function GET(request: NextRequest) {
   const domainParam = searchParams.get("dominio") || "agua";
   const sectorParam = searchParams.get("sector");
 
+  // Parse pagination params
+  const { skip, take, page, limit } = parsePagination({
+    page: searchParams.get("page"),
+    limit: searchParams.get("limit"),
+  });
+
   // SECURITY: Validate all input parameters
   const country = validateCountry(countryParam);
   const domain = validateDomain(domainParam);
@@ -614,24 +589,20 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Dominio no válido" }, { status: 400 });
   }
 
-  const cacheKey = `norma:${domain}:${country}${sector ? `:${sector}` : ""}`;
+  const cacheKey = `norma:${domain}:${country}${sector ? `:${sector}` : ""}:${page}:${limit}`;
 
-  // Check cache first (PERFORMANCE BOOST)
-  const cached = cache.get(cacheKey);
-  if (cached && Date.now() - cached.ts < TTL_MS) {
-    cached.hits++;
-    logger.info("normas:cache_hit", { cacheKey, hits: cached.hits });
+  // Check Redis cache first (PERFORMANCE BOOST)
+  const cached = await normasCache.get<unknown>(cacheKey);
+  if (cached) {
+    logger.info("normas:cache_hit", { cacheKey });
 
-    return NextResponse.json(cached.value, {
+    return NextResponse.json(cached, {
       headers: {
         "Cache-Control": "public, s-maxage=900, stale-while-revalidate=1800",
         "X-Cache-Status": "HIT",
       },
     });
   }
-
-  // Cleanup cache periodically
-  cleanupCache();
 
   try {
     const filePath = path.join(
@@ -671,15 +642,41 @@ export async function GET(request: NextRequest) {
         sector || undefined,
       );
 
-      // Store in cache with hit tracking
-      cache.set(cacheKey, {
-        ts: Date.now(),
-        value: normalizedForFrontend,
-        hits: 0,
-      });
-      logger.info("normas:cache_set", { cacheKey, cacheSize: cache.size });
+      // Apply pagination to records if available
+      let finalResponse: any;
+      if (
+        Array.isArray(normalizedForFrontend.records) &&
+        normalizedForFrontend.records.length > 0
+      ) {
+        const total = normalizedForFrontend.records.length;
+        const paginatedRecords = normalizedForFrontend.records.slice(
+          skip,
+          skip + take,
+        );
 
-      return NextResponse.json(normalizedForFrontend, {
+        finalResponse = {
+          ...normalizedForFrontend,
+          records: paginatedRecords,
+          registros: paginatedRecords,
+          pagination: {
+            page,
+            limit,
+            total,
+            totalPages: Math.ceil(total / limit),
+            hasNext: page < Math.ceil(total / limit),
+            hasPrev: page > 1,
+          },
+        };
+      } else {
+        // No records or empty, return as-is (e.g., metadata-only requests)
+        finalResponse = normalizedForFrontend;
+      }
+
+      // Store in Redis cache
+      await normasCache.set(cacheKey, finalResponse);
+      logger.info("normas:cache_set", { cacheKey });
+
+      return NextResponse.json(finalResponse, {
         headers: {
           "Cache-Control": "public, s-maxage=900, stale-while-revalidate=1800",
           "X-Cache-Status": "MISS",
@@ -857,7 +854,7 @@ export async function GET(request: NextRequest) {
         }
 
         // Cache even error recovery responses
-        cache.set(cacheKey, { ts: Date.now(), value: result, hits: 0 });
+        await normasCache.set(cacheKey, result);
 
         return NextResponse.json(result, {
           headers: {

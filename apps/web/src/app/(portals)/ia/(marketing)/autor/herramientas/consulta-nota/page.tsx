@@ -212,19 +212,12 @@ export default function ConsultaNotaIAPage() {
           {/* Header */}
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-3 mb-6">
-              <div className="w-16 h-16 rounded-lg bg-gradient-to-r from-[var(--primary-cyan)] to-[var(--accent-purple)] flex items-center justify-center">
-                <FileText className="w-8 h-8 text-white" />
-              </div>
-              <div className="text-left">
-                <h1
-                  className="text-3xl md:text-4xl font-bold mb-2"
-                  style={{ fontFamily: "var(--font-space-grotesk)" }}
-                >
-                  Consulta tu Nota
-                </h1>
-                <p className="text-[var(--text-secondary)]">
-                  Herramienta estudiantil
-                </p>
+              <div className="w-auto h-60 justify-center">
+                <img
+                  src="/images/Portal IA/Autor/Consulta tu nota.png"
+                  alt="Consulta tu Nota"
+                  className="w-full h-full object-contain"
+                />
               </div>
             </div>
             <p className="text-lg text-[var(--text-secondary)] max-w-2xl mx-auto">
