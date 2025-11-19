@@ -38,32 +38,38 @@ See `.env.example` files for the complete list of required environment variables
 ### Implemented Security Measures
 
 ✅ **Authentication & Authorization**
+
 - NextAuth.js with database-backed sessions
 - Role-based access control (USER, ADMIN, MODERATOR)
 - Google OAuth integration
 - Session validation on protected routes
 
 ✅ **Rate Limiting**
+
 - Upstash Redis-based rate limiting
 - Fail-closed strategy for sensitive endpoints
 - Configurable limits per endpoint type
 
 ✅ **Input Validation**
+
 - Zod schema validation for all API inputs
 - File upload restrictions (size, type)
 - SQL injection prevention via Prisma ORM
 
 ✅ **CORS Policy**
+
 - Restricted origins (localhost only in development)
 - Proper headers for cross-origin requests
 
 ✅ **Security Headers**
+
 - Content Security Policy (CSP)
 - X-Frame-Options
 - X-Content-Type-Options
 - Strict-Transport-Security (HSTS)
 
 ✅ **Monitoring & Logging**
+
 - Sentry error tracking
 - Audit logs for admin operations
 - System logs with severity levels
@@ -76,10 +82,12 @@ See `.env.example` files for the complete list of required environment variables
 ### November 2024 - Hardcoded Credentials (RESOLVED)
 
 **Issue**: PostgreSQL credentials were accidentally committed to the repository in:
+
 - `apps/web/src/app/api/notes/route.ts`
 - Historical commits detected by GitGuardian
 
 **Actions Taken**:
+
 1. ✅ Removed hardcoded credentials from codebase
 2. ✅ Rotated database passwords
 3. ✅ Updated connection strings in environment variables
@@ -87,6 +95,7 @@ See `.env.example` files for the complete list of required environment variables
 5. ✅ Created this security policy document
 
 **Prevention**:
+
 - All developers must use `.env` files for credentials
 - Pre-commit hooks to detect secrets (recommended)
 - Regular security audits with GitGuardian
@@ -97,14 +106,14 @@ See `.env.example` files for the complete list of required environment variables
 
 Rotate the following credentials regularly:
 
-| Credential | Frequency | Last Rotated |
-|------------|-----------|--------------|
-| Database Password | Every 90 days | 2024-11-18 |
-| NEXTAUTH_SECRET | Every 180 days | 2024-11-18 |
-| MERCADOPAGO_ACCESS_TOKEN | When compromised | - |
-| BREVO_API_KEY | When compromised | - |
-| Firebase Service Account | Every 180 days | - |
-| Upstash Redis Token | Every 180 days | - |
+| Credential               | Frequency        | Last Rotated |
+| ------------------------ | ---------------- | ------------ |
+| Database Password        | Every 90 days    | 2024-11-18   |
+| NEXTAUTH_SECRET          | Every 180 days   | 2024-11-18   |
+| MERCADOPAGO_ACCESS_TOKEN | When compromised | -            |
+| BREVO_API_KEY            | When compromised | -            |
+| Firebase Service Account | Every 180 days   | -            |
+| Upstash Redis Token      | Every 180 days   | -            |
 
 ---
 
@@ -143,6 +152,7 @@ pnpm audit fix  # Apply fixes automatically
 ## 📞 Contact
 
 For security concerns, contact:
+
 - **Email**: pacubidesg@unal.edu.co
 - **GitHub**: @Pablo-Cubides
 

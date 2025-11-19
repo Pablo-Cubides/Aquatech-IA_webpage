@@ -1,0 +1,35 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Check for potential secrets before commit
+echo "🔍 Scanning for secrets..."
+
+# Patterns to detect
+PATTERNS=(
+  "postgresql://[a-zA-Z0-9._-]+:[^@\s]+@"
+  "mysql://[a-zA-Z0-9._-]+:[^@\s]+@"
+  "(password|passwd|pwd)\s*=\s*['\"][^'\"]{8,}['\"]"
+  "(api[_-]?key|apikey)\s*=\s*['\"][^'\"]{20,}['\"]"
+  "(secret|token)\s*=\s*['\"][^'\"]{20,}['\"]"
+  "-----BEGIN (RSA |DSA )?PRIVATE KEY-----"
+)
+
+# Get staged files
+FILES=$(git diff --cached --name-only --diff-filter=ACM)
+
+for FILE in $FILES; do
+  if [ -f "$FILE" ]; then
+    for PATTERN in "${PATTERNS[@]}"; do
+      if grep -qE "$PATTERN" "$FILE"; then
+        echo "❌ ERROR: Potential secret detected in $FILE"
+        echo "   Pattern: $PATTERN"
+        echo ""
+        echo "Please remove the secret and use environment variables instead."
+        echo "Add the value to .env file and reference it with process.env.VARIABLE_NAME"
+        exit 1
+      fi
+    done
+  fi
+done
+
+echo "✅ No secrets detected"
