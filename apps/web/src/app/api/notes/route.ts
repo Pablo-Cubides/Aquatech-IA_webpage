@@ -2,12 +2,9 @@ import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { parsePagination, createPaginatedResponse } from "@/lib/pagination";
 
-// Ensure DATABASE_URL is set
-if (!process.env.DATABASE_URL || process.env.DATABASE_URL === "file:./dev.db") {
-  process.env.DATABASE_URL =
-    "postgresql://postgres.nzkxfrvejnicvgizlmza:ddSnabadRAHCAxw3@aws-1-sa-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true&sslmode=require";
-  process.env.DIRECT_URL =
-    "postgresql://postgres.nzkxfrvejnicvgizlmza:ddSnabadRAHCAxw3@aws-1-sa-east-1.pooler.supabase.com:5432/postgres?sslmode=require";
+// Validate DATABASE_URL environment variable
+if (!process.env.DATABASE_URL) {
+  throw new Error("DATABASE_URL environment variable is not set. Please configure it in your .env file.");
 }
 
 // Local Prisma singleton
