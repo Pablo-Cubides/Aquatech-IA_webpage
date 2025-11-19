@@ -5,6 +5,7 @@ This directory contains Git hooks to prevent committing sensitive information.
 ## Pre-commit Hook
 
 The `pre-commit` hook scans staged files for:
+
 - Database connection strings (PostgreSQL, MySQL)
 - API keys and tokens
 - Passwords and secrets
@@ -31,6 +32,7 @@ icacls .husky\pre-commit /grant Everyone:RX
 The hook runs automatically on `git commit`. If secrets are detected, the commit will be blocked.
 
 **Example blocked commit:**
+
 ```
 ❌ ERROR: Potential secret detected in apps/web/src/app/api/notes/route.ts
    Pattern: postgresql://[a-zA-Z0-9._-]+:[^@\s]+@
@@ -42,6 +44,7 @@ Add the value to .env file and reference it with process.env.VARIABLE_NAME
 ## Bypassing (Emergency Only)
 
 If you need to bypass the check (NOT recommended):
+
 ```bash
 git commit --no-verify -m "message"
 ```

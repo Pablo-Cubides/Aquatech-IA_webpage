@@ -5,6 +5,7 @@
 **Status**: ⚠️ **ACTIVE SECURITY INCIDENT**
 
 GitGuardian has detected PostgreSQL credentials in the repository history:
+
 - Incidents: #22561675, #22561678, #22561676, #22561677
 - Files affected: `apps/web/src/app/api/notes/route.ts`, `apps/api/prisma-helper.ps1`
 - Date exposed: Oct 30 - Nov 11, 2024
@@ -34,6 +35,7 @@ Database: postgres
 ### Step 1: Rotate Database Password (5 minutes)
 
 1. **Go to Supabase:**
+
    ```
    https://supabase.com/dashboard/project/nzkxfrvejnicvgizlmza/settings/database
    ```
@@ -46,6 +48,7 @@ Database: postgres
    - Save the new connection string
 
 3. **Update Local Environment:**
+
    ```bash
    # Edit your .env file
    DATABASE_URL="postgresql://postgres.nzkxfrvejnicvgizlmza:NEW_PASSWORD@aws-1-sa-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true&sslmode=require"
@@ -104,6 +107,7 @@ git reset --hard origin/main
 #### Option B: Do Nothing (Simpler but Less Secure)
 
 If you don't clean history:
+
 - Old commits will still show the password
 - But the password won't work anymore (after Step 1)
 - GitGuardian alerts will remain (mark as "Revoked")
@@ -149,6 +153,7 @@ git commit -m "test"
 ```
 
 The hook will block commits containing:
+
 - Database connection strings
 - API keys
 - Passwords and secrets
@@ -185,10 +190,12 @@ After completing all steps:
 ## ❓ Need Help?
 
 **Questions?**
+
 - Contact: pacubidesg@unal.edu.co
 - GitHub: @Pablo-Cubides
 
 **References:**
+
 - BFG Repo-Cleaner: https://rtyley.github.io/bfg-repo-cleaner/
 - GitGuardian Docs: https://docs.gitguardian.com/
 - Supabase Security: https://supabase.com/docs/guides/platform/going-into-prod

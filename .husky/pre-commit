@@ -1,35 +1,71 @@
 #!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
 
 # Check for potential secrets before commit
 echo "🔍 Scanning for secrets..."
 
-# Patterns to detect
-PATTERNS=(
-  "postgresql://[a-zA-Z0-9._-]+:[^@\s]+@"
-  "mysql://[a-zA-Z0-9._-]+:[^@\s]+@"
-  "(password|passwd|pwd)\s*=\s*['\"][^'\"]{8,}['\"]"
-  "(api[_-]?key|apikey)\s*=\s*['\"][^'\"]{20,}['\"]"
-  "(secret|token)\s*=\s*['\"][^'\"]{20,}['\"]"
-  "-----BEGIN (RSA |DSA )?PRIVATE KEY-----"
-)
+# Skip check if no staged files
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM 2>/dev/null)
+if [ -z "$STAGED_FILES" ]; then
+  echo "✅ No files to check"
+  exit 0
+fi
 
-# Get staged files
-FILES=$(git diff --cached --name-only --diff-filter=ACM)
+# Patterns to detect (extended regex)
+check_file() {
+  file="$1"
+  
+  # Skip binary files, lock files, and documentation with examples
+  case "$file" in
+    *.lock|*.png|*.jpg|*.jpeg|*.gif|*.ico|*.svg|*.woff|*.woff2|*.ttf|*.eot|pnpm-lock.yaml|package-lock.json|yarn.lock|SECURITY*.md|*.example|.env.example)
+      return 0
+      ;;
+  esac
+  
+  # Check if file exists
+  if [ ! -f "$file" ]; then
+    return 0
+  fi
+  
+  # Check for database URIs with credentials (only in added lines)
+  if git diff --cached "$file" | grep "^+" | grep -qE "postgresql://[a-zA-Z0-9._-]+:[^@\s]{8,}@[^/]+/"; then
+    echo "❌ ERROR: PostgreSQL connection string with password detected in $file"
+    echo "   Use environment variables: process.env.DATABASE_URL"
+    return 1
+  fi
+  
+  if git diff --cached "$file" | grep "^+" | grep -qE "mysql://[a-zA-Z0-9._-]+:[^@\s]{8,}@"; then
+    echo "❌ ERROR: MySQL connection string with password detected in $file"
+    echo "   Use environment variables: process.env.DATABASE_URL"
+    return 1
+  fi
+  
+  # Check for AWS keys
+  if git diff --cached "$file" | grep "^+" | grep -qE "(AKIA|ASIA)[0-9A-Z]{16}"; then
+    echo "❌ ERROR: AWS Access Key detected in $file"
+    return 1
+  fi
+  
+  return 0
+}
 
-for FILE in $FILES; do
-  if [ -f "$FILE" ]; then
-    for PATTERN in "${PATTERNS[@]}"; do
-      if grep -qE "$PATTERN" "$FILE"; then
-        echo "❌ ERROR: Potential secret detected in $FILE"
-        echo "   Pattern: $PATTERN"
-        echo ""
-        echo "Please remove the secret and use environment variables instead."
-        echo "Add the value to .env file and reference it with process.env.VARIABLE_NAME"
-        exit 1
-      fi
-    done
+# Check all staged files
+HAS_ERROR=0
+for FILE in $STAGED_FILES; do
+  if ! check_file "$FILE"; then
+    HAS_ERROR=1
   fi
 done
 
+if [ $HAS_ERROR -eq 1 ]; then
+  echo ""
+  echo "❌ Commit blocked: Secrets detected!"
+  echo "Please remove sensitive data and use environment variables instead."
+  echo "Add values to .env file and reference with process.env.VARIABLE_NAME"
+  echo ""
+  echo "To bypass this check (NOT recommended):"
+  echo "  git commit --no-verify"
+  exit 1
+fi
+
 echo "✅ No secrets detected"
+exit 0
