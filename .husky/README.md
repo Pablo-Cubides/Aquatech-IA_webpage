@@ -56,6 +56,8 @@ git commit --no-verify -m "message"
 3. **Secrets**: `secret="xxx..."`
 4. **Private Keys**: `-----BEGIN PRIVATE KEY-----`
 
-## Adding to Existing Repository
+## Best Practices
 
-Already committed secrets? See `SECURITY.md` for remediation steps.
+- Always use `.env` files for sensitive configuration
+- Never commit `.env` files (use `.env.example` as template)
+- Review staged changes before committing: `git diff --cached`

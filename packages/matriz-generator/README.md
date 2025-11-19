@@ -132,14 +132,14 @@ export default function GeneradorMatricesPortal() {
 }
 ```
 
-## 🔄 Actualización de Componentes
+## 🔄 Desarrollo
 
-Para actualizar componentes desde el repositorio original:
+Para modificar componentes:
 
-1. Sincronizar desde `temp-matrices-analysis/src/components/`
-2. Actualizar imports a usar path aliases
-3. Ejecutar tests
-4. Hacer commit
+1. Editar componentes en `src/components/`
+2. Actualizar tests correspondientes
+3. Ejecutar `pnpm test` para validar
+4. Hacer commit con descripción clara
 
 ## 🧪 Testing
 
