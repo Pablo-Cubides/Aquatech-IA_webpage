@@ -11,7 +11,7 @@
     }
   },
   "scripts": {
-    "lint": "eslint src/",
+    "lint": "npx eslint src/",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\""
   },
