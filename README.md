@@ -210,3 +210,5 @@ pnpm --filter api test
 ## 📄 License
 
 [Your License Here]
+
+Last updated: November 27, 2025
