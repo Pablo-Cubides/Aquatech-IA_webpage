@@ -62,7 +62,7 @@ const academicReferences = {
   ],
 };
 
-// Componentes auxiliares para la nueva estructura educativa
+// Auxiliary components for the new educational structure
 function StepHeader({ num, title }: { num: number; title: string }) {
   return (
     <div className="flex items-center gap-4 mb-6 animate-slide-up">

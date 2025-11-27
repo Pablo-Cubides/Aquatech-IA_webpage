@@ -88,11 +88,11 @@ export default function ProfileSection({ portal }: ProfileSectionProps) {
     }
     const nextUrl = URL.createObjectURL(file);
     setAvatarUrl(nextUrl);
-    // TODO: subir a storage y guardar URL permanente
+    // TODO: upload to storage and save permanent URL
   };
 
   const handleSave = () => {
-    // TODO: Persistir en base de datos
+    // TODO: Persist in database
     console.log({
       avatarUrl,
       fullName,
@@ -110,7 +110,7 @@ export default function ProfileSection({ portal }: ProfileSectionProps) {
     alert("Cambios guardados (demo).");
   };
 
-  // Clases condicionales según el tema
+  // Conditional classes based on theme
   const bgMain = isDark ? "bg-[#10111A]" : "bg-[#F5F9F8]";
   const textMain = isDark ? "text-slate-200" : "text-[#0D161C]";
   const textSecondary = isDark ? "text-slate-400" : "text-gray-600";

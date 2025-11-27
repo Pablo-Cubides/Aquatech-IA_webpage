@@ -380,7 +380,7 @@ export default function BlogAmbientalPage() {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  // TODO: Implementar suscripción
+                  // TODO: Implement subscription
                 }}
                 className="space-y-3"
               >

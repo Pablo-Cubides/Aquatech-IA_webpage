@@ -123,12 +123,11 @@ export default function IAPage() {
               className="rounded-2xl border border-cyan-500/30 bg-gray-900/50 p-6 transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20"
             >
               <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
-                <img
-                  alt="Análisis de Agua con IA"
-                  className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
-                  src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400&h=300&fit=crop&crop=center"
-                />
-              </div>
+                                  <img
+                                  alt="Análisis de Agua con IA"
+                                  className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
+                                  src="/images/Portal IA/Herramientas/LLM Insight.png"
+                                />              </div>
               <h3 className="mt-4 text-xl font-bold text-white">
                 Cómo funciona un LLM
               </h3>
@@ -147,12 +146,11 @@ export default function IAPage() {
               className="rounded-2xl border border-cyan-500/30 bg-gray-900/50 p-6 transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20"
             >
               <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
-                <img
-                  alt="Visor de Difusión"
-                  className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
-                  src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=300&fit=crop&crop=center"
-                />
-              </div>
+                                  <img
+                                  alt="Visor de Difusión"
+                                  className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
+                                  src="/images/Portal IA/Herramientas/PixelGen.png"
+                                />              </div>
               <h3 className="mt-4 text-xl font-bold text-white">
                 Visor de difusión
               </h3>
@@ -171,12 +169,11 @@ export default function IAPage() {
               className="rounded-2xl border border-cyan-500/30 bg-gray-900/50 p-6 transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20"
             >
               <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
-                <img
-                  alt="Filtros de IA"
-                  className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
-                  src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=400&h=300&fit=crop&crop=center"
-                />
-              </div>
+                                  <img
+                                  alt="Filtros de IA"
+                                  className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
+                                  src="/images/Portal IA/Herramientas/FiltrarIA.png"
+                                />              </div>
               <h3 className="mt-4 text-xl font-bold text-white">
                 Cómo la IA filtra las respuestas
               </h3>
@@ -353,8 +350,10 @@ export default function IAPage() {
             <div className="mt-4 flex justify-center gap-4 md:justify-start">
               <a
                 className="hover:text-[#00EFFF]"
-                href="#"
+                href="https://www.linkedin.com/"
                 aria-label="LinkedIn"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <svg
                   fill="currentColor"
@@ -366,7 +365,13 @@ export default function IAPage() {
                   <path d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24Zm0,192H40V40H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z" />
                 </svg>
               </a>
-              <a className="hover:text-[#00EFFF]" href="#" aria-label="X">
+              <a
+                className="hover:text-[#00EFFF]"
+                href="https://twitter.com/"
+                aria-label="X"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <svg
                   fill="currentColor"
                   height="24px"

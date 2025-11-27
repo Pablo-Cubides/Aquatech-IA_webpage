@@ -210,7 +210,7 @@ describe("Análisis de Correlaciones - Analytics", () => {
 });
 
 describe("Correlación de Pearson", () => {
-  // Función helper para calcular Pearson (copiada de la implementación)
+  // Helper function to calculate Pearson (copied from implementation)
   function pearsonCorrelation(x: number[], y: number[]): number {
     const n = x.length;
     const sumX = x.reduce((a, b) => a + b, 0);
@@ -257,7 +257,7 @@ describe("Correlación de Pearson", () => {
 });
 
 describe("Correlación de Spearman", () => {
-  // Función helper para ranking (debe mantener índices originales)
+  // Helper function for ranking (must maintain original indices)
   function getRanks(arr: number[]): number[] {
     const indexed = arr.map((val, idx) => ({ val, idx }));
     indexed.sort((a, b) => a.val - b.val);

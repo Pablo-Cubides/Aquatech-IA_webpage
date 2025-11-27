@@ -6,12 +6,12 @@ import ResultsSection from "./ResultsSection";
 import ErrorModal from "../components/ErrorModal";
 import { sampleCorrelation } from "simple-statistics";
 
-// Función para calcular correlación de Pearson
+// Function to calculate Pearson correlation
 function pearsonCorrelation(x: number[], y: number[]): number {
   return sampleCorrelation(x, y);
 }
 
-// Función para calcular correlación de Spearman (implementación básica)
+// Function to calculate Spearman correlation (basic implementation)
 function spearmanCorrelation(x: number[], y: number[]): number {
   const n = x.length;
   const rankX = x
@@ -25,7 +25,7 @@ function spearmanCorrelation(x: number[], y: number[]): number {
   return sampleCorrelation(rankX, rankY);
 }
 
-// Función para calcular correlación de Kendall (implementación básica)
+// Function to calculate Kendall correlation (basic implementation)
 function kendallCorrelation(x: number[], y: number[]): number {
   let concordant = 0;
   let discordant = 0;
@@ -40,7 +40,7 @@ function kendallCorrelation(x: number[], y: number[]): number {
   return (concordant - discordant) / (concordant + discordant);
 }
 
-// Función para parsear archivo
+// Function to parse file
 async function parseFile(file: File): Promise<any[]> {
   return new Promise(async (resolve, reject) => {
     if (file.name.endsWith(".csv")) {
@@ -108,7 +108,7 @@ async function parseFile(file: File): Promise<any[]> {
   });
 }
 
-// Función para calcular correlaciones
+// Function to calculate correlations
 function calculateCorrelations(data: any[]): {
   correlation_results: any[];
   numeric_columns: string[];

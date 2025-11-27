@@ -1,6 +1,7 @@
 "use client";
 
-"use client";
+import { useEffect } from "react";
+import Link from "next/link";
 
 interface Props {
   error: Error & { digest?: string };
@@ -8,22 +9,51 @@ interface Props {
 }
 
 export default function IaError({ error, reset }: Props) {
+  useEffect(() => {
+    // TODO: Error reporting to Sentry
+    console.error(error);
+  }, [error]);
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#10111A] text-white">
-      <div className="text-center">
-        <h1 className="text-6xl font-bold text-[#0095FF] mb-4">Error</h1>
-        <h2 className="text-2xl mb-4">Algo salió mal</h2>
-        <p className="text-[#CCCCCC] mb-8">
-          Ha ocurrido un error inesperado en el portal IA.
-        </p>
-        {/* TODO: Botón retry estilizado */}
-        {/* TODO: Reporte de error a Sentry */}
-        <button
-          onClick={reset}
-          className="bg-[#00EFFF] text-[#10111A] px-6 py-3 rounded-lg font-semibold hover:bg-[#0095FF] transition-colors"
+      <div className="text-center p-8 max-w-lg mx-auto">
+        <svg
+          className="w-24 h-24 text-red-500 mx-auto mb-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          Intentar de nuevo
-        </button>
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <h1 className="text-4xl font-bold text-[#00EFFF] mb-4">
+          ¡Ups! Algo salió mal
+        </h1>
+        <p className="text-[#CCCCCC] mb-6">
+          Ha ocurrido un error inesperado en el portal de IA. Nuestro
+          equipo técnico ha sido notificado.
+        </p>
+        <p className="text-sm text-gray-500 mb-8">
+          ERROR: {error.message || "Error desconocido"}
+        </p>
+        <div className="flex flex-col sm:flex-row justify-center gap-4">
+          <button
+            onClick={reset}
+            className="bg-[#00EFFF] text-black px-6 py-3 rounded-lg font-semibold hover:bg-white transition-colors"
+          >
+            Intentar de nuevo
+          </button>
+          <Link href="/ia">
+            <p className="bg-transparent border-2 border-[#00EFFF] text-[#00EFFF] px-6 py-3 rounded-lg font-semibold hover:bg-[#00EFFF] hover:text-black transition-colors">
+              Volver al inicio
+            </p>
+          </Link>
+        </div>
       </div>
     </div>
   );

@@ -151,7 +151,7 @@ export interface IframeMessage {
 }
 
 /**
- * Estados de UI comunes
+ * Common UI states
  */
 
 export type LoadingState = "idle" | "loading" | "success" | "error";

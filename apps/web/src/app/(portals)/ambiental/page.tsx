@@ -127,7 +127,7 @@ export default function AmbientalPage() {
                   <img
                     alt="Visor de mapas ambientales"
                     className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
-                    src="https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=400&h=300&fit=crop&crop=center"
+                    src="/images/Portal ambiental/Herramientas/GeoVisor.png"
                   />
                 </div>
                 <h3 className="mt-4 text-xl font-semibold">
@@ -150,7 +150,7 @@ export default function AmbientalPage() {
                   <img
                     alt="Normas ambientales"
                     className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
-                    src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=400&h=300&fit=crop&crop=center"
+                    src="/images/Portal ambiental/Herramientas/NormaGlobal.png"
                   />
                 </div>
                 <h3 className="mt-4 text-xl font-semibold">
@@ -173,7 +173,7 @@ export default function AmbientalPage() {
                   <img
                     alt="Generador de matrices de EIA"
                     className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
-                    src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop&crop=center"
+                    src="/images/Portal ambiental/Herramientas/MatrizIA.png"
                   />
                 </div>
                 <h3 className="mt-4 text-xl font-semibold">

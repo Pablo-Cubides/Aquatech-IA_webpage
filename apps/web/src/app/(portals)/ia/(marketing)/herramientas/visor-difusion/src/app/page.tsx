@@ -106,7 +106,7 @@ export default function Home() {
   });
   const [isExporting, setIsExporting] = useState<boolean>(false);
 
-  // --- ESTADOS DE IMAGEN ---
+  // --- IMAGE STATES ---
   const [noiseImage, setNoiseImage] = useState<string | null>(null);
   const [intermediateImage, setIntermediateImage] = useState<string | null>(
     null,
@@ -115,16 +115,16 @@ export default function Home() {
     'Bienvenido. Selecciona un prompt y haz clic en "Iniciar Simulación".',
   );
 
-  // --- ESTADO PARA LA IMAGEN DE RUIDO TRANSPARENTE ---
+  // --- STATE FOR TRANSPARENT NOISE IMAGE ---
   const [noiseOverlayImage, setNoiseOverlayImage] = useState<string | null>(
     null,
   );
   const [overlayOpacity, setOverlayOpacity] = useState<number>(0.3);
 
-  // --- ESTADO PARA EL PROMPT SELECCIONADO ---
+  // --- STATE FOR SELECTED PROMPT ---
   const [selectedPromptText, setSelectedPromptText] = useState<string>("");
 
-  // --- ESTADOS PARA EL PANEL INFERIOR ---
+  // --- STATES FOR BOTTOM PANEL ---
   const [selectedModel, setSelectedModel] = useState<string>("");
   const [selectedOriginalPrompt, setSelectedOriginalPrompt] =
     useState<string>("");
@@ -168,7 +168,7 @@ export default function Home() {
       }
     };
     fetchPrompts();
-  }, []); // --- FUNCIÓN PARA CARGAR IMAGEN DE RUIDO ESTÁTICA ---
+  }, []); // --- FUNCTION TO LOAD STATIC NOISE IMAGE ---
   const loadStaticNoiseImage = async (step: number): Promise<string | null> => {
     if (step < 2 || step > 9) return null;
     try {
@@ -184,7 +184,7 @@ export default function Home() {
     }
   };
 
-  // --- EFECTO PARA GENERAR RUIDO EN CADA PASO ---
+  // --- EFFECT TO GENERATE NOISE AT EACH STEP ---
   useEffect(() => {
     const loadNoiseOverlay = async () => {
       const overlay = await loadStaticNoiseImage(currentStep);

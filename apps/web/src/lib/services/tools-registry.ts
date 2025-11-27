@@ -145,14 +145,14 @@ export const ambientalTools: Tool[] = [
 ];
 
 /**
- * Función para obtener herramientas por portal
+ * Function to get tools by portal
  */
 export function getToolsByPortal(portal: "ia" | "ambiental"): Tool[] {
   return portal === "ia" ? iaTools : ambientalTools;
 }
 
 /**
- * Función para obtener una herramienta por slug y portal
+ * Function to get a tool by slug and portal
  */
 export function getToolBySlug(
   slug: string,
@@ -163,7 +163,7 @@ export function getToolBySlug(
 }
 
 /**
- * Función para validar si un slug existe
+ * Function to validate if a slug exists
  */
 export function isValidToolSlug(
   slug: string,

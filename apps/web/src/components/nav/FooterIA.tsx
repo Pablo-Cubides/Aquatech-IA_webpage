@@ -140,7 +140,7 @@ export default function FooterIA() {
               className="mt-4 flex"
               onSubmit={(e) => {
                 e.preventDefault();
-                // TODO: Conectar con servicio de newsletter
+                // TODO: Connect with newsletter service
                 console.log("Newsletter subscription");
               }}
             >

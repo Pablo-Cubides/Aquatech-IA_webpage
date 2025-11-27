@@ -355,7 +355,7 @@ export default function BlogSection({ portal }: BlogSectionProps) {
   const CATEGORIES =
     currentPortal === "ia" ? IA_CATEGORIES : AMBIENTAL_CATEGORIES;
 
-  // Estados
+  // States
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<string>("Todos");
   const [sort, setSort] = useState<"recent" | "popular" | "old">("recent");
@@ -430,7 +430,7 @@ export default function BlogSection({ portal }: BlogSectionProps) {
     setPage(1);
   }, [category, query, sort]);
 
-  // Clases condicionales según el tema
+  // Conditional classes based on theme
   const bgMain = isDark ? "bg-[#10111A]" : "bg-[#F5F9F8]";
   const bgSecondary = isDark ? "bg-[#131522]" : "bg-white";
   const bgTertiary = isDark ? "bg-[#141725]" : "bg-gray-50";

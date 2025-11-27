@@ -275,6 +275,23 @@ model SystemLog {
   @@map("system_logs")
 }
 
+// Tool Analytics
+model ToolAnalytics {
+  id        String   @id @default(cuid())
+  tool      String
+  eventName String   @map("event_name")
+  eventData Json?    @map("event_data")
+  userId    String?  @map("user_id")
+  ipAddress String?  @map("ip_address")
+  userAgent String?  @map("user_agent")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([tool])
+  @@index([eventName])
+  @@index([createdAt])
+  @@map("tool_analytics")
+}
+
 // Enums
 enum UserRole {
   USER

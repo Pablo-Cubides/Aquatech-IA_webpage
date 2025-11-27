@@ -6,7 +6,7 @@ interface Props {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  // TODO: Obtener datos de la herramienta desde el registry
+  // TODO: Get tool data from registry
   return {
     title: `${params.slug} | Herramientas IA`,
     description: `Explora la herramienta ${params.slug} de inteligencia artificial.`,
@@ -14,8 +14,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default function IAHerramientaPage({ params }: Props) {
-  // TODO: Validar que el slug existe en el registry de herramientas IA
-  // TODO: Si no existe, llamar notFound()
+  // TODO: Validate that slug exists in IA tools registry
+  // TODO: If it doesn't exist, call notFound()
 
   return (
     <div>

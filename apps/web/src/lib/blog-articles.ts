@@ -1,5 +1,5 @@
-// Configuración de artículos para ambos portales
-// Este archivo puede ser editado fácilmente para agregar nuevos artículos
+// Article configuration for both portals
+// This file can be easily edited to add new articles
 
 export type BlogArticle = {
   slug: string;
@@ -296,7 +296,7 @@ export const IA_ARTICLES: Record<string, BlogArticle> = {
   },
 };
 
-// Función helper para obtener artículo por slug y portal
+// Helper function to get article by slug and portal
 export function getArticle(
   portal: "ia" | "ambiental",
   slug: string,
@@ -305,13 +305,13 @@ export function getArticle(
   return articles[slug] || null;
 }
 
-// Función helper para obtener todos los artículos de un portal
+// Helper function to get all articles from a portal
 export function getAllArticles(portal: "ia" | "ambiental"): BlogArticle[] {
   const articles = portal === "ia" ? IA_ARTICLES : AMBIENTAL_ARTICLES;
   return Object.values(articles);
 }
 
-// Función helper para generar tabla de contenidos
+// Helper function to generate table of contents
 export function generateTOC(sections: BlogArticle["content"]["sections"]) {
   return sections.map((section) => ({
     id: section.id,

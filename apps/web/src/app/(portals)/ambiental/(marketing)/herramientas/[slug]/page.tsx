@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return notFound();
   }
 
-  // TODO: Obtener datos de la herramienta desde el registry
+  // TODO: Get tool data from registry
   return {
     title: `${slug} | Herramientas Ambientales`,
     description: `Explora la herramienta ${slug} para el cuidado ambiental.`,
@@ -36,8 +36,8 @@ export default async function AmbientalHerramientaPage({ params }: Props) {
     notFound();
   }
 
-  // TODO: Validar que el slug existe en el registry de herramientas ambientales
-  // TODO: Si no existe, llamar notFound()
+  // TODO: Validate that slug exists in environmental tools registry
+  // TODO: If it doesn't exist, call notFound()
 
   return (
     <div>

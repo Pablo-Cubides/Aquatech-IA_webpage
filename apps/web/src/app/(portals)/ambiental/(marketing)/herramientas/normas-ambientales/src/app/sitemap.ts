@@ -18,7 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 1,
   });
 
-  // Página de fundamentos
+  // Fundamentals page
   sitemap.push({
     url: `${BASE_URL}/fundamentos`,
     lastModified: new Date(),
@@ -26,7 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   });
 
-  // Página de explorar (genérica)
+  // Explore page (generic)
   sitemap.push({
     url: `${BASE_URL}/explorar`,
     lastModified: new Date(),

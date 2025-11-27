@@ -1,8 +1,30 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import * as Sentry from "@sentry/nextjs";
+import { prisma } from "@ia-next/database";
 
 export const runtime = "nodejs";
+
+async function cleanupOldAnalytics() {
+  try {
+    // Keep data for 90 days
+    const retentionPeriod = new Date();
+    retentionPeriod.setDate(retentionPeriod.getDate() - 90);
+
+    await prisma.toolAnalytics.deleteMany({
+      where: {
+        createdAt: {
+          lt: retentionPeriod,
+        },
+      },
+    });
+  } catch (error) {
+    console.error("Failed to cleanup old analytics:", error);
+    Sentry.captureException(error, {
+      tags: { task: "analytics_cleanup" },
+    });
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,19 +39,19 @@ export async function POST(request: NextRequest) {
     }
 
     // Create analytics record
-    const analyticsRecord = {
-      id: crypto.randomUUID(),
-      eventName,
-      tool,
-      eventData,
-      userId: session?.user?.email || null,
-      timestamp: new Date().toISOString(),
-      userAgent: request.headers.get("user-agent"),
-      ipAddress:
-        request.headers.get("x-forwarded-for") ||
-        request.headers.get("x-client-ip") ||
-        "unknown",
-    };
+    const analyticsRecord = await prisma.toolAnalytics.create({
+      data: {
+        eventName,
+        tool,
+        eventData: eventData || {},
+        userId: session?.user?.email || null,
+        userAgent: request.headers.get("user-agent"),
+        ipAddress:
+          request.headers.get("x-forwarded-for") ||
+          request.headers.get("x-client-ip") ||
+          "unknown",
+      },
+    });
 
     // Log to Sentry (already integrated at client side, but server-side for redundancy)
     Sentry.captureMessage(`Tool Analytics: ${tool} - ${eventName}`, {
@@ -42,11 +64,11 @@ export async function POST(request: NextRequest) {
       extra: analyticsRecord,
     });
 
-    // TODO: In production, save to Supabase
-    // const { data, error } = await supabase
-    //   .from('tool_analytics')
-    //   .insert([analyticsRecord]);
-    // if (error) throw error;
+    // Probabilistic cleanup (1% chance) to avoid running on every request
+    if (Math.random() < 0.01) {
+      // Fire and forget - don't await to avoid slowing down the response
+      cleanupOldAnalytics();
+    }
 
     return NextResponse.json({
       success: true,
@@ -72,19 +94,35 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // TODO: In production, fetch from Supabase
-    // const { data, error } = await supabase
-    //   .from('tool_analytics')
-    //   .select('*')
-    //   .gte('timestamp', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString());
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-    // For now, return stub stats
+    const [recentEvents, uniqueUsersCount] = await Promise.all([
+      prisma.toolAnalytics.count({
+        where: {
+          createdAt: {
+            gte: sevenDaysAgo,
+          },
+        },
+      }),
+      prisma.toolAnalytics.groupBy({
+        by: ["userId"],
+        where: {
+          createdAt: {
+            gte: sevenDaysAgo,
+          },
+          userId: {
+            not: null,
+          },
+        },
+      }),
+    ]);
+
     return NextResponse.json({
       stats: {
-        message:
-          "Analytics endpoint ready. Connect to Supabase to enable data persistence.",
-        recentEvents: 0,
-        uniqueUsers: 0,
+        message: "Analytics data retrieved successfully",
+        recentEvents,
+        uniqueUsers: uniqueUsersCount.length,
         lastUpdated: new Date().toISOString(),
       },
     });
