@@ -77,8 +77,8 @@ jobs:
         with:
           version: 8
 
-      - name: Ensure ESLint v8 is installed
-        run: pnpm add -D eslint@8.57.1
+      - name: Ensure ESLint v8 is installed (workspace root)
+        run: pnpm -w add -D eslint@8.57.1
 
       - name: Restore node_modules cache
         uses: actions/cache@v4
