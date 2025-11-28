@@ -8,7 +8,7 @@ import type {
   GeoJSONFeature,
   FilterState,
   User,
-} from "../types";
+} from "@/types";
 import { logger } from "@/lib/logger";
 
 // Dynamically import MapComponent to avoid SSR issues

@@ -1,0 +1,9 @@
+src/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambientales/src/components/MapComponent.tsx(64,7): error TS2322: Type '{ type: "Feature"; geometry: { type: "Point"; coordinates: number[] | number[][] | number[][][]; }; properties: Record<string, any>; }[]' is not assignable to type 'Feature<Geometry, GeoJsonProperties>[]'.
+  Type '{ type: "Feature"; geometry: { type: "Point"; coordinates: number[] | number[][] | number[][][]; }; properties: Record<string, any>; }' is not assignable to type 'Feature<Geometry, GeoJsonProperties>'.
+    Types of property 'geometry' are incompatible.
+      Type '{ type: "Point"; coordinates: number[] | number[][] | number[][][]; }' is not assignable to type 'Geometry'.
+        Type '{ type: "Point"; coordinates: number[] | number[][] | number[][][]; }' is not assignable to type 'Point'.
+          Types of property 'coordinates' are incompatible.
+            Type 'number[] | number[][] | number[][][]' is not assignable to type 'Position'.
+              Type 'number[][]' is not assignable to type 'number[]'.
+                Type 'number[]' is not assignable to type 'number'.

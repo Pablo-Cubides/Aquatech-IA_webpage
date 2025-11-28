@@ -113,7 +113,7 @@ export async function GET(request: NextRequest) {
       };
 
       // Store in cache
-      cache.set(cacheKey, { ts: Date.now(), value: result, hits: 0 });
+      sectoresCache.set(cacheKey, { ts: Date.now(), value: result, hits: 0 });
 
       return NextResponse.json(result, {
         headers: {
@@ -133,7 +133,7 @@ export async function GET(request: NextRequest) {
     };
 
     // Cache this too
-    cache.set(cacheKey, { ts: Date.now(), value: result, hits: 0 });
+    sectoresCache.set(cacheKey, { ts: Date.now(), value: result, hits: 0 });
 
     return NextResponse.json(result, {
       status: 200,

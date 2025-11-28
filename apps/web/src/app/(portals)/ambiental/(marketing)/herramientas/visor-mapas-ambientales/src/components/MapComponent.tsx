@@ -63,7 +63,7 @@ export default function MapComponent({
       type: "FeatureCollection",
       features: data.map((f) => ({
         type: "Feature",
-        geometry: { type: "Point", coordinates: f.geometry.coordinates },
+        geometry: { type: "Point", coordinates: f.geometry.coordinates as [number, number] },
         properties: f.properties || {},
       })),
     };

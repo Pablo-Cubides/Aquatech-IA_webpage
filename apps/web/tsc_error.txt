@@ -1,0 +1,27 @@
+src/app/(portals)/ambiental/(marketing)/herramientas/normas-ambientales/src/app/api/sectores/route.ts(136,5): error TS2552: Cannot find name 'cache'. Did you mean 'cached'?
+src/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambientales/src/app/api/datasets/route.ts(156,25): error TS2339: Property 'id' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambientales/src/app/api/datasets/route.ts(167,33): error TS2339: Property 'id' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambientales/src/app/page.tsx(643,15): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(props: MapComponentProps, context?: any): string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | ... 4 more ... | undefined', gave the following error.
+    Type 'Dispatch<SetStateAction<GeoJSONFeature | null>>' is not assignable to type '(feature: GeoJSONFeature) => void'.
+      Types of parameters 'value' and 'feature' are incompatible.
+        Type 'GeoJSONFeature' is not assignable to type 'SetStateAction<GeoJSONFeature | null>'.
+          Type 'import("D:/Empresas/AquatechIA/webpage/apps/web/src/types/index").GeoJSONFeature' is not assignable to type 'import("D:/Empresas/AquatechIA/webpage/apps/web/src/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambientales/src/types/index").GeoJSONFeature'.
+            The types of 'geometry.type' are incompatible between these types.
+              Type 'string' is not assignable to type '"Point"'.
+  Overload 2 of 2, '(props: MapComponentProps): string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | ... 4 more ... | undefined', gave the following error.
+    Type 'Dispatch<SetStateAction<GeoJSONFeature | null>>' is not assignable to type '(feature: GeoJSONFeature) => void'.
+      Types of parameters 'value' and 'feature' are incompatible.
+        Type 'GeoJSONFeature' is not assignable to type 'SetStateAction<GeoJSONFeature | null>'.
+          Type 'import("D:/Empresas/AquatechIA/webpage/apps/web/src/types/index").GeoJSONFeature' is not assignable to type 'import("D:/Empresas/AquatechIA/webpage/apps/web/src/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambientales/src/types/index").GeoJSONFeature'.
+            The types of 'geometry.type' are incompatible between these types.
+              Type 'string' is not assignable to type '"Point"'.
+src/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambientales/src/components/MapComponent.tsx(64,7): error TS2322: Type '{ type: "Feature"; geometry: { type: "Point"; coordinates: number[] | number[][] | number[][][]; }; properties: Record<string, any>; }[]' is not assignable to type 'Feature<Geometry, GeoJsonProperties>[]'.
+  Type '{ type: "Feature"; geometry: { type: "Point"; coordinates: number[] | number[][] | number[][][]; }; properties: Record<string, any>; }' is not assignable to type 'Feature<Geometry, GeoJsonProperties>'.
+    Types of property 'geometry' are incompatible.
+      Type '{ type: "Point"; coordinates: number[] | number[][] | number[][][]; }' is not assignable to type 'Geometry'.
+        Type '{ type: "Point"; coordinates: number[] | number[][] | number[][][]; }' is not assignable to type 'Point'.
+          Types of property 'coordinates' are incompatible.
+            Type 'number[] | number[][] | number[][][]' is not assignable to type 'Position'.
+              Type 'number[][]' is not assignable to type 'number[]'.
+                Type 'number[]' is not assignable to type 'number'.

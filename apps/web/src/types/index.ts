@@ -90,3 +90,82 @@ export type Proyecto = {
   factores: Factor[];
   impactos: ImpactoBase[];
 };
+
+// --- New Types for UploadWizard ---
+
+export interface UploadWizardStep1 {
+  file: File;
+  fileType: 'geojson' | 'csv' | 'xlsx';
+}
+
+export interface ColumnMapping {
+  lat: string;
+  lon: string;
+  fecha: string;
+  pais: string;
+  departamento: string;
+  ciudad: string;
+  parameters: Record<string, string>;
+  units: Record<string, string>;
+}
+
+export interface UploadWizardStep2 {
+  columnMapping: ColumnMapping;
+  rawData: any[];
+  detectedColumns: string[];
+}
+
+export interface UploadWizardStep3 {
+  name: string;
+  description: string;
+  maxPointsPerDay?: number;
+  confirmWarning: boolean;
+}
+
+export interface GeoJSONFeature {
+  type: 'Feature';
+  geometry: {
+    type: string;
+    coordinates: number[] | number[][] | number[][][];
+  };
+  properties: Record<string, any>;
+}
+
+export interface DatasetMetadata {
+  id: string;
+  name: string;
+  description: string;
+  owner_id: string;
+  created_at: string;
+  updated_at: string;
+  column_mapping: {
+    lat: string;
+    lon: string;
+    fecha: string;
+    pais: string;
+    departamento: string;
+    ciudad: string;
+    parameters: { [key: string]: string };
+  };
+  available_dates: string[];
+  parameters: string[];
+  units: { [parameter: string]: string };
+  max_points_per_day?: number;
+}
+
+export interface FilterState {
+  pais?: string;
+  departamento?: string;
+  ciudad?: string;
+  parameters: string[];
+}
+
+export interface User {
+  id: string;
+  email: string;
+  role: 'admin' | 'uploader' | 'viewer';
+}
+
+export const SECTOR_NORMALIZATION_MAP: Record<string, string> = {
+  // Add normalization mappings here if needed
+};
