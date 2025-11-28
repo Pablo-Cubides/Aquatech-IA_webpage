@@ -11,7 +11,8 @@
     }
   },
   "scripts": {
-    "lint": "pnpm exec eslint src/",
+    "build": "prisma generate",
+    "lint": "pnpm exec eslint src/ --ext .ts,.tsx",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "postinstall": "prisma generate"
