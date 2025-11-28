@@ -1,0 +1,61 @@
+turbo 2.5.8
+
+ΓÇó Packages in scope: @ia-next/web
+ΓÇó Running build in 1 packages
+ΓÇó Remote caching disabled
+@ia-next/database:build: cache hit, replaying logs 72104a642b3b547d
+@ia-next/database:build: 
+@ia-next/database:build: > @ia-next/database@0.0.1 build D:\Empresas\AquatechIA\webpage\packages\@ia-next\database
+@ia-next/database:build: > prisma generate
+@ia-next/database:build: 
+@ia-next/database:build: Prisma schema loaded from prisma\schema.prisma
+@ia-next/database:build: 
+@ia-next/database:build: Γ£ö Generated Prisma Client (v6.18.0) to .\..\..\..\node_modules\.pnpm\@prisma+client@6.18.0_prisma@6.18.0_typescript@5.9.3\node_modules\@prisma\client in 239ms
+@ia-next/database:build: 
+@ia-next/database:build: Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+@ia-next/database:build: 
+@ia-next/database:build: Tip: Want to turn off tips and other hints? https://pris.ly/tip-4-nohints
+@ia-next/database:build: 
+@ia-next/web:build: cache miss, executing d349236fab471889
+@ia-next/web:build: 
+@ia-next/web:build: > @ia-next/web@0.0.1 build D:\Empresas\AquatechIA\webpage\apps\web
+@ia-next/web:build: > next build
+@ia-next/web:build: 
+@ia-next/web:build:    Γû▓ Next.js 16.0.1 (Turbopack)
+@ia-next/web:build:    - Environments: .env.local, .env
+@ia-next/web:build:    - Experiments (use with caution):
+@ia-next/web:build:      ┬╖ serverActions
+@ia-next/web:build: 
+@ia-next/web:build:  ΓÜá The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+@ia-next/web:build:    Creating an optimized production build ...
+@ia-next/web:build:  Γ£ô Compiled successfully in 15.3s
+@ia-next/web:build:    Running TypeScript ...
+@ia-next/web:build: Failed to compile.
+@ia-next/web:build: 
+@ia-next/web:build: .next/types/validator.ts:801:31
+@ia-next/web:build: Type error: Type 'typeof import("D:/Empresas/AquatechIA/webpage/apps/web/src/app/api/questionsets/[id]/route")' does not satisfy the constraint 'RouteHandlerConfig<"/api/questionsets/[id]">'.
+@ia-next/web:build:   Types of property 'GET' are incompatible.
+@ia-next/web:build:     Type '(req: Request, { params }: { params: { id: string; }; }) => Promise<NextResponse<{ error: string; }> | NextResponse<{ questions: { text: string; id: number; }[]; } & { name: string; id: number; createdAt: Date; updatedAt: Date; createdBy: string | null; }>>' is not assignable to type '(request: NextRequest, context: { params: Promise<{ id: string; }>; }) => void | Response | Promise<void | Response>'.
+@ia-next/web:build:       Types of parameters '__1' and 'context' are incompatible.
+@ia-next/web:build:         Type '{ params: Promise<{ id: string; }>; }' is not assignable to type '{ params: { id: string; }; }'.
+@ia-next/web:build:           Types of property 'params' are incompatible.
+@ia-next/web:build:             Property 'id' is missing in type 'Promise<{ id: string; }>' but required in type '{ id: string; }'.
+@ia-next/web:build: 
+@ia-next/web:build: [0m [90m 799 |[39m   type __IsExpected[33m<[39m[33mSpecific[39m [36mextends[39m [33mRouteHandlerConfig[39m[33m<[39m[32m"/api/questionsets/[id]"[39m[33m>>[39m [33m=[39m [33mSpecific[39m
+@ia-next/web:build:  [90m 800 |[39m   [36mconst[39m handler [33m=[39m {} [36mas[39m [36mtypeof[39m [36mimport[39m([32m"../../src/app/api/questionsets/[id]/route.js"[39m)
+@ia-next/web:build: [31m[1m>[22m[39m[90m 801 |[39m   type __Check [33m=[39m __IsExpected[33m<[39m[36mtypeof[39m handler[33m>[39m
+@ia-next/web:build:  [90m     |[39m                               [31m[1m^[22m[39m
+@ia-next/web:build:  [90m 802 |[39m   [90m// @ts-ignore[39m
+@ia-next/web:build:  [90m 803 |[39m   type __Unused [33m=[39m __Check
+@ia-next/web:build:  [90m 804 |[39m }[0m
+@ia-next/web:build: Next.js build worker exited with code: 1 and signal: null
+@ia-next/web:build: ΓÇëELIFECYCLEΓÇë Command failed with exit code 1.
+@ia-next/web:build: ERROR: command finished with error: command (D:\Empresas\AquatechIA\webpage\apps\web) C:\Users\pacub\AppData\Local\pnpm\.tools\pnpm\8.15.6\bin\pnpm.CMD run build exited (1)
+@ia-next/web#build: command (D:\Empresas\AquatechIA\webpage\apps\web) C:\Users\pacub\AppData\Local\pnpm\.tools\pnpm\8.15.6\bin\pnpm.CMD run build exited (1)
+
+ Tasks:    1 successful, 2 total
+Cached:    1 cached, 2 total
+  Time:    33.74s 
+Failed:    @ia-next/web#build
+
+ ERROR  run failed: command  exited (1)

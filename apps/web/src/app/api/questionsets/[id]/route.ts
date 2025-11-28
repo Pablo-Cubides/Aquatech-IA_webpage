@@ -22,10 +22,13 @@ if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
  */
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
+  let idStr = "unknown";
   try {
-    const id = parseInt(params.id);
+    const resolvedParams = await params;
+    idStr = resolvedParams.id;
+    const id = parseInt(idStr);
 
     if (isNaN(id)) {
       return NextResponse.json({ error: "ID inválido" }, { status: 400 });
@@ -53,7 +56,7 @@ export async function GET(
 
     return NextResponse.json(questionSet);
   } catch (error: any) {
-    console.error(`Error fetching question set ${params.id}:`, error);
+    console.error(`Error fetching question set ${idStr}:`, error);
     return NextResponse.json(
       { error: "Error al obtener conjunto", details: error.message },
       { status: 500 },
@@ -67,10 +70,13 @@ export async function GET(
  */
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
+  let idStr = "unknown";
   try {
-    const id = parseInt(params.id);
+    const resolvedParams = await params;
+    idStr = resolvedParams.id;
+    const id = parseInt(idStr);
 
     if (isNaN(id)) {
       return NextResponse.json({ error: "ID inválido" }, { status: 400 });
@@ -98,7 +104,7 @@ export async function DELETE(
       message: "Conjunto eliminado exitosamente",
     });
   } catch (error: any) {
-    console.error(`Error deleting question set ${params.id}:`, error);
+    console.error(`Error deleting question set ${idStr}:`, error);
     return NextResponse.json(
       { error: "Error al eliminar conjunto", details: error.message },
       { status: 500 },

@@ -1,9 +1,9 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import QuestionWheel from "../QuestionWheel";
 
-export default function JuegoPage() {
+function JuegoContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [questions, setQuestions] = useState<string[]>([]);
@@ -164,5 +164,33 @@ export default function JuegoPage() {
         <QuestionWheel questions={questions} />
       </div>
     </div>
+  );
+}
+
+export default function JuegoPage() {
+  return (
+    <Suspense
+      fallback={
+        <div
+          className="min-h-screen flex items-center justify-center"
+          style={{ backgroundColor: "var(--background-dark)" }}
+        >
+          <div className="flex flex-col items-center gap-4">
+            <div
+              className="animate-spin rounded-full h-16 w-16 border-b-4"
+              style={{ borderColor: "var(--primary-cyan)" }}
+            ></div>
+            <span
+              className="text-xl font-semibold"
+              style={{ color: "var(--text-primary)" }}
+            >
+              Cargando...
+            </span>
+          </div>
+        </div>
+      }
+    >
+      <JuegoContent />
+    </Suspense>
   );
 }

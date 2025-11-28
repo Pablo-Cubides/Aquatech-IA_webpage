@@ -205,6 +205,9 @@ importers:
       html2canvas:
         specifier: ^1.4.1
         version: 1.4.1
+      import-in-the-middle:
+        specifier: ^1.7.1
+        version: 1.15.0
       jspdf:
         specifier: ^3.0.3
         version: 3.0.3
@@ -241,6 +244,9 @@ importers:
       recharts:
         specifier: ^3.3.0
         version: 3.3.0(@types/react@19.2.2)(react-dom@19.2.0)(react-is@18.3.1)(react@19.2.0)(redux@5.0.1)
+      require-in-the-middle:
+        specifier: ^7.1.1
+        version: 7.5.2
       simple-statistics:
         specifier: ^7.8.8
         version: 7.8.8
