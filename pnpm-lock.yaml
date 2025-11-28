@@ -111,6 +111,9 @@ importers:
       firebase-admin:
         specifier: ^13.5.0
         version: 13.5.0
+      import-in-the-middle:
+        specifier: ^1.7.1
+        version: 1.15.0
       ioredis:
         specifier: ^5.4.0
         version: 5.7.0
@@ -123,6 +126,9 @@ importers:
       next-auth:
         specifier: ^4.24.13
         version: 4.24.13(next@16.0.1)(react-dom@19.2.0)(react@19.2.0)
+      require-in-the-middle:
+        specifier: ^7.1.1
+        version: 7.5.2
       zod:
         specifier: ^4.1.5
         version: 4.1.5
