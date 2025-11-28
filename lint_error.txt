@@ -1,0 +1,520 @@
+turbo 2.5.8
+
+ΓÇó Packages in scope: @ia-next/web
+ΓÇó Running lint in 1 packages
+ΓÇó Remote caching disabled
+@ia-next/database:build: cache hit, replaying logs 72104a642b3b547d
+@ia-next/database:build: 
+@ia-next/database:build: > @ia-next/database@0.0.1 build D:\Empresas\AquatechIA\webpage\packages\@ia-next\database
+@ia-next/database:build: > prisma generate
+@ia-next/database:build: 
+@ia-next/database:build: Prisma schema loaded from prisma\schema.prisma
+@ia-next/database:build: 
+@ia-next/database:build: Γ£ö Generated Prisma Client (v6.18.0) to .\..\..\..\node_modules\.pnpm\@prisma+client@6.18.0_prisma@6.18.0_typescript@5.9.3\node_modules\@prisma\client in 239ms
+@ia-next/database:build: 
+@ia-next/database:build: Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+@ia-next/database:build: 
+@ia-next/database:build: Tip: Want to turn off tips and other hints? https://pris.ly/tip-4-nohints
+@ia-next/database:build: 
+@ia-next/web:lint: cache miss, executing 1883ed58bc275582
+@ia-next/web:lint: 
+@ia-next/web:lint: > @ia-next/web@0.0.1 lint D:\Empresas\AquatechIA\webpage\apps\web
+@ia-next/web:lint: > pnpm exec eslint src/ --ext .ts,.tsx,.js,.jsx
+@ia-next/web:lint: 
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\autor\page.tsx
+@ia-next/web:lint:    17:3  warning  'Sparkles' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:    78:3  warning  'image' is defined but never used     @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   104:3  warning  'image' is defined but never used     @typescript-eslint/no-unused-vars
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\blog\page.tsx
+@ia-next/web:lint:   157:60  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   439:37  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   486:37  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\analisis-correlaciones\app\ResultsSection.tsx
+@ia-next/web:lint:   14:62  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   48:58  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   71:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\analisis-correlaciones\app\page.tsx
+@ia-next/web:lint:     4:8   warning  'CorrelationTable' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:    18:9   warning  'n' is assigned a value but never used        @typescript-eslint/no-unused-vars
+@ia-next/web:lint:    46:47  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+@ia-next/web:lint:    58:46  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+@ia-next/web:lint:    63:31  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+@ia-next/web:lint:    98:27  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   112:38  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   113:24  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   115:13  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   184:40  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   199:19  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\analisis-correlaciones\components\CorrelationTable.tsx
+@ia-next/web:lint:   27:10  warning  'getStrengthLabel' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\analisis-correlaciones\components\ExportButtons.tsx
+@ia-next/web:lint:    4:23  warning  Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+@ia-next/web:lint:    6:12  warning  Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   10:29  warning  Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   10:36  warning  'numericColumns' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   23:30  warning  Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   23:37  warning  'numericColumns' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   36:23  warning  Forbidden non-null assertion                @typescript-eslint/no-non-null-assertion
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\analisis-correlaciones\components\ScatterPlot.tsx
+@ia-next/web:lint:   30:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\analisis-correlaciones\src\app\ResultsSection.tsx
+@ia-next/web:lint:    37:62  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:    74:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   138:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\analisis-correlaciones\src\app\page.tsx
+@ia-next/web:lint:     4:8   warning  'CorrelationTable' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:    16:9   warning  'n' is assigned a value but never used        @typescript-eslint/no-unused-vars
+@ia-next/web:lint:    44:47  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+@ia-next/web:lint:    57:46  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+@ia-next/web:lint:    62:31  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+@ia-next/web:lint:    98:27  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   112:38  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   113:24  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   115:13  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   184:40  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   199:19  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\analisis-correlaciones\src\components\CorrelationTable.tsx
+@ia-next/web:lint:   27:10  warning  'getStrengthLabel' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\analisis-correlaciones\src\components\ExportButtons.tsx
+@ia-next/web:lint:    4:23  warning  Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+@ia-next/web:lint:    6:12  warning  Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   10:29  warning  Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   10:36  warning  'numericColumns' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   29:30  warning  Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   29:37  warning  'numericColumns' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   44:23  warning  Forbidden non-null assertion                @typescript-eslint/no-non-null-assertion
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\analisis-correlaciones\src\components\ScatterPlot.tsx
+@ia-next/web:lint:   30:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\analisis-correlaciones\src\utils\__tests__\correlations.test.ts
+@ia-next/web:lint:    17:22  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:    18:24  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   364:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   371:11  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\generador-matrices\ClientHeroTabs.tsx
+@ia-next/web:lint:   12:68  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\generador-matrices\builder\[caseId]\[matriz]\page.tsx
+@ia-next/web:lint:   32:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\generador-matrices\matrices\[type]\page.tsx
+@ia-next/web:lint:    53:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   302:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\generador-matrices\src\lib\matrices.ts
+@ia-next/web:lint:   36:29  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\normas-ambientales\src\app\admin\page.tsx
+@ia-next/web:lint:   63:27  warning  'source' is defined but never used     @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   67:30  warning  'country' is defined but never used    @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   67:39  warning  'domain' is defined but never used     @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   67:47  warning  'oldUrl' is defined but never used     @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   67:55  warning  'newSource' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\normas-ambientales\src\app\api\normas\route.ts
+@ia-next/web:lint:    20:27  warning  'createPaginatedResponse' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   197:19  warning  '_sId' is assigned a value but never used            @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   646:26  warning  Unexpected any. Specify a different type             @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\normas-ambientales\src\app\explorar\page.tsx
+@ia-next/web:lint:    20:3   warning  'Home' is defined but never used                           @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   129:5   warning  'debouncedSearchQuery' is assigned a value but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   132:5   warning  'records' is assigned a value but never used               @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   492:54  warning  Unexpected any. Specify a different type                   @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   493:54  warning  Unexpected any. Specify a different type                   @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\normas-ambientales\src\app\page.tsx
+@ia-next/web:lint:   138:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\normas-ambientales\src\components\RegulatorySourcesAdmin.tsx
+@ia-next/web:lint:   49:69  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\normas-ambientales\src\components\ui\button.tsx
+@ia-next/web:lint:   50:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\normas-ambientales\src\lib\__tests__\normas.test.ts
+@ia-next/web:lint:   172:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   179:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   186:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   193:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   200:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   208:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   216:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   224:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   241:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   254:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   262:67  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   268:71  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   278:12  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   285:75  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   291:69  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   296:69  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   302:64  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   313:73  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\normas-ambientales\src\lib\hooks.ts
+@ia-next/web:lint:    80:6   warning  React Hook useEffect has a missing dependency: 'searchParams'. Either include it or remove the dependency array                              react-hooks/exhaustive-deps
+@ia-next/web:lint:   102:61  warning  Unexpected any. Specify a different type                                                                                                     @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   121:6   warning  React Hook useEffect has a missing dependency: 'fetchWithFallback'. Either include it or remove the dependency array                         react-hooks/exhaustive-deps
+@ia-next/web:lint:   211:6   warning  React Hook useEffect has missing dependencies: 'fetchWithFallback' and 'selectedSector'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+@ia-next/web:lint:   261:6   warning  React Hook useEffect has a missing dependency: 'fetchWithFallback'. Either include it or remove the dependency array                         react-hooks/exhaustive-deps
+@ia-next/web:lint:   284:15  warning  Unexpected any. Specify a different type                                                                                                     @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   284:39  warning  Unexpected any. Specify a different type                                                                                                     @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   287:15  warning  Unexpected any. Specify a different type                                                                                                     @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   287:35  warning  Unexpected any. Specify a different type                                                                                                     @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   290:15  warning  Unexpected any. Specify a different type                                                                                                     @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   290:34  warning  Unexpected any. Specify a different type                                                                                                     @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   293:18  warning  Unexpected any. Specify a different type                                                                                                     @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   293:38  warning  Unexpected any. Specify a different type                                                                                                     @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   293:53  warning  Unexpected any. Specify a different type                                                                                                     @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   310:17  warning  Unexpected any. Specify a different type                                                                                                     @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   310:41  warning  Unexpected any. Specify a different type                                                                                                     @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\normas-ambientales\src\lib\sectorIcons.tsx
+@ia-next/web:lint:   2:40  warning  'Home' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\visor-mapas-ambientales\src\app\api\datasets\route.ts
+@ia-next/web:lint:   156:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   167:21  warning  Forbidden non-null assertion              @typescript-eslint/no-non-null-assertion
+@ia-next/web:lint:   167:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\visor-mapas-ambientales\src\app\page.tsx
+@ia-next/web:lint:   326:39  warning  'password' is defined but never used      @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   335:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\visor-mapas-ambientales\src\components\MapComponent.tsx
+@ia-next/web:lint:   34:20  warning  Forbidden non-null assertion              @typescript-eslint/no-non-null-assertion
+@ia-next/web:lint:   98:76  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\visor-mapas-ambientales\src\components\UploadWizard.tsx
+@ia-next/web:lint:    12:22  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:    90:43  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   113:22  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   120:41  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\visor-mapas-ambientales\src\lib\__tests__\logger.test.ts
+@ia-next/web:lint:   4:7   warning  'originalEnv' is assigned a value but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   7:22  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   8:24  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\visor-mapas-ambientales\src\lib\logger.ts
+@ia-next/web:lint:   11:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   98:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\visor-mapas-ambientales\src\lib\supabase.ts
+@ia-next/web:lint:   30:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   33:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   43:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   46:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   56:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   59:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\visor-mapas-ambientales\src\types\index.ts
+@ia-next/web:lint:   13:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   57:12  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\visor-mapas-ambientales\src\types\jest-dom.d.ts
+@ia-next/web:lint:   15:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   30:47  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\productos\page.tsx
+@ia-next/web:lint:   12:8  warning  'RatingStars' is defined but never used   @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   16:8  warning  'CardSkeleton' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\autor\herramientas\aula-score\components\ScoreCard.tsx
+@ia-next/web:lint:   12:3  warning  'id' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\autor\herramientas\consulta-nota\UploadNotes.tsx
+@ia-next/web:lint:   49:73  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   89:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\autor\herramientas\consulta-nota\page.tsx
+@ia-next/web:lint:    32:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   107:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   422:45  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   596:10  warning  'FileText' is defined but never used      @typescript-eslint/no-unused-vars
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\autor\herramientas\ruleta-academica\FileInput.tsx
+@ia-next/web:lint:     5:10  warning  'motion' is defined but never used        @typescript-eslint/no-unused-vars
+@ia-next/web:lint:    54:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:    67:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   125:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   153:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   169:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   290:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\autor\herramientas\ruleta-academica\QuestionWheel.tsx
+@ia-next/web:lint:   3:10  warning  'motion' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\autor\herramientas\ruleta-academica\juego\page.tsx
+@ia-next/web:lint:   16:6   warning  React Hook useEffect has a missing dependency: 'loadQuestions'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+@ia-next/web:lint:   29:45  warning  Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   66:19  warning  Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\autor\herramientas\ruleta-academica\page.tsx
+@ia-next/web:lint:    13:9   warning  'router' is assigned a value but never used    @typescript-eslint/no-unused-vars
+@ia-next/web:lint:    18:10  warning  'fileName' is assigned a value but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:    62:30  warning  Unexpected any. Specify a different type       @typescript-eslint/no-explicit-any
+@ia-next/web:lint:    85:47  warning  Unexpected any. Specify a different type       @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   128:19  warning  Unexpected any. Specify a different type       @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   207:29  warning  Unexpected any. Specify a different type       @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   248:10  warning  'JugarButton' is defined but never used        @typescript-eslint/no-unused-vars
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\autor\page.tsx
+@ia-next/web:lint:    23:7  warning  'spaceGrotesk' is assigned a value but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:    24:7  warning  'inter' is assigned a value but never used         @typescript-eslint/no-unused-vars
+@ia-next/web:lint:    82:3  warning  'image' is defined but never used                  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   108:3  warning  'image' is defined but never used                  @typescript-eslint/no-unused-vars
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\herramientas\[slug]\page.tsx
+@ia-next/web:lint:   2:10  warning  'notFound' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\herramientas\como-funcionan-llm\context\__tests__\processContext.test.tsx
+@ia-next/web:lint:   63:20  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\herramientas\como-funcionan-llm\context\__tests__\reducer.test.ts
+@ia-next/web:lint:   50:36  warning  '_id' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   51:45  warning  '_id' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   52:44  warning  '_id' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   77:36  warning  '_id' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   78:45  warning  '_id' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   79:44  warning  '_id' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\herramientas\filtrado-ia\__tests__\CasosContext.test.tsx
+@ia-next/web:lint:   26:29  warning  'setSelectedIndex' is assigned a value but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\herramientas\filtrado-ia\components\MenuCasos.tsx
+@ia-next/web:lint:   37:6  warning  React Hook useEffect has a missing dependency: 'selectCaso'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\herramientas\filtrado-ia\context\CasosContext.tsx
+@ia-next/web:lint:   30:65  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\herramientas\filtrado-ia\src\components\MenuCasos.tsx
+@ia-next/web:lint:   47:6  warning  React Hook useEffect has a missing dependency: 'selectCaso'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\herramientas\filtrado-ia\src\context\CasosContext.tsx
+@ia-next/web:lint:   56:54  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\herramientas\parametros-decodificacion\src\app\page.tsx
+@ia-next/web:lint:    77:10  warning  'ParamCard' is defined but never used     @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   152:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   261:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   928:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   933:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   937:52  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   941:52  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   945:60  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\herramientas\parametros-decodificacion\src\context\ProcessContext.tsx
+@ia-next/web:lint:    3:17  warning  'createContext' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:    3:32  warning  'useContext' is defined but never used     @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   11:10  warning  Unexpected any. Specify a different type   @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\herramientas\parametros-decodificacion\src\types\global.d.ts
+@ia-next/web:lint:   11:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\herramientas\visor-difusion\src\app\api\noise\[step]\__tests__\route.test.ts
+@ia-next/web:lint:    7:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   16:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\herramientas\visor-difusion\src\app\api\prompts\route.ts
+@ia-next/web:lint:   1:10  warning  'NextRequest' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\herramientas\visor-difusion\src\app\api\step\route.ts
+@ia-next/web:lint:    3:8   warning  'path' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   26:35  warning  'text' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\herramientas\visor-difusion\src\app\page.tsx
+@ia-next/web:lint:     3:31  warning  'useRef' is defined but never used                       @typescript-eslint/no-unused-vars
+@ia-next/web:lint:     7:7   warning  'API_URL' is assigned a value but never used             @typescript-eslint/no-unused-vars
+@ia-next/web:lint:    13:7   warning  'promptTranslations' is assigned a value but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:    90:42  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+@ia-next/web:lint:    95:10  warning  'simulationId' is assigned a value but never used        @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   125:10  warning  'selectedPromptText' is assigned a value but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   154:24  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   163:21  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   236:19  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   278:19  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   303:17  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\herramientas\visor-difusion\src\components\ImageViewer.tsx
+@ia-next/web:lint:   5:77  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\herramientas\visor-difusion\src\components\SimulationControls.tsx
+@ia-next/web:lint:   5:84  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\herramientas\visor-difusion\src\context\ProcessContext.tsx
+@ia-next/web:lint:    3:17  warning  'createContext' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:    3:32  warning  'useContext' is defined but never used     @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   10:10  warning  Unexpected any. Specify a different type   @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\nosotros\page.tsx
+@ia-next/web:lint:   2:8  warning  'Image' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\productos\page.tsx
+@ia-next/web:lint:   3:8  warning  'Image' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\api\health\route.ts
+@ia-next/web:lint:    33:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:    46:12  warning  Forbidden non-null assertion              @typescript-eslint/no-non-null-assertion
+@ia-next/web:lint:    47:14  warning  Forbidden non-null assertion              @typescript-eslint/no-non-null-assertion
+@ia-next/web:lint:    55:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   116:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\api\normas\route.ts
+@ia-next/web:lint:    90:9   error    'resultSectors' is never reassigned. Use 'const' instead  prefer-const
+@ia-next/web:lint:   180:20  warning  Unexpected any. Specify a different type                  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   190:38  warning  Unexpected any. Specify a different type                  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   192:45  warning  Unexpected any. Specify a different type                  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   208:41  warning  Unexpected any. Specify a different type                  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\api\notes\route.ts
+@ia-next/web:lint:    25:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   147:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   199:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   243:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\api\questionsets\[id]\route.ts
+@ia-next/web:lint:    55:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   100:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\api\questionsets\route.ts
+@ia-next/web:lint:    47:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   104:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\api\test-db\route.ts
+@ia-next/web:lint:    2:10  warning  'PrismaClient' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   25:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\api\tools\analytics\route.ts
+@ia-next/web:lint:   88:27  warning  'request' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\api\visor-prompts\route.ts
+@ia-next/web:lint:   66:38  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+@ia-next/web:lint:   74:36  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\app\api\visor-step\route.ts
+@ia-next/web:lint:   89:38  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\components\ExportButtons.tsx
+@ia-next/web:lint:    7:9   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   15:3   warning  'matrixRef' is defined but never used     @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   24:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\components\HeroTabs.tsx
+@ia-next/web:lint:    4:11  warning  'MatrixInfoCardProps' is defined but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   12:14  warning  Unexpected any. Specify a different type         @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\components\auth\__tests__\AuthModal.test.tsx
+@ia-next/web:lint:    19:20  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+@ia-next/web:lint:    56:22  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+@ia-next/web:lint:    82:18  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+@ia-next/web:lint:    95:18  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   114:18  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   130:18  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   158:22  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   194:19  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   207:19  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   221:19  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   237:19  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   261:22  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   330:20  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   335:15  warning  'container' is assigned a value but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   342:15  warning  'container' is assigned a value but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   358:22  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   366:22  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\components\portal\BlogSection.tsx
+@ia-next/web:lint:     5:8   warning  'Link' is defined but never used          @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   548:60  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\components\recomendaciones\Filters.tsx
+@ia-next/web:lint:   124:92  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   149:95  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   159:93  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   181:74  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   194:75  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\components\recomendaciones\__tests__\RatingStars.test.tsx
+@ia-next/web:lint:    75:15  warning  'container' is assigned a value but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:    83:15  warning  'container' is assigned a value but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:    91:15  warning  'container' is assigned a value but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:    99:15  warning  'container' is assigned a value but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint:   105:15  warning  'container' is assigned a value but never used  @typescript-eslint/no-unused-vars
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\lib\__tests__\track-env.test.ts
+@ia-next/web:lint:    97:10  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   136:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   143:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   168:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   187:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   197:10  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   245:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\lib\auth.ts
+@ia-next/web:lint:   10:17  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+@ia-next/web:lint:   11:21  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\lib\cache\redis-cache.ts
+@ia-next/web:lint:   10:8   warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+@ia-next/web:lint:   11:10  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\lib\logger.ts
+@ia-next/web:lint:    11:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   116:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\lib\matrices.ts
+@ia-next/web:lint:   31:29  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\lib\security\__tests__\validation.test.ts
+@ia-next/web:lint:    44:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:    45:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:    46:41  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   145:41  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\lib\security\rate-limit.ts
+@ia-next/web:lint:    9:8   warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+@ia-next/web:lint:   10:10  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\lib\security\validation.ts
+@ia-next/web:lint:   98:57  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\lib\track-env.ts
+@ia-next/web:lint:   19:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\lib\types\index.ts
+@ia-next/web:lint:    61:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:    78:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:    87:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   137:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: D:\Empresas\AquatechIA\webpage\apps\web\src\types\index.ts
+@ia-next/web:lint:   114:12  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint:   131:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@ia-next/web:lint: 
+@ia-next/web:lint: Γ£û 303 problems (1 error, 302 warnings)
+@ia-next/web:lint:   1 error and 0 warnings potentially fixable with the `--fix` option.
+@ia-next/web:lint: 
+@ia-next/web:lint: ΓÇëELIFECYCLEΓÇë Command failed with exit code 1.
+@ia-next/web:lint: ERROR: command finished with error: command (D:\Empresas\AquatechIA\webpage\apps\web) C:\Users\pacub\AppData\Local\pnpm\.tools\pnpm\8.15.6\bin\pnpm.CMD run lint exited (1)
+@ia-next/web#lint: command (D:\Empresas\AquatechIA\webpage\apps\web) C:\Users\pacub\AppData\Local\pnpm\.tools\pnpm\8.15.6\bin\pnpm.CMD run lint exited (1)
+
+ Tasks:    1 successful, 2 total
+Cached:    1 cached, 2 total
+  Time:    6.091s 
+Failed:    @ia-next/web#lint
+
+ ERROR  run failed: command  exited (1)

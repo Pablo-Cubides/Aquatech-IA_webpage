@@ -87,13 +87,12 @@ export async function GET(request: Request) {
     const content = fs.readFileSync(countryFile, "utf-8");
     const data = JSON.parse(content);
 
-    let resultSectors = data.sectors;
+    const resultSectors = data.sectors;
     let filterRecordsBySector = false;
     let foundKey: string | null = null;
 
     // If sector provided, filter records but keep all sectors for normative URLs
     if (sector) {
-      // client may send hyphenated ids (e.g. 'agua-potable'), normalize to keys used in JSON (underscores)
       const sectorStr = String(sector);
 
       // Generate comprehensive variants including mixed case patterns (e.g., clase_I, clase_II)
