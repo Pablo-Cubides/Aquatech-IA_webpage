@@ -2,6 +2,8 @@
 
 Modern Next.js monorepo for AI-powered applications with dual-themed portals and comprehensive integrations.
 
+Full developer documentation: `docs/MASTER_DOCUMENTATION.md`
+
 ## 🚀 Quick Start
 
 ```bash
