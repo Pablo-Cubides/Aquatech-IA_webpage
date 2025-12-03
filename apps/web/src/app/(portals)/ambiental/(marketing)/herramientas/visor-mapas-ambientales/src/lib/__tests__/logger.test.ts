@@ -85,8 +85,9 @@ describe("Logger - Visor de Mapas Ambientales", () => {
       expect(consoleLogSpy).toHaveBeenCalled();
       const call = consoleLogSpy.mock.calls[0];
       const context = call[3];
-      expect(context.error.message).toBe("Test error object");
-      expect(context.error.stack).toBeDefined();
+      // errorDetails contains the Error info after logger refactor
+      expect(context.errorDetails.message).toBe("Test error object");
+      expect(context.errorDetails.stack).toBeDefined();
     });
 
     it("should log errors with context", async () => {
@@ -98,7 +99,7 @@ describe("Logger - Visor de Mapas Ambientales", () => {
       expect(consoleLogSpy).toHaveBeenCalled();
       const call = consoleLogSpy.mock.calls[0];
       expect(call[3].datasetId).toBe("456");
-      expect(call[3].error.message).toBe("Upload error");
+      expect(call[3].errorDetails.message).toBe("Upload error");
     });
 
     it("should handle non-Error objects", async () => {
@@ -108,7 +109,8 @@ describe("Logger - Visor de Mapas Ambientales", () => {
 
       expect(consoleLogSpy).toHaveBeenCalled();
       const call = consoleLogSpy.mock.calls[0];
-      expect(call[3].error).toEqual(customError);
+      // Non-Error objects are stored as { raw: string } in errorDetails
+      expect(call[3].errorDetails.raw).toBeDefined();
     });
 
     it("should log debug messages in development", async () => {
