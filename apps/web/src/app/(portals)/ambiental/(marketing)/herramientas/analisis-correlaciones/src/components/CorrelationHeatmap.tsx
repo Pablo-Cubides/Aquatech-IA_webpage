@@ -3,9 +3,9 @@ import React from "react"
 interface CorrelationResult {
   column_a: string
   column_b: string
-  pearson: number
-  spearman: number
-  kendall: number
+  pearson: number | null
+  spearman: number | null
+  kendall: number | null
 }
 
 interface CorrelationHeatmapProps {
@@ -25,7 +25,7 @@ function getColor(value: number) {
 
 export default function CorrelationHeatmap({ numericColumns, correlationResults, method, onSelectPair, selectedPair }: CorrelationHeatmapProps) {
   // Crear matriz para acceso rápido
-  const matrix: Record<string, Record<string, number>> = {}
+  const matrix: Record<string, Record<string, number | null>> = {}
   correlationResults.forEach(res => {
     if (!matrix[res.column_a]) matrix[res.column_a] = {}
     matrix[res.column_a][res.column_b] = res[method]
@@ -55,14 +55,15 @@ export default function CorrelationHeatmap({ numericColumns, correlationResults,
                 }
                 const value = matrix[rowCol]?.[colCol]
                 const isSelected = selectedPair && ((selectedPair[0] === rowCol && selectedPair[1] === colCol) || (selectedPair[1] === rowCol && selectedPair[0] === colCol))
+                const hasValue = value !== undefined && value !== null
                 return (
                   <td
                     key={colCol}
-                    className={`p-2 border text-center cursor-pointer transition-all ${value !== undefined ? getColor(value) : 'bg-gray-100'} ${isSelected ? 'ring-2 ring-primary' : ''}`}
-                    title={`Correlación: ${value !== undefined ? value.toFixed(2) : 'N/A'}`}
-                    onClick={() => value !== undefined && onSelectPair?.(rowCol, colCol)}
+                    className={`p-2 border text-center cursor-pointer transition-all ${hasValue ? getColor(value) : 'bg-gray-100'} ${isSelected ? 'ring-2 ring-primary' : ''}`}
+                    title={`Correlación: ${hasValue ? value.toFixed(2) : 'N/A'}`}
+                    onClick={() => hasValue && onSelectPair?.(rowCol, colCol)}
                   >
-                    {value !== undefined ? value.toFixed(2) : 'N/A'}
+                    {hasValue ? value.toFixed(2) : 'N/A'}
                   </td>
                 )
               })}

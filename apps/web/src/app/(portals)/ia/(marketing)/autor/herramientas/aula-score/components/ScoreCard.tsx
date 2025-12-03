@@ -9,7 +9,6 @@ interface ScoreCardProps {
 }
 
 export function ScoreCard({
-  id,
   name,
   score,
   onIncrement,

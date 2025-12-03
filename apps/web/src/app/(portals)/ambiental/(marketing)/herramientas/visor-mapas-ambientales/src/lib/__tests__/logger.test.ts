@@ -1,11 +1,9 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-
-// Mock process.env BEFORE importing logger
-const originalEnv = process.env.NODE_ENV;
+import type { MockInstance } from "vitest";
 
 describe("Logger - Visor de Mapas Ambientales", () => {
-  let consoleLogSpy: any;
-  let consoleErrorSpy: any;
+  let consoleLogSpy: MockInstance;
+  let consoleErrorSpy: MockInstance;
 
   beforeEach(() => {
     consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => {});

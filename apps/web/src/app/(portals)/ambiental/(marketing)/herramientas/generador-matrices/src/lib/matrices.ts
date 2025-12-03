@@ -33,7 +33,7 @@ export function computeConesa(impact: Partial<ConesaImpact>): ConesaImpact {
 
   return {
     impactoId: impact.impactoId ?? "unknown",
-    signo: (impact.signo as any) ?? "+",
+    signo: (impact.signo as "+" | "-") ?? "+",
     IN,
     EX,
     MO,

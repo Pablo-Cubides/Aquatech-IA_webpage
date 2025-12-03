@@ -12,7 +12,7 @@ declare global {
       toHaveTextContent(text: string | RegExp): R
       toHaveAttribute(attr: string, value?: string): R
       toHaveClass(...classNames: string[]): R
-      toHaveStyle(css: string | Record<string, any>): R
+      toHaveStyle(css: string | Record<string, unknown>): R
       toBeVisible(): R
       toBeDisabled(): R
       toBeEnabled(): R
@@ -27,7 +27,7 @@ declare global {
       toHaveAccessibleName(name?: string | RegExp): R
       toHaveDescription(description?: string | RegExp): R
       toHaveFocus(): R
-      toHaveFormValues(values: Record<string, any>): R
+      toHaveFormValues(values: Record<string, unknown>): R
       toHaveValue(value?: string | string[] | number | null): R
       toHaveDisplayValue(value: string | RegExp | Array<string | RegExp>): R
       toBeChecked(): R

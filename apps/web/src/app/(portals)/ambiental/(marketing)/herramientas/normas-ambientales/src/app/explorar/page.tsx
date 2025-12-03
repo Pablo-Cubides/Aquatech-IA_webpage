@@ -17,7 +17,6 @@ import {
   Wind,
   Trash2,
   Waves,
-  Home,
 } from "lucide-react";
 import { LoadingSkeleton, TableSkeleton } from "@/components/LoadingSkeleton";
 import { useExplorarState } from "@/lib/hooks";
@@ -126,10 +125,10 @@ function ExplorarContent() {
     loading,
     error,
     searchQuery,
-    debouncedSearchQuery,
+    // debouncedSearchQuery - kept for future use
     currentDominio,
     countryInfo,
-    records,
+    // records - kept for future use  
     filteredRecords,
     sectionsToDisplay,
     handleDomainChange,
@@ -489,8 +488,8 @@ function ExplorarContent() {
                             : null;
                         // Some datasets include `_sectorName` on records (normalized in the API)
                         // Prefer `_sectorName`, then fall back to key formatting.
-                        if (firstRec && (firstRec as any)._sectorName) {
-                          return String((firstRec as any)._sectorName);
+                        if (firstRec && firstRec._sectorName) {
+                          return String(firstRec._sectorName);
                         }
 
                         return sectionKey === "general"

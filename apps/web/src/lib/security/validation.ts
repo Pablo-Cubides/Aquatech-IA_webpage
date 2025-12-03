@@ -95,7 +95,7 @@ export function validatePagination(
 /**
  * Validate and sanitize object for database operations
  */
-export function sanitizeObject<T extends Record<string, any>>(
+export function sanitizeObject<T extends Record<string, unknown>>(
   obj: T,
   allowedKeys: string[],
 ): Partial<T> {

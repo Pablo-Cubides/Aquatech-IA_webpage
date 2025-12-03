@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
 import { parsePagination, createPaginatedResponse } from "@/lib/pagination";
 
 
@@ -16,8 +16,19 @@ const prisma =
   });
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
 
+// Type for note input data
+interface NoteInput {
+  university?: string;
+  course?: string;
+  code?: string | number;
+  grade?: number | string;
+  studentName?: string;
+  name?: string;
+  metadata?: Record<string, unknown>;
+}
+
 // Helper to validate note data
-function validateNoteData(data: any): { valid: boolean; errors: string[] } {
+function validateNoteData(data: NoteInput): { valid: boolean; errors: string[] } {
   const errors: string[] = [];
 
   if (
@@ -139,12 +150,13 @@ export async function GET(req: Request) {
     return NextResponse.json(
       createPaginatedResponse(notes, total, page, limit),
     );
-  } catch (err: any) {
+  } catch (err) {
     console.error("[GET /api/notes] Error:", err);
+    const message = err instanceof Error ? err.message : "Error desconocido";
     return NextResponse.json(
       {
         error: "Error consultando notas",
-        message: err.message || "Error desconocido",
+        message,
       },
       { status: 500 },
     );
@@ -191,20 +203,20 @@ export async function POST(req: Request) {
     }
 
     // Validate and normalize all notes
-    const validNotes: any[] = [];
+    const validNotes: Prisma.NoteCreateManyInput[] = [];
     const errors: Array<{ index: number; errors: string[] }> = [];
 
-    notes.forEach((note, index) => {
+    notes.forEach((note: NoteInput, index: number) => {
       const validation = validateNoteData(note);
 
-      if (validation.valid) {
+      if (validation.valid && note.university && note.course && note.code !== undefined) {
         validNotes.push({
           university: note.university.trim(),
           course: note.course.trim(),
           code: String(note.code).trim(),
           grade: Number(note.grade),
           studentName: note.studentName?.trim() || note.name?.trim() || null,
-          metadata: note.metadata || null,
+          metadata: note.metadata ? (note.metadata as Prisma.InputJsonValue) : Prisma.JsonNull,
         });
       } else {
         errors.push({ index, errors: validation.errors });
@@ -235,23 +247,26 @@ export async function POST(req: Request) {
       invalid: errors.length,
       ...(errors.length > 0 && { validationErrors: errors.slice(0, 10) }),
     });
-  } catch (err: any) {
+  } catch (err) {
     console.error("[POST /api/notes] Error:", err);
 
-    if (err.code === "P2002") {
+    // Prisma unique constraint error
+    if (err && typeof err === "object" && "code" in err && err.code === "P2002") {
+      const message = err instanceof Error ? err.message : "Registro duplicado";
       return NextResponse.json(
         {
           error: "Algunas notas ya existen en la base de datos",
-          message: err.message,
+          message,
         },
         { status: 409 },
       );
     }
 
+    const message = err instanceof Error ? err.message : "Error desconocido";
     return NextResponse.json(
       {
         error: "Error guardando notas",
-        message: err.message || "Error desconocido",
+        message,
       },
       { status: 500 },
     );

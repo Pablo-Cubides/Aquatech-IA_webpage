@@ -10,6 +10,39 @@ const VALID_DOMAINS = [
   "vertimientos",
 ];
 
+// Type definitions for norms data
+interface NormParameter {
+  parameter?: string;
+  parametro?: string;
+  limit?: string | number;
+  limite?: string | number;
+  unit?: string;
+  unidad?: string;
+  notes?: string;
+  notas?: string;
+}
+
+interface NormSector {
+  name?: string;
+  parameters?: NormParameter[];
+}
+
+interface NormRegistro extends NormParameter {
+  categoria?: string;
+  referencia?: string;
+}
+
+interface NormRecord {
+  parameter: string;
+  limit: string | number;
+  unit: string;
+  notes?: string;
+  categoria?: string;
+  referencia?: string;
+  _sector: string;
+  _sectorName: string;
+}
+
 // Cache con TTL simple
 const cache = new Map<string, { data: unknown; expiry: number }>();
 
@@ -176,7 +209,7 @@ export async function GET(request: Request) {
     };
 
     // Normalize sectors/records into flat records for frontend
-    const records: any[] = [];
+    const records: NormRecord[] = [];
 
     // Case 1: Domain with sectors (e.g., agua)
     if (resultSectors && typeof resultSectors === "object") {
@@ -186,13 +219,13 @@ export async function GET(request: Request) {
           continue;
         }
 
-        const sector = sectorData as any;
+        const sector = sectorData as NormSector;
         if (sector.parameters && Array.isArray(sector.parameters)) {
-          sector.parameters.forEach((param: any) => {
+          sector.parameters.forEach((param: NormParameter) => {
             records.push({
-              parameter: param.parameter || param.parametro,
-              limit: param.limit || param.limite,
-              unit: param.unit || param.unidad,
+              parameter: param.parameter || param.parametro || "",
+              limit: param.limit || param.limite || "",
+              unit: param.unit || param.unidad || "",
               notes: param.notes || param.notas,
               _sector: sectorId,
               _sectorName: sector.name || sectorId,
@@ -204,11 +237,11 @@ export async function GET(request: Request) {
     // Case 2: Domain without sectors (e.g., calidad-aire, residuos-solidos)
     // Data has flat "registros" array directly
     else if (data.registros && Array.isArray(data.registros)) {
-      data.registros.forEach((registro: any) => {
+      data.registros.forEach((registro: NormRegistro) => {
         records.push({
-          parameter: registro.parameter || registro.parametro,
-          limit: registro.limit || registro.limite,
-          unit: registro.unit || registro.unidad,
+          parameter: registro.parameter || registro.parametro || "",
+          limit: registro.limit || registro.limite || "",
+          unit: registro.unit || registro.unidad || "",
           notes: registro.notes || registro.notas,
           categoria: registro.categoria, // For residuos-solidos grouping
           referencia: registro.referencia, // For regulatory references

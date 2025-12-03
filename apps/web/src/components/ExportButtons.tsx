@@ -4,7 +4,7 @@ import React from "react";
 interface ExportButtonsProps {
   matrixType: "leopold" | "conesa" | "battelle";
   caseId: string;
-  data: any;
+  data: Record<string, unknown>[];
   matrixRef?: React.RefObject<HTMLDivElement | null>;
 }
 
@@ -12,7 +12,7 @@ export default function ExportButtons({
   matrixType,
   caseId,
   data,
-  matrixRef,
+  matrixRef: _matrixRef,
 }: ExportButtonsProps) {
   const exportToPDF = async () => {
     console.log("Exportar a PDF:", { matrixType, caseId });
@@ -21,7 +21,7 @@ export default function ExportButtons({
       await import("jspdf-autotable");
       await import("html2canvas");
 
-      const doc = new (jsPDF as any)("landscape", "mm", "a4");
+      const doc = new jsPDF("landscape", "mm", "a4");
       const pageWidth = doc.internal.pageSize.width;
       const pageHeight = doc.internal.pageSize.height;
 

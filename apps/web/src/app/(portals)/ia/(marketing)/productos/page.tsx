@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { Noto_Sans, Space_Grotesk } from "next/font/google";
 

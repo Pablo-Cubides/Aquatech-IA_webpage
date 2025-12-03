@@ -17,7 +17,7 @@ import {
 } from "@/lib/constants";
 import type { RegulatorySource } from "@/lib/constants";
 import { SECTOR_NORMALIZATION_MAP } from "@/lib/types";
-import { parsePagination, createPaginatedResponse } from "@/lib/pagination";
+import { parsePagination } from "@/lib/pagination";
 
 // Global declarations for Node.js types
 declare const URL: typeof globalThis.URL;
@@ -194,7 +194,7 @@ export function normalizeResponseFormat(
     try {
       const normalizeText = (t: unknown) =>
         t ? String(t).toLowerCase().trim() : "";
-      for (const [_sId, sData] of Object.entries(result._sectors || {})) {
+      for (const [, sData] of Object.entries(result._sectors || {})) {
         const s = (sData || {}) as AnyRecord;
         const candidates: string[] = [];
         if (!s) continue;
@@ -643,7 +643,7 @@ export async function GET(request: NextRequest) {
       );
 
       // Apply pagination to records if available
-      let finalResponse: any;
+      let finalResponse: AnyRecord;
       if (
         Array.isArray(normalizedForFrontend.records) &&
         normalizedForFrontend.records.length > 0

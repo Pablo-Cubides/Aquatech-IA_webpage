@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
-
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/lib/auth";
 
 
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
@@ -16,7 +17,7 @@ if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
  * Returns specific question set with all questions
  */
 export async function GET(
-  req: Request,
+  _req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
   let idStr = "unknown";
@@ -50,10 +51,11 @@ export async function GET(
     }
 
     return NextResponse.json(questionSet);
-  } catch (error: any) {
-    console.error(`Error fetching question set ${idStr}:`, error);
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    console.error(`Error fetching question set ${idStr}:`, errorMessage);
     return NextResponse.json(
-      { error: "Error al obtener conjunto", details: error.message },
+      { error: "Error al obtener conjunto" },
       { status: 500 },
     );
   }
@@ -62,13 +64,33 @@ export async function GET(
 /**
  * DELETE /api/questionsets/[id]
  * Deletes a question set and all its questions (CASCADE)
+ * Requires authentication and ADMIN role
  */
 export async function DELETE(
-  req: Request,
+  _req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
   let idStr = "unknown";
   try {
+    // Check authentication
+    const session = await getServerSession(authOptions);
+    if (!session?.user) {
+      return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+    }
+
+    // Check admin role
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email! },
+      select: { role: true },
+    });
+
+    if (!user || (user.role !== "ADMIN" && user.role !== "MODERATOR")) {
+      return NextResponse.json(
+        { error: "Acceso denegado. Se requiere rol de administrador." },
+        { status: 403 },
+      );
+    }
+
     const resolvedParams = await params;
     idStr = resolvedParams.id;
     const id = parseInt(idStr);
@@ -98,10 +120,11 @@ export async function DELETE(
       success: true,
       message: "Conjunto eliminado exitosamente",
     });
-  } catch (error: any) {
-    console.error(`Error deleting question set ${idStr}:`, error);
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    console.error(`Error deleting question set ${idStr}:`, errorMessage);
     return NextResponse.json(
-      { error: "Error al eliminar conjunto", details: error.message },
+      { error: "Error al eliminar conjunto" },
       { status: 500 },
     );
   }

@@ -39,12 +39,13 @@ export async function GET() {
     });
 
     return NextResponse.json(questionSets);
-  } catch (error: any) {
+  } catch (error) {
     console.error("Error fetching question sets:", error);
+    const message = error instanceof Error ? error.message : "Error desconocido";
     return NextResponse.json(
       {
         error: "Error al obtener conjuntos de preguntas",
-        details: error.message,
+        details: message,
       },
       { status: 500 },
     );
@@ -96,10 +97,11 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json(questionSet, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Error creating question set:", error);
+    const message = error instanceof Error ? error.message : "Error desconocido";
     return NextResponse.json(
-      { error: "Error al crear conjunto de preguntas", details: error.message },
+      { error: "Error al crear conjunto de preguntas", details: message },
       { status: 500 },
     );
   }

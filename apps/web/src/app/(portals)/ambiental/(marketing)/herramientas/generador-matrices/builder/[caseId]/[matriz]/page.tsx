@@ -29,7 +29,7 @@ export default function Builder({
   }, [params]);
 
   const loadCaseData = (caseId: string) => {
-    const caseData: Record<string, any> = {
+    const caseData: Record<string, { acciones: Action[]; factores: Factor[] }> = {
       vias: {
         acciones: [
           { id: "a1", fase: "preoperativa", nombre: "Desmonte y limpieza" },

@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import Papa from "papaparse";
 import * as XLSX from "xlsx";
-import { motion } from "framer-motion";
 import { sanitizeText } from "@/lib/sanitize";
 
 interface FileInputProps {
@@ -51,7 +50,7 @@ async function parseQuestionsFromFile(file: File): Promise<string[]> {
           const worksheet = workbook.Sheets[sheetName];
           const jsonData = XLSX.utils.sheet_to_json(worksheet, {
             header: 1,
-          }) as any[][];
+          }) as unknown[][];
           const questions = jsonData
             .flat()
             .map((q) => sanitizeText(String(q)))
@@ -64,9 +63,10 @@ async function parseQuestionsFromFile(file: File): Promise<string[]> {
             );
           }
           resolve(questions);
-        } catch (err: any) {
+        } catch (err) {
+          const message = err instanceof Error ? err.message : 'Error desconocido';
           reject(
-            new Error(`Error al procesar el archivo Excel: ${err.message}`),
+            new Error(`Error al procesar el archivo Excel: ${message}`),
           );
         }
       };
@@ -122,8 +122,9 @@ const FileInput = ({
     try {
       const questions = await parseQuestionsFromFile(selectedFile);
       setQuestionsPreview(questions);
-    } catch (err: any) {
-      setError(err.message || "Error al previsualizar el archivo.");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Error desconocido';
+      setError(message || "Error al previsualizar el archivo.");
       setQuestionsPreview([]);
     } finally {
       setIsLoading(false);
@@ -150,8 +151,9 @@ const FileInput = ({
           const encoded = encodeURIComponent(JSON.stringify(questions));
           window.location.href = `/ia/autor/herramientas/ruleta-academica/juego?questions=${encoded}`;
         }
-      } catch (err: any) {
-        setError(err.message || "Error al procesar el archivo");
+      } catch (err) {
+        const message = err instanceof Error ? err.message : 'Error desconocido';
+        setError(message || "Error al procesar el archivo");
       }
       return;
     }
@@ -166,8 +168,9 @@ const FileInput = ({
       if (onSaveSuccess) {
         onSaveSuccess();
       }
-    } catch (err: any) {
-      setError(err.message || "Error al procesar el archivo");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Error desconocido';
+      setError(message || "Error al procesar el archivo");
     } finally {
       setIsLoading(false);
     }
@@ -287,8 +290,9 @@ const FileInput = ({
                       setIsUploaded(true);
                       if (onSaveSuccess) onSaveSuccess();
                     }
-                  } catch (err: any) {
-                    setError(err.message || "Error al procesar el archivo");
+                  } catch (err) {
+                    const message = err instanceof Error ? err.message : 'Error desconocido';
+                    setError(message || "Error al procesar el archivo");
                   } finally {
                     setIsLoading(false);
                   }

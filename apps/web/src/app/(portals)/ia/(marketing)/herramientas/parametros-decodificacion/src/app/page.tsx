@@ -74,7 +74,8 @@ function StepHeader({ num, title }: { num: number; title: string }) {
   );
 }
 
-function ParamCard({ title, summary }: { title: string; summary: string }) {
+// Kept for future use
+function _ParamCard({ title, summary }: { title: string; summary: string }) {
   return (
     <div className="glass rounded-xl p-5 hover:scale-[1.02] transition-all duration-300 cursor-default border-2 border-transparent hover:border-primary/30">
       <h3 className="text-md font-bold text-gradient mb-3">{title}</h3>
@@ -149,7 +150,8 @@ export default function Home() {
       const el = document.querySelector("main") as HTMLElement;
       if (!el) throw new Error("Main element not found");
       const mod = await import("html2canvas");
-      const html2canvas = (mod as any).default ?? mod;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const html2canvas = (mod as { default?: (element: HTMLElement) => Promise<HTMLCanvasElement> }).default ?? (mod as any);
       const canvas = await html2canvas(el);
       const dataUrl = canvas.toDataURL("image/png");
       const a = document.createElement("a");
@@ -163,7 +165,7 @@ export default function Home() {
         downloadJSON();
         alert("PNG export falló; se descargó JSON con los datos del ejemplo.");
       } catch (err) {
-        console.error("fallback download failed", err);
+        console.error("fallback download", err);
       }
     }
   }
@@ -258,7 +260,7 @@ export default function Home() {
   }
 
   // Helpers to choose the most representative example index for a given parameter value
-  function nearestIndexForExamples(examples: any[], value: number) {
+  function nearestIndexForExamples(examples: Array<{ v: number }>, value: number) {
     if (!examples || examples.length === 0) return 0;
     let bestIdx = 0;
     let bestDist = Number.POSITIVE_INFINITY;
@@ -925,24 +927,26 @@ export default function Home() {
 
                 <div className="flex gap-2 flex-wrap">
                   {(() => {
-                    const meta = (patternMeta as any)[selectedPattern];
+                    type Level = "low" | "medium" | "high" | "very-high";
+                    type PatternKey = keyof typeof patternMeta;
+                    const meta = patternMeta[selectedPattern as PatternKey];
                     return (
                       <>
                         <Badge
                           label="Creatividad"
-                          level={meta.creativity as any}
+                          level={meta.creativity as Level}
                         />
                         <Badge
                           label="Coherencia"
-                          level={meta.coherence as any}
+                          level={meta.coherence as Level}
                         />
                         <Badge
                           label="Diversidad"
-                          level={meta.diversity as any}
+                          level={meta.diversity as Level}
                         />
                         <Badge
                           label="Control rep."
-                          level={meta.repetitionControl as any}
+                          level={meta.repetitionControl as Level}
                         />
                       </>
                     );

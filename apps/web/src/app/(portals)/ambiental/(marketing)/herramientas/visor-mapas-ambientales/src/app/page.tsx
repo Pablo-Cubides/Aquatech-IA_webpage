@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import UploadWizard from "../components/UploadWizard";
 import type {
@@ -323,8 +323,8 @@ export default function HomePage() {
     }
   }, [unfilteredData, filters.parameters]);
 
-  const handleLogin = (email: string, password: string) => {
-    // Mock login
+  const handleLogin = (email: string) => {
+    // Mock login - password validation would happen server-side
     setUser({
       id: "1",
       email,
@@ -332,11 +332,8 @@ export default function HomePage() {
     });
   };
 
-  const handleUploadComplete = (data: any) => {
-    logger.info("Upload completed successfully", {
-      datasetId: data?.datasetId,
-      recordCount: data?.recordCount,
-    });
+  const handleUploadComplete = () => {
+    logger.info("Upload completed successfully");
     setShowUploadWizard(false);
     // TODO: Process uploaded data and refresh datasets
   };
@@ -362,7 +359,6 @@ export default function HomePage() {
                 const formData = new FormData(e.currentTarget);
                 handleLogin(
                   formData.get("email") as string,
-                  formData.get("password") as string,
                 );
               }}
             >

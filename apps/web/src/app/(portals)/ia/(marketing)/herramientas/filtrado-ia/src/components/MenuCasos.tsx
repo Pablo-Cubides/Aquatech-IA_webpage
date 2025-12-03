@@ -44,7 +44,7 @@ const MenuCasos = () => {
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [selectedIndex, casos.length]);
+  }, [selectedIndex, casos.length, selectCaso]);
 
   return (
     <aside className={styles.aside}>

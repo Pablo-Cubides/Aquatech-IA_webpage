@@ -30,7 +30,6 @@ interface ExpertiseCardProps {
 interface ProjectCardProps {
   title: string;
   desc: string;
-  image: string;
   href: string;
 }
 
@@ -39,7 +38,6 @@ interface ProjectWideProps {
   title: string;
   impact: string;
   desc: string;
-  image: string;
   href: string;
 }
 
@@ -74,7 +72,6 @@ const ExpertiseCard: React.FC<ExpertiseCardProps> = ({ icon, title, desc }) => (
 const ProjectCard: React.FC<ProjectCardProps> = ({
   title,
   desc,
-  image: _image,
   href,
 }) => (
   <Link
@@ -100,7 +97,6 @@ const ProjectWide: React.FC<ProjectWideProps> = ({
   title,
   impact,
   desc,
-  image: _image,
   href,
 }) => (
   <Link
@@ -530,20 +526,17 @@ export default function AmbientalAutorPage() {
                 title="Monitoreo de calidad del agua"
                 impact="−40% en falsos positivos"
                 desc="Sistema predictivo para optimizar el tratamiento en tiempo real."
-                image=""
                 href="#"
               />
 
               <ProjectCard
                 title="Modelización hidrológica de cuencas"
                 desc="Predicción de caudales con 95% de precisión para la gestión de embalses."
-                image=""
                 href="#"
               />
               <ProjectCard
                 title="Plataforma de datos sobre sequías"
                 desc="Visualización y soporte a decisiones para el sector agrícola."
-                image=""
                 href="#"
               />
             </div>

@@ -1,16 +1,13 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import EducationalPanel from "@/components/EducationalPanel";
 
 // Define la URL de la API: preferimos rutas relativas para desplegar en Vercel
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL ||
-  (typeof window !== "undefined" ? "" : "http://localhost:3000");
 const TOTAL_STEPS = 10;
 
-// Traducciones de prompts al español
-const promptTranslations: Record<string, string> = {
+// Traducciones de prompts al español - keeping for reference/future use
+const _promptTranslations: Record<string, string> = {
   "Portrait painting of Spider-Man wearing a gold metallic suit, ultra realistic, concept art, intricate details, eerie, highly detailed, photorealistic, octane render, 8k, unreal engine. art by artgerm and Jim Lee, NYC in the background, Full Body, Night time, photshoot":
     "Retrato pictórico de Spider-Man con traje metálico dorado, ultra realista, arte conceptual, detalles intrincados, siniestro, altamente detallado, fotorrealista, renderizado octane, 8k, motor unreal. arte de artgerm y Jim Lee, Nueva York al fondo, cuerpo completo, noche, sesión de fotos.",
   "Superman flying alongside a plane, this is a selfie, his arm reaching towards the camera, you can see the pilot inside the plane.":
@@ -86,13 +83,23 @@ const caseInfo: Record<string, { model: string; originalPrompt: string }> = {
 // usar el componente <Image> de Next.js que requiere URLs optimizables.
 // Se mantienen las etiquetas <img> nativas para contenido dinámico.
 
+interface Prompt {
+  id: string;
+  text?: string;
+  title?: string;
+  description?: string;
+  prompt?: string;
+  model?: string;
+  originalPrompt?: string;
+}
+
 export default function Home() {
-  const [prompts, setPrompts] = useState<any[]>([]);
+  const [prompts, setPrompts] = useState<Prompt[]>([]);
   const [promptsLoading, setPromptsLoading] = useState<boolean>(true);
   const [selectedPromptId, setSelectedPromptId] = useState<string>("");
   // Stateless backend: frontend tracks prompt and current step
-  // stateless: no simulationId needed
-  const [simulationId, setSimulationId] = useState<string | null>(null);
+  // stateless: no simulationId needed - kept for potential future use
+  const [_simulationId, setSimulationId] = useState<string | null>(null);
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isFinished, setIsFinished] = useState<boolean>(false);
@@ -122,7 +129,7 @@ export default function Home() {
   const [overlayOpacity, setOverlayOpacity] = useState<number>(0.3);
 
   // --- STATE FOR SELECTED PROMPT ---
-  const [selectedPromptText, setSelectedPromptText] = useState<string>("");
+  const [_selectedPromptText, setSelectedPromptText] = useState<string>("");
 
   // --- STATES FOR BOTTOM PANEL ---
   const [selectedModel, setSelectedModel] = useState<string>("");
@@ -151,7 +158,7 @@ export default function Home() {
         );
         console.log(
           "✅ [CLIENT] Case IDs:",
-          data.map((c: any) => c.id).join(", "),
+          data.map((c: Prompt) => c.id).join(", "),
         );
 
         if (data.length === 0) {
@@ -160,9 +167,10 @@ export default function Home() {
         }
 
         setPrompts(data);
-      } catch (err: any) {
+      } catch (err) {
+        const message = err instanceof Error ? err.message : "Error desconocido al cargar casos";
         console.error("🔴 [CLIENT] Error loading cases:", err);
-        setError(err.message || "Error desconocido al cargar casos");
+        setError(message);
       } finally {
         setPromptsLoading(false);
       }
@@ -233,9 +241,10 @@ export default function Home() {
       setEducationalText(data.educational_text);
       setCurrentStep(1);
       console.log("Simulation started successfully, currentStep set to 1");
-    } catch (err: any) {
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Error desconocido";
       console.error("Error in handleStartSimulation:", err);
-      setError(err.message);
+      setError(message);
     } finally {
       setIsLoading(false);
     }
@@ -275,8 +284,9 @@ export default function Home() {
         // Asegurarse de que el ruido desaparezca en el último paso
         setNoiseOverlayImage(null);
       }
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Error desconocido";
+      setError(message);
     } finally {
       setIsLoading(false);
     }
@@ -300,8 +310,9 @@ export default function Home() {
       a.click();
       a.remove();
       window.URL.revokeObjectURL(downloadUrl);
-    } catch (e: any) {
-      setError(e?.message || "Error exportando GIF");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Error exportando GIF";
+      setError(message);
     } finally {
       setIsExporting(false);
     }
@@ -317,6 +328,7 @@ export default function Home() {
     setNoiseImage(null);
     setIntermediateImage(null);
     setNoiseOverlayImage(null);
+    setSelectedPromptText("");
     setEducationalText(
       'Bienvenido. Selecciona un prompt y haz clic en "Iniciar Simulación".',
     );
@@ -383,7 +395,7 @@ export default function Home() {
                   if (currentStep === 0) {
                     console.log("📌 Selected prompt:", prompt.id, prompt.title);
                     setSelectedPromptId(prompt.id);
-                    setSelectedPromptText(prompt.prompt);
+                    setSelectedPromptText(prompt.prompt || "");
                     setSelectedModel(caseInfo[prompt.id]?.model || "");
                     setSelectedOriginalPrompt(
                       caseInfo[prompt.id]?.originalPrompt || "",

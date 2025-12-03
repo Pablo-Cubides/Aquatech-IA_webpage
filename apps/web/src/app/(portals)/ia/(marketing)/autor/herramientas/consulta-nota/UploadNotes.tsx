@@ -46,7 +46,7 @@ export default function UploadNotes() {
 
       const sheetName = workbook.SheetNames[0];
       const sheet = workbook.Sheets[sheetName];
-      const rows = XLSX.utils.sheet_to_json(sheet, { defval: null }) as any[];
+      const rows = XLSX.utils.sheet_to_json(sheet, { defval: null }) as Record<string, unknown>[];
 
       if (rows.length === 0) {
         throw new Error("El archivo no contiene datos");
@@ -86,12 +86,11 @@ export default function UploadNotes() {
         setResult(json);
         throw new Error(json.error || "Error desconocido del servidor");
       }
-    } catch (err: any) {
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Error leyendo o subiendo el archivo";
       console.error("Upload error:", err);
-      setStatus(
-        `❌ Error: ${err.message || "Error leyendo o subiendo el archivo"}`,
-      );
-      setResult({ success: false, error: err.message });
+      setStatus(`❌ Error: ${message}`);
+      setResult({ success: false, error: message });
     } finally {
       setIsLoading(false);
       // Reset file input

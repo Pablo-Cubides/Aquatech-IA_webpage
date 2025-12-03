@@ -23,7 +23,7 @@ describe("CasosContext", () => {
 
   it("should provide selected caso state", () => {
     const TestComponent = () => {
-      const [selectedIndex, setSelectedIndex] = React.useState(-1);
+      const [selectedIndex] = React.useState(-1);
       return React.createElement("div", null, String(selectedIndex));
     };
 

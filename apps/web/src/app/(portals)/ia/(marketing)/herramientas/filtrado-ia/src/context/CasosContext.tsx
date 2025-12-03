@@ -53,7 +53,7 @@ export const CasosProvider = ({ children }: { children: React.ReactNode }) => {
     // Intentar backend primero
     try {
       const base =
-        (typeof window !== "undefined" && (window as any).LOCATION_API_BASE) ||
+        (typeof window !== "undefined" && (window as Window & { LOCATION_API_BASE?: string }).LOCATION_API_BASE) ||
         "";
       const api = base + "/casos";
       const res = await fetch(api, { cache: "no-store" });

@@ -27,10 +27,10 @@ export type Database = {
           owner_id: string
           created_at: string
           updated_at: string
-          column_mapping: any
+          column_mapping: Record<string, string>
           available_dates: string[]
           parameters: string[]
-          units: any
+          units: Record<string, string>
           max_points_per_day?: number
         }
         Insert: {
@@ -40,10 +40,10 @@ export type Database = {
           owner_id: string
           created_at?: string
           updated_at?: string
-          column_mapping: any
+          column_mapping: Record<string, string>
           available_dates: string[]
           parameters: string[]
-          units: any
+          units: Record<string, string>
           max_points_per_day?: number
         }
         Update: {
@@ -53,10 +53,10 @@ export type Database = {
           owner_id?: string
           created_at?: string
           updated_at?: string
-          column_mapping?: any
+          column_mapping?: Record<string, string>
           available_dates?: string[]
           parameters?: string[]
-          units?: any
+          units?: Record<string, string>
           max_points_per_day?: number
         }
       }

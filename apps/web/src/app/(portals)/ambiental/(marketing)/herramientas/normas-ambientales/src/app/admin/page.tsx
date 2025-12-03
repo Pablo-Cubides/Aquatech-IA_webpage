@@ -60,12 +60,11 @@ export default function AdminPage() {
 
           {/* Main Content */}
           <RegulatorySourcesAdmin
-            onAddSource={(source) => {
-              
+            onAddSource={() => {
               // En producción: enviaría a un API endpoint
             }}
-            onUpdateSource={(country, domain, oldUrl, newSource) => {
-              
+            onUpdateSource={() => {
+              // En producción: actualizaría via API endpoint
             }}
           />
 

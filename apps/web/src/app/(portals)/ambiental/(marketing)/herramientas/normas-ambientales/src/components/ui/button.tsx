@@ -47,7 +47,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     // If using asChild, clone the child element and inject the button styles + remaining props
     if (asChild && React.isValidElement(children)) {
-      const cloneProps: any = {
+      const cloneProps: React.HTMLAttributes<HTMLElement> & { className: string } = {
         className:
           `${combinedClassName} ${(children.props as { className?: string }).className ?? ""}`.trim(),
         ...rest,

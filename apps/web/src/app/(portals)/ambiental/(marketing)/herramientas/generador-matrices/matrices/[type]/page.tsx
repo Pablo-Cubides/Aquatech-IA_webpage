@@ -44,13 +44,29 @@ export async function generateMetadata({
   };
 }
 
+interface MatrixReference {
+  title: string;
+  url: string;
+}
+
+interface MatrixInfo {
+  title: string;
+  description: string;
+  formula: string;
+  references: MatrixReference[];
+  explanation: Record<string, string>;
+  steps: string[];
+  advantages: string[];
+  limitations: string[];
+}
+
 export default async function MatrixDetailPage({
   params,
 }: {
   params: Promise<{ type: string }>;
 }) {
   const { type } = await params;
-  const matrixData: Record<string, any> = {
+  const matrixData: Record<string, MatrixInfo> = {
     leopold: {
       title: "Matriz de Leopold",
       description:
@@ -299,7 +315,7 @@ export default async function MatrixDetailPage({
             metodología:
           </p>
           <ul className="space-y-3">
-            {matrix.references.map((ref: any, index: number) => (
+            {matrix.references.map((ref: MatrixReference, index: number) => (
               <li key={index} className="flex items-start">
                 <svg
                   className="w-4 h-4 mr-2 mt-1 text-blue-600 flex-shrink-0"

@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
 
 export async function GET() {
   try {
@@ -22,12 +21,13 @@ export async function GET() {
       databaseLength: process.env.DATABASE_URL?.length || 0,
       databaseStart: process.env.DATABASE_URL?.substring(0, 30) || "NOT_FOUND",
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error("❌ Error:", error);
+    const message = error instanceof Error ? error.message : "Unknown error";
     return NextResponse.json(
       {
         success: false,
-        error: error.message,
+        error: message,
       },
       { status: 500 },
     );

@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import { usePathname } from "next/navigation";
-import Link from "next/link";
+
+type SortOption = "recent" | "popular" | "old";
 
 type Post = {
   id: string;
@@ -545,7 +546,7 @@ export default function BlogSection({ portal }: BlogSectionProps) {
             <div className="relative w-full md:w-auto">
               <select
                 value={sort}
-                onChange={(e) => setSort(e.target.value as any)}
+                onChange={(e) => setSort(e.target.value as SortOption)}
                 className={`w-full appearance-none ${bgTertiary} border ${borderColor} rounded-lg py-2 pl-4 pr-10 ${textMain} focus:outline-none focus:ring-2 focus:border-transparent transition-all`}
                 style={
                   { "--tw-ring-color": primaryColor } as React.CSSProperties

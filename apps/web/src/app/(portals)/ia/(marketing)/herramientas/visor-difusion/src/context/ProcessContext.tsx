@@ -1,13 +1,20 @@
 "use client";
 
-import React, { createContext, useContext, ReactNode, useRef, useEffect } from "react";
+import React, { ReactNode, useRef, useEffect } from "react";
+
+interface User {
+  id?: string;
+  email?: string | null;
+  name?: string | null;
+  image?: string | null;
+}
 
 export function ProcessProvider({
   children,
   user,
 }: {
   children: ReactNode;
-  user?: any;
+  user?: User;
 }) {
   const userRef = useRef(user);
   

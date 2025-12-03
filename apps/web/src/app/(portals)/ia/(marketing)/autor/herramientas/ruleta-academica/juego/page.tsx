@@ -11,11 +11,7 @@ function JuegoContent() {
   const [error, setError] = useState("");
   const [setName, setSetName] = useState("");
 
-  useEffect(() => {
-    loadQuestions();
-  }, []);
-
-  const loadQuestions = async () => {
+  const loadQuestions = React.useCallback(async () => {
     try {
       setIsLoading(true);
 
@@ -24,9 +20,9 @@ function JuegoContent() {
       if (id) {
         const response = await fetch(`/api/questionsets/${id}`);
         if (!response.ok) throw new Error("No se encontró el conjunto");
-        const data = await response.json();
+        const data = (await response.json()) as { name: string; questions: { text: string }[] };
         setSetName(data.name);
-        setQuestions(data.questions.map((q: any) => q.text));
+        setQuestions(data.questions.map((q) => q.text));
         setError("");
         setIsLoading(false);
         return;
@@ -63,13 +59,18 @@ function JuegoContent() {
 
       // Si no hay ninguna fuente válida
       throw new Error("No se especificaron preguntas para jugar");
-    } catch (err: any) {
-      setError(err.message || "Error al cargar preguntas");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Error al cargar preguntas";
+      setError(message);
       console.error(err);
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [searchParams]);
+
+  useEffect(() => {
+    loadQuestions();
+  }, [loadQuestions]);
 
   const handleBack = () => {
     router.push("/ia/autor/herramientas/ruleta-academica");

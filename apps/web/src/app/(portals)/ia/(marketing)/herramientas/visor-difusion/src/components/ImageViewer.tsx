@@ -2,7 +2,13 @@
 
 import React from 'react'
 
-export default function ImageViewer({ image, overlay, overlayOpacity=0.5 }: any){
+interface ImageViewerProps {
+  image?: string;
+  overlay?: string;
+  overlayOpacity?: number;
+}
+
+export default function ImageViewer({ image, overlay, overlayOpacity=0.5 }: ImageViewerProps){
   return (
     <div className="relative w-full h-0" style={{ paddingBottom: '100%' }}>
       {image && <img src={image} alt="main" className="absolute inset-0 w-full h-full object-contain" />}

@@ -72,7 +72,7 @@ describe("RatingStars", () => {
 
   describe("Rounding behavior", () => {
     it("should round 4.7 to 4.5", () => {
-      const { container } = render(<RatingStars value={4.7} />);
+      render(<RatingStars value={4.7} />);
 
       expect(
         screen.getByLabelText("Calificación 4.5 de 5"),
@@ -80,7 +80,7 @@ describe("RatingStars", () => {
     });
 
     it("should round 4.3 to 4.5", () => {
-      const { container } = render(<RatingStars value={4.3} />);
+      render(<RatingStars value={4.3} />);
 
       expect(
         screen.getByLabelText("Calificación 4.5 de 5"),
@@ -88,7 +88,7 @@ describe("RatingStars", () => {
     });
 
     it("should round 4.6 to 4.5", () => {
-      const { container } = render(<RatingStars value={4.6} />);
+      render(<RatingStars value={4.6} />);
 
       expect(
         screen.getByLabelText("Calificación 4.5 de 5"),
@@ -96,13 +96,13 @@ describe("RatingStars", () => {
     });
 
     it("should round 3.8 to 4", () => {
-      const { container } = render(<RatingStars value={3.8} />);
+      render(<RatingStars value={3.8} />);
 
       expect(screen.getByLabelText("Calificación 4 de 5")).toBeInTheDocument();
     });
 
     it("should round 3.2 to 3", () => {
-      const { container } = render(<RatingStars value={3.2} />);
+      render(<RatingStars value={3.2} />);
 
       expect(screen.getByLabelText("Calificación 3 de 5")).toBeInTheDocument();
     });

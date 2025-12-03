@@ -1,6 +1,13 @@
 "use client";
 
-import React, { createContext, useContext, ReactNode, useRef, useEffect } from "react";
+import React, { ReactNode, useRef, useEffect } from "react";
+
+interface User {
+  id?: string;
+  email?: string | null;
+  name?: string | null;
+  image?: string | null;
+}
 
 // Generic Process Context for tool user tracking and analytics
 export function ProcessProvider({
@@ -8,7 +15,7 @@ export function ProcessProvider({
   user,
 }: {
   children: ReactNode;
-  user?: any;
+  user?: User;
 }) {
   const userRef = useRef(user);
   

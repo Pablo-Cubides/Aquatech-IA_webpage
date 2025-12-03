@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { getAllArticles } from "@/lib/blog-articles";
+import { getAllArticles, type BlogArticle } from "@/lib/blog-articles";
 
 // Datos de artículos del sistema centralizado
 const ALL_POSTS = getAllArticles("ambiental");
@@ -154,7 +154,7 @@ export default function BlogAmbientalPage() {
             <div className="flex items-center gap-3">
               <select
                 value={sort}
-                onChange={(e) => setSort(e.target.value as any)}
+                onChange={(e) => setSort(e.target.value as "newest" | "oldest" | "popular")}
                 className="bg-white border border-gray-300 rounded-lg py-2 pl-4 pr-10 text-[#4B5563] focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
               >
                 <option value="newest">Más Recientes</option>
@@ -436,7 +436,7 @@ export default function BlogAmbientalPage() {
   );
 }
 
-function CardGrid({ post }: { post: any }) {
+function CardGrid({ post }: { post: BlogArticle }) {
   return (
     <article className="rounded-xl border border-gray-200 bg-white overflow-hidden group shadow-sm hover:shadow-lg transition-all">
       <Link
@@ -483,7 +483,7 @@ function CardGrid({ post }: { post: any }) {
   );
 }
 
-function CardList({ post }: { post: any }) {
+function CardList({ post }: { post: BlogArticle }) {
   return (
     <article className="rounded-xl border border-gray-200 bg-white overflow-hidden group shadow-sm hover:shadow-lg transition-all">
       <div className="grid sm:grid-cols-[240px,1fr] gap-0">

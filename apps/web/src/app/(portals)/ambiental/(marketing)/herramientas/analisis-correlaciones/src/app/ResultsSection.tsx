@@ -5,6 +5,25 @@ import CorrelationTable from "../components/CorrelationTable";
 import CorrelationHeatmap from "../components/CorrelationHeatmap";
 import ExportButtons from "../components/ExportButtons";
 
+interface DataRow {
+  [key: string]: string | number | null | undefined;
+}
+
+interface CorrelationResult {
+  column_a: string;
+  column_b: string;
+  pearson: number | null;
+  spearman: number | null;
+  kendall: number | null;
+}
+
+interface AnalysisResult {
+  filename: string;
+  correlation_results: CorrelationResult[];
+  numeric_columns: string[];
+  raw_data: DataRow[];
+}
+
 // Dynamic import for heavy chart component (recharts)
 const ScatterPlot = dynamic(() => import("../components/ScatterPlot"), {
   ssr: false,
@@ -34,7 +53,7 @@ const methodOptions = [
   },
 ];
 
-export default function ResultsSection({ result }: { result: any }) {
+export default function ResultsSection({ result }: { result: AnalysisResult }) {
   const [method, setMethod] = useState<"pearson" | "spearman" | "kendall">(
     "pearson",
   );
@@ -71,7 +90,7 @@ export default function ResultsSection({ result }: { result: any }) {
             {methodOptions.map((opt) => (
               <button
                 key={opt.value}
-                onClick={() => setMethod(opt.value as any)}
+                onClick={() => setMethod(opt.value as "pearson" | "spearman" | "kendall")}
                 className={`px-4 py-3 rounded-lg font-medium transition-all duration-300 flex items-center gap-2 ${
                   method === opt.value
                     ? "bg-gradient-to-r from-cyan-400 to-blue-500 text-white shadow-lg"
@@ -135,7 +154,7 @@ export default function ResultsSection({ result }: { result: any }) {
             <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
               <ScatterPlot
                 data={result.raw_data.filter(
-                  (row: any) =>
+                  (row: DataRow) =>
                     typeof row[selectedPair[0]] === "number" &&
                     typeof row[selectedPair[1]] === "number",
                 )}

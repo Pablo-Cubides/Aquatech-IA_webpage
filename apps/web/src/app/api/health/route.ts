@@ -30,10 +30,11 @@ async function checkDatabase(): Promise<CheckResult> {
       status: "pass",
       responseTime: Date.now() - start,
     };
-  } catch (error: any) {
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown error";
     return {
       status: "fail",
-      message: error.message,
+      message,
       responseTime: Date.now() - start,
     };
   }
@@ -52,10 +53,11 @@ async function checkRedis(): Promise<CheckResult> {
       status: "pass",
       responseTime: Date.now() - start,
     };
-  } catch (error: any) {
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown error";
     return {
       status: "fail",
-      message: error.message,
+      message,
       responseTime: Date.now() - start,
     };
   }
@@ -113,13 +115,14 @@ export async function GET() {
         "Cache-Control": "no-cache, no-store, must-revalidate",
       },
     });
-  } catch (error: any) {
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown error";
     return NextResponse.json(
       {
         status: "unhealthy",
         timestamp: new Date().toISOString(),
         service: "ia-next-web",
-        error: error.message,
+        error: message,
       },
       { status: 503 },
     );

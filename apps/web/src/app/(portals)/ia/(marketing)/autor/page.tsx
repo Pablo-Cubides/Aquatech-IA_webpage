@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
-import { Space_Grotesk, Inter } from "next/font/google";
 import {
   ChevronRight,
   ArrowLeft,
@@ -19,9 +18,6 @@ import {
   FileText,
   RotateCcw,
 } from "lucide-react";
-
-const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], weight: ["700"] });
-const inter = Inter({ subsets: ["latin"], weight: ["400", "500", "600"] });
 
 // Component interfaces
 interface ExpertiseCardProps {
@@ -79,7 +75,7 @@ const ExpertiseCard: React.FC<ExpertiseCardProps> = ({ icon, title, desc }) => (
 const ProjectCard: React.FC<ProjectCardProps> = ({
   title,
   desc,
-  image,
+  image: _image,
   href,
 }) => (
   <Link
@@ -105,7 +101,7 @@ const ProjectWide: React.FC<ProjectWideProps> = ({
   title,
   impact,
   desc,
-  image,
+  image: _image,
   href,
 }) => (
   <div className="lg:col-span-3">

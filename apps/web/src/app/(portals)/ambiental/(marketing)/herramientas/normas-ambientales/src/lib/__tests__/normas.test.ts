@@ -2,6 +2,9 @@ import { describe, it, expect } from "vitest";
 import { getFlagEmoji, DOMINIOS } from "../constants";
 import { normalizeData, mergeCandidates } from "../utils";
 
+// Helper type for test assertions on normalized data
+type NormalizedData = Record<string, unknown>;
+
 describe("Normas Ambientales - Constants and Utilities", () => {
   describe("getFlagEmoji", () => {
     describe("known countries", () => {
@@ -169,35 +172,35 @@ describe("Normas Ambientales - Constants and Utilities", () => {
 
     it("should normalize country field", () => {
       const input = { country: "Colombia" };
-      const result = normalizeData(input) as any;
+      const result = normalizeData(input) as NormalizedData;
       expect(result.country).toBe("Colombia");
       expect(result.pais).toBe("Colombia");
     });
 
     it("should map pais to country", () => {
       const input = { pais: "México" };
-      const result = normalizeData(input) as any;
+      const result = normalizeData(input) as NormalizedData;
       expect(result.pais).toBe("México");
       expect(result.country).toBe("México");
     });
 
     it("should normalize domain field", () => {
       const input = { domain: "agua" };
-      const result = normalizeData(input) as any;
+      const result = normalizeData(input) as NormalizedData;
       expect(result.domain).toBe("agua");
       expect(result.dominio).toBe("agua");
     });
 
     it("should map dominio to domain", () => {
       const input = { dominio: "calidad-aire" };
-      const result = normalizeData(input) as any;
+      const result = normalizeData(input) as NormalizedData;
       expect(result.dominio).toBe("calidad-aire");
       expect(result.domain).toBe("calidad-aire");
     });
 
     it("should normalize version and lastUpdate", () => {
       const input = { version: "2024-01", lastUpdate: "2024-06" };
-      const result = normalizeData(input) as any;
+      const result = normalizeData(input) as NormalizedData;
       expect(result.version).toBe("2024-01");
       expect(result.lastUpdate).toBe("2024-06");
     });
@@ -205,7 +208,7 @@ describe("Normas Ambientales - Constants and Utilities", () => {
     it("should map records to registros", () => {
       const records = [{ parameter: "pH", limit: 7.5 }];
       const input = { records };
-      const result = normalizeData(input) as any;
+      const result = normalizeData(input) as NormalizedData;
       expect(result.records).toEqual(records);
       expect(result.registros).toEqual(records);
     });
@@ -213,7 +216,7 @@ describe("Normas Ambientales - Constants and Utilities", () => {
     it("should map registros to records", () => {
       const registros = [{ parametro: "Temperatura", limite: 35 }];
       const input = { registros };
-      const result = normalizeData(input) as any;
+      const result = normalizeData(input) as NormalizedData;
       expect(result.registros).toEqual(registros);
       expect(result.records).toEqual(registros);
     });
@@ -221,7 +224,7 @@ describe("Normas Ambientales - Constants and Utilities", () => {
     it("should normalize reference field", () => {
       const reference = { norm: "Decreto 1076", year: 2015 };
       const input = { reference };
-      const result = normalizeData(input) as any;
+      const result = normalizeData(input) as NormalizedData;
       expect(result.reference).toEqual(reference);
       expect(result.referencia).toEqual(reference);
     });
@@ -238,7 +241,7 @@ describe("Normas Ambientales - Constants and Utilities", () => {
         reference: { norm: "Resolución 2115", year: 2007 },
       };
 
-      const result = normalizeData(input) as any;
+      const result = normalizeData(input) as NormalizedData;
       expect(result.country).toBe("Colombia");
       expect(result.pais).toBe("Colombia");
       expect(result.domain).toBe("agua");
@@ -251,7 +254,7 @@ describe("Normas Ambientales - Constants and Utilities", () => {
     it("should preserve sectors field", () => {
       const sectors = { industrial: true, residential: false };
       const input = { sectors };
-      const result = normalizeData(input) as any;
+      const result = normalizeData(input) as NormalizedData;
       expect(result.sectors).toEqual(sectors);
     });
   });
@@ -259,13 +262,13 @@ describe("Normas Ambientales - Constants and Utilities", () => {
   describe("mergeCandidates", () => {
     it("should attach domain if missing", () => {
       const normalized = { country: "Colombia" };
-      const result = mergeCandidates(normalized, "agua", null) as any;
+      const result = mergeCandidates(normalized, "agua", null) as NormalizedData;
       expect(result.domain).toBe("agua");
     });
 
     it("should attach country if missing", () => {
       const normalized = { domain: "agua" };
-      const result = mergeCandidates(normalized, null, "Colombia") as any;
+      const result = mergeCandidates(normalized, null, "Colombia") as NormalizedData;
       expect(result.country).toBe("Colombia");
     });
 
@@ -275,31 +278,31 @@ describe("Normas Ambientales - Constants and Utilities", () => {
         normalized,
         "calidad-aire",
         "Mexico",
-      ) as any;
+      ) as NormalizedData;
       expect(result.domain).toBe("calidad-aire");
       expect(result.country).toBe("Mexico");
     });
 
     it("should not override existing domain", () => {
       const normalized = { domain: "agua", country: "Colombia" };
-      const result = mergeCandidates(normalized, "calidad-aire", null) as any;
+      const result = mergeCandidates(normalized, "calidad-aire", null) as NormalizedData;
       expect(result.domain).toBe("agua"); // Should keep original
     });
 
     it("should not override existing country", () => {
       const normalized = { domain: "agua", country: "Colombia" };
-      const result = mergeCandidates(normalized, null, "Mexico") as any;
+      const result = mergeCandidates(normalized, null, "Mexico") as NormalizedData;
       expect(result.country).toBe("Colombia"); // Should keep original
     });
 
     it("should handle empty normalized object", () => {
-      const result = mergeCandidates({}, "vertimientos", "Peru") as any;
+      const result = mergeCandidates({}, "vertimientos", "Peru") as NormalizedData;
       expect(result.domain).toBe("vertimientos");
       expect(result.country).toBe("Peru");
     });
 
     it("should handle null normalized input", () => {
-      const result = mergeCandidates(null, "agua", "Chile") as any;
+      const result = mergeCandidates(null, "agua", "Chile") as NormalizedData;
       expect(result.domain).toBe("agua");
       expect(result.country).toBe("Chile");
     });
@@ -310,7 +313,7 @@ describe("Normas Ambientales - Constants and Utilities", () => {
         records: [{ param: "pH" }],
         extraField: "test",
       };
-      const result = mergeCandidates(normalized, "agua", "Colombia") as any;
+      const result = mergeCandidates(normalized, "agua", "Colombia") as NormalizedData;
       expect(result.version).toBe("2024");
       expect(result.records).toEqual([{ param: "pH" }]);
       expect(result.extraField).toBe("test");

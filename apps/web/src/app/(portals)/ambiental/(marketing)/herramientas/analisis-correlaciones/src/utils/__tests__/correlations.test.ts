@@ -7,6 +7,8 @@ import {
 } from "../analytics";
 import * as Sentry from "@sentry/nextjs";
 
+import type { MockInstance } from "vitest";
+
 // Mock Sentry
 vi.mock("@sentry/nextjs", () => ({
   captureMessage: vi.fn(),
@@ -14,8 +16,8 @@ vi.mock("@sentry/nextjs", () => ({
 }));
 
 describe("Análisis de Correlaciones - Analytics", () => {
-  let consoleLogSpy: any;
-  let consoleErrorSpy: any;
+  let consoleLogSpy: MockInstance;
+  let consoleErrorSpy: MockInstance;
 
   beforeEach(() => {
     consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => {});
@@ -361,14 +363,14 @@ describe("Correlación de Kendall Tau", () => {
 });
 
 describe("Validación de datos numéricos", () => {
-  function isNumericColumn(data: any[], column: string): boolean {
+  function isNumericColumn(data: Record<string, unknown>[], column: string): boolean {
     return data.some(
-      (row) => typeof row[column] === "number" && !isNaN(row[column]),
+      (row) => typeof row[column] === "number" && !isNaN(row[column] as number),
     );
   }
 
   function filterValidPairs(
-    data: any[],
+    data: Record<string, unknown>[],
     col1: string,
     col2: string,
   ): Array<{ x: number; y: number }> {
@@ -380,7 +382,7 @@ describe("Validación de datos numéricos", () => {
           typeof pair.y === "number" &&
           !isNaN(pair.x) &&
           !isNaN(pair.y),
-      );
+      ) as Array<{ x: number; y: number }>;
   }
 
   it("should identify numeric columns", () => {

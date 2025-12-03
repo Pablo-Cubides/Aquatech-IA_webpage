@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
-import path from "path";
 import { loadDynamicCases } from "../_lib/cases";
 import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
 
@@ -23,7 +22,7 @@ const EDUCATIONAL_TEXTS: Record<number, string> = {
   10: "✅ Proceso completado. La imagen ha pasado por todo el proceso de difusión, desde ruido puro hasta el resultado final detallado.",
 };
 
-function generatePlaceholderImage(text: string): string {
+function generatePlaceholderImage(): string {
   // For simplicity, return a base64 encoded 1x1 pixel PNG
   // In a real implementation, you might generate a proper placeholder
   const placeholder =
@@ -34,7 +33,7 @@ function generatePlaceholderImage(text: string): string {
 function loadStepImageB64(caseId: string, step: number): string {
   const caseData = predefinedCases[caseId];
   if (!caseData) {
-    return generatePlaceholderImage(`Paso ${step}`);
+    return generatePlaceholderImage();
   }
 
   const stepFiles = caseData.step_files;
@@ -51,7 +50,7 @@ function loadStepImageB64(caseId: string, step: number): string {
       return imageData.toString("base64");
     } catch (error) {
       console.error(`Error loading image ${imagePath}`, error as Error);
-      return generatePlaceholderImage(`Error: Paso ${step}`);
+      return generatePlaceholderImage();
     }
   }
 
@@ -61,7 +60,7 @@ function loadStepImageB64(caseId: string, step: number): string {
     return imageData.toString("base64");
   } catch (error) {
     console.error(`Error loading image ${imagePath}`, error as Error);
-    return generatePlaceholderImage(`Error: Paso ${step}`);
+    return generatePlaceholderImage();
   }
 }
 

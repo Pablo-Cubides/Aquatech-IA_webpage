@@ -2,7 +2,14 @@
 
 import React from 'react'
 
-export default function SimulationControls({ onStart, onNext, onReset, disabled }: any){
+interface SimulationControlsProps {
+  onStart?: () => void;
+  onNext?: () => void;
+  onReset?: () => void;
+  disabled?: boolean;
+}
+
+export default function SimulationControls({ onStart, onNext, onReset, disabled }: SimulationControlsProps){
   return (
     <div className="flex gap-2">
       <button onClick={onStart} disabled={disabled} className="btn">Start</button>

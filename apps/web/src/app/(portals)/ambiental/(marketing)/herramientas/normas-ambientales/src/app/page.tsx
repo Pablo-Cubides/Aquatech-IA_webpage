@@ -135,7 +135,7 @@ export default function HomePage() {
       // Ensure sectors is always an array and normalize entries to string ids
       const sectors = Array.isArray(data.sectors) ? data.sectors : [];
 
-      const normalized = sectors.map((s: any) => {
+      const normalized = sectors.map((s: string | { id?: string; slug?: string; name?: string }) => {
         // If the sector is already a string, use it
         if (typeof s === "string") return s;
 

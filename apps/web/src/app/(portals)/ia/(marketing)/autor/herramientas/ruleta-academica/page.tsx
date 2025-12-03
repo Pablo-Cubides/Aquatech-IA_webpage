@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import FileInput from "./FileInput";
 import "./styles.css";
 
@@ -10,12 +9,11 @@ interface QuestionSet {
 }
 
 export default function InicioPage() {
-  const router = useRouter();
   const [questionSets, setQuestionSets] = useState<QuestionSet[]>([]);
   const [selectedSet, setSelectedSet] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [fileQuestions, setFileQuestions] = useState<string[]>([]);
-  const [fileName, setFileName] = useState<string>("");
+  const setFileName = useState<string>("")[1]; // Only use setter, ignore state
   const [saveName, setSaveName] = useState<string>("");
   const [saveStatus, setSaveStatus] = useState<string>("");
   const [groupName, setGroupName] = useState("Nuevo Grupo");
@@ -59,7 +57,7 @@ export default function InicioPage() {
                   ? -Math.abs(
                       parseInt(s.id.replace(/\D/g, "") || `${Date.now()}`),
                     )
-                  : (s.id as any as number);
+                  : Number(s.id);
               combined.push({ id: numericId, name: s.name });
             }
           });
@@ -81,8 +79,8 @@ export default function InicioPage() {
     setLoading(true);
     const res = await fetch(`/api/questionsets/${id}`);
     if (res.ok) {
-      const data = await res.json();
-      setFileQuestions(data.questions.map((q: any) => q.text));
+      const data = (await res.json()) as { name: string; questions: { text: string }[] };
+      setFileQuestions(data.questions.map((q) => q.text));
       setFileName(data.name);
     }
     setLoading(false);
@@ -125,8 +123,9 @@ export default function InicioPage() {
       } else {
         setSaveStatus(data.error || "Error al guardar");
       }
-    } catch (err: any) {
-      setSaveStatus(`Error de conexión: ${String(err?.message ?? err)}`);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      setSaveStatus(`Error de conexión: ${message}`);
     }
   };
 
@@ -204,10 +203,9 @@ export default function InicioPage() {
                   const data = await res.json().catch(() => ({}));
                   setSaveStatus(data.error || "Error al guardar");
                 }
-              } catch (err: any) {
-                setSaveStatus(
-                  `Error de conexión: ${String(err?.message ?? err)}`,
-                );
+              } catch (err) {
+                const message = err instanceof Error ? err.message : String(err);
+                setSaveStatus(`Error de conexión: ${message}`);
               }
             }}
           />
@@ -245,6 +243,7 @@ export default function InicioPage() {
   );
 }
 
+/* JugarButton component - currently unused but kept for future use
 function JugarButton({
   setId,
   questions,
@@ -279,3 +278,4 @@ function JugarButton({
     </button>
   );
 }
+*/

@@ -9,6 +9,10 @@ const HeroTabs = dynamic(
   { ssr: false },
 );
 
-export default function ClientHeroTabs({ knowledge }: { knowledge: any }) {
+interface KnowledgeData {
+  fundamentos?: Array<{ text?: string }>;
+}
+
+export default function ClientHeroTabs({ knowledge }: { knowledge: KnowledgeData }) {
   return <HeroTabs knowledge={knowledge} />;
 }

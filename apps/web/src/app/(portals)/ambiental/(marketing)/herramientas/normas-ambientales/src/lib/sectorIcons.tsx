@@ -1,5 +1,5 @@
 import React from 'react';
-import { Droplet, Wind, Trash2, Waves, Home } from 'lucide-react';
+import { Droplet, Wind, Trash2, Waves } from 'lucide-react';
 
 // Sector icon mapping - SMART icon matching by keywords
 export const SECTOR_ICON_PATTERNS = [

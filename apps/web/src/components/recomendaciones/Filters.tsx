@@ -121,7 +121,7 @@ export default function Filters({
       <div className="grid grid-cols-2 md:grid-cols-6 gap-2">
         <select
           value={local.level[0] ?? ""}
-          onChange={(e) => setLocal({ ...local, level: e.target.value ? [e.target.value as any] : [] })}
+          onChange={(e) => setLocal({ ...local, level: e.target.value ? [e.target.value as "intro" | "intermedio" | "avanzado"] : [] })}
           disabled={local.type === "product"}
           className="rounded-lg border border-[var(--border)] bg-white px-2 py-2 text-sm"
         >
@@ -146,7 +146,7 @@ export default function Filters({
 
         <select
           value={local.language[0] ?? ""}
-          onChange={(e) => setLocal({ ...local, language: e.target.value ? [e.target.value as any] : [] })}
+          onChange={(e) => setLocal({ ...local, language: e.target.value ? [e.target.value as "es" | "en"] : [] })}
           className="rounded-lg border border-[var(--border)] bg-white px-2 py-2 text-sm"
         >
           <option value="">Idioma</option>
@@ -156,7 +156,7 @@ export default function Filters({
 
         <select
           value={local.region[0] ?? "LatAm"}
-          onChange={(e) => setLocal({ ...local, region: e.target.value ? [e.target.value as any] : [] })}
+          onChange={(e) => setLocal({ ...local, region: e.target.value ? [e.target.value as "LatAm" | "Global"] : [] })}
           className="rounded-lg border border-[var(--border)] bg-white px-2 py-2 text-sm"
         >
           <option value="LatAm">LatAm</option>
@@ -178,7 +178,7 @@ export default function Filters({
 
         <select
           value={local.price}
-          onChange={(e) => setLocal({ ...local, price: e.target.value as any })}
+          onChange={(e) => setLocal({ ...local, price: e.target.value as FiltersState["price"] })}
           className="rounded-lg border border-[var(--border)] bg-white px-2 py-2 text-sm"
         >
           <option value="all">Precio</option>
@@ -191,7 +191,7 @@ export default function Filters({
 
         <select
           value={local.sortBy}
-          onChange={(e) => setLocal({ ...local, sortBy: e.target.value as any })}
+          onChange={(e) => setLocal({ ...local, sortBy: e.target.value as SortBy })}
           className="col-span-2 md:col-span-1 rounded-lg border border-[var(--border)] bg-white px-2 py-2 text-sm"
         >
           <option value="relevance">Relevancia</option>

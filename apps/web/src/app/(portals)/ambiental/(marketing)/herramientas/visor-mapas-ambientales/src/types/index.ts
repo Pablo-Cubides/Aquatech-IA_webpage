@@ -55,7 +55,7 @@ export interface UploadWizardStep1 {
 
 export interface UploadWizardStep2 {
   columnMapping: ColumnMapping
-  rawData: any[]
+  rawData: Record<string, unknown>[]
   detectedColumns: string[]
 }
 

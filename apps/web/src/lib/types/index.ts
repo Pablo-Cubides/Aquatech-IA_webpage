@@ -58,7 +58,7 @@ export interface Country {
   code: string;
   name: string;
   flag?: string;
-  [key: string]: any;
+  [key: string]: string | undefined;
 }
 
 /**
@@ -75,7 +75,7 @@ export interface WaterQualityRecord {
   notas?: string[] | string;
   _sector?: string;
   categoria?: string;
-  [key: string]: any;
+  [key: string]: string | number | string[] | undefined;
 }
 
 export interface CountryStandards {
@@ -84,7 +84,9 @@ export interface CountryStandards {
   country?: string;
   domain?: string;
   dominio?: string;
-  [key: string]: any;
+  lastUpdate?: string;
+  version?: string;
+  [key: string]: WaterQualityRecord[] | string | undefined;
 }
 
 /**
@@ -134,7 +136,7 @@ export type AnalyticsEvent =
 
 export interface AnalyticsPayload {
   event: AnalyticsEvent;
-  data?: Record<string, any>;
+  data?: Record<string, unknown>;
   timestamp: Date;
 }
 

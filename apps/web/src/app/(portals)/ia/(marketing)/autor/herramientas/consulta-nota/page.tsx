@@ -5,6 +5,23 @@ import { Space_Grotesk, Noto_Sans } from "next/font/google";
 import dynamic from "next/dynamic";
 import React from "react";
 
+// Types for note search results
+interface Note {
+  id: string;
+  code: string;
+  studentName?: string | null;
+  course: string;
+  university: string;
+  grade: number;
+}
+
+interface SearchResult {
+  found?: boolean;
+  count?: number;
+  notes: Note[];
+  note?: Note; // Single note result for code lookup
+}
+
 const UploadNotesComponent = dynamic(() => import("./UploadNotes"), {
   ssr: false,
 });
@@ -29,7 +46,7 @@ export default function ConsultaNotaIAPage() {
   const [university, setUniversity] = React.useState<string>("");
   const [course, setCourse] = React.useState<string>("");
   const [code, setCode] = React.useState<string>("");
-  const [result, setResult] = React.useState<any>(null);
+  const [result, setResult] = React.useState<SearchResult | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
   const [isLoadingUniversities, setIsLoadingUniversities] =
     React.useState(true);
@@ -104,9 +121,10 @@ export default function ConsultaNotaIAPage() {
       if (code && !json.found) {
         setError("No se encontró ninguna nota con ese código");
       }
-    } catch (err: any) {
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Error consultando notas";
       console.error("Search error:", err);
-      setError(err.message || "Error consultando notas");
+      setError(message);
     } finally {
       setIsLoading(false);
     }
@@ -419,7 +437,7 @@ export default function ConsultaNotaIAPage() {
                       </span>
                     </h4>
                     <div className="grid gap-3 max-h-96 overflow-y-auto">
-                      {result.notes.map((n: any) => (
+                      {result.notes.map((n: Note) => (
                         <div
                           key={n.id}
                           className="p-4 bg-black/20 border border-[var(--border-color)] rounded-lg hover:border-[var(--primary-cyan)] transition-colors"
@@ -593,7 +611,8 @@ function ChevronRight(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-function FileText(props: React.SVGProps<SVGSVGElement>) {
+// Kept for potential future use
+function _FileText(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       width="24"

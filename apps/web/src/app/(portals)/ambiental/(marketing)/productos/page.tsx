@@ -9,11 +9,9 @@ import Filters, {
 import CardCourse from "@/components/recomendaciones/CardCourse";
 import CardProduct from "@/components/recomendaciones/CardProduct";
 import CardEbookSoftware from "@/components/recomendaciones/CardEbookSoftware";
-import RatingStars from "@/components/recomendaciones/RatingStars";
 import EmptyState from "@/components/recomendaciones/EmptyState";
 import Methodology from "@/components/recomendaciones/Methodology";
 import FAQ from "@/components/recomendaciones/FAQ";
-import CardSkeleton from "@/components/recomendaciones/CardSkeleton";
 import { filterItems, sortItems } from "@/lib/filters-env";
 import { buildAffiliateUrl, trackViewList } from "@/lib/track-env";
 import type { Resource } from "@/lib/types-env";

@@ -46,7 +46,7 @@ export function RegulatorySourcesAdmin({
     };
 
     if (editingSource) {
-      onUpdateSource?.(editingSource.country, editingSource.domain, editingSource.source.url!, newSource);
+      onUpdateSource?.(editingSource.country, editingSource.domain, editingSource.source.url ?? '', newSource);
     } else {
       onAddSource?.(newSource);
     }

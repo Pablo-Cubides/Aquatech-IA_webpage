@@ -30,8 +30,10 @@ export default function MapComponent({
         return;
       }
 
+      if (!mapContainer.current) return;
+      
       map.current = new maplibregl.Map({
-        container: mapContainer.current!,
+        container: mapContainer.current,
         style: MAPBOX_CONFIG.style,
         center: [-74.0721, 4.711],
         zoom: 4,
@@ -101,7 +103,16 @@ export default function MapComponent({
       });
 
       map.current.on("click", "points", (e) => {
-        if (onPointClick && e.features?.[0]) onPointClick(e.features[0] as any);
+        if (onPointClick && e.features?.[0]) {
+          const feature = e.features[0];
+          // Convert maplibre feature to our GeoJSONFeature type
+          const geoJsonFeature: GeoJSONFeature = {
+            type: "Feature",
+            geometry: feature.geometry as GeoJSONFeature["geometry"],
+            properties: (feature.properties || {}) as Record<string, unknown>,
+          };
+          onPointClick(geoJsonFeature);
+        }
       });
 
       map.current.on("mouseenter", "points", () => {

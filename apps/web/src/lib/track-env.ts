@@ -16,7 +16,7 @@ export function buildAffiliateUrl(r: Resource, ctx: Ctx) {
 }
 
 declare global {
-  interface Window { gtag?: (...args:any[])=>void }
+  interface Window { gtag?: (...args: unknown[]) => void }
 }
 
 export function trackViewList(items: Resource[]) {

@@ -8,7 +8,7 @@
 type LogLevel = 'info' | 'warn' | 'error' | 'debug';
 
 interface LogContext {
-  [key: string]: any;
+  [key: string]: string | number | boolean | null | undefined | Record<string, unknown>;
 }
 
 class Logger {
@@ -39,13 +39,15 @@ class Logger {
    * Use for: captured errors that need investigation
    */
   error(message: string, error?: Error | unknown, context?: LogContext): void {
-    const errorContext = {
+    const errorInfo = error instanceof Error ? {
+      message: error.message,
+      stack: error.stack,
+      name: error.name,
+    } : error !== undefined ? { raw: String(error) } : undefined;
+    
+    const errorContext: LogContext = {
       ...context,
-      error: error instanceof Error ? {
-        message: error.message,
-        stack: error.stack,
-        name: error.name,
-      } : error,
+      ...(errorInfo && { errorDetails: errorInfo }),
     };
     this.log('error', message, errorContext);
   }
@@ -95,7 +97,7 @@ class Logger {
     );
   }
 
-  private productionLog(logEntry: any): void {
+  private productionLog(logEntry: { level: LogLevel; message: string; timestamp: string; context?: LogContext }): void {
     // En producción, la empresa configurará integración con:
     // - Sentry para error tracking
     // - Winston para logs estructurados

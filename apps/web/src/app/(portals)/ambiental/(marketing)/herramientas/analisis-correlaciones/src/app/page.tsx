@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import FileUploader from "../components/FileUploader";
-import CorrelationTable from "../components/CorrelationTable";
 import ResultsSection from "./ResultsSection";
 import ErrorModal from "../components/ErrorModal";
 import { sampleCorrelation } from "simple-statistics";
@@ -13,15 +12,14 @@ function pearsonCorrelation(x: number[], y: number[]): number {
 
 // Function to calculate Spearman correlation (basic implementation)
 function spearmanCorrelation(x: number[], y: number[]): number {
-  const n = x.length;
   const rankX = x
     .map((val, idx) => ({ val, idx }))
     .sort((a, b) => a.val - b.val)
-    .map((item, rank) => rank + 1);
+    .map((_item, rank) => rank + 1);
   const rankY = y
     .map((val, idx) => ({ val, idx }))
     .sort((a, b) => a.val - b.val)
-    .map((item, rank) => rank + 1);
+    .map((_item, rank) => rank + 1);
   return sampleCorrelation(rankX, rankY);
 }
 
@@ -40,8 +38,28 @@ function kendallCorrelation(x: number[], y: number[]): number {
   return (concordant - discordant) / (concordant + discordant);
 }
 
+// Type definitions
+interface DataRow {
+  [key: string]: string | number | null | undefined;
+}
+
+interface CorrelationResult {
+  column_a: string;
+  column_b: string;
+  pearson: number | null;
+  spearman: number | null;
+  kendall: number | null;
+}
+
+interface AnalysisResult {
+  filename: string;
+  correlation_results: CorrelationResult[];
+  numeric_columns: string[];
+  raw_data: DataRow[];
+}
+
 // Function to parse file
-async function parseFile(file: File): Promise<any[]> {
+async function parseFile(file: File): Promise<DataRow[]> {
   return new Promise(async (resolve, reject) => {
     if (file.name.endsWith(".csv")) {
       const Papa = (await import("papaparse")).default;
@@ -54,12 +72,12 @@ async function parseFile(file: File): Promise<any[]> {
             console.error("CSV parse errors:", results.errors);
           }
 
-          const validData = (results.data as any[])
+          const validData = (results.data as DataRow[])
             .filter((row) => {
               return row && Object.keys(row).length > 0;
             })
             .map((row) => {
-              const cleanRow: any = {};
+              const cleanRow: DataRow = {};
               Object.keys(row).forEach((key) => {
                 if (key && key.trim()) {
                   const cleanKey = key.trim();
@@ -95,7 +113,7 @@ async function parseFile(file: File): Promise<any[]> {
           const sheetName = workbook.SheetNames[0];
           const worksheet = workbook.Sheets[sheetName];
           const json = XLSX.utils.sheet_to_json(worksheet);
-          resolve(json as any[]);
+          resolve(json as DataRow[]);
         } catch (error) {
           reject(new Error("Error reading Excel file"));
         }
@@ -109,10 +127,10 @@ async function parseFile(file: File): Promise<any[]> {
 }
 
 // Function to calculate correlations
-function calculateCorrelations(data: any[]): {
-  correlation_results: any[];
+function calculateCorrelations(data: DataRow[]): {
+  correlation_results: CorrelationResult[];
   numeric_columns: string[];
-  raw_data: any[];
+  raw_data: DataRow[];
 } {
   const numericColumns = Object.keys(data[0] || {}).filter((key) => {
     return data.some((row) => typeof row[key] === "number" && !isNaN(row[key]));
@@ -133,7 +151,7 @@ function calculateCorrelations(data: any[]): {
       const pairs = data
         .map((row) => ({ x: row[col1], y: row[col2] }))
         .filter(
-          (pair) =>
+          (pair): pair is { x: number; y: number } =>
             typeof pair.x === "number" &&
             typeof pair.y === "number" &&
             !isNaN(pair.x) &&
@@ -181,7 +199,7 @@ function calculateCorrelations(data: any[]): {
 export default function HomePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<AnalysisResult | null>(null);
 
   async function handleUpload(file: File) {
     setLoading(true);
@@ -196,9 +214,9 @@ export default function HomePage() {
         filename: file.name,
         ...resultData,
       });
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Error processing file:", err);
-      setError(err.message || "Error al procesar el archivo.");
+      setError(err instanceof Error ? err.message : "Error al procesar el archivo.");
     } finally {
       setLoading(false);
     }

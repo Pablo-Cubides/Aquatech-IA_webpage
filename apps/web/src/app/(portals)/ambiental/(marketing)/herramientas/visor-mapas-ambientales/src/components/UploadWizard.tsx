@@ -9,7 +9,7 @@ import type {
 } from "@/types";
 
 interface UploadWizardProps {
-  onComplete: (data: any) => void;
+  onComplete: () => void;
   onCancel: () => void;
 }
 
@@ -87,7 +87,7 @@ export default function UploadWizard({
         }
       } else {
         // Parse CSV or Excel
-        const processTabularData = (data: any[]) => {
+        const processTabularData = (data: Record<string, unknown>[]) => {
           if (data.length === 0) {
             throw new Error("El archivo está vacío");
           }
@@ -110,14 +110,14 @@ export default function UploadWizard({
           setCurrentStep(2);
         };
 
-        let rawData: any[] = [];
+        let rawData: Record<string, unknown>[] = [];
 
         if (fileType === "csv") {
           const Papa = (await import("papaparse")).default;
           Papa.parse(file, {
             header: true,
             complete: (results) => {
-              rawData = results.data as any[];
+              rawData = results.data as Record<string, unknown>[];
               processTabularData(rawData);
             },
             error: (error) => {
@@ -156,13 +156,14 @@ export default function UploadWizard({
   const handleStep3Complete = () => {
     if (!step1Data || !step2Data || !step3Data.confirmWarning) return;
 
-    const result = {
-      file: step1Data,
-      mapping: step2Data,
-      metadata: step3Data,
-    };
+    // TODO: Process result data when backend is ready
+    // const result = {
+    //   file: step1Data,
+    //   mapping: step2Data,
+    //   metadata: step3Data,
+    // };
 
-    onComplete(result);
+    onComplete();
   };
 
   if (currentStep === 1) {

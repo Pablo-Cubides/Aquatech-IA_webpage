@@ -99,12 +99,13 @@ export function useExplorarState() {
           `/paises?dominio=${selectedDomain}`,
         );
         if (!res || !res.ok) throw new Error("No se pudieron cargar países");
-        const payload = await res.json();
-        const countries = (payload.countries || []).map((c: any) => {
+        const payload = (await res.json()) as {
+          countries?: Array<{ code?: string; name?: string }>;
+        };
+        const countries = (payload.countries || []).map((c) => {
           const code = String(c.code ?? "");
           const name = String(c.name ?? "");
           return {
-            ...(c || {}),
             code,
             name,
             flag: getFlagEmoji(code, name) || "🏳️",
@@ -282,19 +283,12 @@ export function useExplorarState() {
     if (!debouncedSearchQuery) return records;
     const q = debouncedSearchQuery.toLowerCase();
     return records.filter((r) => {
-      const param = String(
-        (r as any).parameter ?? (r as any).parametro ?? "",
-      ).toLowerCase();
-      const limit = String(
-        (r as any).limit ?? (r as any).limite ?? "",
-      ).toLowerCase();
-      const unit = String(
-        (r as any).unit ?? (r as any).unidad ?? "",
-      ).toLowerCase();
+      const param = String(r.parameter ?? r.parametro ?? "").toLowerCase();
+      const limit = String(r.limit ?? r.limite ?? "").toLowerCase();
+      const unit = String(r.unit ?? r.unidad ?? "").toLowerCase();
+      const notesArr = (r.notes ?? r.notas ?? []) as unknown[];
       const notes = String(
-        ((((r as any).notes ?? (r as any).notas) as any[]) ?? [])
-          .map(String)
-          .join(" "),
+        Array.isArray(notesArr) ? notesArr.map(String).join(" ") : "",
       ).toLowerCase();
       return (
         param.includes(q) ||
@@ -308,9 +302,7 @@ export function useExplorarState() {
   const sectionsToDisplay = useMemo(() => {
     const out: Record<string, AnyRecord[]> = {};
     filteredRecords.forEach((rec) => {
-      const key = String(
-        (rec as any)._sector ?? (rec as any).categoria ?? "general",
-      );
+      const key = String(rec._sector ?? rec.categoria ?? "general");
       out[key] = out[key] || [];
       out[key].push(rec);
     });

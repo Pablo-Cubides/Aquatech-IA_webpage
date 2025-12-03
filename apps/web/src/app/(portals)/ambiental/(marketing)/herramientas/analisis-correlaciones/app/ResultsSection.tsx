@@ -5,13 +5,32 @@ import CorrelationHeatmap from "../components/CorrelationHeatmap";
 import ScatterPlot from "../components/ScatterPlot";
 import ExportButtons from "../components/ExportButtons";
 
+interface DataRow {
+  [key: string]: string | number | null | undefined;
+}
+
+interface CorrelationResult {
+  column_a: string;
+  column_b: string;
+  pearson: number | null;
+  spearman: number | null;
+  kendall: number | null;
+}
+
+interface AnalysisResult {
+  filename: string;
+  correlation_results: CorrelationResult[];
+  numeric_columns: string[];
+  raw_data: DataRow[];
+}
+
 const methodOptions = [
   { value: "pearson", label: "Pearson" },
   { value: "spearman", label: "Spearman" },
   { value: "kendall", label: "Kendall Tau" },
 ];
 
-export default function ResultsSection({ result }: { result: any }) {
+export default function ResultsSection({ result }: { result: AnalysisResult }) {
   const [method, setMethod] = useState<"pearson" | "spearman" | "kendall">(
     "pearson",
   );
@@ -45,7 +64,7 @@ export default function ResultsSection({ result }: { result: any }) {
           <select
             className="px-2 py-1 text-sm border rounded"
             value={method}
-            onChange={(e) => setMethod(e.target.value as any)}
+            onChange={(e) => setMethod(e.target.value as "pearson" | "spearman" | "kendall")}
           >
             {methodOptions.map((opt) => (
               <option key={opt.value} value={opt.value}>
@@ -68,7 +87,7 @@ export default function ResultsSection({ result }: { result: any }) {
         <div className="mt-8">
           <ScatterPlot
             data={result.raw_data.filter(
-              (row: any) =>
+              (row: DataRow) =>
                 typeof row[selectedPair[0]] === "number" &&
                 typeof row[selectedPair[1]] === "number",
             )}

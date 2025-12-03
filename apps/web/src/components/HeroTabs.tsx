@@ -1,15 +1,12 @@
 "use client";
 import React, { useState } from "react";
 
-interface MatrixInfoCardProps {
-  type: string;
-  title: string;
-  onSelect: () => void;
-  selected: boolean;
+interface KnowledgeData {
+  fundamentos?: Array<{ text?: string }>;
 }
 
 interface HeroTabsProps {
-  knowledge: any;
+  knowledge: KnowledgeData;
 }
 
 export default function HeroTabs({ knowledge }: HeroTabsProps) {
