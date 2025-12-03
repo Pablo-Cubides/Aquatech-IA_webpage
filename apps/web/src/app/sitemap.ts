@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next";
 import { getToolsByPortal } from "@/lib/services/tools-registry";
+import { getCategories, getAllArticleSlugs } from "@/lib/blog-seo";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com";
@@ -8,6 +9,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Get tools for both portals
   const iaTools = getToolsByPortal("ia");
   const ambientalTools = getToolsByPortal("ambiental");
+
+  // Get blog categories and articles
+  const iaCategories = getCategories("ia");
+  const ambientalCategories = getCategories("ambiental");
+  const iaArticleSlugs = getAllArticleSlugs("ia");
+  const ambientalArticleSlugs = getAllArticleSlugs("ambiental");
 
   // Main pages
   const mainPages: MetadataRoute.Sitemap = [
@@ -73,6 +80,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
+  // IA Blog Category pages (excluding noindex categories)
+  const iaCategoryPages: MetadataRoute.Sitemap = iaCategories
+    .filter((cat) => !cat.noindex)
+    .map((category) => ({
+      url: `${baseUrl}/ia/categoria/${category.slug}`,
+      lastModified: currentDate,
+      changeFrequency: "weekly" as const,
+      priority: 0.75,
+    }));
+
+  // IA Blog Article pages
+  const iaArticlePages: MetadataRoute.Sitemap = iaArticleSlugs.map((slug) => ({
+    url: `${baseUrl}/ia/blog/${slug}`,
+    lastModified: currentDate,
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+
   // Environmental Portal pages
   const ambientalPages: MetadataRoute.Sitemap = [
     {
@@ -123,11 +148,35 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }),
   );
 
+  // Ambiental Blog Category pages (excluding noindex categories)
+  const ambientalCategoryPages: MetadataRoute.Sitemap = ambientalCategories
+    .filter((cat) => !cat.noindex)
+    .map((category) => ({
+      url: `${baseUrl}/ambiental/categoria/${category.slug}`,
+      lastModified: currentDate,
+      changeFrequency: "weekly" as const,
+      priority: 0.75,
+    }));
+
+  // Ambiental Blog Article pages
+  const ambientalArticlePages: MetadataRoute.Sitemap = ambientalArticleSlugs.map(
+    (slug) => ({
+      url: `${baseUrl}/ambiental/blog/${slug}`,
+      lastModified: currentDate,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    }),
+  );
+
   return [
     ...mainPages,
     ...iaPages,
     ...iaToolsPages,
+    ...iaCategoryPages,
+    ...iaArticlePages,
     ...ambientalPages,
     ...ambientalToolsPages,
+    ...ambientalCategoryPages,
+    ...ambientalArticlePages,
   ];
 }

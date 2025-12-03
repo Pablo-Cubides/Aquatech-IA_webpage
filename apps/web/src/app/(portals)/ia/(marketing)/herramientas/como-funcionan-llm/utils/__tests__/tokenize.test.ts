@@ -1,4 +1,4 @@
-import { tokenize } from '../../utils/llm-simulation';
+import { tokenize } from '../llm-simulation';
 
 describe('tokenize', () => {
   it('should split simple spanish sentence into tokens', () => {

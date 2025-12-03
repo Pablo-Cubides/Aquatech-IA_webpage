@@ -1,4 +1,4 @@
-import { generateEmbedding } from '../../utils/llm-simulation';
+import { generateEmbedding } from '../llm-simulation';
 
 describe('generateEmbedding', () => {
   it('should produce deterministic embedding for same tokenId', () => {
