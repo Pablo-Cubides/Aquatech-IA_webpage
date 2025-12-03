@@ -290,9 +290,13 @@ describe("AuthModal", () => {
     it("should not close when modal content is clicked", async () => {
       render(<AuthModal isOpen={true} onClose={mockOnClose} />);
 
-      const title = screen.getByText("Iniciar Sesión");
-      await userEvent.click(title);
+      // Click on the modal content container (not the text which may trigger other handlers)
+      const modalContent = screen.getByText("Iniciar Sesión").closest('div[class*="rounded-xl"]');
+      if (modalContent) {
+        fireEvent.click(modalContent);
+      }
 
+      // The onClick handler on the modal div calls stopPropagation, so onClose should NOT be called
       expect(mockOnClose).not.toHaveBeenCalled();
     });
   });

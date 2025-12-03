@@ -77,7 +77,8 @@ export function useExplorarState() {
       console.error("Error syncing selections from URL:", err);
       isInitialLoad.current = false;
     }
-  }, []); // Only on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only on mount - searchParams intentionally omitted
 
   // Helper: fetch using API_BASE
   const fetchWithFallback = useCallback(async (path: string) => {
@@ -118,7 +119,7 @@ export function useExplorarState() {
     }
 
     fetchCountries();
-  }, [selectedDomain]);
+  }, [selectedDomain, fetchWithFallback]);
 
   // Fetch sectors for selected country + domain
   useEffect(() => {
@@ -208,7 +209,8 @@ export function useExplorarState() {
     }
 
     fetchSectors();
-  }, [selectedCountry, selectedDomain]); // Removed selectedSector to avoid loops, isInitialLoad is a ref so doesn't need to be in deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCountry, selectedDomain, fetchWithFallback]); // selectedSector intentionally omitted to avoid loops
 
   // Fetch norms/data when selections change
   useEffect(() => {
@@ -258,7 +260,7 @@ export function useExplorarState() {
     }
 
     loadCountryData();
-  }, [selectedCountry, selectedDomain, selectedSector, availableSectors]);
+  }, [selectedCountry, selectedDomain, selectedSector, availableSectors, fetchWithFallback]);
 
   const currentDominio = useMemo(
     () => DOMINIOS.find((d) => d.id === selectedDomain) || DOMINIOS[0],

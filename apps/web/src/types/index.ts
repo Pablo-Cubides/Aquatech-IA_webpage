@@ -125,10 +125,18 @@ export interface UploadWizardStep3 {
 export interface GeoJSONFeature {
   type: 'Feature';
   geometry: {
-    type: string;
+    type: 'Point' | 'MultiPoint' | 'LineString' | 'MultiLineString' | 'Polygon' | 'MultiPolygon';
     coordinates: number[] | number[][] | number[][][];
   };
-  properties: Record<string, any>;
+  properties: {
+    id?: string;
+    fecha?: string;
+    pais?: string;
+    departamento?: string;
+    ciudad?: string;
+    estacion?: string;
+    [key: string]: unknown;
+  };
 }
 
 export interface DatasetMetadata {

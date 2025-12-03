@@ -153,7 +153,10 @@ export async function DELETE(request: Request) {
     // SECURITY: Verify authentication with NextAuth
     const session = await getServerSession(authOptions);
 
-    if (!(session?.user as any)?.id) {
+    // Type-safe user ID extraction
+    const userId = (session?.user as { id?: string } | undefined)?.id;
+    
+    if (!userId) {
       logger.warn("Unauthorized DELETE attempt", {
         datasetId,
         ip: request.headers.get("x-forwarded-for"),
@@ -163,8 +166,6 @@ export async function DELETE(request: Request) {
         { status: 401 },
       );
     }
-
-    const userId = (session!.user as any).id;
 
     // Fetch dataset to verify ownership
     const { data: dataset, error: fetchError } = await supabase

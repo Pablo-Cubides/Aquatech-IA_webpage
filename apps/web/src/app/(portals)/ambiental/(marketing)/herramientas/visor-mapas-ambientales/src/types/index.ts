@@ -1,16 +1,17 @@
 export interface GeoJSONFeature {
   type: 'Feature'
   geometry: {
-    type: 'Point'
-    coordinates: [number, number] // [longitude, latitude]
+    type: 'Point' | 'MultiPoint' | 'LineString' | 'MultiLineString' | 'Polygon' | 'MultiPolygon'
+    coordinates: number[] | number[][] | number[][][]
   }
   properties: {
     id?: string
-    fecha: string
-    pais: string
-    departamento: string
-    ciudad: string
-    [parameter: string]: any // DBO, DQO, pH, etc.
+    fecha?: string
+    pais?: string
+    departamento?: string
+    ciudad?: string
+    estacion?: string
+    [parameter: string]: unknown
   }
 }
 

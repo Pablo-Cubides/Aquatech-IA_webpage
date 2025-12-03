@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import dynamic from "next/dynamic";
 import UploadWizard from "../components/UploadWizard";
 import type {
@@ -8,7 +8,7 @@ import type {
   GeoJSONFeature,
   FilterState,
   User,
-} from "@/types";
+} from "../types";
 import { logger } from "@/lib/logger";
 
 // Dynamically import MapComponent to avoid SSR issues
@@ -640,7 +640,7 @@ export default function HomePage() {
           <div className="relative flex-1">
             <MapComponent
               data={currentData}
-              onPointClick={setSelectedFeature}
+              onPointClick={(feature) => setSelectedFeature(feature)}
               selectedParameters={filters.parameters}
             />
 

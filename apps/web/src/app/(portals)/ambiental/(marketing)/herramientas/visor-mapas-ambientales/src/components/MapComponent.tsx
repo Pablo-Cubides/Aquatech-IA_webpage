@@ -3,10 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
-import type { GeoJSONFeature } from "@/types";
+import type { GeoJSONFeature } from "../types";
 import { MAPBOX_CONFIG } from "../config/mapbox";
 
-interface MapComponentProps {
+export interface MapComponentProps {
   data: GeoJSONFeature[];
   onPointClick?: (feature: GeoJSONFeature) => void;
   selectedParameters: string[];
@@ -61,11 +61,17 @@ export default function MapComponent({
 
     const geojson: GeoJSON.FeatureCollection = {
       type: "FeatureCollection",
-      features: data.map((f) => ({
-        type: "Feature",
-        geometry: { type: "Point", coordinates: f.geometry.coordinates as [number, number] },
-        properties: f.properties || {},
-      })),
+      features: data.map((f) => {
+        // Extract coordinates - handle both flat array [lon, lat] and nested arrays
+        const coords = Array.isArray(f.geometry.coordinates[0]) 
+          ? (f.geometry.coordinates[0] as number[]).slice(0, 2) as [number, number]
+          : f.geometry.coordinates.slice(0, 2) as [number, number];
+        return {
+          type: "Feature" as const,
+          geometry: { type: "Point" as const, coordinates: coords },
+          properties: f.properties || {},
+        };
+      }),
     };
 
     // Check if source AND layer exist

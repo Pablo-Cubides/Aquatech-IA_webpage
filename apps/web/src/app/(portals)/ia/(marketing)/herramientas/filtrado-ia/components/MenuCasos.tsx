@@ -5,10 +5,8 @@ import { useCasos } from '../context/CasosContext';
 import styles from './MenuCasos.module.css';
 
 const MenuCasos = () => {
-  const { casos, selectCaso } = useCasos();
+  const { casos, selectCaso, selectedIndex } = useCasos();
   const [busqueda, setBusqueda] = useState('');
-
-  const { selectedIndex } = useCasos();
 
   const casosFiltrados = useMemo(() => {
     return (Array.isArray(casos) ? casos : []).filter(caso =>
@@ -34,7 +32,7 @@ const MenuCasos = () => {
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [selectedIndex, casos.length]);
+  }, [selectedIndex, casos.length, selectCaso]);
 
   return (
     <aside className={styles.aside}>
