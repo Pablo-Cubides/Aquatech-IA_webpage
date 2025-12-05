@@ -222,7 +222,8 @@ export async function GET(request: NextRequest) {
     }
 
     // Normalize format
-    const records = normalizeResponseFormat(domain, data as AnyRecord, sectorParam);
+    const sectorValue = sectorParam === null ? undefined : sectorParam;
+    const records = normalizeResponseFormat(domain, data as AnyRecord, sectorValue);
 
     // Search filter
     let filteredRecords = records;
