@@ -235,8 +235,8 @@ export async function GET(request: NextRequest) {
 
     // Pagination
     const paginationParams = parsePagination({
-      page: limitParam || undefined,
-      limit: offsetParam || undefined,
+      page: limitParam ? limitParam : undefined,
+      limit: offsetParam ? offsetParam : undefined,
     });
     const total = filteredRecords.length;
     const paginated = filteredRecords.slice(paginationParams.skip, paginationParams.skip + paginationParams.take);
