@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { sampleWithTemperature, sampleNextToken, computeProbabilities, generateEmbedding, generateVocabulary } from '../llm-simulation';
 
 describe('sampling', () => {

@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { logger } from "@/lib/logger";
 import { sectoresCache } from "@/lib/cache/redis-cache";
 import { SECTOR_NORMALIZATION_MAP } from "@/lib/types";
-import path from "path";
-import fs from "fs";
 import {
   validateDomain,
   validateCountry,
@@ -14,6 +12,95 @@ import {
 declare const URL: typeof globalThis.URL;
 declare const process: typeof globalThis.process;
 
+const BASE_URL = process.env.VERCEL_URL 
+  ? `https://${process.env.VERCEL_URL}`
+  : "http://localhost:3000";
+
+/**
+ * Load sectors from a country's JSON file
+ */
+async function loadSectorsFromCountry(
+  domain: string,
+  country: string,
+): Promise<string[]> {
+  try {
+    const sanitizedCountry = sanitizeFilename(country);
+    const dataPath = `/data/${domain}/${sanitizedCountry}.json`;
+
+    const response = await fetch(`${BASE_URL}${dataPath}`, {
+      cache: "force-cache",
+    });
+
+    if (!response.ok) {
+      logger.warn(`[sectores] Data not found for ${domain}/${country}`);
+      return [];
+    }
+
+    const data = await response.json();
+
+    // Extract sectors based on domain structure
+    if (domain === "agua" && typeof data === "object" && data !== null) {
+      // AGUA structure: { sector_name: [records] }
+      return Object.keys(data).map(
+        (key) => SECTOR_NORMALIZATION_MAP[key] || key
+      );
+    }
+
+    // For other domains, sectors might be in different structure
+    // Default: return empty and use domain-wide sectors
+    return [];
+  } catch (error) {
+    logger.error(
+      `[sectores] Error loading sectors from ${domain}/${country}:`,
+      error
+    );
+    return [];
+  }
+}
+
+/**
+ * Get sectors for a domain
+ */
+function getSectorsForDomain(domain: string): string[] {
+  // Define available sectors per domain
+  const domainSectors: Record<string, string[]> = {
+    agua: [
+      "agua-potable",
+      "riego",
+      "recreacion",
+      "uso-agricola",
+      "industria",
+      "vida-acuatica",
+      "energia",
+    ],
+    "calidad-aire": [
+      "industria",
+      "transporte",
+      "energia",
+      "residencial",
+      "agricultura",
+      "quemadas",
+    ],
+    "residuos-solidos": [
+      "residencial",
+      "comercial",
+      "industrial",
+      "construccion",
+      "biomedicos",
+      "mineria",
+    ],
+    vertimientos: [
+      "industria",
+      "domestico",
+      "ganaderia",
+      "agricultura",
+      "mineria",
+    ],
+  };
+
+  return domainSectors[domain] || [];
+}
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
@@ -22,7 +109,7 @@ export async function GET(request: NextRequest) {
 
     // SECURITY: Validate input parameters
     const domain = validateDomain(domainParam);
-    const country = validateCountry(countryParam);
+    const country = countryParam ? validateCountry(countryParam) : null;
 
     if (!domain) {
       return NextResponse.json(
@@ -46,108 +133,41 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    // If country is specified, read sectors from that country's JSON
+    let sectors: string[] = [];
+
+    // If country is specified, try to load sectors from that country's data
     if (country) {
-      const filePath = path.join(
-        process.cwd(),
-        "data",
-        "json",
-        domain,
-        `${sanitizeFilename(country)}.json`,
-      );
-
-      if (!fs.existsSync(filePath)) {
-        return NextResponse.json(
-          { sectors: [], domain, country, error: "País no encontrado" },
-          { status: 404 },
-        );
-      }
-
-      const fileContent = fs.readFileSync(filePath, "utf8");
-      const countryData = JSON.parse(fileContent);
-
-      let rawSectors: string[] = [];
-
-      // For agua and vertimientos domains: sectors are in countryData.sectors object keys
-      if (countryData.sectors && typeof countryData.sectors === "object") {
-        rawSectors = Object.keys(countryData.sectors);
-      }
-      // For other domains (calidad-aire, residuos-solidos):
-      // they don't have subsections by sector - all data is in registros[]
-      // In this case, return empty sectors array or a single "todos" sector
-      else {
-        rawSectors = ["todos"];
-      }
-
-      // Normalizar sectores: aplicar el mapa de normalización para unificar variantes
-      const normalizedKeys = Array.from(
-        new Set(rawSectors.map((s) => SECTOR_NORMALIZATION_MAP[s] || s)),
-      ).sort();
-
-      // Convertir a formato { id, label } para que el cliente tenga un id estable y una etiqueta legible
-      const makeLabel = (key: string) =>
-        String(key)
-          .replace(/_/g, " ")
-          .replace(/-/g, " ")
-          .replace(/\s+/g, " ")
-          .trim()
-          .replace(/(^|\s)\w/g, (c) => c.toUpperCase());
-
-      const normalizedSectors = normalizedKeys.map((k) => ({
-        id: String(k).replace(/_/g, "-").replace(/\s+/g, "-").toLowerCase(),
-        label: makeLabel(k),
-      }));
-
-      logger.info(`sectores:listed_for_country`, {
-        domain,
-        country,
-        rawCount: rawSectors.length,
-        normalizedCount: normalizedSectors.length,
-      });
-
-      const result = {
-        sectors: normalizedSectors,
-        domain,
-        country,
-        count: normalizedSectors.length,
-      };
-
-      // Store in cache
-      sectoresCache.set(cacheKey, { ts: Date.now(), value: result, hits: 0 });
-
-      return NextResponse.json(result, {
-        headers: {
-          "Cache-Control": "public, s-maxage=900, stale-while-revalidate=1800",
-          "X-Cache-Status": "MISS",
-        },
-      });
+      sectors = await loadSectorsFromCountry(domain, country);
     }
 
-    // If no country specified, return empty sectors (client should select country first)
-    logger.info(`sectores:listed_all_countries_required`, { domain });
+    // If no sectors found or country not specified, use domain-wide sectors
+    if (sectors.length === 0) {
+      sectors = getSectorsForDomain(domain);
+    }
 
     const result = {
-      sectors: [],
-      domain,
-      message: "Se requiere especificar un país (pais query param)",
+      dominio: domain,
+      ...(country && { pais: country }),
+      sectors,
     };
 
-    // Cache this too
-    sectoresCache.set(cacheKey, { ts: Date.now(), value: result, hits: 0 });
+    // Store in cache (1 hour TTL)
+    await sectoresCache.set(cacheKey, result, 3600);
 
     return NextResponse.json(result, {
-      status: 200,
       headers: {
-        "Cache-Control": "public, s-maxage=300",
+        "Cache-Control": "public, s-maxage=900, stale-while-revalidate=1800",
         "X-Cache-Status": "MISS",
       },
     });
   } catch (error) {
-    logger.error("Error fetching sectors", {
-      error: error instanceof Error ? error.message : String(error),
-    });
+    logger.error("[sectores] GET request error:", error);
+
     return NextResponse.json(
-      { sectors: [], error: "Error al cargar sectores" },
+      {
+        error: "Internal server error",
+        details: error instanceof Error ? error.message : "Unknown error",
+      },
       { status: 500 },
     );
   }

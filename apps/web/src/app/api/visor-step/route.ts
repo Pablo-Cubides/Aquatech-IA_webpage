@@ -1,38 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
 
-// Try multiple possible locations for the cases directory
-function findCasesDir(): string | null {
-  const possiblePaths = [
-    // Primary: if cwd is the web app root
-    path.join(
-      process.cwd(),
-      "src/app/(portals)/ia/(marketing)/herramientas/visor-difusion/src/components/static/cases",
-    ),
-    // Alternative: if cwd is the monorepo root
-    path.join(
-      process.cwd(),
-      "apps/web/src/app/(portals)/ia/(marketing)/herramientas/visor-difusion/src/components/static/cases",
-    ),
-  ];
-
-  for (const dir of possiblePaths) {
-    try {
-      if (fs.existsSync(dir)) {
-        console.log(`[visor-step] Found cases dir at: ${dir}`);
-        return dir;
-      }
-    } catch (e) {
-      // Continue to next path
-    }
-  }
-
-  console.log("[visor-step] Cases dir not found, tried:", possiblePaths);
-  return null;
-}
-
-const STATIC_CASES_DIR = findCasesDir();
+const CASES_PUBLIC_PATH = "/static/visor-cases";
+const BASE_URL = process.env.VERCEL_URL 
+  ? `https://${process.env.VERCEL_URL}`
+  : "http://localhost:3000";
 
 interface CaseData {
   id: string;
@@ -69,107 +40,121 @@ function generatePlaceholderImage(): string {
 }
 
 function loadCases(): Record<string, CaseData> {
-  const cases: Record<string, CaseData> = {};
-
-  if (!STATIC_CASES_DIR) {
-    console.error("[visor-step] Cases directory not found");
-    return {};
-  }
-
-  if (!fs.existsSync(STATIC_CASES_DIR)) {
-    console.error(
-      `[visor-step] Cases directory does not exist: ${STATIC_CASES_DIR}`,
-    );
-    return {};
-  }
-
-  try {
-    const caseFolders = fs.readdirSync(STATIC_CASES_DIR).filter((folder) => {
-      try {
-        return fs.statSync(path.join(STATIC_CASES_DIR!, folder)).isDirectory();
-      } catch {
-        return false;
-      }
-    });
-
-    for (const caseFolder of caseFolders) {
-      const casePath = path.join(STATIC_CASES_DIR, caseFolder);
-      const promptFile = path.join(casePath, "prompt.txt");
-      const descriptionFile = path.join(casePath, "description.txt");
-
-      let prompt = "";
-      try {
-        if (fs.existsSync(promptFile)) {
-          prompt = fs.readFileSync(promptFile, "utf-8").trim();
-        }
-      } catch (e) {
-        console.error(
-          `[visor-step] Error reading prompt for ${caseFolder}:`,
-          e,
-        );
-      }
-
-      let description = "";
-      try {
-        if (fs.existsSync(descriptionFile)) {
-          description = fs.readFileSync(descriptionFile, "utf-8").trim();
-        }
-      } catch (e) {
-        console.error(
-          `[visor-step] Error reading description for ${caseFolder}:`,
-          e,
-        );
-      }
-
-      const stepFiles: string[] = [];
-      for (let i = 1; i <= 10; i++) {
-        const stepFile = path.join(casePath, `step_${i}.png`);
-        try {
-          if (fs.existsSync(stepFile)) {
-            stepFiles.push(stepFile);
-          }
-        } catch {
-          break;
-        }
-      }
-
-      if (prompt) {
-        cases[caseFolder] = {
-          id: caseFolder,
-          prompt,
-          description:
-            description || `Caso educativo: ${prompt.slice(0, 100)}...`,
-          title: `Caso ${caseFolder}`,
-          step_files: stepFiles,
-          total_steps: stepFiles.length,
-        };
-      }
-    }
-  } catch (error) {
-    console.error("[visor-step] Error loading cases:", error);
-  }
+  const cases: Record<string, CaseData> = {
+    "1": {
+      id: "1",
+      prompt: "Spider-Man wearing a gold medal, portrait painting",
+      description: "Portrait painting of Spider-Man wearing a gold medal",
+      title: "Spider-Man Dorado",
+      step_files: Array.from({ length: 9 }, (_, i) => 
+        `${CASES_PUBLIC_PATH}/1/step_${i + 1}.png`
+      ),
+      total_steps: 9,
+    },
+    "2": {
+      id: "2",
+      prompt: "Superman and airplane",
+      description: "Superman flying next to an airplane",
+      title: "Superman y Avión",
+      step_files: Array.from({ length: 8 }, (_, i) => 
+        `${CASES_PUBLIC_PATH}/2/step_${i + 1}.png`
+      ),
+      total_steps: 8,
+    },
+    "3": {
+      id: "3",
+      prompt: "Woman portrait",
+      description: "Portrait of a woman",
+      title: "Retrato de Mujer",
+      step_files: Array.from({ length: 9 }, (_, i) => 
+        `${CASES_PUBLIC_PATH}/3/step_${i + 1}.png`
+      ),
+      total_steps: 9,
+    },
+    "flux-1": {
+      id: "flux-1",
+      prompt: "1990s cinema aesthetic",
+      description: "90s cinema aesthetic image",
+      title: "Cine de los 90s",
+      step_files: Array.from({ length: 7 }, (_, i) => 
+        `${CASES_PUBLIC_PATH}/flux-1/step_${i + 1}.png`
+      ),
+      total_steps: 7,
+    },
+    "flux-1.1-2": {
+      id: "flux-1.1-2",
+      prompt: "Medieval knight woman",
+      description: "Medieval knight in armor",
+      title: "Caballera Medieval",
+      step_files: Array.from({ length: 8 }, (_, i) => 
+        `${CASES_PUBLIC_PATH}/flux-1.1-2/step_${i + 1}.png`
+      ),
+      total_steps: 8,
+    },
+    "gemini-2": {
+      id: "gemini-2",
+      prompt: "Japanese ceramist working",
+      description: "Japanese ceramist at work",
+      title: "Ceramista Japonés",
+      step_files: Array.from({ length: 9 }, (_, i) => 
+        `${CASES_PUBLIC_PATH}/gemini-2/step_${i + 1}.png`
+      ),
+      total_steps: 9,
+    },
+    "gemini-ai": {
+      id: "gemini-ai",
+      prompt: "Man with horse",
+      description: "Man with a horse",
+      title: "Hombre con Caballo",
+      step_files: Array.from({ length: 8 }, (_, i) => 
+        `${CASES_PUBLIC_PATH}/gemini-ai/step_${i + 1}.png`
+      ),
+      total_steps: 8,
+    },
+    "stable-diffusion": {
+      id: "stable-diffusion",
+      prompt: "Polestar 4 cover art",
+      description: "Polestar 4 car cover",
+      title: "Polestar 4 Portada",
+      step_files: Array.from({ length: 9 }, (_, i) => 
+        `${CASES_PUBLIC_PATH}/stable-diffusion/step_${i + 1}.png`
+      ),
+      total_steps: 9,
+    },
+    "stable-diffusion-2": {
+      id: "stable-diffusion-2",
+      prompt: "Interrogation room scene",
+      description: "Interrogation room",
+      title: "Sala de Interrogatorio",
+      step_files: Array.from({ length: 8 }, (_, i) => 
+        `${CASES_PUBLIC_PATH}/stable-diffusion-2/step_${i + 1}.png`
+      ),
+      total_steps: 8,
+    },
+  };
 
   return cases;
 }
 
-function loadStepImageB64(
-  caseId: string,
-  step: number,
-  cases: Record<string, CaseData>,
-): string {
-  const caseData = cases[caseId];
-  if (!caseData || !caseData.step_files || caseData.step_files.length === 0) {
-    return generatePlaceholderImage();
-  }
-
-  const stepFiles = caseData.step_files;
-  const fileIndex = Math.max(0, Math.min(step, stepFiles.length - 1));
-
+async function loadStepImageB64(
+  filePath: string,
+): Promise<string> {
   try {
-    const imageData = fs.readFileSync(stepFiles[fileIndex]);
-    return imageData.toString("base64");
+    const response = await fetch(`${BASE_URL}${filePath}`, {
+      cache: "force-cache",
+    });
+    
+    if (!response.ok) {
+      console.error(
+        `[visor-step] Failed to fetch image: ${filePath}, status: ${response.status}`
+      );
+      return generatePlaceholderImage();
+    }
+
+    const buffer = await response.arrayBuffer();
+    return Buffer.from(buffer).toString("base64");
   } catch (error) {
-    console.error(`Error loading step image`, error);
+    console.error(`[visor-step] Error loading step image from ${filePath}:`, error);
     return generatePlaceholderImage();
   }
 }
@@ -210,7 +195,8 @@ export async function POST(request: NextRequest) {
       normalizedStep = caseData.total_steps;
     }
 
-    const stepImage = loadStepImageB64(prompt_id, normalizedStep, cases);
+    const stepFilePath = caseData.step_files[normalizedStep] || caseData.step_files[0];
+    const stepImage = await loadStepImageB64(stepFilePath);
     const educationalText =
       EDUCATIONAL_TEXTS[normalizedStep] ||
       `Step ${normalizedStep}: progressing`;

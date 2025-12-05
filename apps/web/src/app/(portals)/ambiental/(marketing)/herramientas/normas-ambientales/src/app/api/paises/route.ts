@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import path from "path";
-import fs from "fs";
 import { logger } from "@/lib/logger";
 import { paisesCache } from "@/lib/cache/redis-cache";
 import { validateDomain } from "@/lib/constants";
@@ -9,12 +7,53 @@ import { validateDomain } from "@/lib/constants";
 declare const URL: typeof globalThis.URL;
 declare const process: typeof globalThis.process;
 
-// ISO 3166-1 alpha-2 country codes (subset for Latin America and relevant countries)
-// Note: Currently not used but kept for future validation
-// const VALID_ISO_CODES = new Set([
-//   'ar', 'bo', 'br', 'cl', 'co', 'cr', 'cu', 'do', 'ec', 'sv', 'gt', 'hn', 'mx', 'ni', 'pa', 'py', 'pe', 'uy', 've',
-//   'us', 'ca', 'es', 'pt', 'it', 'fr', 'de', 'gb', 'jp', 'cn', 'in', 'au', 'nz'
-// ]);
+const BASE_URL = process.env.VERCEL_URL 
+  ? `https://${process.env.VERCEL_URL}`
+  : "http://localhost:3000";
+
+/**
+ * Get available countries for a given domain
+ * Scans through all JSON files in /data/{domain}/
+ */
+async function getCountriesForDomain(domain: string): Promise<string[]> {
+  try {
+    const domains = ["agua", "calidad-aire", "residuos-solidos", "vertimientos"];
+    
+    if (!domains.includes(domain)) {
+      return [];
+    }
+
+    // List of countries based on available JSON files
+    // This should match the files in public/data/{domain}/
+    const commonCountries = [
+      "argentina",
+      "brasil",
+      "chile",
+      "china",
+      "colombia",
+      "el-salvador",
+      "estados-unidos",
+      "mexico",
+      "peru",
+      "union-europea",
+    ];
+
+    // OMS is only in calidad-aire
+    if (domain === "calidad-aire") {
+      commonCountries.push("oms");
+    }
+
+    // Ecuador is only in residuos-solidos
+    if (domain === "residuos-solidos") {
+      commonCountries.push("ecuador");
+    }
+
+    return commonCountries;
+  } catch (error) {
+    logger.error(`[paises] Error getting countries for domain ${domain}:`, error);
+    return [];
+  }
+}
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -41,79 +80,47 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    // Primary data directory
-    const jsonDir = path.join(process.cwd(), "data", "json");
+    let countries: Record<string, string[]>;
 
-    if (!fs.existsSync(jsonDir)) {
-      // No data directory found - fail early so the caller gets a clear error
-      throw new Error(`data/json directory not found in ${process.cwd()}`);
-    }
+    if (domain) {
+      // Get countries for specific domain
+      const countryList = await getCountriesForDomain(domain);
+      countries = {
+        [domain]: countryList,
+      };
+    } else {
+      // Get countries for all domains
+      const domains = [
+        "agua",
+        "calidad-aire",
+        "residuos-solidos",
+        "vertimientos",
+      ];
+      countries = {};
 
-    const domains = domain
-      ? [domain]
-      : fs
-          .readdirSync(jsonDir, { withFileTypes: true })
-          .filter(
-            (dirent) => dirent.isDirectory() && !dirent.name.startsWith("_"),
-          )
-          .map((dirent) => dirent.name);
-
-    const countriesMap: Record<string, string> = {};
-
-    for (const d of domains) {
-      const dir = path.join(jsonDir, d);
-      if (!fs.existsSync(dir)) continue;
-
-      const files = fs.readdirSync(dir).filter((f) => f.endsWith(".json"));
-
-      for (const f of files) {
-        const base = f.replace(/\.json$/i, "");
-        const code = base.toLowerCase();
-        try {
-          const txt = fs.readFileSync(path.join(dir, f), "utf8");
-          const obj = JSON.parse(txt);
-          const countryName = obj.country || obj.pais;
-          if (
-            obj &&
-            typeof countryName === "string" &&
-            countryName.length > 0
-          ) {
-            countriesMap[code] = countryName.trim() || code;
-          }
-        } catch {
-          // skip files we can't parse as JSON
-        }
+      for (const d of domains) {
+        countries[d] = await getCountriesForDomain(d);
       }
     }
 
-    const countries = Object.keys(countriesMap).map((code) => ({
-      code,
-      name: countriesMap[code],
-    }));
+    // Store in cache (1 hour TTL)
+    await paisesCache.set(cacheKey, countries, 3600);
 
-    // Sort alphabetically by name
-    countries.sort((a, b) => a.name.localeCompare(b.name));
-
-    const result = { countries };
-
-    // Store in cache with hit tracking
-    await paisesCache.set(cacheKey, result);
-    logger.info("countries:cache_set", {
-      domain: domain || "all",
-      count: countries.length,
-    });
-
-    return NextResponse.json(result, {
+    return NextResponse.json(countries, {
       headers: {
         "Cache-Control": "public, s-maxage=900, stale-while-revalidate=1800",
         "X-Cache-Status": "MISS",
       },
     });
-  } catch (e) {
-    logger.error("Error listing countries", {
-      domain: domain || "all",
-      error: String(e),
-    });
-    return NextResponse.json({ countries: [] }, { status: 500 });
+  } catch (error) {
+    logger.error("[paises] GET request error:", error);
+
+    return NextResponse.json(
+      {
+        error: "Internal server error",
+        details: error instanceof Error ? error.message : "Unknown error",
+      },
+      { status: 500 },
+    );
   }
 }

@@ -1,38 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
 
-// Try multiple possible locations for the cases directory
-function findCasesDir(): string | null {
-  const possiblePaths = [
-    // Primary: if cwd is the web app root
-    path.join(
-      process.cwd(),
-      "src/app/(portals)/ia/(marketing)/herramientas/visor-difusion/src/components/static/cases",
-    ),
-    // Alternative: if cwd is the monorepo root
-    path.join(
-      process.cwd(),
-      "apps/web/src/app/(portals)/ia/(marketing)/herramientas/visor-difusion/src/components/static/cases",
-    ),
-  ];
-
-  for (const dir of possiblePaths) {
-    try {
-      if (fs.existsSync(dir)) {
-        console.log(`[visor-export-gif] Found cases dir at: ${dir}`);
-        return dir;
-      }
-    } catch (e) {
-      // Continue to next path
-    }
-  }
-
-  console.log("[visor-export-gif] Cases dir not found, tried:", possiblePaths);
-  return null;
-}
-
-const STATIC_CASES_DIR = findCasesDir();
+const CASES_PUBLIC_PATH = "/static/visor-cases";
+const BASE_URL = process.env.VERCEL_URL 
+  ? `https://${process.env.VERCEL_URL}`
+  : "http://localhost:3000";
 
 export async function GET(request: NextRequest) {
   try {
@@ -45,24 +16,6 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(
         { error: "case_id is required" },
         { status: 400 },
-      );
-    }
-
-    if (!STATIC_CASES_DIR) {
-      console.error("[visor-export-gif] Cases directory not found");
-      return NextResponse.json(
-        { error: "Cases directory not found" },
-        { status: 500 },
-      );
-    }
-
-    const casePath = path.join(STATIC_CASES_DIR, caseId);
-
-    if (!fs.existsSync(casePath)) {
-      console.warn(`[visor-export-gif] Case not found: ${caseId}`);
-      return NextResponse.json(
-        { error: `Case not found: ${caseId}` },
-        { status: 404 },
       );
     }
 

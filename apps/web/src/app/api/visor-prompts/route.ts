@@ -1,41 +1,9 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
 
-// Try multiple possible locations for the cases directory
-function findCasesDir(): string | null {
-  const possiblePaths = [
-    // Primary: if cwd is the web app root
-    path.join(
-      process.cwd(),
-      "src/app/(portals)/ia/(marketing)/herramientas/visor-difusion/src/components/static/cases",
-    ),
-    // Alternative: if cwd is the monorepo root
-    path.join(
-      process.cwd(),
-      "apps/web/src/app/(portals)/ia/(marketing)/herramientas/visor-difusion/src/components/static/cases",
-    ),
-  ];
-
-  for (const dir of possiblePaths) {
-    try {
-      if (fs.existsSync(dir)) {
-        console.log(`[visor-prompts] Found cases dir at: ${dir}`);
-        return dir;
-      }
-    } catch (e) {
-      // Continue to next path
-    }
-  }
-
-  console.log(
-    "[visor-prompts] Tried paths:",
-    possiblePaths.map((p) => `\n  - ${p}`).join(""),
-  );
-  return null;
-}
-
-const STATIC_CASES_DIR = findCasesDir();
+const CASES_PUBLIC_PATH = "/static/visor-cases";
+const BASE_URL = process.env.VERCEL_URL 
+  ? `https://${process.env.VERCEL_URL}`
+  : "http://localhost:3000";
 
 const shortTitles: Record<string, string> = {
   "1": "Spider-Man Dorado",
@@ -49,60 +17,40 @@ const shortTitles: Record<string, string> = {
   "stable-diffusion-2": "Sala de Interrogatorio",
 };
 
+const casePrompts: Record<string, string> = {
+  "1": "Spider-Man wearing a gold medal, portrait painting",
+  "2": "Superman and airplane",
+  "3": "Woman portrait",
+  "flux-1": "1990s cinema aesthetic",
+  "flux-1.1-2": "Medieval knight woman",
+  "gemini-2": "Japanese ceramist working",
+  "gemini-ai": "Man with horse",
+  "stable-diffusion": "Polestar 4 cover art",
+  "stable-diffusion-2": "Interrogation room scene",
+};
+
+const caseDescriptions: Record<string, string> = {
+  "1": "Portrait painting of Spider-Man wearing a gold medal",
+  "2": "Superman flying next to an airplane",
+  "3": "Portrait of a woman",
+  "flux-1": "90s cinema aesthetic image",
+  "flux-1.1-2": "Medieval knight in armor",
+  "gemini-2": "Japanese ceramist at work",
+  "gemini-ai": "Man with a horse",
+  "stable-diffusion": "Polestar 4 car cover",
+  "stable-diffusion-2": "Interrogation room",
+};
+
 export async function GET() {
-  if (!STATIC_CASES_DIR) {
-    console.error("[visor-prompts] Cases directory not found");
-    return NextResponse.json([], { status: 200 });
-  }
-
-  if (!fs.existsSync(STATIC_CASES_DIR)) {
-    console.warn("[visor-prompts] Cases directory does not exist");
-    return NextResponse.json([], { status: 200 });
-  }
-
   try {
-    const caseFolders = fs.readdirSync(STATIC_CASES_DIR).filter((folder) => {
-      try {
-        return fs.statSync(path.join(STATIC_CASES_DIR!, folder)).isDirectory();
-      } catch {
-        return false;
-      }
-    });
-
-    const promptsList = caseFolders
-      .map((caseFolder) => {
-        const casePath = path.join(STATIC_CASES_DIR!, caseFolder);
-        const promptFile = path.join(casePath, "prompt.txt");
-        const descriptionFile = path.join(casePath, "description.txt");
-
-        let prompt = "";
-        try {
-          if (fs.existsSync(promptFile)) {
-            prompt = fs.readFileSync(promptFile, "utf-8").trim();
-          }
-        } catch (e) {
-          console.error(`Error reading prompt for ${caseFolder}:`, e);
-        }
-
-        let description = "";
-        try {
-          if (fs.existsSync(descriptionFile)) {
-            description = fs.readFileSync(descriptionFile, "utf-8").trim();
-          }
-        } catch (e) {
-          console.error(`Error reading description for ${caseFolder}:`, e);
-        }
-
-        return {
-          id: caseFolder,
-          title: shortTitles[caseFolder] || `Caso ${caseFolder}`,
-          prompt: prompt || "",
-          description:
-            description ||
-            (prompt ? `Caso educativo: ${prompt.slice(0, 100)}...` : ""),
-        };
-      })
-      .filter((p) => !!p.prompt);
+    const caseIds = Object.keys(shortTitles);
+    
+    const promptsList = caseIds.map((caseId) => ({
+      id: caseId,
+      title: shortTitles[caseId] || `Caso ${caseId}`,
+      prompt: casePrompts[caseId] || "",
+      description: caseDescriptions[caseId] || "",
+    }));
 
     return NextResponse.json(promptsList);
   } catch (error) {

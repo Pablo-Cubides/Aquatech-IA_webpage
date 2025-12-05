@@ -1,0 +1,17 @@
+{
+  "pais": "Argentina",
+  "dominio": "calidad-aire",
+  "normativeReference_es": "Ley General del Ambiente 25.675 - Decreto Reglamentario 831/2023",
+  "registros": [
+    { "parametro": "SO2", "limite": "70 µg/m³", "notas": ["Promedio mensual - Nacional (Ley 20.284/1973)"] },
+    { "parametro": "CO", "limite": "11,400 µg/m³ (10 ppm)", "notas": ["8 horas - Nacional"] },
+    { "parametro": "Partículas en Suspensión", "limite": "150 µg/m³", "notas": ["Promedio mensual - Nacional"] },
+    { "parametro": "PM2.5", "limite": "65 µg/m³", "notas": ["24 horas - Buenos Aires (Ley 1356)"] },
+    { "parametro": "PM2.5", "limite": "15 µg/m³", "notas": ["Anual - Buenos Aires"] },
+    { "parametro": "PM10", "limite": "150 µg/m³", "notas": ["24 horas - Buenos Aires"] },
+    { "parametro": "PM10", "limite": "50 µg/m³", "notas": ["Anual - Buenos Aires"] },
+    { "parametro": "O3", "limite": "157 µg/m³", "notas": ["8 horas - Buenos Aires"] },
+    { "parametro": "NO2", "limite": "100 µg/m³", "notas": ["Anual - Buenos Aires"] },
+    { "parametro": "SO2", "limite": "365 µg/m³", "notas": ["24 horas - Buenos Aires"] }
+  ]
+}
