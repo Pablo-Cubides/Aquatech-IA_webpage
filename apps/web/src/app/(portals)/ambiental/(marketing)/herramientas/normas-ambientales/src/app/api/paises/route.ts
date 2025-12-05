@@ -7,10 +7,6 @@ import { validateDomain } from "@/lib/constants";
 declare const URL: typeof globalThis.URL;
 declare const process: typeof globalThis.process;
 
-const BASE_URL = process.env.VERCEL_URL 
-  ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
-
 /**
  * Get available countries for a given domain
  * Scans through all JSON files in /data/{domain}/

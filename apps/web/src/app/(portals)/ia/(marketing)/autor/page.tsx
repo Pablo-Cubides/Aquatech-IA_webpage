@@ -75,7 +75,6 @@ const ExpertiseCard: React.FC<ExpertiseCardProps> = ({ icon, title, desc }) => (
 const ProjectCard: React.FC<ProjectCardProps> = ({
   title,
   desc,
-  image: _image,
   href,
 }) => (
   <Link
@@ -101,7 +100,6 @@ const ProjectWide: React.FC<ProjectWideProps> = ({
   title,
   impact,
   desc,
-  image: _image,
   href,
 }) => (
   <div className="lg:col-span-3">

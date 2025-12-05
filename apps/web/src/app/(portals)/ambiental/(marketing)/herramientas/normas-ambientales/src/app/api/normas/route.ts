@@ -1,18 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { UnifiedNormSchema } from "../../../lib/schemas";
-import { ZodError } from "zod";
-import { normalizeData, mergeCandidates } from "../../../lib/utils";
 import { logger } from "@/lib/logger";
 import { rateLimitByIP } from "@/lib/security/rate-limit";
 import { normasCache } from "@/lib/cache/redis-cache";
 import {
-  REGULATORY_SOURCES,
   validateDomain,
   validateCountry,
   validateSector,
   sanitizeFilename,
 } from "@/lib/constants";
-import type { RegulatorySource } from "@/lib/constants";
 import { SECTOR_NORMALIZATION_MAP } from "@/lib/types";
 import { parsePagination } from "@/lib/pagination";
 
@@ -48,7 +43,7 @@ const COUNTRY_SECTOR_OVERRIDES: Record<string, Record<string, string>> = {
  * 2. Look for inverse mapping in SECTOR_NORMALIZATION_MAP
  * 3. Fall back to simple hyphen -> underscore replacement
  */
-function denormalizeSector(normalizedSector: string, country?: string): string {
+function _denormalizeSector(normalizedSector: string, country?: string): string {
   // Strategy 1: Country-specific overrides
   if (country && COUNTRY_SECTOR_OVERRIDES[country]?.[normalizedSector]) {
     const override = COUNTRY_SECTOR_OVERRIDES[country][normalizedSector];
@@ -211,7 +206,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Load data
-    let data = cached || (await loadNormasData(domain, country));
+    const data = cached || (await loadNormasData(domain, country));
 
     if (!data) {
       return NextResponse.json(
@@ -226,28 +221,32 @@ export async function GET(request: NextRequest) {
     }
 
     // Normalize format
-    let records = normalizeResponseFormat(domain, data, sectorParam);
+    const records = normalizeResponseFormat(domain, data as AnyRecord, sectorParam);
 
     // Search filter
+    let filteredRecords = records;
     if (searchTerm) {
       const searchLower = searchTerm.toLowerCase();
-      records = records.filter((rec) =>
+      filteredRecords = records.filter((rec) =>
         JSON.stringify(rec).toLowerCase().includes(searchLower),
       );
     }
 
     // Pagination
-    const { limit, offset } = parsePagination(limitParam, offsetParam);
-    const total = records.length;
-    const paginated = records.slice(offset, offset + limit);
+    const paginationParams = parsePagination({
+      page: limitParam ?? undefined,
+      limit: offsetParam ?? undefined,
+    });
+    const total = filteredRecords.length;
+    const paginated = filteredRecords.slice(paginationParams.skip, paginationParams.skip + paginationParams.take);
 
     return NextResponse.json({
       domain,
       country,
       sector: sectorParam,
       total,
-      limit,
-      offset,
+      limit: paginationParams.limit,
+      page: paginationParams.page,
       records: paginated,
     });
   } catch (error) {
