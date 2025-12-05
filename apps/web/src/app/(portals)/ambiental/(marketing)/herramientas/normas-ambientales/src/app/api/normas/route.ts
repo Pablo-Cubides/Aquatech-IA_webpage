@@ -98,10 +98,10 @@ function normalizeResponseFormat(
 
   // For other domains: flatten if needed
   if (Array.isArray(records)) {
-    return records;
+    return records as AnyRecord[];
   }
   if (typeof records === "object" && records !== null) {
-    return Object.values(records).flat();
+    return Object.values(records).flat() as AnyRecord[];
   }
   return [];
 }
@@ -145,7 +145,8 @@ async function loadNormasData(
 export async function GET(request: NextRequest) {
   try {
     // Rate limiting
-    const rateLimitResult = await rateLimitByIP(request);
+    const ip = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "127.0.0.1";
+    const rateLimitResult = await rateLimitByIP(ip);
     if (!rateLimitResult.success) {
       return NextResponse.json(
         { error: "Rate limit exceeded" },
@@ -234,8 +235,8 @@ export async function GET(request: NextRequest) {
 
     // Pagination
     const paginationParams = parsePagination({
-      page: limitParam ?? undefined,
-      limit: offsetParam ?? undefined,
+      page: limitParam || undefined,
+      limit: offsetParam || undefined,
     });
     const total = filteredRecords.length;
     const paginated = filteredRecords.slice(paginationParams.skip, paginationParams.skip + paginationParams.take);
