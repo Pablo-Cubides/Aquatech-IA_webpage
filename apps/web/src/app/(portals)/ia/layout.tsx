@@ -3,6 +3,8 @@ import { Space_Grotesk, Noto_Sans } from "next/font/google";
 import HeaderIA from "../../../components/nav/HeaderIA";
 import FooterIA from "../../../components/nav/FooterIA";
 
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com";
+
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
@@ -16,9 +18,9 @@ const notoSans = Noto_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Aquatech IA - Inteligencia Artificial para el Agua y Ambiente",
+  title: "Portal de Inteligencia Artificial | Modelos, Herramientas y Cursos | AquatechIA",
   description:
-    "Explora modelos generativos, visualizaciones y herramientas prácticas de IA aplicadas al agua y ambiente. Productos, blog y recursos especializados.",
+    "Explora modelos generativos, visualizaciones y herramientas prácticas de inteligencia artificial aplicadas al agua y ambiente. Productos, blog, cursos y recursos especializados para profesionales.",
   keywords: [
     "inteligencia artificial",
     "IA",
@@ -26,20 +28,37 @@ export const metadata: Metadata = {
     "ambiente",
     "machine learning",
     "modelos generativos",
+    "LLM",
     "sostenibilidad",
     "tecnología ambiental",
+    "IA educativa",
   ],
   openGraph: {
-    title: "Aquatech IA - Inteligencia Artificial para el Agua y Ambiente",
+    title: "Portal IA | Inteligencia Artificial | AquatechIA",
     description:
-      "Modelos generativos e inteligencia artificial para la vida diaria",
+      "Modelos generativos e inteligencia artificial para la vida diaria y la sostenibilidad",
     type: "website",
     locale: "es_ES",
+    url: `${baseUrl}/ia`,
+    siteName: "AquatechIA",
+    images: [
+      {
+        url: `${baseUrl}/images/og-image-ia.jpg`,
+        width: 1200,
+        height: 630,
+        alt: "Portal IA - Inteligencia Artificial con AquatechIA",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Aquatech IA",
+    title: "Portal IA | AquatechIA",
     description: "Inteligencia Artificial aplicada al agua y ambiente",
+    images: [`${baseUrl}/images/og-image-ia.jpg`],
+    creator: "@aquatechia",
+  },
+  alternates: {
+    canonical: `${baseUrl}/ia`,
   },
 };
 

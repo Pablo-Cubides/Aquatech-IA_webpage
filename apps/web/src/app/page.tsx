@@ -2,6 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { Space_Grotesk, Noto_Sans } from "next/font/google";
 import { ChevronRight } from "lucide-react";
+import type { Metadata } from "next";
+
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -15,10 +18,49 @@ const notoSans = Noto_Sans({
   variable: "--font-noto",
 });
 
-export const metadata = {
-  title: "Aquatech IA - Innovación y Sostenibilidad",
+export const metadata: Metadata = {
+  title: "AquatechIA - Inteligencia Artificial + Gestión Ambiental Sostenible",
   description:
-    "Plataforma de Inteligencia Artificial y Gestión Ambiental. Tecnología para un futuro sostenible.",
+    "Plataforma educativa de inteligencia artificial y gestión ambiental. Herramientas, cursos y recursos especializados. Modelos generativos, análisis ambiental, sostenibilidad para profesionales.",
+  keywords: [
+    "inteligencia artificial",
+    "gestión ambiental",
+    "IA",
+    "sostenibilidad",
+    "herramientas IA",
+    "modelos generativos",
+    "agua sostenible",
+    "tecnología ambiental",
+    "cursos ambientales",
+  ],
+  openGraph: {
+    title: "AquatechIA - IA + Gestión Ambiental",
+    description:
+      "Plataforma educativa de inteligencia artificial para la gestión ambiental sostenible. Herramientas, cursos y recursos.",
+    type: "website",
+    locale: "es_ES",
+    url: baseUrl,
+    siteName: "AquatechIA",
+    images: [
+      {
+        url: `${baseUrl}/images/og-image.jpg`,
+        width: 1200,
+        height: 630,
+        alt: "AquatechIA - IA + Gestión Ambiental Sostenible",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "AquatechIA - IA + Gestión Ambiental",
+    description:
+      "Inteligencia Artificial y Gestión Ambiental Sostenible. Herramientas y Cursos Educativos.",
+    images: [`${baseUrl}/images/og-image.jpg`],
+    creator: "@aquatechia",
+  },
+  alternates: {
+    canonical: baseUrl,
+  },
 };
 
 export default function Home() {

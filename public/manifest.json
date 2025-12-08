@@ -1,0 +1,64 @@
+{
+  "name": "AquatechIA - Inteligencia Artificial y Gestión Ambiental",
+  "short_name": "AquatechIA",
+  "description": "Plataforma de inteligencia artificial para la gestión ambiental sostenible",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#00efff",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/images/og-image.jpg",
+      "sizes": "1200x630",
+      "type": "image/jpeg",
+      "form_factor": "wide"
+    }
+  ],
+  "categories": ["education", "productivity"],
+  "shortcuts": [
+    {
+      "name": "Portal IA",
+      "short_name": "IA",
+      "description": "Acceder al portal de inteligencia artificial",
+      "url": "/ia",
+      "icons": [
+        {
+          "src": "/favicon.ico",
+          "sizes": "64x64"
+        }
+      ]
+    },
+    {
+      "name": "Portal Ambiental",
+      "short_name": "Ambiental",
+      "description": "Acceder al portal de gestión ambiental",
+      "url": "/ambiental",
+      "icons": [
+        {
+          "src": "/favicon.ico",
+          "sizes": "64x64"
+        }
+      ]
+    }
+  ]
+}

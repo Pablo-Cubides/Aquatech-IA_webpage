@@ -1,166 +1,77 @@
-"use client";
-
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { getArticle, getAllArticles } from "@/lib/blog-articles";
+import { generateArticleSchema } from "@/lib/blog-seo";
 
-// Tipo para el artículo
-type BlogArticle = {
-  slug: string;
-  title: string;
-  category: string;
-  date: string;
-  readTime: number;
-  excerpt: string;
-  heroImage: string;
-  author: {
-    name: string;
-    avatar: string;
-    bio?: string;
-  };
-  content: {
-    introduction: string;
-    sections: {
-      id: string;
-      title: string;
-      content: string;
-      subsections?: {
-        id: string;
-        title: string;
-        content: string;
-      }[];
-      image?: string;
-      callout?: {
-        type: "info" | "warning" | "success";
-        title: string;
-        content: string;
-      };
-    }[];
-    conclusion?: string;
-  };
-  tags: string[];
-  nextArticle?: {
-    slug: string;
-    title: string;
-  };
-};
+interface PageProps {
+  params: Promise<{ slug: string }>;
+}
 
-// Artículo de ejemplo - esto vendría de una base de datos o CMS
-const ARTICLE_DATA: BlogArticle = {
-  slug: "plan-restauracion-hidrica-2030",
-  title:
-    "Plan de restauración hídrica 2030: métricas accionables para un futuro sostenible",
-  category: "Políticas Ambientales",
-  date: "2024-09-10",
-  readTime: 12,
-  excerpt:
-    "Cómo priorizar cuencas y definir indicadores claros para medir avances en restauración hídrica a gran escala.",
-  heroImage:
-    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1600&q=80",
-  author: {
-    name: "Dra. Elena Vance",
-    avatar:
-      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=120&q=80",
-    bio: "Especialista en gestión de recursos hídricos con más de 15 años de experiencia en proyectos de restauración ambiental.",
-  },
-  content: {
-    introduction:
-      "La crisis hídrica global no es un problema del futuro: es una realidad presente que requiere acción inmediata y coordinada. El Plan de Restauración Hídrica 2030 representa una oportunidad sin precedentes para transformar la gestión del agua a nivel mundial, pero su éxito depende de métricas claras, objetivos medibles y un enfoque basado en evidencia científica.",
-    sections: [
-      {
-        id: "crisis-hidrica-actual",
-        title: "La crisis hídrica actual: números que no mienten",
-        content:
-          "Según la ONU, más de 2.000 millones de personas viven en países con estrés hídrico, y se espera que esta cifra aumente a 5.000 millones para 2050. La degradación de cuencas hidrográficas, la contaminación industrial y el cambio climático han creado una tormenta perfecta que amenaza la seguridad hídrica global.",
-        image:
-          "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
-        subsections: [
-          {
-            id: "estadisticas-clave",
-            title: "Estadísticas clave del panorama hídrico",
-            content:
-              "• 80% de las aguas residuales se vierten sin tratamiento\n• 40% de la población mundial sufre escasez de agua\n• 3.6 millones de hectáreas de humedales se pierden anualmente\n• Solo el 0.3% del agua dulce del planeta es accesible para uso humano",
-          },
-        ],
-      },
-      {
-        id: "marco-metodologico",
-        title: "Marco metodológico para la priorización de cuencas",
-        content:
-          "La restauración efectiva requiere un enfoque sistemático que considere múltiples factores: vulnerabilidad climática, densidad poblacional, importancia ecológica, viabilidad técnica y costo-beneficio. Nuestro marco metodológico integra análisis geoespacial, modelado hidrológico y evaluación socioeconómica.",
-        callout: {
-          type: "info",
-          title: "Metodología de priorización",
-          content:
-            "Utilizamos un índice compuesto que combina 15 indicadores distribuidos en 4 dimensiones: ambiental (40%), social (25%), económica (20%) y técnica (15%). Cada cuenca recibe una puntuación de 0-100 que determina su prioridad de intervención.",
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const article = getArticle("ambiental", slug);
+
+  if (!article) {
+    return {
+      title: "Artículo no encontrado",
+      description: "El artículo que buscas no está disponible",
+    };
+  }
+
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com";
+  const articleUrl = `${baseUrl}/ambiental/blog/${slug}`;
+
+  return {
+    title: article.title,
+    description: article.excerpt,
+    keywords: article.tags,
+    authors: [{ name: article.author.name }],
+    openGraph: {
+      title: article.title,
+      description: article.excerpt,
+      type: "article",
+      publishedTime: article.date,
+      authors: [article.author.name],
+      images: [
+        {
+          url: article.heroImage,
+          width: 1200,
+          height: 630,
+          alt: article.title,
         },
-        subsections: [
-          {
-            id: "criterios-priorizacion",
-            title: "Criterios de priorización",
-            content:
-              "1. **Vulnerabilidad climática**: Análisis de proyecciones de precipitación y temperatura\n2. **Estado de degradación**: Evaluación de cobertura vegetal y erosión\n3. **Impacto poblacional**: Número de personas dependientes de la cuenca\n4. **Biodiversidad**: Presencia de especies endémicas y ecosistemas críticos\n5. **Viabilidad económica**: Análisis costo-beneficio de las intervenciones",
-          },
-        ],
-      },
-      {
-        id: "indicadores-medicion",
-        title: "Indicadores para medir el progreso",
-        content:
-          "Un sistema de monitoreo robusto es fundamental para el éxito del plan. Hemos identificado 25 indicadores clave organizados en tres categorías: indicadores de resultado, de impacto y de proceso. Cada indicador incluye metodología de medición, frecuencia de recolección y metas específicas.",
-        image:
-          "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80",
-        subsections: [
-          {
-            id: "indicadores-resultado",
-            title: "Indicadores de resultado",
-            content:
-              "• **Cobertura vegetal restaurada**: Meta 500,000 hectáreas para 2030\n• **Calidad del agua**: Reducción del 60% en contaminantes prioritarios\n• **Caudal ecológico**: Restauración del 80% del caudal natural\n• **Conectividad de hábitats**: 70% de corredores biológicos funcionales",
-          },
-          {
-            id: "indicadores-impacto",
-            title: "Indicadores de impacto",
-            content:
-              "• **Seguridad hídrica**: 95% de población con acceso confiable\n• **Resiliencia climática**: Reducción del 50% en vulnerabilidad\n• **Servicios ecosistémicos**: Incremento del 40% en valor económico\n• **Biodiversidad**: Recuperación del 80% de especies indicadoras",
-          },
-        ],
-      },
-      {
-        id: "tecnologias-monitoreo",
-        title: "Tecnologías de monitoreo y seguimiento",
-        content:
-          "La implementación exitosa del plan requiere tecnologías avanzadas de monitoreo. Combinamos sensores remotos, inteligencia artificial y sistemas de información geográfica para crear un sistema de seguimiento en tiempo real que permita ajustes adaptativos y toma de decisiones basada en evidencia.",
-        callout: {
-          type: "success",
-          title: "Caso de éxito: Cuenca del Río Magdalena",
-          content:
-            "La implementación piloto en la cuenca del Río Magdalena (Colombia) logró una mejora del 35% en la calidad del agua y la restauración de 12,000 hectáreas en solo 18 meses, utilizando nuestro sistema de monitoreo integrado.",
-        },
-      },
-    ],
-    conclusion:
-      "El Plan de Restauración Hídrica 2030 no es solo una aspiración: es una hoja de ruta práctica hacia la seguridad hídrica global. Con métricas claras, tecnología avanzada y compromiso político, podemos revertir décadas de degradación y construir un futuro donde el agua sea abundante, limpia y accesible para todos. El tiempo de actuar es ahora.",
-  },
-  tags: [
-    "Restauración",
-    "Gestión Hídrica",
-    "Sostenibilidad",
-    "Política Ambiental",
-    "Conservación",
-  ],
-  nextArticle: {
-    slug: "contaminantes-agua-urbana",
-    title: "Los 5 contaminantes más comunes en agua urbana",
-  },
-};
+      ],
+      url: articleUrl,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description: article.excerpt,
+      images: [article.heroImage],
+      creator: "@aquatechia",
+    },
+    alternates: {
+      canonical: articleUrl,
+    },
+  };
+}
+
+export async function generateStaticParams() {
+  const articles = getAllArticles("ambiental");
+  return articles.map((article) => ({
+    slug: article.slug,
+  }));
+}
 
 // Tabla de contenidos generada automáticamente
-const generateTOC = (sections: BlogArticle["content"]["sections"]) => {
+const generateTOC = (sections: any[]) => {
   return sections.map((section) => ({
     id: section.id,
     title: section.title,
     subsections:
-      section.subsections?.map((sub) => ({
+      section.subsections?.map((sub: any) => ({
         id: sub.id,
         title: sub.title,
       })) || [],
@@ -176,11 +87,26 @@ function formatDate(iso: string) {
   });
 }
 
-export default function BlogArticlePage() {
-  const toc = generateTOC(ARTICLE_DATA.content.sections);
+export default async function BlogArticlePage({ params }: PageProps) {
+  const { slug } = await params;
+  const article = getArticle("ambiental", slug);
+
+  if (!article) {
+    notFound();
+  }
+
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com";
+  const schema = generateArticleSchema(article, "ambiental", baseUrl);
+  const toc = generateTOC(article.content.sections);
 
   return (
-    <div className="bg-[#F5F9F8] min-h-screen">
+    <div className="bg-[#F5F9F8] min-h-screen text-[#0D161C]">
+      {/* JSON-LD Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16">
         <main className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
           {/* Artículo */}
@@ -189,7 +115,7 @@ export default function BlogArticlePage() {
             <nav className="mb-8 text-sm">
               <ol className="flex items-center space-x-2 text-gray-500">
                 <li>
-                  <Link href="/ambiental" className="hover:text-[#10B981]">
+                  <Link href="/ia" className="hover:text-[#10B981]">
                     Inicio
                   </Link>
                 </li>
@@ -197,7 +123,7 @@ export default function BlogArticlePage() {
                   <span>›</span>
                 </li>
                 <li>
-                  <Link href="/ambiental/blog" className="hover:text-[#10B981]">
+                  <Link href="/ia/blog" className="hover:text-[#10B981]">
                     Blog
                   </Link>
                 </li>
@@ -205,39 +131,39 @@ export default function BlogArticlePage() {
                   <span>›</span>
                 </li>
                 <li className="text-[#10B981] font-medium">
-                  {ARTICLE_DATA.category}
+                  {article.category}
                 </li>
               </ol>
             </nav>
 
             {/* Meta + Título */}
             <div className="mb-8">
-              <span className="inline-block bg-[#10B981] text-white text-sm font-semibold px-3 py-1 rounded-full mb-4">
-                {ARTICLE_DATA.category}
+              <span className="inline-block bg-[#10B981] text-[#10111A] text-sm font-semibold px-3 py-1 rounded-full mb-4">
+                {article.category}
               </span>
               <h1
                 className="text-4xl md:text-5xl font-bold mb-6 text-[#0D161C] leading-tight"
                 style={{ fontFamily: "Space Grotesk, sans-serif" }}
               >
-                {ARTICLE_DATA.title}
+                {article.title}
               </h1>
 
               <div className="flex flex-wrap items-center text-gray-600 text-sm gap-6 mb-6">
                 <div className="flex items-center">
                   <Image
-                    alt={`Avatar de ${ARTICLE_DATA.author.name}`}
+                    alt={`Avatar de ${article.author.name}`}
                     className="rounded-full mr-3"
-                    src={ARTICLE_DATA.author.avatar}
+                    src={article.author.avatar}
                     width={40}
                     height={40}
                   />
                   <div>
                     <div className="font-medium text-[#0D161C]">
-                      Por {ARTICLE_DATA.author.name}
+                      Por {article.author.name}
                     </div>
-                    {ARTICLE_DATA.author.bio && (
+                    {article.author.bio && (
                       <div className="text-xs text-gray-500">
-                        {ARTICLE_DATA.author.bio}
+                        {article.author.bio}
                       </div>
                     )}
                   </div>
@@ -257,7 +183,7 @@ export default function BlogArticlePage() {
                       d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                     />
                   </svg>
-                  <span>Publicado el {formatDate(ARTICLE_DATA.date)}</span>
+                  <span>Publicado el {formatDate(article.date)}</span>
                 </div>
 
                 <div className="flex items-center">
@@ -274,13 +200,13 @@ export default function BlogArticlePage() {
                       d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                   </svg>
-                  <span>{ARTICLE_DATA.readTime} min de lectura</span>
+                  <span>{article.readTime} min de lectura</span>
                 </div>
 
                 <div className="flex items-center ml-auto space-x-2">
                   <button
                     aria-label="Compartir"
-                    className="p-2 rounded-full hover:bg-gray-200 transition-colors"
+                    className="p-2 rounded-full hover:bg-gray-100 transition-colors"
                   >
                     <svg
                       className="w-5 h-5"
@@ -298,7 +224,7 @@ export default function BlogArticlePage() {
                   </button>
                   <button
                     aria-label="Guardar en favoritos"
-                    className="p-2 rounded-full hover:bg-gray-200 transition-colors"
+                    className="p-2 rounded-full hover:bg-gray-100 transition-colors"
                   >
                     <svg
                       className="w-5 h-5"
@@ -322,8 +248,8 @@ export default function BlogArticlePage() {
             <div className="rounded-xl overflow-hidden shadow-lg mb-8">
               <div className="relative w-full h-[300px] md:h-[480px]">
                 <Image
-                  alt={ARTICLE_DATA.title}
-                  src={ARTICLE_DATA.heroImage}
+                  alt={article.title}
+                  src={article.heroImage}
                   fill
                   priority
                   className="object-cover"
@@ -332,14 +258,14 @@ export default function BlogArticlePage() {
             </div>
 
             {/* Contenido principal */}
-            <div className="prose prose-lg max-w-none">
+            <div className="prose prose-lg max-w-none ">
               {/* Introducción */}
-              <p className="text-xl leading-relaxed text-[#2D3748] mb-8 font-medium">
-                {ARTICLE_DATA.content.introduction}
+              <p className="text-xl leading-relaxed text-gray-600 mb-8 font-medium">
+                {article.content.introduction}
               </p>
 
               {/* Secciones */}
-              {ARTICLE_DATA.content.sections.map((section) => (
+              {article.content.sections.map((section) => (
                 <section key={section.id} id={section.id} className="mb-12">
                   <h2
                     className="text-3xl font-bold text-[#0D161C] mb-6"
@@ -349,11 +275,14 @@ export default function BlogArticlePage() {
                   </h2>
 
                   <div
-                    className="text-[#4A5568] leading-7 mb-6"
+                    className="text-gray-600 leading-7 mb-6"
                     dangerouslySetInnerHTML={{
                       __html: section.content
                         .replace(/\n/g, "<br>")
-                        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+                        .replace(
+                          /\*\*(.*?)\*\*/g,
+                          '<strong class="text-[#0D161C]">$1</strong>',
+                        )
                         .replace(/• /g, "<br>• "),
                     }}
                   />
@@ -377,19 +306,19 @@ export default function BlogArticlePage() {
                     <div
                       className={`callout border-l-4 p-6 rounded-lg my-8 flex items-start ${
                         section.callout.type === "info"
-                          ? "bg-[#EBF8FF] border-[#4299E1]"
+                          ? "bg-blue-50 border-[#059669]"
                           : section.callout.type === "success"
-                            ? "bg-[#F0FFF4] border-[#10B981]"
-                            : "bg-[#FFF5F5] border-[#F56565]"
+                            ? "bg-green-50 border-[#10B981]"
+                            : "bg-red-50 border-red-500"
                       }`}
                     >
                       <div
                         className={`mr-3 text-2xl ${
                           section.callout.type === "info"
-                            ? "text-[#4299E1]"
+                            ? "text-[#059669]"
                             : section.callout.type === "success"
                               ? "text-[#10B981]"
-                              : "text-[#F56565]"
+                              : "text-red-500"
                         }`}
                       >
                         {section.callout.type === "info"
@@ -436,11 +365,14 @@ export default function BlogArticlePage() {
                         {subsection.title}
                       </h3>
                       <div
-                        className="text-[#4A5568] leading-7"
+                        className="text-gray-600 leading-7"
                         dangerouslySetInnerHTML={{
                           __html: subsection.content
                             .replace(/\n/g, "<br>")
-                            .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+                            .replace(
+                              /\*\*(.*?)\*\*/g,
+                              '<strong class="text-[#0D161C]">$1</strong>',
+                            )
                             .replace(/• /g, "<br>• "),
                         }}
                       />
@@ -450,7 +382,7 @@ export default function BlogArticlePage() {
               ))}
 
               {/* Conclusión */}
-              {ARTICLE_DATA.content.conclusion && (
+              {article.content.conclusion && (
                 <section className="mb-12 p-6 bg-white rounded-xl border border-gray-200">
                   <h2
                     className="text-3xl font-bold text-[#0D161C] mb-6"
@@ -458,18 +390,18 @@ export default function BlogArticlePage() {
                   >
                     Conclusión
                   </h2>
-                  <p className="text-[#4A5568] leading-7 text-lg">
-                    {ARTICLE_DATA.content.conclusion}
+                  <p className="text-gray-600 leading-7 text-lg">
+                    {article.content.conclusion}
                   </p>
                 </section>
               )}
 
               {/* Tags */}
               <div className="flex flex-wrap gap-2 mb-8">
-                {ARTICLE_DATA.tags.map((tag) => (
+                {article.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-[#10B981] hover:text-white transition-colors cursor-pointer"
+                    className="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full hover:bg-[#10B981] hover:text-[#10111A] transition-colors cursor-pointer"
                   >
                     #{tag}
                   </span>
@@ -481,7 +413,7 @@ export default function BlogArticlePage() {
           {/* Sidebar */}
           <aside className="lg:col-span-4 lg:sticky top-24 self-start space-y-8">
             {/* TOC */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+            <div className="bg-white p-6 rounded-xl border border-gray-200">
               <h3
                 className="text-xl font-bold mb-4 text-[#0D161C]"
                 style={{ fontFamily: "Space Grotesk, sans-serif" }}
@@ -499,8 +431,8 @@ export default function BlogArticlePage() {
                         {item.title}
                       </a>
                       {item.subsections.length > 0 && (
-                        <ul className="pl-4 mt-2 space-y-2 border-l border-gray-200">
-                          {item.subsections.map((sub) => (
+                        <ul className="pl-4 mt-2 space-y-2 border-l border-gray-300">
+                          {item.subsections.map((sub: any) => (
                             <li key={sub.id}>
                               <a
                                 className="text-sm text-gray-500 hover:text-[#10B981] transition-colors block py-1"
@@ -519,15 +451,15 @@ export default function BlogArticlePage() {
             </div>
 
             {/* Buscador */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+            <div className="bg-white p-6 rounded-xl border border-gray-200">
               <div className="relative">
                 <input
                   type="text"
                   placeholder="Buscar artículos..."
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#10B981] focus:border-[#10B981] transition-colors"
+                  className="w-full pl-10 pr-4 py-3 bg-gray-100 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#10B981] focus:border-[#10B981] text-[#0D161C] placeholder-gray-400 transition-colors"
                 />
                 <svg
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w-5 h-5"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -543,7 +475,7 @@ export default function BlogArticlePage() {
             </div>
 
             {/* Categorías */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+            <div className="bg-white p-6 rounded-xl border border-gray-200">
               <h3
                 className="text-xl font-bold mb-4 text-[#0D161C]"
                 style={{ fontFamily: "Space Grotesk, sans-serif" }}
@@ -559,11 +491,11 @@ export default function BlogArticlePage() {
                 ].map((category) => (
                   <li key={category.name}>
                     <Link
-                      href={`/ambiental/blog?categoria=${category.name.toLowerCase().replace(/\s+/g, "-")}`}
+                      href={`/ia/blog?categoria=${category.name.toLowerCase().replace(/\s+/g, "-")}`}
                       className="flex justify-between items-center text-gray-600 hover:text-[#10B981] transition-colors py-1"
                     >
                       <span>{category.name}</span>
-                      <span className="text-xs font-medium text-gray-400 bg-gray-100 px-2 py-1 rounded-full">
+                      <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
                         {category.count}
                       </span>
                     </Link>
@@ -573,7 +505,7 @@ export default function BlogArticlePage() {
             </div>
 
             {/* Newsletter */}
-            <div className="bg-gradient-to-br from-[#10B981] to-[#059669] p-6 rounded-xl shadow-lg text-white">
+            <div className="bg-gradient-to-br from-[#10B981] to-[#059669] p-6 rounded-xl shadow-lg text-[#10111A]">
               <h3 className="text-xl font-bold mb-2">Mantente informado</h3>
               <p className="text-sm text-green-100 mb-4">
                 Suscríbete y recibe lo último en sostenibilidad ambiental.
@@ -581,12 +513,12 @@ export default function BlogArticlePage() {
               <form className="space-y-3">
                 <input
                   type="email"
-                  className="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 focus:ring-2 focus:ring-white text-white placeholder-green-100 transition-colors"
+                  className="w-full px-4 py-3 rounded-lg bg-white/90 border border-white/30 focus:ring-2 focus:ring-white text-[#10111A] placeholder-green-100 transition-colors"
                   placeholder="tu.email@ejemplo.com"
                 />
                 <button
                   type="submit"
-                  className="w-full bg-white text-[#10B981] font-bold py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors"
+                  className="w-full bg-[#F5F9F8] text-[#10B981] font-bold py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors"
                 >
                   Suscribirme
                 </button>
@@ -596,11 +528,11 @@ export default function BlogArticlePage() {
         </main>
 
         {/* Siguiente artículo */}
-        {ARTICLE_DATA.nextArticle && (
+        {article.nextArticle && (
           <section className="mt-16 pt-8 border-t border-gray-200">
             <Link
-              href={`/ambiental/blog/${ARTICLE_DATA.nextArticle.slug}`}
-              className="group block p-8 bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-300"
+              href={`/ambiental/blog/${article.nextArticle.slug}`}
+              className="group block p-8 bg-white rounded-xl border border-gray-200 hover:bg-gray-100/70 transition-colors duration-300"
             >
               <div className="flex flex-col md:flex-row items-center justify-between">
                 <div className="text-center md:text-left mb-4 md:mb-0">
@@ -608,7 +540,7 @@ export default function BlogArticlePage() {
                     Siguiente artículo
                   </p>
                   <h3 className="text-2xl md:text-3xl font-bold text-[#0D161C] group-hover:text-[#10B981] transition-colors">
-                    {ARTICLE_DATA.nextArticle.title}
+                    {article.nextArticle.title}
                   </h3>
                 </div>
                 <div className="flex items-center text-[#10B981] transform group-hover:translate-x-2 transition-transform duration-300">

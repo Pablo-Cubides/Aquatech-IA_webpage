@@ -4,6 +4,8 @@ import { Space_Grotesk, Noto_Sans } from "next/font/google";
 import HeaderAmbiental from "@/components/nav/HeaderAmbiental";
 import FooterAmbiental from "@/components/nav/FooterAmbiental";
 
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com";
+
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
@@ -17,9 +19,48 @@ const notoSans = Noto_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Gestión Ambiental - Aquatech IA",
+  title: "Portal de Gestión Ambiental | Normas, Mapas y Herramientas | AquatechIA",
   description:
-    "Herramientas de gestión ambiental, mapas, normas y recursos para un futuro sostenible.",
+    "Herramientas de gestión ambiental, normatividad ambiental internacional, mapas interactivos, análisis de impacto ambiental, monitoreo de agua, aire, residuos y vertimientos. Soluciones sostenibles para profesionales.",
+  keywords: [
+    "gestión ambiental",
+    "normativa ambiental",
+    "sostenibilidad",
+    "herramientas ambientales",
+    "mapas ambientales",
+    "evaluación ambiental",
+    "calidad del agua",
+    "calidad del aire",
+    "residuos sólidos",
+    "tecnología ambiental",
+  ],
+  openGraph: {
+    title: "Portal Ambiental | AquatechIA",
+    description:
+      "Herramientas, normas y recursos para gestión ambiental sostenible. Mapas, análisis y soluciones.",
+    type: "website",
+    locale: "es_ES",
+    url: `${baseUrl}/ambiental`,
+    siteName: "AquatechIA",
+    images: [
+      {
+        url: `${baseUrl}/images/og-image-ambiental.jpg`,
+        width: 1200,
+        height: 630,
+        alt: "Portal Ambiental - Gestión Sostenible con AquatechIA",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Portal Ambiental | AquatechIA",
+    description: "Gestión ambiental sostenible con herramientas innovadoras",
+    images: [`${baseUrl}/images/og-image-ambiental.jpg`],
+    creator: "@aquatechia",
+  },
+  alternates: {
+    canonical: `${baseUrl}/ambiental`,
+  },
 };
 
 export default function AmbientalLayout({

@@ -1,0 +1,43 @@
+{
+  "name": "AquatechIA - Inteligencia Artificial + Gestión Ambiental",
+  "short_name": "AquatechIA",
+  "description": "Plataforma de Inteligencia Artificial para la gestión ambiental sostenible. Herramientas, cursos y recursos para profesionales ambientales.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/images/Logo Aquatech - IA 512 - sin fondo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "utilities", "productivity"],
+  "lang": "es-ES",
+  "dir": "ltr",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "shortcuts": [
+    {
+      "name": "Portal IA",
+      "short_name": "IA",
+      "description": "Accede al Portal de Inteligencia Artificial",
+      "url": "/ia",
+      "icons": [{ "src": "/images/Portal IA/Logo Aquatech - IA 512 - sin fondo.png", "sizes": "512x512" }]
+    },
+    {
+      "name": "Portal Ambiental",
+      "short_name": "Ambiental",
+      "description": "Accede al Portal de Gestión Ambiental",
+      "url": "/ambiental",
+      "icons": [{ "src": "/images/Portal ambiental/Logo Aquatech - IA 512 - sin fondo.png", "sizes": "512x512" }]
+    }
+  ]
+}
