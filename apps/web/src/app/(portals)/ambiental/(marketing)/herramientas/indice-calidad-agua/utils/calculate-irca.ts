@@ -8,6 +8,17 @@ import {
 } from "../data/irca-parameters";
 
 /**
+ * Normaliza nombres de parámetros para mejor coincidencia
+ */
+function normalizeParameterName(name: string): string {
+  return name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // Remover acentos
+    .replace(/[^a-z0-9]/g, ""); // Solo letras y números
+}
+
+/**
  * Verifica si un parámetro cumple con la norma IRCA
  */
 function parameterComplies(
@@ -49,10 +60,14 @@ export function calculateIRCA(sample: WaterSample): IndexResult | null {
   // Iterar sobre todos los parámetros IRCA
   for (const ircaParam of IRCA_PARAMETERS) {
     // Buscar si este parámetro fue medido en la muestra
+    const normalizedIrcaName = normalizeParameterName(ircaParam.name);
     const measuredParam = sample.parameters.find(
-      (p) =>
-        p.name.toLowerCase() === ircaParam.name.toLowerCase() ||
-        p.name.toLowerCase().includes(ircaParam.name.toLowerCase())
+      (p) => {
+        const normalizedParamName = normalizeParameterName(p.name);
+        return normalizedParamName === normalizedIrcaName ||
+               normalizedParamName.includes(normalizedIrcaName) ||
+               normalizedIrcaName.includes(normalizedParamName);
+      }
     );
 
     if (measuredParam) {
@@ -73,6 +88,10 @@ export function calculateIRCA(sample: WaterSample): IndexResult | null {
         standard: ircaParam.maxValue || ircaParam.minValue,
         complies,
         contribution: ircaParam.riskScore,
+        value: complies ? "Cumple" : "No cumple",
+        description: complies
+          ? `${measuredParam.value} ${ircaParam.unit} cumple con la norma`
+          : `${measuredParam.value} ${ircaParam.unit} NO cumple con la norma`,
       });
     } else {
       // Parámetro no fue medido
@@ -136,7 +155,8 @@ export function explainIRCACalculation(
   lines.push("Resolución 2115 de 2007 - Colombia\n");
 
   lines.push(`Muestra: ${sample.location}`);
-  lines.push(`Fecha: ${sample.date.toLocaleDateString()}\n`);
+  const dateStr = sample.sampleDate || (sample.date ? sample.date.toLocaleDateString() : "N/A");
+  lines.push(`Fecha: ${dateStr}\n`);
 
   lines.push("Fórmula:");
   lines.push(

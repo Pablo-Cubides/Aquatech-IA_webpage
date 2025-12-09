@@ -8,6 +8,17 @@ import {
 } from "../data/dwqi-parameters";
 
 /**
+ * Normaliza nombres de parámetros para mejor coincidencia
+ */
+function normalizeParameterName(name: string): string {
+  return name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // Remover acentos
+    .replace(/[^a-z0-9]/g, ""); // Solo letras y números
+}
+
+/**
  * Calcula el subíndice Qi para un parámetro DWQI
  */
 function calculateQi(
@@ -21,12 +32,12 @@ function calculateQi(
   }
 
   // Para parámetros con valor ideal distinto de 0 (pH, cloro residual)
-  // Qi = [(Ci - Vi) / (Si - Vi)] × 100
-  if (measuredValue <= idealValue) {
-    return 0; // Si está por debajo del ideal, calidad perfecta
-  }
-
-  return ((measuredValue - idealValue) / (standard - idealValue)) * 100;
+  // Qi = |Ci - Vi| / |Si - Vi| × 100
+  // Esto maneja tanto valores por encima como por debajo del ideal
+  const numerator = Math.abs(measuredValue - idealValue);
+  const denominator = Math.abs(standard - idealValue);
+  
+  return (numerator / denominator) * 100;
 }
 
 /**
@@ -47,10 +58,20 @@ export function calculateDWQI(sample: WaterSample): IndexResult | null {
   }> = [];
 
   for (const dwqiParam of DWQI_PARAMETERS) {
+    const normalizedDwqiName = normalizeParameterName(dwqiParam.name);
     const measuredParam = sample.parameters.find(
-      (p) =>
-        p.name.toLowerCase() === dwqiParam.name.toLowerCase() ||
-        p.name.toLowerCase().includes(dwqiParam.name.toLowerCase())
+      (p) => {
+        const normalizedParamName = normalizeParameterName(p.name);
+        // Matching exacto o por inclusión
+        if (normalizedParamName === normalizedDwqiName) return true;
+        if (normalizedParamName.includes(normalizedDwqiName)) return true;
+        if (normalizedDwqiName.includes(normalizedParamName)) return true;
+        // Casos especiales
+        if (dwqiParam.name === "TDS" && (normalizedParamName.includes("solidos") || normalizedParamName.includes("tds"))) return true;
+        if (dwqiParam.name.includes("Arsénico") && normalizedParamName.includes("arsen")) return true;
+        if (dwqiParam.name.includes("Mercurio") && normalizedParamName.includes("mercur")) return true;
+        return false;
+      }
     );
 
     if (measuredParam) {
@@ -106,15 +127,20 @@ export function calculateDWQI(sample: WaterSample): IndexResult | null {
 
   // Paso 5: Preparar detalles
   for (const p of paramsWithWeights) {
+    const qiRounded = Math.round(p.qi * 100) / 100;
+    const weightRounded = Math.round(p.weight * 10000) / 10000;
+    
     details.push({
       parameter: p.name,
       measuredValue: p.value,
       unit: p.unit,
       standard: p.standard,
       complies: p.value <= p.standard,
-      qi: Math.round(p.qi * 100) / 100,
-      weight: Math.round(p.weight * 10000) / 10000, // 4 decimales
+      qi: qiRounded,
+      weight: weightRounded,
       contribution: Math.round(p.qi * p.weight * 100) / 100,
+      value: `Qi: ${qiRounded.toFixed(2)}, Wi: ${weightRounded.toFixed(4)}`,
+      description: `Valor: ${p.value} ${p.unit}, Estándar: ${p.standard}, Ideal: ${p.idealValue}, Qi=${qiRounded.toFixed(2)}, Wi=${weightRounded.toFixed(4)}`,
     });
   }
 
@@ -163,7 +189,8 @@ export function explainDWQICalculation(
   lines.push("Método WA-WQI (Weighted Arithmetic Water Quality Index)\n");
 
   lines.push(`Muestra: ${sample.location}`);
-  lines.push(`Fecha: ${sample.date.toLocaleDateString()}\n`);
+  const dateStr = sample.sampleDate || (sample.date ? sample.date.toLocaleDateString() : "N/A");
+  lines.push(`Fecha: ${dateStr}\n`);
 
   lines.push("Fórmula:");
   lines.push("DWQI = Σ(Qi × Wi) / ΣWi");

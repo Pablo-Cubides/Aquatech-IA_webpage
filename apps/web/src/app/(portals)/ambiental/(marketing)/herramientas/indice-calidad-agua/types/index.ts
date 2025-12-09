@@ -15,10 +15,12 @@ export interface WaterParameter {
 
 export interface WaterSample {
   id: string;
-  date: Date;
+  date?: Date; // Usado internamente
+  sampleDate?: string; // Formato string para CSV/inputs
   location: string;
   country: Country;
-  source: string;
+  source?: string; // Usado internamente
+  dataSource?: DataSource; // Para inputs
   parameters: WaterParameter[];
   indices?: {
     IRCA?: IndexResult;
@@ -45,6 +47,8 @@ export interface IndexDetail {
   contribution?: number;
   qi?: number;
   weight?: number;
+  value?: string; // Representación legible (ej: "Cumple", "No cumple", "Qi: 85.5")
+  description?: string; // Descripción detallada opcional
 }
 
 export interface IRCAParameter {

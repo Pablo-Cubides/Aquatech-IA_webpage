@@ -15,20 +15,32 @@ export interface CSVRow {
  * Parsea un archivo CSV a array de objetos
  */
 export function parseCSV(csvText: string): CSVRow[] {
-  const lines = csvText.trim().split("\n");
+  const lines = csvText
+    .trim()
+    .split("\n")
+    .filter((line) => line.trim().length > 0); // Filtrar líneas vacías
+  
   if (lines.length < 2) return [];
 
-  const headers = lines[0].split(",").map((h) => h.trim());
+  // Parsear header removiendo comillas
+  const headers = lines[0]
+    .split(",")
+    .map((h) => h.trim().replace(/^"|"$/g, ""));
+  
   const rows: CSVRow[] = [];
 
   for (let i = 1; i < lines.length; i++) {
+    if (!lines[i].trim()) continue; // Saltar líneas vacías
+    
     const values = lines[i].split(",");
     const row: CSVRow = {};
 
     headers.forEach((header, index) => {
-      const value = values[index]?.trim();
-      // Intentar convertir a número
-      row[header] = isNaN(Number(value)) ? value : Number(value);
+      let value = values[index]?.trim() || "";
+      // Remover comillas si existen
+      value = value.replace(/^"|"$/g, "");
+      // Mantener como string (no convertir a número aquí)
+      row[header] = value;
     });
 
     rows.push(row);
@@ -44,7 +56,10 @@ export function parseCSV(csvText: string): CSVRow[] {
  * 2024-01-15,Planta Norte,Colombia,pH,7.2,unidades
  * 2024-01-15,Planta Norte,Colombia,Turbiedad,1.5,UNT
  */
-export function csvToWaterSamples(rows: CSVRow[]): WaterSample[] {
+export function csvToWaterSamples(
+  rows: CSVRow[],
+  country: Country = "Internacional"
+): WaterSample[] {
   const samplesMap = new Map<string, WaterSample>();
 
   for (const row of rows) {
@@ -53,16 +68,15 @@ export function csvToWaterSamples(rows: CSVRow[]): WaterSample[] {
     const location = String(
       row.ubicacion || row.location || row.Ubicación || row.lugar || ""
     );
-    const country = String(
-      row.pais || row.country || row.País || "Internacional"
-    ) as Country;
     const paramName = String(
       row.parametro || row.parameter || row.Parámetro || ""
     );
-    const value = Number(row.valor || row.value || 0);
+    const valueStr = String(row.valor || row.value || "0");
+    const value = parseFloat(valueStr) || 0;
     const unit = String(row.unidad || row.unit || row.Unidad || "");
 
-    if (!location || !paramName) continue;
+    // Validar datos mínimos
+    if (!location || !paramName || !dateStr) continue;
 
     // Crear clave única por muestra (fecha + ubicación)
     const sampleKey = `${dateStr}_${location}`;
@@ -72,10 +86,12 @@ export function csvToWaterSamples(rows: CSVRow[]): WaterSample[] {
     if (!sample) {
       sample = {
         id: generateId(),
+        sampleDate: dateStr, // Formato string para compatibilidad
         date: dateStr ? new Date(dateStr) : new Date(),
         location,
         country,
-        source: "csv",
+        dataSource: "csv", // Para tests
+        source: "csv", // Para uso interno
         parameters: [],
       };
       samplesMap.set(sampleKey, sample);
@@ -96,16 +112,16 @@ export function csvToWaterSamples(rows: CSVRow[]): WaterSample[] {
  * Genera un CSV de ejemplo para que el usuario lo descargue
  */
 export function generateExampleCSV(): string {
-  const headers = "fecha,ubicacion,pais,parametro,valor,unidad";
+  const headers = "fecha,ubicacion,parametro,valor,unidad";
   const rows = [
-    "2024-12-09,Planta de Tratamiento Norte,Colombia,pH,7.2,unidades",
-    "2024-12-09,Planta de Tratamiento Norte,Colombia,Turbiedad,1.5,UNT",
-    "2024-12-09,Planta de Tratamiento Norte,Colombia,Color aparente,10,UPC",
-    "2024-12-09,Planta de Tratamiento Norte,Colombia,Cloro residual libre,0.5,mg/L",
-    "2024-12-09,Planta de Tratamiento Norte,Colombia,Coliformes totales,0,UFC/100mL",
-    "2024-12-09,Planta de Tratamiento Norte,Colombia,Escherichia coli,0,UFC/100mL",
-    "2024-12-09,Planta de Tratamiento Norte,Colombia,Nitratos,5,mg/L NO₃⁻",
-    "2024-12-09,Planta de Tratamiento Norte,Colombia,Hierro total,0.15,mg/L",
+    "2024-12-09,Planta de Tratamiento Norte,pH,7.0,Unidades de pH",
+    "2024-12-09,Planta de Tratamiento Norte,Turbiedad,1.5,UNT",
+    "2024-12-09,Planta de Tratamiento Norte,Oxígeno disuelto,90,%",
+    "2024-12-09,Planta de Tratamiento Norte,DBO5,2.0,mg/L",
+    "2024-12-09,Planta de Tratamiento Norte,Coliformes totales,0,UFC/100mL",
+    "2024-12-09,Planta de Tratamiento Norte,Escherichia coli,0,UFC/100mL",
+    "2024-12-09,Planta de Tratamiento Norte,Nitratos,5,mg/L",
+    "2024-12-09,Planta de Tratamiento Norte,Cloro residual libre,0.5,mg/L",
   ];
 
   return [headers, ...rows].join("\n");
@@ -132,18 +148,21 @@ export function downloadCSV(content: string, filename: string): void {
  */
 export function waterSamplesToCSV(samples: WaterSample[]): string {
   const lines: string[] = [
-    "fecha,ubicacion,pais,fuente,parametro,valor,unidad",
+    "fecha,ubicacion,parametro,valor,unidad",
   ];
 
   for (const sample of samples) {
+    const dateStr = sample.sampleDate || 
+      (sample.date ? sample.date.toISOString().split("T")[0] : "N/A");
+    
     for (const param of sample.parameters) {
+      const paramName = param.name.includes(",") ? `"${param.name}"` : param.name;
+      
       lines.push(
         [
-          sample.date.toISOString().split("T")[0],
+          dateStr,
           sample.location,
-          sample.country,
-          sample.source,
-          param.name,
+          paramName,
           param.value,
           param.unit,
         ].join(",")
@@ -156,19 +175,18 @@ export function waterSamplesToCSV(samples: WaterSample[]): string {
 
 /**
  * Valida que una muestra tenga datos mínimos
+ * @throws Error si la validación falla
  */
-export function validateSample(sample: WaterSample): {
-  valid: boolean;
-  errors: string[];
-} {
+export function validateSample(sample: WaterSample): void {
   const errors: string[] = [];
+
+  const dateStr = sample.sampleDate || (sample.date ? sample.date.toISOString() : "");
+  if (!dateStr || dateStr.trim() === "") {
+    errors.push("La fecha es requerida");
+  }
 
   if (!sample.location || sample.location.trim() === "") {
     errors.push("La ubicación es requerida");
-  }
-
-  if (!sample.date || isNaN(sample.date.getTime())) {
-    errors.push("La fecha es inválida");
   }
 
   if (!sample.parameters || sample.parameters.length === 0) {
@@ -179,13 +197,12 @@ export function validateSample(sample: WaterSample): {
     if (!param.name || param.name.trim() === "") {
       errors.push(`Parámetro sin nombre encontrado`);
     }
-    if (param.value === null || param.value === undefined || isNaN(param.value)) {
-      errors.push(`Valor inválido para parámetro ${param.name}`);
+    if (param.value < 0) {
+      errors.push(`Valor negativo inválido para parámetro ${param.name}`);
     }
   }
 
-  return {
-    valid: errors.length === 0,
-    errors,
-  };
+  if (errors.length > 0) {
+    throw new Error(errors[0]); // Lanzar el primer error
+  }
 }

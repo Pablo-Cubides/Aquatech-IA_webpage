@@ -8,6 +8,17 @@ import {
 } from "../data/wqi-parameters";
 
 /**
+ * Normaliza nombres de parámetros para mejor coincidencia
+ */
+function normalizeParameterName(name: string): string {
+  return name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // Remover acentos
+    .replace(/[^a-z0-9]/g, ""); // Solo letras y números
+}
+
+/**
  * Calcula el índice WQI (NSF) para una muestra de agua
  */
 export function calculateWQI(sample: WaterSample): IndexResult | null {
@@ -19,16 +30,30 @@ export function calculateWQI(sample: WaterSample): IndexResult | null {
   // Iterar sobre los parámetros WQI
   for (const wqiParam of WQI_PARAMETERS) {
     // Buscar si este parámetro fue medido
+    const normalizedWqiName = normalizeParameterName(wqiParam.name);
     const measuredParam = sample.parameters.find(
-      (p) =>
-        p.name.toLowerCase() === wqiParam.name.toLowerCase() ||
-        p.name.toLowerCase().includes(wqiParam.name.toLowerCase()) ||
-        (wqiParam.name === "DBO5" && p.name.toUpperCase().includes("DBO"))
+      (p) => {
+        const normalizedParamName = normalizeParameterName(p.name);
+        // Matching exacto o por inclusión
+        if (normalizedParamName === normalizedWqiName) return true;
+        if (normalizedParamName.includes(normalizedWqiName)) return true;
+        if (normalizedWqiName.includes(normalizedParamName)) return true;
+        // Casos especiales
+        if (wqiParam.name === "DBO5" && normalizedParamName.includes("dbo")) return true;
+        if (wqiParam.name === "Temperatura" && normalizedParamName.includes("temp")) return true;
+        return false;
+      }
     );
 
     if (measuredParam) {
       // Calcular Qi usando interpolación de curvas
       const qi = interpolateQi(wqiParam.name, measuredParam.value);
+      
+      // Si el Qi es 0 o negativo, saltar este parámetro
+      if (qi <= 0) continue;
+      
+      // Si el Qi es 0 o negativo, saltar este parámetro
+      if (qi <= 0) continue;
 
       // Acumular peso y suma ponderada
       totalWeight += wqiParam.weight;
@@ -41,6 +66,8 @@ export function calculateWQI(sample: WaterSample): IndexResult | null {
         complies: qi >= 50, // Arbitrario: Qi >= 50 es "aceptable"
         qi: Math.round(qi * 100) / 100,
         weight: wqiParam.weight,
+        value: `Qi: ${Math.round(qi * 100) / 100}`,
+        description: `Valor medido: ${measuredParam.value} ${wqiParam.unit}, Índice de calidad: ${Math.round(qi * 100) / 100}, Peso: ${wqiParam.weight}`,
       });
     } else {
       missingParameters.push(wqiParam.name);
@@ -97,7 +124,8 @@ export function explainWQICalculation(
   lines.push("Método de suma ponderada con 9 parámetros\n");
 
   lines.push(`Muestra: ${sample.location}`);
-  lines.push(`Fecha: ${sample.date.toLocaleDateString()}\n`);
+  const dateStr = sample.sampleDate || (sample.date ? sample.date.toLocaleDateString() : "N/A");
+  lines.push(`Fecha: ${dateStr}\n`);
 
   lines.push("Fórmula:");
   lines.push("WQI = Σ(Wi × Qi) / ΣWi");

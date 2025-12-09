@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Search, 
   BookOpen, 
@@ -140,32 +139,18 @@ export default function PapersIAPage() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.15),transparent_50%)]" />
         
         <div className="relative max-w-7xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="flex items-center justify-center gap-3 mb-4"
-          >
+          <div className="flex items-center justify-center gap-3 mb-4 animate-fade-in">
             <BookOpen className="w-10 h-10 text-blue-400" aria-hidden="true" />
             <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
               Papers de IA
             </h1>
-          </motion.div>
+          </div>
           
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-lg text-gray-300 max-w-2xl mx-auto"
-          >
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto animate-fade-in-delay">
             Explora los artículos científicos más recientes sobre inteligencia artificial desde ArXiv
-          </motion.p>
+          </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="flex justify-center gap-8 mt-6 text-sm text-gray-400"
-          >
+          <div className="flex justify-center gap-8 mt-6 text-sm text-gray-400 animate-fade-in-delay-2">
             <div className="flex items-center gap-2">
               <FileText className="w-4 h-4 text-blue-400" aria-hidden="true" />
               <span suppressHydrationWarning>
@@ -176,7 +161,7 @@ export default function PapersIAPage() {
               <Calendar className="w-4 h-4 text-purple-400" aria-hidden="true" />
               <span>Actualizado cada 2 horas</span>
             </div>
-          </motion.div>
+          </div>
         </div>
       </header>
 
@@ -293,16 +278,14 @@ export default function PapersIAPage() {
           <>
             <div className="grid gap-4 md:grid-cols-2" role="list" aria-label="Lista de papers">
               {papers.map((paper, index) => (
-                <motion.article
+                <article
                   key={paper.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: Math.min(index * 0.03, 0.3) }}
                   onClick={() => setSelectedPaper(paper)}
-                  onKeyDown={(e) => e.key === 'Enter' && setSelectedPaper(paper)}
+                  onKeyDown={(e: React.KeyboardEvent) => e.key === 'Enter' && setSelectedPaper(paper)}
                   tabIndex={0}
                   role="listitem"
-                  className="group p-6 bg-gray-800/40 backdrop-blur border border-gray-700/50 rounded-2xl hover:border-blue-500/50 hover:bg-gray-800/60 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  style={{ animationDelay: `${Math.min(index * 30, 300)}ms` }}
+                  className="group p-6 bg-gray-800/40 backdrop-blur border border-gray-700/50 rounded-2xl hover:border-blue-500/50 hover:bg-gray-800/60 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 animate-slide-up"
                   aria-label={`Paper: ${paper.title}`}
                 >
                   <div className="flex flex-wrap gap-2 mb-3">
@@ -345,7 +328,7 @@ export default function PapersIAPage() {
                         href={paper.pdfUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
+                        onClick={(e: React.MouseEvent) => e.stopPropagation()}
                         className="p-2 bg-gray-700/50 hover:bg-red-600/20 hover:text-red-400 rounded-lg transition-colors"
                         aria-label={`Ver PDF de ${paper.title}`}
                       >
@@ -355,7 +338,7 @@ export default function PapersIAPage() {
                         href={paper.arxivUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
+                        onClick={(e: React.MouseEvent) => e.stopPropagation()}
                         className="p-2 bg-gray-700/50 hover:bg-blue-600/20 hover:text-blue-400 rounded-lg transition-colors"
                         aria-label={`Ver en ArXiv: ${paper.title}`}
                       >
@@ -363,7 +346,7 @@ export default function PapersIAPage() {
                       </a>
                     </div>
                   </div>
-                </motion.article>
+                </article>
               ))}
             </div>
 
@@ -398,108 +381,153 @@ export default function PapersIAPage() {
       </main>
 
       {/* Paper Modal */}
-      <AnimatePresence>
-        {selectedPaper && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelectedPaper(null)}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="modal-title"
+      {selectedPaper && (
+        <div
+          onClick={() => setSelectedPaper(null)}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-title"
+        >
+          <div
+            onClick={(e: React.MouseEvent) => e.stopPropagation()}
+            className="relative max-w-3xl w-full max-h-[90vh] overflow-y-auto bg-gray-900 border border-gray-700 rounded-2xl p-6 animate-scale-in"
           >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative max-w-3xl w-full max-h-[90vh] overflow-y-auto bg-gray-900 border border-gray-700 rounded-2xl p-6"
+            <button
+              onClick={() => setSelectedPaper(null)}
+              className="absolute top-4 right-4 p-2 hover:bg-gray-800 rounded-lg transition-colors"
+              aria-label="Cerrar modal"
             >
-              <button
-                onClick={() => setSelectedPaper(null)}
-                className="absolute top-4 right-4 p-2 hover:bg-gray-800 rounded-lg transition-colors"
-                aria-label="Cerrar modal"
-              >
-                <X className="w-5 h-5" aria-hidden="true" />
-              </button>
+              <X className="w-5 h-5" aria-hidden="true" />
+            </button>
 
-              <div className="flex flex-wrap gap-2 mb-4">
-                {selectedPaper.categories.map((cat) => (
-                  <span
-                    key={cat}
-                    className="px-3 py-1 text-sm font-medium bg-blue-500/20 text-blue-300 rounded-full"
-                  >
-                    {ARXIV_CATEGORY_NAMES[cat] || cat}
-                  </span>
-                ))}
-              </div>
+            <div className="flex flex-wrap gap-2 mb-4">
+              {selectedPaper.categories.map((cat) => (
+                <span
+                  key={cat}
+                  className="px-3 py-1 text-sm font-medium bg-blue-500/20 text-blue-300 rounded-full"
+                >
+                  {ARXIV_CATEGORY_NAMES[cat] || cat}
+                </span>
+              ))}
+            </div>
 
-              <h2 id="modal-title" className="text-2xl font-bold text-white mb-4">
-                {selectedPaper.title}
-              </h2>
+            <h2 id="modal-title" className="text-2xl font-bold text-white mb-4">
+              {selectedPaper.title}
+            </h2>
 
-              <div className="mb-6">
-                <h3 className="text-sm font-medium text-gray-400 mb-2">Autores</h3>
-                <p className="text-gray-300">
-                  {selectedPaper.authors.join(', ')}
-                </p>
-              </div>
+            <div className="mb-6">
+              <h3 className="text-sm font-medium text-gray-400 mb-2">Autores</h3>
+              <p className="text-gray-300">
+                {selectedPaper.authors.join(', ')}
+              </p>
+            </div>
 
-              <div className="mb-6">
-                <h3 className="text-sm font-medium text-gray-400 mb-2">Abstract</h3>
-                <p className="text-gray-300 leading-relaxed">
-                  {selectedPaper.abstract}
-                </p>
-              </div>
+            <div className="mb-6">
+              <h3 className="text-sm font-medium text-gray-400 mb-2">Abstract</h3>
+              <p className="text-gray-300 leading-relaxed">
+                {selectedPaper.abstract}
+              </p>
+            </div>
 
-              <div className="flex items-center gap-4 text-sm text-gray-400 mb-6">
-                <time dateTime={selectedPaper.published} className="flex items-center gap-1">
-                  <Calendar className="w-4 h-4" aria-hidden="true" />
-                  Publicado: {formatDateSafe(selectedPaper.published)}
+            <div className="flex items-center gap-4 text-sm text-gray-400 mb-6">
+              <time dateTime={selectedPaper.published} className="flex items-center gap-1">
+                <Calendar className="w-4 h-4" aria-hidden="true" />
+                Publicado: {formatDateSafe(selectedPaper.published)}
+              </time>
+              {selectedPaper.updated !== selectedPaper.published && (
+                <time dateTime={selectedPaper.updated} className="flex items-center gap-1">
+                  Actualizado: {formatDateSafe(selectedPaper.updated)}
                 </time>
-                {selectedPaper.updated !== selectedPaper.published && (
-                  <time dateTime={selectedPaper.updated} className="flex items-center gap-1">
-                    Actualizado: {formatDateSafe(selectedPaper.updated)}
-                  </time>
-                )}
-              </div>
+              )}
+            </div>
 
-              <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-3">
+              <a
+                href={selectedPaper.pdfUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-700 rounded-xl font-medium transition-colors"
+              >
+                <FileText className="w-5 h-5" aria-hidden="true" />
+                Ver PDF
+              </a>
+              <a
+                href={selectedPaper.arxivUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-xl font-medium transition-colors"
+              >
+                <ExternalLink className="w-5 h-5" aria-hidden="true" />
+                Ver en ArXiv
+              </a>
+              {selectedPaper.doi && (
                 <a
-                  href={selectedPaper.pdfUrl}
+                  href={`https://doi.org/${selectedPaper.doi}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-700 rounded-xl font-medium transition-colors"
+                  className="flex items-center gap-2 px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-xl font-medium transition-colors"
                 >
-                  <FileText className="w-5 h-5" aria-hidden="true" />
-                  Ver PDF
+                  DOI
                 </a>
-                <a
-                  href={selectedPaper.arxivUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-xl font-medium transition-colors"
-                >
-                  <ExternalLink className="w-5 h-5" aria-hidden="true" />
-                  Ver en ArXiv
-                </a>
-                {selectedPaper.doi && (
-                  <a
-                    href={`https://doi.org/${selectedPaper.doi}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-xl font-medium transition-colors"
-                  >
-                    DOI
-                  </a>
-                )}
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* CSS Animations */}
+      <style jsx>{`
+        @keyframes fade-in {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        
+        @keyframes slide-up {
+          from { 
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to { 
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes scale-in {
+          from { 
+            opacity: 0;
+            transform: scale(0.9);
+          }
+          to { 
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+        
+        .animate-fade-in {
+          animation: fade-in 0.5s ease-out forwards;
+        }
+        
+        .animate-fade-in-delay {
+          animation: fade-in 0.5s ease-out 0.1s forwards;
+          opacity: 0;
+        }
+        
+        .animate-fade-in-delay-2 {
+          animation: fade-in 0.5s ease-out 0.2s forwards;
+          opacity: 0;
+        }
+        
+        .animate-slide-up {
+          animation: slide-up 0.4s ease-out forwards;
+          opacity: 0;
+        }
+        
+        .animate-scale-in {
+          animation: scale-in 0.3s ease-out forwards;
+        }
+      `}</style>
     </div>
   );
 }
