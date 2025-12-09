@@ -226,7 +226,7 @@ export default function IndiceCalidadAguaPage() {
               <div>
                 <span className="text-sm text-gray-500">Fecha:</span>
                 <p className="font-medium">
-                  {currentSample.date.toLocaleDateString()}
+                  {currentSample.date?.toLocaleDateString() ?? currentSample.sampleDate ?? "N/A"}
                 </p>
               </div>
               <div>

@@ -22,8 +22,9 @@ describe("calculateDWQI", () => {
 
     const result = calculateDWQI(sample);
 
-    expect(result.value).toBeLessThan(50);
-    expect(result.category).toBe("Excelente");
+    expect(result).not.toBeNull();
+    expect(result!.value).toBeLessThan(50);
+    expect(result!.category).toBe("Excelente");
   });
 
   it("debe calcular DWQI no apta (>300) con contaminación severa", () => {
@@ -44,8 +45,9 @@ describe("calculateDWQI", () => {
 
     const result = calculateDWQI(sample);
 
-    expect(result.value).toBeGreaterThan(200);
-    expect(result.category).toMatch(/No apta|Pobre/i);
+    expect(result).not.toBeNull();
+    expect(result!.value).toBeGreaterThan(200);
+    expect(result!.category).toMatch(/No apta|Pobre/i);
   });
 
   it("debe calcular Qi correctamente según fórmula Qi = (Ci - Vi) / (Si - Vi) × 100", () => {
@@ -64,8 +66,9 @@ describe("calculateDWQI", () => {
 
     const result = calculateDWQI(sample);
 
-    expect(result.details[0].value).toContain("Qi:");
-    expect(result.details[0].value).toContain("33.33");
+    expect(result).not.toBeNull();
+    expect(result!.details[0].value).toContain("Qi:");
+    expect(result!.details[0].value).toContain("33.33");
   });
 
   it("debe calcular pesos Wi = K/Si correctamente", () => {
@@ -90,10 +93,10 @@ describe("calculateDWQI", () => {
     // Wi(Turb) = 3.14/5 ≈ 0.628
     // Wi(TDS) = 3.14/1000 ≈ 0.003
 
-    expect(result.value).toBeGreaterThanOrEqual(0);
-    expect(result.details).toHaveLength(3);
+    expect(result).not.toBeNull();
+    expect(result!.value).toBeGreaterThanOrEqual(0);
+    expect(result!.details).toHaveLength(3);
   });
-
   it("debe incluir detalles completos para cada parámetro", () => {
     const sample: WaterSample = {
       id: "test-5",
@@ -110,8 +113,9 @@ describe("calculateDWQI", () => {
 
     const result = calculateDWQI(sample);
 
-    expect(result.details).toHaveLength(3);
-    result.details.forEach((detail) => {
+    expect(result).not.toBeNull();
+    expect(result!.details).toHaveLength(3);
+    result!.details.forEach((detail) => {
       expect(detail).toHaveProperty("parameter");
       expect(detail).toHaveProperty("value");
       expect(detail).toHaveProperty("description");
@@ -136,9 +140,9 @@ describe("calculateDWQI", () => {
         dataSource: "manual",
         parameters: [{ name: "pH", value: ph, unit: "Unidades de pH" }],
       };
-
       const result = calculateDWQI(sample);
-      const qiMatch = result.details[0].value.match(/Qi: ([\d.]+)/);
+      expect(result).not.toBeNull();
+      const qiMatch = result!.details[0]?.value?.match(/Qi: ([\d.]+)/);
       if (qiMatch) {
         const calculatedQi = parseFloat(qiMatch[1]);
         expect(calculatedQi).toBeCloseTo(expectedQi, 0);
@@ -160,10 +164,11 @@ describe("calculateDWQI", () => {
 
     const result = calculateDWQI(sample);
 
+    expect(result).not.toBeNull();
     // Si=5, Vi=0.2, Ci=0.3
     // Qi = |0.3 - 0.2| / |5 - 0.2| × 100 = 0.1/4.8 × 100 ≈ 2.08
-    expect(result.details[0].parameter).toBe("Cloro residual");
-    expect(result.value).toBeLessThan(50); // Debería ser excelente
+    expect(result!.details[0].parameter).toBe("Cloro residual");
+    expect(result!.value).toBeLessThan(50); // Debería ser excelente
   });
 
   it("debe clasificar correctamente en todas las categorías DWQI", () => {
@@ -197,12 +202,13 @@ describe("calculateDWQI", () => {
 
     const result = calculateDWQI(sample);
 
-    // Si encuentra los parámetros, verificar que no es null
+    // Es aceptable que no encuentre todos los metales pesados por nombre
+    // debido a la normalización
     if (result) {
-      expect(result.details.length).toBeGreaterThan(0);
-      expect(result.value).toBeGreaterThan(0);
+      expect(result!.details.length).toBeGreaterThan(0);
+      expect(result!.value).toBeGreaterThan(0);
     } else {
-      // Es aceptable que no encuentre todos los metales pesados por nombre
+      // Si no se encuentran parámetros, el resultado es null
       expect(result).toBeNull();
     }
   });
@@ -224,9 +230,10 @@ describe("calculateDWQI", () => {
 
     const result = calculateDWQI(sample);
 
-    expect(result.details).toHaveLength(4);
-    expect(result.value).toBeGreaterThan(40); // Buena calidad
-    expect(result.value).toBeLessThan(150); // No pobre
+    expect(result).not.toBeNull();
+    expect(result!.details).toHaveLength(4);
+    expect(result!.value).toBeGreaterThan(40); // Buena calidad
+    expect(result!.value).toBeLessThan(150); // No pobre
   });
 
   it("debe manejar valores que exceden el estándar (Ci > Si)", () => {
@@ -244,9 +251,10 @@ describe("calculateDWQI", () => {
 
     const result = calculateDWQI(sample);
 
+    expect(result).not.toBeNull();
     // Cuando Ci > Si, Qi > 100
-    expect(result.value).toBeGreaterThan(100);
-    expect(result.category).toMatch(/Pobre|Muy pobre|No apta/i);
+    expect(result!.value).toBeGreaterThan(100);
+    expect(result!.category).toMatch(/Pobre|Muy pobre|No apta/i);
   });
 
   it("debe ignorar parámetros no reconocidos en DWQI", () => {
@@ -265,7 +273,8 @@ describe("calculateDWQI", () => {
 
     const result = calculateDWQI(sample);
 
-    expect(result.details).toHaveLength(2); // Solo pH y TDS
+    expect(result).not.toBeNull();
+    expect(result!.details).toHaveLength(2); // Solo pH y TDS
   });
 
   it("debe manejar muestra con un solo parámetro", () => {
@@ -280,9 +289,10 @@ describe("calculateDWQI", () => {
 
     const result = calculateDWQI(sample);
 
-    expect(result.details).toHaveLength(1);
-    expect(result.value).toBeGreaterThanOrEqual(0);
-    expect(result.category).toBeDefined();
+    expect(result).not.toBeNull();
+    expect(result!.details).toHaveLength(1);
+    expect(result!.value).toBeGreaterThanOrEqual(0);
+    expect(result!.category).toBeDefined();
   });
 
   it("debe normalizar nombres de parámetros correctamente", () => {
@@ -301,7 +311,8 @@ describe("calculateDWQI", () => {
 
     const result = calculateDWQI(sample);
 
-    expect(result.details).toHaveLength(3);
-    expect(result.value).toBeLessThan(50);
+    expect(result).not.toBeNull();
+    expect(result!.details).toHaveLength(3);
+    expect(result!.value).toBeLessThan(50);
   });
 });

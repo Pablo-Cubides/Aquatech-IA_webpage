@@ -25,9 +25,10 @@ describe("calculateWQI", () => {
 
     const result = calculateWQI(sample);
 
-    expect(result.value).toBeGreaterThanOrEqual(85);
-    expect(result.value).toBeLessThanOrEqual(100);
-    expect(result.category).toMatch(/Excelente|Buena/i);
+    expect(result).not.toBeNull();
+    expect(result!.value).toBeGreaterThanOrEqual(85);
+    expect(result!.value).toBeLessThanOrEqual(100);
+    expect(result!.category).toMatch(/Excelente|Buena/i);
   });
 
   it("debe calcular WQI mala (25-50) con contaminación significativa", () => {
@@ -48,8 +49,9 @@ describe("calculateWQI", () => {
 
     const result = calculateWQI(sample);
 
-    expect(result.value).toBeLessThan(50);
-    expect(result.category).toMatch(/Mala|Muy mala/i);
+    expect(result).not.toBeNull();
+    expect(result!.value).toBeLessThan(50);
+    expect(result!.category).toMatch(/Mala|Muy mala/i);
   });
 
   it("debe normalizar pesos cuando faltan parámetros", () => {
@@ -67,10 +69,11 @@ describe("calculateWQI", () => {
 
     const result = calculateWQI(sample);
 
+    expect(result).not.toBeNull();
     // Con solo 2 parámetros, el cálculo debe normalizar los pesos
-    expect(result.value).toBeGreaterThanOrEqual(0);
-    expect(result.value).toBeLessThanOrEqual(100);
-    expect(result.details).toHaveLength(2);
+    expect(result!.value).toBeGreaterThanOrEqual(0);
+    expect(result!.value).toBeLessThanOrEqual(100);
+    expect(result!.details).toHaveLength(2);
   });
 
   it("debe incluir detalles de cada parámetro calculado", () => {
@@ -86,11 +89,11 @@ describe("calculateWQI", () => {
         { name: "Turbiedad", value: 5, unit: "UNT" },
       ],
     };
-
     const result = calculateWQI(sample);
 
-    expect(result.details).toHaveLength(3);
-    result.details.forEach((detail) => {
+    expect(result).not.toBeNull();
+    expect(result!.details).toHaveLength(3);
+    result!.details.forEach((detail) => {
       expect(detail).toHaveProperty("parameter");
       expect(detail).toHaveProperty("value");
       expect(detail).toHaveProperty("description");
@@ -112,8 +115,9 @@ describe("calculateWQI", () => {
 
     const result = calculateWQI(sample);
 
-    expect(result.details[0].value).toContain("Qi:");
-    expect(result.value).toBeGreaterThanOrEqual(0);
+    expect(result).not.toBeNull();
+    expect(result!.details[0].value).toContain("Qi:");
+    expect(result!.value).toBeGreaterThanOrEqual(0);
   });
 
   it("debe manejar coliformes fecales con interpolación logarítmica", () => {
@@ -130,8 +134,9 @@ describe("calculateWQI", () => {
 
     const result = calculateWQI(sample);
 
-    expect(result.value).toBeLessThan(50);
-    expect(result.details[0].parameter).toBe("Coliformes fecales");
+    expect(result).not.toBeNull();
+    expect(result!.value).toBeLessThan(50);
+    expect(result!.details[0].parameter).toBe("Coliformes fecales");
   });
 
   it("debe calcular correctamente con DBO5", () => {
@@ -146,8 +151,9 @@ describe("calculateWQI", () => {
 
     const result = calculateWQI(sample);
 
-    expect(result.value).toBeGreaterThan(50);
-    expect(result.details[0].parameter).toBe("DBO5");
+    expect(result).not.toBeNull();
+    expect(result!.value).toBeGreaterThan(50);
+    expect(result!.details[0].parameter).toBe("DBO5");
   });
 
   it("debe calcular correctamente con temperatura (variación)", () => {
@@ -164,10 +170,11 @@ describe("calculateWQI", () => {
 
     const result = calculateWQI(sample);
 
+    expect(result).not.toBeNull();
     // Si encuentra el parámetro, debe tener valor
     if (result) {
-      expect(result.value).toBeGreaterThanOrEqual(0);
-      expect(result.value).toBeLessThanOrEqual(100);
+      expect(result!.value).toBeGreaterThanOrEqual(0);
+      expect(result!.value).toBeLessThanOrEqual(100);
     } else {
       // Es aceptable que no encuentre "Temperatura" con variación
       expect(result).toBeNull();
@@ -190,7 +197,8 @@ describe("calculateWQI", () => {
     };
 
     const excellentResult = calculateWQI(excellent);
-    expect(excellentResult.value).toBeGreaterThanOrEqual(70);
+    expect(excellentResult).not.toBeNull();
+    expect(excellentResult!.value).toBeGreaterThanOrEqual(70);
 
     // WQI Mala: 25-50
     const poor: WaterSample = {
@@ -207,7 +215,8 @@ describe("calculateWQI", () => {
     };
 
     const poorResult = calculateWQI(poor);
-    expect(poorResult.value).toBeLessThan(60);
+    expect(poorResult).not.toBeNull();
+    expect(poorResult!.value).toBeLessThan(60);
   });
 
   it("debe manejar valores extremos sin errores", () => {
@@ -227,9 +236,10 @@ describe("calculateWQI", () => {
 
     const result = calculateWQI(sample);
 
-    expect(result.value).toBeGreaterThanOrEqual(0);
-    expect(result.value).toBeLessThanOrEqual(100);
-    expect(result.category).toBeDefined();
+    expect(result).not.toBeNull();
+    expect(result!.value).toBeGreaterThanOrEqual(0);
+    expect(result!.value).toBeLessThanOrEqual(100);
+    expect(result!.category).toBeDefined();
   });
 
   it("debe ignorar parámetros no reconocidos", () => {
@@ -248,6 +258,7 @@ describe("calculateWQI", () => {
 
     const result = calculateWQI(sample);
 
-    expect(result.details).toHaveLength(2); // Solo los 2 conocidos
+    expect(result).not.toBeNull();
+    expect(result!.details).toHaveLength(2); // Solo los 2 conocidos
   });
 });

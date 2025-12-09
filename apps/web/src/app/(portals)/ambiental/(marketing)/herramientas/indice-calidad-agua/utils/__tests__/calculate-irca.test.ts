@@ -21,9 +21,10 @@ describe("calculateIRCA", () => {
 
     const result = calculateIRCA(sample);
 
-    expect(result.value).toBe(0);
-    expect(result.category).toBe("Sin riesgo");
-    expect(result.details.every((d) => d.value === "Cumple")).toBe(true);
+    expect(result).not.toBeNull();
+    expect(result!.value).toBe(0);
+    expect(result!.category).toBe("Sin riesgo");
+    expect(result!.details.every((d) => d.value === "Cumple")).toBe(true);
   });
 
   it("debe calcular IRCA correctamente con parámetros no conformes", () => {
@@ -43,12 +44,13 @@ describe("calculateIRCA", () => {
 
     const result = calculateIRCA(sample);
 
+    expect(result).not.toBeNull();
     // pH (1.5) + Turbiedad (15) + E. coli (25) = 41.5 puntos de incumplimiento
     // Total disponible: pH (1.5) + Turbiedad (15) + Cloro (3) + E. coli (25) = 44.5
     // Pero Cloro cumple, entonces solo contamos los que analizamos
     // IRCA real = depende de cuántos parámetros IRCA se reconocen
-    expect(result.value).toBeGreaterThan(70);
-    expect(result.category).toMatch(/Alto|Inviable/i);
+    expect(result!.value).toBeGreaterThan(70);
+    expect(result!.category).toMatch(/Alto|Inviable/i);
   });
 
   it("debe manejar parámetros faltantes correctamente", () => {
@@ -63,11 +65,11 @@ describe("calculateIRCA", () => {
         { name: "Turbiedad", value: 1.0, unit: "UNT" },
       ],
     };
-
     const result = calculateIRCA(sample);
 
-    expect(result.value).toBe(0);
-    expect(result.details).toHaveLength(2);
+    expect(result).not.toBeNull();
+    expect(result!.value).toBe(0);
+    expect(result!.details).toHaveLength(2);
   });
 
   it("debe clasificar correctamente en nivel de riesgo bajo (5% - 14%)", () => {
@@ -84,12 +86,12 @@ describe("calculateIRCA", () => {
         { name: "Escherichia coli", value: 0, unit: "UFC/100mL" }, // Cumple: 25 pts
       ],
     };
-
     const result = calculateIRCA(sample);
 
+    expect(result).not.toBeNull();
     // IRCA = (1.5 / 44.5) * 100 = 3.37% -> Sin riesgo
-    expect(result.value).toBeLessThan(5);
-    expect(result.category).toBe("Sin riesgo");
+    expect(result!.value).toBeLessThan(5);
+    expect(result!.category).toBe("Sin riesgo");
   });
 
   it("debe clasificar correctamente en nivel de riesgo medio (14.1% - 35%)", () => {
@@ -109,9 +111,10 @@ describe("calculateIRCA", () => {
 
     const result = calculateIRCA(sample);
 
+    expect(result).not.toBeNull();
     // IRCA = depende de los puntajes reconocidos
-    expect(result.value).toBeGreaterThan(14); // Debe ser al menos riesgo medio
-    expect(result.value).toBeLessThan(50); // No debe ser muy alto
+    expect(result!.value).toBeGreaterThan(14); // Debe ser al menos riesgo medio
+    expect(result!.value).toBeLessThan(50); // No debe ser muy alto
   });
 
   it("debe normalizar nombres de parámetros correctamente", () => {
@@ -130,8 +133,9 @@ describe("calculateIRCA", () => {
 
     const result = calculateIRCA(sample);
 
-    expect(result.details).toHaveLength(2); // pH y Turbiedad encontrados
-    expect(result.details.every((d) => d.value === "Cumple")).toBe(true);
+    expect(result).not.toBeNull();
+    expect(result!.details).toHaveLength(2); // pH y Turbiedad encontrados
+    expect(result!.details.every((d) => d.value === "Cumple")).toBe(true);
   });
 
   it("debe incluir detalles completos para cada parámetro", () => {
@@ -149,13 +153,14 @@ describe("calculateIRCA", () => {
 
     const result = calculateIRCA(sample);
 
-    expect(result.details[0]).toHaveProperty("parameter");
-    expect(result.details[0]).toHaveProperty("value");
-    expect(result.details[0]).toHaveProperty("description");
-    expect(result.details[0].parameter).toBe("pH");
-    expect(result.details[0].value).toBe("No cumple");
-    expect(result.details[1].parameter).toBe("Turbiedad");
-    expect(result.details[1].value).toBe("Cumple");
+    expect(result).not.toBeNull();
+    expect(result!.details[0]).toHaveProperty("parameter");
+    expect(result!.details[0]).toHaveProperty("value");
+    expect(result!.details[0]).toHaveProperty("description");
+    expect(result!.details[0].parameter).toBe("pH");
+    expect(result!.details[0].value).toBe("No cumple");
+    expect(result!.details[1].parameter).toBe("Turbiedad");
+    expect(result!.details[1].value).toBe("Cumple");
   });
 
   it("debe manejar valores extremos correctamente", () => {
@@ -174,8 +179,9 @@ describe("calculateIRCA", () => {
 
     const result = calculateIRCA(sample);
 
-    expect(result.value).toBeGreaterThan(0);
-    expect(result.category).toBeDefined();
-    expect(result.details.every((d) => d.value === "No cumple")).toBe(true);
+    expect(result).not.toBeNull();
+    expect(result!.value).toBeGreaterThan(0);
+    expect(result!.category).toBeDefined();
+    expect(result!.details.every((d) => d.value === "No cumple")).toBe(true);
   });
 });
