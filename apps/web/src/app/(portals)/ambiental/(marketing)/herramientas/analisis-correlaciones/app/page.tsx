@@ -4,7 +4,7 @@ import FileUploader from "../components/FileUploader";
 import ResultsSection from "./ResultsSection";
 import ErrorModal from "../components/ErrorModal";
 import DataSourceSelector, { type DataSource } from "../components/DataSourceSelector";
-import WorldBankConfig, { type WorldBankConfig } from "../components/WorldBankConfig";
+import WorldBankConfigComponent, { type WorldBankConfig } from "../components/WorldBankConfig";
 import WHOConfig from "../components/WHOConfig";
 import AnalysisTypeSelector, { type AnalysisType } from "../components/AnalysisTypeSelector";
 import AggregationOptions from "../components/AggregationOptions";
@@ -235,9 +235,9 @@ export default function HomePage() {
   const [whoConfig, setWhoConfig] = useState<{country: string; startYear: number; endYear: number; indicators: string[]} | null>(null);
   const [aggregationMethod, setAggregationMethod] = useState<AggregationMethod>("mean");
   const [aggregationPeriod, setAggregationPeriod] = useState<AggregationPeriod>("yearly");
-  const [growthResult, setGrowthResult] = useState<GrowthAnalysisResult | null>(null);
-  const [trendResult, setTrendResult] = useState<TrendAnalysisResult | null>(null);
-  const [comparisonResult, setComparisonResult] = useState<ComparisonResult | null>(null);
+  const [growthResult, setGrowthResult] = useState<any>(null);
+  const [trendResult, setTrendResult] = useState<any>(null);
+  const [comparisonResult, setComparisonResult] = useState<any>(null);
 
   // Handle World Bank data fetch
   async function handleWorldBankData(config: WorldBankConfig) {
@@ -250,7 +250,7 @@ export default function HomePage() {
       // Fetch data for all indicators
       const timeSeriesData = await getMultipleIndicators(
         config.country.iso2Code,
-        config.indicators.map((ind) => ind.id),
+        config.indicators.map((ind: { id: string; name: string }) => ind.id),
         config.startYear,
         config.endYear
       );
@@ -692,9 +692,8 @@ export default function HomePage() {
               {/* World Bank Configuration */}
               {dataSource === "worldbank" && (
                 <>
-                  <WorldBankConfig
-                    onDataFetch={handleWorldBankData}
-                    onLoading={setLoading}
+                  <WorldBankConfigComponent
+                    onConfigChange={handleWorldBankData}
                   />
                   <div style={{ marginTop: "16px" }}>
                     <AggregationOptions

@@ -19,9 +19,9 @@ import type {
   User,
 } from "../types";
 import { logger } from "@/lib/logger";
-import { getAQIColor, getAQICategory } from "../lib/openaq";
-import { searchOccurrences, getTaxonColor, formatOccurrence } from "@/lib/gbif";
-import { searchStations, getSiteTypeColor, formatStation, createBBox } from "@/lib/wqp";
+// import { getAQIColor, getAQICategory } from "../lib/openaq";
+import { searchOccurrences, getTaxonColor } from "@/lib/gbif";
+import { searchStations, getSiteTypeColor } from "@/lib/wqp";
 
 // Dynamically import MapComponent to avoid SSR issues
 const MapComponent = dynamic(() => import("../components/MapComponent"), {
@@ -48,9 +48,9 @@ export default function HomePage() {
   const [selectedFeature, setSelectedFeature] = useState<GeoJSONFeature | null>(
     null,
   );
-  const [mapCenter, setMapCenter] = useState<[number, number]>([
-    -74.0721, 4.711,
-  ]);
+  // const [mapCenter, setMapCenter] = useState<[number, number]>([
+  //   -74.0721, 4.711,
+  // ]);
   const [showUploadWizard, setShowUploadWizard] = useState(false);
   const [filters, setFilters] = useState<FilterState>({
     parameters: [],
@@ -65,10 +65,10 @@ export default function HomePage() {
   const [wqpData, setWqpData] = useState<GeoJSONFeature[]>([]);
   const [showWQPLayer, setShowWQPLayer] = useState(false);
   const [wqpFilters, setWqpFilters] = useState<WQPFilters>({});
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
-  const [isDetailsPanelCollapsed, setIsDetailsPanelCollapsed] = useState(false);
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState<string | null>(null);
+  // const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  // const [isDetailsPanelCollapsed, setIsDetailsPanelCollapsed] = useState(false);
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
   const [isMobileDetailsOpen, setIsMobileDetailsOpen] = useState(false);
   const [parameterRanges, setParameterRanges] = useState<Record<string, { min: number; max: number }>>({});
@@ -696,12 +696,11 @@ export default function HomePage() {
                       onResultSelect={(feature) => {
                         setSelectedFeature(feature);
                         setMapCenter([
-                          feature.geometry.coordinates[0],
-                          feature.geometry.coordinates[1],
+                          feature.geometry.coordinates[0] as number,
+                          feature.geometry.coordinates[1] as number,
                       ]);
                     }}
                   />
-                    />
                   </div>
                 )}
                 
@@ -812,8 +811,7 @@ export default function HomePage() {
             <div className="space-y-4">
               {/* OpenAQ Layer Control */}
               <OpenAQLayerControl
-                enabled={showOpenAQLayer}
-                onToggle={(enabled) => setShowOpenAQLayer(enabled)}
+                onToggle={setShowOpenAQLayer}
                 onDataLoad={(data) => setOpenAQData(data)}
                 onLoadingChange={(isLoading) => setLoading(isLoading)}
                 onError={(err) => setError(err)}
@@ -822,7 +820,7 @@ export default function HomePage() {
               {/* NASA EONET Layer Control */}
               <EONETLayerControl
                 enabled={showEONETLayer}
-                onToggle={(enabled) => setShowEONETLayer(enabled)}
+                onToggle={setShowEONETLayer}
                 onDataLoad={(data) => setEonetData(data)}
                 onLoadingChange={(isLoading) => setLoading(isLoading)}
                 onError={(err) => setError(err)}
@@ -998,7 +996,6 @@ export default function HomePage() {
               }}
               selectedParameters={filters.parameters}
               colorByParameter={showOpenAQLayer || showEONETLayer || showGBIFLayer || showWQPLayer}
-              center={mapCenter}
             />
 
             {/* Map Legend - OpenAQ */}
@@ -1213,7 +1210,7 @@ export default function HomePage() {
                     <div className="mt-2 space-y-2">
                       <div className="flex justify-between text-sm">
                         <span className="font-medium">Categoría:</span>
-                        <span>{selectedFeature.properties.categoria}</span>
+                        <span>{String(selectedFeature.properties.categoria)}</span>
                       </div>
                       <div className="flex justify-between text-sm">
                         <span className="font-medium">Estado:</span>
@@ -1224,18 +1221,18 @@ export default function HomePage() {
                               : "text-gray-600"
                           }
                         >
-                          {selectedFeature.properties.estado}
+                          {String(selectedFeature.properties.estado)}
                         </span>
                       </div>
-                      {selectedFeature.properties.descripcion && (
+                      {(selectedFeature.properties.descripcion && typeof selectedFeature.properties.descripcion !== 'undefined') ? (
                         <div className="text-sm">
                           <span className="font-medium">Descripción:</span>
                           <p className="mt-1 text-gray-600">
-                            {selectedFeature.properties.descripcion}
+                            {String(selectedFeature.properties.descripcion)}
                           </p>
                         </div>
-                      )}
-                      {selectedFeature.properties.link && (
+                      ) : null}
+                      {(selectedFeature.properties.link && typeof selectedFeature.properties.link !== 'undefined') ? (
                         <a
                           href={String(selectedFeature.properties.link)}
                           target="_blank"
@@ -1244,7 +1241,7 @@ export default function HomePage() {
                         >
                           🔗 Ver más información
                         </a>
-                      )}
+                      ) : null}
                     </div>
                   </div>
                 ) : selectedFeature.properties._layerType === "gbif" ? (
@@ -1255,38 +1252,38 @@ export default function HomePage() {
                     <div className="mt-2 space-y-2">
                       <div className="flex justify-between text-sm">
                         <span className="font-medium">Especie:</span>
-                        <span className="italic">{selectedFeature.properties.scientificName}</span>
+                        <span className="italic">{String(selectedFeature.properties.scientificName)}</span>
                       </div>
-                      {selectedFeature.properties.kingdom && (
+                      {(selectedFeature.properties.kingdom && typeof selectedFeature.properties.kingdom !== 'undefined') ? (
                         <div className="flex justify-between text-sm">
                           <span className="font-medium">Reino:</span>
-                          <span>{selectedFeature.properties.kingdom}</span>
+                          <span>{String(selectedFeature.properties.kingdom)}</span>
                         </div>
-                      )}
-                      {selectedFeature.properties.family && (
+                      ) : null}
+                      {(selectedFeature.properties.family && typeof selectedFeature.properties.family !== 'undefined') ? (
                         <div className="flex justify-between text-sm">
                           <span className="font-medium">Familia:</span>
-                          <span>{selectedFeature.properties.family}</span>
+                          <span>{String(selectedFeature.properties.family)}</span>
                         </div>
-                      )}
-                      {selectedFeature.properties.basisOfRecord && (
+                      ) : null}
+                      {(selectedFeature.properties.basisOfRecord && typeof selectedFeature.properties.basisOfRecord !== 'undefined') ? (
                         <div className="flex justify-between text-sm">
                           <span className="font-medium">Tipo:</span>
-                          <span>{selectedFeature.properties.basisOfRecord}</span>
+                          <span>{String(selectedFeature.properties.basisOfRecord)}</span>
                         </div>
-                      )}
-                      {selectedFeature.properties.eventDate && (
+                      ) : null}
+                      {(selectedFeature.properties.eventDate && typeof selectedFeature.properties.eventDate !== 'undefined') ? (
                         <div className="flex justify-between text-sm">
                           <span className="font-medium">Fecha:</span>
-                          <span>{selectedFeature.properties.eventDate}</span>
+                          <span>{String(selectedFeature.properties.eventDate)}</span>
                         </div>
-                      )}
-                      {selectedFeature.properties.country && (
+                      ) : null}
+                      {(selectedFeature.properties.country && typeof selectedFeature.properties.country !== 'undefined') ? (
                         <div className="flex justify-between text-sm">
                           <span className="font-medium">País:</span>
-                          <span>{selectedFeature.properties.country}</span>
+                          <span>{String(selectedFeature.properties.country)}</span>
                         </div>
-                      )}
+                      ) : null}
                     </div>
                   </div>
                 ) : selectedFeature.properties._layerType === "wqp" ? (
@@ -1297,34 +1294,34 @@ export default function HomePage() {
                     <div className="mt-2 space-y-2">
                       <div className="flex justify-between text-sm">
                         <span className="font-medium">Estación:</span>
-                        <span>{selectedFeature.properties.stationName}</span>
+                        <span>{String(selectedFeature.properties.stationName)}</span>
                       </div>
-                      {selectedFeature.properties.siteType && (
+                      {(selectedFeature.properties.siteType && typeof selectedFeature.properties.siteType !== 'undefined') ? (
                         <div className="flex justify-between text-sm">
                           <span className="font-medium">Tipo:</span>
-                          <span>{selectedFeature.properties.siteType}</span>
+                          <span>{String(selectedFeature.properties.siteType)}</span>
                         </div>
-                      )}
-                      {selectedFeature.properties.organization && (
+                      ) : null}
+                      {(selectedFeature.properties.organization && typeof selectedFeature.properties.organization !== 'undefined') ? (
                         <div className="flex justify-between text-sm">
                           <span className="font-medium">Organización:</span>
-                          <span className="text-xs">{selectedFeature.properties.organization}</span>
+                          <span className="text-xs">{String(selectedFeature.properties.organization)}</span>
                         </div>
-                      )}
-                      {selectedFeature.properties.provider && (
+                      ) : null}
+                      {(selectedFeature.properties.provider && typeof selectedFeature.properties.provider !== 'undefined') ? (
                         <div className="flex justify-between text-sm">
                           <span className="font-medium">Fuente:</span>
-                          <span>{selectedFeature.properties.provider}</span>
+                          <span>{String(selectedFeature.properties.provider)}</span>
                         </div>
-                      )}
-                      {selectedFeature.properties.description && (
+                      ) : null}
+                      {(selectedFeature.properties.description && typeof selectedFeature.properties.description !== 'undefined') ? (
                         <div className="text-sm">
                           <span className="font-medium">Descripción:</span>
                           <p className="mt-1 text-gray-600 text-xs">
-                            {selectedFeature.properties.description}
+                            {String(selectedFeature.properties.description)}
                           </p>
                         </div>
-                      )}
+                      ) : null}
                     </div>
                   </div>
                 ) : (

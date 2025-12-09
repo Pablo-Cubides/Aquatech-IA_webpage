@@ -1,3 +1,5 @@
+/// <reference types="vitest" />
+/// <reference types="@testing-library/jest-dom" />
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import PromptSelector from "../PromptSelector";
@@ -71,6 +73,8 @@ describe("PromptSelector", () => {
       <PromptSelector prompts={[]} selectedId={undefined} onSelect={onSelect} />
     );
 
-    expect(container.querySelectorAll("div > div").length).toBe(0);
+    // The grid container exists, but should have no prompt items inside
+    const gridContainer = container.querySelector(".grid");
+    expect(gridContainer?.children.length).toBe(0);
   });
 });

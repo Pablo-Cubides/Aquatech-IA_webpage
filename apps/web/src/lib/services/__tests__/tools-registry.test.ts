@@ -1,11 +1,13 @@
+/// <reference types="vitest" />
 import { describe, it, expect } from "vitest";
+import type { Tool } from "../../types";
 import {
   getToolsByPortal,
   getToolBySlug,
   isValidToolSlug,
   iaTools,
   ambientalTools,
-} from "@/lib/services/tools-registry";
+} from "../tools-registry";
 
 describe("getToolsByPortal", () => {
   it('should return IA tools for "ia" portal', () => {
@@ -25,7 +27,7 @@ describe("getToolsByPortal", () => {
   it("should return array of tools with required properties", () => {
     const iaToolsList = getToolsByPortal("ia");
 
-    iaToolsList.forEach((tool) => {
+    iaToolsList.forEach((tool: Tool) => {
       expect(tool).toHaveProperty("slug");
       expect(tool).toHaveProperty("name");
       expect(tool).toHaveProperty("description");
@@ -52,7 +54,7 @@ describe("getToolsByPortal", () => {
 
     const allTools = [...iaToolsList, ...ambientalToolsList];
 
-    allTools.forEach((tool) => {
+    allTools.forEach((tool: Tool) => {
       expect(["beta", "stable", "active", "maintenance"]).toContain(
         tool.status,
       );
@@ -150,7 +152,7 @@ describe("iaTools registry", () => {
   it("should contain expected tools", () => {
     expect(iaTools.length).toBeGreaterThanOrEqual(5);
 
-    const slugs = iaTools.map((tool) => tool.slug);
+    const slugs = iaTools.map((tool: Tool) => tool.slug);
 
     expect(slugs).toContain("como-funcionan-llm");
     expect(slugs).toContain("visor-difusion");
@@ -160,14 +162,14 @@ describe("iaTools registry", () => {
   });
 
   it("should have unique slugs", () => {
-    const slugs = iaTools.map((tool) => tool.slug);
+    const slugs = iaTools.map((tool: Tool) => tool.slug);
     const uniqueSlugs = new Set(slugs);
 
     expect(slugs.length).toBe(uniqueSlugs.size);
   });
 
   it("should have all required SEO fields", () => {
-    iaTools.forEach((tool) => {
+    iaTools.forEach((tool: Tool) => {
       expect(tool.seo).toBeDefined();
       expect(tool.seo.title).toBeTruthy();
       expect(tool.seo.description).toBeTruthy();
@@ -177,7 +179,7 @@ describe("iaTools registry", () => {
   });
 
   it("should have valid URLs", () => {
-    iaTools.forEach((tool) => {
+    iaTools.forEach((tool: Tool) => {
       expect(tool.url).toBeTruthy();
       // URLs can be either relative (starting with /) or absolute (https://)
       expect(tool.url).toMatch(/^(\/|https:\/\/)/);
@@ -185,7 +187,7 @@ describe("iaTools registry", () => {
   });
 
   it("should have valid type", () => {
-    iaTools.forEach((tool) => {
+    iaTools.forEach((tool: Tool) => {
       expect([
         "public",
         "interactive",
@@ -201,7 +203,7 @@ describe("ambientalTools registry", () => {
   it("should contain expected tools", () => {
     expect(ambientalTools.length).toBeGreaterThanOrEqual(4);
 
-    const slugs = ambientalTools.map((tool) => tool.slug);
+    const slugs = ambientalTools.map((tool: Tool) => tool.slug);
 
     expect(slugs).toContain("visor-mapas-ambientales");
     expect(slugs).toContain("normas-ambientales");
@@ -210,14 +212,14 @@ describe("ambientalTools registry", () => {
   });
 
   it("should have unique slugs", () => {
-    const slugs = ambientalTools.map((tool) => tool.slug);
+    const slugs = ambientalTools.map((tool: Tool) => tool.slug);
     const uniqueSlugs = new Set(slugs);
 
     expect(slugs.length).toBe(uniqueSlugs.size);
   });
 
   it("should have all required SEO fields", () => {
-    ambientalTools.forEach((tool) => {
+    ambientalTools.forEach((tool: Tool) => {
       expect(tool.seo).toBeDefined();
       expect(tool.seo.title).toBeTruthy();
       expect(tool.seo.description).toBeTruthy();
@@ -227,7 +229,7 @@ describe("ambientalTools registry", () => {
   });
 
   it("should have valid URLs", () => {
-    ambientalTools.forEach((tool) => {
+    ambientalTools.forEach((tool: Tool) => {
       expect(tool.url).toBeTruthy();
       // URLs can be either relative (starting with /) or absolute (https://)
       expect(tool.url).toMatch(/^(\/|https:\/\/)/);
@@ -235,7 +237,7 @@ describe("ambientalTools registry", () => {
   });
 
   it("should have valid type", () => {
-    ambientalTools.forEach((tool) => {
+    ambientalTools.forEach((tool: Tool) => {
       expect([
         "public",
         "interactive",
@@ -249,10 +251,10 @@ describe("ambientalTools registry", () => {
 
 describe("Cross-portal slug uniqueness", () => {
   it("should not have duplicate slugs across portals", () => {
-    const iaSlugs = iaTools.map((tool) => tool.slug);
-    const ambientalSlugs = ambientalTools.map((tool) => tool.slug);
+    const iaSlugs = iaTools.map((tool: Tool) => tool.slug);
+    const ambientalSlugs = ambientalTools.map((tool: Tool) => tool.slug);
 
-    const duplicates = iaSlugs.filter((slug) => ambientalSlugs.includes(slug));
+    const duplicates = iaSlugs.filter((slug: string) => ambientalSlugs.includes(slug));
 
     expect(duplicates).toHaveLength(0);
   });

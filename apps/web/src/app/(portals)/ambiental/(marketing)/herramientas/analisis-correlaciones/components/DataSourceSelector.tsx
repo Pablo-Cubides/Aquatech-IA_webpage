@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 export type DataSource = "worldbank" | "who" | "upload";
 
 interface DataSourceSelectorProps {

@@ -10,8 +10,7 @@ import {
 } from "../src/utils/worldbank";
 
 interface WorldBankConfigProps {
-  onDataFetch: (config: WorldBankConfig) => void;
-  onLoading: (loading: boolean) => void;
+  onConfigChange: (config: WorldBankConfig) => void;
 }
 
 export interface WorldBankConfig {
@@ -22,8 +21,7 @@ export interface WorldBankConfig {
 }
 
 export default function WorldBankConfig({
-  onDataFetch,
-  onLoading,
+  onConfigChange,
 }: WorldBankConfigProps) {
   const [countries, setCountries] = useState<WBCountry[]>([]);
   const [selectedCountry, setSelectedCountry] = useState<WBCountry | null>(
@@ -99,7 +97,7 @@ export default function WorldBankConfig({
       return;
     }
 
-    onDataFetch({
+    onConfigChange({
       country: selectedCountry,
       indicators: selectedIndicators,
       startYear,

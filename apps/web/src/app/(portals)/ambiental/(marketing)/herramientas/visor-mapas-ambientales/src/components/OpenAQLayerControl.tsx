@@ -11,12 +11,14 @@ import {
 import type { GeoJSONFeature } from "../types";
 
 interface OpenAQLayerControlProps {
+  onToggle: (enabled: boolean) => void;
   onDataLoad: (data: GeoJSONFeature[]) => void;
   onLoadingChange: (loading: boolean) => void;
   onError: (error: string | null) => void;
 }
 
 export default function OpenAQLayerControl({
+  onToggle,
   onDataLoad,
   onLoadingChange,
   onError,
@@ -99,7 +101,11 @@ export default function OpenAQLayerControl({
           <input
             type="checkbox"
             checked={isEnabled}
-            onChange={(e) => setIsEnabled(e.target.checked)}
+            onChange={(e) => {
+              const enabled = e.target.checked;
+              setIsEnabled(enabled);
+              onToggle(enabled);
+            }}
             className="sr-only peer"
           />
           <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-primary-600 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
