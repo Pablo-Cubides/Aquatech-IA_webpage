@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Search, 
@@ -24,16 +24,62 @@ import {
 
 const ITEMS_PER_PAGE = 20;
 
+/**
+ * Format date in a consistent way that won't cause hydration issues
+ * Uses ISO format first, then formats on client only
+ */
+function formatDateSafe(dateString: string): string {
+  try {
+    const date = new Date(dateString);
+    // Use consistent format that works the same on server and client
+    const months = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+    const day = date.getUTCDate();
+    const month = months[date.getUTCMonth()];
+    const year = date.getUTCFullYear();
+    return `${day} ${month} ${year}`;
+  } catch {
+    return dateString;
+  }
+}
+
+/**
+ * Format number consistently without locale issues
+ */
+function formatNumber(num: number): string {
+  if (num >= 1000000) {
+    return `${(num / 1000000).toFixed(1)}M`;
+  }
+  if (num >= 1000) {
+    return `${(num / 1000).toFixed(1)}K`;
+  }
+  return String(num);
+}
+
 export default function PapersIAPage() {
   const [papers, setPapers] = useState<ArxivPaper[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [currentPage, setCurrentPage] = useState(0);
   const [totalResults, setTotalResults] = useState(0);
   const [selectedPaper, setSelectedPaper] = useState<ArxivPaper | null>(null);
   const [sortBy, setSortBy] = useState<'submittedDate' | 'relevance'>('submittedDate');
+  const [mounted, setMounted] = useState(false);
+
+  // Handle hydration
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Debounce search input
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   const fetchPapers = useCallback(async () => {
     setLoading(true);
@@ -42,7 +88,7 @@ export default function PapersIAPage() {
     try {
       const params = new URLSearchParams();
       if (selectedCategory) params.set('category', selectedCategory);
-      if (searchQuery) params.set('search', searchQuery);
+      if (debouncedSearch) params.set('search', debouncedSearch);
       params.set('limit', String(ITEMS_PER_PAGE));
       params.set('start', String(currentPage * ITEMS_PER_PAGE));
       params.set('sortBy', sortBy);
@@ -61,7 +107,7 @@ export default function PapersIAPage() {
     } finally {
       setLoading(false);
     }
-  }, [selectedCategory, searchQuery, currentPage, sortBy]);
+  }, [selectedCategory, debouncedSearch, currentPage, sortBy]);
 
   useEffect(() => {
     fetchPapers();
@@ -70,7 +116,6 @@ export default function PapersIAPage() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     setCurrentPage(0);
-    fetchPapers();
   };
 
   const handleCategoryChange = (category: string) => {
@@ -78,20 +123,14 @@ export default function PapersIAPage() {
     setCurrentPage(0);
   };
 
-  const totalPages = Math.ceil(totalResults / ITEMS_PER_PAGE);
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('es-ES', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    });
-  };
+  const totalPages = useMemo(() => Math.ceil(totalResults / ITEMS_PER_PAGE), [totalResults]);
 
   const truncateText = (text: string, maxLength: number) => {
     if (text.length <= maxLength) return text;
     return text.substring(0, maxLength) + '...';
   };
+
+  const categoryButtons = useMemo(() => Object.entries(BLOG_CATEGORY_NAMES), []);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-900 to-black text-white">
@@ -106,7 +145,7 @@ export default function PapersIAPage() {
             animate={{ opacity: 1, y: 0 }}
             className="flex items-center justify-center gap-3 mb-4"
           >
-            <BookOpen className="w-10 h-10 text-blue-400" />
+            <BookOpen className="w-10 h-10 text-blue-400" aria-hidden="true" />
             <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
               Papers de IA
             </h1>
@@ -128,11 +167,13 @@ export default function PapersIAPage() {
             className="flex justify-center gap-8 mt-6 text-sm text-gray-400"
           >
             <div className="flex items-center gap-2">
-              <FileText className="w-4 h-4 text-blue-400" />
-              <span>{totalResults.toLocaleString()} papers encontrados</span>
+              <FileText className="w-4 h-4 text-blue-400" aria-hidden="true" />
+              <span suppressHydrationWarning>
+                {mounted ? formatNumber(totalResults) : '...'} papers encontrados
+              </span>
             </div>
             <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-purple-400" />
+              <Calendar className="w-4 h-4 text-purple-400" aria-hidden="true" />
               <span>Actualizado cada 2 horas</span>
             </div>
           </motion.div>
@@ -140,14 +181,16 @@ export default function PapersIAPage() {
       </header>
 
       {/* Search and Filters */}
-      <div className="max-w-7xl mx-auto px-4 py-6">
+      <section className="max-w-7xl mx-auto px-4 py-6" aria-label="Filtros de búsqueda">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {/* Search Bar */}
-          <form onSubmit={handleSearch} className="lg:col-span-2">
+          <form onSubmit={handleSearch} className="lg:col-span-2" role="search">
+            <label htmlFor="paper-search" className="sr-only">Buscar papers</label>
             <div className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" aria-hidden="true" />
               <input
-                type="text"
+                id="paper-search"
+                type="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Buscar por título, autor o tema..."
@@ -161,8 +204,9 @@ export default function PapersIAPage() {
                     setCurrentPage(0);
                   }}
                   className="absolute right-12 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-700 rounded-full transition-colors"
+                  aria-label="Limpiar búsqueda"
                 >
-                  <X className="w-4 h-4 text-gray-400" />
+                  <X className="w-4 h-4 text-gray-400" aria-hidden="true" />
                 </button>
               )}
               <button
@@ -176,8 +220,10 @@ export default function PapersIAPage() {
 
           {/* Sort By */}
           <div className="flex items-center gap-2">
-            <Filter className="w-5 h-5 text-gray-400" />
+            <Filter className="w-5 h-5 text-gray-400" aria-hidden="true" />
+            <label htmlFor="sort-select" className="sr-only">Ordenar por</label>
             <select
+              id="sort-select"
               value={sortBy}
               onChange={(e) => {
                 setSortBy(e.target.value as 'submittedDate' | 'relevance');
@@ -192,7 +238,7 @@ export default function PapersIAPage() {
         </div>
 
         {/* Category Tabs */}
-        <div className="flex flex-wrap gap-2 mt-6">
+        <nav className="flex flex-wrap gap-2 mt-6" aria-label="Categorías de papers">
           <button
             onClick={() => handleCategoryChange('')}
             className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
@@ -200,10 +246,11 @@ export default function PapersIAPage() {
                 ? 'bg-blue-600 text-white'
                 : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
             }`}
+            aria-pressed={selectedCategory === ''}
           >
             Todos
           </button>
-          {Object.entries(BLOG_CATEGORY_NAMES).map(([slug, name]) => (
+          {categoryButtons.map(([slug, name]) => (
             <button
               key={slug}
               onClick={() => handleCategoryChange(slug)}
@@ -212,22 +259,23 @@ export default function PapersIAPage() {
                   ? 'bg-blue-600 text-white'
                   : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
               }`}
+              aria-pressed={selectedCategory === slug}
             >
               {name}
             </button>
           ))}
-        </div>
-      </div>
+        </nav>
+      </section>
 
       {/* Papers Grid */}
-      <div className="max-w-7xl mx-auto px-4 pb-12">
+      <main className="max-w-7xl mx-auto px-4 pb-12" id="papers-list">
         {loading ? (
-          <div className="flex items-center justify-center py-20">
-            <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+          <div className="flex items-center justify-center py-20" role="status" aria-label="Cargando papers">
+            <Loader2 className="w-8 h-8 animate-spin text-blue-500" aria-hidden="true" />
             <span className="ml-3 text-gray-400">Cargando papers...</span>
           </div>
         ) : error ? (
-          <div className="text-center py-20">
+          <div className="text-center py-20" role="alert">
             <p className="text-red-400 mb-4">{error}</p>
             <button
               onClick={fetchPapers}
@@ -238,20 +286,24 @@ export default function PapersIAPage() {
           </div>
         ) : papers.length === 0 ? (
           <div className="text-center py-20 text-gray-400">
-            <BookOpen className="w-16 h-16 mx-auto mb-4 opacity-50" />
+            <BookOpen className="w-16 h-16 mx-auto mb-4 opacity-50" aria-hidden="true" />
             <p>No se encontraron papers para esta búsqueda</p>
           </div>
         ) : (
           <>
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-4 md:grid-cols-2" role="list" aria-label="Lista de papers">
               {papers.map((paper, index) => (
                 <motion.article
                   key={paper.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
+                  transition={{ delay: Math.min(index * 0.03, 0.3) }}
                   onClick={() => setSelectedPaper(paper)}
-                  className="group p-6 bg-gray-800/40 backdrop-blur border border-gray-700/50 rounded-2xl hover:border-blue-500/50 hover:bg-gray-800/60 transition-all cursor-pointer"
+                  onKeyDown={(e) => e.key === 'Enter' && setSelectedPaper(paper)}
+                  tabIndex={0}
+                  role="listitem"
+                  className="group p-6 bg-gray-800/40 backdrop-blur border border-gray-700/50 rounded-2xl hover:border-blue-500/50 hover:bg-gray-800/60 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  aria-label={`Paper: ${paper.title}`}
                 >
                   <div className="flex flex-wrap gap-2 mb-3">
                     {paper.categories.slice(0, 3).map((cat) => (
@@ -269,7 +321,7 @@ export default function PapersIAPage() {
                   </h2>
 
                   <div className="flex items-center gap-2 text-sm text-gray-400 mb-3">
-                    <Users className="w-4 h-4" />
+                    <Users className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
                     <span className="truncate">
                       {paper.authors.slice(0, 3).join(', ')}
                       {paper.authors.length > 3 && ` et al.`}
@@ -281,10 +333,13 @@ export default function PapersIAPage() {
                   </p>
 
                   <div className="flex items-center justify-between">
-                    <span className="text-xs text-gray-500 flex items-center gap-1">
-                      <Calendar className="w-3 h-3" />
-                      {formatDate(paper.published)}
-                    </span>
+                    <time 
+                      dateTime={paper.published}
+                      className="text-xs text-gray-500 flex items-center gap-1"
+                    >
+                      <Calendar className="w-3 h-3" aria-hidden="true" />
+                      {formatDateSafe(paper.published)}
+                    </time>
                     <div className="flex gap-2">
                       <a
                         href={paper.pdfUrl}
@@ -292,9 +347,9 @@ export default function PapersIAPage() {
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
                         className="p-2 bg-gray-700/50 hover:bg-red-600/20 hover:text-red-400 rounded-lg transition-colors"
-                        title="Ver PDF"
+                        aria-label={`Ver PDF de ${paper.title}`}
                       >
-                        <FileText className="w-4 h-4" />
+                        <FileText className="w-4 h-4" aria-hidden="true" />
                       </a>
                       <a
                         href={paper.arxivUrl}
@@ -302,9 +357,9 @@ export default function PapersIAPage() {
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
                         className="p-2 bg-gray-700/50 hover:bg-blue-600/20 hover:text-blue-400 rounded-lg transition-colors"
-                        title="Ver en ArXiv"
+                        aria-label={`Ver en ArXiv: ${paper.title}`}
                       >
-                        <ExternalLink className="w-4 h-4" />
+                        <ExternalLink className="w-4 h-4" aria-hidden="true" />
                       </a>
                     </div>
                   </div>
@@ -314,31 +369,33 @@ export default function PapersIAPage() {
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div className="flex items-center justify-center gap-4 mt-8">
+              <nav className="flex items-center justify-center gap-4 mt-8" aria-label="Paginación">
                 <button
                   onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
                   disabled={currentPage === 0}
                   className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors"
+                  aria-label="Página anterior"
                 >
-                  <ChevronLeft className="w-4 h-4" />
+                  <ChevronLeft className="w-4 h-4" aria-hidden="true" />
                   Anterior
                 </button>
-                <span className="text-gray-400">
+                <span className="text-gray-400" aria-current="page">
                   Página {currentPage + 1} de {totalPages}
                 </span>
                 <button
                   onClick={() => setCurrentPage(Math.min(totalPages - 1, currentPage + 1))}
                   disabled={currentPage >= totalPages - 1}
                   className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors"
+                  aria-label="Página siguiente"
                 >
                   Siguiente
-                  <ChevronRight className="w-4 h-4" />
+                  <ChevronRight className="w-4 h-4" aria-hidden="true" />
                 </button>
-              </div>
+              </nav>
             )}
           </>
         )}
-      </div>
+      </main>
 
       {/* Paper Modal */}
       <AnimatePresence>
@@ -349,6 +406,9 @@ export default function PapersIAPage() {
             exit={{ opacity: 0 }}
             onClick={() => setSelectedPaper(null)}
             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
@@ -360,8 +420,9 @@ export default function PapersIAPage() {
               <button
                 onClick={() => setSelectedPaper(null)}
                 className="absolute top-4 right-4 p-2 hover:bg-gray-800 rounded-lg transition-colors"
+                aria-label="Cerrar modal"
               >
-                <X className="w-5 h-5" />
+                <X className="w-5 h-5" aria-hidden="true" />
               </button>
 
               <div className="flex flex-wrap gap-2 mb-4">
@@ -375,7 +436,7 @@ export default function PapersIAPage() {
                 ))}
               </div>
 
-              <h2 className="text-2xl font-bold text-white mb-4">
+              <h2 id="modal-title" className="text-2xl font-bold text-white mb-4">
                 {selectedPaper.title}
               </h2>
 
@@ -394,14 +455,14 @@ export default function PapersIAPage() {
               </div>
 
               <div className="flex items-center gap-4 text-sm text-gray-400 mb-6">
-                <span className="flex items-center gap-1">
-                  <Calendar className="w-4 h-4" />
-                  Publicado: {formatDate(selectedPaper.published)}
-                </span>
+                <time dateTime={selectedPaper.published} className="flex items-center gap-1">
+                  <Calendar className="w-4 h-4" aria-hidden="true" />
+                  Publicado: {formatDateSafe(selectedPaper.published)}
+                </time>
                 {selectedPaper.updated !== selectedPaper.published && (
-                  <span className="flex items-center gap-1">
-                    Actualizado: {formatDate(selectedPaper.updated)}
-                  </span>
+                  <time dateTime={selectedPaper.updated} className="flex items-center gap-1">
+                    Actualizado: {formatDateSafe(selectedPaper.updated)}
+                  </time>
                 )}
               </div>
 
@@ -412,7 +473,7 @@ export default function PapersIAPage() {
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-700 rounded-xl font-medium transition-colors"
                 >
-                  <FileText className="w-5 h-5" />
+                  <FileText className="w-5 h-5" aria-hidden="true" />
                   Ver PDF
                 </a>
                 <a
@@ -421,7 +482,7 @@ export default function PapersIAPage() {
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-xl font-medium transition-colors"
                 >
-                  <ExternalLink className="w-5 h-5" />
+                  <ExternalLink className="w-5 h-5" aria-hidden="true" />
                   Ver en ArXiv
                 </a>
                 {selectedPaper.doi && (

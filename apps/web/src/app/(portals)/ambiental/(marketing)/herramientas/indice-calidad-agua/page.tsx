@@ -283,11 +283,13 @@ export default function IndiceCalidadAguaPage() {
                   getIRCARiskCategory(currentSample.indices.IRCA.value).color
                 }
                 onExplain={() => {
-                  const explanation = explainIRCACalculation(
-                    currentSample,
-                    currentSample.indices!.IRCA!
-                  );
-                  alert(explanation); // En producción usar un modal
+                  if (currentSample.indices?.IRCA) {
+                    const explanation = explainIRCACalculation(
+                      currentSample,
+                      currentSample.indices.IRCA
+                    );
+                    alert(explanation); // En producción usar un modal
+                  }
                 }}
               />
             )}
@@ -300,11 +302,13 @@ export default function IndiceCalidadAguaPage() {
                 result={currentSample.indices.WQI}
                 color={getWQICategory(currentSample.indices.WQI.value).color}
                 onExplain={() => {
-                  const explanation = explainWQICalculation(
-                    currentSample,
-                    currentSample.indices!.WQI!
-                  );
-                  alert(explanation);
+                  if (currentSample.indices?.WQI) {
+                    const explanation = explainWQICalculation(
+                      currentSample,
+                      currentSample.indices.WQI
+                    );
+                    alert(explanation);
+                  }
                 }}
               />
             )}
@@ -317,11 +321,13 @@ export default function IndiceCalidadAguaPage() {
                 result={currentSample.indices.DWQI}
                 color={getDWQICategory(currentSample.indices.DWQI.value).color}
                 onExplain={() => {
-                  const explanation = explainDWQICalculation(
-                    currentSample,
-                    currentSample.indices!.DWQI!
-                  );
-                  alert(explanation);
+                  if (currentSample.indices?.DWQI) {
+                    const explanation = explainDWQICalculation(
+                      currentSample,
+                      currentSample.indices.DWQI
+                    );
+                    alert(explanation);
+                  }
                 }}
               />
             )}

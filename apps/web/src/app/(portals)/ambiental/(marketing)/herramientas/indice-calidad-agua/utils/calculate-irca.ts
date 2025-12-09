@@ -1,11 +1,10 @@
 // Utilidades para calcular el índice IRCA (Índice de Riesgo de la Calidad del Agua)
 // Basado en la Resolución 2115 de 2007 - Colombia
 
-import type { WaterSample, IndexResult, IndexDetail } from "../types";
+import type { WaterSample, IndexResult, IndexDetail, IRCAParameter } from "../types";
 import {
   IRCA_PARAMETERS,
   getIRCARiskCategory,
-  type IRCAParameter,
 } from "../data/irca-parameters";
 
 /**

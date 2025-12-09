@@ -1,7 +1,11 @@
 // Utilidades para procesar archivos CSV/Excel de datos de calidad de agua
 
-import type { WaterSample, WaterParameter, Country } from "../types";
-import { v4 as uuidv4 } from "uuid";
+import type { WaterSample, Country } from "../types";
+
+// Función para generar IDs únicos
+function generateId(): string {
+  return `sample-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+}
 
 export interface CSVRow {
   [key: string]: string | number;
@@ -67,7 +71,7 @@ export function csvToWaterSamples(rows: CSVRow[]): WaterSample[] {
     let sample = samplesMap.get(sampleKey);
     if (!sample) {
       sample = {
-        id: uuidv4(),
+        id: generateId(),
         date: dateStr ? new Date(dateStr) : new Date(),
         location,
         country,

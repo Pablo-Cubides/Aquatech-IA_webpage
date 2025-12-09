@@ -130,6 +130,31 @@ export const iaTools: Tool[] = [
       ],
     },
   },
+  {
+    slug: "papers-ia",
+    name: "Papers de IA (ArXiv Explorer)",
+    description:
+      "Explora los artículos científicos más recientes sobre inteligencia artificial desde ArXiv. Búsqueda por categoría, autor y tema con filtros avanzados.",
+    type: "public",
+    url: "/ia/herramientas/papers-ia",
+    owner: "IA-Next",
+    version: "1.0.0",
+    status: "stable",
+    portal: "ia",
+    seo: {
+      title: "Papers de IA | Investigación ArXiv | AquatechIA",
+      description:
+        "Explora los artículos científicos más recientes sobre inteligencia artificial desde ArXiv. Machine Learning, NLP, Visión por Computadora y más.",
+      keywords: [
+        "papers IA",
+        "ArXiv",
+        "investigación IA",
+        "machine learning papers",
+        "NLP research",
+        "artículos científicos",
+      ],
+    },
+  },
 ];
 
 /**

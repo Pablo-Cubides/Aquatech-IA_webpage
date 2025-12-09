@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 
+const baseUrl = 'https://aquatechpro.co';
+
 export const metadata: Metadata = {
   title: 'Papers de IA | Investigación ArXiv | AquatechIA',
   description:
@@ -13,12 +15,112 @@ export const metadata: Metadata = {
     'computer vision papers',
     'artículos científicos IA',
     'deep learning research',
+    'inteligencia artificial papers',
+    'GPT papers',
+    'transformer papers',
   ],
+  authors: [{ name: 'AquatechIA', url: baseUrl }],
+  creator: 'AquatechIA',
+  publisher: 'AquatechIA',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  alternates: {
+    canonical: `${baseUrl}/ia/herramientas/papers-ia`,
+  },
   openGraph: {
     title: 'Papers de IA | Investigación ArXiv | AquatechIA',
     description:
       'Explora los artículos científicos más recientes sobre inteligencia artificial desde ArXiv.',
     type: 'website',
+    url: `${baseUrl}/ia/herramientas/papers-ia`,
+    siteName: 'AquatechIA',
+    locale: 'es_CO',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Papers de IA | Investigación ArXiv',
+    description:
+      'Explora los artículos científicos más recientes sobre inteligencia artificial desde ArXiv.',
+    creator: '@aquatechpro',
+  },
+  category: 'technology',
+};
+
+// Structured data for the collection page
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Papers de IA - ArXiv Explorer',
+  description:
+    'Colección de artículos científicos de inteligencia artificial de ArXiv',
+  url: `${baseUrl}/ia/herramientas/papers-ia`,
+  provider: {
+    '@type': 'Organization',
+    name: 'AquatechIA',
+    url: baseUrl,
+    logo: `${baseUrl}/logo.png`,
+  },
+  about: {
+    '@type': 'Thing',
+    name: 'Inteligencia Artificial',
+  },
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Machine Learning Papers',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Natural Language Processing Research',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Computer Vision Papers',
+      },
+    ],
+  },
+  breadcrumb: {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Inicio',
+        item: baseUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'IA',
+        item: `${baseUrl}/ia`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Herramientas',
+        item: `${baseUrl}/ia/herramientas`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Papers de IA',
+        item: `${baseUrl}/ia/herramientas/papers-ia`,
+      },
+    ],
   },
 };
 
@@ -32,22 +134,7 @@ export default function PapersIALayout({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'CollectionPage',
-            name: 'Papers de IA - ArXiv Explorer',
-            description:
-              'Colección de artículos científicos de inteligencia artificial de ArXiv',
-            provider: {
-              '@type': 'Organization',
-              name: 'AquatechIA',
-              url: 'https://aquatechpro.co',
-            },
-            about: {
-              '@type': 'Thing',
-              name: 'Inteligencia Artificial',
-            },
-          }),
+          __html: JSON.stringify(structuredData),
         }}
       />
       {children}
