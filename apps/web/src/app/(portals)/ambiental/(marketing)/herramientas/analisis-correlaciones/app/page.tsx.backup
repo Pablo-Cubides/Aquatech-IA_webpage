@@ -3,38 +3,9 @@ import React, { useState } from "react";
 import FileUploader from "../components/FileUploader";
 import ResultsSection from "./ResultsSection";
 import ErrorModal from "../components/ErrorModal";
-import DataSourceSelector, { type DataSource } from "../components/DataSourceSelector";
-import WorldBankConfig, { type WorldBankConfig } from "../components/WorldBankConfig";
-import WHOConfig from "../components/WHOConfig";
-import AnalysisTypeSelector, { type AnalysisType } from "../components/AnalysisTypeSelector";
-import AggregationOptions from "../components/AggregationOptions";
 import Papa from "papaparse";
 import * as XLSX from "xlsx";
 import { sampleCorrelation } from "simple-statistics";
-import {
-  getMultipleIndicators,
-  type WBTimeSeriesData,
-} from "../src/utils/worldbank";
-import {
-  getMultipleWHOIndicators,
-  formatWHODataForCorrelation,
-  type WHOTimeSeriesData,
-} from "@/utils/who";
-import {
-  aggregateByYear,
-  aggregateByQuarter,
-  aggregateByMonth,
-  alignDatasets,
-  calculateGrowthAnalysis,
-  calculateTrendAnalysis,
-  calculateComparisonAnalysis,
-  type AggregationMethod,
-  type AggregationPeriod,
-  type AggregatedData,
-  type GrowthAnalysisResult,
-  type TrendAnalysisResult,
-  type ComparisonResult,
-} from "../src/utils/aggregation";
 
 // Function to calculate Pearson correlation
 function pearsonCorrelation(x: number[], y: number[]): number {
@@ -229,155 +200,6 @@ export default function HomePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<AnalysisResult | null>(null);
-  const [dataSource, setDataSource] = useState<DataSource>("worldbank");
-  const [analysisType, setAnalysisType] = useState<AnalysisType>("correlation");
-  const [wbConfig, setWbConfig] = useState<WorldBankConfig | null>(null);
-  const [whoConfig, setWhoConfig] = useState<{country: string; startYear: number; endYear: number; indicators: string[]} | null>(null);
-  const [aggregationMethod, setAggregationMethod] = useState<AggregationMethod>("mean");
-  const [aggregationPeriod, setAggregationPeriod] = useState<AggregationPeriod>("yearly");
-  const [growthResult, setGrowthResult] = useState<GrowthAnalysisResult | null>(null);
-  const [trendResult, setTrendResult] = useState<TrendAnalysisResult | null>(null);
-  const [comparisonResult, setComparisonResult] = useState<ComparisonResult | null>(null);
-
-  // Handle World Bank data fetch
-  async function handleWorldBankData(config: WorldBankConfig) {
-    setLoading(true);
-    setError(null);
-    setResult(null);
-    setWbConfig(config);
-
-    try {
-      // Fetch data for all indicators
-      const timeSeriesData = await getMultipleIndicators(
-        config.country.iso2Code,
-        config.indicators.map((ind) => ind.id),
-        config.startYear,
-        config.endYear
-      );
-
-      if (timeSeriesData.length === 0) {
-        throw new Error("No se encontraron datos para los indicadores seleccionados");
-      }
-
-      // Aggregate data based on period and method
-      const aggregatedDatasets = timeSeriesData.map((series) => {
-        const timeSeriesPoints = series.data.map((d) => ({
-          year: d.year,
-          value: d.value,
-        }));
-
-        let aggregated: AggregatedData[];
-        if (aggregationPeriod === "yearly") {
-          aggregated = aggregateByYear(timeSeriesPoints, aggregationMethod);
-        } else if (aggregationPeriod === "quarterly") {
-          aggregated = aggregateByQuarter(timeSeriesPoints, aggregationMethod);
-        } else {
-          aggregated = aggregateByMonth(timeSeriesPoints, aggregationMethod);
-        }
-
-        return {
-          name: series.indicatorName,
-          data: aggregated,
-        };
-      });
-
-      // Convert to DataRow format for correlation calculation
-      const dataRows: DataRow[] = [];
-      const allPeriods = new Set<string>();
-
-      aggregatedDatasets.forEach((dataset) => {
-        dataset.data.forEach((point) => allPeriods.add(point.period));
-      });
-
-      Array.from(allPeriods)
-        .sort()
-        .forEach((period) => {
-          const row: DataRow = { period };
-          aggregatedDatasets.forEach((dataset) => {
-            const point = dataset.data.find((d) => d.period === period);
-            row[dataset.name] = point ? point.value : null;
-          });
-          dataRows.push(row);
-        });
-
-      // Calculate correlations
-      const resultData = calculateCorrelations(dataRows);
-      setResult({
-        filename: `${config.country.name} (${config.startYear}-${config.endYear})`,
-        ...resultData,
-      });
-    } catch (err: unknown) {
-      console.error("Error fetching World Bank data:", err);
-      setError(
-        err instanceof Error
-          ? err.message
-          : "Error al obtener datos del Banco Mundial."
-      );
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  // Handle WHO GHO data fetch
-  async function handleWHOData(config: {country: string; startYear: number; endYear: number; indicators: string[]}) {
-    setLoading(true);
-    setError(null);
-    setResult(null);
-    setWhoConfig(config);
-
-    try {
-      if (config.indicators.length === 0) {
-        throw new Error("Selecciona al menos un indicador para continuar");
-      }
-
-      // Fetch data for all indicators
-      const timeSeriesData = await getMultipleWHOIndicators(
-        config.indicators,
-        config.country,
-        config.startYear,
-        config.endYear
-      );
-
-      if (timeSeriesData.length === 0) {
-        throw new Error("No se encontraron datos para los indicadores seleccionados");
-      }
-
-      // Convert to DataRow format for correlation calculation
-      const dataRows: DataRow[] = [];
-      const allYears = new Set<string>();
-
-      timeSeriesData.forEach((series) => {
-        series.data.forEach((point) => allYears.add(point.year.toString()));
-      });
-
-      Array.from(allYears)
-        .sort()
-        .forEach((year) => {
-          const row: DataRow = { year };
-          timeSeriesData.forEach((series) => {
-            const point = series.data.find((d) => d.year.toString() === year);
-            row[series.indicatorName] = point ? point.value : null;
-          });
-          dataRows.push(row);
-        });
-
-      // Calculate correlations
-      const resultData = calculateCorrelations(dataRows);
-      setResult({
-        filename: `WHO GHO - ${config.country} (${config.startYear}-${config.endYear})`,
-        ...resultData,
-      });
-    } catch (err: unknown) {
-      console.error("Error fetching WHO data:", err);
-      setError(
-        err instanceof Error
-          ? err.message
-          : "Error al obtener datos de WHO GHO."
-      );
-    } finally {
-      setLoading(false);
-    }
-  }
 
   async function handleUpload(file: File) {
     setLoading(true);
@@ -677,71 +499,27 @@ export default function HomePage() {
                 borderRadius: "16px",
               }}
             >
-              {/* Data Source Selector */}
-              <DataSourceSelector
-                selected={dataSource}
-                onSelect={setDataSource}
-              />
-
-              {/* Analysis Type Selector */}
-              <AnalysisTypeSelector
-                selected={analysisType}
-                onSelect={setAnalysisType}
-              />
-
-              {/* World Bank Configuration */}
-              {dataSource === "worldbank" && (
-                <>
-                  <WorldBankConfig
-                    onDataFetch={handleWorldBankData}
-                    onLoading={setLoading}
-                  />
-                  <div style={{ marginTop: "16px" }}>
-                    <AggregationOptions
-                      onApply={(method, period) => {
-                        setAggregationMethod(method);
-                        setAggregationPeriod(period);
-                      }}
-                      defaultMethod={aggregationMethod}
-                      defaultPeriod={aggregationPeriod}
-                    />
-                  </div>
-                </>
-              )}
-
-              {/* WHO GHO Configuration */}
-              {dataSource === "who" && (
-                <WHOConfig
-                  onConfigChange={handleWHOData}
-                />
-              )}
-
-              {/* File Upload */}
-              {dataSource === "upload" && (
-                <>
-                  <h2
-                    style={{
-                      fontSize: "24px",
-                      fontWeight: "bold",
-                      color: "#1e293b",
-                      margin: "0 0 8px 0",
-                    }}
-                  >
-                    Carga tu archivo
-                  </h2>
-                  <p
-                    style={{
-                      fontSize: "16px",
-                      color: "#475569",
-                      margin: "0 0 24px 0",
-                    }}
-                  >
-                    Sube un archivo CSV o XLSX con datos numéricos para analizar
-                    correlaciones
-                  </p>
-                  <FileUploader onUpload={handleUpload} loading={loading} />
-                </>
-              )}
+              <h2
+                style={{
+                  fontSize: "24px",
+                  fontWeight: "bold",
+                  color: "#1e293b",
+                  margin: "0 0 8px 0",
+                }}
+              >
+                Carga tu archivo
+              </h2>
+              <p
+                style={{
+                  fontSize: "16px",
+                  color: "#475569",
+                  margin: "0 0 24px 0",
+                }}
+              >
+                Sube un archivo CSV o XLSX con datos numéricos para analizar
+                correlaciones
+              </p>
+              <FileUploader onUpload={handleUpload} loading={loading} />
             </div>
 
             {/* Help section */}

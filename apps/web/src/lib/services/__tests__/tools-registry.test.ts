@@ -62,10 +62,10 @@ describe("getToolsByPortal", () => {
 
 describe("getToolBySlug", () => {
   it("should return correct IA tool by slug", () => {
-    const tool = getToolBySlug("como-funciona-llm", "ia");
+    const tool = getToolBySlug("como-funcionan-llm", "ia");
 
     expect(tool).toBeDefined();
-    expect(tool?.slug).toBe("como-funciona-llm");
+    expect(tool?.slug).toBe("como-funcionan-llm");
     expect(tool?.name).toContain("LLM");
   });
 
@@ -84,7 +84,7 @@ describe("getToolBySlug", () => {
   });
 
   it("should return null when searching IA tool in ambiental portal", () => {
-    const tool = getToolBySlug("como-funciona-llm", "ambiental");
+    const tool = getToolBySlug("como-funcionan-llm", "ambiental");
 
     expect(tool).toBeNull();
   });
@@ -96,7 +96,7 @@ describe("getToolBySlug", () => {
   });
 
   it("should be case-sensitive", () => {
-    const tool = getToolBySlug("COMO-FUNCIONA-LLM", "ia");
+    const tool = getToolBySlug("COMO-FUNCIONAN-LLM", "ia");
 
     expect(tool).toBeNull();
   });
@@ -110,7 +110,7 @@ describe("getToolBySlug", () => {
 
 describe("isValidToolSlug", () => {
   it("should return true for valid IA tool slug", () => {
-    const isValid = isValidToolSlug("como-funciona-llm", "ia");
+    const isValid = isValidToolSlug("como-funcionan-llm", "ia");
 
     expect(isValid).toBe(true);
   });
@@ -128,7 +128,7 @@ describe("isValidToolSlug", () => {
   });
 
   it("should return false for wrong portal", () => {
-    const isValid = isValidToolSlug("como-funciona-llm", "ambiental");
+    const isValid = isValidToolSlug("como-funcionan-llm", "ambiental");
 
     expect(isValid).toBe(false);
   });
@@ -140,7 +140,7 @@ describe("isValidToolSlug", () => {
   });
 
   it("should be case-sensitive", () => {
-    const isValid = isValidToolSlug("COMO-FUNCIONA-LLM", "ia");
+    const isValid = isValidToolSlug("COMO-FUNCIONAN-LLM", "ia");
 
     expect(isValid).toBe(false);
   });
@@ -148,13 +148,15 @@ describe("isValidToolSlug", () => {
 
 describe("iaTools registry", () => {
   it("should contain expected tools", () => {
-    expect(iaTools.length).toBeGreaterThanOrEqual(3);
+    expect(iaTools.length).toBeGreaterThanOrEqual(5);
 
     const slugs = iaTools.map((tool) => tool.slug);
 
-    expect(slugs).toContain("como-funciona-llm");
-    expect(slugs).toContain("sistema-de-difusion");
-    expect(slugs).toContain("filtros-ia-respuestas");
+    expect(slugs).toContain("como-funcionan-llm");
+    expect(slugs).toContain("visor-difusion");
+    expect(slugs).toContain("filtrado-ia");
+    expect(slugs).toContain("parametros-decodificacion");
+    expect(slugs).toContain("modelos-tendencia");
   });
 
   it("should have unique slugs", () => {

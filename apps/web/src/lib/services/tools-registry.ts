@@ -2,60 +2,132 @@ import { Tool } from "../types";
 
 /**
  * Registro de herramientas IA
- * TODO: Implementar herramientas reales con microservicios
+ * Todas las herramientas están implementadas e integradas en el monorepo
  */
 export const iaTools: Tool[] = [
   {
-    slug: "como-funciona-llm",
-    name: "Cómo funciona un LLM",
+    slug: "como-funcionan-llm",
+    name: "Cómo Funcionan los LLMs",
     description:
-      "Explora el funcionamiento interno de los modelos de lenguaje.",
+      "Herramienta educativa interactiva que explica paso a paso el funcionamiento interno de los Grandes Modelos de Lenguaje: tokenización, embeddings, atención y generación.",
     type: "public",
-    url: "https://placeholder-llm-demo.vercel.app",
+    url: "/ia/herramientas/como-funcionan-llm",
     owner: "IA-Next",
     version: "1.0.0",
-    status: "beta",
+    status: "stable",
     portal: "ia",
     seo: {
-      title: "Cómo funciona un LLM | Herramientas IA",
+      title: "Cómo Funcionan los LLMs | Herramientas IA | AquatechIA",
       description:
-        "Descubre cómo funcionan los modelos de lenguaje grande (LLM) de manera interactiva.",
-      keywords: ["LLM", "inteligencia artificial", "modelos de lenguaje"],
+        "Aprende paso a paso cómo funcionan los Grandes Modelos de Lenguaje (LLM): tokenización, embeddings, atención, probabilidades y generación autorregresiva.",
+      keywords: [
+        "LLM",
+        "modelos de lenguaje",
+        "GPT",
+        "Transformer",
+        "tokenización",
+        "embeddings",
+        "inteligencia artificial",
+      ],
     },
   },
   {
-    slug: "sistema-de-difusion",
-    name: "Cómo funciona el sistema de difusión",
+    slug: "visor-difusion",
+    name: "Visor de Difusión (PixelGen)",
     description:
-      "Comprende los modelos de difusión para generación de imágenes.",
+      "Visualiza paso a paso cómo los modelos de difusión generan imágenes desde ruido puro. Exporta secuencias como GIF animado.",
     type: "public",
-    url: "https://placeholder-diffusion-demo.vercel.app",
+    url: "/ia/herramientas/visor-difusion",
     owner: "IA-Next",
     version: "1.0.0",
-    status: "beta",
+    status: "stable",
     portal: "ia",
     seo: {
-      title: "Sistema de Difusión | Herramientas IA",
+      title: "Visor de Difusión (PixelGen) | Herramientas IA | AquatechIA",
       description:
-        "Aprende cómo funcionan los modelos de difusión para generar imágenes.",
-      keywords: ["difusión", "generación de imágenes", "IA generativa"],
+        "Visualiza paso a paso cómo los modelos de difusión generan imágenes desde ruido puro. Herramienta educativa para Stable Diffusion, DALL-E y similares.",
+      keywords: [
+        "difusión",
+        "generación de imágenes",
+        "IA generativa",
+        "Stable Diffusion",
+        "DALL-E",
+        "denoising",
+      ],
     },
   },
   {
-    slug: "filtros-ia-respuestas",
-    name: "Cómo la IA filtra las respuestas",
-    description: "Entiende los sistemas de filtrado y moderación de contenido.",
+    slug: "filtrado-ia",
+    name: "Cómo la IA Filtra Respuestas",
+    description:
+      "Comprende los mecanismos de seguridad, moderación y filtrado que utilizan los modelos de IA para clasificar y proteger las respuestas generadas.",
     type: "public",
-    url: "https://placeholder-filters-demo.vercel.app",
+    url: "/ia/herramientas/filtrado-ia",
     owner: "IA-Next",
     version: "1.0.0",
-    status: "beta",
+    status: "stable",
     portal: "ia",
     seo: {
-      title: "Filtros de IA | Herramientas IA",
+      title: "Cómo la IA Filtra Respuestas | Herramientas IA | AquatechIA",
       description:
-        "Descubre cómo la IA filtra y modera las respuestas generadas.",
-      keywords: ["filtros IA", "moderación", "seguridad IA"],
+        "Comprende los mecanismos de seguridad, moderación y filtrado que utilizan los modelos de IA para analizar y clasificar las respuestas generadas.",
+      keywords: [
+        "filtrado IA",
+        "moderación de contenido",
+        "seguridad IA",
+        "RLHF",
+        "clasificación de riesgo",
+      ],
+    },
+  },
+  {
+    slug: "parametros-decodificacion",
+    name: "Parámetros de Decodificación (LLM Tune)",
+    description:
+      "Playground educativo interactivo para experimentar con parámetros de LLM: Temperature, Top-k, Top-p y penalización por repetición.",
+    type: "public",
+    url: "/ia/herramientas/parametros-decodificacion",
+    owner: "IA-Next",
+    version: "1.0.0",
+    status: "stable",
+    portal: "ia",
+    seo: {
+      title:
+        "Parámetros de Decodificación (LLM Tune) | Herramientas IA | AquatechIA",
+      description:
+        "Playground educativo interactivo para experimentar con parámetros de LLM: Temperature, Top-k, Top-p y penalización por repetición.",
+      keywords: [
+        "temperatura LLM",
+        "top-k sampling",
+        "top-p nucleus sampling",
+        "parámetros de decodificación",
+        "generación de texto",
+      ],
+    },
+  },
+  {
+    slug: "modelos-tendencia",
+    name: "Modelos de IA en Tendencia",
+    description:
+      "Explora los modelos de inteligencia artificial más populares de Hugging Face. Filtra por tendencia semanal o mensual y descubre los últimos avances en machine learning.",
+    type: "public",
+    url: "/ia/herramientas/modelos-tendencia",
+    owner: "IA-Next",
+    version: "1.0.0",
+    status: "stable",
+    portal: "ia",
+    seo: {
+      title: "Modelos de IA en Tendencia | Hugging Face Explorer | AquatechIA",
+      description:
+        "Descubre los modelos de inteligencia artificial más populares de Hugging Face con estadísticas en tiempo real.",
+      keywords: [
+        "modelos de IA",
+        "Hugging Face",
+        "trending models",
+        "machine learning",
+        "transformers",
+        "LLM",
+      ],
     },
   },
 ];

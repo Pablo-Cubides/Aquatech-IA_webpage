@@ -5,16 +5,19 @@ import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import type { GeoJSONFeature } from "../types";
 import { MAPBOX_CONFIG } from "../config/mapbox";
+import { getAQIColor } from "../lib/openaq";
 
 export interface MapComponentProps {
   data: GeoJSONFeature[];
   onPointClick?: (feature: GeoJSONFeature) => void;
   selectedParameters: string[];
+  colorByParameter?: boolean;
 }
 
 export default function MapComponent({
   data,
   onPointClick,
+  colorByParameter = false,
 }: MapComponentProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<maplibregl.Map | null>(null);
@@ -68,10 +71,27 @@ export default function MapComponent({
         const coords = Array.isArray(f.geometry.coordinates[0]) 
           ? (f.geometry.coordinates[0] as number[]).slice(0, 2) as [number, number]
           : f.geometry.coordinates.slice(0, 2) as [number, number];
+        
+        // Calculate color based on parameter value (for OpenAQ data)
+        let color = "#FF0000"; // Default red
+        if (colorByParameter && f.properties.source === 'openaq') {
+          const parameter = f.properties.parameter as string;
+          const value = f.properties.value as number;
+          if (parameter && value !== undefined) {
+            color = getAQIColor(parameter, value);
+          }
+        } else if (f.properties.source === 'openaq') {
+          // OpenAQ data without parameter coloring
+          color = "#3B82F6"; // Blue for OpenAQ
+        }
+        
         return {
           type: "Feature" as const,
           geometry: { type: "Point" as const, coordinates: coords },
-          properties: f.properties || {},
+          properties: { 
+            ...(f.properties || {}),
+            _markerColor: color 
+          },
         };
       }),
     };
@@ -89,16 +109,22 @@ export default function MapComponent({
     }
 
     if (!existingLayer) {
-      // Create layer if it doesn't exist
+      // Create layer if it doesn't exist with dynamic coloring
       map.current.addLayer({
         id: "points",
         type: "circle",
         source: "points",
         paint: {
-          "circle-radius": 8,
-          "circle-color": "#FF0000",
+          "circle-radius": [
+            "case",
+            ["==", ["get", "source"], "openaq"],
+            6, // Smaller for OpenAQ
+            8  // Default size
+          ],
+          "circle-color": ["get", "_markerColor"],
           "circle-stroke-color": "#FFFFFF",
           "circle-stroke-width": 2,
+          "circle-opacity": 0.9,
         },
       });
 
@@ -131,7 +157,7 @@ export default function MapComponent({
       );
       map.current.fitBounds(bounds, { padding: 50, maxZoom: 16 });
     }
-  }, [data, mapLoaded, onPointClick]);
+  }, [data, mapLoaded, onPointClick, colorByParameter]);
 
   return (
     <div

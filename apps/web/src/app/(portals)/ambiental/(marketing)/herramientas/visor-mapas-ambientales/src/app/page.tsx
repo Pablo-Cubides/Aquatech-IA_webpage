@@ -3,6 +3,15 @@
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import UploadWizard from "../components/UploadWizard";
+import SearchBar from "../components/SearchBar";
+import MapLegend from "../components/MapLegend";
+import ExportButtons from "../components/ExportButtons";
+import OpenAQLayerControl from "../components/OpenAQLayerControl";
+import EONETLayerControl from "../components/EONETLayerControl";
+import GBIFLayerControl, { type GBIFFilters } from "@/components/GBIFLayerControl";
+import WQPLayerControl, { type WQPFilters } from "@/components/WQPLayerControl";
+import RangeFilter from "../components/RangeFilter";
+import ErrorBoundary from "../components/ErrorBoundary";
 import type {
   DatasetMetadata,
   GeoJSONFeature,
@@ -10,13 +19,19 @@ import type {
   User,
 } from "../types";
 import { logger } from "@/lib/logger";
+import { getAQIColor, getAQICategory } from "../lib/openaq";
+import { searchOccurrences, getTaxonColor, formatOccurrence } from "@/lib/gbif";
+import { searchStations, getSiteTypeColor, formatStation, createBBox } from "@/lib/wqp";
 
 // Dynamically import MapComponent to avoid SSR issues
 const MapComponent = dynamic(() => import("../components/MapComponent"), {
   ssr: false,
   loading: () => (
     <div className="flex items-center justify-center w-full h-full bg-gray-100">
-      Cargando mapa...
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
+        <p className="text-gray-600">Cargando mapa...</p>
+      </div>
     </div>
   ),
 });
@@ -33,10 +48,31 @@ export default function HomePage() {
   const [selectedFeature, setSelectedFeature] = useState<GeoJSONFeature | null>(
     null,
   );
+  const [mapCenter, setMapCenter] = useState<[number, number]>([
+    -74.0721, 4.711,
+  ]);
   const [showUploadWizard, setShowUploadWizard] = useState(false);
   const [filters, setFilters] = useState<FilterState>({
     parameters: [],
   });
+  const [openAQData, setOpenAQData] = useState<GeoJSONFeature[]>([]);
+  const [showOpenAQLayer, setShowOpenAQLayer] = useState(false);
+  const [eonetData, setEonetData] = useState<GeoJSONFeature[]>([]);
+  const [showEONETLayer, setShowEONETLayer] = useState(false);
+  const [gbifData, setGbifData] = useState<GeoJSONFeature[]>([]);
+  const [showGBIFLayer, setShowGBIFLayer] = useState(false);
+  const [gbifFilters, setGbifFilters] = useState<GBIFFilters>({});
+  const [wqpData, setWqpData] = useState<GeoJSONFeature[]>([]);
+  const [showWQPLayer, setShowWQPLayer] = useState(false);
+  const [wqpFilters, setWqpFilters] = useState<WQPFilters>({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isDetailsPanelCollapsed, setIsDetailsPanelCollapsed] = useState(false);
+  const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
+  const [isMobileDetailsOpen, setIsMobileDetailsOpen] = useState(false);
+  const [parameterRanges, setParameterRanges] = useState<Record<string, { min: number; max: number }>>({});
+  const [activeRangeFilters, setActiveRangeFilters] = useState<Record<string, { min: number; max: number }>>({});
 
   // Mock login for development
   useEffect(() => {
@@ -294,7 +330,7 @@ export default function HomePage() {
     }
   }, [selectedDataset, selectedDate]);
 
-  // Apply parameter filters
+  // Apply parameter filters and range filters
   useEffect(() => {
     if (filters.parameters.length === 0) {
       // No parameters selected - show NO points
@@ -304,12 +340,25 @@ export default function HomePage() {
       setCurrentData([]);
     } else {
       // Filter data to show points that have AT LEAST ONE of the selected parameters
-      const filtered = unfilteredData.filter((feature) => {
+      let filtered = unfilteredData.filter((feature) => {
         return filters.parameters.some((param: string) => {
           const value = feature.properties[param];
           return value !== null && value !== undefined;
         });
       });
+
+      // Apply range filters
+      filtered = filtered.filter((feature) => {
+        return Object.keys(activeRangeFilters).every((param) => {
+          const value = feature.properties[param];
+          if (value === null || value === undefined) return true;
+          const numValue = typeof value === "number" ? value : parseFloat(String(value));
+          if (isNaN(numValue)) return true;
+          const range = activeRangeFilters[param];
+          return numValue >= range.min && numValue <= range.max;
+        });
+      });
+
       console.log(
         "[PAGE] Showing points with parameters:",
         filters.parameters.join(", "),
@@ -321,7 +370,152 @@ export default function HomePage() {
       );
       setCurrentData(filtered);
     }
-  }, [unfilteredData, filters.parameters]);
+  }, [unfilteredData, filters.parameters, activeRangeFilters]);
+
+  // Calculate parameter ranges when dataset or date changes
+  useEffect(() => {
+    if (unfilteredData.length === 0 || !selectedDataset) {
+      setParameterRanges({});
+      setActiveRangeFilters({});
+      return;
+    }
+
+    const ranges: Record<string, { min: number; max: number }> = {};
+
+    selectedDataset.parameters.forEach((param: string) => {
+      const values = unfilteredData
+        .map((f) => f.properties[param])
+        .filter((v) => v !== null && v !== undefined)
+        .map((v) => (typeof v === "number" ? v : parseFloat(String(v))))
+        .filter((v) => !isNaN(v));
+
+      if (values.length > 0) {
+        ranges[param] = {
+          min: Math.min(...values),
+          max: Math.max(...values),
+        };
+      }
+    });
+
+    setParameterRanges(ranges);
+    setActiveRangeFilters(ranges);
+  }, [unfilteredData, selectedDataset]);
+
+  // Load GBIF data when layer is enabled
+  useEffect(() => {
+    if (!showGBIFLayer) {
+      setGbifData([]);
+      return;
+    }
+
+    const loadGBIFData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const result = await searchOccurrences({
+          taxonKey: gbifFilters.taxonKey,
+          basisOfRecord: gbifFilters.basisOfRecord,
+          year: gbifFilters.year,
+          limit: 300,
+        });
+
+        // Convert GBIF occurrences to GeoJSON features
+        const features: GeoJSONFeature[] = result.results.map((occurrence) => ({
+          type: "Feature",
+          geometry: {
+            type: "Point",
+            coordinates: [occurrence.decimalLongitude, occurrence.decimalLatitude],
+          },
+          properties: {
+            id: occurrence.key.toString(),
+            _layerType: "gbif",
+            scientificName: occurrence.scientificName,
+            kingdom: occurrence.kingdom,
+            phylum: occurrence.phylum,
+            class: occurrence.class,
+            order: occurrence.order,
+            family: occurrence.family,
+            genus: occurrence.genus,
+            species: occurrence.species,
+            basisOfRecord: occurrence.basisOfRecord,
+            eventDate: occurrence.eventDate,
+            year: occurrence.year,
+            country: occurrence.country,
+            _color: getTaxonColor(occurrence.kingdomKey),
+          },
+        }));
+
+        setGbifData(features);
+        logger.info(`Loaded ${features.length} GBIF occurrences`);
+      } catch (err) {
+        const errorMsg = err instanceof Error ? err.message : "Error loading GBIF data";
+        setError(errorMsg);
+        logger.error("Failed to load GBIF data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadGBIFData();
+  }, [showGBIFLayer, gbifFilters]);
+
+  // Load WQP data when layer is enabled
+  useEffect(() => {
+    if (!showWQPLayer) {
+      setWqpData([]);
+      return;
+    }
+
+    const loadWQPData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Use a default bounding box (can be updated based on map bounds)
+        // This example covers USA
+        const result = await searchStations({
+          countrycode: "US",
+          characteristicName: wqpFilters.characteristicName,
+          characteristicType: wqpFilters.characteristicType,
+          siteType: wqpFilters.siteType,
+          startDateLo: wqpFilters.startDateLo,
+          providers: ["NWIS", "STORET"],
+        });
+
+        // Convert WQP stations to GeoJSON features
+        const features: GeoJSONFeature[] = result.stations.map((station) => ({
+          type: "Feature",
+          geometry: {
+            type: "Point",
+            coordinates: [station.LongitudeMeasure, station.LatitudeMeasure],
+          },
+          properties: {
+            id: station.MonitoringLocationIdentifier,
+            _layerType: "wqp",
+            stationName: station.MonitoringLocationName || station.MonitoringLocationIdentifier,
+            siteType: station.MonitoringLocationTypeName,
+            organization: station.OrganizationFormalName,
+            provider: station.ProviderName,
+            description: station.MonitoringLocationDescriptionText,
+            country: station.CountryCode,
+            _color: getSiteTypeColor(station.MonitoringLocationTypeName),
+          },
+        }));
+
+        setWqpData(features);
+        logger.info(`Loaded ${features.length} WQP stations`);
+      } catch (err) {
+        const errorMsg = err instanceof Error ? err.message : "Error loading WQP data";
+        setError(errorMsg);
+        logger.error("Failed to load WQP data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadWQPData();
+  }, [showWQPLayer, wqpFilters]);
 
   const handleLogin = (email: string) => {
     // Mock login - password validation would happen server-side
@@ -424,7 +618,7 @@ export default function HomePage() {
   }
 
   return (
-    <>
+    <ErrorBoundary>
       {/* Skip Link for Accessibility */}
       <a
         href="#main-content"
@@ -441,15 +635,36 @@ export default function HomePage() {
         >
           <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div className="flex items-center justify-between py-4">
-              <div className="flex items-center space-x-3">
+              {/* Mobile Menu Button */}
+              <button
+                onClick={() => setIsMobileFiltersOpen(!isMobileFiltersOpen)}
+                className="lg:hidden p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+                aria-label="Abrir filtros"
+              >
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
+              </button>
+
+              <div className="flex items-center space-x-3 flex-1 lg:flex-initial">
                 {/* Logo */}
                 <img
                   src="\images\Portal ambiental\Herramientas\GeoVisor.png"
-                  alt="Gesovisor"
-                  className="object-contain w-auto h-40"
+                  alt="Geovisor"
+                  className="object-contain w-auto h-20 sm:h-32 lg:h-40 hidden sm:block"
                 />
                 <select
-                  className="w-64 input-field"
+                  className="w-full sm:w-64 input-field text-sm sm:text-base"
                   value={selectedDataset?.id || ""}
                   onChange={(e) => {
                     const dataset = datasets.find(
@@ -472,19 +687,52 @@ export default function HomePage() {
                   el mapa
                 </span>
               </div>
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2 sm:space-x-4">
+                {/* Search Bar - Hidden on mobile */}
+                {(currentData.length > 0 || openAQData.length > 0 || eonetData.length > 0) && (
+                  <div className="hidden md:block">
+                    <SearchBar
+                      data={[...currentData, ...openAQData, ...eonetData]}
+                      onResultSelect={(feature) => {
+                        setSelectedFeature(feature);
+                        setMapCenter([
+                          feature.geometry.coordinates[0],
+                          feature.geometry.coordinates[1],
+                      ]);
+                    }}
+                  />
+                    />
+                  </div>
+                )}
+                
+                {/* Export Buttons - Hidden on mobile */}
+                {(currentData.length > 0 || openAQData.length > 0 || eonetData.length > 0) && (
+                  <div className="hidden sm:block">
+                    <ExportButtons
+                      data={[...currentData, ...openAQData, ...eonetData]}
+                      datasetName={
+                        showEONETLayer
+                          ? "NASA-EONET"
+                          : showOpenAQLayer
+                          ? "OpenAQ"
+                          : selectedDataset?.name || "datos"
+                      }
+                    />
+                  </div>
+                )}
+                
                 <a
                   href="/guia"
-                  className="flex items-center btn-secondary"
+                  className="hidden sm:flex items-center btn-secondary text-sm"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Abrir guía de uso en nueva pestaña"
                 >
-                  📖 Guía de uso
+                  📖 <span className="hidden lg:inline ml-1">Guía de uso</span>
                 </a>
                 {(user.role === "admin" || user.role === "uploader") && (
                   <button
-                    className="btn-primary"
+                    className="btn-primary text-sm"
                     onClick={() => setShowUploadWizard(true)}
                     aria-label="Abrir asistente para subir nuevos datos ambientales"
                   >
@@ -525,14 +773,76 @@ export default function HomePage() {
         </header>
 
         {/* Main content */}
-        <div className="flex flex-1">
-          {/* Filters panel */}
-          <aside className="p-6 overflow-y-auto bg-white border-r border-gray-200 w-80">
+        <div className="flex flex-1 relative overflow-hidden">
+          {/* Filters panel - Desktop sidebar / Mobile drawer */}
+          <aside
+            className={`
+              fixed lg:relative inset-y-0 left-0 z-30
+              transform lg:transform-none transition-transform duration-300 ease-in-out
+              ${isMobileFiltersOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
+              w-80 p-6 overflow-y-auto bg-white border-r border-gray-200
+              lg:block
+            `}
+          >
+            {/* Mobile close button */}
+            <button
+              onClick={() => setIsMobileFiltersOpen(false)}
+              className="lg:hidden absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 rounded-lg"
+              aria-label="Cerrar filtros"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+
             <h2 className="mb-4 text-lg font-semibold text-gray-900">
               Filtros
             </h2>
 
             <div className="space-y-4">
+              {/* OpenAQ Layer Control */}
+              <OpenAQLayerControl
+                enabled={showOpenAQLayer}
+                onToggle={(enabled) => setShowOpenAQLayer(enabled)}
+                onDataLoad={(data) => setOpenAQData(data)}
+                onLoadingChange={(isLoading) => setLoading(isLoading)}
+                onError={(err) => setError(err)}
+              />
+
+              {/* NASA EONET Layer Control */}
+              <EONETLayerControl
+                enabled={showEONETLayer}
+                onToggle={(enabled) => setShowEONETLayer(enabled)}
+                onDataLoad={(data) => setEonetData(data)}
+                onLoadingChange={(isLoading) => setLoading(isLoading)}
+                onError={(err) => setError(err)}
+              />
+
+              {/* GBIF Biodiversity Layer Control */}
+              <GBIFLayerControl
+                onToggle={setShowGBIFLayer}
+                onFiltersChange={setGbifFilters}
+                occurrenceCount={gbifData.length}
+              />
+
+              {/* WQP Water Quality Layer Control */}
+              <WQPLayerControl
+                onToggle={setShowWQPLayer}
+                onFiltersChange={setWqpFilters}
+                stationCount={wqpData.length}
+              />
+
+              <hr className="my-4" />
               <div>
                 <label className="block mb-1 text-sm font-medium text-gray-700">
                   País
@@ -627,21 +937,171 @@ export default function HomePage() {
                       ))}
                     </div>
                   </div>
+
+                  {/* Range Filters */}
+                  {filters.parameters.length > 0 && (
+                    <>
+                      <hr className="my-4" />
+                      <div>
+                        <h3 className="mb-3 text-sm font-medium text-gray-700">
+                          Filtros de Rango
+                        </h3>
+                        <div className="space-y-4">
+                          {filters.parameters.map((param: string) => {
+                            const range = parameterRanges[param];
+                            if (!range) return null;
+
+                            const activeRange = activeRangeFilters[param] || range;
+
+                            return (
+                              <RangeFilter
+                                key={param}
+                                label={param}
+                                min={range.min}
+                                max={range.max}
+                                currentMin={activeRange.min}
+                                currentMax={activeRange.max}
+                                unit={selectedDataset?.units[param] || ""}
+                                onChange={(min, max) => {
+                                  setActiveRangeFilters({
+                                    ...activeRangeFilters,
+                                    [param]: { min, max },
+                                  });
+                                }}
+                              />
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </>
               )}
             </div>
           </aside>
 
+          {/* Mobile overlay */}
+          {isMobileFiltersOpen && (
+            <div
+              className="fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden"
+              onClick={() => setIsMobileFiltersOpen(false)}
+            />
+          )}
+
           {/* Map container */}
           <div className="relative flex-1">
             <MapComponent
-              data={currentData}
-              onPointClick={(feature) => setSelectedFeature(feature)}
+              data={[...currentData, ...openAQData, ...eonetData, ...gbifData, ...wqpData]}
+              onPointClick={(feature) => {
+                setSelectedFeature(feature);
+                setIsMobileDetailsOpen(true);
+              }}
               selectedParameters={filters.parameters}
+              colorByParameter={showOpenAQLayer || showEONETLayer || showGBIFLayer || showWQPLayer}
+              center={mapCenter}
             />
 
+            {/* Map Legend - OpenAQ */}
+            {showOpenAQLayer && openAQData.length > 0 && (
+              <div className="absolute z-10 bottom-4 left-4">
+                <MapLegend
+                  items={[
+                    {
+                      color: "#22c55e",
+                      label: "Bueno",
+                      range: "0-50",
+                    },
+                    {
+                      color: "#eab308",
+                      label: "Moderado",
+                      range: "51-100",
+                    },
+                    {
+                      color: "#f97316",
+                      label: "Insalubre (sensibles)",
+                      range: "101-150",
+                    },
+                    {
+                      color: "#ef4444",
+                      label: "Insalubre",
+                      range: "151-200",
+                    },
+                    {
+                      color: "#a855f7",
+                      label: "Muy insalubre",
+                      range: "201-300",
+                    },
+                    {
+                      color: "#7f1d1d",
+                      label: "Peligroso",
+                      range: "300+",
+                    },
+                  ]}
+                  title="Calidad del Aire"
+                  parameter="OpenAQ"
+                  units="AQI"
+                />
+              </div>
+            )}
+
+            {/* Map Legend - NASA EONET */}
+            {showEONETLayer && eonetData.length > 0 && (
+              <div className="absolute z-10 bottom-4 left-4">
+                <MapLegend
+                  items={[
+                    { color: "#ff4500", label: "Incendios", range: "" },
+                    { color: "#dc143c", label: "Volcanes", range: "" },
+                    { color: "#4169e1", label: "Tormentas", range: "" },
+                    { color: "#1e90ff", label: "Inundaciones", range: "" },
+                    { color: "#daa520", label: "Sequías", range: "" },
+                    { color: "#8b4513", label: "Terremotos", range: "" },
+                  ]}
+                  title="Eventos Naturales"
+                  parameter="NASA EONET"
+                  units=""
+                />
+              </div>
+            )}
+
+            {/* Map Legend - GBIF */}
+            {showGBIFLayer && gbifData.length > 0 && (
+              <div className="absolute z-10 bottom-4 left-4">
+                <MapLegend
+                  items={[
+                    { color: "#4A90E2", label: "Aves", range: "" },
+                    { color: "#E67E22", label: "Mamíferos", range: "" },
+                    { color: "#3498DB", label: "Peces", range: "" },
+                    { color: "#9B59B6", label: "Insectos", range: "" },
+                    { color: "#27AE60", label: "Plantas", range: "" },
+                    { color: "#16A085", label: "Reptiles", range: "" },
+                  ]}
+                  title="Biodiversidad"
+                  parameter="GBIF"
+                  units=""
+                />
+              </div>
+            )}
+
+            {/* Map Legend - WQP */}
+            {showWQPLayer && wqpData.length > 0 && (
+              <div className="absolute z-10 bottom-4 left-4">
+                <MapLegend
+                  items={[
+                    { color: "#3498db", label: "Río/Arroyo", range: "" },
+                    { color: "#2ecc71", label: "Lago/Embalse", range: "" },
+                    { color: "#9b59b6", label: "Pozo", range: "" },
+                    { color: "#1abc9c", label: "Estuario/Océano", range: "" },
+                    { color: "#27ae60", label: "Humedal", range: "" },
+                  ]}
+                  title="Calidad del Agua"
+                  parameter="WQP (USGS/EPA)"
+                  units=""
+                />
+              </div>
+            )}
+
             {/* Overlay message when no dataset is selected */}
-            {!selectedDataset && (
+            {!selectedDataset && !showOpenAQLayer && !showEONETLayer && !showGBIFLayer && !showWQPLayer && (
               <div className="absolute inset-0 flex items-center justify-center bg-black pointer-events-none bg-opacity-30">
                 <div className="p-6 text-center bg-white rounded-lg shadow-lg">
                   <div className="mb-2 text-4xl text-gray-300">📊</div>
@@ -671,8 +1131,45 @@ export default function HomePage() {
             )}
           </div>
 
-          {/* Details panel */}
-          <aside className="p-6 overflow-y-auto bg-white border-l border-gray-200 w-80">
+          {/* Details panel - Desktop sidebar / Mobile bottom sheet */}
+          <aside
+            className={`
+              fixed lg:relative bottom-0 left-0 right-0 lg:inset-auto z-30
+              transform lg:transform-none transition-transform duration-300 ease-in-out
+              ${isMobileDetailsOpen && selectedFeature ? "translate-y-0" : "translate-y-full lg:translate-y-0"}
+              max-h-[50vh] lg:max-h-full lg:h-auto
+              p-6 overflow-y-auto bg-white border-t lg:border-t-0 lg:border-l border-gray-200
+              w-full lg:w-80
+              rounded-t-2xl lg:rounded-none
+              shadow-2xl lg:shadow-none
+            `}
+          >
+            {/* Mobile drag handle */}
+            <div className="lg:hidden flex justify-center mb-2">
+              <div className="w-12 h-1.5 bg-gray-300 rounded-full"></div>
+            </div>
+
+            {/* Mobile close button */}
+            <button
+              onClick={() => setIsMobileDetailsOpen(false)}
+              className="lg:hidden absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 rounded-lg"
+              aria-label="Cerrar detalles"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+
             <h2 className="mb-4 text-lg font-semibold text-gray-900">
               Detalles del punto
             </h2>
@@ -707,26 +1204,151 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div>
-                  <h3 className="font-medium text-gray-900">Parámetros</h3>
-                  <div className="mt-2 space-y-2">
-                    {selectedDataset?.parameters.map((param: string) => {
-                      const value = selectedFeature.properties[param];
-                      const unit = selectedDataset.units[param] || "";
-                      return (
-                        <div
-                          key={param}
-                          className="flex justify-between text-sm"
+                {/* Parameters or Event Details */}
+                {selectedFeature.properties._eventType === "eonet" ? (
+                  <div>
+                    <h3 className="font-medium text-gray-900">
+                      Evento Natural
+                    </h3>
+                    <div className="mt-2 space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span className="font-medium">Categoría:</span>
+                        <span>{selectedFeature.properties.categoria}</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="font-medium">Estado:</span>
+                        <span
+                          className={
+                            selectedFeature.properties.estado === "Activo"
+                              ? "text-red-600 font-semibold"
+                              : "text-gray-600"
+                          }
                         >
-                          <span className="font-medium">{param}:</span>
-                          <span>
-                            {value !== undefined ? `${value} ${unit}` : "N/A"}
-                          </span>
+                          {selectedFeature.properties.estado}
+                        </span>
+                      </div>
+                      {selectedFeature.properties.descripcion && (
+                        <div className="text-sm">
+                          <span className="font-medium">Descripción:</span>
+                          <p className="mt-1 text-gray-600">
+                            {selectedFeature.properties.descripcion}
+                          </p>
                         </div>
-                      );
-                    })}
+                      )}
+                      {selectedFeature.properties.link && (
+                        <a
+                          href={String(selectedFeature.properties.link)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm text-primary-600 hover:text-primary-700 underline block mt-2"
+                        >
+                          🔗 Ver más información
+                        </a>
+                      )}
+                    </div>
                   </div>
-                </div>
+                ) : selectedFeature.properties._layerType === "gbif" ? (
+                  <div>
+                    <h3 className="font-medium text-gray-900">
+                      Biodiversidad (GBIF)
+                    </h3>
+                    <div className="mt-2 space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span className="font-medium">Especie:</span>
+                        <span className="italic">{selectedFeature.properties.scientificName}</span>
+                      </div>
+                      {selectedFeature.properties.kingdom && (
+                        <div className="flex justify-between text-sm">
+                          <span className="font-medium">Reino:</span>
+                          <span>{selectedFeature.properties.kingdom}</span>
+                        </div>
+                      )}
+                      {selectedFeature.properties.family && (
+                        <div className="flex justify-between text-sm">
+                          <span className="font-medium">Familia:</span>
+                          <span>{selectedFeature.properties.family}</span>
+                        </div>
+                      )}
+                      {selectedFeature.properties.basisOfRecord && (
+                        <div className="flex justify-between text-sm">
+                          <span className="font-medium">Tipo:</span>
+                          <span>{selectedFeature.properties.basisOfRecord}</span>
+                        </div>
+                      )}
+                      {selectedFeature.properties.eventDate && (
+                        <div className="flex justify-between text-sm">
+                          <span className="font-medium">Fecha:</span>
+                          <span>{selectedFeature.properties.eventDate}</span>
+                        </div>
+                      )}
+                      {selectedFeature.properties.country && (
+                        <div className="flex justify-between text-sm">
+                          <span className="font-medium">País:</span>
+                          <span>{selectedFeature.properties.country}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ) : selectedFeature.properties._layerType === "wqp" ? (
+                  <div>
+                    <h3 className="font-medium text-gray-900">
+                      Estación de Calidad del Agua
+                    </h3>
+                    <div className="mt-2 space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span className="font-medium">Estación:</span>
+                        <span>{selectedFeature.properties.stationName}</span>
+                      </div>
+                      {selectedFeature.properties.siteType && (
+                        <div className="flex justify-between text-sm">
+                          <span className="font-medium">Tipo:</span>
+                          <span>{selectedFeature.properties.siteType}</span>
+                        </div>
+                      )}
+                      {selectedFeature.properties.organization && (
+                        <div className="flex justify-between text-sm">
+                          <span className="font-medium">Organización:</span>
+                          <span className="text-xs">{selectedFeature.properties.organization}</span>
+                        </div>
+                      )}
+                      {selectedFeature.properties.provider && (
+                        <div className="flex justify-between text-sm">
+                          <span className="font-medium">Fuente:</span>
+                          <span>{selectedFeature.properties.provider}</span>
+                        </div>
+                      )}
+                      {selectedFeature.properties.description && (
+                        <div className="text-sm">
+                          <span className="font-medium">Descripción:</span>
+                          <p className="mt-1 text-gray-600 text-xs">
+                            {selectedFeature.properties.description}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <h3 className="font-medium text-gray-900">Parámetros</h3>
+                    <div className="mt-2 space-y-2">
+                      {selectedDataset?.parameters.map((param: string) => {
+                        const value = selectedFeature.properties[param];
+                        const unit = selectedDataset.units[param] || "";
+                        return (
+                          <div
+                            key={param}
+                            className="flex justify-between text-sm"
+                          >
+                            <span className="font-medium">{param}:</span>
+                            <span>
+                              {value !== undefined ? `${value} ${unit}` : "N/A"}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="text-sm text-gray-500">
@@ -734,6 +1356,14 @@ export default function HomePage() {
               </div>
             )}
           </aside>
+
+          {/* Mobile details overlay */}
+          {isMobileDetailsOpen && selectedFeature && (
+            <div
+              className="fixed inset-0 bg-black bg-opacity-30 z-20 lg:hidden"
+              onClick={() => setIsMobileDetailsOpen(false)}
+            />
+          )}
         </div>
       </main>
 
@@ -744,6 +1374,6 @@ export default function HomePage() {
           onCancel={() => setShowUploadWizard(false)}
         />
       )}
-    </>
+    </ErrorBoundary>
   );
 }
