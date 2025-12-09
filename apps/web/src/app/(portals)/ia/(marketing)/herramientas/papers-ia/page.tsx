@@ -1,0 +1,444 @@
+'use client';
+
+import React, { useState, useEffect, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  Search, 
+  BookOpen, 
+  Calendar, 
+  Filter, 
+  ExternalLink,
+  FileText,
+  ChevronLeft,
+  ChevronRight,
+  Loader2,
+  X,
+  Users
+} from 'lucide-react';
+import { 
+  ArxivPaper, 
+  ArxivApiResponse, 
+  BLOG_CATEGORY_NAMES,
+  ARXIV_CATEGORY_NAMES
+} from './types/arxiv';
+
+const ITEMS_PER_PAGE = 20;
+
+export default function PapersIAPage() {
+  const [papers, setPapers] = useState<ArxivPaper[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalResults, setTotalResults] = useState(0);
+  const [selectedPaper, setSelectedPaper] = useState<ArxivPaper | null>(null);
+  const [sortBy, setSortBy] = useState<'submittedDate' | 'relevance'>('submittedDate');
+
+  const fetchPapers = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const params = new URLSearchParams();
+      if (selectedCategory) params.set('category', selectedCategory);
+      if (searchQuery) params.set('search', searchQuery);
+      params.set('limit', String(ITEMS_PER_PAGE));
+      params.set('start', String(currentPage * ITEMS_PER_PAGE));
+      params.set('sortBy', sortBy);
+      
+      const response = await fetch(`/api/arxiv-papers?${params.toString()}`);
+      
+      if (!response.ok) {
+        throw new Error('Error al cargar los papers');
+      }
+      
+      const data: ArxivApiResponse = await response.json();
+      setPapers(data.papers);
+      setTotalResults(data.totalResults);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error desconocido');
+    } finally {
+      setLoading(false);
+    }
+  }, [selectedCategory, searchQuery, currentPage, sortBy]);
+
+  useEffect(() => {
+    fetchPapers();
+  }, [fetchPapers]);
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    setCurrentPage(0);
+    fetchPapers();
+  };
+
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
+    setCurrentPage(0);
+  };
+
+  const totalPages = Math.ceil(totalResults / ITEMS_PER_PAGE);
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+  };
+
+  const truncateText = (text: string, maxLength: number) => {
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength) + '...';
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-900 to-black text-white">
+      {/* Header */}
+      <header className="relative overflow-hidden py-16 px-4">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-pink-600/20" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.15),transparent_50%)]" />
+        
+        <div className="relative max-w-7xl mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex items-center justify-center gap-3 mb-4"
+          >
+            <BookOpen className="w-10 h-10 text-blue-400" />
+            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+              Papers de IA
+            </h1>
+          </motion.div>
+          
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-lg text-gray-300 max-w-2xl mx-auto"
+          >
+            Explora los artículos científicos más recientes sobre inteligencia artificial desde ArXiv
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="flex justify-center gap-8 mt-6 text-sm text-gray-400"
+          >
+            <div className="flex items-center gap-2">
+              <FileText className="w-4 h-4 text-blue-400" />
+              <span>{totalResults.toLocaleString()} papers encontrados</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-purple-400" />
+              <span>Actualizado cada 2 horas</span>
+            </div>
+          </motion.div>
+        </div>
+      </header>
+
+      {/* Search and Filters */}
+      <div className="max-w-7xl mx-auto px-4 py-6">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {/* Search Bar */}
+          <form onSubmit={handleSearch} className="lg:col-span-2">
+            <div className="relative">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Buscar por título, autor o tema..."
+                className="w-full pl-12 pr-4 py-3 bg-gray-800/50 border border-gray-700 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearchQuery('');
+                    setCurrentPage(0);
+                  }}
+                  className="absolute right-12 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-700 rounded-full transition-colors"
+                >
+                  <X className="w-4 h-4 text-gray-400" />
+                </button>
+              )}
+              <button
+                type="submit"
+                className="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-1.5 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium transition-colors"
+              >
+                Buscar
+              </button>
+            </div>
+          </form>
+
+          {/* Sort By */}
+          <div className="flex items-center gap-2">
+            <Filter className="w-5 h-5 text-gray-400" />
+            <select
+              value={sortBy}
+              onChange={(e) => {
+                setSortBy(e.target.value as 'submittedDate' | 'relevance');
+                setCurrentPage(0);
+              }}
+              className="flex-1 px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+            >
+              <option value="submittedDate">Más recientes</option>
+              <option value="relevance">Relevancia</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Category Tabs */}
+        <div className="flex flex-wrap gap-2 mt-6">
+          <button
+            onClick={() => handleCategoryChange('')}
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+              selectedCategory === ''
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+            }`}
+          >
+            Todos
+          </button>
+          {Object.entries(BLOG_CATEGORY_NAMES).map(([slug, name]) => (
+            <button
+              key={slug}
+              onClick={() => handleCategoryChange(slug)}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                selectedCategory === slug
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+              }`}
+            >
+              {name}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Papers Grid */}
+      <div className="max-w-7xl mx-auto px-4 pb-12">
+        {loading ? (
+          <div className="flex items-center justify-center py-20">
+            <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+            <span className="ml-3 text-gray-400">Cargando papers...</span>
+          </div>
+        ) : error ? (
+          <div className="text-center py-20">
+            <p className="text-red-400 mb-4">{error}</p>
+            <button
+              onClick={fetchPapers}
+              className="px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
+            >
+              Reintentar
+            </button>
+          </div>
+        ) : papers.length === 0 ? (
+          <div className="text-center py-20 text-gray-400">
+            <BookOpen className="w-16 h-16 mx-auto mb-4 opacity-50" />
+            <p>No se encontraron papers para esta búsqueda</p>
+          </div>
+        ) : (
+          <>
+            <div className="grid gap-4 md:grid-cols-2">
+              {papers.map((paper, index) => (
+                <motion.article
+                  key={paper.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                  onClick={() => setSelectedPaper(paper)}
+                  className="group p-6 bg-gray-800/40 backdrop-blur border border-gray-700/50 rounded-2xl hover:border-blue-500/50 hover:bg-gray-800/60 transition-all cursor-pointer"
+                >
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    {paper.categories.slice(0, 3).map((cat) => (
+                      <span
+                        key={cat}
+                        className="px-2 py-0.5 text-xs font-medium bg-blue-500/20 text-blue-300 rounded-full"
+                      >
+                        {ARXIV_CATEGORY_NAMES[cat] || cat}
+                      </span>
+                    ))}
+                  </div>
+
+                  <h2 className="text-lg font-semibold text-white mb-2 group-hover:text-blue-300 transition-colors line-clamp-2">
+                    {paper.title}
+                  </h2>
+
+                  <div className="flex items-center gap-2 text-sm text-gray-400 mb-3">
+                    <Users className="w-4 h-4" />
+                    <span className="truncate">
+                      {paper.authors.slice(0, 3).join(', ')}
+                      {paper.authors.length > 3 && ` et al.`}
+                    </span>
+                  </div>
+
+                  <p className="text-sm text-gray-400 mb-4 line-clamp-3">
+                    {truncateText(paper.abstract, 200)}
+                  </p>
+
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-gray-500 flex items-center gap-1">
+                      <Calendar className="w-3 h-3" />
+                      {formatDate(paper.published)}
+                    </span>
+                    <div className="flex gap-2">
+                      <a
+                        href={paper.pdfUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="p-2 bg-gray-700/50 hover:bg-red-600/20 hover:text-red-400 rounded-lg transition-colors"
+                        title="Ver PDF"
+                      >
+                        <FileText className="w-4 h-4" />
+                      </a>
+                      <a
+                        href={paper.arxivUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="p-2 bg-gray-700/50 hover:bg-blue-600/20 hover:text-blue-400 rounded-lg transition-colors"
+                        title="Ver en ArXiv"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                      </a>
+                    </div>
+                  </div>
+                </motion.article>
+              ))}
+            </div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="flex items-center justify-center gap-4 mt-8">
+                <button
+                  onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
+                  disabled={currentPage === 0}
+                  className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                  Anterior
+                </button>
+                <span className="text-gray-400">
+                  Página {currentPage + 1} de {totalPages}
+                </span>
+                <button
+                  onClick={() => setCurrentPage(Math.min(totalPages - 1, currentPage + 1))}
+                  disabled={currentPage >= totalPages - 1}
+                  className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors"
+                >
+                  Siguiente
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+
+      {/* Paper Modal */}
+      <AnimatePresence>
+        {selectedPaper && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedPaper(null)}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative max-w-3xl w-full max-h-[90vh] overflow-y-auto bg-gray-900 border border-gray-700 rounded-2xl p-6"
+            >
+              <button
+                onClick={() => setSelectedPaper(null)}
+                className="absolute top-4 right-4 p-2 hover:bg-gray-800 rounded-lg transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="flex flex-wrap gap-2 mb-4">
+                {selectedPaper.categories.map((cat) => (
+                  <span
+                    key={cat}
+                    className="px-3 py-1 text-sm font-medium bg-blue-500/20 text-blue-300 rounded-full"
+                  >
+                    {ARXIV_CATEGORY_NAMES[cat] || cat}
+                  </span>
+                ))}
+              </div>
+
+              <h2 className="text-2xl font-bold text-white mb-4">
+                {selectedPaper.title}
+              </h2>
+
+              <div className="mb-6">
+                <h3 className="text-sm font-medium text-gray-400 mb-2">Autores</h3>
+                <p className="text-gray-300">
+                  {selectedPaper.authors.join(', ')}
+                </p>
+              </div>
+
+              <div className="mb-6">
+                <h3 className="text-sm font-medium text-gray-400 mb-2">Abstract</h3>
+                <p className="text-gray-300 leading-relaxed">
+                  {selectedPaper.abstract}
+                </p>
+              </div>
+
+              <div className="flex items-center gap-4 text-sm text-gray-400 mb-6">
+                <span className="flex items-center gap-1">
+                  <Calendar className="w-4 h-4" />
+                  Publicado: {formatDate(selectedPaper.published)}
+                </span>
+                {selectedPaper.updated !== selectedPaper.published && (
+                  <span className="flex items-center gap-1">
+                    Actualizado: {formatDate(selectedPaper.updated)}
+                  </span>
+                )}
+              </div>
+
+              <div className="flex flex-wrap gap-3">
+                <a
+                  href={selectedPaper.pdfUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-700 rounded-xl font-medium transition-colors"
+                >
+                  <FileText className="w-5 h-5" />
+                  Ver PDF
+                </a>
+                <a
+                  href={selectedPaper.arxivUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-xl font-medium transition-colors"
+                >
+                  <ExternalLink className="w-5 h-5" />
+                  Ver en ArXiv
+                </a>
+                {selectedPaper.doi && (
+                  <a
+                    href={`https://doi.org/${selectedPaper.doi}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-xl font-medium transition-colors"
+                  >
+                    DOI
+                  </a>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
