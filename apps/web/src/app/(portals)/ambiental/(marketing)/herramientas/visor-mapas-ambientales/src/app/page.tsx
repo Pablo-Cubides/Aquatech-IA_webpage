@@ -48,9 +48,9 @@ export default function HomePage() {
   const [selectedFeature, setSelectedFeature] = useState<GeoJSONFeature | null>(
     null,
   );
-  // const [mapCenter, setMapCenter] = useState<[number, number]>([
-  //   -74.0721, 4.711,
-  // ]);
+  const [mapCenter, setMapCenter] = useState<[number, number]>([
+    -74.0721, 4.711,
+  ]);
   const [showUploadWizard, setShowUploadWizard] = useState(false);
   const [filters, setFilters] = useState<FilterState>({
     parameters: [],
@@ -65,8 +65,8 @@ export default function HomePage() {
   const [wqpData, setWqpData] = useState<GeoJSONFeature[]>([]);
   const [showWQPLayer, setShowWQPLayer] = useState(false);
   const [wqpFilters, setWqpFilters] = useState<WQPFilters>({});
-  // const [loading, setLoading] = useState(false);
-  // const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   // const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   // const [isDetailsPanelCollapsed, setIsDetailsPanelCollapsed] = useState(false);
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
