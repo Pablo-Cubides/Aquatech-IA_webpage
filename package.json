@@ -18,8 +18,7 @@
     "test:ui": "turbo run test:ui",
     "clean": "turbo clean && rm -rf node_modules",
     "postinstall": "turbo run postinstall --parallel",
-    "prepare": "husky install",
-    "convert:svg": "node scripts/convert-svg-professional.mjs"
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.9.1",

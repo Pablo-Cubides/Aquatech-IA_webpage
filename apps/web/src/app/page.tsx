@@ -68,8 +68,8 @@ export default function Home() {
     <div
       className={`${notoSans.variable} ${spaceGrotesk.variable} h-screen relative overflow-hidden`}
     >
-      {/* Fondo dividido con texturas */}
-      <div className="absolute inset-0 flex">
+      {/* Fondo dividido con texturas - oculto en móvil */}
+      <div className="absolute inset-0 hidden lg:flex">
         {/* Lado Negro (IA) */}
         <div className="w-1/2 bg-black relative overflow-hidden">
           {/* Textura grid */}
@@ -101,8 +101,15 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Línea divisoria vertical central con efecto glow */}
-      <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-gray-400 to-transparent transform -translate-x-1/2 z-10">
+      {/* Fondo móvil: gradiente unificado */}
+      <div className="absolute inset-0 lg:hidden bg-gradient-to-br from-black via-gray-900 to-white">
+        {/* Efectos de luz sutiles para móvil */}
+        <div className="absolute top-0 left-0 w-64 h-64 bg-cyan-500/10 rounded-full blur-2xl animate-pulse" />
+        <div className="absolute bottom-0 right-0 w-64 h-64 bg-green-500/10 rounded-full blur-2xl animate-pulse delay-500" />
+      </div>
+
+      {/* Línea divisoria vertical central con efecto glow - oculta en móvil */}
+      <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-gray-400 to-transparent transform -translate-x-1/2 z-10 hidden lg:block">
         <div className="absolute inset-0 w-2 -ml-[3px] bg-gradient-to-b from-transparent via-white/50 to-transparent blur-sm" />
       </div>
 
@@ -140,6 +147,7 @@ export default function Home() {
                 src="/images/technology-hero.jpg"
                 alt="Tecnología e Inteligencia Artificial"
                 fill
+                quality={85}
                 className="object-cover transition-transform duration-700 group-hover:scale-110"
                 priority
               />
@@ -190,8 +198,9 @@ export default function Home() {
             <div className="absolute inset-0">
               <Image
                 src="/images/mountains-hero.jpg"
-                alt="Gestión Ambiental y Sostenibilidad"
+                alt="Gestión Ambiental Sostenible"
                 fill
+                quality={85}
                 className="object-cover transition-transform duration-700 group-hover:scale-110"
                 priority
               />
