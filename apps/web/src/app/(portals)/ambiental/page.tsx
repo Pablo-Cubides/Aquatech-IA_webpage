@@ -48,7 +48,7 @@ export default function AmbientalPage() {
               <img
                 src="/images/Logo Aquatech - IA 512 - sin fondo.png"
                 alt="Aquatech Ambiental Logo"
-                className="h-64 w-auto object-contain drop-shadow-2xl"
+                className="h-32 w-auto sm:h-40 md:h-48 lg:h-64 object-contain drop-shadow-2xl"
               />
             </div>
 
@@ -128,6 +128,7 @@ export default function AmbientalPage() {
                     alt="Visor de mapas ambientales"
                     className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
                     src="/images/Portal ambiental/Herramientas/GeoVisor.png"
+                    loading="lazy"
                   />
                 </div>
                 <h3 className="mt-4 text-xl font-semibold">
@@ -151,6 +152,7 @@ export default function AmbientalPage() {
                     alt="Normas ambientales"
                     className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
                     src="/images/Portal ambiental/Herramientas/NormaGlobal.png"
+                    loading="lazy"
                   />
                 </div>
                 <h3 className="mt-4 text-xl font-semibold">
@@ -174,6 +176,7 @@ export default function AmbientalPage() {
                     alt="Generador de matrices de EIA"
                     className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
                     src="/images/Portal ambiental/Herramientas/MatrizIA.png"
+                    loading="lazy"
                   />
                 </div>
                 <h3 className="mt-4 text-xl font-semibold">

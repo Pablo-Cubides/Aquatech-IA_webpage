@@ -1,5 +1,8 @@
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export interface CaseData {
   id: string;
@@ -14,17 +17,15 @@ export interface CaseData {
 // dependencies on `public/static` so we always read cases bundled with
 // the `visor-difusion` app under `src/components/static/cases`.
 const STATIC_CASES_DIR = path.join(
-  process.cwd(),
-  "apps",
-  "web",
-  "src",
-  "app",
-  "(portals)",
-  "ia",
-  "(marketing)",
-  "herramientas",
-  "visor-difusion",
-  "src",
+  __dirname,
+  "..",
+  "..",
+  "..",
+  "..",
+  "..",
+  "..",
+  "..",
+  "..",
   "components",
   "static",
   "cases",

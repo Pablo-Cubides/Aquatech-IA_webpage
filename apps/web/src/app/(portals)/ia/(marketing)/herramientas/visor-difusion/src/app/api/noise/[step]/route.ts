@@ -1,21 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Use app-local noise images under the visor-difusion app only. Do not
 // rely on public/static. This keeps all app files self-contained.
 const STATIC_NOISE_DIR = path.join(
-  process.cwd(),
-  "apps",
-  "web",
-  "src",
-  "app",
-  "(portals)",
-  "ia",
-  "(marketing)",
-  "herramientas",
-  "visor-difusion",
-  "src",
+  __dirname,
+  "..",
+  "..",
+  "..",
+  "..",
+  "..",
+  "..",
+  "..",
+  "..",
   "components",
   "static",
   "noise",

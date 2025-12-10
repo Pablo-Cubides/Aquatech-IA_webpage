@@ -239,6 +239,61 @@ export const ambientalTools: Tool[] = [
       keywords: ["análisis de correlaciones", "estadística ambiental", "datos"],
     },
   },
+  {
+    slug: "indice-calidad-agua",
+    name: "Calculadora de Índices de Calidad de Agua",
+    description:
+      "Calcula índices de calidad de agua potable IRCA, WQI y DWQI a partir de datos de laboratorio.",
+    type: "public",
+    url: "/ambiental/herramientas/indice-calidad-agua",
+    owner: "IA-Next",
+    version: "1.0.0",
+    status: "stable",
+    portal: "ambiental",
+    seo: {
+      title: "Calculadora de Índices de Calidad de Agua | IRCA, WQI, DWQI",
+      description:
+        "Herramienta para calcular índices de calidad de agua potable: IRCA (Colombia), WQI (NSF) y DWQI. Análisis de laboratorio con exportación a CSV.",
+      keywords: [
+        "IRCA",
+        "WQI",
+        "DWQI",
+        "calidad de agua",
+        "agua potable",
+        "índices ambientales",
+        "resolución 2115",
+        "análisis de agua",
+      ],
+    },
+  },
+  {
+    slug: "indice-calidad-aire",
+    name: "Calculadora de Índices de Calidad del Aire",
+    description:
+      "Calcula índices AQI (EPA), ICA Colombia, IBOCA Bogotá, EAQI Europa e Índice OMS a partir de concentraciones de contaminantes.",
+    type: "public",
+    url: "/ambiental/herramientas/indice-calidad-aire",
+    owner: "IA-Next",
+    version: "1.0.0",
+    status: "stable",
+    portal: "ambiental",
+    seo: {
+      title: "Calculadora de Índices de Calidad del Aire | AQI, ICA, IBOCA",
+      description:
+        "Herramienta para calcular índices de calidad del aire: US AQI, ICA Colombia, IBOCA Bogotá, EAQI Europa e Índice OMS. Soporta PM2.5, PM10, O3, NO2, SO2 y CO.",
+      keywords: [
+        "AQI",
+        "calidad del aire",
+        "ICA Colombia",
+        "IBOCA",
+        "EAQI",
+        "índice OMS",
+        "PM2.5",
+        "contaminación atmosférica",
+        "Resolución 2254",
+      ],
+    },
+  },
 ];
 
 /**

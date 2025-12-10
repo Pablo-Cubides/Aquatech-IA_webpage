@@ -117,7 +117,7 @@ export default function Home() {
                 alt="Aquatech IA"
                 width={280}
                 height={280}
-                className="object-contain drop-shadow-2xl animate-in zoom-in duration-700"
+                className="object-contain drop-shadow-2xl animate-in zoom-in duration-700 w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-64 lg:h-64"
                 priority
               />
               {/* Glow effect alrededor del logo */}
@@ -132,7 +132,7 @@ export default function Home() {
           <Link
             href="/ia"
             aria-label="Ir al portal de Inteligencia Artificial"
-            className="group relative h-[320px] overflow-hidden rounded-2xl animate-in fade-in slide-in-from-left-8 duration-1000 delay-200"
+            className="group relative h-48 sm:h-64 md:h-80 lg:h-[320px] overflow-hidden rounded-2xl animate-in fade-in slide-in-from-left-8 duration-1000 delay-200"
           >
             {/* Imagen de fondo */}
             <div className="absolute inset-0">
@@ -184,7 +184,7 @@ export default function Home() {
           <Link
             href="/ambiental"
             aria-label="Ir al portal de Gestión Ambiental"
-            className="group relative h-[320px] overflow-hidden rounded-2xl animate-in fade-in slide-in-from-right-8 duration-1000 delay-200"
+            className="group relative h-48 sm:h-64 md:h-80 lg:h-[320px] overflow-hidden rounded-2xl animate-in fade-in slide-in-from-right-8 duration-1000 delay-200"
           >
             {/* Imagen de fondo */}
             <div className="absolute inset-0">

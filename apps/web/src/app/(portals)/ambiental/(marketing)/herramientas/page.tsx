@@ -406,6 +406,70 @@ export default function AmbientalHerramientasPage() {
                 </div>
               </div>
             </article>
+
+            {/* Herramienta 6: Índices de Calidad del Aire */}
+            <article className="bg-gradient-to-br from-blue-50 to-white border border-blue-200 transition-all duration-300 hover:-translate-y-2 hover:shadow-lg hover:shadow-blue-500/10 hover:border-[#0077B6]/30 backdrop-blur-sm rounded-2xl overflow-hidden">
+              <div className="grid lg:grid-cols-2 lg:gap-8 items-center">
+                <div className="h-64 lg:h-full min-h-[400px] overflow-hidden relative">
+                  <img
+                    alt="Calculadora de índices de calidad del aire AQI"
+                    className="w-full h-full object-cover tool-image"
+                    src="https://images.unsplash.com/photo-1530587191325-3db32d826c18?auto=format&fit=crop&w=1600&q=80"
+                  />
+                  <div className="absolute top-4 right-4">
+                    <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
+                      ✓ Disponible
+                    </span>
+                  </div>
+                </div>
+                <div className="p-8 md:p-12 lg:p-16 flex flex-col">
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    <span className="bg-gradient-to-br from-[rgba(0,119,182,0.15)] to-[rgba(16,185,129,0.15)] border border-[#0077B6]/20 text-[#0077B6] text-xs px-3 py-1 rounded-full font-medium backdrop-blur-sm">
+                      Aire
+                    </span>
+                    <span className="bg-gradient-to-br from-[rgba(0,119,182,0.15)] to-[rgba(16,185,129,0.15)] border border-[#0077B6]/20 text-[#0077B6] text-xs px-3 py-1 rounded-full font-medium backdrop-blur-sm">
+                      AQI
+                    </span>
+                    <span className="bg-gradient-to-br from-[rgba(0,119,182,0.15)] to-[rgba(16,185,129,0.15)] border border-[#0077B6]/20 text-[#0077B6] text-xs px-3 py-1 rounded-full font-medium backdrop-blur-sm">
+                      Índices
+                    </span>
+                  </div>
+                  <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black leading-tight">
+                    Calculadora de Calidad del Aire
+                  </h2>
+                  <p className="text-gray-600 mb-8 text-lg leading-relaxed">
+                    Calcula índices de calidad del aire internacionales (AQI, ICA,
+                    IBOCA, EAQI, OMS) a partir de concentraciones de contaminantes.
+                  </p>
+                  <ul className="space-y-4 mb-10 flex-grow">
+                    <ListItem>
+                      US AQI (EPA) e ICA Colombia (Res. 2254)
+                    </ListItem>
+                    <ListItem>IBOCA Bogotá (Res. 2840/2023)</ListItem>
+                    <ListItem>EAQI Europa e Índice OMS 2021</ListItem>
+                    <ListItem>PM₂.₅, PM₁₀, O₃, NO₂, SO₂, CO</ListItem>
+                  </ul>
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <Link
+                      href="/ambiental/herramientas/indice-calidad-aire"
+                      className="btn btn-primary focus-ring"
+                    >
+                      <PlayIcon />
+                      Abrir herramienta
+                    </Link>
+                    <Link
+                      href="https://github.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-secondary focus-ring"
+                    >
+                      <DocIcon />
+                      Documentación
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </article>
           </div>
 
           {/* Call to Action */}

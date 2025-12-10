@@ -47,7 +47,7 @@ export default function IAPage() {
               <img
                 src="/images/Logo Aquatech - IA 512 - sin fondo.png"
                 alt="Aquatech IA Logo"
-                className="h-64 w-auto object-contain drop-shadow-[0_0_30px_rgba(0,239,255,0.7)]"
+                className="h-32 w-auto sm:h-40 md:h-48 lg:h-64 object-contain drop-shadow-[0_0_30px_rgba(0,239,255,0.7)]"
               />
             </div>
 
@@ -127,6 +127,7 @@ export default function IAPage() {
                                   alt="Análisis de Agua con IA"
                                   className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
                                   src="/images/Portal IA/Herramientas/LLM Insight.png"
+                                  loading="lazy"
                                 />              </div>
               <h3 className="mt-4 text-xl font-bold text-white">
                 Cómo funciona un LLM
@@ -150,6 +151,7 @@ export default function IAPage() {
                                   alt="Visor de Difusión"
                                   className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
                                   src="/images/Portal IA/Herramientas/PixelGen.png"
+                                  loading="lazy"
                                 />              </div>
               <h3 className="mt-4 text-xl font-bold text-white">
                 Visor de difusión
@@ -173,6 +175,7 @@ export default function IAPage() {
                                   alt="Filtros de IA"
                                   className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
                                   src="/images/Portal IA/Herramientas/FiltrarIA.png"
+                                  loading="lazy"
                                 />              </div>
               <h3 className="mt-4 text-xl font-bold text-white">
                 Cómo la IA filtra las respuestas
