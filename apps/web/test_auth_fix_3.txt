@@ -1,0 +1,75 @@
+
+> @ia-next/web@0.0.1 test D:\Empresas\AquatechIA\webpage\apps\web
+> vitest run "src/components/auth/__tests__/AuthModal.test.tsx"
+
+
+[1m[46m RUN [49m[22m [36mv4.0.5 [39m[90mD:/Empresas/AquatechIA/webpage/apps/web[39m
+
+stderr | src/components/auth/__tests__/AuthModal.test.tsx > AuthModal > Authenticated state > should call signOut when button is clicked
+Not implemented: navigation to another Document
+
+stderr | src/components/auth/__tests__/AuthModal.test.tsx > AuthModal > Authenticated state > should close modal after successful sign-out
+Not implemented: navigation to another Document
+
+ [31m❯[39m src/components/auth/__tests__/AuthModal.test.tsx [2m([22m[2m34 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 1175[2mms[22m[39m
+       [32m✓[39m should not render when isOpen is false[32m 25[2mms[22m[39m
+       [32m✓[39m should render when isOpen is true[32m 114[2mms[22m[39m
+       [32m✓[39m should render with dark theme by default[32m 27[2mms[22m[39m
+       [32m✓[39m should render with light theme when specified[32m 26[2mms[22m[39m
+       [32m✓[39m should show "Iniciar Sesión" title[32m 25[2mms[22m[39m
+       [32m✓[39m should show Google sign-in button[32m 7[2mms[22m[39m
+       [32m✓[39m should show description text[32m 5[2mms[22m[39m
+       [32m✓[39m should call signIn when Google button is clicked[32m 72[2mms[22m[39m
+       [32m✓[39m should show loading state during sign-in[32m 67[2mms[22m[39m
+       [32m✓[39m should close modal after successful sign-in[32m 71[2mms[22m[39m
+       [32m✓[39m should handle sign-in error gracefully[32m 69[2mms[22m[39m
+       [32m✓[39m should show "Mi Cuenta" title[32m 7[2mms[22m[39m
+       [32m✓[39m should display user name[32m 6[2mms[22m[39m
+       [32m✓[39m should display user email[32m 7[2mms[22m[39m
+       [32m✓[39m should display user avatar[32m 6[2mms[22m[39m
+       [32m✓[39m should show sign-out button[32m 6[2mms[22m[39m
+       [32m✓[39m should call signOut when button is clicked[32m 61[2mms[22m[39m
+       [32m✓[39m should show loading state during sign-out[32m 62[2mms[22m[39m
+       [32m✓[39m should close modal after successful sign-out[32m 47[2mms[22m[39m
+       [32m✓[39m should handle sign-out error gracefully[32m 46[2mms[22m[39m
+[31m       [31m×[31m should display default avatar if user image not provided[39m[32m 12[2mms[22m[39m
+       [32m✓[39m should call onClose when close button is clicked[32m 82[2mms[22m[39m
+       [32m✓[39m should call onClose when backdrop is clicked[32m 18[2mms[22m[39m
+       [32m✓[39m should not close when modal content is clicked[32m 20[2mms[22m[39m
+       [32m✓[39m should apply dark theme text colors[32m 18[2mms[22m[39m
+       [32m✓[39m should apply light theme text colors[32m 31[2mms[22m[39m
+       [32m✓[39m should render with default dark theme[32m 8[2mms[22m[39m
+       [32m✓[39m should render with light theme[32m 9[2mms[22m[39m
+       [32m✓[39m should accept custom className[32m 9[2mms[22m[39m
+       [32m✓[39m should show "Iniciar sesión" when not authenticated[32m 2[2mms[22m[39m
+       [32m✓[39m should show "Mi Cuenta" when authenticated[32m 2[2mms[22m[39m
+       [32m✓[39m should open modal when button is clicked[32m 48[2mms[22m[39m
+       [32m✓[39m should close modal when backdrop is clicked[32m 78[2mms[22m[39m
+       [32m✓[39m should pass correct theme to modal[32m 78[2mms[22m[39m
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthModal > Authenticated state > should display default avatar if user image not provided
+Error: expect(element).toHaveAttribute("src", StringContaining "borrts") // element.getAttribute("src") === StringContaining "borrts"
+
+Expected the element to have attribute:
+  src=StringContaining "borrts"
+Received:
+  src="https://api.dicebear.com/7.x/bottts/svg?seed=Robot1"
+ ❯ src/components/auth/__tests__/AuthModal.test.tsx:281:19
+    279|       const img = screen.getByAltText("Jane Doe");
+    280|       expect(img).toBeInTheDocument();
+    281|       expect(img).toHaveAttribute("src", expect.stringContaining("borr…
+       |                   ^
+    282|     });
+    283|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m33 passed[39m[22m[90m (34)[39m
+[2m   Start at [22m 13:31:24
+[2m   Duration [22m 3.85s[2m (transform 198ms, setup 205ms, collect 630ms, tests 1.17s, environment 1.02s, prepare 22ms)[22m
+
+ ELIFECYCLE  Test failed. See above for more details.

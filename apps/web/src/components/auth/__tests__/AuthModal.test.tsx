@@ -226,7 +226,7 @@ describe("AuthModal", () => {
       const signOutButton = screen.getByText("Cerrar Sesión");
       await userEvent.click(signOutButton);
 
-      expect(screen.getByText("Cerrando sesión...")).toBeInTheDocument();
+      expect(screen.getByText("Cerrando...")).toBeInTheDocument();
       expect(signOutButton).toBeDisabled();
     });
 
@@ -264,7 +264,7 @@ describe("AuthModal", () => {
       consoleErrorSpy.mockRestore();
     });
 
-    it("should not display user image if not provided", () => {
+    it("should display default avatar if user image not provided", () => {
       const sessionWithoutImage = {
         user: {
           name: "Jane Doe",
@@ -275,7 +275,10 @@ describe("AuthModal", () => {
 
       render(<AuthModal isOpen={true} onClose={mockOnClose} />);
 
-      expect(screen.queryByAltText("Jane Doe")).not.toBeInTheDocument();
+      // Should show the default robot avatar
+      const img = screen.getByAltText("Jane Doe");
+      expect(img).toBeInTheDocument();
+      expect(img).toHaveAttribute("src", expect.stringContaining("bottts"));
     });
   });
 
