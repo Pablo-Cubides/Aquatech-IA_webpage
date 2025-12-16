@@ -80,6 +80,13 @@ export default async function AdminDashboard() {
               <p className="text-sm text-slate-400 mt-2">Subir notas y gestionar base de conocimiento.</p>
             </div>
           </Link>
+
+          <Link href="/admin/tools/question-banks" className="group">
+            <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-amber-500/50 transition-all">
+              <h3 className="font-bold text-white group-hover:text-amber-400">Bancos de Preguntas</h3>
+              <p className="text-sm text-slate-400 mt-2">Gestionar bancos para la Ruleta Académica.</p>
+            </div>
+          </Link>
         </div>
       </div>
     </div>

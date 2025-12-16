@@ -129,3 +129,122 @@ export async function DELETE(
     );
   }
 }
+
+/**
+ * PUT /api/questionsets/[id]
+ * Updates a question set name and/or questions
+ * Requires authentication and ADMIN role
+ */
+export async function PUT(
+  req: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  let idStr = "unknown";
+  try {
+    // Check authentication
+    const session = await getServerSession(authOptions);
+    if (!session?.user) {
+      return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+    }
+
+    // Check admin role
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email! },
+      select: { role: true },
+    });
+
+    if (!user || (user.role !== "ADMIN" && user.role !== "MODERATOR")) {
+      return NextResponse.json(
+        { error: "Acceso denegado. Se requiere rol de administrador." },
+        { status: 403 },
+      );
+    }
+
+    const resolvedParams = await params;
+    idStr = resolvedParams.id;
+    const id = parseInt(idStr);
+
+    if (isNaN(id)) {
+      return NextResponse.json({ error: "ID inválido" }, { status: 400 });
+    }
+
+    // Parse body
+    const body = await req.json();
+    const { name, questions } = body;
+
+    if (!name || typeof name !== "string" || name.trim().length === 0) {
+      return NextResponse.json(
+        { error: "Nombre requerido" },
+        { status: 400 },
+      );
+    }
+
+    if (!Array.isArray(questions) || questions.length === 0) {
+      return NextResponse.json(
+        { error: "Debe haber al menos una pregunta" },
+        { status: 400 },
+      );
+    }
+
+    // Check if exists
+    const existing = await prisma.questionSet.findUnique({
+      where: { id },
+    });
+
+    if (!existing) {
+      return NextResponse.json(
+        { error: "Conjunto no encontrado" },
+        { status: 404 },
+      );
+    }
+
+    // Check for name conflict (if name changed)
+    if (name.trim() !== existing.name) {
+      const nameConflict = await prisma.questionSet.findUnique({
+        where: { name: name.trim() },
+      });
+      if (nameConflict) {
+        return NextResponse.json(
+          { error: "Ya existe un conjunto con ese nombre" },
+          { status: 409 },
+        );
+      }
+    }
+
+    // Update: delete old questions and create new ones
+    await prisma.$transaction([
+      prisma.question.deleteMany({
+        where: { questionSetId: id },
+      }),
+      prisma.questionSet.update({
+        where: { id },
+        data: {
+          name: name.trim(),
+          questions: {
+            create: questions.map((text: string) => ({ text })),
+          },
+        },
+      }),
+    ]);
+
+    // Fetch updated set
+    const updatedSet = await prisma.questionSet.findUnique({
+      where: { id },
+      include: {
+        questions: {
+          select: { id: true, text: true },
+          orderBy: { id: "asc" },
+        },
+      },
+    });
+
+    return NextResponse.json(updatedSet);
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    console.error(`Error updating question set ${idStr}:`, errorMessage);
+    return NextResponse.json(
+      { error: "Error al actualizar conjunto" },
+      { status: 500 },
+    );
+  }
+}
