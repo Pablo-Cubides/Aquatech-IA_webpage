@@ -6,7 +6,7 @@ import { prisma } from "@ia-next/database";
 import bcrypt from "bcryptjs";
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prisma) as any,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -53,19 +53,23 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     session: async ({ session, token }) => {
       if (session?.user && token) {
-        // @ts-ignore
-        session.user.id = token.sub;
-        // @ts-ignore
+        session.user.id = token.uid;
         session.user.role = token.role;
       }
       return session;
     },
-    jwt: async ({ user, token }) => {
+    jwt: async ({ user, token, trigger, session }) => {
       if (user) {
         token.uid = user.id;
-        // @ts-ignore
-        token.role = user.role;
+        token.role = (user as any).role;
       }
+      
+      // Update token if session is updated manually
+      if (trigger === "update" && session) {
+        token.role = session.user.role;
+        // Also update other fields if needed
+      }
+      
       return token;
     },
   },

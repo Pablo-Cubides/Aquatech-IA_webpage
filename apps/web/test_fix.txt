@@ -1,0 +1,145 @@
+
+> @ia-next/web@0.0.1 test D:\Empresas\AquatechIA\webpage\apps\web
+> vitest run
+
+
+[1m[46m RUN [49m[22m [36mv4.0.5 [39m[90mD:/Empresas/AquatechIA/webpage/apps/web[39m
+
+ [32mΓ£ô[39m src/lib/__tests__/track-env.test.ts [2m([22m[2m16 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+ [32mΓ£ô[39m src/app/(portals)/ambiental/(marketing)/herramientas/indice-calidad-agua/utils/__tests__/csv-utils.test.ts [2m([22m[2m25 tests[22m[2m)[22m[32m 23[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/__tests__/matrices.test.ts [2m([22m[2m29 tests[22m[2m)[22m[32m 19[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/__tests__/filters-env.test.ts [2m([22m[2m38 tests[22m[2m)[22m[32m 18[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/services/__tests__/tools-registry.test.ts [2m([22m[2m29 tests[22m[2m)[22m[32m 24[2mms[22m[39m
+ [32mΓ£ô[39m src/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambientales/src/lib/__tests__/logger.test.ts [2m([22m[2m17 tests[22m[2m)[22m[32m 160[2mms[22m[39m
+ [32mΓ£ô[39m src/app/(portals)/ambiental/(marketing)/herramientas/analisis-correlaciones/src/utils/__tests__/correlations.test.ts [2m([22m[2m28 tests[22m[2m)[22m[32m 37[2mms[22m[39m
+ [32mΓ£ô[39m src/app/api/visor-prompts/__tests__/route.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 27[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/security/__tests__/validation.test.ts [2m([22m[2m33 tests[22m[2m)[22m[33m 622[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should reject files exceeding size limit [33m 595[2mms[22m[39m
+ [32mΓ£ô[39m src/app/(portals)/ia/(marketing)/herramientas/filtrado-ia/__tests__/VisualizadorCaso.test.tsx [2m([22m[2m10 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32mΓ£ô[39m src/app/(portals)/ia/(marketing)/herramientas/filtrado-ia/__tests__/analytics.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32mΓ£ô[39m src/app/(portals)/ia/(marketing)/herramientas/como-funcionan-llm/utils/__tests__/probabilities.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32mΓ£ô[39m src/app/(portals)/ambiental/(marketing)/herramientas/indice-calidad-agua/utils/__tests__/calculate-irca.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+ [32mΓ£ô[39m src/app/(portals)/ambiental/(marketing)/herramientas/indice-calidad-agua/utils/__tests__/calculate-dwqi.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 24[2mms[22m[39m
+ [32mΓ£ô[39m src/app/(portals)/ambiental/(marketing)/herramientas/normas-ambientales/src/lib/__tests__/normas.test.ts [2m([22m[2m45 tests[22m[2m)[22m[32m 24[2mms[22m[39m
+ [32mΓ£ô[39m src/app/(portals)/ambiental/(marketing)/herramientas/indice-calidad-agua/utils/__tests__/calculate-wqi.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 17[2mms[22m[39m
+ [32mΓ£ô[39m src/app/(portals)/ia/(marketing)/herramientas/visor-difusion/src/app/api/noise/[step]/__tests__/route.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+stderr | src/app/(portals)/ia/(marketing)/herramientas/visor-difusion/src/app/api/prompts/__tests__/route.test.ts
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\components\static\cases does not exist
+
+ [32mΓ£ô[39m src/app/(portals)/ia/(marketing)/herramientas/visor-difusion/src/app/api/prompts/__tests__/route.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32mΓ£ô[39m src/app/(portals)/ia/(marketing)/herramientas/filtrado-ia/__tests__/MenuCasos.test.tsx [2m([22m[2m8 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32mΓ£ô[39m src/app/(portals)/ia/(marketing)/herramientas/como-funcionan-llm/utils/__tests__/tokenize.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32mΓ£ô[39m src/app/(portals)/ia/(marketing)/herramientas/como-funcionan-llm/utils/__tests__/embedding.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32mΓ£ô[39m src/app/(portals)/ia/(marketing)/herramientas/como-funcionan-llm/src/utils/__tests__/probabilities.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32mΓ£ô[39m src/app/(portals)/ia/(marketing)/herramientas/como-funcionan-llm/utils/__tests__/sampling.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32mΓ£ô[39m src/app/(portals)/ia/(marketing)/herramientas/filtrado-ia/__tests__/CasosContext.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32mΓ£ô[39m src/app/(portals)/ia/(marketing)/herramientas/como-funcionan-llm/context/__tests__/reducer.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+ [32mΓ£ô[39m src/app/(portals)/ia/(marketing)/herramientas/visor-difusion/src/app/__tests__/basic.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mΓ£ô[39m src/app/(portals)/ia/(marketing)/herramientas/visor-difusion/src/components/__tests__/EducationalPanel.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[32m 66[2mms[22m[39m
+ [32mΓ£ô[39m src/app/(portals)/ia/(marketing)/herramientas/visor-difusion/src/components/__tests__/PromptSelector.test.tsx [2m([22m[2m5 tests[22m[2m)[22m[32m 88[2mms[22m[39m
+ [32mΓ£ô[39m src/components/recomendaciones/__tests__/RatingStars.test.tsx [2m([22m[2m22 tests[22m[2m)[22m[32m 122[2mms[22m[39m
+ [32mΓ£ô[39m src/app/(portals)/ia/(marketing)/herramientas/como-funcionan-llm/context/__tests__/processContext.test.tsx [2m([22m[2m1 test[22m[2m)[22m[33m 422[2mms[22m[39m
+     [33m[2mΓ£ô[22m[39m persists state after starting process [33m 419[2mms[22m[39m
+ [31mΓ¥»[39m src/components/auth/__tests__/AuthModal.test.tsx [2m([22m[2m34 tests[22m[2m | [22m[31m34 failed[39m[2m)[22m[32m 92[2mms[22m[39m
+[31m       [31m├ù[31m should not render when isOpen is false[39m[32m 27[2mms[22m[39m
+[31m       [31m├ù[31m should render when isOpen is true[39m[32m 3[2mms[22m[39m
+[31m       [31m├ù[31m should render with dark theme by default[39m[32m 2[2mms[22m[39m
+[31m       [31m├ù[31m should render with light theme when specified[39m[32m 2[2mms[22m[39m
+[31m       [31m├ù[31m should show "Iniciar Sesi├│n" title[39m[32m 3[2mms[22m[39m
+[31m       [31m├ù[31m should show Google sign-in button[39m[32m 1[2mms[22m[39m
+[31m       [31m├ù[31m should show description text[39m[32m 1[2mms[22m[39m
+[31m       [31m├ù[31m should call signIn when Google button is clicked[39m[32m 1[2mms[22m[39m
+[31m       [31m├ù[31m should show loading state during sign-in[39m[32m 2[2mms[22m[39m
+[31m       [31m├ù[31m should close modal after successful sign-in[39m[32m 1[2mms[22m[39m
+[31m       [31m├ù[31m should handle sign-in error gracefully[39m[32m 2[2mms[22m[39m
+[31m       [31m├ù[31m should show "Mi Cuenta" title[39m[32m 1[2mms[22m[39m
+[31m       [31m├ù[31m should display user name[39m[32m 1[2mms[22m[39m
+[31m       [31m├ù[31m should display user email[39m[32m 1[2mms[22m[39m
+[31m       [31m├ù[31m should display user avatar[39m[32m 1[2mms[22m[39m
+[31m       [31m├ù[31m should show sign-out button[39m[32m 2[2mms[22m[39m
+[31m       [31m├ù[31m should call signOut when button is clicked[39m[32m 1[2mms[22m[39m
+[31m       [31m├ù[31m should show loading state during sign-out[39m[32m 1[2mms[22m[39m
+[31m       [31m├ù[31m should close modal after successful sign-out[39m[32m 1[2mms[22m[39m
+[31m       [31m├ù[31m should handle sign-out error gracefully[39m[32m 1[2mms[22m[39m
+[31m       [31m├ù[31m should not display user image if not provided[39m[32m 1[2mms[22m[39m
+[31m       [31m├ù[31m should call onClose when close button is clicked[39m[32m 1[2mms[22m[39m
+[31m       [31m├ù[31m should call onClose when backdrop is clicked[39m[32m 1[2mms[22m[39m
+[31m       [31m├ù[31m should not close when modal content is clicked[39m[32m 1[2mms[22m[39m
+[31m       [31m├ù[31m should apply dark theme text colors[39m[32m 2[2mms[22m[39m
+[31m       [31m├ù[31m should apply light theme text colors[39m[32m 2[2mms[22m[39m
+[31m       [31m├ù[31m should render with default dark theme[39m[32m 7[2mms[22m[39m
+[31m       [31m├ù[31m should render with light theme[39m[32m 2[2mms[22m[39m
+[31m       [31m├ù[31m should accept custom className[39m[32m 2[2mms[22m[39m
+[31m       [31m├ù[31m should show "Iniciar sesi├│n" when not authenticated[39m[32m 2[2mms[22m[39m
+[31m       [31m├ù[31m should show "Mi Cuenta" when authenticated[39m[32m 2[2mms[22m[39m
+[31m       [31m├ù[31m should open modal when button is clicked[39m[32m 4[2mms[22m[39m
+[31m       [31m├ù[31m should close modal when backdrop is clicked[39m[32m 2[2mms[22m[39m
+[31m       [31m├ù[31m should pass correct theme to modal[39m[32m 1[2mms[22m[39m
+ [32mΓ£ô[39m src/app/(portals)/ia/(marketing)/herramientas/como-funcionan-llm/app/components/__tests__/InputStep.test.tsx [2m([22m[2m9 tests[22m[2m)[22m[33m 1732[2mms[22m[39m
+     [33m[2mΓ£ô[22m[39m should update input when typing [33m 307[2mms[22m[39m
+     [33m[2mΓ£ô[22m[39m should enable submit button when input has text [33m 327[2mms[22m[39m
+     [33m[2mΓ£ô[22m[39m should call onNext when form is submitted [33m 512[2mms[22m[39m
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ» Failed Tests 34 ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthModal > Rendering > should not render when isOpen is false
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthModal > Rendering > should render when isOpen is true
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthModal > Rendering > should render with dark theme by default
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthModal > Rendering > should render with light theme when specified
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthModal > Unauthenticated state > should show "Iniciar Sesi├│n" title
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthModal > Unauthenticated state > should show Google sign-in button
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthModal > Unauthenticated state > should show description text
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthModal > Unauthenticated state > should call signIn when Google button is clicked
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthModal > Unauthenticated state > should show loading state during sign-in
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthModal > Unauthenticated state > should close modal after successful sign-in
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthModal > Unauthenticated state > should handle sign-in error gracefully
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthModal > Authenticated state > should show "Mi Cuenta" title
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthModal > Authenticated state > should display user name
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthModal > Authenticated state > should display user email
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthModal > Authenticated state > should display user avatar
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthModal > Authenticated state > should show sign-out button
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthModal > Authenticated state > should call signOut when button is clicked
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthModal > Authenticated state > should show loading state during sign-out
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthModal > Authenticated state > should close modal after successful sign-out
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthModal > Authenticated state > should handle sign-out error gracefully
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthModal > Authenticated state > should not display user image if not provided
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthModal > Close functionality > should call onClose when close button is clicked
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthModal > Close functionality > should call onClose when backdrop is clicked
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthModal > Close functionality > should not close when modal content is clicked
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthModal > Theme variations > should apply dark theme text colors
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthModal > Theme variations > should apply light theme text colors
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthButton > Rendering > should render with default dark theme
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthButton > Rendering > should render with light theme
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthButton > Rendering > should accept custom className
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthButton > Button text > should show "Iniciar sesi├│n" when not authenticated
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthButton > Button text > should show "Mi Cuenta" when authenticated
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthButton > Modal interaction > should open modal when button is clicked
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthButton > Modal interaction > should close modal when backdrop is clicked
+ FAIL  src/components/auth/__tests__/AuthModal.test.tsx > AuthButton > Modal interaction > should pass correct theme to modal
+Error: invariant expected app router to be mounted
+ Γ¥» useRouter ../../node_modules/.pnpm/next@16.0.1_@babel+core@7.28.5_@opentelemetry+api@1.9.0_react-dom@19.2.3_react@19.2.3/node_modules/next/dist/client/components/navigation.js:136:37
+ Γ¥» AuthModal src/components/auth/AuthModal.tsx:33:18
+     31| export function AuthModal({ isOpen, onClose, theme = "dark" }: AuthModΓÇª
+     32|   const { data: session, update: updateSession } = useSession();
+     33|   const router = useRouter();
+       |                  ^
+     34|   const [isLoading, setIsLoading] = useState(false);
+     35|   const [error, setError] = useState<string | null>(null);
+ Γ¥» Object.react_stack_bottom_frame ../../node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.development.js:25904:20
+ Γ¥» renderWithHooks ../../node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.development.js:7662:22
+ Γ¥» updateFunctionComponent ../../node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.development.js:10166:19
+ Γ¥» beginWork ../../node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.development.js:11778:18
+ Γ¥» runWithFiberInDEV ../../node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.development.js:874:13
+ Γ¥» performUnitOfWork ../../node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.development.js:17641:22
+ Γ¥» workLoopSync ../../node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.development.js:17469:41
+ Γ¥» renderRootSync ../../node_modules/.pnpm/react-dom@19.2.3_react@19.2.3/node_modules/react-dom/cjs/react-dom-client.development.js:17450:11
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1/34]ΓÄ»
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m31 passed[39m[22m[90m (32)[39m
+[2m      Tests [22m [1m[31m34 failed[39m[22m[2m | [22m[1m[32m389 passed[39m[22m[90m (423)[39m
+[2m   Start at [22m 12:44:52
+[2m   Duration [22m 43.42s[2m (transform 9.21s, setup 72.32s, collect 59.56s, tests 3.66s, environment 420.45s, prepare 2.95s)[22m
+
+ΓÇëELIFECYCLEΓÇë Test failed. See above for more details.

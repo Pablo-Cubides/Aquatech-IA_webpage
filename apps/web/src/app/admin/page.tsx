@@ -60,21 +60,21 @@ export default async function AdminDashboard() {
       <div>
         <h2 className="text-xl font-bold text-white mb-4">Gestión de Herramientas</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Link href="/ambiental/herramientas/normas-ambientales/admin" className="group">
+          <Link href="/admin/tools/regulations" className="group">
             <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-blue-500/50 transition-all">
               <h3 className="font-bold text-white group-hover:text-blue-400">Normas Ambientales</h3>
               <p className="text-sm text-slate-400 mt-2">Gestionar fuentes regulatorias y documentos.</p>
             </div>
           </Link>
           
-          <Link href="/ambiental/herramientas/visor-mapas-ambientales" className="group">
+          <Link href="/admin/tools/maps" className="group">
             <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-emerald-500/50 transition-all">
               <h3 className="font-bold text-white group-hover:text-emerald-400">Visor de Mapas</h3>
-              <p className="text-sm text-slate-400 mt-2">Subir y gestionar capas geográficas (Botón oculto).</p>
+              <p className="text-sm text-slate-400 mt-2">Subir y gestionar capas geográficas.</p>
             </div>
           </Link>
 
-          <Link href="/ia/autor/herramientas/consulta-nota" className="group">
+          <Link href="/admin/tools/notes" className="group">
             <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-purple-500/50 transition-all">
               <h3 className="font-bold text-white group-hover:text-purple-400">Consulta de Notas</h3>
               <p className="text-sm text-slate-400 mt-2">Subir notas y gestionar base de conocimiento.</p>

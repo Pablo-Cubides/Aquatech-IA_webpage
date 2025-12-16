@@ -58,14 +58,6 @@ export default async function AdminLayout({
             <Calendar className="w-5 h-5" />
             Programar Posts
           </Link>
-
-          <Link 
-            href="/admin/settings" 
-            className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition-colors text-slate-300 hover:text-white"
-          >
-            <Settings className="w-5 h-5" />
-            Configuración
-          </Link>
         </nav>
 
         <div className="p-4 border-t border-slate-800">

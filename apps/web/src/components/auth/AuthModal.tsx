@@ -3,7 +3,22 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { createPortal } from "react-dom";
-// import Image from "next/image"; // Temporarily disabled to debug layout
+import Link from "next/link";
+import { LayoutDashboard, UserCog, LogOut, Save, X, Check } from "lucide-react";
+import { useRouter } from "next/navigation";
+
+const AVATARS = [
+  "https://api.dicebear.com/7.x/bottts/svg?seed=Robot1",
+  "https://api.dicebear.com/7.x/bottts/svg?seed=Robot2",
+  "https://api.dicebear.com/7.x/bottts/svg?seed=Robot3",
+  "https://api.dicebear.com/7.x/bottts/svg?seed=Robot4",
+  "https://api.dicebear.com/7.x/bottts/svg?seed=Robot5",
+  "https://robohash.org/Cat1.png?set=set4",
+  "https://robohash.org/Cat2.png?set=set4",
+  "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f436.svg",
+  "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f415.svg",
+  "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f42c.svg",
+];
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -14,17 +29,58 @@ interface AuthModalProps {
 type AuthMode = "login" | "register";
 
 export function AuthModal({ isOpen, onClose, theme = "dark" }: AuthModalProps) {
-  const { data: session } = useSession();
+  const { data: session, update: updateSession } = useSession();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [mode, setMode] = useState<AuthMode>("login");
+  const [view, setView] = useState<"default" | "edit-profile">("default");
+  
+  // Profile Edit State
+  const [editName, setEditName] = useState("");
+  const [editImage, setEditImage] = useState("");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const contentRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (session?.user) {
+      setEditName(session.user.name || "");
+      setEditImage(session.user.image || AVATARS[0]);
+    }
+  }, [session]);
+
+  const handleUpdateProfile = async () => {
+    setIsLoading(true);
+    try {
+      const res = await fetch("/api/user/profile", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: editName, image: editImage }),
+      });
+
+      if (!res.ok) throw new Error("Error al actualizar perfil");
+
+      await updateSession({
+        ...session,
+        user: { ...session?.user, name: editName, image: editImage },
+      });
+      
+      setView("default");
+      setSuccess("Perfil actualizado correctamente");
+      setTimeout(() => setSuccess(null), 3000);
+    } catch (err) {
+      console.error(err);
+      setError("No se pudo actualizar el perfil");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // Reset scroll position when modal opens - force multiple times to combat autofocus
   useLayoutEffect(() => {
@@ -184,43 +240,169 @@ export function AuthModal({ isOpen, onClose, theme = "dark" }: AuthModalProps) {
         {session ? (
           // Usuario autenticado
           <div className="p-6">
-            <div className="space-y-6 pt-4">
-              <div className="text-center">
-                <h2 className={`text-xl font-bold ${isDark ? "text-white" : "text-gray-900"}`}>
-                  Mi Cuenta
-                </h2>
-              </div>
-              
-              <div className="flex flex-col items-center space-y-3">
-                {session.user?.image && (
-                  <img
-                    src={session.user.image}
-                    alt={session.user.name || "Usuario"}
-                    className="w-20 h-20 rounded-full ring-4 ring-cyan-500/30"
-                  />
-                )}
+            {view === "default" ? (
+              <div className="space-y-6 pt-4">
                 <div className="text-center">
-                  <p className={`font-semibold text-lg ${isDark ? "text-white" : "text-gray-900"}`}>
-                    {session.user?.name}
-                  </p>
-                  <p className={`text-sm ${isDark ? "text-gray-400" : "text-gray-500"}`}>
-                    {session.user?.email}
-                  </p>
+                  <h2 className={`text-xl font-bold ${isDark ? "text-white" : "text-gray-900"}`}>
+                    Mi Cuenta
+                  </h2>
+                </div>
+                
+                <div className="flex flex-col items-center space-y-3">
+                  <div className="relative group">
+                    <img
+                      src={session.user?.image || AVATARS[0]}
+                      alt={session.user?.name || "Usuario"}
+                      className="w-24 h-24 rounded-full ring-4 ring-cyan-500/30 object-cover bg-white/5"
+                    />
+                    <button 
+                      onClick={() => setView("edit-profile")}
+                      className="absolute bottom-0 right-0 p-1.5 bg-cyan-500 rounded-full text-black hover:bg-cyan-400 transition-colors shadow-lg"
+                    >
+                      <UserCog className="w-4 h-4" />
+                    </button>
+                  </div>
+                  <div className="text-center">
+                    <p className={`font-semibold text-lg ${isDark ? "text-white" : "text-gray-900"}`}>
+                      {session.user?.name}
+                    </p>
+                    <p className={`text-sm ${isDark ? "text-gray-400" : "text-gray-500"}`}>
+                      {session.user?.email}
+                    </p>
+                    {/* @ts-ignore */}
+                    {session.user?.role === "ADMIN" && (
+                      <span className="inline-block mt-2 px-2 py-0.5 rounded text-xs font-bold bg-purple-500/20 text-purple-400 border border-purple-500/30">
+                        ADMINISTRADOR
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  {/* @ts-ignore */}
+                  {session.user?.role === "ADMIN" && (
+                    <button
+                      onClick={() => {
+                        onClose();
+                        router.push("/admin");
+                      }}
+                      className={`w-full py-3 px-4 rounded-xl font-medium transition-all flex items-center justify-center gap-2 ${
+                        isDark 
+                          ? "bg-purple-600 text-white hover:bg-purple-500 shadow-lg shadow-purple-500/20" 
+                          : "bg-purple-600 text-white hover:bg-purple-700"
+                      }`}
+                    >
+                      <LayoutDashboard className="w-5 h-5" />
+                      Panel de Administración
+                    </button>
+                  )}
+
+                  <button
+                    onClick={() => setView("edit-profile")}
+                    className={`w-full py-3 px-4 rounded-xl font-medium transition-all flex items-center justify-center gap-2 ${
+                      isDark 
+                        ? "bg-white/5 text-white border border-white/10 hover:bg-white/10" 
+                        : "bg-gray-50 text-gray-700 border border-gray-200 hover:bg-gray-100"
+                    }`}
+                  >
+                    <UserCog className="w-5 h-5" />
+                    Editar Perfil
+                  </button>
+
+                  <button
+                    onClick={handleSignOut}
+                    disabled={isLoading}
+                    className={`w-full py-3 px-4 rounded-xl font-medium transition-all flex items-center justify-center gap-2 ${
+                      isDark 
+                        ? "bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20" 
+                        : "bg-red-50 text-red-600 border border-red-200 hover:bg-red-100"
+                    }`}
+                  >
+                    <LogOut className="w-5 h-5" />
+                    {isLoading ? "Cerrando..." : "Cerrar Sesión"}
+                  </button>
                 </div>
               </div>
+            ) : (
+              // Edit Profile View
+              <div className="space-y-6 pt-2">
+                <div className="flex items-center justify-between">
+                  <h2 className={`text-xl font-bold ${isDark ? "text-white" : "text-gray-900"}`}>
+                    Editar Perfil
+                  </h2>
+                  <button 
+                    onClick={() => setView("default")}
+                    className="p-1 hover:bg-white/10 rounded-full transition-colors"
+                  >
+                    <X className="w-5 h-5 text-gray-400" />
+                  </button>
+                </div>
 
-              <button
-                onClick={handleSignOut}
-                disabled={isLoading}
-                className={`w-full py-3 px-4 rounded-xl font-medium transition-all disabled:opacity-50 ${
-                  isDark 
-                    ? "bg-white/10 text-white border border-white/20 hover:bg-white/20" 
-                    : "bg-gray-100 text-gray-700 border border-gray-300 hover:bg-gray-200"
-                }`}
-              >
-                {isLoading ? "Cerrando sesión..." : "Cerrar Sesión"}
-              </button>
-            </div>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-400 mb-2">Elige tu Avatar</label>
+                    <div className="grid grid-cols-5 gap-2">
+                      {AVATARS.map((avatar, i) => (
+                        <button
+                          key={i}
+                          onClick={() => setEditImage(avatar)}
+                          className={`relative rounded-lg overflow-hidden aspect-square border-2 transition-all bg-white/5 ${
+                            editImage === avatar 
+                              ? "border-cyan-500 ring-2 ring-cyan-500/20 scale-105" 
+                              : "border-transparent hover:border-white/20"
+                          }`}
+                        >
+                          <img src={avatar} alt={`Avatar ${i}`} className="w-full h-full object-cover" />
+                          {editImage === avatar && (
+                            <div className="absolute inset-0 bg-cyan-500/20 flex items-center justify-center">
+                              <Check className="w-4 h-4 text-white drop-shadow-md" />
+                            </div>
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-400 mb-2">Nombre</label>
+                    <input
+                      type="text"
+                      value={editName}
+                      onChange={(e) => setEditName(e.target.value)}
+                      className={`w-full px-4 py-3 rounded-xl outline-none transition-all ${
+                        isDark 
+                          ? "bg-white/5 border border-white/10 text-white focus:border-cyan-500" 
+                          : "bg-gray-50 border border-gray-200 text-gray-900 focus:border-blue-500"
+                      }`}
+                    />
+                  </div>
+
+                  <div className="flex gap-3 pt-2">
+                    <button
+                      onClick={() => setView("default")}
+                      className={`flex-1 py-3 rounded-xl font-medium transition-all ${
+                        isDark 
+                          ? "bg-white/5 text-gray-300 hover:bg-white/10" 
+                          : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                      }`}
+                    >
+                      Cancelar
+                    </button>
+                    <button
+                      onClick={handleUpdateProfile}
+                      disabled={isLoading}
+                      className={`flex-1 py-3 rounded-xl font-bold text-white transition-all shadow-lg ${
+                        isDark 
+                          ? "bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 shadow-cyan-500/20" 
+                          : "bg-blue-600 hover:bg-blue-700"
+                      }`}
+                    >
+                      {isLoading ? "Guardando..." : "Guardar Cambios"}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         ) : (
           // Usuario no autenticado
