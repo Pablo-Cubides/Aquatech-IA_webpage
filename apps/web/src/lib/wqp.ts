@@ -5,6 +5,37 @@
  * Documentation: https://www.waterqualitydata.us/webservices_documentation/
  */
 
+// US States with their bounding boxes and state codes
+export interface USState {
+  code: string; // State code for API (e.g., "US:06")
+  name: string;
+  abbr: string; // State abbreviation (e.g., "CA")
+  bbox: string; // "west,south,east,north" in decimal degrees
+}
+
+export const US_STATES: USState[] = [
+  { code: "US:06", name: "California", abbr: "CA", bbox: "-124.48,32.53,-114.13,42.01" },
+  { code: "US:48", name: "Texas", abbr: "TX", bbox: "-106.65,25.84,-93.51,36.50" },
+  { code: "US:12", name: "Florida", abbr: "FL", bbox: "-87.63,24.52,-80.03,31.00" },
+  { code: "US:36", name: "New York", abbr: "NY", bbox: "-79.76,40.50,-71.86,45.01" },
+  { code: "US:42", name: "Pennsylvania", abbr: "PA", bbox: "-80.52,39.72,-74.69,42.27" },
+  { code: "US:17", name: "Illinois", abbr: "IL", bbox: "-91.51,36.97,-87.02,42.51" },
+  { code: "US:39", name: "Ohio", abbr: "OH", bbox: "-84.82,38.40,-80.52,41.98" },
+  { code: "US:13", name: "Georgia", abbr: "GA", bbox: "-85.61,30.36,-80.84,35.00" },
+  { code: "US:37", name: "North Carolina", abbr: "NC", bbox: "-84.32,33.84,-75.46,36.59" },
+  { code: "US:26", name: "Michigan", abbr: "MI", bbox: "-90.42,41.70,-82.42,48.19" },
+  { code: "US:53", name: "Washington", abbr: "WA", bbox: "-124.85,45.54,-116.92,49.00" },
+  { code: "US:04", name: "Arizona", abbr: "AZ", bbox: "-114.82,31.33,-109.05,37.00" },
+  { code: "US:25", name: "Massachusetts", abbr: "MA", bbox: "-73.51,41.24,-69.93,42.89" },
+  { code: "US:55", name: "Wisconsin", abbr: "WI", bbox: "-92.89,42.49,-86.25,47.31" },
+  { code: "US:27", name: "Minnesota", abbr: "MN", bbox: "-97.24,43.50,-89.49,49.38" },
+  { code: "US:08", name: "Colorado", abbr: "CO", bbox: "-109.06,36.99,-102.04,41.00" },
+  { code: "US:51", name: "Virginia", abbr: "VA", bbox: "-83.68,36.54,-75.24,39.47" },
+  { code: "US:41", name: "Oregon", abbr: "OR", bbox: "-124.70,41.99,-116.46,46.29" },
+  { code: "US:24", name: "Maryland", abbr: "MD", bbox: "-79.49,37.97,-75.05,39.72" },
+  { code: "US:29", name: "Missouri", abbr: "MO", bbox: "-95.77,35.99,-89.10,40.61" },
+];
+
 export interface WQPStation {
   OrganizationIdentifier: string;
   OrganizationFormalName: string;
@@ -34,6 +65,7 @@ export interface WQPSearchParams {
   startDateLo?: string; // "01-01-2020"
   startDateHi?: string; // "12-31-2023"
   providers?: string[]; // ["NWIS", "STORET", "STEWARDS"]
+  resultLimit?: number; // Max number of results to return (default 5000)
 }
 
 export interface WQPStationResult {
@@ -95,12 +127,17 @@ export async function searchStations(
       });
     }
     
+    // Limit results for performance (default 5000)
+    if (params.resultLimit) {
+      queryParams.append('resultLimit', params.resultLimit.toString());
+    }
+    
     // Return as GeoJSON for easy mapping
     queryParams.append('mimeType', 'geojson');
     queryParams.append('zip', 'no');
 
     const response = await fetch(
-      `${BASE_URL}/data/Station/search?${queryParams}`
+      `/api/wqp/search?${queryParams}`
     );
     
     if (!response.ok) {
@@ -303,27 +340,53 @@ export function getSiteTypeColor(siteType?: string): string {
 }
 
 /**
- * Format station for display
+ * Format station for display with enhanced information
  */
 export function formatStation(station: WQPStation): string {
   const parts: string[] = [];
   
+  // Main title
   parts.push(`<strong>${station.MonitoringLocationName || station.MonitoringLocationIdentifier}</strong>`);
   
+  // Location type with emoji
   if (station.MonitoringLocationTypeName) {
-    parts.push(`Tipo: ${station.MonitoringLocationTypeName}`);
+    const typeEmoji = station.MonitoringLocationTypeName.includes('Stream') ? '🌊' :
+                     station.MonitoringLocationTypeName.includes('Lake') ? '💧' :
+                     station.MonitoringLocationTypeName.includes('Estuary') ? '🏞️' : '📍';
+    parts.push(`${typeEmoji} ${station.MonitoringLocationTypeName}`);
   }
   
+  // Coordinates
+  if (station.LatitudeMeasure && station.LongitudeMeasure) {
+    parts.push(`📍 Lat: ${station.LatitudeMeasure.toFixed(4)}°, Lon: ${station.LongitudeMeasure.toFixed(4)}°`);
+  }
+  
+  // Organization
   if (station.OrganizationFormalName) {
-    parts.push(`Organización: ${station.OrganizationFormalName}`);
+    parts.push(`🏢 ${station.OrganizationFormalName}`);
   }
   
+  // Description
   if (station.MonitoringLocationDescriptionText) {
-    parts.push(`${station.MonitoringLocationDescriptionText}`);
+    parts.push(`ℹ️ ${station.MonitoringLocationDescriptionText}`);
   }
   
+  // Provider
   if (station.ProviderName) {
-    parts.push(`Fuente: ${station.ProviderName}`);
+    parts.push(`📊 Fuente: ${station.ProviderName}`);
+  }
+  
+  // HUC information (watershed)
+  if (station.HUCEightDigitCode) {
+    parts.push(`🗺️ Cuenca: ${station.HUCEightDigitCode}`);
+  }
+  
+  // State/County information
+  if (station.StateCode || station.CountyCode) {
+    const location: string[] = [];
+    if (station.StateCode) location.push(station.StateCode);
+    if (station.CountyCode) location.push(station.CountyCode);
+    parts.push(`📌 ${location.join(' - ')}`);
   }
   
   return parts.join('<br>');

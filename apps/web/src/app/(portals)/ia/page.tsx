@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "IA Portal - Inteligencia Artificial aplicada al agua y al ambiente",
@@ -100,7 +102,7 @@ export default function IAPage() {
             <img
               alt="Innovación en IA Ambiental"
               className="h-auto w-full max-w-md rounded-2xl object-cover shadow-lg transition-transform duration-300 hover:scale-105"
-              src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&h=400&fit=crop&crop=center"
+              src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=500&h=400&fit=crop&crop=center"
             />
           </div>
         </div>
@@ -231,7 +233,7 @@ export default function IAPage() {
               <img
                 alt="IA en la Gestión del Agua"
                 className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=250&fit=crop&crop=center"
+                src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400&h=250&fit=crop&crop=center"
               />
               <div className="p-6">
                 <p className="text-xs text-[#CCCCCC]">24 MAYO, 2024</p>
@@ -256,7 +258,7 @@ export default function IAPage() {
               <img
                 alt="Monitoreo Ambiental con IA"
                 className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                src="https://images.unsplash.com/photo-1473773508845-188df298d2d1?w=400&h=250&fit=crop&crop=center"
+                src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=250&fit=crop&crop=center"
               />
               <div className="p-6">
                 <p className="text-xs text-[#CCCCCC]">18 MAYO, 2024</p>
@@ -281,7 +283,7 @@ export default function IAPage() {
               <img
                 alt="Futuro de la IA Ambiental"
                 className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=250&fit=crop&crop=center"
+                src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=250&fit=crop&crop=center"
               />
               <div className="p-6">
                 <p className="text-xs text-[#CCCCCC]">12 MAYO, 2024</p>
@@ -327,75 +329,64 @@ export default function IAPage() {
         </div>
       </section>
 
-      {/* Autor */}
+      {/* Autor - Pablo Cubides */}
       <section id="autor" className="bg-[#10111A] py-24">
-        <div className="container mx-auto flex flex-col items-center gap-8 px-4 text-center md:flex-row md:text-left">
-          <img
-            alt="Elena Rodriguez"
-            className="h-40 w-40 rounded-full object-cover shadow-lg shadow-cyan-500/20 transition-transform duration-300 hover:scale-105"
-            src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=200&h=200&fit=crop&crop=face"
-          />
-          <div className="flex-1">
-            <h2
-              className="text-4xl font-bold text-[#F3F6FF]"
-              style={{ fontFamily: "Space Grotesk, sans-serif" }}
-            >
-              Elena Rodriguez
-            </h2>
-            <p className="mt-2 text-lg">
-              Científica Ambiental y Especialista en IA
-            </p>
-            <p className="mt-4 max-w-2xl md:mx-0">
-              Elena es una apasionada defensora de la tecnología para el bien
-              ambiental. Con más de 10 años de experiencia, lidera la
-              investigación y el desarrollo en Aquatech IA.
-            </p>
-            <div className="mt-4 flex justify-center gap-4 md:justify-start">
-              <a
-                className="hover:text-[#00EFFF]"
-                href="https://www.linkedin.com/"
-                aria-label="LinkedIn"
-                target="_blank"
-                rel="noopener noreferrer"
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row items-center gap-12 bg-[#1A1B26] rounded-3xl p-8 md:p-12 shadow-lg border border-gray-800">
+            <div className="w-48 h-48 md:w-64 md:h-64 relative flex-shrink-0">
+              <div className="absolute inset-0 bg-[#00EFFF] rounded-full opacity-10 scale-110"></div>
+              <Image
+                src="/images/Portal IA/Autor/Pablo Cubides.png"
+                alt="Pablo Cubides"
+                width={256}
+                height={256}
+                className="w-full h-full object-cover rounded-full border-4 border-[#10111A] shadow-[0_0_20px_rgba(0,239,255,0.3)] relative z-10"
+              />
+            </div>
+            <div className="flex-1 text-center md:text-left">
+              <span className="text-[#00EFFF] font-bold tracking-wide uppercase text-sm">
+                Líder de Investigación
+              </span>
+              <h2
+                className="text-3xl lg:text-4xl font-bold text-white mt-2 mb-4"
+                style={{ fontFamily: "Space Grotesk, sans-serif" }}
               >
-                <svg
-                  fill="currentColor"
-                  height="24px"
-                  viewBox="0 0 256 256"
-                  width="24px"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24Zm0,192H40V40H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z" />
-                </svg>
-              </a>
-              <a
-                className="hover:text-[#00EFFF]"
-                href="https://twitter.com/"
-                aria-label="X"
-                target="_blank"
-                rel="noopener noreferrer"
+                Pablo Cubides
+              </h2>
+              <p className="text-xl text-gray-300 mb-6 font-medium">
+                Ingeniero Químico · M. Sc. en Ingeniería Ambiental
+              </p>
+              <p className="text-gray-400 leading-relaxed mb-8 max-w-2xl">
+                Docente universitario y desarrollador en IA, redes neuronales y
+                optimización. Lidera la investigación y el desarrollo de
+                soluciones tecnológicas avanzadas en Aquatech IA.
+              </p>
+              <Link
+                href="/ia/autor"
+                className="inline-flex items-center text-white font-semibold hover:text-[#00EFFF] transition-colors group"
               >
+                Conoce más sobre su trabajo
                 <svg
-                  fill="currentColor"
-                  height="24px"
-                  viewBox="0 0 256 256"
-                  width="24px"
-                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
                 >
-                  <path d="M247.39,68.94A8,8,0,0,0,240,64H209.57A48.66,48.66,0,0,0,168.1,40a46.91,46.91,0,0,0-33.75,13.7A47.9,47.9,0,0,0,120,88v6.09C79.74,83.47,46.81,50.72,46.46,50.37a8,8,0,0,0-13.65,4.92c-4.31,47.79,9.57,79.77,22,98.18a110.93,110.93,0,0,0,21.88,24.2c-15.23,17.53-39.21,26.74-39.47,26.84a8,8,0,0,0-3.85,11.93c.75,1.12,3.75,5.05,11.08,8.72C53.51,229.7,65.48,232,80,232c70.67,0,129.72-54.42,135.75-124.44l29.91-29.9A8,8,0,0,0,247.39,68.94Zm-45,29.41a8,8,0,0,0-2.32,5.14C196,166.58,143.28,216,80,216c-10.56,0-18-1.4-23.22-3.08,11.51-6.25,27.56-17,37.88-32.48A8,8,0,0,0,92,169.08c-.47-.27-43.91-26.34-44-96,16,13,45.25,33.17,78.67,38.79A8,8,0,0,0,136,104V88a32,32,0,0,1,9.6-22.92A30.94,30.94,0,0,1,167.9,56c12.66.16,24.49,7.88,29.44,19.21A8,8,0,0,0,204.67,80h16Z" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  />
                 </svg>
-              </a>
+              </Link>
             </div>
           </div>
-
-          <button className="shrink-0 rounded-lg border-2 border-[#00EFFF] px-6 py-2 font-bold text-[#00EFFF] transition-colors hover:bg-[#00EFFF] hover:text-[#10111A] md:ml-auto">
-            Ver perfil
-          </button>
         </div>
       </section>
 
-      {/* Productos */}
-      <section id="productos" className="py-24">
+      {/* Products Section - Hidden for now */}
+      {/* <section id="productos" className="py-24">
         <div className="container mx-auto px-4">
           <h2
             className="text-center text-4xl font-bold text-[#F3F6FF]"
@@ -405,13 +396,12 @@ export default function IAPage() {
           </h2>
 
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {/* Producto 1 */}
             <div className="group overflow-hidden rounded-2xl border border-white/10 bg-[#10111A] transition-all hover:-translate-y-1 hover:shadow-[0_0_15px_0_rgba(0,239,255,0.15)]">
               <div className="relative">
                 <img
                   alt="Producto IA para Gestión Hídrica"
                   className="aspect-video w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=400&h=225&fit=crop&crop=center"
+                  src="https://images.unsplash.com/photo-1581092334651-ddf26d9a09d0?w=400&h=225&fit=crop&crop=center"
                 />
               </div>
               <div className="p-6">
@@ -425,7 +415,6 @@ export default function IAPage() {
               </div>
             </div>
 
-            {/* Producto 2 */}
             <div className="group overflow-hidden rounded-2xl border border-white/10 bg-[#10111A] transition-all hover:-translate-y-1 hover:shadow-[0_0_15px_0_rgba(0,239,255,0.15)]">
               <div className="relative">
                 <img
@@ -448,13 +437,12 @@ export default function IAPage() {
               </div>
             </div>
 
-            {/* Producto 3 */}
             <div className="group overflow-hidden rounded-2xl border border-white/10 bg-[#10111A] transition-all hover:-translate-y-1 hover:shadow-[0_0_15px_0_rgba(0,239,255,0.15)]">
               <div className="relative">
                 <img
                   alt="Producto IA en Conservación"
                   className="aspect-video w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=225&fit=crop&crop=center"
+                  src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=400&h=225&fit=crop&crop=center"
                 />
               </div>
               <div className="p-6">
@@ -475,7 +463,7 @@ export default function IAPage() {
             </button>
           </div>
         </div>
-      </section>
+      </section> */}
     </main>
   );
 }

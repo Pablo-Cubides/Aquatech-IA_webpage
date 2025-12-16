@@ -1,4 +1,5 @@
 import React from "react"
+import { exportCorrelationsPDF } from "../src/utils/pdf-export"
 
 interface CorrelationResult {
   column_a: string
@@ -9,70 +10,113 @@ interface CorrelationResult {
 }
 
 interface ExportButtonsProps {
-  correlationResults: CorrelationResult[]
-  numericColumns: string[]
-  rawData: Record<string, unknown>[]
-  heatmapRef?: React.RefObject<HTMLDivElement | null>
+  correlationResults?: CorrelationResult[]
+  numericColumns?: string[]
+  rawData?: Record<string, unknown>[]
+  contentRef?: React.RefObject<HTMLDivElement | null>
+  filename?: string
+  analysisType?: 'correlation' | 'growth' | 'trend' | 'comparison'
+  results?: any // Full result object for extended PDF generation
 }
 
-function exportCSV(results: CorrelationResult[]) {
-  const header = ["Columna A", "Columna B", "Pearson", "Spearman", "Kendall"]
-  const rows = results.map(r => [r.column_a, r.column_b, r.pearson, r.spearman, r.kendall])
-  const csv = [header, ...rows].map(row => row.join(",")).join("\n")
-  const blob = new Blob([csv], { type: "text/csv" })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement("a")
-  a.href = url
-  a.download = "reporte_correlacion.csv"
-  a.click()
-  URL.revokeObjectURL(url)
+import { toPng } from "html-to-image";
+
+const exportCSV = (data: CorrelationResult[]) => {
+  const headers = ["Variable 1", "Variable 2", "Pearson", "Spearman", "Kendall"];
+  const rows = data.map(row => [
+    row.column_a,
+    row.column_b,
+    row.pearson?.toFixed(4) || "",
+    row.spearman?.toFixed(4) || "",
+    row.kendall?.toFixed(4) || ""
+  ]);
+  const csvContent = [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const link = document.createElement("a");
+  const url = URL.createObjectURL(blob);
+  link.setAttribute("href", url);
+  link.setAttribute("download", "correlaciones.csv");
+  link.style.visibility = "hidden";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
+const exportJSON = (data: CorrelationResult[]) => {
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
+  const downloadAnchorNode = document.createElement('a');
+  downloadAnchorNode.setAttribute("href", dataStr);
+  downloadAnchorNode.setAttribute("download", "correlaciones.json");
+  document.body.appendChild(downloadAnchorNode); // required for firefox
+  downloadAnchorNode.click();
+  downloadAnchorNode.remove();
 }
 
-function exportJSON(results: CorrelationResult[]) {
-  const blob = new Blob([JSON.stringify(results, null, 2)], { type: "application/json" })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement("a")
-  a.href = url
-  a.download = "reporte_correlacion.json"
-  a.click()
-  URL.revokeObjectURL(url)
+const exportHeatmapPNG = async (ref: React.RefObject<HTMLDivElement | null>) => {
+  if (!ref.current) return;
+  try {
+      const dataUrl = await toPng(ref.current, { backgroundColor: '#ffffff', quality: 0.95 });
+      const link = document.createElement("a");
+      link.href = dataUrl;
+      link.download = "heatmap.png";
+      link.click();
+  } catch (e) {
+      console.error("Error exporting PNG:", e);
+  }
 }
 
-function exportHeatmapPNG(ref: React.RefObject<HTMLDivElement | null>) {
-  if (!ref.current) return
-  import("html-to-image").then(htmlToImage => {
-    if (ref.current) {
-      htmlToImage.toPng(ref.current).then(dataUrl => {
-        const a = document.createElement("a")
-        a.href = dataUrl
-        a.download = "heatmap.png"
-        a.click()
-      })
-    }
-  })
-}
+export default function ExportButtons({ 
+    correlationResults = [], 
+    numericColumns = [], 
+    rawData = [], 
+    contentRef, 
+    filename, 
+    analysisType = 'correlation',
+    results
+}: ExportButtonsProps) {
+  const handleExportPDF = async () => {
+    await exportCorrelationsPDF({
+      filename: filename || "Analisis_Correlacion",
+      correlationResults,
+      numericColumns,
+      rawDataCount: rawData.length,
+      type: analysisType,
+      fullResults: results
+    }, contentRef?.current)
+  }
 
-export default function ExportButtons({ correlationResults, heatmapRef }: ExportButtonsProps) {
   return (
     <div className="flex flex-wrap gap-2 mt-4">
       <button
-        className="bg-primary text-white px-3 py-1 rounded hover:bg-blue-700 transition"
-        onClick={() => exportCSV(correlationResults)}
+        className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition flex items-center gap-2"
+        onClick={handleExportPDF}
       >
-        Descargar CSV
+        <span>📄</span> Exportar Reporte PDF
       </button>
-      <button
-        className="bg-primary text-white px-3 py-1 rounded hover:bg-blue-700 transition"
-        onClick={() => exportJSON(correlationResults)}
-      >
-        Descargar JSON
-      </button>
-      {heatmapRef && (
+      
+      {analysisType === 'correlation' && (
+      <>
+        <button
+            className="bg-primary text-white px-3 py-1 rounded hover:bg-blue-700 transition"
+            onClick={() => exportCSV(correlationResults)}
+        >
+            Descargar CSV
+        </button>
+        <button
+            className="bg-primary text-white px-3 py-1 rounded hover:bg-blue-700 transition"
+            onClick={() => exportJSON(correlationResults)}
+        >
+            Descargar JSON
+        </button>
+      </>
+      )}
+
+      {contentRef && (
         <button
           className="bg-primary text-white px-3 py-1 rounded hover:bg-blue-700 transition"
-          onClick={() => exportHeatmapPNG(heatmapRef)}
+          onClick={() => exportHeatmapPNG(contentRef)}
         >
-          Exportar heatmap como PNG
+          Exportar Visualización PNG
         </button>
       )}
     </div>

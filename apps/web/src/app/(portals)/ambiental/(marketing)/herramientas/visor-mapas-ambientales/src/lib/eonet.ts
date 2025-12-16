@@ -49,7 +49,7 @@ export interface EONETParams {
  */
 export async function getEONETCategories(): Promise<EONETCategory[]> {
   try {
-    const response = await fetch(`${EONET_API_BASE}/categories`);
+    const response = await fetch(`/api/eonet/categories`);
     if (!response.ok) throw new Error("Failed to fetch EONET categories");
     const data = await response.json();
     return data.categories || [];
@@ -73,13 +73,9 @@ export async function getEONETEvents(
     if (params.days) queryParams.append("days", params.days.toString());
     if (params.start) queryParams.append("start", params.start);
     if (params.end) queryParams.append("end", params.end);
+    if (params.category) queryParams.append("category", params.category);
 
-    let url = `${EONET_API_BASE}/events`;
-    if (params.category) {
-      url = `${EONET_API_BASE}/categories/${params.category}`;
-    }
-
-    const fullUrl = `${url}?${queryParams.toString()}`;
+    const fullUrl = `/api/eonet/events?${queryParams.toString()}`;
     const response = await fetch(fullUrl);
 
     if (!response.ok) throw new Error("Failed to fetch EONET events");

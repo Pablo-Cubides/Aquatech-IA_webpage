@@ -99,7 +99,7 @@ export default function AmbientalPage() {
             <img
               alt="Equipo de gestión ambiental"
               className="h-auto w-full max-w-md rounded-2xl object-cover shadow-lg transition-transform duration-300 hover:scale-105"
-              src="https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?w=500&h=400&fit=crop&crop=center"
+              src="https://images.unsplash.com/photo-1581093458791-9f3039cf5a20?w=500&h=400&fit=crop&crop=center"
             />
           </div>
         </div>
@@ -237,7 +237,7 @@ export default function AmbientalPage() {
               <img
                 alt="Gestión sostenible del agua"
                 className="h-56 w-full object-cover"
-                src="https://images.unsplash.com/photo-1440533586862-b916efe938ed?w=400&h=250&fit=crop&crop=center"
+                src="https://images.unsplash.com/photo-1536987333706-fc9adfb10d91?w=400&h=250&fit=crop&crop=center"
               />
               <div className="p-6">
                 <div className="text-sm text-gray-500">
@@ -267,7 +267,7 @@ export default function AmbientalPage() {
               <img
                 alt="Protegiendo la biodiversidad"
                 className="h-56 w-full object-cover"
-                src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=250&fit=crop&crop=center"
+                src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=400&h=250&fit=crop&crop=center"
               />
               <div className="p-6">
                 <div className="text-sm text-gray-500">
@@ -283,41 +283,12 @@ export default function AmbientalPage() {
                   Conozca los esfuerzos para proteger y mejorar la
                   biodiversidad.
                 </p>
-                <a
-                  href="#"
+                <Link
+                  href="/ambiental/blog"
                   className="mt-4 inline-block font-semibold text-[#10B981] hover:text-[#0077B6]"
                 >
                   Leer <span aria-hidden="true">→</span>
-                </a>
-              </div>
-            </article>
-
-            {/* Post 3 */}
-            <article className="overflow-hidden rounded-2xl border border-[#E5EDF2] bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-              <img
-                alt="Mitigación del cambio climático"
-                className="h-56 w-full object-cover"
-                src="https://images.unsplash.com/photo-1569163139394-de4e4f43e4e5?w=400&h=250&fit=crop&crop=center"
-              />
-              <div className="p-6">
-                <div className="text-sm text-gray-500">
-                  8 Mayo, 2024 ·{" "}
-                  <span className="rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-[#0077B6]">
-                    Regulaciones
-                  </span>
-                </div>
-                <h3 className="mt-2 text-lg font-semibold text-[#0D161C]">
-                  Mitigación del Cambio Climático
-                </h3>
-                <p className="mt-2 text-sm text-gray-700">
-                  Perspectivas para mitigar los impactos del cambio climático.
-                </p>
-                <a
-                  href="#"
-                  className="mt-4 inline-block font-semibold text-[#10B981] hover:text-[#0077B6]"
-                >
-                  Leer <span aria-hidden="true">→</span>
-                </a>
+                </Link>
               </div>
             </article>
           </div>
@@ -347,35 +318,61 @@ export default function AmbientalPage() {
         </div>
       </section>
 
-      {/* AUTOR */}
-      <section id="autor" className="bg-white py-24">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col items-center gap-8 rounded-2xl bg-[#F5F9F8] p-8 md:flex-row md:p-12">
-            <img
-              alt="Dra. Elena Ramirez"
-              className="h-40 w-40 flex-shrink-0 rounded-full object-cover"
-              src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=200&h=200&fit=crop&crop=face"
-            />
-            <div className="flex-1 text-center md:text-left">
-              <h3 className="text-2xl font-bold text-[#0D161C]">
-                Dra. Elena Ramirez
-              </h3>
-              <p className="mt-1 text-[#0077B6]">Científica Ambiental</p>
-              <p className="mt-4 max-w-2xl text-gray-700 md:mx-0">
-                La Dra. Ramirez es una experta líder en ciencias ambientales con
-                más de 15 años de experiencia en la conservación de ecosistemas
-                y políticas de sostenibilidad.
-              </p>
+      {/* AUTHOR PROFILE - PABLO CUBIDES */}
+      <section className="py-24 bg-[#E5F2F0]">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row items-center gap-12 bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-[#E5EDF2]">
+            <div className="w-48 h-48 md:w-64 md:h-64 relative flex-shrink-0">
+              <div className="absolute inset-0 bg-[#009A8F] rounded-full opacity-10 scale-110"></div>
+              <img
+                src="/images/Portal ambiental/autor/Pablo Cubides.jpg"
+                alt="Pablo Cubides"
+                className="w-full h-full object-cover rounded-full border-4 border-white shadow-lg relative z-10"
+              />
             </div>
-            <button className="w-full shrink-0 rounded-lg border-2 border-[#0077B6] px-6 py-2 font-bold text-[#0077B6] transition-colors hover:bg-[#0077B6] hover:text-white md:w-auto">
-              Ver perfil
-            </button>
+            <div className="flex-1 text-center md:text-left">
+              <span className="text-[#009A8F] font-bold tracking-wide uppercase text-sm">
+                Líder de Investigación
+              </span>
+              <h2 className="text-3xl lg:text-4xl font-bold text-[#0D161C] mt-2 mb-4 font-space-grotesk">
+                Pablo Cubides
+              </h2>
+              <p className="text-xl text-gray-600 mb-6 font-medium">
+                Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería
+                Ambiental.
+              </p>
+              <p className="text-gray-600 leading-relaxed mb-8 max-w-2xl">
+                Docente e investigador especializado en gestión integral del
+                recurso hídrico. Apasionado por la tecnología para el bien
+                ambiental, lidera la investigación y el desarrollo en Aquatech
+                IA.
+              </p>
+              <Link
+                href="/ambiental/autor"
+                className="inline-flex items-center text-[#0D161C] font-semibold hover:text-[#009A8F] transition-colors group"
+              >
+                Conoce más sobre su trabajo
+                <svg
+                  className="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  />
+                </svg>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* PRODUCTOS */}
-      <section id="productos" className="py-24">
+      {/* Products Section - Hidden for now */}
+      {/* <section id="productos" className="py-24">
         <div className="container mx-auto px-4">
           <h2
             className="text-center text-4xl font-bold"
@@ -389,13 +386,12 @@ export default function AmbientalPage() {
           </p>
 
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {/* Producto 1 */}
             <article className="rounded-2xl border border-[#E5EDF2] bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
               <div className="relative">
                 <img
                   alt="Producto de introducción a la ciencia ambiental"
                   className="aspect-[16/9] w-full rounded-xl object-cover"
-                  src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=400&h=225&fit=crop&crop=center"
+                  src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=225&fit=crop&crop=center"
                 />
                 <span className="absolute right-2 top-2 rounded-full bg-blue-100 px-2 py-1 text-xs font-semibold text-[#0077B6]">
                   Próximamente
@@ -410,12 +406,11 @@ export default function AmbientalPage() {
               </p>
             </article>
 
-            {/* Producto 2 */}
             <article className="rounded-2xl border border-[#E5EDF2] bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
               <img
                 alt="Gestión avanzada de recursos hídricos"
                 className="aspect-[16/9] w-full rounded-xl object-cover"
-                src="https://images.unsplash.com/photo-1574263867128-a3d5c1b1deae?w=400&h=225&fit=crop&crop=center"
+                src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=400&h=225&fit=crop&crop=center"
               />
               <h3 className="mt-4 text-lg font-semibold text-[#0D161C]">
                 Gestión Avanzada de Recursos Hídricos
@@ -426,12 +421,11 @@ export default function AmbientalPage() {
               </p>
             </article>
 
-            {/* Producto 3 */}
             <article className="rounded-2xl border border-[#E5EDF2] bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
               <img
                 alt="Estrategias de desarrollo sostenible"
                 className="aspect-[16/9] w-full rounded-xl object-cover"
-                src="https://images.unsplash.com/photo-1497436072909-f5e4be068edc?w=400&h=225&fit=crop&crop=center"
+                src="https://images.unsplash.com/photo-1497436072909-60f360e1d4b0?w=400&h=225&fit=crop&crop=center"
               />
               <h3 className="mt-4 text-lg font-semibold text-[#0D161C]">
                 Estrategias de Desarrollo Sostenible
@@ -449,7 +443,7 @@ export default function AmbientalPage() {
             </button>
           </div>
         </div>
-      </section>
+      </section> */}
     </main>
   );
 }

@@ -65,12 +65,12 @@ export default function HeaderIA() {
           >
             Autor
           </Link>
-          <Link
+          {/* <Link
             href="/ia/productos"
             className="text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400"
           >
             Productos
-          </Link>
+          </Link> */}
         </nav>
 
         {/* Botón de login */}

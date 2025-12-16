@@ -13,6 +13,7 @@ interface GBIFLayerControlProps {
 }
 
 export interface GBIFFilters {
+  country?: string;
   taxonKey?: number;
   basisOfRecord?: string;
   year?: number;
@@ -24,6 +25,7 @@ export default function GBIFLayerControl({
   occurrenceCount,
 }: GBIFLayerControlProps) {
   const [enabled, setEnabled] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState<string>('CO');
   const [selectedTaxon, setSelectedTaxon] = useState<number | undefined>();
   const [selectedBasis, setSelectedBasis] = useState<string | undefined>();
   const [selectedYear, setSelectedYear] = useState<number | undefined>();
@@ -35,9 +37,20 @@ export default function GBIFLayerControl({
     onToggle(newEnabled);
   };
 
+  const handleCountryChange = (country: string) => {
+    setSelectedCountry(country);
+    onFiltersChange({
+      country,
+      taxonKey: selectedTaxon,
+      basisOfRecord: selectedBasis,
+      year: selectedYear,
+    });
+  };
+
   const handleTaxonChange = (taxonKey: number | undefined) => {
     setSelectedTaxon(taxonKey);
     onFiltersChange({
+      country: selectedCountry,
       taxonKey,
       basisOfRecord: selectedBasis,
       year: selectedYear,
@@ -47,6 +60,7 @@ export default function GBIFLayerControl({
   const handleBasisChange = (basis: string | undefined) => {
     setSelectedBasis(basis);
     onFiltersChange({
+      country: selectedCountry,
       taxonKey: selectedTaxon,
       basisOfRecord: basis,
       year: selectedYear,
@@ -56,6 +70,7 @@ export default function GBIFLayerControl({
   const handleYearChange = (year: number | undefined) => {
     setSelectedYear(year);
     onFiltersChange({
+      country: selectedCountry,
       taxonKey: selectedTaxon,
       basisOfRecord: selectedBasis,
       year,
@@ -63,10 +78,11 @@ export default function GBIFLayerControl({
   };
 
   const clearFilters = () => {
+    setSelectedCountry('CO');
     setSelectedTaxon(undefined);
     setSelectedBasis(undefined);
     setSelectedYear(undefined);
-    onFiltersChange({});
+    onFiltersChange({ country: 'CO' });
   };
 
   return (
@@ -110,6 +126,29 @@ export default function GBIFLayerControl({
       {/* Filters */}
       {expanded && (
         <div className="space-y-3 mt-3 pt-3 border-t border-gray-200">
+          {/* Country Selector */}
+          <div>
+            <label className="block text-xs font-medium text-gray-700 mb-2">
+              País
+            </label>
+            <select
+              value={selectedCountry}
+              onChange={(e) => handleCountryChange(e.target.value)}
+              className="w-full text-xs px-2 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-green-500 focus:border-transparent"
+            >
+              <option value="CO">🇨🇴 Colombia</option>
+              <option value="US">🇺🇸 Estados Unidos</option>
+              <option value="MX">🇲🇽 México</option>
+              <option value="BR">🇧🇷 Brasil</option>
+              <option value="AR">🇦🇷 Argentina</option>
+              <option value="CL">🇨🇱 Chile</option>
+              <option value="PE">🇵🇪 Perú</option>
+              <option value="EC">🇪🇨 Ecuador</option>
+              <option value="CR">🇨🇷 Costa Rica</option>
+              <option value="PA">🇵🇦 Panamá</option>
+            </select>
+          </div>
+
           {/* Taxon Groups */}
           <div>
             <label className="block text-xs font-medium text-gray-700 mb-2">
@@ -185,7 +224,7 @@ export default function GBIFLayerControl({
           </div>
 
           {/* Clear Filters */}
-          {(selectedTaxon || selectedBasis || selectedYear) && (
+          {(selectedCountry !== 'CO' || selectedTaxon || selectedBasis || selectedYear) && (
             <button
               onClick={clearFilters}
               className="w-full text-xs px-3 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors"

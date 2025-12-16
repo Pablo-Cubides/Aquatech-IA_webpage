@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { WaterSample, DataSource, Country, IndexResult } from "./types";
 import DataSourceSelector from "./components/DataSourceSelector";
+import ManualDataEntry from "./components/ManualDataEntry";
 import { calculateIRCA, explainIRCACalculation } from "./utils/calculate-irca";
 import { calculateWQI, explainWQICalculation } from "./utils/calculate-wqi";
 import { calculateDWQI, explainDWQICalculation } from "./utils/calculate-dwqi";
@@ -12,10 +13,12 @@ import { getDWQICategory } from "./data/dwqi-parameters";
 import {
   parseCSV,
   csvToWaterSamples,
-  generateExampleCSV,
+  generateIRCAExampleCSV,
+  generateWQIExampleCSV,
+  generateDWQIExampleCSV,
   downloadCSV,
-  waterSamplesToCSV,
 } from "./utils/csv-utils";
+import { exportToPDF, printReport } from "./utils/pdf-export";
 
 type Step =
   | "select-source"
@@ -111,20 +114,49 @@ export default function IndiceCalidadAguaPage() {
                 <h3 className="font-semibold text-blue-900 mb-2">
                   Formato esperado del CSV:
                 </h3>
-                <code className="text-sm text-blue-800 block">
-                  fecha,ubicacion,pais,parametro,valor,unidad
+                <code className="text-sm text-blue-800 block mb-4">
+                  fecha,ubicacion,parametro,valor,unidad
                 </code>
-                <button
-                  onClick={() =>
-                    downloadCSV(
-                      generateExampleCSV(),
-                      "ejemplo-calidad-agua.csv"
-                    )
-                  }
-                  className="mt-3 text-sm text-primary-600 hover:text-primary-700 font-medium"
-                >
-                  ⬇️ Descargar archivo de ejemplo
-                </button>
+                
+                <p className="text-sm text-blue-800 mb-3">
+                  Descargue un ejemplo según el índice que desea calcular:
+                </p>
+                
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    onClick={() =>
+                      downloadCSV(
+                        generateIRCAExampleCSV(),
+                        "ejemplo-IRCA-colombia.csv"
+                      )
+                    }
+                    className="px-3 py-2 text-sm bg-green-600 text-white rounded-md hover:bg-green-700 font-medium"
+                  >
+                    📥 IRCA (Colombia)
+                  </button>
+                  <button
+                    onClick={() =>
+                      downloadCSV(
+                        generateWQIExampleCSV(),
+                        "ejemplo-WQI-rios.csv"
+                      )
+                    }
+                    className="px-3 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 font-medium"
+                  >
+                    📥 WQI (Ríos/NSF)
+                  </button>
+                  <button
+                    onClick={() =>
+                      downloadCSV(
+                        generateDWQIExampleCSV(),
+                        "ejemplo-DWQI-oms.csv"
+                      )
+                    }
+                    className="px-3 py-2 text-sm bg-purple-600 text-white rounded-md hover:bg-purple-700 font-medium"
+                  >
+                    📥 DWQI (OMS)
+                  </button>
+                </div>
               </div>
 
               <button
@@ -139,26 +171,26 @@ export default function IndiceCalidadAguaPage() {
       );
     }
 
-    // TODO: Implementar formulario manual
+    // Formulario de entrada manual
     return (
-      <div className="min-h-screen bg-gray-50 py-8">
-        <div className="max-w-4xl mx-auto px-4">
-          <div className="bg-white rounded-lg shadow-lg p-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">
-              Entrada Manual de Datos
-            </h2>
-            <p className="text-gray-600 mb-6">
-              Esta funcionalidad está en desarrollo. Por favor use la carga CSV.
-            </p>
-            <button
-              onClick={() => setCurrentStep("select-source")}
-              className="text-primary-600 hover:text-primary-700 font-medium"
-            >
-              ← Volver
-            </button>
-          </div>
-        </div>
-      </div>
+      <ManualDataEntry
+        selectedCountry={selectedCountry}
+        onBack={() => setCurrentStep("select-source")}
+        onSubmit={(sample: WaterSample) => {
+          // Calcular índices para la muestra
+          const sampleWithIndices = {
+            ...sample,
+            country: selectedCountry,
+            indices: {
+              IRCA: calculateIRCA(sample) || undefined,
+              WQI: calculateWQI(sample) || undefined,
+              DWQI: calculateDWQI(sample) || undefined,
+            },
+          };
+          setSamples([sampleWithIndices]);
+          setCurrentStep("view-results");
+        }}
+      />
     );
   }
 
@@ -202,13 +234,18 @@ export default function IndiceCalidadAguaPage() {
                 ← Nueva Consulta
               </button>
               <button
-                onClick={() => {
-                  const csv = waterSamplesToCSV(samples);
-                  downloadCSV(csv, "resultados-calidad-agua.csv");
+                onClick={async () => {
+                  try {
+                    await exportToPDF(currentSample, currentSample.indices || {});
+                  } catch (error) {
+                    // Fallback a impresión si falla
+                    console.error("Error generando PDF:", error);
+                    printReport(currentSample, currentSample.indices || {});
+                  }
                 }}
-                className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
               >
-                📥 Exportar CSV
+                📄 Exportar PDF
               </button>
             </div>
           </div>

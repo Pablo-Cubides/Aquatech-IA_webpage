@@ -3,10 +3,12 @@ import { ArxivPaper, ArxivApiResponse, BLOG_TO_ARXIV_CATEGORIES } from '../../(p
 
 // Cache for storing results (simple in-memory cache)
 const cache = new Map<string, { data: ArxivApiResponse; timestamp: number }>();
-const CACHE_DURATION = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
-const RATE_LIMIT_DELAY = 3000; // 3 seconds between requests to ArXiv
+const CACHE_DURATION = 2 * 60 * 60 * 1000; // 2 hours
+const RATE_LIMIT_DELAY = 4000; // Increased to 4 seconds to be safe
 
 let lastRequestTime = 0;
+// Queue to serialize requests to avoid hitting rate limits
+let requestQueue = Promise.resolve();
 
 /**
  * Parse ArXiv XML response to JSON
@@ -105,7 +107,7 @@ function extractTotalResults(xmlText: string): number {
 }
 
 /**
- * Build ArXiv API query URL
+ * Build ArXiv API query URL using URLSearchParams for correct encoding
  */
 function buildArxivUrl(params: {
   categories: string[];
@@ -120,25 +122,68 @@ function buildArxivUrl(params: {
   
   // Add category filter
   if (categories.length > 0) {
-    const catQuery = categories.map(c => `cat:${c}`).join('+OR+');
-    searchQuery = catQuery;
+    // Join with +OR+ but don't encode the operators yet, we'll handle construction carefully
+    // cat:cs.AI OR cat:cs.LG
+    searchQuery = categories.map(c => `cat:${c}`).join(' OR ');
   }
   
   // Add text search
   if (search) {
-    const encodedSearch = encodeURIComponent(search);
-    const textQuery = `all:${encodedSearch}`;
-    searchQuery = searchQuery ? `(${searchQuery})+AND+${textQuery}` : textQuery;
+    // all:search term
+    const textQuery = `all:${search}`;
+    searchQuery = searchQuery ? `(${searchQuery}) AND ${textQuery}` : textQuery;
   }
   
   // Default to AI papers if no query
   if (!searchQuery) {
-    searchQuery = 'cat:cs.AI+OR+cat:cs.LG+OR+cat:cs.CL';
+    // cat:cs.AI OR cat:cs.LG OR cat:cs.CL
+    searchQuery = 'cat:cs.AI OR cat:cs.LG OR cat:cs.CL';
   }
   
   const sortOrder = sortBy === 'relevance' ? 'relevance' : 'submittedDate';
   
-  return `https://export.arxiv.org/api/query?search_query=${searchQuery}&start=${start}&max_results=${maxResults}&sortBy=${sortOrder}&sortOrder=descending`;
+  // We construct the URL manually to ensure ArXiv compatible query string
+  // ArXiv expects: search_query=cat:subject+AND+all:electron
+  // We can use URLSearchParams to encode the value of search_query
+  
+  const queryParams = new URLSearchParams();
+  queryParams.set('search_query', searchQuery);
+  queryParams.set('start', start.toString());
+  queryParams.set('max_results', maxResults.toString());
+  queryParams.set('sortBy', sortOrder);
+  queryParams.set('sortOrder', 'descending');
+
+  return `https://export.arxiv.org/api/query?${queryParams.toString()}`;
+}
+
+async function fetchWithRetry(url: string, retries = 3, backoff = 5000): Promise<Response> {
+  try {
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': 'AquatechIA/1.0 (https://aquatechpro.co; contact@aquatechpro.co)',
+      },
+      next: { revalidate: 3600 } 
+    });
+
+    if (response.status === 429 && retries > 0) {
+      console.warn(`ArXiv 429 Rate Limit. Retrying in ${backoff}ms...`);
+      await new Promise(resolve => setTimeout(resolve, backoff));
+      return fetchWithRetry(url, retries - 1, backoff * 2);
+    }
+
+    if (!response.ok) {
+      throw new Error(`ArXiv API error: ${response.status}`);
+    }
+
+    return response;
+  } catch (error) {
+    if (retries > 0) {
+      console.warn(`Fetch error. Retrying in ${backoff}ms...`, error);
+      await new Promise(resolve => setTimeout(resolve, backoff));
+      return fetchWithRetry(url, retries - 1, backoff * 2);
+    }
+    throw error;
+  }
 }
 
 export async function GET(request: NextRequest) {
@@ -155,63 +200,74 @@ export async function GET(request: NextRequest) {
     let arxivCategories: string[] = [];
     if (blogCategory && BLOG_TO_ARXIV_CATEGORIES[blogCategory]) {
       arxivCategories = BLOG_TO_ARXIV_CATEGORIES[blogCategory];
+    } else if (blogCategory) {
+      console.warn(`Category not found in mapping: ${blogCategory}`);
     }
     
     // Create cache key
     const cacheKey = JSON.stringify({ arxivCategories, search, limit, start, sortBy });
     
-    // Check cache
+    // Check in-memory cache first
     const cached = cache.get(cacheKey);
     if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
       return NextResponse.json(cached.data);
     }
-    
-    // Rate limiting
-    const now = Date.now();
-    const timeSinceLastRequest = now - lastRequestTime;
-    if (timeSinceLastRequest < RATE_LIMIT_DELAY) {
-      await new Promise(resolve => setTimeout(resolve, RATE_LIMIT_DELAY - timeSinceLastRequest));
-    }
-    lastRequestTime = Date.now();
-    
-    // Build and fetch from ArXiv
-    const arxivUrl = buildArxivUrl({
-      categories: arxivCategories,
-      search,
-      start,
-      maxResults: limit,
-      sortBy,
+
+    // Process request in a serialized queue
+    const result = await new Promise<ArxivApiResponse>((resolve, reject) => {
+      requestQueue = requestQueue.then(async () => {
+        try {
+          // Rate limiting check
+          const now = Date.now();
+          const timeSinceLastRequest = now - lastRequestTime;
+          if (timeSinceLastRequest < RATE_LIMIT_DELAY) {
+            await new Promise(r => setTimeout(r, RATE_LIMIT_DELAY - timeSinceLastRequest));
+          }
+          
+          lastRequestTime = Date.now();
+
+          // Build ArXiv URL
+          const arxivUrl = buildArxivUrl({
+            categories: arxivCategories,
+            search,
+            start,
+            maxResults: limit,
+            sortBy,
+          });
+
+          console.log(`Fetching ArXiv: ${arxivUrl}`);
+
+          // Perform fetch with retry logic
+          const response = await fetchWithRetry(arxivUrl);
+          const xmlText = await response.text();
+          
+          const papers = parseArxivXML(xmlText);
+          const totalResults = extractTotalResults(xmlText);
+          
+          const apiResponse: ArxivApiResponse = {
+            papers,
+            totalResults,
+            startIndex: start,
+            itemsPerPage: limit,
+          };
+
+          // Store in cache
+          cache.set(cacheKey, { data: apiResponse, timestamp: Date.now() });
+          
+          resolve(apiResponse);
+        } catch (error) {
+          reject(error);
+        }
+      }).catch(err => {
+        console.error("Queue processing error", err);
+      });
     });
-    
-    const response = await fetch(arxivUrl, {
-      headers: {
-        'User-Agent': 'AquatechIA/1.0 (https://aquatechpro.co; contact@aquatechpro.co)',
-      },
-    });
-    
-    if (!response.ok) {
-      throw new Error(`ArXiv API error: ${response.status}`);
-    }
-    
-    const xmlText = await response.text();
-    const papers = parseArxivXML(xmlText);
-    const totalResults = extractTotalResults(xmlText);
-    
-    const result: ArxivApiResponse = {
-      papers,
-      totalResults,
-      startIndex: start,
-      itemsPerPage: limit,
-    };
-    
-    // Store in cache
-    cache.set(cacheKey, { data: result, timestamp: Date.now() });
-    
+
     return NextResponse.json(result);
-  } catch (error) {
+  } catch (error: any) {
     console.error('ArXiv API error:', error);
     return NextResponse.json(
-      { error: 'Error fetching papers from ArXiv' },
+      { error: error.message || 'Error fetching papers from ArXiv' },
       { status: 500 }
     );
   }

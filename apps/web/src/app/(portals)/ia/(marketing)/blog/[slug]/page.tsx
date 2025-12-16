@@ -149,7 +149,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
               </h1>
 
               <div className="flex flex-wrap items-center text-gray-300 text-sm gap-6 mb-6">
-                <div className="flex items-center">
+                <Link href="/ia/autor" className="flex items-center hover:opacity-80 transition-opacity">
                   <Image
                     alt={`Avatar de ${article.author.name}`}
                     className="rounded-full mr-3"
@@ -167,7 +167,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
                       </div>
                     )}
                   </div>
-                </div>
+                </Link>
 
                 <div className="flex items-center">
                   <svg

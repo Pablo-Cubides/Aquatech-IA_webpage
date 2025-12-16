@@ -371,6 +371,141 @@ export default function IAHerramientasPage() {
                 </div>
               </div>
             </article>
+            {/* Herramienta 5: Papers IA */}
+            <article className="bg-gradient-to-br from-[#1a1b2e] to-[#10111a] border border-[rgba(0,239,255,0.1)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_25px_-5px_rgba(0,239,255,0.1),0_8px_10px_-6px_rgba(0,239,255,0.1),0_0_0_1px_rgba(0,239,255,0.2)] hover:border-[rgba(0,239,255,0.3)] backdrop-blur-sm rounded-2xl overflow-hidden">
+              <div className="grid lg:grid-cols-2 lg:gap-8 items-center">
+                <div className="p-8 md:p-12 lg:p-16 flex flex-col order-2 lg:order-1">
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    <span className="bg-gradient-to-br from-[rgba(0,239,255,0.15)] to-[rgba(0,149,255,0.15)] border border-[rgba(0,239,255,0.2)] text-[#00efff] text-xs px-3 py-1 rounded-full font-medium backdrop-blur-sm">
+                      Investigación
+                    </span>
+                    <span className="bg-gradient-to-br from-[rgba(0,239,255,0.15)] to-[rgba(0,149,255,0.15)] border border-[rgba(0,239,255,0.2)] text-[#00efff] text-xs px-3 py-1 rounded-full font-medium backdrop-blur-sm">
+                      Recursos
+                    </span>
+                    <span className="bg-gradient-to-br from-[rgba(0,239,255,0.15)] to-[rgba(0,149,255,0.15)] border border-[rgba(0,239,255,0.2)] text-[#00efff] text-xs px-3 py-1 rounded-full font-medium backdrop-blur-sm">
+                      Papers
+                    </span>
+                  </div>
+                  <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white leading-tight">
+                    Papers y Recursos
+                  </h2>
+                  <p className="text-[#CCCCCC] mb-8 text-lg leading-relaxed">
+                    Acceda a una colección centralizada de papers técnicos,
+                    investigaciones y recursos académicos fundamentales para el
+                    aprendizaje de IA.
+                  </p>
+                  <ul className="space-y-4 mb-10 flex-grow">
+                    <ListItem>
+                      Biblioteca curada de literatura técnica
+                    </ListItem>
+                    <ListItem>
+                      Recursos de implementación y guías de estudio
+                    </ListItem>
+                    <ListItem>
+                      Referencias académicas clave y estado del arte
+                    </ListItem>
+                  </ul>
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <Link
+                      href="/ia/herramientas/papers-ia"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-[#00efff] text-[#10111A] rounded-lg font-semibold hover:bg-white transition-colors"
+                    >
+                      <PlayIcon />
+                      Explorar recursos
+                    </Link>
+                    <Link
+                      href="https://github.com/Pablo-Cubides/papers-ia"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-[#0095FF] text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors"
+                    >
+                      <DocIcon />
+                      Ver en GitHub
+                    </Link>
+                  </div>
+                </div>
+                <div className="h-64 lg:h-full min-h-[400px] overflow-hidden order-1 lg:order-2 relative">
+                  <img
+                    alt="Biblioteca de recursos y papers de investigación"
+                    className="w-full h-full object-cover tool-image"
+                    src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=1600&q=80"
+                  />
+                  <div className="absolute top-4 right-4">
+                    <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
+                      ✓ Disponible
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            {/* Herramienta 6: Modelos de Tendencia */}
+            <article className="bg-gradient-to-br from-[#1a1b2e] to-[#10111a] border border-[rgba(0,239,255,0.1)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_25px_-5px_rgba(0,239,255,0.1),0_8px_10px_-6px_rgba(0,239,255,0.1),0_0_0_1px_rgba(0,239,255,0.2)] hover:border-[rgba(0,239,255,0.3)] backdrop-blur-sm rounded-2xl overflow-hidden">
+              <div className="grid lg:grid-cols-2 lg:gap-8 items-center">
+                <div className="h-64 lg:h-full min-h-[400px] overflow-hidden relative">
+                  <img
+                    alt="Análisis de tendencias y modelos predictivos"
+                    className="w-full h-full object-cover tool-image"
+                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=80"
+                  />
+                  <div className="absolute top-4 right-4">
+                    <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
+                      ✓ Disponible
+                    </span>
+                  </div>
+                </div>
+                <div className="p-8 md:p-12 lg:p-16 flex flex-col">
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    <span className="bg-gradient-to-br from-[rgba(0,239,255,0.15)] to-[rgba(0,149,255,0.15)] border border-[rgba(0,239,255,0.2)] text-[#00efff] text-xs px-3 py-1 rounded-full font-medium backdrop-blur-sm">
+                      Predicción
+                    </span>
+                    <span className="bg-gradient-to-br from-[rgba(0,239,255,0.15)] to-[rgba(0,149,255,0.15)] border border-[rgba(0,239,255,0.2)] text-[#00efff] text-xs px-3 py-1 rounded-full font-medium backdrop-blur-sm">
+                      Series de Tiempo
+                    </span>
+                    <span className="bg-gradient-to-br from-[rgba(0,239,255,0.15)] to-[rgba(0,149,255,0.15)] border border-[rgba(0,239,255,0.2)] text-[#00efff] text-xs px-3 py-1 rounded-full font-medium backdrop-blur-sm">
+                      Análisis
+                    </span>
+                  </div>
+                  <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white leading-tight">
+                    Modelos de Tendencia
+                  </h2>
+                  <p className="text-[#CCCCCC] mb-8 text-lg leading-relaxed">
+                    Explore herramientas no paramétricas para la detección y
+                    análisis de tendencias en series temporales ambientales,
+                    como el test de Mann-Kendall.
+                  </p>
+                  <ul className="space-y-4 mb-10 flex-grow">
+                    <ListItem>
+                      Detección robusta de tendencias monóticas
+                    </ListItem>
+                    <ListItem>
+                      Estimación de la magnitud de cambio (Pendiente de Sen)
+                    </ListItem>
+                    <ListItem>
+                      Aplicación en datos hidrológicos y climáticos
+                    </ListItem>
+                  </ul>
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <Link
+                      href="/ia/herramientas/modelos-tendencia"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-[#00efff] text-[#10111A] rounded-lg font-semibold hover:bg-white transition-colors"
+                    >
+                      <PlayIcon />
+                      Abrir módulo
+                    </Link>
+                    <Link
+                      href="https://github.com/Pablo-Cubides/modelos-tendencia"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-[#0095FF] text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors"
+                    >
+                      <DocIcon />
+                      Ver en GitHub
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </article>
           </div>
 
           {/* Call to Action */}

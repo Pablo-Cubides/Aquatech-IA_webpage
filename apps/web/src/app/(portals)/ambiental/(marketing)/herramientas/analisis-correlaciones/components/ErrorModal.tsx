@@ -12,7 +12,7 @@ export default function ErrorModal({ message, onClose }: ErrorModalProps) {
         <div className="text-red-600 text-3xl mb-2">❌</div>
         <div className="text-gray-800 mb-4 text-center">{message}</div>
         <button
-          className="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition font-medium"
           onClick={onClose}
           autoFocus
         >

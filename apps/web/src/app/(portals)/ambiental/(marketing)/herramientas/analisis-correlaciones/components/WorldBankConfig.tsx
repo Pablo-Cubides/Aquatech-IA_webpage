@@ -11,10 +11,12 @@ import {
 
 interface WorldBankConfigProps {
   onConfigChange: (config: WorldBankConfig) => void;
+  isComparison?: boolean;
 }
 
 export interface WorldBankConfig {
   country: WBCountry;
+  compareCountry?: WBCountry;
   indicators: WBIndicator[];
   startYear: number;
   endYear: number;
@@ -22,9 +24,13 @@ export interface WorldBankConfig {
 
 export default function WorldBankConfig({
   onConfigChange,
+  isComparison = false,
 }: WorldBankConfigProps) {
   const [countries, setCountries] = useState<WBCountry[]>([]);
   const [selectedCountry, setSelectedCountry] = useState<WBCountry | null>(
+    null
+  );
+  const [selectedCompareCountry, setSelectedCompareCountry] = useState<WBCountry | null>(
     null
   );
   const [indicators, setIndicators] = useState<WBIndicator[]>([]);
@@ -36,16 +42,27 @@ export default function WorldBankConfig({
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [showSearch, setShowSearch] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   // Load countries on mount
-  useEffect(() => {
-    async function loadCountries() {
-      setLoading(true);
+  const loadCountriesData = async () => {
+    setLoading(true);
+    setLoadError(null);
+    try {
       const countriesList = await getCountries();
+      if (countriesList.length === 0) {
+        setLoadError("No se pudieron cargar los países. Verifica tu conexión a internet.");
+      }
       setCountries(countriesList);
-      setLoading(false);
+    } catch (err) {
+      setLoadError("Error de conexión. Haz clic para reintentar.");
+      console.error("Error loading countries:", err);
     }
-    loadCountries();
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    loadCountriesData();
   }, []);
 
   // Load popular indicators
@@ -75,7 +92,13 @@ export default function WorldBankConfig({
       );
     } else {
       if (selectedIndicators.length < 5) {
-        setSelectedIndicators([...selectedIndicators, indicator]);
+        // Limit to 3 for comparison mode, 5 otherwise
+        const maxIndicators = isComparison ? 3 : 5;
+        if (selectedIndicators.length < maxIndicators) {
+            setSelectedIndicators([...selectedIndicators, indicator]);
+        } else {
+            alert(`En modo comparación puedes seleccionar máximo ${maxIndicators} indicadores`);
+        }
       } else {
         alert("Puedes seleccionar máximo 5 indicadores");
       }
@@ -88,6 +111,10 @@ export default function WorldBankConfig({
       alert("Por favor selecciona un país");
       return;
     }
+    if (isComparison && !selectedCompareCountry) {
+        alert("Por favor selecciona el segundo país para comparar");
+        return;
+    }
     if (selectedIndicators.length === 0) {
       alert("Por favor selecciona al menos un indicador");
       return;
@@ -99,6 +126,7 @@ export default function WorldBankConfig({
 
     onConfigChange({
       country: selectedCountry,
+      compareCountry: selectedCompareCountry || undefined,
       indicators: selectedIndicators,
       startYear,
       endYear,
@@ -128,31 +156,64 @@ export default function WorldBankConfig({
         </div>
       </div>
 
+      {/* Error Message with Retry */}
+      {loadError && (
+        <div className="p-4 bg-red-50 border border-red-200 rounded-lg flex items-center justify-between">
+          <p className="text-red-700 text-sm">{loadError}</p>
+          <button
+            onClick={loadCountriesData}
+            disabled={loading}
+            className="px-4 py-2 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 disabled:opacity-50"
+          >
+            {loading ? "Cargando..." : "Reintentar"}
+          </button>
+        </div>
+      )}
+
       {/* Country Selection */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          1. Selecciona un país *
-        </label>
-        <select
-          value={selectedCountry?.id || ""}
-          onChange={(e) => {
-            const country = countries.find((c) => c.id === e.target.value);
-            setSelectedCountry(country || null);
-          }}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00796B] focus:border-transparent"
-        >
-          <option value="">-- Selecciona un país --</option>
-          {countries.map((country) => (
-            <option key={country.id} value={country.id}>
-              {country.name}
-            </option>
-          ))}
-        </select>
-        {selectedCountry && (
-          <p className="text-xs text-gray-500 mt-1">
-            Región: {selectedCountry.region.value} | Capital:{" "}
-            {selectedCountry.capitalCity}
-          </p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+            1. Selecciona {isComparison ? "País A" : "un país"} *
+            </label>
+            <select
+            value={selectedCountry?.id || ""}
+            onChange={(e) => {
+                const country = countries.find((c) => c.id === e.target.value);
+                setSelectedCountry(country || null);
+            }}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00796B] focus:border-transparent"
+            >
+            <option value="">-- Selecciona un país --</option>
+            {countries.map((country) => (
+                <option key={country.id} value={country.id}>
+                {country.name}
+                </option>
+            ))}
+            </select>
+        </div>
+
+        {isComparison && (
+            <div>
+                 <label className="block text-sm font-medium text-gray-700 mb-2">
+                 Selecciona País B *
+                 </label>
+                 <select
+                 value={selectedCompareCountry?.id || ""}
+                 onChange={(e) => {
+                     const country = countries.find((c) => c.id === e.target.value);
+                     setSelectedCompareCountry(country || null);
+                 }}
+                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00796B] focus:border-transparent"
+                 >
+                 <option value="">-- Selecciona un país --</option>
+                 {countries.map((country) => (
+                     <option key={country.id} value={country.id}>
+                     {country.name}
+                     </option>
+                 ))}
+                 </select>
+             </div>
         )}
       </div>
 

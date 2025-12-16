@@ -40,7 +40,7 @@ export interface WBTimeSeriesData {
   data: Array<{ year: number; value: number | null }>;
 }
 
-const WB_API_BASE = "https://api.worldbank.org/v2";
+const WB_API_BASE = "/api/proxy/worldbank";
 const DEFAULT_PER_PAGE = 500;
 
 /**
@@ -48,8 +48,9 @@ const DEFAULT_PER_PAGE = 500;
  */
 export async function getCountries(): Promise<WBCountry[]> {
   try {
+    // Usando el proxy: path=country
     const response = await fetch(
-      `${WB_API_BASE}/country?format=json&per_page=300`
+      `${WB_API_BASE}?path=country&format=json&per_page=300`
     );
     const data = await response.json();
 
@@ -189,7 +190,7 @@ export async function searchIndicators(
 ): Promise<{ indicators: WBIndicator[]; total: number }> {
   try {
     const response = await fetch(
-      `${WB_API_BASE}/indicator?format=json&per_page=${DEFAULT_PER_PAGE}&page=${page}`
+      `${WB_API_BASE}?path=indicator&format=json&per_page=${DEFAULT_PER_PAGE}&page=${page}`
     );
     const data = await response.json();
 
@@ -223,8 +224,9 @@ export async function getIndicatorData(
   endYear: number
 ): Promise<WBTimeSeriesData | null> {
   try {
+    const path = `country/${countryCode}/indicator/${indicatorId}`;
     const response = await fetch(
-      `${WB_API_BASE}/country/${countryCode}/indicator/${indicatorId}?format=json&date=${startYear}:${endYear}&per_page=${DEFAULT_PER_PAGE}`
+      `${WB_API_BASE}?path=${path}&format=json&date=${startYear}:${endYear}&per_page=${DEFAULT_PER_PAGE}`
     );
     const data = await response.json();
 

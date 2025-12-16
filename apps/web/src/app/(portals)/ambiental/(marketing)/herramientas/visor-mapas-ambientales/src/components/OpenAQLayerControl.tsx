@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   getOpenAQLocations,
   getOpenAQMeasurements,
@@ -15,6 +15,7 @@ interface OpenAQLayerControlProps {
   onDataLoad: (data: GeoJSONFeature[]) => void;
   onLoadingChange: (loading: boolean) => void;
   onError: (error: string | null) => void;
+  onParameterChange?: (parameter: string) => void;
 }
 
 export default function OpenAQLayerControl({
@@ -22,12 +23,20 @@ export default function OpenAQLayerControl({
   onDataLoad,
   onLoadingChange,
   onError,
+  onParameterChange,
 }: OpenAQLayerControlProps) {
   const [isEnabled, setIsEnabled] = useState(false);
   const [loading, setLoading] = useState(false);
   const [country, setCountry] = useState("CO"); // Colombia por defecto
   const [parameter, setParameter] = useState("pm25");
-  const [radius, setRadius] = useState(500); // km
+
+  // Notify parent when parameter changes
+  useEffect(() => {
+    if (onParameterChange) {
+      onParameterChange(parameter);
+    }
+  }, [parameter, onParameterChange]);
+  const [radius, setRadius] = useState(10); // km (max 25km for OpenAQ API)
   const [latitude] = useState(4.711); // Bogotá
   const [longitude] = useState(-74.0721); // Bogotá
   const [availableParams, setAvailableParams] = useState<
@@ -69,7 +78,7 @@ export default function OpenAQLayerControl({
           longitude,
           radius,
           limit: 1000,
-          dateFrom: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(), // Last 24 hours
+          dateFrom: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().split('T')[0], // Last 24 hours in YYYY-MM-DD format
         });
 
         if (measurements.length === 0) {

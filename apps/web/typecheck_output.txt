@@ -1,0 +1,22 @@
+
+> @ia-next/web@0.0.1 typecheck D:\Empresas\AquatechIA\webpage\apps\web
+> tsc --noEmit
+
+src/app/(portals)/ambiental/(marketing)/herramientas/analisis-correlaciones/components/ExportButtons.tsx(57,28): error TS2552: Cannot find name 'exportCSV'. Did you mean 'exports'?
+src/app/(portals)/ambiental/(marketing)/herramientas/analisis-correlaciones/components/ExportButtons.tsx(63,28): error TS2552: Cannot find name 'exportJSON'. Did you mean 'exports'?
+src/app/(portals)/ambiental/(marketing)/herramientas/analisis-correlaciones/components/ExportButtons.tsx(73,26): error TS2304: Cannot find name 'exportHeatmapPNG'.
+src/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambientales/src/app/page.tsx(1237,27): error TS2322: Type '{}' is not assignable to type 'ReactNode'.
+src/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambientales/src/app/page.tsx(1241,71): error TS2769: No overload matches this call.
+  Overload 1 of 4, '(value: string | number | Date): Date', gave the following error.
+    Argument of type '{}' is not assignable to parameter of type 'string | number | Date'.
+  Overload 2 of 4, '(value: string | number): Date', gave the following error.
+    Argument of type '{}' is not assignable to parameter of type 'string | number'.
+src/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambientales/src/app/page.tsx(1245,27): error TS2322: Type '{}' is not assignable to type 'ReactNode'.
+src/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambientales/src/app/page.tsx(1249,27): error TS2322: Type '{}' is not assignable to type 'ReactNode'.
+src/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambientales/src/app/page.tsx(1251,25): error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.
+src/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambientales/src/app/page.tsx(1254,29): error TS2322: Type '{}' is not assignable to type 'ReactNode'.
+src/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambientales/src/app/page.tsx(1266,33): error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.
+src/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambientales/src/app/page.tsx(1276,25): error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.
+src/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambientales/src/app/page.tsx(1279,55): error TS2322: Type '{}' is not assignable to type 'ReactNode'.
+src/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambientales/src/lib/openaq.ts(311,11): error TS2353: Object literal may only specify known properties, and 'id' does not exist in type 'OpenAQMeasurement'.
+ ELIFECYCLE  Command failed with exit code 1.

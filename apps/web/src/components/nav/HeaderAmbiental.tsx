@@ -66,12 +66,12 @@ export default function HeaderAmbiental() {
           >
             Autor
           </Link>
-          <Link
+          {/* <Link
             href="/ambiental/productos"
             className="text-gray-600 transition-colors duration-300 hover:text-blue-600"
           >
             Productos
-          </Link>
+          </Link> */}
         </nav>
 
         {/* Botón de login */}
@@ -142,13 +142,13 @@ export default function HeaderAmbiental() {
             >
               Autor
             </Link>
-            <Link
+            {/* <Link
               href="/ambiental/productos"
               className="text-gray-600 transition-colors duration-300 hover:text-blue-600 py-2"
               onClick={() => setIsMenuOpen(false)}
             >
               Productos
-            </Link>
+            </Link> */}
             <div className="border-t border-gray-200 mt-2 pt-4">
               <AuthButton
                 theme="light"

@@ -1,6 +1,9 @@
 // Article configuration for both portals
 // This file can be easily edited to add new articles
 
+import { NEW_IA_ARTICLES } from "./new-blog-articles";
+import { NEW_AMBIENTAL_ARTICLES } from "./new-ambiental-articles";
+
 export type BlogArticle = {
   slug: string;
   title: string;
@@ -52,9 +55,9 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     excerpt: "Descubre cómo evaluar la calidad del agua potable con los índices IRCA, WQI y DWQI. Incluye herramienta gratuita, ejemplos prácticos y normatividad colombiana.",
     heroImage: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=1600&q=80",
     author: {
-      name: "Ing. Laura Martínez",
-      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80",
-      bio: "Ingeniera ambiental especializada en calidad de agua y saneamiento básico. Consultora en proyectos de acueducto y alcantarillado.",
+      name: "Pablo Cubides",
+      avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
+      bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
       introduction: "¿Alguna vez te has preguntado qué tan segura es el agua que bebes? Los índices de calidad del agua son herramientas científicas que transforman datos complejos de laboratorio en un solo número que cualquiera puede entender. En Colombia, el IRCA (Índice de Riesgo de Calidad del Agua) es la herramienta oficial para evaluar el agua potable, pero también existen otros índices internacionales como el WQI y el DWQI. En este artículo, te mostraremos cómo funcionan estos índices, cómo calcularlos paso a paso y cómo usar nuestra herramienta gratuita para hacerlo automáticamente.",
@@ -195,10 +198,9 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     heroImage:
       "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1600&q=80",
     author: {
-      name: "Dra. Elena Vance",
-      avatar:
-        "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=120&q=80",
-      bio: "Especialista en gestión de recursos hídricos con más de 15 años de experiencia en proyectos de restauración ambiental.",
+      name: "Pablo Cubides",
+      avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
+      bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
       introduction:
@@ -258,9 +260,9 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     excerpt: "Aprende a leer e interpretar los índices de calidad del aire más utilizados en el mundo. Protege tu salud con información en tiempo real y herramientas gratuitas.",
     heroImage: "https://images.unsplash.com/photo-1567095761054-7a02e69e5c43?auto=format&fit=crop&w=1600&q=80",
     author: {
-      name: "Dr. Andrés Soto",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80",
-      bio: "Ingeniero ambiental PhD en calidad del aire. Investigador en contaminación atmosférica y sistemas de monitoreo.",
+      name: "Pablo Cubides",
+      avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
+      bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
       introduction: "El aire que respiramos tiene un impacto directo en nuestra salud, pero ¿cómo saber si el aire de tu ciudad está limpio o contaminado? Los índices de calidad del aire transforman mediciones complejas de contaminantes en un número simple que cualquiera puede entender. En este artículo descubrirás cómo funcionan los principales índices usados en Colombia, Estados Unidos y Europa, qué significan sus colores y números, y cómo puedes proteger tu salud tomando decisiones informadas. Además, te mostraremos nuestra herramienta gratuita para calcular estos índices instantáneamente.",
@@ -425,9 +427,9 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     excerpt: "Domina las metodologías de EIA más utilizadas en Latinoamérica. Guía paso a paso con ejemplos prácticos y herramienta gratuita para generar tus matrices profesionales.",
     heroImage: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1600&q=80",
     author: {
-      name: "Ing. Patricia Gómez",
-      avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=120&q=80",
-      bio: "Ingeniera ambiental con maestría en gestión ambiental. Especialista en evaluación de impacto ambiental de proyectos de infraestructura.",
+      name: "Pablo Cubides",
+      avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
+      bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
       introduction: "La Evaluación de Impacto Ambiental (EIA) es un requisito obligatorio para obtener licencias ambientales en Colombia y la mayoría de países latinoamericanos. Pero, ¿cómo se evalúan sistemáticamente los impactos de un proyecto? Las matrices de evaluación ambiental son herramientas metodológicas que permiten identificar, valorar y comparar impactos de forma estructurada. En este artículo te enseñaremos las tres metodologías más utilizadas: Leopold, Conesa y Battelle-Columbus, con ejemplos prácticos y acceso a nuestra herramienta gratuita para generar matrices profesionales en minutos.",
@@ -592,9 +594,9 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     excerpt: "Descubre cómo los Sistemas de Información Geográfica revolucionan el monitoreo ambiental. Mapas interactivos, datos en tiempo real y herramientas gratuitas para análisis territorial.",
     heroImage: "https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1600&q=80",
     author: {
-      name: "Ing. Camila Torres",
-      avatar: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=120&q=80",
-      bio: "Ingeniera geográfica especializada en SIG y sensores remotos. Desarrolladora de aplicaciones geoespaciales para monitoreo ambiental.",
+      name: "Pablo Cubides",
+      avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
+      bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
       introduction: "Imagina poder ver en un mapa interactivo, en tiempo real, dónde hay deforestación, puntos de contaminación del agua, distribución de especies en peligro o calidad del aire en tu ciudad. Los Sistemas de Información Geográfica (SIG) hacen posible este superpoder ambiental. Ya no necesitas ser un experto cartógrafo ni tener software costoso: hoy existen herramientas web gratuitas que ponen el poder del análisis geoespacial al alcance de todos. En este artículo aprenderás cómo funcionan los SIG ambientales, qué fuentes de datos geográficos están disponibles gratuitamente y cómo usar nuestra herramienta de mapas interactivos para visualizar y analizar datos ambientales de forma profesional.",
@@ -745,9 +747,9 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     excerpt: "Navega fácilmente por la normatividad ambiental colombiana. Resoluciones, decretos y límites permisibles organizados por dominio con herramienta de consulta gratuita.",
     heroImage: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1600&q=80",
     author: {
-      name: "Abg. Roberto Díaz",
-      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=120&q=80",
-      bio: "Abogado especializado en derecho ambiental. Asesor legal de proyectos de licenciamiento ambiental.",
+      name: "Pablo Cubides",
+      avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
+      bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
       introduction: "La normatividad ambiental colombiana es extensa y compleja: cientos de decretos, resoluciones, acuerdos y sentencias que regulan desde la calidad del agua potable hasta la gestión de residuos peligrosos. Para empresas, consultores y autoridades ambientales, mantenerse actualizado y encontrar rápidamente la norma correcta es un desafío constante. ¿Cuál es el límite permisible de DBO en vertimientos? ¿Qué dice la Resolución 2254 sobre calidad del aire? ¿Cuándo entró en vigencia el nuevo código de colores para residuos? En este artículo encontrarás una guía organizada de la normatividad ambiental colombiana por dominio, con acceso a nuestra herramienta gratuita que funciona como un buscador inteligente de normas.",
@@ -839,9 +841,9 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     excerpt: "Descubre relaciones ocultas en tus datos ambientales. Guía práctica de análisis de correlaciones con herramienta gratuita para estudios científicos y gestión ambiental.",
     heroImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=80",
     author: {
-      name: "Dr. Felipe Ramírez",
-      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80",
-      bio: "Estadístico PhD especializado en análisis de datos ambientales. Investigador en modelado de ecosistemas.",
+      name: "Pablo Cubides",
+      avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
+      bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
       introduction: "¿La temperatura del agua está relacionada con la concentración de oxígeno disuelto? ¿El PM₂.₅ aumenta cuando sube la humedad? ¿La deforestación se correlaciona con pérdida de biodiversidad? Estas preguntas solo pueden responderse con análisis estadístico riguroso. El análisis de correlaciones es una herramienta fundamental para descubrir relaciones entre variables ambientales, validar hipótesis y fundamentar decisiones de gestión. En este artículo aprenderás cuándo usar Pearson, Spearman o Kendall, cómo interpretar correctamente los resultados y cómo usar nuestra herramienta gratuita para hacer análisis profesionales sin necesidad de ser experto en estadística.",
@@ -931,10 +933,9 @@ export const IA_ARTICLES: Record<string, BlogArticle> = {
     heroImage:
       "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1600&q=80",
     author: {
-      name: "Dr. Marcus Chen",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80",
-      bio: "Investigador en IA con especialización en modelos de lenguaje y arquitecturas de deep learning.",
+      name: "Pablo Cubides",
+      avatar: "/images/Portal IA/Autor/Pablo Cubides.png",
+      bio: "Ingeniero Químico · M. Sc. en Ingeniería Ambiental · Docente universitario · Desarrollador en IA, redes neuronales y optimización",
     },
     content: {
       introduction:
@@ -997,10 +998,9 @@ export const IA_ARTICLES: Record<string, BlogArticle> = {
     heroImage:
       "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1600&q=80",
     author: {
-      name: "Dra. Sarah Kim",
-      avatar:
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80",
-      bio: "Especialista en computer vision y modelos generativos, con experiencia en Meta AI y investigación independiente.",
+      name: "Pablo Cubides",
+      avatar: "/images/Portal IA/Autor/Pablo Cubides.png",
+      bio: "Ingeniero Químico · M. Sc. en Ingeniería Ambiental · Docente universitario · Desarrollador en IA, redes neuronales y optimización",
     },
     content: {
       introduction:
@@ -1043,14 +1043,18 @@ export function getArticle(
   portal: "ia" | "ambiental",
   slug: string,
 ): BlogArticle | null {
-  const articles = portal === "ia" ? IA_ARTICLES : AMBIENTAL_ARTICLES;
-  return articles[slug] || null;
+  const existingArticles = portal === "ia" ? IA_ARTICLES : AMBIENTAL_ARTICLES;
+  const newArticles = portal === "ia" ? NEW_IA_ARTICLES : NEW_AMBIENTAL_ARTICLES;
+  const allArticles = { ...existingArticles, ...newArticles };
+  return allArticles[slug] || null;
 }
 
 // Helper function to get all articles from a portal
 export function getAllArticles(portal: "ia" | "ambiental"): BlogArticle[] {
-  const articles = portal === "ia" ? IA_ARTICLES : AMBIENTAL_ARTICLES;
-  return Object.values(articles);
+  const existingArticles = portal === "ia" ? IA_ARTICLES : AMBIENTAL_ARTICLES;
+  const newArticles = portal === "ia" ? NEW_IA_ARTICLES : NEW_AMBIENTAL_ARTICLES;
+  const allArticles = { ...existingArticles, ...newArticles };
+  return Object.values(allArticles);
 }
 
 // Helper function to generate table of contents

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import dynamic from "next/dynamic";
 import UploadWizard from "../components/UploadWizard";
 import SearchBar from "../components/SearchBar";
@@ -20,8 +20,9 @@ import type {
 } from "../types";
 import { logger } from "@/lib/logger";
 // import { getAQIColor, getAQICategory } from "../lib/openaq";
+import { getParameterLegendRanges } from "../lib/openaq";
 import { searchOccurrences, getTaxonColor } from "@/lib/gbif";
-import { searchStations, getSiteTypeColor } from "@/lib/wqp";
+import { searchStations, getSiteTypeColor, US_STATES } from "@/lib/wqp";
 
 // Dynamically import MapComponent to avoid SSR issues
 const MapComponent = dynamic(() => import("../components/MapComponent"), {
@@ -57,6 +58,7 @@ export default function HomePage() {
   });
   const [openAQData, setOpenAQData] = useState<GeoJSONFeature[]>([]);
   const [showOpenAQLayer, setShowOpenAQLayer] = useState(false);
+  const [openAQParameter, setOpenAQParameter] = useState<string>('pm25');
   const [eonetData, setEonetData] = useState<GeoJSONFeature[]>([]);
   const [showEONETLayer, setShowEONETLayer] = useState(false);
   const [gbifData, setGbifData] = useState<GeoJSONFeature[]>([]);
@@ -64,7 +66,7 @@ export default function HomePage() {
   const [gbifFilters, setGbifFilters] = useState<GBIFFilters>({});
   const [wqpData, setWqpData] = useState<GeoJSONFeature[]>([]);
   const [showWQPLayer, setShowWQPLayer] = useState(false);
-  const [wqpFilters, setWqpFilters] = useState<WQPFilters>({});
+  const [wqpFilters, setWqpFilters] = useState<WQPFilters>({ statecode: "US:06" }); // Default to California
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   // const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -73,6 +75,55 @@ export default function HomePage() {
   const [isMobileDetailsOpen, setIsMobileDetailsOpen] = useState(false);
   const [parameterRanges, setParameterRanges] = useState<Record<string, { min: number; max: number }>>({});
   const [activeRangeFilters, setActiveRangeFilters] = useState<Record<string, { min: number; max: number }>>({});
+
+  // Memoize callbacks to prevent infinite renders
+  const handleOpenAQDataLoad = useCallback((data: GeoJSONFeature[]) => {
+    setOpenAQData(data);
+  }, []);
+
+  const handleOpenAQLoadingChange = useCallback((isLoading: boolean) => {
+    setLoading(isLoading);
+  }, []);
+
+  const handleOpenAQError = useCallback((err: string | null) => {
+    setError(err);
+  }, []);
+
+  const handleEONETDataLoad = useCallback((data: GeoJSONFeature[]) => {
+    setEonetData(data);
+  }, []);
+
+  const handleEONETLoadingChange = useCallback((isLoading: boolean) => {
+    setLoading(isLoading);
+  }, []);
+
+  const handleEONETError = useCallback((err: string | null) => {
+    setError(err);
+  }, []);
+
+  const handleGBIFDataLoad = useCallback((data: GeoJSONFeature[]) => {
+    setGbifData(data);
+  }, []);
+
+  const handleGBIFLoadingChange = useCallback((isLoading: boolean) => {
+    setLoading(isLoading);
+  }, []);
+
+  const handleGBIFError = useCallback((err: string | null) => {
+    setError(err);
+  }, []);
+
+  const handleWQPDataLoad = useCallback((data: GeoJSONFeature[]) => {
+    setWqpData(data);
+  }, []);
+
+  const handleWQPLoadingChange = useCallback((isLoading: boolean) => {
+    setLoading(isLoading);
+  }, []);
+
+  const handleWQPError = useCallback((err: string | null) => {
+    setError(err);
+  }, []);
 
   // Mock login for development
   useEffect(() => {
@@ -414,6 +465,7 @@ export default function HomePage() {
         setError(null);
 
         const result = await searchOccurrences({
+          country: gbifFilters.country || 'CO', // Use filter or default to Colombia
           taxonKey: gbifFilters.taxonKey,
           basisOfRecord: gbifFilters.basisOfRecord,
           year: gbifFilters.year,
@@ -442,7 +494,14 @@ export default function HomePage() {
             eventDate: occurrence.eventDate,
             year: occurrence.year,
             country: occurrence.country,
-            _color: getTaxonColor(occurrence.kingdomKey),
+            classKey: occurrence.classKey,
+            phylumKey: occurrence.phylumKey,
+            kingdomKey: occurrence.kingdomKey,
+            _color: getTaxonColor({
+              classKey: occurrence.classKey,
+              phylumKey: occurrence.phylumKey,
+              kingdomKey: occurrence.kingdomKey
+            }),
           },
         }));
 
@@ -472,15 +531,23 @@ export default function HomePage() {
         setLoading(true);
         setError(null);
 
-        // Use a default bounding box (can be updated based on map bounds)
-        // This example covers USA
+        // Get the selected state's bounding box
+        const selectedStateCode = wqpFilters.statecode || "US:06"; // Default to California
+        const selectedState = US_STATES.find(s => s.code === selectedStateCode);
+        const stateBBox = selectedState?.bbox || "-124.48,32.53,-114.13,42.01"; // Default CA bbox
+        
+        logger.info(`Loading WQP data for ${selectedState?.name || 'California'}`);
+        
         const result = await searchStations({
+          bBox: stateBBox,
+          statecode: selectedStateCode,
           countrycode: "US",
           characteristicName: wqpFilters.characteristicName,
           characteristicType: wqpFilters.characteristicType,
           siteType: wqpFilters.siteType,
           startDateLo: wqpFilters.startDateLo,
           providers: ["NWIS", "STORET"],
+          resultLimit: 5000, // Limit to 5000 stations for performance
         });
 
         // Convert WQP stations to GeoJSON features
@@ -493,6 +560,7 @@ export default function HomePage() {
           properties: {
             id: station.MonitoringLocationIdentifier,
             _layerType: "wqp",
+            source: "wqp",
             stationName: station.MonitoringLocationName || station.MonitoringLocationIdentifier,
             siteType: station.MonitoringLocationTypeName,
             organization: station.OrganizationFormalName,
@@ -812,18 +880,19 @@ export default function HomePage() {
               {/* OpenAQ Layer Control */}
               <OpenAQLayerControl
                 onToggle={setShowOpenAQLayer}
-                onDataLoad={(data) => setOpenAQData(data)}
-                onLoadingChange={(isLoading) => setLoading(isLoading)}
-                onError={(err) => setError(err)}
+                onDataLoad={handleOpenAQDataLoad}
+                onLoadingChange={handleOpenAQLoadingChange}
+                onError={handleOpenAQError}
+                onParameterChange={setOpenAQParameter}
               />
 
               {/* NASA EONET Layer Control */}
               <EONETLayerControl
                 enabled={showEONETLayer}
                 onToggle={setShowEONETLayer}
-                onDataLoad={(data) => setEonetData(data)}
-                onLoadingChange={(isLoading) => setLoading(isLoading)}
-                onError={(err) => setError(err)}
+                onDataLoad={handleEONETDataLoad}
+                onLoadingChange={handleEONETLoadingChange}
+                onError={handleEONETError}
               />
 
               {/* GBIF Biodiversity Layer Control */}
@@ -999,47 +1068,28 @@ export default function HomePage() {
             />
 
             {/* Map Legend - OpenAQ */}
-            {showOpenAQLayer && openAQData.length > 0 && (
-              <div className="absolute z-10 bottom-4 left-4">
-                <MapLegend
-                  items={[
-                    {
-                      color: "#22c55e",
-                      label: "Bueno",
-                      range: "0-50",
-                    },
-                    {
-                      color: "#eab308",
-                      label: "Moderado",
-                      range: "51-100",
-                    },
-                    {
-                      color: "#f97316",
-                      label: "Insalubre (sensibles)",
-                      range: "101-150",
-                    },
-                    {
-                      color: "#ef4444",
-                      label: "Insalubre",
-                      range: "151-200",
-                    },
-                    {
-                      color: "#a855f7",
-                      label: "Muy insalubre",
-                      range: "201-300",
-                    },
-                    {
-                      color: "#7f1d1d",
-                      label: "Peligroso",
-                      range: "300+",
-                    },
-                  ]}
-                  title="Calidad del Aire"
-                  parameter="OpenAQ"
-                  units="AQI"
-                />
-              </div>
-            )}
+            {showOpenAQLayer && openAQData.length > 0 && (() => {
+              const legendRanges = getParameterLegendRanges(openAQParameter);
+              const parameterDisplayNames: Record<string, string> = {
+                pm25: 'PM2.5',
+                pm10: 'PM10',
+                o3: 'Ozono (O₃)',
+                no2: 'Dióxido de Nitrógeno (NO₂)',
+                so2: 'Dióxido de Azufre (SO₂)',
+                co: 'Monóxido de Carbono (CO)',
+              };
+              const displayName = parameterDisplayNames[openAQParameter] || openAQParameter.toUpperCase();
+              return (
+                <div className="absolute z-10 bottom-4 left-4">
+                  <MapLegend
+                    items={legendRanges}
+                    title={`Calidad del Aire - ${displayName}`}
+                    parameter="OpenAQ"
+                    units={legendRanges[0]?.units || 'µg/m³'}
+                  />
+                </div>
+              );
+            })()}
 
             {/* Map Legend - NASA EONET */}
             {showEONETLayer && eonetData.length > 0 && (
@@ -1173,36 +1223,70 @@ export default function HomePage() {
 
             {selectedFeature ? (
               <div className="space-y-4">
-                <div>
-                  <h3 className="font-medium text-gray-900">
-                    Información general
-                  </h3>
-                  <div className="mt-2 space-y-1">
-                    <p className="text-sm">
-                      <span className="font-medium">Estación:</span>{" "}
-                      {selectedFeature.properties.estacion || "N/A"}
-                    </p>
-                    <p className="text-sm">
-                      <span className="font-medium">Fecha:</span>{" "}
-                      {selectedFeature.properties.fecha}
-                    </p>
-                    <p className="text-sm">
-                      <span className="font-medium">País:</span>{" "}
-                      {selectedFeature.properties.pais}
-                    </p>
-                    <p className="text-sm">
-                      <span className="font-medium">Departamento:</span>{" "}
-                      {selectedFeature.properties.departamento}
-                    </p>
-                    <p className="text-sm">
-                      <span className="font-medium">Ciudad:</span>{" "}
-                      {selectedFeature.properties.ciudad}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Parameters or Event Details */}
-                {selectedFeature.properties._eventType === "eonet" ? (
+                {/* Check data source and display appropriate fields */}
+                {selectedFeature.properties.source === "openaq" ? (
+                  /* OpenAQ Air Quality Data */
+                  <>
+                    <div>
+                      <h3 className="font-medium text-gray-900">
+                        Estación de Calidad del Aire
+                      </h3>
+                      <div className="mt-2 space-y-1">
+                        <p className="text-sm">
+                          <span className="font-medium">Estación:</span>{" "}
+                          {String(selectedFeature.properties.location || "N/A")}
+                        </p>
+                        <p className="text-sm">
+                          <span className="font-medium">Fecha:</span>{" "}
+                          {selectedFeature.properties.date ? new Date(String(selectedFeature.properties.date)).toLocaleString('es-ES') : "N/A"}
+                        </p>
+                        <p className="text-sm">
+                          <span className="font-medium">País:</span>{" "}
+                          {String(selectedFeature.properties.country || "N/A")}
+                        </p>
+                        <p className="text-sm">
+                          <span className="font-medium">Ciudad:</span>{" "}
+                          {String(selectedFeature.properties.city || "N/A")}
+                        </p>
+                        {String(selectedFeature.properties.entity) && String(selectedFeature.properties.entity) !== "N/A" && (
+                          <p className="text-sm">
+                            <span className="font-medium">Entidad:</span>{" "}
+                            {String(selectedFeature.properties.entity)}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    
+                    {/* Air Quality Measurement */}
+                    <div>
+                      <h3 className="font-medium text-gray-900">Medición de Calidad del Aire</h3>
+                      <div className="mt-2 space-y-2">
+                        <div className="flex justify-between text-sm">
+                          <span className="font-medium">Parámetro:</span>
+                          <span>{String(selectedFeature.properties.parameterDisplay || selectedFeature.properties.parameter)}</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span className="font-medium">Valor:</span>
+                          <span className="font-semibold text-lg">
+                            {selectedFeature.properties.value !== undefined 
+                              ? `${selectedFeature.properties.value} ${String(selectedFeature.properties.units || 'µg/m³')}`
+                              : "N/A"}
+                          </span>
+                        </div>
+                        {String(selectedFeature.properties.sensorType) && String(selectedFeature.properties.sensorType) !== "N/A" && (
+                          <div className="flex justify-between text-sm">
+                            <span className="font-medium">Tipo de Sensor:</span>
+                            <span className="text-xs">{String(selectedFeature.properties.sensorType)}</span>
+                          </div>
+                        )}
+                        <div className="mt-2 text-xs text-gray-500">
+                          Fuente: OpenAQ
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                ) : selectedFeature.properties._eventType === "eonet" ? (
+                  /* EONET Events */
                   <div>
                     <h3 className="font-medium text-gray-900">
                       Evento Natural
@@ -1325,26 +1409,57 @@ export default function HomePage() {
                     </div>
                   </div>
                 ) : (
-                  <div>
-                    <h3 className="font-medium text-gray-900">Parámetros</h3>
-                    <div className="mt-2 space-y-2">
-                      {selectedDataset?.parameters.map((param: string) => {
-                        const value = selectedFeature.properties[param];
-                        const unit = selectedDataset.units[param] || "";
-                        return (
-                          <div
-                            key={param}
-                            className="flex justify-between text-sm"
-                          >
-                            <span className="font-medium">{param}:</span>
-                            <span>
-                              {value !== undefined ? `${value} ${unit}` : "N/A"}
-                            </span>
-                          </div>
+                  /* Default: Local JSON datasets (agua, residuos, etc.) */
+                  <>
+                    <div>
+                      <h3 className="font-medium text-gray-900">
+                        Información general
+                      </h3>
+                      <div className="mt-2 space-y-1">
+                        <p className="text-sm">
+                          <span className="font-medium">Estación:</span>{" "}
+                          {selectedFeature.properties.estacion || "N/A"}
+                        </p>
+                        <p className="text-sm">
+                          <span className="font-medium">Fecha:</span>{" "}
+                          {selectedFeature.properties.fecha || "N/A"}
+                        </p>
+                        <p className="text-sm">
+                          <span className="font-medium">País:</span>{" "}
+                          {selectedFeature.properties.pais || "N/A"}
+                        </p>
+                        <p className="text-sm">
+                          <span className="font-medium">Departamento:</span>{" "}
+                          {selectedFeature.properties.departamento || "N/A"}
+                        </p>
+                        <p className="text-sm">
+                          <span className="font-medium">Ciudad:</span>{" "}
+                          {selectedFeature.properties.ciudad || "N/A"}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <h3 className="font-medium text-gray-900">Parámetros</h3>
+                      <div className="mt-2 space-y-2">
+                        {selectedDataset?.parameters.map((param: string) => {
+                          const value = selectedFeature.properties[param];
+                          const unit = selectedDataset.units[param] || "";
+                          return (
+                            <div
+                              key={param}
+                              className="flex justify-between text-sm"
+                            >
+                              <span className="font-medium">{param}:</span>
+                              <span>
+                                {value !== undefined ? `${value} ${unit}` : "N/A"}
+                              </span>
+                            </div>
                         );
                       })}
                     </div>
                   </div>
+                  </>
                 )}
               </div>
             ) : (

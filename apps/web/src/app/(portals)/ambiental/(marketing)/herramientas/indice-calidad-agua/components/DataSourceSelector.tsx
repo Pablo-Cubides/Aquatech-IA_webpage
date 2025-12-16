@@ -116,7 +116,7 @@ export default function DataSourceSelector({
           <button
             onClick={handleContinue}
             disabled={!selectedSource || selectedSource === "api"}
-            className="px-6 py-3 bg-primary-600 text-white rounded-md font-medium hover:bg-primary-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+            className="px-6 py-3 bg-green-600 text-white rounded-md font-medium hover:bg-green-700 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed transition-colors"
           >
             Continuar →
           </button>

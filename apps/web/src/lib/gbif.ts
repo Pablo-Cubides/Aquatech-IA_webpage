@@ -106,7 +106,7 @@ export async function searchOccurrences(
     queryParams.append('limit', (params.limit || 300).toString());
     queryParams.append('offset', (params.offset || 0).toString());
 
-    const response = await fetch(`${BASE_URL}/occurrence/search?${queryParams}`);
+    const response = await fetch(`/api/gbif/search?${queryParams}`);
     
     if (!response.ok) {
       throw new Error(`GBIF API error: ${response.status}`);
@@ -248,23 +248,25 @@ export const BASIS_OF_RECORD_OPTIONS = [
 /**
  * Generate marker color based on taxon group
  */
-export function getTaxonColor(taxonKey?: number): string {
-  if (!taxonKey) return '#666666';
+export function getTaxonColor(occurrence: { classKey?: number; phylumKey?: number; kingdomKey?: number }): string {
+  // Try to match at different taxonomic levels (class, phylum, kingdom)
+  const taxonKeys = [occurrence.classKey, occurrence.phylumKey, occurrence.kingdomKey].filter(Boolean);
   
-  // Match against popular groups
-  const group = POPULAR_TAXON_GROUPS.find(g => g.taxonKey === taxonKey);
-  if (group) {
-    const colors: Record<string, string> = {
-      'Aves': '#4A90E2',
-      'Mamíferos': '#E67E22',
-      'Peces': '#3498DB',
-      'Insectos': '#9B59B6',
-      'Plantas': '#27AE60',
-      'Reptiles': '#16A085',
-      'Anfibios': '#F39C12',
-      'Hongos': '#95A5A6',
-    };
-    return colors[group.name] || '#666666';
+  for (const taxonKey of taxonKeys) {
+    const group = POPULAR_TAXON_GROUPS.find(g => g.taxonKey === taxonKey);
+    if (group) {
+      const colors: Record<string, string> = {
+        'Aves': '#4A90E2',
+        'Mamíferos': '#E67E22',
+        'Peces': '#3498DB',
+        'Insectos': '#9B59B6',
+        'Plantas': '#27AE60',
+        'Reptiles': '#16A085',
+        'Anfibios': '#F39C12',
+        'Hongos': '#95A5A6',
+      };
+      return colors[group.name] || '#666666';
+    }
   }
   
   return '#666666';
@@ -276,25 +278,47 @@ export function getTaxonColor(taxonKey?: number): string {
 export function formatOccurrence(occurrence: GBIFOccurrence): string {
   const parts: string[] = [];
   
-  parts.push(`<strong>${occurrence.scientificName}</strong>`);
+  // Scientific name as main title
+  parts.push(`<strong>🔬 ${occurrence.scientificName}</strong>`);
   
+  // Taxonomy hierarchy
+  const taxonomy: string[] = [];
+  if (occurrence.kingdom) taxonomy.push(occurrence.kingdom);
+  if (occurrence.phylum) taxonomy.push(occurrence.phylum);
+  if (occurrence.class) taxonomy.push(occurrence.class);
+  if (occurrence.order) taxonomy.push(occurrence.order);
+  if (occurrence.family) taxonomy.push(occurrence.family);
+  if (occurrence.genus) taxonomy.push(occurrence.genus);
+  if (occurrence.species) taxonomy.push(occurrence.species);
+  
+  if (taxonomy.length > 0) {
+    parts.push(`📚 Clasificación: ${taxonomy.join(' → ')}`);
+  }
+  
+  // Temporal information
   if (occurrence.eventDate) {
-    parts.push(`Fecha: ${occurrence.eventDate}`);
+    parts.push(`📅 ${occurrence.eventDate}`);
   } else if (occurrence.year) {
-    parts.push(`Año: ${occurrence.year}`);
+    parts.push(`📅 ${occurrence.year}`);
+    if (occurrence.month) {
+      parts.push(`${occurrence.month}/${occurrence.day || '01'}`);
+    }
   }
   
-  if (occurrence.country) {
-    parts.push(`País: ${occurrence.country}`);
+  // Geographic information
+  if (occurrence.country || occurrence.countryCode) {
+    parts.push(`🌍 ${occurrence.country || occurrence.countryCode}`);
   }
   
+  // Coordinates
+  if (occurrence.decimalLatitude && occurrence.decimalLongitude) {
+    parts.push(`📍 Lat: ${occurrence.decimalLatitude.toFixed(4)}°, Lon: ${occurrence.decimalLongitude.toFixed(4)}°`);
+  }
+  
+  // Record basis
   if (occurrence.basisOfRecord) {
     const basis = BASIS_OF_RECORD_OPTIONS.find(b => b.value === occurrence.basisOfRecord);
-    parts.push(`Tipo: ${basis?.label || occurrence.basisOfRecord}`);
-  }
-  
-  if (occurrence.family) {
-    parts.push(`Familia: ${occurrence.family}`);
+    parts.push(`📋 ${basis?.label || occurrence.basisOfRecord}`);
   }
   
   return parts.join('<br>');

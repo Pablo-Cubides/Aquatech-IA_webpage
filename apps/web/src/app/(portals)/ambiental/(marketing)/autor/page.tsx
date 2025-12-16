@@ -163,32 +163,34 @@ const Faq: React.FC<FaqProps> = ({ q, a }) => (
 
 export const metadata: Metadata = {
   title:
-    "Pablo Andrés Cubides Guerrero — Científico ambiental y especialista en gestión y tratamientos del agua | AquatechIA",
+    "Pablo Cubides — Científico ambiental y especialista en gestión y tratamientos del agua | AquatechIA", 
   description:
-    "Perfil de Pablo Andrés Cubides Guerrero, autor en AquatechIA. Ingeniero Químico y M. Sc. en Ingeniería Ambiental. Docente e investigador en gestión integral del recurso hídrico, PTAP/PTAR, calidad del agua, aseguramiento de calidad ISO/IEC 17025 y optimización de procesos ambientales.",
-  alternates: { canonical: "/ambiental/autor" },
+    "Perfil de Pablo Cubides, autor en AquatechIA. Ingeniero Químico y M. Sc. en Ingeniería Ambiental. Docente e investigador en gestión integral del recurso hídrico, PTAP/PTAR, calidad del agua, aseguramiento de calidad ISO/IEC 17025 y optimización de procesos ambientales.",
   openGraph: {
     title:
-      "Pablo Andrés Cubides Guerrero — Científico ambiental y especialista en agua",
+      "Pablo Cubides — Científico ambiental y especialista en agua",
     description:
-      "Gestión del recurso hídrico, tratamientos (potable, residual, reúso), calidad del agua, I+D aplicada y docencia universitaria en AquatechIA.",
-    type: "profile",
-    url: "/ambiental/autor",
+      "Perfil de Pablo Cubides, autor en AquatechIA. Ingeniero Químico y M. Sc. en Ingeniería Ambiental. Docente e investigador en gestión integral del recurso hídrico, PTAP/PTAR, calidad del agua, aseguramiento de calidad ISO/IEC 17025 y optimización de procesos ambientales.",
+    url: "https://aquatechia.com/ambiental/autor",
+    siteName: "AquatechIA",
     images: [
       {
-        url: "/images/authors/pablo-cubides-profile.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Retrato de Pablo Andrés Cubides Guerrero",
+        url: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
+        width: 800,
+        height: 600,
+        alt: "Retrato de Pablo Cubides",
       },
     ],
+    locale: "es_ES",
+    type: "profile",
   },
   twitter: {
     card: "summary_large_image",
     title:
-      "Pablo Andrés Cubides — Científico ambiental y especialista en tratamientos de agua",
+      "Pablo Cubides — Científico ambiental y especialista en agua",
     description:
-      "Gestión integral del agua | PTAP/PTAR | Calidad del agua | ISO/IEC 17025 | Docencia e investigación.",
+      "Perfil de Pablo Cubides, autor en AquatechIA. Ingeniero Químico y M. Sc. en Ingeniería Ambiental.",
+    images: ["/images/Portal ambiental/autor/Pablo Cubides.jpg"],
   },
 };
 
@@ -196,7 +198,7 @@ export default function AmbientalAutorPage() {
   const personJsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: "Pablo Andrés Cubides Guerrero",
+    name: "Pablo Cubides",
     jobTitle:
       "Científico ambiental · Ingeniero Químico · M. Sc. en Ingeniería Ambiental",
     description:
@@ -334,7 +336,7 @@ export default function AmbientalAutorPage() {
               <h1
                 className={`${spaceGrotesk.className} text-4xl md:text-5xl lg:text-6xl font-bold text-[#0D161C] leading-tight`}
               >
-                Pablo Andrés Cubides Guerrero
+                Pablo Cubides
               </h1>
               <p className="mt-3 text-lg md:text-xl text-[#0D161C] font-medium">
                 Ingeniero Químico · M. Sc. en Ingeniería Ambiental · Docente
@@ -404,8 +406,8 @@ export default function AmbientalAutorPage() {
             <div className="lg:col-span-5 flex justify-center lg:justify-end">
               <div className="relative w-80 h-80 bg-gradient-to-br from-[#E8F4F8] to-[#F0FDF4] rounded-full border-4 border-[#0077B6] shadow-xl flex items-center justify-center overflow-hidden">
                 <img
-                  src="/images/Portal ambiental/autor/Pablo Cubides.png"
-                  alt="Retrato de Pablo Andrés Cubides Guerrero - Especialista Ambiental"
+                  src="/images/Portal ambiental/autor/Pablo Cubides.jpg"
+                  alt="Retrato de Pablo Cubides - Especialista Ambiental"
                   className="w-full h-full object-contain"
                 />
               </div>

@@ -109,22 +109,83 @@ export function csvToWaterSamples(
 }
 
 /**
- * Genera un CSV de ejemplo para que el usuario lo descargue
+ * Genera un CSV de ejemplo para IRCA (Colombia - Resolución 2115 de 2007)
  */
-export function generateExampleCSV(): string {
+export function generateIRCAExampleCSV(): string {
   const headers = "fecha,ubicacion,parametro,valor,unidad";
   const rows = [
-    "2024-12-09,Planta de Tratamiento Norte,pH,7.0,Unidades de pH",
-    "2024-12-09,Planta de Tratamiento Norte,Turbiedad,1.5,UNT",
-    "2024-12-09,Planta de Tratamiento Norte,Oxígeno disuelto,90,%",
-    "2024-12-09,Planta de Tratamiento Norte,DBO5,2.0,mg/L",
-    "2024-12-09,Planta de Tratamiento Norte,Coliformes totales,0,UFC/100mL",
-    "2024-12-09,Planta de Tratamiento Norte,Escherichia coli,0,UFC/100mL",
-    "2024-12-09,Planta de Tratamiento Norte,Nitratos,5,mg/L",
-    "2024-12-09,Planta de Tratamiento Norte,Cloro residual libre,0.5,mg/L",
+    "2024-12-09,Acueducto Municipal,pH,7.2,unidades",
+    "2024-12-09,Acueducto Municipal,Turbiedad,1.5,UNT",
+    "2024-12-09,Acueducto Municipal,Color aparente,10,UPC",
+    "2024-12-09,Acueducto Municipal,Cloro residual libre,0.8,mg/L",
+    "2024-12-09,Acueducto Municipal,Coliformes totales,0,UFC/100mL",
+    "2024-12-09,Acueducto Municipal,Escherichia coli,0,UFC/100mL",
+    "2024-12-09,Acueducto Municipal,Nitratos,5,mg/L",
+    "2024-12-09,Acueducto Municipal,Nitritos,0.02,mg/L",
+    "2024-12-09,Acueducto Municipal,Aluminio,0.1,mg/L",
+    "2024-12-09,Acueducto Municipal,Hierro total,0.2,mg/L",
+    "2024-12-09,Acueducto Municipal,Dureza total,150,mg/L CaCO3",
+    "2024-12-09,Acueducto Municipal,Alcalinidad total,120,mg/L CaCO3",
+    "2024-12-09,Acueducto Municipal,Sulfatos,80,mg/L",
+    "2024-12-09,Acueducto Municipal,Cloruros,50,mg/L",
+    "2024-12-09,Acueducto Municipal,Fluoruros,0.5,mg/L",
+    "2024-12-09,Acueducto Municipal,Calcio,40,mg/L",
+    "2024-12-09,Acueducto Municipal,Magnesio,20,mg/L",
   ];
-
   return [headers, ...rows].join("\n");
+}
+
+/**
+ * Genera un CSV de ejemplo para WQI (NSF Water Quality Index)
+ */
+export function generateWQIExampleCSV(): string {
+  const headers = "fecha,ubicacion,parametro,valor,unidad";
+  const rows = [
+    "2024-12-09,Rio Principal,pH,7.5,unidades",
+    "2024-12-09,Rio Principal,Turbiedad,15,NTU",
+    "2024-12-09,Rio Principal,Oxígeno disuelto,85,%",
+    "2024-12-09,Rio Principal,DBO5,3,mg/L",
+    "2024-12-09,Rio Principal,Coliformes fecales,200,UFC/100mL",
+    "2024-12-09,Rio Principal,Nitratos,8,mg/L",
+    "2024-12-09,Rio Principal,Fósforo total,0.3,mg/L",
+    "2024-12-09,Rio Principal,Sólidos totales,250,mg/L",
+    "2024-12-09,Rio Principal,Cambio de temperatura,2,°C",
+  ];
+  return [headers, ...rows].join("\n");
+}
+
+/**
+ * Genera un CSV de ejemplo para DWQI (Drinking Water Quality Index - OMS)
+ */
+export function generateDWQIExampleCSV(): string {
+  const headers = "fecha,ubicacion,parametro,valor,unidad";
+  const rows = [
+    "2024-12-09,Pozo Profundo,pH,7.0,unidades",
+    "2024-12-09,Pozo Profundo,Turbiedad,2,NTU",
+    "2024-12-09,Pozo Profundo,Color,5,UC",
+    "2024-12-09,Pozo Profundo,TDS,350,mg/L",
+    "2024-12-09,Pozo Profundo,Dureza total,200,mg/L CaCO3",
+    "2024-12-09,Pozo Profundo,Alcalinidad,150,mg/L CaCO3",
+    "2024-12-09,Pozo Profundo,Cloruros,100,mg/L",
+    "2024-12-09,Pozo Profundo,Sulfatos,120,mg/L",
+    "2024-12-09,Pozo Profundo,Nitratos,20,mg/L",
+    "2024-12-09,Pozo Profundo,Fosfatos,0.5,mg/L",
+    "2024-12-09,Pozo Profundo,Hierro,0.15,mg/L",
+    "2024-12-09,Pozo Profundo,Conductividad,600,µS/cm",
+    "2024-12-09,Pozo Profundo,Cloro residual,0.6,mg/L",
+    "2024-12-09,Pozo Profundo,Calcio,50,mg/L",
+    "2024-12-09,Pozo Profundo,Magnesio,25,mg/L",
+    "2024-12-09,Pozo Profundo,Fluoruros,0.8,mg/L",
+    "2024-12-09,Pozo Profundo,Aluminio,0.05,mg/L",
+  ];
+  return [headers, ...rows].join("\n");
+}
+
+/**
+ * Genera un CSV de ejemplo combinado (compatibilidad con función anterior)
+ */
+export function generateExampleCSV(): string {
+  return generateIRCAExampleCSV();
 }
 
 /**

@@ -10,19 +10,23 @@ import {
 interface WHOConfigProps {
   onConfigChange: (config: {
     country: string;
+    compareCountry?: string;
     startYear: number;
     endYear: number;
     indicators: string[];
   }) => void;
+  isComparison?: boolean;
 }
 
-export default function WHOConfig({ onConfigChange }: WHOConfigProps) {
+export default function WHOConfig({ onConfigChange, isComparison = false }: WHOConfigProps) {
   const [countries, setCountries] = useState<WHOCountry[]>([]);
   const [selectedCountry, setSelectedCountry] = useState<string>("COL");
+  const [selectedCompareCountry, setSelectedCompareCountry] = useState<string>("");
   const [startYear, setStartYear] = useState<number>(2010);
   const [endYear, setEndYear] = useState<number>(2023);
   const [selectedIndicators, setSelectedIndicators] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   const popularIndicators = getPopularWHOIndicators();
 
@@ -31,25 +35,34 @@ export default function WHOConfig({ onConfigChange }: WHOConfigProps) {
   }, []);
 
   async function loadCountries() {
+    setLoadError(null);
     try {
       const data = await getWHOCountries();
       setCountries(data);
+      if (data.length === 0) {
+        setLoadError("No se pudieron cargar los países. Verifica tu conexión.");
+      }
     } catch (error) {
       console.error("Error loading WHO countries:", error);
+      setLoadError("Error de conexión. Haz clic para reintentar.");
     } finally {
       setLoading(false);
     }
   }
 
   function toggleIndicator(code: string) {
+    const maxIndicators = isComparison ? 3 : 5;
     setSelectedIndicators((prev) =>
       prev.includes(code)
         ? prev.filter((c) => c !== code)
-        : prev.length < 5
+        : prev.length < maxIndicators
         ? [...prev, code]
         : prev
     );
   }
+
+  const canAnalyze = selectedIndicators.length > 0 && 
+    (!isComparison || (isComparison && selectedCompareCountry && selectedCompareCountry !== selectedCountry));
 
   if (loading) {
     return (
@@ -71,22 +84,59 @@ export default function WHOConfig({ onConfigChange }: WHOConfigProps) {
         </h2>
       </div>
 
-      {/* Country Selector */}
-      <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          País
-        </label>
-        <select
-          value={selectedCountry}
-          onChange={(e) => setSelectedCountry(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00796B] focus:border-transparent"
-        >
-          {countries.map((country) => (
-            <option key={country.Code} value={country.Code}>
-              {country.Title}
-            </option>
-          ))}
-        </select>
+      {/* Error Message with Retry */}
+      {loadError && (
+        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center justify-between">
+          <p className="text-red-700 text-sm">{loadError}</p>
+          <button
+            onClick={loadCountries}
+            className="px-4 py-2 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700"
+          >
+            Reintentar
+          </button>
+        </div>
+      )}
+
+      {/* Country Selectors */}
+      <div className={`grid ${isComparison ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1'} gap-4 mb-6`}>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            {isComparison ? "País A *" : "País"}
+          </label>
+          <select
+            value={selectedCountry}
+            onChange={(e) => setSelectedCountry(e.target.value)}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00796B] focus:border-transparent"
+          >
+            {countries.map((country) => (
+              <option key={country.Code} value={country.Code}>
+                {country.Title}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {isComparison && (
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              País B *
+            </label>
+            <select
+              value={selectedCompareCountry}
+              onChange={(e) => setSelectedCompareCountry(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00796B] focus:border-transparent"
+            >
+              <option value="">-- Selecciona un país --</option>
+              {countries
+                .filter((c) => c.Code !== selectedCountry)
+                .map((country) => (
+                  <option key={country.Code} value={country.Code}>
+                    {country.Title}
+                  </option>
+                ))}
+            </select>
+          </div>
+        )}
       </div>
 
       {/* Year Range */}
@@ -122,10 +172,10 @@ export default function WHOConfig({ onConfigChange }: WHOConfigProps) {
       {/* Indicator Selection */}
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-700 mb-2">
-          Indicadores de Salud (máximo 5)
+          Indicadores de Salud (máximo {isComparison ? 3 : 5})
         </label>
         <div className="text-xs text-gray-500 mb-3">
-          {selectedIndicators.length}/5 seleccionados
+          {selectedIndicators.length}/{isComparison ? 3 : 5} seleccionados
         </div>
 
         <div className="space-y-2 max-h-96 overflow-y-auto">
@@ -172,18 +222,27 @@ export default function WHOConfig({ onConfigChange }: WHOConfigProps) {
         </div>
       )}
 
+      {isComparison && !selectedCompareCountry && (
+        <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+          <p className="text-sm text-yellow-800">
+            <span className="font-semibold">⚠️ Atención:</span> Selecciona el País B para la comparación.
+          </p>
+        </div>
+      )}
+
       {/* Analyze Button */}
-      {selectedIndicators.length > 0 && (
+      {canAnalyze && (
         <button
           onClick={() => onConfigChange({
             country: selectedCountry,
+            compareCountry: isComparison ? selectedCompareCountry : undefined,
             startYear,
             endYear,
             indicators: selectedIndicators,
           })}
           className="w-full mt-4 px-6 py-3 bg-[#00796B] text-white font-semibold rounded-lg hover:bg-[#00695C] transition-colors shadow-md hover:shadow-lg"
         >
-          📊 Analizar Datos
+          📊 {isComparison ? "Comparar Países" : "Analizar Datos"}
         </button>
       )}
 

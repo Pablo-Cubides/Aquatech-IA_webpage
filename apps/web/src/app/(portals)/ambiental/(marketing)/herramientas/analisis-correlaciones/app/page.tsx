@@ -35,6 +35,7 @@ import {
   type TrendAnalysisResult,
   type ComparisonResult,
 } from "../src/utils/aggregation";
+import type { CorrelationResult } from "../types/analysis";
 
 // Function to calculate Pearson correlation
 function pearsonCorrelation(x: number[], y: number[]): number {
@@ -70,24 +71,16 @@ function kendallCorrelation(x: number[], y: number[]): number {
 }
 
 // Type definitions
-interface DataRow {
-  [key: string]: string | number | null | undefined;
-}
+import { type AnalysisResult, type DataRow } from "../types/analysis";
 
-interface CorrelationResult {
-  column_a: string;
-  column_b: string;
-  pearson: number | null;
-  spearman: number | null;
-  kendall: number | null;
-}
+// ... (keep correlation functions)
 
-interface AnalysisResult {
-  filename: string;
-  correlation_results: CorrelationResult[];
-  numeric_columns: string[];
-  raw_data: DataRow[];
-}
+// Type definitions (DataRow moved to types/analysis.ts)
+
+// (CorrelationResult also moved)
+
+// AnalysisResult moved
+
 
 // Function to parse file
 async function parseFile(file: File): Promise<DataRow[]> {
@@ -231,23 +224,45 @@ export default function HomePage() {
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [dataSource, setDataSource] = useState<DataSource>("worldbank");
   const [analysisType, setAnalysisType] = useState<AnalysisType>("correlation");
+  
+  // Clear accumulator when analysis type changes
+  const handleAnalysisTypeChange = (type: AnalysisType) => {
+      setAnalysisType(type);
+      setComparisonAccumulator([]);
+      setResult(null);
+      setError(null);
+  };
   const [wbConfig, setWbConfig] = useState<WorldBankConfig | null>(null);
   const [whoConfig, setWhoConfig] = useState<{country: string; startYear: number; endYear: number; indicators: string[]} | null>(null);
   const [aggregationMethod, setAggregationMethod] = useState<AggregationMethod>("mean");
   const [aggregationPeriod, setAggregationPeriod] = useState<AggregationPeriod>("yearly");
   const [growthResult, setGrowthResult] = useState<any>(null);
   const [trendResult, setTrendResult] = useState<any>(null);
-  const [comparisonResult, setComparisonResult] = useState<any>(null);
+  const [comparisonAccumulator, setComparisonAccumulator] = useState<Array<{ name: string; data: { year: string; value: number }[] }>>([]);
 
   // Handle World Bank data fetch
   async function handleWorldBankData(config: WorldBankConfig) {
     setLoading(true);
     setError(null);
-    setResult(null);
+    if (analysisType !== 'comparison') {
+        setResult(null);
+    }
     setWbConfig(config);
 
     try {
-      // Fetch data for all indicators
+      if (analysisType === "comparison") {
+         if (config.indicators.length < 1) {
+             throw new Error("Para comparación se requiere al menos 1 indicador.");
+         }
+         // Comparison needs two countries if using the UI mode
+         if (!config.compareCountry && comparisonAccumulator.length === 0) {
+             // Fallback for cumulative mode? Or just strict mode now?
+             // User wants explicit two selectors, so strict mode if coming from Config
+         }
+      }
+
+      // Fetch data
+      // Fetch data for primary country
       const timeSeriesData = await getMultipleIndicators(
         config.country.iso2Code,
         config.indicators.map((ind: { id: string; name: string }) => ind.id),
@@ -256,56 +271,180 @@ export default function HomePage() {
       );
 
       if (timeSeriesData.length === 0) {
-        throw new Error("No se encontraron datos para los indicadores seleccionados");
+        throw new Error("La API no retornó datos para estos indicadores. Intente con otro país o rango de fechas.");
       }
 
-      // Aggregate data based on period and method
-      const aggregatedDatasets = timeSeriesData.map((series) => {
-        const timeSeriesPoints = series.data.map((d) => ({
-          year: d.year,
-          value: d.value,
-        }));
+      if (analysisType === "correlation") {
+         // Existing correlation logic
+          const aggregatedDatasets = timeSeriesData.map((series) => {
+            const timeSeriesPoints = series.data.map((d) => ({
+              year: d.year,
+              value: d.value,
+            }));
 
-        let aggregated: AggregatedData[];
-        if (aggregationPeriod === "yearly") {
-          aggregated = aggregateByYear(timeSeriesPoints, aggregationMethod);
-        } else if (aggregationPeriod === "quarterly") {
-          aggregated = aggregateByQuarter(timeSeriesPoints, aggregationMethod);
-        } else {
-          aggregated = aggregateByMonth(timeSeriesPoints, aggregationMethod);
-        }
+            let aggregated: AggregatedData[];
+            if (aggregationPeriod === "yearly") {
+              aggregated = aggregateByYear(timeSeriesPoints, aggregationMethod);
+            } else if (aggregationPeriod === "quarterly") {
+              aggregated = aggregateByQuarter(timeSeriesPoints, aggregationMethod);
+            } else {
+              aggregated = aggregateByMonth(timeSeriesPoints, aggregationMethod);
+            }
 
-        return {
-          name: series.indicatorName,
-          data: aggregated,
-        };
-      });
-
-      // Convert to DataRow format for correlation calculation
-      const dataRows: DataRow[] = [];
-      const allPeriods = new Set<string>();
-
-      aggregatedDatasets.forEach((dataset) => {
-        dataset.data.forEach((point) => allPeriods.add(point.period));
-      });
-
-      Array.from(allPeriods)
-        .sort()
-        .forEach((period) => {
-          const row: DataRow = { period };
-          aggregatedDatasets.forEach((dataset) => {
-            const point = dataset.data.find((d) => d.period === period);
-            row[dataset.name] = point ? point.value : null;
+            return {
+              name: series.indicatorName,
+              data: aggregated,
+            };
           });
-          dataRows.push(row);
-        });
 
-      // Calculate correlations
-      const resultData = calculateCorrelations(dataRows);
-      setResult({
-        filename: `${config.country.name} (${config.startYear}-${config.endYear})`,
-        ...resultData,
-      });
+          const dataRows: DataRow[] = [];
+          const allPeriods = new Set<string>();
+
+          aggregatedDatasets.forEach((dataset) => {
+            dataset.data.forEach((point) => allPeriods.add(point.period));
+          });
+
+          Array.from(allPeriods)
+            .sort()
+            .forEach((period) => {
+              const row: DataRow = { period };
+              aggregatedDatasets.forEach((dataset) => {
+                const point = dataset.data.find((d) => d.period === period);
+                row[dataset.name] = point ? point.value : null;
+              });
+              dataRows.push(row);
+            });
+
+          try {
+              const resultData = calculateCorrelations(dataRows);
+              setResult({
+                filename: `${config.country.name} (${config.startYear}-${config.endYear})`,
+                type: 'correlation',
+                ...resultData,
+              });
+          } catch (e: any) {
+              // Handle "at least two columns" error gracefully
+              if (e.message?.includes("dos columnas")) {
+                 setError("Para correlación necesitas seleccionar al menos 2 indicadores.");
+              } else {
+                 throw e;
+              }
+          }
+
+      } else if (analysisType === "growth") {
+           // Growth logic
+           const growthResults: { [key: string]: GrowthAnalysisResult } = {};
+           
+           console.log(`[Growth] API returned ${timeSeriesData.length} indicator(s)`);
+           
+           timeSeriesData.forEach(series => {
+               // Filter nulls for growth calculation
+               const cleanData = series.data
+                    .filter(d => d.value !== null)
+                    .map(d => ({ year: d.year.toString(), value: d.value! }));
+               
+               console.log(`[Growth] ${series.indicatorName}: ${cleanData.length} data points (needs >1)`);
+               
+               if (cleanData.length > 1) {
+                   growthResults[series.indicatorName] = calculateGrowthAnalysis(cleanData);
+               }
+           });
+           
+           console.log(`[Growth] Processed ${Object.keys(growthResults).length} indicator(s) with sufficient data`);
+           
+            if (Object.keys(growthResults).length === 0) {
+               throw new Error("No hay suficientes datos para calcular crecimiento. Prueba con otro país o rango de años.");
+            }
+
+            // Warn if not all indicators had data
+            const processedCount = Object.keys(growthResults).length;
+            const selectedCount = config.indicators.length;
+            let warningMsg = '';
+            if (processedCount < selectedCount) {
+               warningMsg = ` (${selectedCount - processedCount} indicador(es) sin datos suficientes)`;
+            }
+
+            setResult({
+              filename: `${config.country.name} - Crecimiento${warningMsg}`,
+              type: 'growth',
+              growth_results: growthResults
+            });
+
+      } else if (analysisType === "trend") {
+           // Trend logic
+           const trendResults: { [key: string]: TrendAnalysisResult } = {};
+           
+           timeSeriesData.forEach(series => {
+               const cleanData = series.data
+                    .filter(d => d.value !== null)
+                    .map(d => ({ year: d.year.toString(), value: d.value! }));
+               
+               if (cleanData.length > 1) {
+                   trendResults[series.indicatorName] = calculateTrendAnalysis(cleanData);
+               }
+           });
+             
+           setResult({
+             filename: `${config.country.name} - Tendencias`,
+             type: 'trend',
+             trend_results: trendResults
+           });
+      } else if (analysisType === "comparison") {
+           // Comparison requires both countries
+           const datasets: Array<{ name: string; data: Array<{ year: string; value: number }> }> = [];
+           
+           // Process primary country data
+           timeSeriesData.forEach(series => {
+               const cleanData = series.data
+                   .filter(d => d.value !== null)
+                   .map(d => ({ year: d.year.toString(), value: d.value! }));
+               
+               if (cleanData.length > 0) {
+                   datasets.push({
+                       name: `${config.country.name} - ${series.indicatorName}`,
+                       data: cleanData
+                   });
+               }
+           });
+
+           // Fetch and process second country data if exists
+           if (config.compareCountry) {
+                const secondCountryData = await getMultipleIndicators(
+                    config.compareCountry.iso2Code,
+                    config.indicators.map((ind: { id: string; name: string }) => ind.id),
+                    config.startYear,
+                    config.endYear
+                );
+                
+                secondCountryData.forEach(series => {
+                    const cleanData = series.data
+                        .filter(d => d.value !== null)
+                        .map(d => ({ year: d.year.toString(), value: d.value! }));
+                    
+                    if (cleanData.length > 0) {
+                        datasets.push({
+                            name: `${config.compareCountry!.name} - ${series.indicatorName}`,
+                            data: cleanData
+                        });
+                    }
+                });
+           }
+
+           if (datasets.length === 0) {
+               throw new Error("No hay datos disponibles para la comparación.");
+           }
+
+           const comparisonRes = calculateComparisonAnalysis(datasets);
+            
+           setResult({
+               filename: config.compareCountry 
+                   ? `Comparación: ${config.country.name} vs ${config.compareCountry.name}`
+                   : `${config.country.name} - Comparación`,
+               type: 'comparison',
+               comparison_results: comparisonRes
+           });
+      }
+
     } catch (err: unknown) {
       console.error("Error fetching World Bank data:", err);
       setError(
@@ -319,7 +458,7 @@ export default function HomePage() {
   }
 
   // Handle WHO GHO data fetch
-  async function handleWHOData(config: {country: string; startYear: number; endYear: number; indicators: string[]}) {
+  async function handleWHOData(config: {country: string; compareCountry?: string; startYear: number; endYear: number; indicators: string[]}) {
     setLoading(true);
     setError(null);
     setResult(null);
@@ -341,32 +480,105 @@ export default function HomePage() {
       if (timeSeriesData.length === 0) {
         throw new Error("No se encontraron datos para los indicadores seleccionados");
       }
+      
+      if (analysisType === "correlation") {
+            // Convert to DataRow format for correlation calculation
+            const dataRows: DataRow[] = [];
+            const allYears = new Set<string>();
 
-      // Convert to DataRow format for correlation calculation
-      const dataRows: DataRow[] = [];
-      const allYears = new Set<string>();
+            timeSeriesData.forEach((series) => {
+                series.data.forEach((point) => allYears.add(point.year.toString()));
+            });
 
-      timeSeriesData.forEach((series) => {
-        series.data.forEach((point) => allYears.add(point.year.toString()));
-      });
+            Array.from(allYears)
+                .sort()
+                .forEach((year) => {
+                const row: DataRow = { year };
+                timeSeriesData.forEach((series) => {
+                    const point = series.data.find((d) => d.year.toString() === year);
+                    row[series.indicatorName] = point ? point.value : null;
+                });
+                dataRows.push(row);
+                });
 
-      Array.from(allYears)
-        .sort()
-        .forEach((year) => {
-          const row: DataRow = { year };
-          timeSeriesData.forEach((series) => {
-            const point = series.data.find((d) => d.year.toString() === year);
-            row[series.indicatorName] = point ? point.value : null;
-          });
-          dataRows.push(row);
-        });
+            try {
+                // Calculate correlations
+                const resultData = calculateCorrelations(dataRows);
+                setResult({
+                    filename: `WHO GHO - ${config.country} (${config.startYear}-${config.endYear})`,
+                    type: 'correlation',
+                    ...resultData,
+                });
+            } catch (e: any) {
+                if (e.message?.includes("dos columnas")) {
+                    setError("Para correlación necesitas al menos 2 indicadores con datos coincidentes.");
+                } else {
+                    throw e;
+                }
+            }
+      } else if (analysisType === "growth") {
+           // Growth logic for WHO
+           const growthResults: { [key: string]: GrowthAnalysisResult } = {};
+           
+           timeSeriesData.forEach(series => {
+               // Filter nulls and convert year to string
+               const cleanData = series.data
+                    .map(d => ({ year: d.year.toString(), value: d.value }));
+               
+               if (cleanData.length > 1) {
+                   growthResults[series.indicatorName] = calculateGrowthAnalysis(cleanData);
+               }
+           });
+           
+           if (Object.keys(growthResults).length === 0) {
+              throw new Error("No hay suficientes datos para calcular crecimiento.");
+           }
 
-      // Calculate correlations
-      const resultData = calculateCorrelations(dataRows);
-      setResult({
-        filename: `WHO GHO - ${config.country} (${config.startYear}-${config.endYear})`,
-        ...resultData,
-      });
+           setResult({
+             filename: `WHO GHO - ${config.country} - Crecimiento`,
+             type: 'growth',
+             growth_results: growthResults
+           });
+
+      } else if (analysisType === "trend") {
+           // Trend logic for WHO
+           const trendResults: { [key: string]: TrendAnalysisResult } = {};
+           
+           timeSeriesData.forEach(series => {
+               const cleanData = series.data
+                    .map(d => ({ year: d.year.toString(), value: d.value }));
+               
+               if (cleanData.length > 1) {
+                   trendResults[series.indicatorName] = calculateTrendAnalysis(cleanData);
+               }
+           });
+             
+           setResult({
+             filename: `WHO GHO - ${config.country} - Tendencias`,
+             type: 'trend',
+             trend_results: trendResults
+           });
+      } else if (analysisType === "comparison") {
+           const datasets: Array<{ name: string; data: Array<{ year: string; value: number }> }> = [];
+           timeSeriesData.forEach(series => {
+               const cleanData = series.data.map(d => ({ year: d.year.toString(), value: d.value }));
+               if (cleanData.length > 0) datasets.push({ name: `${config.country} - ${series.indicatorName}`, data: cleanData });
+           });
+           if (config.compareCountry) {
+               const secondData = await getMultipleWHOIndicators(config.indicators, config.compareCountry, config.startYear, config.endYear);
+               secondData.forEach(series => {
+                   const cleanData = series.data.map(d => ({ year: d.year.toString(), value: d.value }));
+                   if (cleanData.length > 0) datasets.push({ name: `${config.compareCountry} - ${series.indicatorName}`, data: cleanData });
+               });
+           }
+           if (datasets.length === 0) throw new Error("No hay datos para comparación.");
+           const comparisonRes = calculateComparisonAnalysis(datasets);
+           setResult({ filename: config.compareCountry ? `WHO: ${config.country} vs ${config.compareCountry}` : `WHO - Comparación`, type: 'comparison', comparison_results: comparisonRes });
+      } else {
+          // Fallback
+           setError("Tipo de análisis no soportado para esta fuente.");
+      }
+
     } catch (err: unknown) {
       console.error("Error fetching WHO data:", err);
       setError(
@@ -386,12 +598,26 @@ export default function HomePage() {
     try {
       console.log("Processing file:", file.name);
       const data = await parseFile(file);
-      console.log("File parsed successfully, calculating correlations...");
-      const resultData = calculateCorrelations(data);
-      setResult({
-        filename: file.name,
-        ...resultData,
-      });
+      
+      if (analysisType === 'correlation') {
+          console.log("File parsed successfully, calculating correlations...");
+          try {
+            const resultData = calculateCorrelations(data);
+            setResult({
+                filename: file.name,
+                type: 'correlation',
+                ...resultData,
+            });
+          } catch (e: any) {
+             if (e.message?.includes("dos columnas")) {
+                setError("El archivo debe tener al menos 2 columnas numéricas para correlación.");
+             } else {
+                throw e;
+             }
+          }
+      } else {
+         setError("Análisis avanzado desde archivo (Crecimiento/Tendencia) en desarrollo.");
+      }
     } catch (err: unknown) {
       console.error("Error processing file:", err);
       setError(err instanceof Error ? err.message : "Error al procesar el archivo.");
@@ -399,6 +625,7 @@ export default function HomePage() {
       setLoading(false);
     }
   }
+
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#ffffff" }}>
@@ -686,7 +913,7 @@ export default function HomePage() {
               {/* Analysis Type Selector */}
               <AnalysisTypeSelector
                 selected={analysisType}
-                onSelect={setAnalysisType}
+                onSelect={handleAnalysisTypeChange}
               />
 
               {/* World Bank Configuration */}
@@ -694,6 +921,7 @@ export default function HomePage() {
                 <>
                   <WorldBankConfigComponent
                     onConfigChange={handleWorldBankData}
+                    isComparison={analysisType === 'comparison'}
                   />
                   <div style={{ marginTop: "16px" }}>
                     <AggregationOptions
@@ -712,6 +940,7 @@ export default function HomePage() {
               {dataSource === "who" && (
                 <WHOConfig
                   onConfigChange={handleWHOData}
+                  isComparison={analysisType === 'comparison'}
                 />
               )}
 

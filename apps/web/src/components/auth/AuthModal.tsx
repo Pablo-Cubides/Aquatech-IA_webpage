@@ -1,7 +1,9 @@
 "use client";
 
 import { signIn, signOut, useSession } from "next-auth/react";
-import { useState } from "react";
+import { useState, useEffect, useRef, useLayoutEffect } from "react";
+import { createPortal } from "react-dom";
+// import Image from "next/image"; // Temporarily disabled to debug layout
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -9,21 +11,113 @@ interface AuthModalProps {
   theme?: "dark" | "light";
 }
 
+type AuthMode = "login" | "register";
+
 export function AuthModal({ isOpen, onClose, theme = "dark" }: AuthModalProps) {
   const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+  const [mode, setMode] = useState<AuthMode>("login");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const contentRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const logoRef = useRef<HTMLDivElement>(null);
 
-  if (!isOpen) return null;
+  // Reset scroll position when modal opens - force multiple times to combat autofocus
+  useLayoutEffect(() => {
+    if (isOpen) {
+      // Immediate scroll reset
+      if (contentRef.current) {
+        contentRef.current.scrollTop = 0;
+      }
+      if (modalRef.current) {
+        modalRef.current.scrollTop = 0;
+      }
+      // Delayed scroll reset to combat browser autofocus behavior
+      const timer1 = setTimeout(() => {
+        if (contentRef.current) contentRef.current.scrollTop = 0;
+        if (modalRef.current) modalRef.current.scrollTop = 0;
+      }, 50);
+      
+      return () => {
+        clearTimeout(timer1);
+      };
+    }
+  }, [isOpen]);
+
+  // Ensure we only render portal on client
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
+
+  if (!isOpen || !mounted) return null;
+
+  // ... (maintain logic)
 
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
+    setError(null);
     try {
-      await signIn("google", { redirect: false });
-      onClose();
+      await signIn("google", { callbackUrl: window.location.href });
     } catch (error) {
       console.error("Error signing in:", error);
-    } finally {
+      setError("Error de conexión. Verifica tu internet.");
       setIsLoading(false);
+    }
+  };
+
+  const handleEmailAuth = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+    setSuccess(null);
+    
+    try {
+      if (mode === "register") {
+        const res = await fetch("/api/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, password }),
+        });
+        
+        const data = await res.json();
+        
+        if (!res.ok) {
+          throw new Error(data.error || "Error al registrar");
+        }
+        
+        setSuccess("¡Cuenta creada! Iniciando sesión...");
+        setTimeout(() => {
+          handleCredentialsSignIn();
+        }, 1000);
+      } else {
+        await handleCredentialsSignIn();
+      }
+    } catch (error: any) {
+      console.error("Error:", error);
+      setError(error.message || "Error al procesar la solicitud.");
+      setIsLoading(false);
+    }
+  };
+
+  const handleCredentialsSignIn = async () => {
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+    
+    if (result?.error) {
+      setError("Email o contraseña incorrectos");
+      setIsLoading(false);
+    } else {
+      onClose();
+      window.location.reload();
     }
   };
 
@@ -32,6 +126,7 @@ export function AuthModal({ isOpen, onClose, theme = "dark" }: AuthModalProps) {
     try {
       await signOut({ redirect: false });
       onClose();
+      window.location.reload();
     } catch (error) {
       console.error("Error signing out:", error);
     } finally {
@@ -39,134 +134,263 @@ export function AuthModal({ isOpen, onClose, theme = "dark" }: AuthModalProps) {
     }
   };
 
-  // Estilos basados en el tema
-  const styles = {
-    dark: {
-      backdrop: "bg-black/50",
-      modal: "bg-[#10111A] border border-white/10",
-      title: "text-[#F3F6FF]",
-      text: "text-[#B6C2DF]",
-      button: "bg-[#00EFFF] text-[#10111A] hover:bg-[#00D4E6]",
-      closeButton: "text-[#B6C2DF] hover:text-[#F3F6FF]",
-    },
-    light: {
-      backdrop: "bg-black/50",
-      modal: "bg-white border border-gray-200",
-      title: "text-[#0D161C]",
-      text: "text-gray-700",
-      button: "bg-[#0077B6] text-white hover:bg-[#005A87]",
-      closeButton: "text-gray-500 hover:text-gray-700",
-    },
+  const resetForm = () => {
+    setEmail("");
+    setPassword("");
+    setName("");
+    setError(null);
+    setSuccess(null);
   };
 
-  const currentStyles = styles[theme];
+  const toggleMode = () => {
+    setMode(mode === "login" ? "register" : "login");
+    resetForm();
+  };
 
-  return (
+  const isDark = theme === "dark";
+
+  return createPortal(
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center p-4 ${currentStyles.backdrop} backdrop-blur-sm`}
+      className="fixed inset-0 z-[9999] overflow-y-auto bg-black/60 backdrop-blur-sm"
       onClick={onClose}
+      data-testid="auth-modal-backdrop"
     >
-      <div
-        className={`rounded-xl p-6 max-w-md w-full shadow-2xl ${currentStyles.modal}`}
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Header */}
-        <div className="flex items-center justify-between mb-4">
-          <h2 className={`text-xl font-bold ${currentStyles.title}`}>
-            {session ? "Mi Cuenta" : "Iniciar Sesión"}
-          </h2>
-          <button
-            onClick={onClose}
-            className={`p-1 rounded-lg hover:bg-gray-100/10 ${currentStyles.closeButton}`}
-          >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
-        </div>
+      <div className="flex min-h-full items-start justify-center p-4 py-8 md:py-12">
+        <div
+          ref={modalRef}
+          role="dialog"
+          aria-modal="true"
+          className={`relative w-full max-w-md rounded-2xl shadow-2xl ${
+            isDark 
+              ? "bg-[#10111A] border border-cyan-500/20" 
+              : "bg-white border border-gray-200"
+          }`}
+          onClick={(e) => e.stopPropagation()}
+        >
+        {/* Close button - Fixed relative to modal container */}
+        <button
+          onClick={onClose}
+          className={`absolute top-4 right-4 z-30 p-2 rounded-lg transition-colors ${
+            isDark 
+              ? "text-gray-400 hover:text-white hover:bg-white/10" 
+              : "text-gray-400 hover:text-gray-600 hover:bg-gray-100"
+          }`}
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
 
         {session ? (
           // Usuario autenticado
-          <div className="space-y-4">
-            <div className="flex items-center space-x-3">
-              {session.user?.image && (
-                <img
-                  src={session.user.image}
-                  alt={session.user.name || "Usuario"}
-                  className="w-12 h-12 rounded-full"
-                />
-              )}
-              <div>
-                <p className={`font-medium ${currentStyles.title}`}>
-                  {session.user?.name}
-                </p>
-                <p className={`text-sm ${currentStyles.text}`}>
-                  {session.user?.email}
-                </p>
+          <div className="p-6">
+            <div className="space-y-6 pt-4">
+              <div className="text-center">
+                <h2 className={`text-xl font-bold ${isDark ? "text-white" : "text-gray-900"}`}>
+                  Mi Cuenta
+                </h2>
               </div>
-            </div>
+              
+              <div className="flex flex-col items-center space-y-3">
+                {session.user?.image && (
+                  <img
+                    src={session.user.image}
+                    alt={session.user.name || "Usuario"}
+                    className="w-20 h-20 rounded-full ring-4 ring-cyan-500/30"
+                  />
+                )}
+                <div className="text-center">
+                  <p className={`font-semibold text-lg ${isDark ? "text-white" : "text-gray-900"}`}>
+                    {session.user?.name}
+                  </p>
+                  <p className={`text-sm ${isDark ? "text-gray-400" : "text-gray-500"}`}>
+                    {session.user?.email}
+                  </p>
+                </div>
+              </div>
 
-            <button
-              onClick={handleSignOut}
-              disabled={isLoading}
-              className={`w-full py-2 px-4 rounded-lg font-medium transition-colors ${currentStyles.button} disabled:opacity-50`}
-            >
-              {isLoading ? "Cerrando sesión..." : "Cerrar Sesión"}
-            </button>
+              <button
+                onClick={handleSignOut}
+                disabled={isLoading}
+                className={`w-full py-3 px-4 rounded-xl font-medium transition-all disabled:opacity-50 ${
+                  isDark 
+                    ? "bg-white/10 text-white border border-white/20 hover:bg-white/20" 
+                    : "bg-gray-100 text-gray-700 border border-gray-300 hover:bg-gray-200"
+                }`}
+              >
+                {isLoading ? "Cerrando sesión..." : "Cerrar Sesión"}
+              </button>
+            </div>
           </div>
         ) : (
           // Usuario no autenticado
-          <div className="space-y-4">
-            <p className={currentStyles.text}>
-              Inicia sesión para acceder a todas las funcionalidades de la
-              plataforma.
-            </p>
+          <>
+            {/* Header (Logo + Title + Google) - Sticky */}
+            <div className={`p-6 pb-0 sticky top-0 z-20 ${isDark ? "bg-[#10111A]" : "bg-white"}`}>
+              {/* Logo */}
+              <div ref={logoRef} className="flex justify-center mb-4">
+                <img
+                  src="/images/Logo Aquatech - IA 512 - sin fondo.png"
+                  alt="Aquatech IA"
+                  width={80}
+                  height={80}
+                  className="drop-shadow-lg object-contain"
+                />
+              </div>
 
-            <button
-              onClick={handleGoogleSignIn}
-              disabled={isLoading}
-              className={`w-full py-3 px-4 rounded-lg font-medium transition-all duration-200 flex items-center justify-center space-x-3 border ${
-                theme === "dark"
-                  ? "bg-white text-gray-900 border-gray-300 hover:bg-gray-50 hover:shadow-md"
-                  : "bg-white text-gray-900 border-gray-300 hover:bg-gray-50 hover:shadow-md"
-              } disabled:opacity-50 disabled:cursor-not-allowed`}
-            >
-              <svg className="w-5 h-5" viewBox="0 0 24 24">
-                <path
-                  fill="#4285F4"
-                  d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                />
-                <path
-                  fill="#34A853"
-                  d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                />
-                <path
-                  fill="#FBBC05"
-                  d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                />
-                <path
-                  fill="#EA4335"
-                  d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                />
-              </svg>
-              <span>
-                {isLoading ? "Iniciando sesión..." : "Continuar con Google"}
-              </span>
-            </button>
-          </div>
+              {/* Title */}
+              <div className="text-center mb-6">
+                <h2 className={`text-2xl font-bold ${isDark ? "text-white" : "text-gray-900"}`}>
+                  {mode === "login" ? "Iniciar Sesión" : "Crear Cuenta"}
+                </h2>
+                <p className={`text-sm mt-1 ${isDark ? "text-gray-400" : "text-gray-500"}`}>
+                  {mode === "login" 
+                    ? "Accede a tu cuenta para continuar" 
+                    : "Regístrate para empezar"}
+                </p>
+              </div>
+
+              {/* Google Button */}
+              <button
+                onClick={handleGoogleSignIn}
+                disabled={isLoading}
+                className="w-full py-3 px-4 rounded-xl font-medium flex items-center justify-center gap-3 bg-white text-gray-800 border border-gray-300 hover:bg-gray-50 hover:shadow-lg transition-all disabled:opacity-50 mb-4"
+              >
+                <svg className="w-5 h-5" viewBox="0 0 24 24">
+                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                </svg>
+                <span>{isLoading ? "Conectando..." : "Continuar con Google"}</span>
+              </button>
+            </div>
+
+            {/* Scrollable Content */}
+            <div className="p-6 pt-0">
+              <div className="space-y-5">
+                {/* Messages */}
+                {error && (
+                  <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/30">
+                    <p className="text-red-500 text-sm text-center">{error}</p>
+                  </div>
+                )}
+                {success && (
+                  <div className="p-3 rounded-lg bg-green-500/10 border border-green-500/30">
+                    <p className="text-green-500 text-sm text-center">{success}</p>
+                  </div>
+                )}
+
+                {/* Divider */}
+                <div className="relative py-2">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className={`w-full border-t ${isDark ? "border-white/20" : "border-gray-300"}`}></div>
+                  </div>
+                  <div className="relative flex justify-center">
+                    <span className={`px-4 text-sm ${isDark ? "bg-[#10111A] text-gray-400" : "bg-white text-gray-500"}`}>
+                      o continúa con email
+                    </span>
+                  </div>
+                </div>
+
+                {/* Email Form */}
+                <form onSubmit={handleEmailAuth} className="space-y-4">
+                  {mode === "register" && (
+                    <div>
+                      <label className={`block text-sm font-medium mb-1.5 ${isDark ? "text-gray-300" : "text-gray-700"}`}>
+                        Nombre completo
+                      </label>
+                      <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Tu nombre"
+                        autoFocus={false}
+                        className={`w-full px-4 py-3 rounded-xl border transition-all focus:outline-none focus:ring-2 ${
+                          isDark 
+                            ? "bg-white/5 border-white/20 text-white placeholder:text-gray-500 focus:border-cyan-400 focus:ring-cyan-400/20" 
+                            : "bg-gray-50 border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500/20"
+                        }`}
+                        required
+                      />
+                    </div>
+                  )}
+                  
+                  <div>
+                    <label className={`block text-sm font-medium mb-1.5 ${isDark ? "text-gray-300" : "text-gray-700"}`}>
+                      Correo electrónico
+                    </label>
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="tu@email.com"
+                      autoFocus={false}
+                      className={`w-full px-4 py-3 rounded-xl border transition-all focus:outline-none focus:ring-2 ${
+                        isDark 
+                          ? "bg-white/5 border-white/20 text-white placeholder:text-gray-500 focus:border-cyan-400 focus:ring-cyan-400/20" 
+                          : "bg-gray-50 border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500/20"
+                      }`}
+                      required
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className={`block text-sm font-medium mb-1.5 ${isDark ? "text-gray-300" : "text-gray-700"}`}>
+                      Contraseña
+                    </label>
+                    <input
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="••••••••"
+                      autoFocus={false}
+                      className={`w-full px-4 py-3 rounded-xl border transition-all focus:outline-none focus:ring-2 ${
+                        isDark 
+                          ? "bg-white/5 border-white/20 text-white placeholder:text-gray-500 focus:border-cyan-400 focus:ring-cyan-400/20" 
+                          : "bg-gray-50 border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500/20"
+                      }`}
+                      required
+                      minLength={6}
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isLoading}
+                    className={`w-full py-3 px-4 rounded-xl font-semibold transition-all disabled:opacity-50 ${
+                      isDark 
+                        ? "bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:from-cyan-400 hover:to-blue-400 shadow-lg shadow-cyan-500/25" 
+                        : "bg-blue-600 text-white hover:bg-blue-700 shadow-lg"
+                    }`}
+                  >
+                    {isLoading 
+                      ? "Procesando..." 
+                      : mode === "login" 
+                        ? "Iniciar Sesión" 
+                        : "Crear Cuenta"}
+                  </button>
+                </form>
+
+                {/* Toggle mode */}
+                <p className={`text-center text-sm ${isDark ? "text-gray-400" : "text-gray-600"}`}>
+                  {mode === "login" ? "¿No tienes cuenta? " : "¿Ya tienes cuenta? "}
+                  <button
+                    type="button"
+                    onClick={toggleMode}
+                    className={`font-semibold ${isDark ? "text-cyan-400 hover:text-cyan-300" : "text-blue-600 hover:text-blue-500"}`}
+                  >
+                    {mode === "login" ? "Regístrate" : "Inicia sesión"}
+                  </button>
+                </p>
+              </div>
+            </div>
+          </>
         )}
+        </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 

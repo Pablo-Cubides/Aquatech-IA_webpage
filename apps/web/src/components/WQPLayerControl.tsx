@@ -5,6 +5,7 @@ import {
   POPULAR_CHARACTERISTICS,
   CHARACTERISTIC_TYPES,
   SITE_TYPES,
+  US_STATES,
 } from "@/lib/wqp";
 
 interface WQPLayerControlProps {
@@ -14,6 +15,7 @@ interface WQPLayerControlProps {
 }
 
 export interface WQPFilters {
+  statecode?: string; // US state code (e.g., "US:06" for California)
   characteristicName?: string;
   characteristicType?: string;
   siteType?: string;
@@ -26,6 +28,7 @@ export default function WQPLayerControl({
   stationCount,
 }: WQPLayerControlProps) {
   const [enabled, setEnabled] = useState(false);
+  const [selectedState, setSelectedState] = useState<string>("US:06"); // Default: California
   const [selectedCharacteristic, setSelectedCharacteristic] = useState<
     string | undefined
   >();
@@ -40,9 +43,21 @@ export default function WQPLayerControl({
     onToggle(newEnabled);
   };
 
+  const handleStateChange = (stateCode: string) => {
+    setSelectedState(stateCode);
+    onFiltersChange({
+      statecode: stateCode,
+      characteristicName: selectedCharacteristic,
+      characteristicType: selectedType,
+      siteType: selectedSiteType,
+      startDateLo: selectedYear ? `01-01-${selectedYear}` : undefined,
+    });
+  };
+
   const handleCharacteristicChange = (characteristic: string | undefined) => {
     setSelectedCharacteristic(characteristic);
     onFiltersChange({
+      statecode: selectedState,
       characteristicName: characteristic,
       characteristicType: selectedType,
       siteType: selectedSiteType,
@@ -53,6 +68,7 @@ export default function WQPLayerControl({
   const handleTypeChange = (type: string | undefined) => {
     setSelectedType(type);
     onFiltersChange({
+      statecode: selectedState,
       characteristicName: selectedCharacteristic,
       characteristicType: type,
       siteType: selectedSiteType,
@@ -63,6 +79,7 @@ export default function WQPLayerControl({
   const handleSiteTypeChange = (siteType: string | undefined) => {
     setSelectedSiteType(siteType);
     onFiltersChange({
+      statecode: selectedState,
       characteristicName: selectedCharacteristic,
       characteristicType: selectedType,
       siteType,
@@ -73,6 +90,7 @@ export default function WQPLayerControl({
   const handleYearChange = (year: number | undefined) => {
     setSelectedYear(year);
     onFiltersChange({
+      statecode: selectedState,
       characteristicName: selectedCharacteristic,
       characteristicType: selectedType,
       siteType: selectedSiteType,
@@ -81,11 +99,12 @@ export default function WQPLayerControl({
   };
 
   const clearFilters = () => {
+    setSelectedState("US:06"); // Reset to California
     setSelectedCharacteristic(undefined);
     setSelectedType(undefined);
     setSelectedSiteType(undefined);
     setSelectedYear(undefined);
-    onFiltersChange({});
+    onFiltersChange({ statecode: "US:06" });
   };
 
   return (
@@ -129,6 +148,24 @@ export default function WQPLayerControl({
       {/* Filters */}
       {expanded && (
         <div className="space-y-3 mt-3 pt-3 border-t border-gray-200">
+          {/* State Selector */}
+          <div>
+            <label className="block text-xs font-medium text-gray-700 mb-2">
+              🗺️ Estado de EE.UU.
+            </label>
+            <select
+              value={selectedState}
+              onChange={(e) => handleStateChange(e.target.value)}
+              className="w-full text-xs px-2 py-1.5 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
+            >
+              {US_STATES.map((state) => (
+                <option key={state.code} value={state.code}>
+                  {state.name} ({state.abbr})
+                </option>
+              ))}
+            </select>
+          </div>
+
           {/* Popular Characteristics */}
           <div>
             <label className="block text-xs font-medium text-gray-700 mb-2">
@@ -238,7 +275,12 @@ export default function WQPLayerControl({
           {/* Info */}
           <div className="text-xs text-gray-600 bg-blue-50 p-2 rounded">
             💡 <strong>WQP</strong> integra datos de USGS, EPA y 400+ agencias
-            de monitoreo
+            de monitoreo de EE.UU. Los datos se cargan automáticamente al activar la capa.
+          </div>
+
+          {/* API Note */}
+          <div className="text-xs text-amber-700 bg-amber-50 p-2 rounded">
+            ⚠️ La API de WQP puede tardar unos segundos en responder debido al gran volumen de datos.
           </div>
         </div>
       )}

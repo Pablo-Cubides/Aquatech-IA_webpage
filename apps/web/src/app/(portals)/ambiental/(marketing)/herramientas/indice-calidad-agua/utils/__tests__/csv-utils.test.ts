@@ -233,16 +233,16 @@ describe("generateExampleCSV", () => {
 
     expect(csv).toContain("pH");
     expect(csv).toContain("Turbiedad");
-    expect(csv).toContain("Oxígeno disuelto");
-    expect(csv).toContain("DBO5");
+    expect(csv).toContain("Color aparente");
+    expect(csv).toContain("Nitratos");
   });
 
   it("debe incluir valores de ejemplo realistas", () => {
     const csv = generateExampleCSV();
 
-    expect(csv).toContain("7.0");
+    expect(csv).toContain("7.2");
     expect(csv).toContain("1.5");
-    expect(csv).toContain("Unidades de pH");
+    expect(csv).toContain("unidades");
     expect(csv).toContain("UNT");
   });
 

@@ -52,7 +52,7 @@ export interface WHOTimeSeriesData {
   }>;
 }
 
-const BASE_URL = 'https://ghoapi.azureedge.net/api';
+const BASE_URL = '/api/proxy/who';
 
 /**
  * Indicadores populares de WHO GHO
@@ -140,7 +140,8 @@ export const POPULAR_WHO_INDICATORS = [
  */
 export async function getWHOCountries(): Promise<WHOCountry[]> {
   try {
-    const response = await fetch(`${BASE_URL}/DIMENSION/COUNTRY/DimensionValues`);
+    // Uso de proxy: path=DIMENSION/COUNTRY/DimensionValues
+    const response = await fetch(`${BASE_URL}?path=DIMENSION/COUNTRY/DimensionValues`);
     if (!response.ok) {
       throw new Error(`WHO API error: ${response.status}`);
     }
@@ -164,7 +165,7 @@ export function getPopularWHOIndicators() {
  */
 export async function searchWHOIndicators(keyword: string): Promise<WHOIndicator[]> {
   try {
-    const response = await fetch(`${BASE_URL}/Indicator`);
+    const response = await fetch(`${BASE_URL}?path=Indicator`);
     if (!response.ok) {
       throw new Error(`WHO API error: ${response.status}`);
     }
@@ -203,7 +204,7 @@ export async function getWHOIndicatorData(
       filter += ` and TimeDim le ${endYear}`;
     }
 
-    const url = `${BASE_URL}/${indicatorCode}?$filter=${encodeURIComponent(filter)}`;
+    const url = `${BASE_URL}?path=${indicatorCode}&$filter=${encodeURIComponent(filter)}`;
     const response = await fetch(url);
     
     if (!response.ok) {

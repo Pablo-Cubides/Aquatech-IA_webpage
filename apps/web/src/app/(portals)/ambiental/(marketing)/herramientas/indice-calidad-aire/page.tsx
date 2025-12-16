@@ -24,6 +24,7 @@ import type {
 } from './types';
 import { POLLUTANTS } from './types';
 import { csvToMeasurements, generateExampleCSV, downloadCSV } from './utils/csv-parser';
+import { exportAirQualityPDF } from './utils/pdf-export';
 
 // Index profile options
 const INDEX_PROFILES = [
@@ -336,6 +337,16 @@ export default function IndiceCalidadAirePage() {
               <Calculator className="w-5 h-5 text-sky-600" />
               Resultados
             </h2>
+            
+            <div className="flex justify-end mb-4">
+              <button
+                onClick={() => exportAirQualityPDF(results)}
+                className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium text-sm"
+              >
+                <FileText className="w-4 h-4" />
+                Exportar Reporte PDF
+              </button>
+            </div>
             
             {results.map((result, index) => (
               <div
