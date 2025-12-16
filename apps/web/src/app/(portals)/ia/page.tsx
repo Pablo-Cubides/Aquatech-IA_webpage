@@ -128,7 +128,7 @@ export default function IAPage() {
                                   <img
                                   alt="Análisis de Agua con IA"
                                   className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
-                                  src="/images/Portal IA/Herramientas/LLM Insight.png"
+                                  src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1600&q=80"
                                   loading="lazy"
                                 />              </div>
               <h3 className="mt-4 text-xl font-bold text-white">
@@ -152,7 +152,7 @@ export default function IAPage() {
                                   <img
                                   alt="Visor de Difusión"
                                   className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
-                                  src="/images/Portal IA/Herramientas/PixelGen.png"
+                                  src="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=1600&q=80"
                                   loading="lazy"
                                 />              </div>
               <h3 className="mt-4 text-xl font-bold text-white">
@@ -176,7 +176,7 @@ export default function IAPage() {
                                   <img
                                   alt="Filtros de IA"
                                   className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
-                                  src="/images/Portal IA/Herramientas/FiltrarIA.png"
+                                  src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=80"
                                   loading="lazy"
                                 />              </div>
               <h3 className="mt-4 text-xl font-bold text-white">

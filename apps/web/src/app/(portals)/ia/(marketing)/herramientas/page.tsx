@@ -446,7 +446,7 @@ export default function IAHerramientasPage() {
                   <img
                     alt="Análisis de tendencias y modelos predictivos"
                     className="w-full h-full object-cover tool-image"
-                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=80"
+                    src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=80"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
