@@ -164,7 +164,7 @@ export default function AmbientalHerramientasPage() {
                   <img
                     alt="Herramienta de generación de matrices de EIA"
                     className="w-full h-full object-cover tool-image"
-                    src="/tools/generador-matrices.svg"
+                    src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1600&q=80"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
@@ -395,8 +395,8 @@ export default function AmbientalHerramientasPage() {
                 <div className="h-64 lg:h-full min-h-[400px] overflow-hidden order-1 lg:order-2 relative">
                   <img
                     alt="Análisis de índices de calidad de agua potable"
-                    className="w-full h-full object-cover tool-image"
-                    src="https://images.unsplash.com/photo-1583224964124-0b7b0e6e4a0d?auto=format&fit=crop&w=1600&q=80"
+                    className="w-full h-full object-cover object-center tool-image"
+                    src="https://images.unsplash.com/photo-1564419320461-6870880221ad?auto=format&fit=crop&w=800&h=500&q=80"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
@@ -414,7 +414,7 @@ export default function AmbientalHerramientasPage() {
                   <img
                     alt="Calculadora de índices de calidad del aire AQI"
                     className="w-full h-full object-cover tool-image"
-                    src="https://images.unsplash.com/photo-1530587191325-3db32d826c18?auto=format&fit=crop&w=1600&q=80"
+                    src="https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?auto=format&fit=crop&w=1600&q=80"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
