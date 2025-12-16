@@ -1,0 +1,13 @@
+
+> @ia-next/web@0.0.1 typecheck D:\Empresas\AquatechIA\webpage\apps\web
+> tsc --noEmit
+
+.next/types/validator.ts(25,44): error TS2344: Type 'Route' does not satisfy the constraint 'never'.
+  Type 'LayoutRoutes' is not assignable to type 'never'.
+    Type '"/"' is not assignable to type 'never'.
+.next/types/validator.ts(25,75): error TS2344: Type 'Route' does not satisfy the constraint 'never'.
+  Type 'LayoutRoutes' is not assignable to type 'never'.
+    Type '"/"' is not assignable to type 'never'.
+src/lib/auth.ts(30,28): error TS2339: Property 'password' does not exist on type '{ name: string | null; image: string | null; id: string; email: string; emailVerified: Date | null; role: UserRole; credits: number; createdAt: Date; updatedAt: Date; }'.
+src/lib/auth.ts(36,16): error TS2339: Property 'password' does not exist on type '{ name: string | null; image: string | null; id: string; email: string; emailVerified: Date | null; role: UserRole; credits: number; createdAt: Date; updatedAt: Date; }'.
+ ELIFECYCLE  Command failed with exit code 1.

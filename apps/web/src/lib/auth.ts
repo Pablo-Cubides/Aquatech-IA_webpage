@@ -27,13 +27,13 @@ export const authOptions: NextAuthOptions = {
           where: { email: credentials.email },
         });
 
-        if (!user || !user.password) {
+        if (!user || !(user as any).password) {
           throw new Error("Usuario no encontrado");
         }
 
         const isPasswordValid = await bcrypt.compare(
           credentials.password,
-          user.password
+          (user as any).password
         );
 
         if (!isPasswordValid) {
@@ -45,32 +45,26 @@ export const authOptions: NextAuthOptions = {
           email: user.email,
           name: user.name,
           image: user.image,
+          role: user.role,
         };
       },
     }),
   ],
   callbacks: {
-    session: async ({ session, user, token }) => {
-      if (session?.user) {
-        if (user) {
-          // Database session
-          // @ts-ignore
-          session.user.id = user.id;
-          // @ts-ignore
-          session.user.role = user.role;
-          // @ts-ignore
-          session.user.credits = user.credits;
-        } else if (token) {
-          // JWT session (for credentials)
-          // @ts-ignore
-          session.user.id = token.sub;
-        }
+    session: async ({ session, token }) => {
+      if (session?.user && token) {
+        // @ts-ignore
+        session.user.id = token.sub;
+        // @ts-ignore
+        session.user.role = token.role;
       }
       return session;
     },
     jwt: async ({ user, token }) => {
       if (user) {
         token.uid = user.id;
+        // @ts-ignore
+        token.role = user.role;
       }
       return token;
     },

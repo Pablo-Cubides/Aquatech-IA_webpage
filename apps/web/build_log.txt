@@ -1,0 +1,232 @@
+
+> @ia-next/web@0.0.1 build D:\Empresas\AquatechIA\webpage\apps\web
+> next build
+
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+   ▲ Next.js 16.0.1 (Turbopack)
+   - Environments: .env.local, .env
+   - Experiments (use with caution):
+     · serverActions
+
+ ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+   Creating an optimized production build ...
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+ ✓ Compiled successfully in 103s
+   Running TypeScript ...
+   Collecting page data ...
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\components\static\cases does not exist
+[Upstash Redis] The 'url' property is missing or undefined in your Redis config.
+[Upstash Redis] The 'token' property is missing or undefined in your Redis config.
+[Upstash Redis] The 'url' property is missing or undefined in your Redis config.
+[Upstash Redis] The 'token' property is missing or undefined in your Redis config.
+[Upstash Redis] The 'url' property is missing or undefined in your Redis config.
+[Upstash Redis] The 'token' property is missing or undefined in your Redis config.
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\components\static\cases does not exist
+[Upstash Redis] The 'url' property is missing or undefined in your Redis config.
+[Upstash Redis] The 'token' property is missing or undefined in your Redis config.
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\components\static\cases does not exist
+[visor-noise] Noise dir not found, tried: [
+  'D:\\Empresas\\AquatechIA\\webpage\\apps\\web\\src\\app\\(portals)\\ia\\(marketing)\\herramientas\\visor-difusion\\src\\components\\static\\noise',
+  'D:\\Empresas\\AquatechIA\\webpage\\apps\\web\\apps\\web\\src\\app\\(portals)\\ia\\(marketing)\\herramientas\\visor-difusion\\src\\components\\static\\noise'
+]
+[Upstash Redis] The 'url' property is missing or undefined in your Redis config.
+[Upstash Redis] The 'token' property is missing or undefined in your Redis config.
+   Generating static pages (0/152) ...
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\components\static\cases does not exist
+[Upstash Redis] The 'url' property is missing or undefined in your Redis config.
+[Upstash Redis] The 'token' property is missing or undefined in your Redis config.
+Component rendered, current state: {
+  selectedPromptId: '',
+  currentStep: 0,
+  isLoading: false,
+  isFinished: false
+}
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\components\static\cases does not exist
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\components\static\cases does not exist
+[Upstash Redis] The 'url' property is missing or undefined in your Redis config.
+[Upstash Redis] The 'token' property is missing or undefined in your Redis config.
+   Generating static pages (38/152) 
+Component rendered, current state: {
+  selectedPromptId: '',
+  currentStep: 0,
+  isLoading: false,
+  isFinished: false
+}
+   Generating static pages (76/152) 
+   Generating static pages (114/152) 
+ ✓ Generating static pages (152/152) in 21.9s
+   Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /ambiental
+├ ○ /ambiental/autor
+├ ○ /ambiental/autor/herramientas/analisis-correlaciones
+├ ○ /ambiental/autor/herramientas/consulta-nota
+├ ○ /ambiental/autor/herramientas/genealogia-app
+├ ○ /ambiental/autor/herramientas/ruleta-academica
+├ ○ /ambiental/autor/herramientas/ruleta-preguntas
+├ ○ /ambiental/autor/herramientas/visualizador-notas
+├ ○ /ambiental/blog
+├ ● /ambiental/blog/[slug]
+│ ├ /ambiental/blog/calculadora-irca-calidad-agua
+│ ├ /ambiental/blog/plan-restauracion-hidrica-2030
+│ ├ /ambiental/blog/indices-calidad-aire-aqi-ica
+│ └ [+16 more paths]
+├ ● /ambiental/categoria/[slug]
+│ ├ /ambiental/categoria/normatividad-ambiental
+│ ├ /ambiental/categoria/gestion-ambiental-instrumentos
+│ ├ /ambiental/categoria/control-tratamiento-contaminacion
+│ └ [+2 more paths]
+├ ○ /ambiental/cursos
+├ ○ /ambiental/herramientas
+├ ƒ /ambiental/herramientas/[slug]
+├ ○ /ambiental/herramientas/analisis-correlaciones
+├ ○ /ambiental/herramientas/analisis-correlaciones/app
+├ ○ /ambiental/herramientas/analisis-correlaciones/app/about
+├ ○ /ambiental/herramientas/analisis-correlaciones/src/app
+├ ○ /ambiental/herramientas/analisis-correlaciones/src/app/about
+├ ○ /ambiental/herramientas/generador-matrices
+├ ƒ /ambiental/herramientas/generador-matrices/builder/[caseId]/[matriz]
+├ ○ /ambiental/herramientas/generador-matrices/faq
+├ ○ /ambiental/herramientas/generador-matrices/matrices
+├ ƒ /ambiental/herramientas/generador-matrices/matrices/[type]
+├ ○ /ambiental/herramientas/generador-matrices/selector
+├ ○ /ambiental/herramientas/indice-calidad-agua
+├ ○ /ambiental/herramientas/indice-calidad-aire
+├ ○ /ambiental/herramientas/normas-ambientales
+├ ○ /ambiental/herramientas/normas-ambientales/explorar
+├ ○ /ambiental/herramientas/normas-ambientales/src/app
+├ ○ /ambiental/herramientas/normas-ambientales/src/app/admin
+├ ƒ /ambiental/herramientas/normas-ambientales/src/app/api/normas
+├ ƒ /ambiental/herramientas/normas-ambientales/src/app/api/paises
+├ ƒ /ambiental/herramientas/normas-ambientales/src/app/api/sectores
+├ ○ /ambiental/herramientas/normas-ambientales/src/app/explorar
+├ ○ /ambiental/herramientas/normas-ambientales/src/app/fundamentos
+├ ○ /ambiental/herramientas/normas-ambientales/src/app/sitemap.xml
+├ ○ /ambiental/herramientas/visor-mapas-ambientales
+├ ○ /ambiental/herramientas/visor-mapas-ambientales/src/app
+├ ƒ /ambiental/herramientas/visor-mapas-ambientales/src/app/api/datasets
+├ ƒ /ambiental/herramientas/visor-mapas-ambientales/src/app/api/days
+├ ƒ /ambiental/herramientas/visor-mapas-ambientales/src/app/api/geojson
+├ ○ /ambiental/herramientas/visor-mapas-ambientales/src/app/guia
+├ ○ /ambiental/herramientas/visor-mapas-ambientales/src/app/sitemap.xml
+├ ○ /ambiental/nosotros
+├ ○ /ambiental/perfil
+├ ○ /ambiental/privacy
+├ ○ /ambiental/productos
+├ ○ /ambiental/terms
+├ ƒ /api/aqi-calculator
+├ ƒ /api/aqi-stations
+├ ƒ /api/arxiv-papers
+├ ƒ /api/auth/[...nextauth]
+├ ƒ /api/auth/register
+├ ƒ /api/eonet/categories
+├ ƒ /api/eonet/events
+├ ƒ /api/gbif/search
+├ ƒ /api/health
+├ ƒ /api/huggingface-trending
+├ ƒ /api/normas
+├ ƒ /api/notes
+├ ƒ /api/openaq/locations
+├ ƒ /api/openaq/measurements
+├ ƒ /api/openaq/parameters
+├ ƒ /api/openaq/sensors/[id]/measurements
+├ ƒ /api/paises
+├ ƒ /api/proxy/who
+├ ƒ /api/proxy/worldbank
+├ ƒ /api/questionsets
+├ ƒ /api/questionsets/[id]
+├ ƒ /api/sectores
+├ ƒ /api/test-db
+├ ƒ /api/tiles/[z]/[x]/[y]
+├ ƒ /api/tools/analytics
+├ ƒ /api/visor-export-gif
+├ ƒ /api/visor-noise/[step]
+├ ƒ /api/visor-prompts
+├ ƒ /api/visor-step
+├ ƒ /api/wqp/search
+├ ○ /auth/error
+├ ○ /auth/signin
+├ ○ /ia
+├ ○ /ia/autor
+├ ○ /ia/autor/herramientas/aula-score
+├ ○ /ia/autor/herramientas/aula-score/clasificacion
+├ ○ /ia/autor/herramientas/consulta-nota
+├ ○ /ia/autor/herramientas/ruleta-academica
+├ ○ /ia/autor/herramientas/ruleta-academica/juego
+├ ○ /ia/blog
+├ ● /ia/blog/[slug]
+│ ├ /ia/blog/como-funciona-llm-transformers
+│ ├ /ia/blog/difusion-stable-diffusion
+│ ├ /ia/blog/automatizar-tareas-con-ia-sin-programar
+│ └ [+11 more paths]
+├ ● /ia/categoria/[slug]
+│ ├ /ia/categoria/fundamentos-inteligencia-artificial
+│ ├ /ia/categoria/modelos-lenguaje-asistentes-llm
+│ ├ /ia/categoria/generadores-imagenes-contenido-creativo-ia
+│ └ [+2 more paths]
+├ ○ /ia/cursos
+├ ○ /ia/herramientas
+├ ● /ia/herramientas/[slug]
+│ ├ /ia/herramientas/como-funcionan-llm
+│ ├ /ia/herramientas/visor-difusion
+│ ├ /ia/herramientas/filtrado-ia
+│ └ [+3 more paths]
+├ ○ /ia/herramientas/como-funcionan-llm
+├ ○ /ia/herramientas/como-funcionan-llm/app
+├ ƒ /ia/herramientas/como-funcionan-llm/app/api/export
+├ ƒ /ia/herramientas/como-funcionan-llm/app/api/log
+├ ○ /ia/herramientas/como-funcionan-llm/app/test
+├ ○ /ia/herramientas/filtrado-ia
+├ ○ /ia/herramientas/filtrado-ia/app
+├ ○ /ia/herramientas/filtrado-ia/src/app
+├ ○ /ia/herramientas/modelos-tendencia
+├ ○ /ia/herramientas/papers-ia
+├ ○ /ia/herramientas/parametros-decodificacion
+├ ƒ /ia/herramientas/parametros-decodificacion/src/app
+├ ○ /ia/herramientas/parametros-decodificacion/src/app/sitemap.xml
+├ ○ /ia/herramientas/visor-difusion
+├ ○ /ia/herramientas/visor-difusion/src/app
+├ ƒ /ia/herramientas/visor-difusion/src/app/api/export_gif
+├ ƒ /ia/herramientas/visor-difusion/src/app/api/noise/[step]
+├ ƒ /ia/herramientas/visor-difusion/src/app/api/prompts
+├ ƒ /ia/herramientas/visor-difusion/src/app/api/step
+├ ○ /ia/nosotros
+├ ○ /ia/perfil
+├ ○ /ia/privacy
+├ ○ /ia/productos
+├ ○ /ia/terms
+├ ○ /robots.txt
+└ ○ /sitemap.xml
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+

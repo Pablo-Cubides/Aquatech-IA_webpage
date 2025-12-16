@@ -81,6 +81,14 @@ const nextConfig = {
             key: "Content-Security-Policy",
             value: "default-src 'self'; connect-src 'self' https://www.google-analytics.com https://*.supabase.co https://*.vercel.app https://api.openaq.org https://api.gbif.org https://www.waterqualitydata.us https://eonet.gsfc.nasa.gov; img-src 'self' https: data:; font-src 'self' https: data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';",
           },
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains; preload",
+          },
+          {
+            key: "Referrer-Policy",
+            value: "strict-origin-when-cross-origin",
+          },
         ],
       },
     ];

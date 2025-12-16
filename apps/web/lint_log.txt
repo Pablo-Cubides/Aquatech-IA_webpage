@@ -1,0 +1,350 @@
+
+> @ia-next/web@0.0.1 lint D:\Empresas\AquatechIA\webpage\apps\web
+> pnpm exec eslint src/ --ext .ts,.tsx,.js,.jsx
+
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\blog\[slug]\page.tsx
+   69:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   74:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  435:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\analisis-correlaciones\app\page.tsx
+   16:8   warning  'WBTimeSeriesData' is defined but never used             @typescript-eslint/no-unused-vars
+   20:3   warning  'formatWHODataForCorrelation' is defined but never used  @typescript-eslint/no-unused-vars
+   21:8   warning  'WHOTimeSeriesData' is defined but never used            @typescript-eslint/no-unused-vars
+   27:3   warning  'alignDatasets' is defined but never used                @typescript-eslint/no-unused-vars
+   36:8   warning  'ComparisonResult' is defined but never used             @typescript-eslint/no-unused-vars
+  235:10  warning  'wbConfig' is assigned a value but never used            @typescript-eslint/no-unused-vars
+  236:10  warning  'whoConfig' is assigned a value but never used           @typescript-eslint/no-unused-vars
+  239:10  warning  'growthResult' is assigned a value but never used        @typescript-eslint/no-unused-vars
+  239:24  warning  'setGrowthResult' is assigned a value but never used     @typescript-eslint/no-unused-vars
+  239:52  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  240:10  warning  'trendResult' is assigned a value but never used         @typescript-eslint/no-unused-vars
+  240:23  warning  'setTrendResult' is assigned a value but never used      @typescript-eslint/no-unused-vars
+  240:50  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  325:23  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  344:66  warning  Forbidden non-null assertion                             @typescript-eslint/no-non-null-assertion
+  380:66  warning  Forbidden non-null assertion                             @typescript-eslint/no-non-null-assertion
+  400:65  warning  Forbidden non-null assertion                             @typescript-eslint/no-non-null-assertion
+  422:70  warning  Forbidden non-null assertion                             @typescript-eslint/no-non-null-assertion
+  426:38  warning  Forbidden non-null assertion                             @typescript-eslint/no-non-null-assertion
+  512:25  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  611:23  warning  Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\analisis-correlaciones\components\ComparisonResults.tsx
+  36:5   warning  Forbidden non-null assertion          @typescript-eslint/no-non-null-assertion
+  59:75  warning  'groupIdx' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\analisis-correlaciones\components\CorrelationHeatmap.tsx
+  60:46  warning  'colIdx' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\analisis-correlaciones\components\CorrelationTable.tsx
+  86:46  warning  'colIdx' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\analisis-correlaciones\components\ExportButtons.tsx
+  19:13  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\analisis-correlaciones\components\GrowthResults.tsx
+  13:52  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\analisis-correlaciones\components\TrendResults.tsx
+  4:10  warning  'LineChart' is defined but never used            @typescript-eslint/no-unused-vars
+  4:21  warning  'Line' is defined but never used                 @typescript-eslint/no-unused-vars
+  4:27  warning  'XAxis' is defined but never used                @typescript-eslint/no-unused-vars
+  4:34  warning  'YAxis' is defined but never used                @typescript-eslint/no-unused-vars
+  4:41  warning  'CartesianGrid' is defined but never used        @typescript-eslint/no-unused-vars
+  4:56  warning  'Tooltip' is defined but never used              @typescript-eslint/no-unused-vars
+  4:65  warning  'Legend' is defined but never used               @typescript-eslint/no-unused-vars
+  4:73  warning  'ResponsiveContainer' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\analisis-correlaciones\src\utils\aggregation.ts
+   77:7   warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  110:7   warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  142:7   warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  197:45  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  198:45  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\analisis-correlaciones\src\utils\pdf-export.ts
+  19:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\analisis-correlaciones\src\utils\worldbank.ts
+  284:3  warning  'countryCode' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\indice-calidad-agua\utils\__tests__\calculate-dwqi.test.ts
+   26:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+   27:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+   49:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+   50:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+   70:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+   71:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+   97:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+   98:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  117:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  118:5   warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  145:23  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  170:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  171:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  208:14  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  209:14  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  234:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  235:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  236:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  256:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  257:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  277:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  293:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  294:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  295:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  315:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  316:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\indice-calidad-agua\utils\__tests__\calculate-irca.test.ts
+   25:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+   26:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+   27:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+   52:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+   53:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+   71:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+   72:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+   93:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+   94:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  116:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  117:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  137:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  138:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  157:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  158:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  159:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  160:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  161:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  162:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  163:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  183:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  184:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  185:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\indice-calidad-agua\utils\__tests__\calculate-wqi.test.ts
+   29:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+   30:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+   31:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+   53:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+   54:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+   74:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+   75:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+   76:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+   95:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+   96:5   warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  119:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  120:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  138:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  139:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  155:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  156:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  176:14  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  177:14  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  201:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  219:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  240:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  241:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  242:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  262:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\indice-calidad-aire\lib\openaq-client.ts
+  155:7  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\indice-calidad-aire\page.tsx
+  15:3  warning  'X' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\indice-calidad-aire\utils\calculate-aqi.ts
+  8:3  warning  'PollutantMeasurement' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\indice-calidad-aire\utils\calculate-who.ts
+   8:3  warning  'PollutantMeasurement' is defined but never used  @typescript-eslint/no-unused-vars
+  11:3  warning  'Category' is defined but never used              @typescript-eslint/no-unused-vars
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\indice-calidad-aire\utils\csv-parser.ts
+  256:5  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\normas-ambientales\src\app\api\normas\route.ts
+  20:6   warning  'MatchedSource' is defined but never used       @typescript-eslint/no-unused-vars
+  46:10  warning  '_denormalizeSector' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\normas-ambientales\src\app\api\paises\route.ts
+  8:15  warning  'process' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\visor-mapas-ambientales\src\app\layout.tsx
+  5:7  warning  'inter' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\visor-mapas-ambientales\src\app\page.tsx
+   53:10  warning  'mapCenter' is assigned a value but never used                @typescript-eslint/no-unused-vars
+   71:10  warning  'loading' is assigned a value but never used                  @typescript-eslint/no-unused-vars
+   72:10  warning  'error' is assigned a value but never used                    @typescript-eslint/no-unused-vars
+  105:9   warning  'handleGBIFDataLoad' is assigned a value but never used       @typescript-eslint/no-unused-vars
+  109:9   warning  'handleGBIFLoadingChange' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  113:9   warning  'handleGBIFError' is assigned a value but never used          @typescript-eslint/no-unused-vars
+  117:9   warning  'handleWQPDataLoad' is assigned a value but never used        @typescript-eslint/no-unused-vars
+  121:9   warning  'handleWQPLoadingChange' is assigned a value but never used   @typescript-eslint/no-unused-vars
+  125:9   warning  'handleWQPError' is assigned a value but never used           @typescript-eslint/no-unused-vars
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\visor-mapas-ambientales\src\components\EONETLayerControl.tsx
+   7:3  warning  'getCategoryNameES' is defined but never used                                                                                                                                                                                                               @typescript-eslint/no-unused-vars
+  83:6  warning  React Hook useEffect has missing dependencies: 'fetchEONETData' and 'onDataLoad'. Either include them or remove the dependency array. If 'onDataLoad' changes too often, find the parent component that defines it and wrap that definition in useCallback  react-hooks/exhaustive-deps
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\visor-mapas-ambientales\src\components\OpenAQLayerControl.tsx
+   3:31  warning  'useCallback' is defined but never used               @typescript-eslint/no-unused-vars
+   5:3   warning  'getOpenAQLocations' is defined but never used        @typescript-eslint/no-unused-vars
+   9:8   warning  'OpenAQMeasurement' is defined but never used         @typescript-eslint/no-unused-vars
+  42:10  warning  'availableParams' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\visor-mapas-ambientales\src\lib\eonet.ts
+  8:7  warning  'EONET_API_BASE' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\herramientas\visor-mapas-ambientales\src\lib\openaq.ts
+   86:7   warning  'OPENAQ_API_BASE' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  275:41  warning  Unexpected any. Specify a different type              @typescript-eslint/no-explicit-any
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\blog\[slug]\page.tsx
+   69:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   74:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  435:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\herramientas\como-funcionan-llm\app\components\__tests__\InputStep.test.tsx
+  4:26  warning  'fireEvent' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\herramientas\como-funcionan-llm\context\__tests__\processContext.test.tsx
+  63:20  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\herramientas\parametros-decodificacion\src\app\page.tsx
+  78:10  warning  '_ParamCard' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\herramientas\visor-difusion\src\app\page.tsx
+   10:7   warning  '_promptTranslations' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  102:10  warning  '_simulationId' is assigned a value but never used        @typescript-eslint/no-unused-vars
+  132:10  warning  '_selectedPromptText' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\herramientas\visor-difusion\src\components\__tests__\EducationalPanel.test.tsx
+  3:32  warning  'vi' is defined but never used         @typescript-eslint/no-unused-vars
+  4:26  warning  'fireEvent' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\api\arxiv-papers\route.ts
+  267:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\api\auth\register\route.ts
+  45:12  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\api\eonet\categories\route.ts
+  6:27  warning  'request' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\api\gbif\search\route.ts
+  19:35  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\api\health\route.ts
+  47:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  48:14  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\api\openaq\locations\route.ts
+  12:72  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  13:82  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  14:66  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  15:80  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  27:76  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  40:80  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\api\openaq\sensors\[id]\measurements\route.ts
+  26:34  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\api\questionsets\[id]\route.ts
+  83:23  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\api\tools\analytics\route.ts
+  88:27  warning  '_request' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\api\visor-export-gif\route.ts
+  3:7  warning  'CASES_PUBLIC_PATH' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  4:7  warning  'BASE_URL' is assigned a value but never used           @typescript-eslint/no-unused-vars
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\api\visor-prompts\route.ts
+  3:7  warning  'CASES_PUBLIC_PATH' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  4:7  warning  'BASE_URL' is assigned a value but never used           @typescript-eslint/no-unused-vars
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\app\auth\signin\page.tsx
+  10:9  warning  'router' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\components\ExportButtons.tsx
+  15:14  warning  '_matrixRef' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\components\auth\AuthModal.tsx
+  101:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\components\auth\__tests__\AuthModal.test.tsx
+   20:20  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+   37:15  warning  'container' is assigned a value but never used  @typescript-eslint/no-unused-vars
+   47:15  warning  'container' is assigned a value but never used  @typescript-eslint/no-unused-vars
+   59:22  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+   85:18  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+   98:18  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  117:18  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  133:18  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  161:22  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  197:19  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  210:19  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  224:19  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  240:19  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  264:22  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  283:15  warning  'container' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  309:15  warning  'container' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  319:15  warning  'container' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  333:20  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  338:15  warning  'container' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  345:15  warning  'container' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  361:22  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  369:22  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  392:15  warning  'container' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  410:15  warning  'container' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\lib\__tests__\track-env.test.ts
+   97:10  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  136:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  143:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  168:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  187:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  197:10  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  245:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\lib\auth.ts
+  12:17  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  13:21  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\lib\blog-categories.ts
+  335:9  warning  'portalName' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\lib\cache\redis-cache.ts
+  10:8   warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  11:10  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\lib\logger.ts
+   11:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  116:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\lib\matrices.ts
+  31:29  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\lib\security\__tests__\validation.test.ts
+   44:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   45:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   46:41  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  145:41  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\lib\security\rate-limit.ts
+   9:8   warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  10:10  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\lib\wqp.ts
+   76:7   warning  'BASE_URL' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  150:67  warning  Unexpected any. Specify a different type       @typescript-eslint/no-explicit-any
+
+D:\Empresas\AquatechIA\webpage\apps\web\src\utils\who.ts
+  234:9  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+Γ£û 227 problems (0 errors, 227 warnings)
+

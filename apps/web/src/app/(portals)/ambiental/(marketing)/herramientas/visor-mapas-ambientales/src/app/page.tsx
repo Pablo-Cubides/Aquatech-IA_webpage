@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import dynamic from "next/dynamic";
+import Image from "next/image";
+import { useSession } from "next-auth/react";
 import UploadWizard from "../components/UploadWizard";
 import SearchBar from "../components/SearchBar";
 import MapLegend from "../components/MapLegend";
@@ -125,17 +127,27 @@ export default function HomePage() {
     setError(err);
   }, []);
 
-  // Mock login for development
-  useEffect(() => {
-    setUser({
-      id: "1",
-      email: "usuario@ejemplo.com",
-      role: "uploader",
-    });
-  }, []);
+  /* eslint-disable react-hooks/exhaustive-deps */
+  const { data: session } = useSession();
 
-  // Mock datasets for development
+  // Sync session with local user state
   useEffect(() => {
+    if (session?.user) {
+      const user = session.user as any;
+      setUser({
+        id: user.id || "unknown", // Fallback if id missing
+        email: user.email || "",
+        role: user.role || "user", 
+      });
+    } else {
+      setUser(null);
+    }
+  }, [session]);
+  /* eslint-enable react-hooks/exhaustive-deps */
+
+  // Mock datasets for development - TODO: Replace with real API data
+  useEffect(() => {
+    // Keep mock datasets for now until API is ready
     const mockDatasets: DatasetMetadata[] = [
       {
         id: "1",
@@ -585,15 +597,6 @@ export default function HomePage() {
     loadWQPData();
   }, [showWQPLayer, wqpFilters]);
 
-  const handleLogin = (email: string) => {
-    // Mock login - password validation would happen server-side
-    setUser({
-      id: "1",
-      email,
-      role: "uploader",
-    });
-  };
-
   const handleUploadComplete = () => {
     logger.info("Upload completed successfully");
     setShowUploadWizard(false);
@@ -604,9 +607,9 @@ export default function HomePage() {
     return (
       <main className="flex flex-col justify-center min-h-screen py-12 bg-gray-50 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <h2 className="mt-6 text-3xl font-bold tracking-tight text-center text-gray-900">
+          <h1 className="mt-6 text-3xl font-bold tracking-tight text-center text-gray-900">
             Mapa Ambiental
-          </h2>
+          </h1>
           <p className="mt-2 text-sm text-center text-gray-600">
             Visualización de datos ambientales
           </p>
@@ -618,10 +621,8 @@ export default function HomePage() {
               className="space-y-6"
               onSubmit={(e) => {
                 e.preventDefault();
-                const formData = new FormData(e.currentTarget);
-                handleLogin(
-                  formData.get("email") as string,
-                );
+                // Trigger global login modal
+                document.dispatchEvent(new CustomEvent('open-auth-modal'));
               }}
             >
               <div>
@@ -726,11 +727,16 @@ export default function HomePage() {
 
               <div className="flex items-center space-x-3 flex-1 lg:flex-initial">
                 {/* Logo */}
-                <img
-                  src="\images\Portal ambiental\Herramientas\GeoVisor.png"
-                  alt="Geovisor"
-                  className="object-contain w-auto h-20 sm:h-32 lg:h-40 hidden sm:block"
-                />
+                <h1 className="sr-only">Visor de Mapas Ambientales - AquatechIA</h1>
+                <div className="relative w-auto h-20 sm:h-32 lg:h-40 hidden sm:block aspect-[2/1]">
+                  <Image
+                    src="/images/Portal ambiental/Herramientas/GeoVisor.png"
+                    alt="Geovisor AquatechIA"
+                    fill
+                    className="object-contain"
+                    priority
+                  />
+                </div>
                 <select
                   className="w-full sm:w-64 input-field text-sm sm:text-base"
                   value={selectedDataset?.id || ""}

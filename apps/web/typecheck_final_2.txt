@@ -1,0 +1,12 @@
+
+> @ia-next/web@0.0.1 typecheck D:\Empresas\AquatechIA\webpage\apps\web
+> tsc --noEmit
+
+.next/types/validator.ts(25,44): error TS2344: Type 'Route' does not satisfy the constraint 'never'.
+  Type 'LayoutRoutes' is not assignable to type 'never'.
+    Type '"/"' is not assignable to type 'never'.
+.next/types/validator.ts(25,75): error TS2344: Type 'Route' does not satisfy the constraint 'never'.
+  Type 'LayoutRoutes' is not assignable to type 'never'.
+    Type '"/"' is not assignable to type 'never'.
+src/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambientales/src/app/page.tsx(137,26): error TS2339: Property 'id' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+ ELIFECYCLE  Command failed with exit code 2.
