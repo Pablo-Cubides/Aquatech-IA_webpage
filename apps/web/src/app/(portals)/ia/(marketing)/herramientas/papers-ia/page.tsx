@@ -18,7 +18,8 @@ import {
   ArxivPaper, 
   ArxivApiResponse, 
   BLOG_CATEGORY_NAMES,
-  ARXIV_CATEGORY_NAMES
+  ARXIV_CATEGORY_NAMES,
+  BLOG_TO_ARXIV_CATEGORIES
 } from './types/arxiv';
 
 const ITEMS_PER_PAGE = 20;
@@ -130,6 +131,22 @@ export default function PapersIAPage() {
   };
 
   const categoryButtons = useMemo(() => Object.entries(BLOG_CATEGORY_NAMES), []);
+
+  // Helper to find which Blog Categories a paper belongs to based on its ArXiv tags
+  const getPaperBlogCategories = useCallback((paperCategories: string[]) => {
+    const matchedBlogCategories: string[] = [];
+    
+    Object.entries(BLOG_TO_ARXIV_CATEGORIES).forEach(([blogCatSlug, arxivCats]) => {
+      // Check if any of the paper's categories match the arXiv categories for this blog category
+      const hasMatch = paperCategories.some(cat => arxivCats.includes(cat));
+      if (hasMatch) {
+        matchedBlogCategories.push(BLOG_CATEGORY_NAMES[blogCatSlug]);
+      }
+    });
+
+    // Remove duplicates and return
+    return Array.from(new Set(matchedBlogCategories));
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-900 to-black text-white">
@@ -289,6 +306,17 @@ export default function PapersIAPage() {
                   aria-label={`Paper: ${paper.title}`}
                 >
                   <div className="flex flex-wrap gap-2 mb-3">
+                    {/* Display High-Level Blog Categories First */}
+                    {getPaperBlogCategories(paper.categories).map((blogCat) => (
+                      <span
+                        key={blogCat}
+                        className="px-2 py-0.5 text-xs font-bold bg-purple-500/20 text-purple-300 rounded-full border border-purple-500/30"
+                      >
+                        {blogCat}
+                      </span>
+                    ))}
+                    
+                    {/* Display Technical ArXiv Categories */}
                     {paper.categories.slice(0, 3).map((cat) => (
                       <span
                         key={cat}

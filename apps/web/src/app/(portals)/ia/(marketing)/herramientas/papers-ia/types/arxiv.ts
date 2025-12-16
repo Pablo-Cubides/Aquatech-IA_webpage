@@ -35,10 +35,10 @@ export interface ArxivQueryParams {
  */
 export const BLOG_TO_ARXIV_CATEGORIES: Record<string, string[]> = {
   'fundamentos-inteligencia-artificial': ['cs.AI', 'cs.LG', 'cs.NE'],
-  'modelos-lenguaje-asistentes-llm': ['cs.CL', 'cs.AI'],
+  'modelos-lenguaje-asistentes-llm': ['cs.CL'], // Removed cs.AI to avoid generic AI papers
   'generadores-imagenes-contenido-creativo-ia': ['cs.CV', 'cs.GR', 'cs.MM'],
-  'productividad-automatizacion-ia': ['cs.HC', 'cs.SE', 'cs.AI'],
-  'etica-regulacion-futuro-ia': ['cs.CY', 'cs.AI'],
+  'productividad-automatizacion-ia': ['cs.HC', 'cs.SE'], // Removed cs.AI for stricter productivity focus
+  'etica-regulacion-futuro-ia': ['cs.CY'], // Removed cs.AI to focus purely on ethics/society
 };
 
 export const ARXIV_CATEGORY_NAMES: Record<string, string> = {
