@@ -1,0 +1,32 @@
+
+> @ia-next/web@0.0.1 typecheck D:\Empresas\AquatechIA\webpage\apps\web
+> tsc --noEmit
+
+src/components/blog/BlogContent.tsx(183,21): error TS1135: Argument expression expected.
+src/components/blog/BlogContent.tsx(185,17): error TS1109: Expression expected.
+src/components/blog/BlogContent.tsx(185,18): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/components/blog/BlogContent.tsx(194,15): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/components/blog/BlogContent.tsx(196,17): error TS17002: Expected corresponding JSX closing tag for 'div'.
+src/components/blog/BlogContent.tsx(203,21): error TS1135: Argument expression expected.
+src/components/blog/BlogContent.tsx(205,19): error TS1109: Expression expected.
+src/components/blog/BlogContent.tsx(205,20): error TS1005: ',' expected.
+src/components/blog/BlogContent.tsx(206,17): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/components/blog/BlogContent.tsx(208,19): error TS17002: Expected corresponding JSX closing tag for 'div'.
+src/components/blog/BlogContent.tsx(209,17): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/components/blog/BlogContent.tsx(276,13): error TS17002: Expected corresponding JSX closing tag for 'section'.
+src/components/blog/BlogContent.tsx(277,11): error TS17002: Expected corresponding JSX closing tag for 'main'.
+src/components/blog/BlogContent.tsx(278,7): error TS1005: ')' expected.
+src/components/blog/BlogContent.tsx(281,12): error TS1005: ';' expected.
+src/components/blog/BlogContent.tsx(431,12): error TS17008: JSX element 'aside' has no corresponding closing tag.
+src/components/blog/BlogContent.tsx(522,19): error TS2657: JSX expressions must have one parent element.
+src/components/blog/BlogContent.tsx(528,21): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/components/blog/BlogContent.tsx(530,23): error TS17002: Expected corresponding JSX closing tag for 'Link'.
+src/components/blog/BlogContent.tsx(544,19): error TS1005: ')' expected.
+src/components/blog/BlogContent.tsx(544,21): error TS17002: Expected corresponding JSX closing tag for 'div'.
+src/components/blog/BlogContent.tsx(545,19): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/components/blog/BlogContent.tsx(548,11): error TS1128: Declaration or statement expected.
+src/components/blog/BlogContent.tsx(549,9): error TS1109: Expression expected.
+src/components/blog/BlogContent.tsx(550,7): error TS1109: Expression expected.
+src/components/blog/BlogContent.tsx(551,5): error TS1109: Expression expected.
+src/components/blog/BlogContent.tsx(552,3): error TS1109: Expression expected.
+ ELIFECYCLE  Command failed with exit code 2.

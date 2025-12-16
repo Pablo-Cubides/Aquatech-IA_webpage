@@ -33,9 +33,22 @@ export function BlogContent({ articles, categories, portal }: BlogContentProps) 
 
   const isAmbiental = portal === "ambiental";
   const primaryColor = isAmbiental ? "green" : "violet";
+  
+  // Theme colors based on portal
+  const bgMain = isAmbiental ? "bg-[#F9FAFB]" : "bg-[#10111A]";
+  const textMain = isAmbiental ? "text-[#1F2937]" : "text-white";
+  const bgCard = isAmbiental ? "bg-white" : "bg-gray-900/50";
+  const borderCard = isAmbiental ? "border-gray-200" : "border-gray-700/50";
+  const textSecondary = isAmbiental ? "text-[#4B5563]" : "text-gray-300";
+  const bgSticky = isAmbiental ? "bg-white/90" : "bg-gray-900/90";
+  const borderSticky = isAmbiental ? "border-gray-200" : "border-gray-700";
+  const inputBg = isAmbiental ? "bg-white border-gray-300" : "bg-gray-800 border-gray-600";
+  const inputText = isAmbiental ? "text-[#1F2937]" : "text-white";
+  const accentColor = isAmbiental ? "#16a34a" : "#00EFFF";
+  
   const gradientColors = isAmbiental
     ? "from-[#10B981]/20 via-white to-[#0077B6]/15"
-    : "from-violet-500/20 via-white to-purple-500/15";
+    : "from-cyan-500/20 via-[#10111A] to-purple-500/15";
 
   const posts = useMemo(() => {
     let data = [...articles];
@@ -87,7 +100,7 @@ export function BlogContent({ articles, categories, portal }: BlogContentProps) 
   const list = posts.slice(1);
 
   return (
-    <main className="min-h-screen bg-[#F9FAFB] text-[#1F2937]">
+    <main className={`min-h-screen ${bgMain} ${textMain}`}>
       {/* HERO */}
       <section
         className={`py-16 md:py-24 bg-gradient-to-br ${gradientColors} text-center relative overflow-hidden`}
@@ -105,7 +118,7 @@ export function BlogContent({ articles, categories, portal }: BlogContentProps) 
           >
             {isAmbiental ? "Blog Ambiental" : "Blog de IA"}
           </h1>
-          <p className="text-lg md:text-xl text-[#4B5563] max-w-3xl mx-auto mt-6">
+          <p className={`text-lg md:text-xl ${textSecondary} max-w-3xl mx-auto mt-6`}>
             {isAmbiental
               ? "Artículos, análisis y soluciones innovadoras para los desafíos ambientales del siglo XXI"
               : "Guías, tutoriales y análisis sobre inteligencia artificial, machine learning y tecnologías emergentes"}
@@ -135,7 +148,7 @@ export function BlogContent({ articles, categories, portal }: BlogContentProps) 
       </section>
 
       {/* BARRA DE BÚSQUEDA + FILTROS (sticky) */}
-      <section className="py-6 bg-white/90 backdrop-blur-sm sticky top-0 z-40 border-b border-gray-200 shadow-sm">
+      <section className={`py-6 ${bgSticky} backdrop-blur-sm sticky top-0 z-40 border-b ${borderSticky} shadow-sm`}>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-4 items-center">
             {/* Búsqueda */}
@@ -145,7 +158,7 @@ export function BlogContent({ articles, categories, portal }: BlogContentProps) 
                 placeholder="Buscar artículos, temas o autores..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className={`w-full bg-white border border-gray-300 rounded-lg py-3 pl-12 pr-4 text-[#1F2937] focus:outline-none focus:ring-2 focus:ring-${primaryColor}-500 focus:border-transparent transition-all`}
+                className={`w-full ${inputBg} rounded-lg py-3 pl-12 pr-4 ${inputText} border focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all placeholder:text-gray-500`}
               />
               <svg
                 className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5"
@@ -206,7 +219,7 @@ export function BlogContent({ articles, categories, portal }: BlogContentProps) 
                 onChange={(e) =>
                   setSort(e.target.value as "newest" | "oldest" | "popular")
                 }
-                className={`bg-white border border-gray-300 rounded-lg py-2 pl-4 pr-10 text-[#4B5563] focus:outline-none focus:ring-2 focus:ring-${primaryColor}-500 focus:border-transparent`}
+                className={`${inputBg} border rounded-lg py-2 pl-4 pr-10 ${inputText} focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent`}
               >
                 <option value="newest">Más Recientes</option>
                 <option value="oldest">Más Antiguos</option>
@@ -214,7 +227,7 @@ export function BlogContent({ articles, categories, portal }: BlogContentProps) 
               </select>
 
               {/* Toggle de vista */}
-              <div className="hidden sm:flex items-center gap-1 bg-gray-100 rounded-lg p-1">
+              <div className={`hidden sm:flex items-center gap-1 ${isAmbiental ? 'bg-gray-100' : 'bg-gray-800'} rounded-lg p-1`}>
                 <button
                   onClick={() => setView("grid")}
                   className={classNames(
@@ -275,10 +288,10 @@ export function BlogContent({ articles, categories, portal }: BlogContentProps) 
             {/* Header */}
             <div className="mb-8 flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
               <div>
-                <h2 id="articulos" className="text-3xl font-bold text-gray-900">
+                <h2 id="articulos" className={`text-3xl font-bold ${textMain}`}>
                   Artículos
                 </h2>
-                <p className="text-gray-600 mt-1">
+                <p className={`${textSecondary} mt-1`}>
                   {posts.length > 0 ? (
                     <>
                       Mostrando {posts.length} artículo
@@ -293,7 +306,7 @@ export function BlogContent({ articles, categories, portal }: BlogContentProps) 
 
             {/* Artículo destacado */}
             {featured && view === "grid" && (
-              <article className="rounded-xl border border-gray-200 bg-white overflow-hidden mb-12 group shadow-lg hover:shadow-xl transition-shadow">
+              <article className={`rounded-xl border ${borderCard} ${bgCard} overflow-hidden mb-12 group shadow-lg hover:shadow-xl transition-shadow`}>
                 <div className="grid md:grid-cols-2">
                   <Link
                     href={`/${portal}/blog/${featured.slug}`}
@@ -335,10 +348,10 @@ export function BlogContent({ articles, categories, portal }: BlogContentProps) 
                         {featured.title}
                       </Link>
                     </h3>
-                    <p className="text-[#4B5563] mb-6 flex-grow leading-relaxed">
+                    <p className={`${textSecondary} mb-6 flex-grow leading-relaxed`}>
                       {featured.excerpt}
                     </p>
-                    <div className="mt-auto flex items-center gap-4 text-sm text-gray-500">
+                    <div className={`mt-auto flex items-center gap-4 text-sm ${textSecondary}`}>
                       <div className="flex items-center gap-2">
                         <Image
                           src={featured.author.avatar}
@@ -347,7 +360,7 @@ export function BlogContent({ articles, categories, portal }: BlogContentProps) 
                           height={32}
                           className="rounded-full"
                         />
-                        <span className="text-[#1F2937] font-medium">
+                        <span className={`${textMain} font-medium`}>
                           {featured.author.name}
                         </span>
                       </div>
@@ -391,12 +404,12 @@ export function BlogContent({ articles, categories, portal }: BlogContentProps) 
                 )}
               </div>
             ) : (
-              <div className="text-center py-12 bg-white rounded-xl border border-gray-200">
+              <div className={`text-center py-12 ${bgCard} rounded-xl border ${borderCard}`}>
                 <div className="text-gray-400 text-6xl mb-4">🔍</div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                <h3 className={`text-xl font-semibold ${textMain} mb-2`}>
                   No se encontraron artículos
                 </h3>
-                <p className="text-gray-600 mb-6">
+                <p className={`${textSecondary} mb-6`}>
                   Intenta ajustar tus filtros de búsqueda o explorar otras
                   categorías.
                 </p>
@@ -448,7 +461,7 @@ export function BlogContent({ articles, categories, portal }: BlogContentProps) 
                             ? post.title.slice(0, 47) + "..."
                             : post.title}
                         </h4>
-                        <div className="flex items-center gap-2 mt-2 text-xs text-gray-500">
+                        <div className={`flex items-center gap-2 mt-2 text-xs ${textSecondary}`}>
                           <span>{formatDate(post.date)}</span>
                           <span>•</span>
                           <span>{post.readTime} min</span>
@@ -503,8 +516,8 @@ export function BlogContent({ articles, categories, portal }: BlogContentProps) 
             </div>
 
             {/* Categorías SEO */}
-            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-              <h3 className="text-xl font-bold mb-6 text-gray-900">
+            <div className={`${bgCard} p-6 rounded-xl border ${borderCard} shadow-sm`}>
+              <h3 className={`text-xl font-bold mb-6 ${textMain}`}>
                 Categorías
               </h3>
               <div className="space-y-2">
@@ -512,15 +525,13 @@ export function BlogContent({ articles, categories, portal }: BlogContentProps) 
                   <Link
                     key={category.slug}
                     href={`/${portal}/categoria/${category.slug}`}
-                    className="w-full text-left p-3 rounded-lg hover:bg-gray-50 transition-colors group flex justify-between items-center"
+                    className={`w-full text-left p-3 rounded-lg ${isAmbiental ? 'hover:bg-gray-50' : 'hover:bg-gray-800'} transition-colors group flex justify-between items-center`}
                   >
-                    <span
-                      className={`font-medium text-gray-900 group-hover:text-${primaryColor}-600`}
-                    >
+                    <span className={`font-medium ${textMain} group-hover:text-cyan-400`}>
                       {category.displayName}
                     </span>
                     <svg
-                      className="w-4 h-4 text-gray-400 group-hover:text-gray-600"
+                      className={`w-4 h-4 ${textSecondary} group-hover:text-cyan-400`}
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -551,8 +562,14 @@ interface CardProps {
 }
 
 function CardGrid({ post, portal, isAmbiental }: CardProps) {
+  const bgCard = isAmbiental ? "bg-white" : "bg-gray-900/50";
+  const borderCard = isAmbiental ? "border-gray-200" : "border-gray-700/50";
+  const textMain = isAmbiental ? "text-[#1F2937]" : "text-white";
+  const textSecondary = isAmbiental ? "text-[#4B5563]" : "text-gray-300";
+  const hoverColor = isAmbiental ? "group-hover:text-green-600" : "group-hover:text-cyan-400";
+  
   return (
-    <article className="rounded-xl border border-gray-200 bg-white overflow-hidden group shadow-sm hover:shadow-lg transition-all">
+    <article className={`rounded-xl border ${borderCard} ${bgCard} overflow-hidden group shadow-sm hover:shadow-lg transition-all`}>
       <Link
         href={`/${portal}/blog/${post.slug}`}
         className="relative block aspect-[16/9]"
@@ -568,7 +585,8 @@ function CardGrid({ post, portal, isAmbiental }: CardProps) {
           <span
             className="text-white px-3 py-1 rounded-full text-xs font-bold"
             style={{
-              backgroundColor: isAmbiental ? "#16a34a" : "#7c3aed",
+              backgroundColor: isAmbiental ? "#16a34a" : "#00EFFF",
+              color: isAmbiental ? "white" : "#10111A",
             }}
           >
             {post.category}
@@ -576,11 +594,11 @@ function CardGrid({ post, portal, isAmbiental }: CardProps) {
         </div>
       </Link>
       <div className="p-6">
-        <h3 className="text-xl font-bold mb-3 group-hover:text-green-600 transition-colors leading-tight">
+        <h3 className={`text-xl font-bold mb-3 ${hoverColor} transition-colors leading-tight ${textMain}`}>
           <Link href={`/${portal}/blog/${post.slug}`}>{post.title}</Link>
         </h3>
-        <p className="text-[#4B5563] mb-4 leading-relaxed">{post.excerpt}</p>
-        <div className="flex items-center justify-between text-sm text-gray-500 pt-4 border-t border-gray-100">
+        <p className={`${textSecondary} mb-4 leading-relaxed`}>{post.excerpt}</p>
+        <div className={`flex items-center justify-between text-sm ${textSecondary} pt-4 border-t ${isAmbiental ? 'border-gray-100' : 'border-gray-700'}`}>
           <div className="flex items-center gap-2">
             <Image
               src={post.author.avatar}
@@ -603,8 +621,14 @@ function CardGrid({ post, portal, isAmbiental }: CardProps) {
 }
 
 function CardList({ post, portal, isAmbiental }: CardProps) {
+  const bgCard = isAmbiental ? "bg-white" : "bg-gray-900/50";
+  const borderCard = isAmbiental ? "border-gray-200" : "border-gray-700/50";
+  const textMain = isAmbiental ? "text-[#1F2937]" : "text-white";
+  const textSecondary = isAmbiental ? "text-[#4B5563]" : "text-gray-300";
+  const hoverColor = isAmbiental ? "group-hover:text-green-600" : "group-hover:text-cyan-400";
+  
   return (
-    <article className="rounded-xl border border-gray-200 bg-white overflow-hidden group shadow-sm hover:shadow-lg transition-all">
+    <article className={`rounded-xl border ${borderCard} ${bgCard} overflow-hidden group shadow-sm hover:shadow-lg transition-all`}>
       <div className="grid sm:grid-cols-[240px,1fr] gap-0">
         <Link
           href={`/${portal}/blog/${post.slug}`}
@@ -621,7 +645,8 @@ function CardList({ post, portal, isAmbiental }: CardProps) {
             <span
               className="text-white px-3 py-1 rounded-full text-xs font-bold"
               style={{
-                backgroundColor: isAmbiental ? "#16a34a" : "#7c3aed",
+                backgroundColor: isAmbiental ? "#16a34a" : "#00EFFF",
+                color: isAmbiental ? "white" : "#10111A",
               }}
             >
               {post.category}
@@ -629,13 +654,13 @@ function CardList({ post, portal, isAmbiental }: CardProps) {
           </div>
         </Link>
         <div className="p-6 flex flex-col">
-          <h3 className="text-xl font-bold mb-3 group-hover:text-green-600 transition-colors leading-tight">
+          <h3 className={`text-xl font-bold mb-3 ${hoverColor} transition-colors leading-tight ${textMain}`}>
             <Link href={`/${portal}/blog/${post.slug}`}>{post.title}</Link>
           </h3>
-          <p className="text-[#4B5563] flex-grow leading-relaxed">
+          <p className={`${textSecondary} flex-grow leading-relaxed`}>
             {post.excerpt}
           </p>
-          <div className="flex items-center justify-between text-sm text-gray-500 mt-4 pt-4 border-t border-gray-100">
+          <div className={`flex items-center justify-between text-sm ${textSecondary} mt-4 pt-4 border-t ${isAmbiental ? 'border-gray-100' : 'border-gray-700'}`}>
             <div className="flex items-center gap-2">
               <Image
                 src={post.author.avatar}
