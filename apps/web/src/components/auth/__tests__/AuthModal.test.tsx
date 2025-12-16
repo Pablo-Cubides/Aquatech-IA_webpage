@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { AuthModal, AuthButton } from "@/components/auth/AuthModal";
+import { AuthModal, AuthButton } from "../AuthModal";
 import { signIn, signOut, useSession } from "next-auth/react";
 import "@testing-library/jest-dom";
 
