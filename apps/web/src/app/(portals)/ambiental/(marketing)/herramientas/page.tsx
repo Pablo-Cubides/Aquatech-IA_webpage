@@ -146,7 +146,7 @@ export default function AmbientalHerramientasPage() {
                   <img
                     alt="Visualización interactiva de mapas ambientales"
                     className="w-full h-full object-cover tool-image"
-                    src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1600&q=80"
+                    src="/images/Portal ambiental/Herramientas/visor-mapas-ambientales.png"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
@@ -164,7 +164,7 @@ export default function AmbientalHerramientasPage() {
                   <img
                     alt="Herramienta de generación de matrices de EIA"
                     className="w-full h-full object-cover tool-image"
-                    src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1600&q=80"
+                    src="/images/Portal ambiental/Herramientas/generador-matrices-eia.png"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
@@ -268,7 +268,7 @@ export default function AmbientalHerramientasPage() {
                   <img
                     alt="Base de datos de normas ambientales internacionales"
                     className="w-full h-full object-cover tool-image"
-                    src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1600&q=80"
+                    src="/images/Portal ambiental/Herramientas/normas-ambientales.png"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
@@ -286,7 +286,7 @@ export default function AmbientalHerramientasPage() {
                   <img
                     alt="Análisis de correlaciones ambientales con mapa de calor"
                     className="w-full h-full object-cover tool-image"
-                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=80"
+                    src="/images/Portal ambiental/Herramientas/analisis-correlaciones.png"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
@@ -396,7 +396,7 @@ export default function AmbientalHerramientasPage() {
                   <img
                     alt="Análisis de índices de calidad de agua potable"
                     className="w-full h-full object-cover object-center tool-image"
-                    src="https://images.unsplash.com/photo-1564419320461-6870880221ad?auto=format&fit=crop&w=800&h=500&q=80"
+                    src="/images/Portal ambiental/Herramientas/indice-calidad-agua.png"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
@@ -414,7 +414,7 @@ export default function AmbientalHerramientasPage() {
                   <img
                     alt="Calculadora de índices de calidad del aire AQI"
                     className="w-full h-full object-cover tool-image"
-                    src="https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?auto=format&fit=crop&w=1600&q=80"
+                    src="/images/Portal ambiental/Herramientas/indice-calidad-aire.png"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">

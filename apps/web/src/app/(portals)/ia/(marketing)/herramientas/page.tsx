@@ -153,7 +153,7 @@ export default function IAHerramientasPage() {
                   <img
                     alt="Diagrama claro y detallado de la arquitectura de un modelo Transformer"
                     className="w-full h-full object-cover tool-image"
-                    src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1600&q=80"
+                    src="/images/Portal IA/Herramientas/como-funcionan-llm.png"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
