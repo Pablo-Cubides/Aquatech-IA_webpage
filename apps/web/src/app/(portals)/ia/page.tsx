@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import { getFeaturedIATools } from "@/lib/ia-tools";
+import { getLatestIAArticles } from "@/lib/new-blog-articles";
 
 export const metadata: Metadata = {
   title: "IA Portal - Inteligencia Artificial aplicada al agua y al ambiente",
@@ -119,77 +121,31 @@ export default function IAPage() {
           </h2>
 
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {/* Card 1 */}
-            <a
-              href="/ia/herramientas/como-funcionan-llm"
-              className="rounded-2xl border border-cyan-500/30 bg-gray-900/50 p-6 transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20"
-            >
-              <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
-                                  <img
-                                  alt="Análisis de Agua con IA"
-                                  className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
-                                  src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1600&q=80"
-                                  loading="lazy"
-                                />              </div>
-              <h3 className="mt-4 text-xl font-bold text-white">
-                Cómo funciona un LLM
-              </h3>
-              <p className="mt-2 text-sm text-[#CCCCCC]">
-                Descubre el funcionamiento interno de los modelos de lenguaje y
-                su aplicación en el análisis de datos ambientales.
-              </p>
-              <button className="mt-4 w-full rounded-lg bg-cyan-500/15 py-2 font-semibold text-cyan-400 transition-all duration-300 hover:bg-cyan-500/25 hover:shadow-lg hover:shadow-cyan-500/30">
-                Abrir
-              </button>
-            </a>
-
-            {/* Card 2 */}
-            <a
-              href="/ia/herramientas/visor-difusion"
-              className="rounded-2xl border border-cyan-500/30 bg-gray-900/50 p-6 transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20"
-            >
-              <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
-                                  <img
-                                  alt="Visor de Difusión"
-                                  className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
-                                  src="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=1600&q=80"
-                                  loading="lazy"
-                                />              </div>
-              <h3 className="mt-4 text-xl font-bold text-white">
-                Visor de difusión
-              </h3>
-              <p className="mt-2 text-sm text-[#CCCCCC]">
-                Explora los modelos de difusión para la generación de contenido
-                y visualizaciones con IA.
-              </p>
-              <button className="mt-4 w-full rounded-lg bg-cyan-500/15 py-2 font-semibold text-cyan-400 transition-all duration-300 hover:bg-cyan-500/25 hover:shadow-lg hover:shadow-cyan-500/30">
-                Abrir
-              </button>
-            </a>
-
-            {/* Card 3 */}
-            <a
-              href="/ia/herramientas/filtrado-ia"
-              className="rounded-2xl border border-cyan-500/30 bg-gray-900/50 p-6 transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20"
-            >
-              <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
-                                  <img
-                                  alt="Filtros de IA"
-                                  className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
-                                  src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=80"
-                                  loading="lazy"
-                                />              </div>
-              <h3 className="mt-4 text-xl font-bold text-white">
-                Cómo la IA filtra las respuestas
-              </h3>
-              <p className="mt-2 text-sm text-[#CCCCCC]">
-                Comprende los mecanismos de filtrado y validación que utilizan
-                los sistemas de IA para generar respuestas precisas.
-              </p>
-              <button className="mt-4 w-full rounded-lg bg-cyan-500/15 py-2 font-semibold text-cyan-400 transition-all duration-300 hover:bg-cyan-500/25 hover:shadow-lg hover:shadow-cyan-500/30">
-                Abrir
-              </button>
-            </a>
+            {getFeaturedIATools(3).map((tool) => (
+              <a
+                key={tool.id}
+                href={tool.href}
+                className="rounded-2xl border border-cyan-500/30 bg-gray-900/50 p-6 transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20"
+              >
+                <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
+                  <img
+                    alt={tool.name}
+                    className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
+                    src={tool.image}
+                    loading="lazy"
+                  />
+                </div>
+                <h3 className="mt-4 text-xl font-bold text-white">
+                  {tool.name}
+                </h3>
+                <p className="mt-2 text-sm text-[#CCCCCC]">
+                  {tool.shortDescription}
+                </p>
+                <button className="mt-4 w-full rounded-lg bg-cyan-500/15 py-2 font-semibold text-cyan-400 transition-all duration-300 hover:bg-cyan-500/25 hover:shadow-lg hover:shadow-cyan-500/30">
+                  Abrir
+                </button>
+              </a>
+            ))}
           </div>
 
           {/* Botón Ver más */}
@@ -228,80 +184,31 @@ export default function IAPage() {
           </h2>
 
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {/* Post 1 */}
-            <div className="group overflow-hidden rounded-2xl border border-cyan-500/20 bg-gray-900/30 transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20">
-              <img
-                alt="IA en la Gestión del Agua"
-                className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400&h=250&fit=crop&crop=center"
-              />
-              <div className="p-6">
-                <p className="text-xs text-[#CCCCCC]">24 MAYO, 2024</p>
-                <h3 className="mt-2 text-lg font-bold text-white">
-                  El Papel de la IA en la Gestión Sostenible del Agua
-                </h3>
-                <p className="mt-2 text-sm text-[#CCCCCC]">
-                  Explore cómo la IA está revolucionando la gestión de recursos
-                  hídricos.
-                </p>
-                <a
-                  className="mt-4 inline-block font-semibold text-cyan-400 transition-all duration-300 group-hover:translate-x-1"
-                  href="#"
-                >
-                  Leer →
-                </a>
-              </div>
-            </div>
-
-            {/* Post 2 */}
-            <div className="group overflow-hidden rounded-2xl border border-cyan-500/20 bg-gray-900/30 transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20">
-              <img
-                alt="Monitoreo Ambiental con IA"
-                className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=250&fit=crop&crop=center"
-              />
-              <div className="p-6">
-                <p className="text-xs text-[#CCCCCC]">18 MAYO, 2024</p>
-                <h3 className="mt-2 text-lg font-bold text-white">
-                  Soluciones de IA para el Monitoreo Ambiental
-                </h3>
-                <p className="mt-2 text-sm text-[#CCCCCC]">
-                  Descubra cómo las herramientas de IA mejoran el monitoreo
-                  ambiental.
-                </p>
-                <a
-                  className="mt-4 inline-block font-semibold text-cyan-400 transition-all duration-300 group-hover:translate-x-1"
-                  href="#"
-                >
-                  Leer →
-                </a>
-              </div>
-            </div>
-
-            {/* Post 3 */}
-            <div className="group overflow-hidden rounded-2xl border border-cyan-500/20 bg-gray-900/30 transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20">
-              <img
-                alt="Futuro de la IA Ambiental"
-                className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=250&fit=crop&crop=center"
-              />
-              <div className="p-6">
-                <p className="text-xs text-[#CCCCCC]">12 MAYO, 2024</p>
-                <h3 className="mt-2 text-lg font-bold text-white">
-                  El Futuro de la IA en la Conservación Ambiental
-                </h3>
-                <p className="mt-2 text-sm text-[#CCCCCC]">
-                  Conozca las tendencias emergentes y futuras aplicaciones de la
-                  IA.
-                </p>
-                <a
-                  className="mt-4 inline-block font-semibold text-cyan-400 transition-all duration-300 group-hover:translate-x-1"
-                  href="#"
-                >
-                  Leer →
-                </a>
-              </div>
-            </div>
+            {getLatestIAArticles(3).map((article) => (
+              <Link key={article.slug} href={`/ia/blog/${article.slug}`}>
+                <article className="group overflow-hidden rounded-2xl border border-cyan-500/20 bg-gray-900/30 transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20 h-full flex flex-col">
+                  <img
+                    alt={article.title}
+                    className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    src={article.heroImage}
+                  />
+                  <div className="p-6 flex-grow flex flex-col">
+                    <p className="text-xs text-[#CCCCCC]">
+                      {new Date(article.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }).toUpperCase()}
+                    </p>
+                    <h3 className="mt-2 text-lg font-bold text-white">
+                      {article.title}
+                    </h3>
+                    <p className="mt-2 text-sm text-[#CCCCCC] flex-grow">
+                      {article.excerpt}
+                    </p>
+                    <div className="mt-4 inline-block font-semibold text-cyan-400 transition-all duration-300 group-hover:translate-x-1">
+                      Leer →
+                    </div>
+                  </div>
+                </article>
+              </Link>
+            ))}
           </div>
 
           {/* Botón Ver más */}

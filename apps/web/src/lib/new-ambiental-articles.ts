@@ -732,3 +732,9 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     tags: ["jerarquía normativa", "rigor subsidiario", "CAR", "normatividad local", "POT", "derecho ambiental", "Colombia"],
   },
 };
+
+export function getLatestArticles(count: number = 2): BlogArticle[] {
+  return Object.values(NEW_AMBIENTAL_ARTICLES)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, count);
+}

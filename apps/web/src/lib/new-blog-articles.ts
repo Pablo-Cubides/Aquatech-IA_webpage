@@ -771,3 +771,9 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     },
   },
 };
+
+export function getLatestIAArticles(count: number = 3): BlogArticle[] {
+  return Object.values(NEW_IA_ARTICLES)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, count);
+}

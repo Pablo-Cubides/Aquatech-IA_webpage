@@ -1,21 +1,6 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "apps/web/package.json",
-      "use": "@vercel/next",
-      "config": {
-        "outputDirectory": "apps/web"
-      }
-    },
-    {
-      "src": "apps/api/package.json",
-      "use": "@vercel/next",
-      "config": {
-        "outputDirectory": "apps/api"
-      }
-    }
-  ],
+
   "routes": [
     {
       "src": "/api/(.*)",

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { getFeaturedAmbientalTools } from "@/lib/ambiental-tools";
+import { getLatestArticles } from "@/lib/new-ambiental-articles";
 
 export const metadata: Metadata = {
   title: "Portal Ambiental - Gestión Ambiental con tecnología sostenible",
@@ -99,7 +101,7 @@ export default function AmbientalPage() {
             <img
               alt="Equipo de gestión ambiental"
               className="h-auto w-full max-w-md rounded-2xl object-cover shadow-lg transition-transform duration-300 hover:scale-105"
-              src="https://images.unsplash.com/photo-1581093458791-9f3039cf5a20?w=500&h=400&fit=crop&crop=center"
+              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80"
             />
           </div>
         </div>
@@ -120,77 +122,29 @@ export default function AmbientalPage() {
           </p>
 
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {/* Card 1 - Visor de Mapas Ambientales */}
-            <Link href="/ambiental/herramientas/visor-mapas-ambientales">
-              <article className="rounded-2xl border border-[#E5EDF2] bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg cursor-pointer h-full flex flex-col">
-                <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
-                  <img
-                    alt="Visor de mapas ambientales"
-                    className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
-                    src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1600&q=80"
-                    loading="lazy"
-                  />
-                </div>
-                <h3 className="mt-4 text-xl font-semibold">
-                  Visor de mapas ambientales
-                </h3>
-                <p className="mt-2 text-sm text-gray-700 flex-grow">
-                  Visualización interactiva de datos geoespaciales ambientales
-                  en tiempo real.
-                </p>
-                <button className="mt-4 w-full rounded-lg bg-[#0077B6]/10 py-2 font-semibold text-[#0077B6] transition-colors hover:bg-[#0077B6]/15 focus:outline-none focus:ring-2 focus:ring-[#0077B6]/50">
-                  Abrir
-                </button>
-              </article>
-            </Link>
-
-            {/* Card 2 - Normas Ambientales */}
-            <Link href="/ambiental/herramientas/normas-ambientales">
-              <article className="rounded-2xl border border-[#E5EDF2] bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg cursor-pointer h-full flex flex-col">
-                <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
-                  <img
-                    alt="Normas ambientales"
-                    className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
-                    src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1600&q=80"
-                    loading="lazy"
-                  />
-                </div>
-                <h3 className="mt-4 text-xl font-semibold">
-                  Normas ambientales
-                </h3>
-                <p className="mt-2 text-sm text-gray-700 flex-grow">
-                  Base de datos completa de regulaciones y normativas
-                  ambientales vigentes.
-                </p>
-                <button className="mt-4 w-full rounded-lg bg-[#0077B6]/10 py-2 font-semibold text-[#0077B6] transition-colors hover:bg-[#0077B6]/15 focus:outline-none focus:ring-2 focus:ring-[#0077B6]/50">
-                  Abrir
-                </button>
-              </article>
-            </Link>
-
-            {/* Card 3 - Generador de Matrices EIA */}
-            <Link href="/ambiental/herramientas/generador-matrices">
-              <article className="rounded-2xl border border-[#E5EDF2] bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg cursor-pointer h-full flex flex-col">
-                <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
-                  <img
-                    alt="Generador de matrices de EIA"
-                    className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
-                    src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1600&q=80"
-                    loading="lazy"
-                  />
-                </div>
-                <h3 className="mt-4 text-xl font-semibold">
-                  Generador de matrices de EIA
-                </h3>
-                <p className="mt-2 text-sm text-gray-700 flex-grow">
-                  Herramienta para crear y gestionar matrices de Evaluación de
-                  Impacto Ambiental.
-                </p>
-                <button className="mt-4 w-full rounded-lg bg-[#0077B6]/10 py-2 font-semibold text-[#0077B6] transition-colors hover:bg-[#0077B6]/15 focus:outline-none focus:ring-2 focus:ring-[#0077B6]/50">
-                  Abrir
-                </button>
-              </article>
-            </Link>
+            {getFeaturedAmbientalTools(3).map((tool) => (
+              <Link key={tool.id} href={tool.href}>
+                <article className="rounded-2xl border border-[#E5EDF2] bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg cursor-pointer h-full flex flex-col">
+                  <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
+                    <img
+                      alt={tool.name}
+                      className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+                      src={tool.image}
+                      loading="lazy"
+                    />
+                  </div>
+                  <h3 className="mt-4 text-xl font-semibold">
+                    {tool.name}
+                  </h3>
+                  <p className="mt-2 text-sm text-gray-700 flex-grow">
+                    {tool.shortDescription}
+                  </p>
+                  <button className="mt-4 w-full rounded-lg bg-[#0077B6]/10 py-2 font-semibold text-[#0077B6] transition-colors hover:bg-[#0077B6]/15 focus:outline-none focus:ring-2 focus:ring-[#0077B6]/50">
+                    Abrir
+                  </button>
+                </article>
+              </Link>
+            ))}
           </div>
 
           {/* Botón Ver más */}
@@ -232,65 +186,34 @@ export default function AmbientalPage() {
           </p>
 
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {/* Post 1 */}
-            <article className="overflow-hidden rounded-2xl border border-[#E5EDF2] bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-              <img
-                alt="Gestión sostenible del agua"
-                className="h-56 w-full object-cover"
-                src="https://images.unsplash.com/photo-1536987333706-fc9adfb10d91?w=400&h=250&fit=crop&crop=center"
-              />
-              <div className="p-6">
-                <div className="text-sm text-gray-500">
-                  12 Mayo, 2024 ·{" "}
-                  <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-[#10B981]">
-                    Agua
-                  </span>
-                </div>
-                <h3 className="mt-2 text-lg font-semibold text-[#0D161C]">
-                  Gestión Sostenible del Agua
-                </h3>
-                <p className="mt-2 text-sm text-gray-700">
-                  Explore estrategias innovadoras para la gestión sostenible del
-                  agua.
-                </p>
-                <a
-                  href="#"
-                  className="mt-4 inline-block font-semibold text-[#10B981] hover:text-[#0077B6]"
-                >
-                  Leer <span aria-hidden="true">→</span>
-                </a>
-              </div>
-            </article>
-
-            {/* Post 2 */}
-            <article className="overflow-hidden rounded-2xl border border-[#E5EDF2] bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-              <img
-                alt="Protegiendo la biodiversidad"
-                className="h-56 w-full object-cover"
-                src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=400&h=250&fit=crop&crop=center"
-              />
-              <div className="p-6">
-                <div className="text-sm text-gray-500">
-                  10 Mayo, 2024 ·{" "}
-                  <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-[#10B981]">
-                    Sostenibilidad
-                  </span>
-                </div>
-                <h3 className="mt-2 text-lg font-semibold text-[#0D161C]">
-                  Protegiendo la Biodiversidad
-                </h3>
-                <p className="mt-2 text-sm text-gray-700">
-                  Conozca los esfuerzos para proteger y mejorar la
-                  biodiversidad.
-                </p>
-                <Link
-                  href="/ambiental/blog"
-                  className="mt-4 inline-block font-semibold text-[#10B981] hover:text-[#0077B6]"
-                >
-                  Leer <span aria-hidden="true">→</span>
-                </Link>
-              </div>
-            </article>
+            {getLatestArticles(3).map((article) => (
+              <Link key={article.slug} href={`/ambiental/blog/${article.slug}`}>
+                <article className="overflow-hidden rounded-2xl border border-[#E5EDF2] bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg h-full flex flex-col">
+                  <img
+                    alt={article.title}
+                    className="h-56 w-full object-cover"
+                    src={article.heroImage}
+                  />
+                  <div className="p-6 flex-grow flex flex-col">
+                    <div className="text-sm text-gray-500">
+                      {new Date(article.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })} ·{" "}
+                      <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-[#10B981]">
+                        {article.category}
+                      </span>
+                    </div>
+                    <h3 className="mt-2 text-lg font-semibold text-[#0D161C]">
+                      {article.title}
+                    </h3>
+                    <p className="mt-2 text-sm text-gray-700 flex-grow">
+                      {article.excerpt}
+                    </p>
+                    <div className="mt-4 font-semibold text-[#10B981] group-hover:text-[#0077B6]">
+                      Leer <span aria-hidden="true">→</span>
+                    </div>
+                  </div>
+                </article>
+              </Link>
+            ))}
           </div>
 
           {/* Botón Ver más */}
