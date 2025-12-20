@@ -20,7 +20,7 @@
     "@ia-next/typescript-config": "workspace:*",
     "@ia-next/ui": "workspace:*",
     "@prisma/client": "^6.18.0",
-    "@sentry/nextjs": "^10.22.0",
+    "@sentry/nextjs": "^10.32.1",
     "@types/bcryptjs": "^3.0.0",
     "@upstash/ratelimit": "^2.0.6",
     "@upstash/redis": "^1.35.6",
