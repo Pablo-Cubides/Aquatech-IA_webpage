@@ -10,7 +10,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2025-01-03",
     readTime: 14,
     excerpt: "¿Funcionan los sensores de pH de $20? Analizamos la precisión real de sensores low-cost (Arduino/ESP32) para calidad del agua y aire.",
-    heroImage: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "/images/Portal ambiental/blog/sensores-ambientales-arduino.png",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
@@ -73,7 +73,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2025-01-02",
     readTime: 12,
     excerpt: "Deja el Excel básico. Descubre QGIS, Grafana y Google Data Studio para visualizar datos de agua, aire y residuos como un experto.",
-    heroImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "/images/Portal ambiental/blog/software-gestion-ambiental.png",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
@@ -135,7 +135,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2025-01-01",
     readTime: 13,
     excerpt: "Guía de teledetección para no expertos. Aprende a usar Sentinel Hub y Google Earth Engine para ver sequías, deforestación y calidad del agua desde el espacio.",
-    heroImage: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "/images/Portal ambiental/blog/imagenes-satelitales-monitoreo.png",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
@@ -193,7 +193,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-12-28",
     readTime: 11,
     excerpt: "Evita sanciones ambientales sin quebrar tu negocio. Guía práctica de trampas de grasa, aceites usados y control de vertimientos para talleres y lavaderos en Colombia.",
-    heroImage: "https://images.unsplash.com/photo-1504222490345-c075b6008014?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "/images/Portal ambiental/blog/control-contaminacion-talleres.png",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
@@ -255,7 +255,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-12-26",
     readTime: 14,
     excerpt: "Guía de diseño de sistemas sépticos para zonas rurales. Aprende a dimensionar Tanque Séptico + Filtro Anaerobio + Humedal para escuelas y comunidades pequeñas.",
-    heroImage: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "/images/Portal ambiental/blog/ptar-rural-escuelas.png",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
@@ -318,7 +318,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-12-24",
     readTime: 12,
     excerpt: "¿Lodos activados, MBBR o Tanque Séptico? Descubre qué tecnología de tratamiento elegir según tu caudal, presupuesto y espacio disponible.",
-    heroImage: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "/images/Portal ambiental/blog/tecnologias-tratamiento-agua.png",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
@@ -381,7 +381,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-12-22",
     readTime: 13,
     excerpt: "Guía práctica para elaborar un PMA en Colombia. Aprende a diseñar fichas de manejo, indicadores y cronogramas que apruebe la ANLA.",
-    heroImage: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "/images/Portal ambiental/blog/plan-manejo-ambiental.png",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
@@ -438,7 +438,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-12-20",
     readTime: 11,
     excerpt: "¿Qué medir y cada cuánto? Guía de indicadores de calidad de agua, aire y ruido para programas de monitoreo según normativa colombiana.",
-    heroImage: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "/images/Portal ambiental/blog/monitoreo-ambiental-laboratorio.png",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
@@ -500,7 +500,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-12-18",
     readTime: 15,
     excerpt: "Evita que la ANLA te devuelva el estudio. Claves para elaborar Línea Base, Zonificación y Evaluación de Impactos según la Metodología General 2018.",
-    heroImage: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "/images/Portal ambiental/blog/estudio-impacto-ambiental.png",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
@@ -563,7 +563,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-12-16",
     readTime: 12,
     excerpt: "Checklist definitivo para trámites ambientales en Colombia. Qué estudios necesitas para Licencia Ambiental (ANLA/CAR), Permiso de Vertimientos y Concesión de Aguas.",
-    heroImage: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "/images/Portal ambiental/blog/licencias-permisos-ambientales.png",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
@@ -625,7 +625,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-12-14",
     readTime: 10,
     excerpt: "No confundas agua potable con residual. Aprende a evitar los 5 errores de interpretación normativa más costosos en ingeniería ambiental.",
-    heroImage: "https://images.unsplash.com/photo-1423592707957-3b212afa6733?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "/images/Portal ambiental/blog/errores-normatividad-ambiental.png",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
@@ -686,7 +686,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-12-12",
     readTime: 11,
     excerpt: "¿Aplica la norma nacional o la distrital? Guía definitiva sobre jerarquía normativa ambiental en Colombia. Aprende cuándo prevalece la norma más estricta.",
-    heroImage: "https://images.unsplash.com/photo-1589391886645-d51941baf7fb?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "/images/Portal ambiental/blog/jerarquia-normativa-ambiental.png",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
