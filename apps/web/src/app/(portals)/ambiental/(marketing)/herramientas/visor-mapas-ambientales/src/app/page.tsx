@@ -603,88 +603,15 @@ export default function HomePage() {
     // TODO: Process uploaded data and refresh datasets
   };
 
-  if (!user) {
-    return (
-      <main className="flex flex-col justify-center min-h-screen py-12 bg-gray-50 sm:px-6 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <h1 className="mt-6 text-3xl font-bold tracking-tight text-center text-gray-900">
-            Mapa Ambiental
-          </h1>
-          <p className="mt-2 text-sm text-center text-gray-600">
-            Visualización de datos ambientales
-          </p>
-        </div>
-
-        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="px-4 py-8 bg-white shadow sm:rounded-lg sm:px-10">
-            <form
-              className="space-y-6"
-              onSubmit={(e) => {
-                e.preventDefault();
-                // Trigger global login modal
-                document.dispatchEvent(new CustomEvent('open-auth-modal'));
-              }}
-            >
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Correo electrónico
-                </label>
-                <div className="mt-1">
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    required
-                    className="input-field"
-                    placeholder="tu@ejemplo.com"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Contraseña
-                </label>
-                <div className="mt-1">
-                  <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    autoComplete="current-password"
-                    required
-                    className="input-field"
-                    placeholder="••••••••"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <button type="submit" className="w-full btn-primary">
-                  Iniciar sesión
-                </button>
-              </div>
-
-              <div className="text-center">
-                <a
-                  href="#"
-                  className="text-sm text-primary-600 hover:text-primary-500"
-                >
-                  ¿No tienes cuenta? Regístrate
-                </a>
-              </div>
-            </form>
-          </div>
-        </div>
-      </main>
-    );
-  }
+  // Mostrar wizard solo si el usuario está autenticado
+  const handleShowUploadWizard = () => {
+    if (!user) {
+      // Disparar modal de login global
+      document.dispatchEvent(new CustomEvent('open-auth-modal'));
+      return;
+    }
+    setShowUploadWizard(true);
+  };
 
   return (
     <ErrorBoundary>

@@ -180,17 +180,14 @@ export default function Home() {
   const loadStaticNoiseImage = async (step: number): Promise<string | null> => {
     if (step < 2 || step > 9) return null;
     try {
-      const response = await fetch(`/api/visor-noise/${step}`);
-      if (response.ok) {
-        const data = await response.json();
-        return data.noise_image;
-      }
-      return null;
+      // Usar archivos estáticos directamente desde /public
+      return `/static/noise/noise_step_${step}.png`;
     } catch (err) {
       console.error(`Error loading noise for step ${step}:`, err);
       return null;
     }
   };
+
 
   // --- EFFECT TO GENERATE NOISE AT EACH STEP ---
   useEffect(() => {
