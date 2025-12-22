@@ -32,7 +32,7 @@
     "require-in-the-middle": "^7.1.1",
     "ioredis": "^5.4.0",
     "mercadopago": "^2.9.0",
-    "next": "^16.0.1",
+    "next": "16.0.10",
     "next-auth": "^4.24.13",
     "zod": "^4.1.5"
   },
