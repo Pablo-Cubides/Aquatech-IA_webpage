@@ -1,7 +1,0 @@
-
-> @ia-next/web@0.0.1 typecheck D:\Empresas\AquatechIA\webpage\apps\web
-> tsc --noEmit
-
-src/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambientales/src/app/page.tsx(1251,25): error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.
-src/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambientales/src/app/page.tsx(1276,25): error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.
- ELIFECYCLE  Command failed with exit code 1.

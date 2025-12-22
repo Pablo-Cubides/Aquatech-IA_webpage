@@ -1,4 +1,0 @@
-
-> @ia-next/web@0.0.1 typecheck D:\Empresas\AquatechIA\webpage\apps\web
-> tsc --noEmit
-

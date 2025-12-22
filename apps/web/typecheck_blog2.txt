@@ -1,6 +1,0 @@
-
-> @ia-next/web@0.0.1 typecheck D:\Empresas\AquatechIA\webpage\apps\web
-> tsc --noEmit
-
-src/components/blog/BlogContent.tsx(531,21): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
- ELIFECYCLE  Command failed with exit code 2.

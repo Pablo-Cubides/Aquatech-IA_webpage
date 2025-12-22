@@ -41,6 +41,20 @@ test-*.csv
 create-*.js
 create-*.sql
 
+# Debug and output files
+*_output.txt
+*_log.txt
+test_*.txt
+typecheck_*.txt
+*_verification.txt
+tsc_error.log
+build_log.txt
+lint_log.txt
+lint_output.txt
+sampling_test_output.txt
+next_dev*.log
+
+
 # Runtime data
 pids
 *.pid
@@ -114,3 +128,4 @@ env/
 !.vscode/launch.json
 !.vscode/extensions.json
 !.vscode/mcp.json
+.env*.local
