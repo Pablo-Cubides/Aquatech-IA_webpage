@@ -730,7 +730,7 @@ export default function HomePage() {
                 >
                   📖 <span className="hidden lg:inline ml-1">Guía de uso</span>
                 </a>
-                {(user.role === "admin" || user.role === "uploader") && (
+                {user && (user.role === "admin" || user.role === "uploader") && (
                   <button
                     className="btn-primary text-sm"
                     onClick={() => setShowUploadWizard(true)}
@@ -739,13 +739,23 @@ export default function HomePage() {
                     + Subir datos
                   </button>
                 )}
-                <button
-                  className="btn-secondary"
-                  onClick={() => setUser(null)}
-                  aria-label="Cerrar sesión y volver al inicio"
-                >
-                  Cerrar sesión
-                </button>
+                {user ? (
+                  <button
+                    className="btn-secondary"
+                    onClick={() => setUser(null)}
+                    aria-label="Cerrar sesión y volver al inicio"
+                  >
+                    Cerrar sesión
+                  </button>
+                ) : (
+                   <button
+                    className="btn-primary text-sm"
+                    onClick={() => document.dispatchEvent(new CustomEvent('open-auth-modal'))}
+                    aria-label="Iniciar sesión"
+                  >
+                    Iniciar Sesión
+                  </button>
+                )}
               </div>
             </div>
 
