@@ -3,9 +3,6 @@
 import { useState, useEffect } from "react";
 import EducationalPanel from "@/components/EducationalPanel";
 
-// Define la URL de la API: preferimos rutas relativas para desplegar en Vercel
-const TOTAL_STEPS = 10;
-
 // Traducciones de prompts al español - keeping for reference/future use
 const _promptTranslations: Record<string, string> = {
   "Portrait painting of Spider-Man wearing a gold metallic suit, ultra realistic, concept art, intricate details, eerie, highly detailed, photorealistic, octane render, 8k, unreal engine. art by artgerm and Jim Lee, NYC in the background, Full Body, Night time, photshoot":
@@ -104,12 +101,16 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isFinished, setIsFinished] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  
+  // Define default total steps, will be updated by API
+  const [currentTotalSteps, setCurrentTotalSteps] = useState<number>(10);
 
   console.log("Component rendered, current state:", {
     selectedPromptId,
     currentStep,
     isLoading,
     isFinished,
+    currentTotalSteps
   });
   const [isExporting, setIsExporting] = useState<boolean>(false);
 
@@ -227,6 +228,12 @@ export default function Home() {
       console.log("Response status:", response.status);
       if (!response.ok) throw new Error("No se pudo iniciar la simulación.");
       const data = await response.json();
+      
+      // Update total steps from API response
+      if (data.total_steps) {
+        setCurrentTotalSteps(data.total_steps);
+      }
+
       console.log("Step 0 loaded:", data); // API routes may return either a full data URL (data:image/...) or raw base64.
       const img = data.intermediate_image;
       const asDataUrl =
@@ -248,7 +255,7 @@ export default function Home() {
   };
 
   const handleNextStep = async () => {
-    if (!selectedPromptId || currentStep > TOTAL_STEPS) return;
+    if (!selectedPromptId || currentStep > currentTotalSteps) return;
     setIsLoading(true);
     setError(null);
     try {
@@ -262,6 +269,11 @@ export default function Home() {
       });
       if (!response.ok) throw new Error("Error al procesar el siguiente paso.");
       const data = await response.json();
+
+      // Update total steps from API response to be sure
+      if (data.total_steps) {
+        setCurrentTotalSteps(data.total_steps);
+      }
 
       const img = data.intermediate_image;
       
@@ -281,7 +293,7 @@ export default function Home() {
       if (!finished) {
         setCurrentStep((s) => s + 1);
       } else {
-        setCurrentStep(TOTAL_STEPS + 1);
+        setCurrentStep(currentTotalSteps + 1);
         // Asegurarse de que el ruido desaparezca en el último paso
         setNoiseOverlayImage(null);
       }
@@ -456,7 +468,7 @@ export default function Home() {
                 Procesando...
               </>
             ) : (
-              `Siguiente (${Math.min(currentStep, TOTAL_STEPS)}/${TOTAL_STEPS})`
+              `Siguiente (${Math.min(currentStep, currentTotalSteps)}/${currentTotalSteps})`
             )}
           </button>
           <button
@@ -534,7 +546,7 @@ export default function Home() {
           <p className="mt-4 text-center text-[#B0C4FF] text-sm">
             Paso:{" "}
             {currentStep > 0
-              ? `${Math.max(0, currentStep - 1)}/${TOTAL_STEPS}`
+              ? `${Math.max(0, currentStep - 1)}/${currentTotalSteps}`
               : "N/A"}
           </p>
         </div>

@@ -160,8 +160,14 @@ export async function POST(request: NextRequest) {
       normalizedStep = caseData.total_steps;
     }
 
-    // The file path is already a public URL path (e.g. /static/visor-cases/...)
-    const stepFilePath = caseData.step_files[normalizedStep] || caseData.step_files[0];
+    // If we are at or past the end, show the final image (last in array)
+    // Otherwise show the requested step, or fallback to 0 if missing.
+    const lastImageIndex = caseData.step_files.length - 1;
+    const stepIndex = normalizedStep >= caseData.step_files.length 
+      ? lastImageIndex 
+      : normalizedStep;
+
+    const stepFilePath = caseData.step_files[stepIndex] || caseData.step_files[0];
     
     // Returning the path/URL directly instead of reading the file
     // This avoids bundling large static assets into the serverless function
