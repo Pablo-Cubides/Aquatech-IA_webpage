@@ -223,6 +223,18 @@ export default function DataSourceSelector({
         </button>
       </div>
 
+      {/* User Guide Button */}
+      <div className="mt-6 flex justify-start">
+        <a 
+          href="/guia/ecostats" 
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-cyan-200 rounded-lg text-cyan-700 text-sm font-medium hover:bg-cyan-50 hover:border-cyan-300 transition-colors shadow-sm"
+        >
+          📘 Guía de Uso & Ejemplos
+        </a>
+      </div>
+
       {/* Info Footer */}
       <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
         <p className="text-sm text-blue-800">
