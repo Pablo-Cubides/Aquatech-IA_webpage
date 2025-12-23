@@ -2,17 +2,17 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Guía del Visor de Mapas | AquatechIA",
-  description: "Manual detallado para el uso del Visor de Mapas Ambientales de AquatechIA. Integraciones con OpenAQ, NASA, GBIF y más.",
+  title: "Manual de GeoVisor | AquatechIA",
+  description: "Manual detallado para el uso de GeoVisor de AquatechIA. Integraciones con OpenAQ, NASA, GBIF y más.",
 };
 
 const Section = ({ title, children, icon }: { title: string; children: React.ReactNode; icon: string }) => (
   <section className="mb-16 scroll-mt-24" id={title.toLowerCase().replace(/\s+/g, "-")}>
     <div className="flex items-center gap-4 mb-6">
       <span className="text-4xl">{icon}</span>
-      <h2 className="text-3xl font-bold text-gray-900 border-b-4 border-emerald-500 pb-2">{title}</h2>
+      <h2 className="text-3xl font-bold text-gray-900 border-b-4 border-blue-500 pb-2">{title}</h2>
     </div>
-    <div className="bg-white rounded-2xl shadow-xl shadow-emerald-500/5 border border-gray-100 p-8">
+    <div className="bg-white rounded-2xl shadow-xl shadow-blue-500/5 border border-gray-100 p-8">
       {children}
     </div>
   </section>
@@ -26,26 +26,22 @@ const IntegrationCard = ({ title, description, badge, color }: { title: string; 
   </div>
 );
 
-export default function GuiaVisorPage() {
+export default function GuiaGeoVisorPage() {
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Hero Header */}
-      <div className="bg-gradient-to-br from-emerald-900 via-emerald-800 to-teal-700 text-white py-24 px-6 relative overflow-hidden">
+      <div className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-24 px-6 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
-        <div className="max-w-6xl mx-auto relative z-10 flex flex-col md:flex-row items-center gap-12">
-          <div className="flex-shrink-0 animate-float">
+        <div className="max-w-6xl mx-auto relative z-10 flex flex-col items-center text-center">
+          <div className="animate-float mb-8">
             <img 
-              src="/images/Portal ambiental/Herramientas/GeoVisor.png" 
-              alt="GeoVisor Logo" 
-              className="w-32 h-32 md:w-48 md:h-48 drop-shadow-2xl"
+              src="/images/Portal ambiental/Herramientas/GeoVisor-sin fondo.png" 
+              alt="GeoVisor" 
+              className="max-w-full h-auto max-h-[300px] drop-shadow-2xl"
             />
           </div>
           <div>
-            <h1 className="text-5xl md:text-6xl font-extrabold mb-6">
-              Manual del <br />
-              <span className="text-emerald-300">Visor de Mapas</span>
-            </h1>
-            <p className="text-xl text-emerald-100 max-w-2xl leading-relaxed">
+            <p className="text-xl text-blue-50 max-w-2xl leading-relaxed mx-auto">
               Una herramienta diseñada para investigadores y profesionales ambientales. Construye, visualiza y comparte tus mapas de investigación de forma abierta y gratuita.
             </p>
           </div>
@@ -57,11 +53,11 @@ export default function GuiaVisorPage() {
         <aside className="lg:col-span-1 border-r border-gray-200 pr-8 hidden lg:block h-fit sticky top-24">
           <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4">Contenido</h3>
           <nav className="flex flex-col gap-3">
-            <a href="#introduccion" className="text-gray-600 hover:text-emerald-600 font-medium transition-colors">📄 Introducción</a>
-            <a href="#integraciones-globales" className="text-gray-600 hover:text-emerald-600 font-medium transition-colors">🌐 Integraciones</a>
-            <a href="#guia-de-uso" className="text-gray-600 hover:text-emerald-600 font-medium transition-colors">🕹️ Guía de Uso</a>
-            <a href="#tus-propios-datos" className="text-gray-600 hover:text-emerald-600 font-medium transition-colors">📊 Tus Datos</a>
-            <a href="#codigo-abierto" className="text-gray-600 hover:text-emerald-600 font-medium transition-colors">💻 Código Abierto</a>
+            <a href="#introduccion" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">📄 Introducción</a>
+            <a href="#integraciones-globales" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">🌐 Integraciones</a>
+            <a href="#guia-de-uso" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">🕹️ Guía de Uso</a>
+            <a href="#tus-propios-datos" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">📊 Tus Datos</a>
+            <a href="#codigo-abierto" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">💻 Código Abierto</a>
           </nav>
         </aside>
 
@@ -70,16 +66,16 @@ export default function GuiaVisorPage() {
           <Section title="Introducción" icon="📄">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Visualización para la Ciencia Abierta</h3>
             <p className="text-lg text-gray-700 leading-relaxed mb-6">
-              El Visor de Mapas de AquatechIA nace de la necesidad de democratizar el acceso a la visualización geoespacial compleja. En muchas ocasiones, los investigadores cuentan con datos valiosos pero carecen de plataformas amigables para graficarlos y compartirlos con la comunidad.
+              <strong>GeoVisor</strong> nace de la necesidad de democratizar el acceso a la visualización geoespacial compleja. En muchas ocasiones, los investigadores cuentan con datos valiosos pero carecen de plataformas amigables para graficarlos y compartirlos con la comunidad.
             </p>
-            <p className="text-gray-600 bg-emerald-50 p-6 rounded-xl border border-emerald-100">
+            <p className="text-gray-600 bg-blue-50 p-6 rounded-xl border border-blue-100">
               Nuestra meta es facilitar que cualquier profesional pueda <strong>construir, analizar y difundir</strong> sus hallazgos mediante mapas interactivos, permitiendo una mejor comprensión de los impactos ambientales y fomentando la colaboración científica sin barreras de costos.
             </p>
           </Section>
 
           <Section title="Integraciones Globales" icon="🌐">
             <p className="text-gray-700 mb-8">
-              El visor no solo permite cargar datos propios, sino que se conecta en tiempo real con las fuentes de datos ambientales más importantes del mundo:
+              GeoVisor no solo permite cargar datos propios, sino que se conecta en tiempo real con las fuentes de datos ambientales más importantes del mundo:
             </p>
             <div className="grid md:grid-cols-2 gap-6">
               <IntegrationCard 
@@ -98,7 +94,7 @@ export default function GuiaVisorPage() {
                 badge="Biodiversidad"
                 title="GBIF"
                 description="Consulta bases de datos mundiales de presencia de especies y biodiversidad para análisis de impacto en ecosistemas."
-                color="border-emerald-100"
+                color="border-blue-100"
               />
               <IntegrationCard 
                 badge="Recursos Hídricos"
@@ -111,20 +107,20 @@ export default function GuiaVisorPage() {
 
           <Section title="Guía de Uso" icon="🕹️">
             <div className="space-y-10">
-              <div className="relative pl-8 border-l-2 border-emerald-200">
-                <span className="absolute -left-3.5 top-0 w-7 h-7 bg-emerald-600 text-white rounded-full flex items-center justify-center font-bold">1</span>
+              <div className="relative pl-8 border-l-2 border-blue-200">
+                <span className="absolute -left-3.5 top-0 w-7 h-7 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">1</span>
                 <h4 className="text-lg font-bold text-gray-900 mb-2">Selecciona la Fuente</h4>
                 <p className="text-gray-600">Elige entre las capas de APIs externas (Globales) o activa la capa de "Datos Locales" para usar tus propios archivos.</p>
               </div>
               
-              <div className="relative pl-8 border-l-2 border-emerald-200">
-                <span className="absolute -left-3.5 top-0 w-7 h-7 bg-emerald-600 text-white rounded-full flex items-center justify-center font-bold">2</span>
+              <div className="relative pl-8 border-l-2 border-blue-200">
+                <span className="absolute -left-3.5 top-0 w-7 h-7 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">2</span>
                 <h4 className="text-lg font-bold text-gray-900 mb-2">Ajusta los Filtros</h4>
                 <p className="text-gray-600">Define el país de interés, el rango de fechas y los parámetros específicos que deseas analizar. La mayoría de capas externas requieren un parámetro seleccionado para mostrar puntos.</p>
               </div>
 
-              <div className="relative pl-8 border-l-2 border-emerald-200">
-                <span className="absolute -left-3.5 top-0 w-7 h-7 bg-emerald-600 text-white rounded-full flex items-center justify-center font-bold">3</span>
+              <div className="relative pl-8 border-l-2 border-blue-200">
+                <span className="absolute -left-3.5 top-0 w-7 h-7 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">3</span>
                 <h4 className="text-lg font-bold text-gray-900 mb-2">Explora e Interactúa</h4>
                 <p className="text-gray-600">Haz clic en los puntos del mapa para abrir el panel de detalles. Podrás ver gráficos de tendencias, valores exactos y metadatos de la estación o sensor.</p>
               </div>
@@ -134,11 +130,11 @@ export default function GuiaVisorPage() {
           <Section title="Tus Propios Datos" icon="📊">
             <div className="bg-slate-900 rounded-3xl p-8 text-white mb-8">
               <h4 className="text-2xl font-bold mb-4">💾 Pruebalo tú mismo</h4>
-              <p className="mb-6 opacity-90">Descarga este dataset de ejemplo y súbelo en la sección "Local" del visor para ver cómo el sistema procesa archivos CSV.</p>
+              <p className="mb-6 opacity-90">Descarga este dataset de ejemplo y súbelo en la sección "Local" de GeoVisor para ver cómo el sistema procesa archivos CSV.</p>
               <a 
                 href="/datasets/ejemplo-calidad-aire.csv" 
                 download 
-                className="inline-flex items-center gap-2 bg-emerald-400 text-emerald-950 px-8 py-3 rounded-2xl font-bold hover:bg-emerald-300 transition-all"
+                className="inline-flex items-center gap-2 bg-blue-400 text-blue-950 px-8 py-3 rounded-2xl font-bold hover:bg-blue-300 transition-all"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                 Descargar Dataset de Ejemplo
@@ -166,7 +162,7 @@ export default function GuiaVisorPage() {
             <div className="flex flex-col md:flex-row gap-8 items-center">
               <div className="flex-1">
                 <p className="text-gray-700 leading-relaxed mb-6">
-                  Creemos en la transparencia y la colaboración. Todo el código que impulsa esta plataforma es de <strong>código abierto</strong>. Puedes ver cómo funcionan los algoritmos de procesamiento, proponer mejoras o incluso desplegar tu propia instancia.
+                  Creemos en la transparencia y la colaboración. Todo el código que impulsa GeoVisor es de <strong>código abierto</strong>. Puedes ver cómo funcionan los algoritmos de procesamiento, proponer mejoras o incluso desplegar tu propia instancia.
                 </p>
                 <a 
                   href="https://github.com/Pablo-Cubides/Aquatech-IA_webpage.git" 
@@ -184,8 +180,8 @@ export default function GuiaVisorPage() {
           <div className="mt-20 border-t pt-10 text-center">
             <p className="text-gray-500 mb-4">¿Dudas adicionales?</p>
             <div className="flex justify-center gap-6">
-              <Link href="/faq" className="px-6 py-2 bg-white border border-gray-200 rounded-full text-emerald-600 hover:bg-emerald-50 transition-colors">Preguntas Frecuentes</Link>
-              <Link href="/soporte" className="px-6 py-2 bg-emerald-600 text-white rounded-full hover:bg-emerald-700 transition-colors">Centro de Soporte</Link>
+              <Link href="/faq" className="px-6 py-2 bg-white border border-gray-200 rounded-full text-blue-600 hover:bg-blue-50 transition-colors">Preguntas Frecuentes</Link>
+              <Link href="/soporte" className="px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors">Centro de Soporte</Link>
             </div>
           </div>
         </div>

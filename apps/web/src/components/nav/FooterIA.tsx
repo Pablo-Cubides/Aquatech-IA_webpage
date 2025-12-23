@@ -123,7 +123,7 @@ export default function FooterIA() {
                 href="/guia"
                 className="text-sm text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400"
               >
-                Guía del Visor
+                Guía GeoVisor
               </Link>
             </nav>
           </div>

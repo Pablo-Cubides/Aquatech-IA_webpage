@@ -70,7 +70,7 @@ export default function HeaderAmbiental() {
             href="/guia"
             className="text-blue-600 font-bold transition-opacity duration-300 hover:opacity-80"
           >
-            Guía del Visor
+            Guía GeoVisor
           </Link>
           {/* <Link
             href="/ambiental/productos"
@@ -153,7 +153,7 @@ export default function HeaderAmbiental() {
               className="text-blue-600 font-bold transition-colors duration-300 py-2"
               onClick={() => setIsMenuOpen(false)}
             >
-              Guía del Visor
+              Guía GeoVisor
             </Link>
             {/* <Link
               href="/ambiental/productos"
