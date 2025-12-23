@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import HeaderAmbiental from "@/components/nav/HeaderAmbiental";
+import FooterAmbiental from "@/components/nav/FooterAmbiental";
 
 export const metadata: Metadata = {
   title: "Preguntas Frecuentes | AquatechIA",
@@ -52,7 +54,9 @@ const faqs = [
 
 export default function FAQPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <>
+      <HeaderAmbiental />
+      <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex-grow">
       {/* Header */}
       <div className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-16">
         <div className="max-w-4xl mx-auto px-6 text-center">
@@ -124,7 +128,9 @@ export default function FAQPage() {
             ← Volver al inicio
           </Link>
         </div>
-      </div>
-    </div>
+        </div>
+      </main>
+      <FooterAmbiental />
+    </>
   );
 }

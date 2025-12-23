@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import HeaderAmbiental from "@/components/nav/HeaderAmbiental";
+import FooterAmbiental from "@/components/nav/FooterAmbiental";
 
 export const metadata: Metadata = {
   title: "Manual de GeoVisor | AquatechIA",
@@ -28,9 +30,11 @@ const IntegrationCard = ({ title, description, badge, color }: { title: string; 
 
 export default function GuiaGeoVisorPage() {
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* Hero Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-24 px-6 relative overflow-hidden">
+    <>
+      <HeaderAmbiental />
+      <main className="min-h-screen bg-slate-50 flex-grow">
+      {/* Hero Header - Reduced height */}
+      <div className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-12 px-6 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
         <div className="max-w-6xl mx-auto relative z-10 flex flex-col items-center text-center">
           <div className="animate-float mb-8">
@@ -186,10 +190,8 @@ export default function GuiaGeoVisorPage() {
           </div>
         </div>
       </div>
-      
-      <footer className="bg-white border-t border-gray-200 py-10 mt-20 text-center">
-        <p className="text-gray-400 text-sm">© {new Date().getFullYear()} AquatechIA - Tecnología Abierta para la Investigación Ambiental.</p>
-      </footer>
-    </div>
-  );
+    </main>
+    <FooterAmbiental />
+  </>
+);
 }
