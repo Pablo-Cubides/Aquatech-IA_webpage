@@ -142,20 +142,6 @@ export default function HeaderAmbiental() {
             >
               Autor
             </Link>
-            <Link
-              href="/guia"
-              className="text-blue-600 font-bold transition-colors duration-300 py-2"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Guía GeoVisor
-            </Link>
-            {/* <Link
-              href="/ambiental/productos"
-              className="text-gray-600 transition-colors duration-300 hover:text-blue-600 py-2"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Productos
-            </Link> */}
             <div className="border-t border-gray-200 mt-2 pt-4">
               <AuthButton
                 theme="light"
