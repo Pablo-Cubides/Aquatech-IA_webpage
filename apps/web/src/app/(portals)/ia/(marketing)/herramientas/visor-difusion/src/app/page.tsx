@@ -230,7 +230,7 @@ export default function Home() {
       console.log("Step 0 loaded:", data); // API routes may return either a full data URL (data:image/...) or raw base64.
       const img = data.intermediate_image;
       const asDataUrl =
-        img && img.startsWith && img.startsWith("data:")
+        (img && (img.startsWith("/") || img.startsWith("http") || img.startsWith("data:")))
           ? img
           : `data:image/png;base64,${img}`;
       setNoiseImage(asDataUrl);
@@ -264,8 +264,12 @@ export default function Home() {
       const data = await response.json();
 
       const img = data.intermediate_image;
+      
+      // Determine if image is a URL path or base64 data
+      // If it starts with / (local path) or http (external url), use as is.
+      // Otherwise, assume it's raw base64 data referencing a specific image type (usually png/jpeg).
       const asDataUrl =
-        img && img.startsWith && img.startsWith("data:")
+        (img && (img.startsWith("/") || img.startsWith("http") || img.startsWith("data:")))
           ? img
           : `data:image/png;base64,${img}`;
       setIntermediateImage(asDataUrl);

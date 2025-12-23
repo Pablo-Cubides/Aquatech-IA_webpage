@@ -135,59 +135,6 @@ function loadCases(): Record<string, CaseData> {
   return cases;
 }
 
-// Function to read image from disk (server-side only)
-function loadStepImageB64(filePath: string): { image: string; debug?: any } {
-  try {
-    const cwd = process.cwd();
-    // Normalize relative path (ensure correct separators for OS)
-    const normalizedRelativePath = filePath.startsWith("/") ? filePath.slice(1) : filePath;
-    const osSpecificRelativePath = normalizedRelativePath.split('/').join(path.sep);
-    
-    // Possible locations for the public folder
-    const potentialPaths = [
-      path.resolve(cwd, "public", osSpecificRelativePath),
-      path.resolve(cwd, "apps", "web", "public", osSpecificRelativePath),
-      path.resolve(cwd, "..", "public", osSpecificRelativePath),
-      path.resolve(cwd, "..", "..", "public", osSpecificRelativePath),
-      // Specific absolute path known from user context
-      path.resolve("d:\\Empresas\\AquatechIA\\webpage\\apps\\web\\public", osSpecificRelativePath)
-    ];
-
-    const debugInfo = {
-      cwd,
-      filePath,
-      osSpecificRelativePath,
-      potentialPaths: potentialPaths.map(p => ({ path: p, exists: fs.existsSync(p) }))
-    };
-
-    console.log(`[visor-step] Debug Info:`, JSON.stringify(debugInfo, null, 2));
-
-    for (const p of potentialPaths) {
-      if (fs.existsSync(p)) {
-        console.log(`[visor-step] Found file at: ${p}`);
-        const buffer = fs.readFileSync(p);
-        return { 
-          image: Buffer.from(buffer).toString("base64"),
-          debug: debugInfo
-        };
-      }
-    }
-
-    console.error(`[visor-step] File not found. Debug info:`, debugInfo);
-    return { 
-      image: generatePlaceholderImage(),
-      debug: debugInfo
-    };
-
-  } catch (error) {
-    console.error(`[visor-step] Error reading file ${filePath}:`, error);
-    return { 
-      image: generatePlaceholderImage(),
-      debug: { error: error instanceof Error ? error.message : String(error) }
-    };
-  }
-}
-
 export async function POST(request: NextRequest) {
   try {
     const body: StepRequest = await request.json();
@@ -213,30 +160,27 @@ export async function POST(request: NextRequest) {
       normalizedStep = caseData.total_steps;
     }
 
+    // The file path is already a public URL path (e.g. /static/visor-cases/...)
     const stepFilePath = caseData.step_files[normalizedStep] || caseData.step_files[0];
     
-    const { image: stepImage, debug } = loadStepImageB64(stepFilePath);
-    
+    // Returning the path/URL directly instead of reading the file
+    // This avoids bundling large static assets into the serverless function
     const educationalText =
       EDUCATIONAL_TEXTS[normalizedStep] ||
       `Step ${normalizedStep}: progressing`;
     const isFinished =
       caseData.total_steps > 0 && normalizedStep >= caseData.total_steps;
 
-    // Use a simpler placeholder for console logging if image is huge
-    const loggableImage = stepImage.substring(0, 50) + "..."; 
-
     console.log(
-      `[visor-step] Returning step ${normalizedStep}, image (trunc): ${loggableImage}, finished: ${isFinished}`,
+      `[visor-step] Returning step ${normalizedStep}, image_url: ${stepFilePath}, finished: ${isFinished}`,
     );
 
     return NextResponse.json({
       step: normalizedStep,
-      intermediate_image: stepImage,
+      intermediate_image: stepFilePath,
       educational_text: educationalText,
       is_finished: isFinished,
       total_steps: caseData.total_steps,
-      debug_info: debug // Returning debug info to client for troubleshooting
     });
   } catch (error) {
     console.error("[visor-step] Error in POST:", error);
