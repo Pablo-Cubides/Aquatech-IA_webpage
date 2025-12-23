@@ -381,6 +381,37 @@ export default function HomePage() {
                 ></span>
                 Métodos: Pearson, Spearman, Kendall Tau
               </p>
+              
+              <div style={{ marginTop: "16px" }}>
+                <a 
+                  href="/guia/ecostats" 
+                  target="_blank"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    padding: "8px 16px",
+                    backgroundColor: "rgba(6, 182, 212, 0.1)",
+                    border: "1px solid rgba(6, 182, 212, 0.3)",
+                    borderRadius: "8px",
+                    color: "#cffafe",
+                    fontSize: "14px",
+                    fontWeight: "500",
+                    textDecoration: "none",
+                    transition: "all 0.2s ease"
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.backgroundColor = "rgba(6, 182, 212, 0.2)";
+                    e.currentTarget.style.borderColor = "rgba(6, 182, 212, 0.5)";
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.backgroundColor = "rgba(6, 182, 212, 0.1)";
+                    e.currentTarget.style.borderColor = "rgba(6, 182, 212, 0.3)";
+                  }}
+                >
+                  📘 Ver Guía & Ejemplos
+                </a>
+              </div>
             </div>
           </div>
         </div>

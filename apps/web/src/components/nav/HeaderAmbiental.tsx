@@ -66,12 +66,6 @@ export default function HeaderAmbiental() {
           >
             Autor
           </Link>
-          <Link
-            href="/guia"
-            className="text-blue-600 font-bold transition-opacity duration-300 hover:opacity-80"
-          >
-            Guía GeoVisor
-          </Link>
           {/* <Link
             href="/ambiental/productos"
             className="text-gray-600 transition-colors duration-300 hover:text-blue-600"
