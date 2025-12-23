@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import fs from "fs";
+import path from "path";
 
 const CASES_PUBLIC_PATH = "/static/visor-cases";
-const BASE_URL = process.env.VERCEL_URL 
-  ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
 
 interface CaseData {
   id: string;
@@ -136,26 +135,56 @@ function loadCases(): Record<string, CaseData> {
   return cases;
 }
 
-async function loadStepImageB64(
-  filePath: string,
-): Promise<string> {
+// Function to read image from disk (server-side only)
+function loadStepImageB64(filePath: string): { image: string; debug?: any } {
   try {
-    const response = await fetch(`${BASE_URL}${filePath}`, {
-      cache: "force-cache",
-    });
+    const cwd = process.cwd();
+    // Normalize relative path (ensure correct separators for OS)
+    const normalizedRelativePath = filePath.startsWith("/") ? filePath.slice(1) : filePath;
+    const osSpecificRelativePath = normalizedRelativePath.split('/').join(path.sep);
     
-    if (!response.ok) {
-      console.error(
-        `[visor-step] Failed to fetch image: ${filePath}, status: ${response.status}`
-      );
-      return generatePlaceholderImage();
+    // Possible locations for the public folder
+    const potentialPaths = [
+      path.resolve(cwd, "public", osSpecificRelativePath),
+      path.resolve(cwd, "apps", "web", "public", osSpecificRelativePath),
+      path.resolve(cwd, "..", "public", osSpecificRelativePath),
+      path.resolve(cwd, "..", "..", "public", osSpecificRelativePath),
+      // Specific absolute path known from user context
+      path.resolve("d:\\Empresas\\AquatechIA\\webpage\\apps\\web\\public", osSpecificRelativePath)
+    ];
+
+    const debugInfo = {
+      cwd,
+      filePath,
+      osSpecificRelativePath,
+      potentialPaths: potentialPaths.map(p => ({ path: p, exists: fs.existsSync(p) }))
+    };
+
+    console.log(`[visor-step] Debug Info:`, JSON.stringify(debugInfo, null, 2));
+
+    for (const p of potentialPaths) {
+      if (fs.existsSync(p)) {
+        console.log(`[visor-step] Found file at: ${p}`);
+        const buffer = fs.readFileSync(p);
+        return { 
+          image: Buffer.from(buffer).toString("base64"),
+          debug: debugInfo
+        };
+      }
     }
 
-    const buffer = await response.arrayBuffer();
-    return Buffer.from(buffer).toString("base64");
+    console.error(`[visor-step] File not found. Debug info:`, debugInfo);
+    return { 
+      image: generatePlaceholderImage(),
+      debug: debugInfo
+    };
+
   } catch (error) {
-    console.error(`[visor-step] Error loading step image from ${filePath}:`, error);
-    return generatePlaceholderImage();
+    console.error(`[visor-step] Error reading file ${filePath}:`, error);
+    return { 
+      image: generatePlaceholderImage(),
+      debug: { error: error instanceof Error ? error.message : String(error) }
+    };
   }
 }
 
@@ -171,22 +200,11 @@ export async function POST(request: NextRequest) {
     const cases = loadCases();
 
     if (Object.keys(cases).length === 0) {
-      console.error("[visor-step] No cases loaded");
-      return NextResponse.json(
-        { error: "No cases available" },
-        { status: 500 },
-      );
+      return NextResponse.json({ error: "No cases available" }, { status: 500 });
     }
 
     if (!cases[prompt_id]) {
-      console.error(
-        `[visor-step] Case not found: ${prompt_id}. Available cases:`,
-        Object.keys(cases),
-      );
-      return NextResponse.json(
-        { error: `Case not found: ${prompt_id}` },
-        { status: 404 },
-      );
+      return NextResponse.json({ error: `Case not found: ${prompt_id}` }, { status: 404 });
     }
 
     const caseData = cases[prompt_id];
@@ -196,15 +214,20 @@ export async function POST(request: NextRequest) {
     }
 
     const stepFilePath = caseData.step_files[normalizedStep] || caseData.step_files[0];
-    const stepImage = await loadStepImageB64(stepFilePath);
+    
+    const { image: stepImage, debug } = loadStepImageB64(stepFilePath);
+    
     const educationalText =
       EDUCATIONAL_TEXTS[normalizedStep] ||
       `Step ${normalizedStep}: progressing`;
     const isFinished =
       caseData.total_steps > 0 && normalizedStep >= caseData.total_steps;
 
+    // Use a simpler placeholder for console logging if image is huge
+    const loggableImage = stepImage.substring(0, 50) + "..."; 
+
     console.log(
-      `[visor-step] Returning step ${normalizedStep}, finished: ${isFinished}, total_steps: ${caseData.total_steps}`,
+      `[visor-step] Returning step ${normalizedStep}, image (trunc): ${loggableImage}, finished: ${isFinished}`,
     );
 
     return NextResponse.json({
@@ -213,6 +236,7 @@ export async function POST(request: NextRequest) {
       educational_text: educationalText,
       is_finished: isFinished,
       total_steps: caseData.total_steps,
+      debug_info: debug // Returning debug info to client for troubleshooting
     });
   } catch (error) {
     console.error("[visor-step] Error in POST:", error);
