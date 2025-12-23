@@ -180,14 +180,14 @@ export default function FooterIA() {
             © {new Date().getFullYear()} Aquatech IA. Todos los derechos
             reservados.{" "}
             <Link
-              href="/terminos"
+              href="/ia/terms"
               className="underline hover:text-[#00EFFF] transition-colors"
             >
               Términos
             </Link>{" "}
             |{" "}
             <Link
-              href="/privacidad"
+              href="/ia/privacy"
               className="underline hover:text-[#00EFFF] transition-colors"
             >
               Privacidad

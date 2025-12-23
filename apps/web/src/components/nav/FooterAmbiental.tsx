@@ -166,14 +166,14 @@ export default function FooterAmbiental() {
             © {new Date().getFullYear()} Aquatech IA. Todos los derechos
             reservados.{" "}
             <Link
-              href="/terminos"
+              href="/ambiental/terms"
               className="underline hover:text-[#0077B6] transition-colors"
             >
               Términos
             </Link>{" "}
             |{" "}
             <Link
-              href="/privacidad"
+              href="/ambiental/privacy"
               className="underline hover:text-[#0077B6] transition-colors"
             >
               Privacidad
