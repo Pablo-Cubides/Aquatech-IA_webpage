@@ -67,7 +67,8 @@ export const authOptions: NextAuthOptions = {
       // Update token if session is updated manually
       if (trigger === "update" && session) {
         token.role = session.user.role;
-        // Also update other fields if needed
+        if (session.user.name) token.name = session.user.name;
+        if (session.user.image) token.picture = session.user.image;
       }
       
       return token;
