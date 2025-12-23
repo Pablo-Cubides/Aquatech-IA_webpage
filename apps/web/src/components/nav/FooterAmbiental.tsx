@@ -123,7 +123,7 @@ export default function FooterAmbiental() {
                 href="/guia"
                 className="text-sm text-gray-600 transition-colors duration-300 hover:text-blue-600"
               >
-                Guía de Usuario
+                Guía del Visor
               </Link>
             </nav>
           </div>
