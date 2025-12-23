@@ -120,10 +120,10 @@ export default function FooterAmbiental() {
                 FAQ
               </Link>
               <Link
-                href="/contacto"
+                href="/guia"
                 className="text-sm text-gray-600 transition-colors duration-300 hover:text-blue-600"
               >
-                Contacto
+                Guía de Usuario
               </Link>
             </nav>
           </div>

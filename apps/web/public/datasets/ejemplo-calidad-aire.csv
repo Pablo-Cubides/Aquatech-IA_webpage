@@ -1,0 +1,13 @@
+latitud,longitud,parametro,valor,unidad,fecha,estacion
+-34.6037,-58.3816,PM2.5,12.5,µg/m³,2025-12-22,Estacion Central AD
+-34.6131,-58.3772,PM2.5,14.2,µg/m³,2025-12-22,Puerto Bio
+-34.5982,-58.4033,PM2.5,11.8,µg/m³,2025-12-22,Recuerdo Ambiental
+-34.5834,-58.4211,PM2.5,9.5,µg/m³,2025-12-22,Parque Verde
+-34.6212,-58.4442,PM2.5,15.7,µg/m³,2025-12-22,Zona Industrial A
+-34.6345,-58.4621,PM2.5,18.3,µg/m³,2025-12-22,Zona Industrial B
+-34.6037,-58.3816,NO2,25.4,ppb,2025-12-22,Estacion Central AD
+-34.6131,-58.3772,NO2,22.1,ppb,2025-12-22,Puerto Bio
+-34.5982,-58.4033,NO2,19.8,ppb,2025-12-22,Recuerdo Ambiental
+-34.5834,-58.4211,NO2,15.2,ppb,2025-12-22,Parque Verde
+-34.6212,-58.4442,NO2,32.5,ppb,2025-12-22,Zona Industrial A
+-34.6345,-58.4621,NO2,35.1,ppb,2025-12-22,Zona Industrial B

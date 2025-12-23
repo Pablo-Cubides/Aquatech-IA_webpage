@@ -66,6 +66,12 @@ export default function HeaderAmbiental() {
           >
             Autor
           </Link>
+          <Link
+            href="/guia"
+            className="text-blue-600 font-bold transition-opacity duration-300 hover:opacity-80"
+          >
+            Guía
+          </Link>
           {/* <Link
             href="/ambiental/productos"
             className="text-gray-600 transition-colors duration-300 hover:text-blue-600"
@@ -141,6 +147,13 @@ export default function HeaderAmbiental() {
               onClick={() => setIsMenuOpen(false)}
             >
               Autor
+            </Link>
+            <Link
+              href="/guia"
+              className="text-blue-600 font-bold transition-colors duration-300 py-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Guía de Usuario
             </Link>
             {/* <Link
               href="/ambiental/productos"

@@ -120,10 +120,10 @@ export default function FooterIA() {
                 FAQ
               </Link>
               <Link
-                href="/contacto"
+                href="/guia"
                 className="text-sm text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400"
               >
-                Contacto
+                Guía de Usuario
               </Link>
             </nav>
           </div>

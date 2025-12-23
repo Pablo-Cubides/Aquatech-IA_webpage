@@ -68,6 +68,12 @@ export default function HeaderIA() {
           >
             Autor
           </Link>
+          <Link
+            href="/guia"
+            className="text-cyan-400 font-bold transition-opacity duration-300 hover:opacity-80"
+          >
+            Guía
+          </Link>
         </nav>
 
         {/* Botón de login */}
@@ -154,6 +160,13 @@ export default function HeaderIA() {
               onClick={() => setIsMenuOpen(false)}
             >
               Autor
+            </Link>
+            <Link
+              href="/guia"
+              className="text-cyan-400 font-bold transition-colors duration-300 py-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Guía de Usuario
             </Link>
             <div className="border-t border-cyan-500/20 mt-2 pt-4">
               <AuthButton
