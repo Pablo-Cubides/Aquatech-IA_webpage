@@ -597,7 +597,7 @@ export function AuthButton({ theme = "dark", className }: AuthButtonProps) {
         onClick={() => setIsModalOpen(true)}
         className={className || styles[theme]}
       >
-        {session?.user?.name || "Mi Cuenta"}
+        {session ? (session.user?.name || "Mi Cuenta") : "Iniciar sesión"}
       </button>
 
       <AuthModal

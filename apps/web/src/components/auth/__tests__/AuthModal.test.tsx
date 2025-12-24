@@ -378,7 +378,7 @@ describe("AuthButton", () => {
       expect(screen.getByText("Iniciar sesión")).toBeInTheDocument();
     });
 
-    it('should show "Mi Cuenta" when authenticated', () => {
+    it('should show user name when authenticated', () => {
       (useSession as any).mockReturnValue({
         data: {
           user: { name: "John Doe", email: "john@example.com" },
@@ -387,7 +387,7 @@ describe("AuthButton", () => {
 
       render(<AuthButton />);
 
-      expect(screen.getByText("Mi Cuenta")).toBeInTheDocument();
+      expect(screen.getByText("John Doe")).toBeInTheDocument();
     });
   });
 
@@ -395,7 +395,7 @@ describe("AuthButton", () => {
     it("should open modal when button is clicked", async () => {
       render(<AuthButton />);
 
-      const button = screen.getByText("Iniciar sesión");
+      const button = screen.getByRole("button");
       await userEvent.click(button);
 
       expect(screen.getByText("Continuar con Google")).toBeInTheDocument();
@@ -404,7 +404,7 @@ describe("AuthButton", () => {
     it("should close modal when backdrop is clicked", async () => {
       const { container } = render(<AuthButton />);
 
-      const button = screen.getByText("Iniciar sesión");
+      const button = screen.getByRole("button");
       await userEvent.click(button);
 
       expect(screen.getByText("Continuar con Google")).toBeInTheDocument();
@@ -422,7 +422,7 @@ describe("AuthButton", () => {
     it("should pass correct theme to modal", async () => {
       const { container } = render(<AuthButton theme="light" />);
 
-      const button = screen.getByText("Iniciar sesión");
+      const button = screen.getByRole("button");
       await userEvent.click(button);
 
       const modal = await screen.findByRole("dialog");
