@@ -20,6 +20,9 @@ vi.mock("next/navigation", () => ({
     prefetch: vi.fn(),
     back: vi.fn(),
   }),
+  useSearchParams: () => ({
+    get: vi.fn().mockReturnValue(null),
+  }),
 }));
 
 describe("AuthModal", () => {
