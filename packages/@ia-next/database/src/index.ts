@@ -6,6 +6,16 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
+// Debug DB connection (Safe Log)
+if (process.env.DATABASE_URL) {
+  try {
+    const url = new URL(process.env.DATABASE_URL);
+    console.log(`[DB-Init] Connecting to host: ${url.hostname}, port: ${url.port}, database: ${url.pathname}`);
+  } catch (e) {
+    console.log('[DB-Init] Failed to parse DATABASE_URL for logging');
+  }
+}
+
 export const prisma =
   globalForPrisma.prisma ??
   new PrismaClient({
