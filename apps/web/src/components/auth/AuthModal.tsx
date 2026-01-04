@@ -1,7 +1,7 @@
 "use client";
 
 import { signIn, signOut, useSession } from "next-auth/react";
-import { useState, useEffect, useRef, useLayoutEffect } from "react";
+import { useState, useEffect, useRef, useLayoutEffect, Suspense } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { LayoutDashboard, UserCog, LogOut, Save, X, Check } from "lucide-react";
@@ -28,7 +28,7 @@ interface AuthModalProps {
 
 type AuthMode = "login" | "register";
 
-export function AuthModal({ isOpen, onClose, theme = "dark" }: AuthModalProps) {
+function AuthModalContent({ isOpen, onClose, theme = "dark" }: AuthModalProps) {
   const { data: session, update: updateSession } = useSession();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -143,6 +143,10 @@ export function AuthModal({ isOpen, onClose, theme = "dark" }: AuthModalProps) {
     setIsLoading(true);
     setError(null);
     try {
+      // Store return URL for error handling
+      if (typeof window !== "undefined") {
+        localStorage.setItem("auth_return_url", window.location.href);
+      }
       await signIn("google", { callbackUrl: window.location.href });
     } catch (error) {
       console.error("Error signing in:", error);
@@ -600,12 +604,20 @@ export function AuthModal({ isOpen, onClose, theme = "dark" }: AuthModalProps) {
   );
 }
 
+export function AuthModal(props: AuthModalProps) {
+  return (
+    <Suspense fallback={null}>
+      <AuthModalContent {...props} />
+    </Suspense>
+  );
+}
+
 interface AuthButtonProps {
   theme?: "dark" | "light";
   className?: string;
 }
 
-export function AuthButton({ theme = "dark", className }: AuthButtonProps) {
+function AuthButtonContent({ theme = "dark", className }: AuthButtonProps) {
   const { data: session } = useSession();
   const searchParams = useSearchParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -641,3 +653,12 @@ export function AuthButton({ theme = "dark", className }: AuthButtonProps) {
     </>
   );
 }
+
+export function AuthButton(props: AuthButtonProps) {
+  return (
+    <Suspense fallback={<button className="rounded-lg border border-white/20 px-4 py-2 text-sm font-medium text-[#B6C2DF]">...</button>}>
+      <AuthButtonContent {...props} />
+    </Suspense>
+  );
+}
+

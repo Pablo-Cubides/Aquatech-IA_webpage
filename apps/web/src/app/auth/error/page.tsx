@@ -10,9 +10,18 @@ function AuthErrorContent() {
   const callbackUrl = searchParams.get("callbackUrl") || "/";
 
   useEffect(() => {
+    // Get return URL from params or localStorage
+    let returnUrl = callbackUrl;
+    if ((returnUrl === "/" || !returnUrl) && typeof window !== "undefined") {
+      returnUrl = localStorage.getItem("auth_return_url") || "/";
+    }
+
     // Redirect back to the callback URL with error parameter
-    const separator = callbackUrl.includes("?") ? "&" : "?";
-    const redirectUrl = `${callbackUrl}${separator}auth_error=${encodeURIComponent(error || "unknown")}`;
+    const separator = returnUrl.includes("?") ? "&" : "?";
+    const redirectUrl = `${returnUrl}${separator}auth_error=${encodeURIComponent(error || "unknown")}`;
+    
+    // Clear storage
+    localStorage.removeItem("auth_return_url");
     
     // Small delay to ensure the redirect happens
     setTimeout(() => {
