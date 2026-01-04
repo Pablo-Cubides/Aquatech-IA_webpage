@@ -5,7 +5,7 @@ import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { LayoutDashboard, UserCog, LogOut, Save, X, Check } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const AVATARS = [
   "https://api.dicebear.com/7.x/bottts/svg?seed=Robot1",
@@ -31,6 +31,7 @@ type AuthMode = "login" | "register";
 export function AuthModal({ isOpen, onClose, theme = "dark" }: AuthModalProps) {
   const { data: session, update: updateSession } = useSession();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -47,6 +48,29 @@ export function AuthModal({ isOpen, onClose, theme = "dark" }: AuthModalProps) {
   const contentRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
+
+  // Detect auth error from URL params (after redirect from auth/error page)
+  useEffect(() => {
+    const authError = searchParams.get("auth_error");
+    if (authError) {
+      const errorMessages: Record<string, string> = {
+        "Callback": "Error de autenticación. Por favor intenta de nuevo.",
+        "OAuthSignin": "Error al iniciar sesión con Google.",
+        "OAuthCallback": "Error en la respuesta de Google.",
+        "OAuthCreateAccount": "No se pudo crear la cuenta.",
+        "EmailCreateAccount": "No se pudo crear la cuenta con este email.",
+        "Signin": "Error al iniciar sesión.",
+        "OAuthAccountNotLinked": "Este email ya está registrado con otro método.",
+        "default": "Error de autenticación. Por favor intenta de nuevo.",
+      };
+      setError(errorMessages[authError] || errorMessages["default"]);
+      
+      // Clean the URL without reloading
+      const url = new URL(window.location.href);
+      url.searchParams.delete("auth_error");
+      window.history.replaceState({}, "", url.toString());
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     if (session?.user) {
@@ -583,7 +607,16 @@ interface AuthButtonProps {
 
 export function AuthButton({ theme = "dark", className }: AuthButtonProps) {
   const { data: session } = useSession();
+  const searchParams = useSearchParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Auto-open modal if there's an auth error in URL
+  useEffect(() => {
+    const authError = searchParams.get("auth_error");
+    if (authError) {
+      setIsModalOpen(true);
+    }
+  }, [searchParams]);
 
   const styles = {
     dark: "rounded-lg border border-white/20 px-4 py-2 text-sm font-medium text-[#B6C2DF] transition-all hover:border-[#00EFFF] hover:text-[#00EFFF]",

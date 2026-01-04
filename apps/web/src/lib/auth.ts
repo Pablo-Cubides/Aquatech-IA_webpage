@@ -77,5 +77,7 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
-  // Removed custom pages to keep errors in modal instead of redirecting
+  pages: {
+    error: "/auth/error", // Redirects back to origin page with error param
+  },
 };
