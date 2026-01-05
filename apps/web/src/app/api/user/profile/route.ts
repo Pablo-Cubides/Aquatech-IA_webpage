@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { prisma } from "@ia-next/database";
+import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
 
 export async function PATCH(req: Request) {

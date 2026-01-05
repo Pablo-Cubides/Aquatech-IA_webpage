@@ -1,20 +1,9 @@
 import { NextResponse } from "next/server";
-import { PrismaClient, Prisma } from "@prisma/client";
+import { prisma } from "@/lib/db";
+import { Prisma } from "@prisma/client";
 import { parsePagination, createPaginatedResponse } from "@/lib/pagination";
 
 
-
-// Local Prisma singleton
-const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
-const prisma =
-  globalForPrisma.prisma ??
-  new PrismaClient({
-    log:
-      process.env.NODE_ENV === "development"
-        ? ["query", "error", "warn"]
-        : ["error"],
-  });
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
 
 // Type for note input data
 interface NoteInput {
