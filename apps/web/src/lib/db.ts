@@ -22,6 +22,18 @@ const getDatabaseUrl = () => {
     url = `${url}${separator}pgbouncer=true`;
   }
 
+  // Enforce SSL (Required for Supabase)
+  if (!url.includes('sslmode=')) {
+    const separator = url.includes('?') ? '&' : '?';
+    url = `${url}${separator}sslmode=require`;
+  }
+
+  // Increase connection timeout to 30s to avoid flakes
+  if (!url.includes('connect_timeout=')) {
+    const separator = url.includes('?') ? '&' : '?';
+    url = `${url}${separator}connect_timeout=30`;
+  }
+
   return url;
 };
 
