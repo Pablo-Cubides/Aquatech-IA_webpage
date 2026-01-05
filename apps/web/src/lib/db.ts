@@ -49,15 +49,20 @@ if (databaseUrl) {
   }
 }
 
+const prismaConfig: any = {
+  log: process.env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
+};
+
+if (databaseUrl) {
+  prismaConfig.datasources = {
+    db: {
+      url: databaseUrl,
+    },
+  };
+}
+
 export const prisma =
   globalForPrisma.prisma ??
-  new PrismaClient({
-    datasources: {
-      db: {
-        url: databaseUrl,
-      },
-    },
-    log: process.env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
-  });
+  new PrismaClient(prismaConfig);
 
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
