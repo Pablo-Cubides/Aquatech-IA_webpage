@@ -66,12 +66,12 @@ export default function AmbientalPage() {
             </p>
 
             <div className="mt-12 flex flex-wrap justify-center gap-4 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-500">
-              <button className="rounded-lg bg-green-600 px-8 py-3 text-base font-bold text-white transition-all duration-300 ease-out hover:bg-green-700 hover:shadow-xl hover:shadow-green-500/50 hover:-translate-y-1 hover:scale-105 active:translate-y-0">
+              <Link href="/ambiental/herramientas" className="rounded-lg bg-green-600 px-8 py-3 text-base font-bold text-white transition-all duration-300 ease-out hover:bg-green-700 hover:shadow-xl hover:shadow-green-500/50 hover:-translate-y-1 hover:scale-105 active:translate-y-0">
                 Explorar herramientas
-              </button>
-              <button className="rounded-lg border-2 border-blue-600 px-8 py-3 text-base font-bold text-blue-600 backdrop-blur-sm bg-white/60 transition-all duration-300 ease-out hover:bg-blue-600 hover:text-white hover:shadow-xl hover:shadow-blue-500/50 hover:-translate-y-1 hover:scale-105 active:translate-y-0">
+              </Link>
+              <Link href="/ambiental/blog" className="rounded-lg border-2 border-blue-600 px-8 py-3 text-base font-bold text-blue-600 backdrop-blur-sm bg-white/60 transition-all duration-300 ease-out hover:bg-blue-600 hover:text-white hover:shadow-xl hover:shadow-blue-500/50 hover:-translate-y-1 hover:scale-105 active:translate-y-0">
                 Conocer más
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -92,9 +92,9 @@ export default function AmbientalPage() {
               ambiental, fomentando un futuro sostenible a través de soluciones
               innovadoras y una toma de decisiones informada.
             </p>
-            <button className="mt-8 rounded-lg border border-blue-600 px-6 py-2 font-medium text-blue-600 transition-all duration-300 ease-out hover:bg-blue-600 hover:text-white hover:-translate-y-1">
+            <Link href="/ambiental/nosotros" className="mt-8 inline-block rounded-lg border border-blue-600 px-6 py-2 font-medium text-blue-600 transition-all duration-300 ease-out hover:bg-blue-600 hover:text-white hover:-translate-y-1">
               Leer más
-            </button>
+            </Link>
           </div>
 
           <div className="flex justify-center">

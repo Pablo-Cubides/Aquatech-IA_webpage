@@ -549,7 +549,7 @@ export default function IAAutorPage() {
         </section>
 
         {/* PROYECTOS DE IA */}
-        <section className="py-16 md:py-24 bg-[#000000]">
+        <section id="proyectos" className="py-16 md:py-24 bg-[#000000]">
           <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <h2 className="mb-12 text-3xl text-center text-white title-font md:text-4xl">
               Proyectos y desarrollos de IA
@@ -562,21 +562,21 @@ export default function IAAutorPage() {
                 impact="Comunidades LATAM"
                 desc="Integración de contenidos, herramientas y demostradores de IA aplicada. LLMs, RAG, agentes y modelos generativos en producción."
                 image="/images/projects/aquatechia-platform.jpg"
-                href="/ia/proyectos/aquatechia-platform"
+                href="/ia/autor#proyectos"
               />
 
               <ProjectCard
                 title="Herramientas IA para imagen"
                 desc="Edición y generación con FastAPI + Next.js + WebSockets integrando FLUX, InstantID y ControlNet Hair en tiempo real."
                 image="/images/projects/ai-image-tools.jpg"
-                href="/ia/proyectos/ai-image-tools"
+                href="/ia/autor#proyectos"
               />
 
               <ProjectCard
                 title="RAG y asistentes especializados"
                 desc="Sistemas de recuperación aumentada con LangChain y CrewAI para documentación técnica y soporte automatizado."
                 image="/images/projects/rag-assistants.jpg"
-                href="/ia/proyectos/rag-assistants"
+                href="/ia/autor#proyectos"
               />
             </div>
           </div>

@@ -514,7 +514,7 @@ export default function AmbientalAutorPage() {
         </section>
 
         {/* Proyectos destacados */}
-        <section className="py-16 md:py-24 bg-gray-50">
+        <section id="proyectos" className="py-16 md:py-24 bg-gray-50">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <h2
               className={`${spaceGrotesk.className} text-3xl md:text-4xl text-[#023E8A] text-center mb-12`}
@@ -528,18 +528,18 @@ export default function AmbientalAutorPage() {
                 title="Monitoreo de calidad del agua"
                 impact="−40% en falsos positivos"
                 desc="Sistema predictivo para optimizar el tratamiento en tiempo real."
-                href="#"
+                href="/ambiental/autor#proyectos"
               />
 
               <ProjectCard
                 title="Modelización hidrológica de cuencas"
                 desc="Predicción de caudales con 95% de precisión para la gestión de embalses."
-                href="#"
+                href="/ambiental/autor#proyectos"
               />
               <ProjectCard
                 title="Plataforma de datos sobre sequías"
                 desc="Visualización y soporte a decisiones para el sector agrícola."
-                href="#"
+                href="/ambiental/autor#proyectos"
               />
             </div>
           </div>

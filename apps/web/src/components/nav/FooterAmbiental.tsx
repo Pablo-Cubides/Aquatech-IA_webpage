@@ -1,8 +1,40 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 
 export default function FooterAmbiental() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("loading");
+
+    try {
+      const response = await fetch("/api/newsletter/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, portal: "ambiental", source: "footer" }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setStatus("success");
+        setMessage(data.message);
+        setEmail("");
+      } else {
+        setStatus("error");
+        setMessage(data.message);
+      }
+    } catch (error) {
+      setStatus("error");
+      setMessage("Error al suscribirse. Intenta de nuevo.");
+    }
+  };
+
   return (
     <footer className="bg-white py-16 text-gray-600 border-t border-blue-600/20">
       <div className="mx-auto max-w-7xl px-4">
@@ -136,27 +168,43 @@ export default function FooterAmbiental() {
             <p className="mt-4 text-sm text-gray-600">
               Suscríbete para recibir las últimas noticias.
             </p>
-            <form
-              className="mt-4 flex"
-              onSubmit={(e) => {
-                e.preventDefault();
-                // Conecta tu endpoint o servicio de newsletter
-              }}
-            >
-              <input
-                type="email"
-                required
-                placeholder="Tu email"
-                className="w-full rounded-l-lg border border-blue-600/30 bg-white px-4 py-2 text-sm text-black
-                           placeholder:text-[#CCCCCC] focus:ring-1 focus:ring-blue-600 focus:border-blue-600 transition-all duration-300"
-              />
-              <button
-                type="submit"
-                className="rounded-r-lg bg-blue-600 px-4 py-2 text-sm font-bold text-white
-                           hover:bg-blue-700 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/50"
-              >
-                Enviar
-              </button>
+            <form className="mt-4" onSubmit={handleSubmit}>
+              <div className="flex">
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Tu email"
+                  disabled={status === "loading"}
+                  className="w-full rounded-l-lg border border-blue-600/30 bg-white px-4 py-2 text-sm text-black
+                             placeholder:text-[#CCCCCC] focus:ring-1 focus:ring-blue-600 focus:border-blue-600 transition-all duration-300
+                             disabled:opacity-50 disabled:cursor-not-allowed"
+                />
+                <button
+                  type="submit"
+                  disabled={status === "loading"}
+                  className="rounded-r-lg bg-blue-600 px-4 py-2 text-sm font-bold text-white
+                             hover:bg-blue-700 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/50
+                             disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {status === "loading" ? (
+                    <svg className="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                  ) : (
+                    "Enviar"
+                  )}
+                </button>
+              </div>
+              {message && (
+                <p className={`mt-2 text-xs ${
+                  status === "success" ? "text-green-600" : "text-red-600"
+                }`}>
+                  {message}
+                </p>
+              )}
             </form>
           </div>
         </div>

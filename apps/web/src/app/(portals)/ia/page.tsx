@@ -67,12 +67,12 @@ export default function IAPage() {
             </p>
 
             <div className="mt-12 flex flex-wrap justify-center gap-4 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-500">
-              <button className="rounded-lg bg-cyan-400 px-8 py-3 text-base font-bold text-black transition-all duration-300 ease-out hover:bg-white hover:shadow-lg hover:shadow-cyan-500/50 hover:-translate-y-1 hover:scale-105 active:translate-y-0">
+              <Link href="/ia/herramientas" className="rounded-lg bg-cyan-400 px-8 py-3 text-base font-bold text-black transition-all duration-300 ease-out hover:bg-white hover:shadow-lg hover:shadow-cyan-500/50 hover:-translate-y-1 hover:scale-105 active:translate-y-0">
                 Explorar herramientas
-              </button>
-              <button className="rounded-lg border-2 border-cyan-400 px-8 py-3 text-base font-bold text-cyan-400 backdrop-blur-sm bg-black/30 transition-all duration-300 ease-out hover:bg-cyan-400 hover:text-black hover:shadow-lg hover:shadow-cyan-500/50 hover:-translate-y-1 hover:scale-105 active:translate-y-0">
+              </Link>
+              <Link href="/ia/blog" className="rounded-lg border-2 border-cyan-400 px-8 py-3 text-base font-bold text-cyan-400 backdrop-blur-sm bg-black/30 transition-all duration-300 ease-out hover:bg-cyan-400 hover:text-black hover:shadow-lg hover:shadow-cyan-500/50 hover:-translate-y-1 hover:scale-105 active:translate-y-0">
                 Conocer más
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -95,9 +95,9 @@ export default function IAPage() {
               medio ambiente, fomentando un futuro sostenible a través de la
               tecnología.
             </p>
-            <button className="mt-8 rounded-lg border border-cyan-400 px-6 py-2 font-medium text-cyan-400 transition-all duration-300 ease-out hover:bg-cyan-400 hover:text-black hover:-translate-y-1">
+            <Link href="/ia/nosotros" className="mt-8 inline-block rounded-lg border border-cyan-400 px-6 py-2 font-medium text-cyan-400 transition-all duration-300 ease-out hover:bg-cyan-400 hover:text-black hover:-translate-y-1">
               Leer más
-            </button>
+            </Link>
           </div>
 
           <div className="flex justify-center">

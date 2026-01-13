@@ -78,6 +78,7 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   pages: {
+    signIn: "/",
     error: "/auth/error", // Redirects back to origin page with error param
   },
 };

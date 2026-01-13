@@ -34,13 +34,19 @@ const getDatabaseUrl = () => {
     url = `${url}${separator}connect_timeout=30`;
   }
 
+  // Increase Prisma Pool timeout (default is 10s, which is too short for Serverless cold starts)
+  if (!url.includes('pool_timeout=')) {
+    const separator = url.includes('?') ? '&' : '?';
+    url = `${url}${separator}pool_timeout=60`;
+  }
+
   return url;
 };
 
-const databaseUrl = getDatabaseUrl();
+const databaseUrl = getDatabaseUrl() || "postgresql://postgres:postgres@localhost:5432/postgres"; // Fallback for build time
 
 // Debug connection (Safe Log)
-if (databaseUrl) {
+if (databaseUrl && !databaseUrl.includes('localhost')) {
   try {
     const url = new URL(databaseUrl);
     console.log(`[DB-Init] 🚀 Connecting to: ${url.hostname}:${url.port}${url.pathname}`);
