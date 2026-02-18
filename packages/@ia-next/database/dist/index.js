@@ -10,8 +10,18 @@ const { Pool } = require("pg");
 // Global singleton to avoid multiple Prisma instances in development
 const globalForPrisma = globalThis;
 
+const setQueryParam = (url, key, value) => {
+  const pattern = new RegExp(`([?&])${key}=[^&]*`);
+  if (pattern.test(url)) {
+    return url.replace(pattern, `$1${key}=${value}`);
+  }
+  const separator = url.includes("?") ? "&" : "?";
+  return `${url}${separator}${key}=${value}`;
+};
+
 const getDatabaseUrl = () => {
   let url = process.env.DATABASE_URL;
+  const strictSsl = process.env.DATABASE_SSL_REJECT_UNAUTHORIZED === "true";
   if (!url) {
     return "postgresql://postgres:postgres@localhost:5432/postgres";
   }
@@ -24,6 +34,10 @@ const getDatabaseUrl = () => {
     const separator = url.includes("?") ? "&" : "?";
     url = `${url}${separator}pgbouncer=true`;
   }
+
+  url = setQueryParam(url, "sslmode", strictSsl ? "require" : "no-verify");
+  url = setQueryParam(url, "connect_timeout", "30");
+  url = setQueryParam(url, "pool_timeout", "60");
 
   return url;
 };

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const response = NextResponse.next();
   const isDev = process.env.NODE_ENV === "development";
 
@@ -43,33 +43,19 @@ export function middleware(request: NextRequest) {
     "upgrade-insecure-requests",
   ].join("; ");
 
-  // Security Headers
   const securityHeaders = {
-    // Prevent clickjacking attacks
     "X-Frame-Options": "DENY",
-
-    // Enable XSS protection
     "X-Content-Type-Options": "nosniff",
-
-    // Control referrer information
     "Referrer-Policy": "strict-origin-when-cross-origin",
-
-    // Permissions Policy (formerly Feature Policy)
     "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
-
-    // Strict Transport Security (HSTS)
     "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-
-    // Content Security Policy
     "Content-Security-Policy": contentSecurityPolicy,
   };
 
-  // Apply security headers
   Object.entries(securityHeaders).forEach(([key, value]) => {
     response.headers.set(key, value);
   });
 
-  // CORS headers for API routes
   if (request.nextUrl.pathname.startsWith("/api/")) {
     const allowedOrigins = [
       process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com",
@@ -94,7 +80,6 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  // Handle preflight requests
   if (request.method === "OPTIONS") {
     return new NextResponse(null, { status: 200, headers: response.headers });
   }
@@ -103,14 +88,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    /*
-     * Match all request paths except:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - public files (images, etc.)
-     */
-    "/((?!_next/static|_next/image|favicon.ico|images/).*)",
-  ],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|images/).*)"],
 };

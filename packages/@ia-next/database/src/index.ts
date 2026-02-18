@@ -8,10 +8,20 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
+const setQueryParam = (url: string, key: string, value: string) => {
+  const pattern = new RegExp(`([?&])${key}=[^&]*`);
+  if (pattern.test(url)) {
+    return url.replace(pattern, `$1${key}=${value}`);
+  }
+  const separator = url.includes("?") ? "&" : "?";
+  return `${url}${separator}${key}=${value}`;
+};
+
 // Helper to ensure we use Transaction Mode (Port 6543)
 const getDatabaseUrl = () => {
   let url = process.env.DATABASE_URL;
   if (!url) return undefined;
+  const strictSsl = process.env.DATABASE_SSL_REJECT_UNAUTHORIZED === "true";
 
   // Fix: Vercel Integration often forces port 5432 (Session Mode) which hits limits.
   // We force port 6543 (Transaction Mode) for stability.
@@ -27,6 +37,10 @@ const getDatabaseUrl = () => {
     const separator = url.includes("?") ? "&" : "?";
     url = `${url}${separator}pgbouncer=true`;
   }
+
+  url = setQueryParam(url, "sslmode", strictSsl ? "require" : "no-verify");
+  url = setQueryParam(url, "connect_timeout", "30");
+  url = setQueryParam(url, "pool_timeout", "60");
 
   return url;
 };
