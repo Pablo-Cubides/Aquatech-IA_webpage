@@ -10,7 +10,7 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\""
   },
   "dependencies": {
-    "react": "^19.2.0"
+    "react": "^19.2.3"
   },
   "devDependencies": {
     "@ia-next/eslint-config": "workspace:*",
@@ -27,6 +27,6 @@
     "typescript": "^5.9.3"
   },
   "peerDependencies": {
-    "react": "^18.3.0"
+    "react": ">=18.3.0 <20"
   }
 }
