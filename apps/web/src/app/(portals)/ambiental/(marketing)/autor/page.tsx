@@ -31,6 +31,8 @@ interface ProjectCardProps {
   title: string;
   desc: string;
   href: string;
+  imageSrc: string;
+  imageAlt: string;
 }
 
 interface ProjectWideProps {
@@ -39,6 +41,8 @@ interface ProjectWideProps {
   impact: string;
   desc: string;
   href: string;
+  imageSrc: string;
+  imageAlt: string;
 }
 
 interface StackCardProps {
@@ -73,15 +77,15 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   title,
   desc,
   href,
+  imageSrc,
+  imageAlt,
 }) => (
   <Link
     href={href}
     className="group block bg-white border border-gray-200 rounded-xl overflow-hidden hover:border-[#0077B6] transition-colors"
   >
-    <div className="aspect-video bg-gradient-to-br from-[#0077B6] to-[#10B981] relative">
-      <div className="absolute inset-0 flex items-center justify-center text-white font-semibold">
-        Herramienta Ambiental
-      </div>
+    <div className="aspect-video relative overflow-hidden">
+      <img src={imageSrc} alt={imageAlt} className="w-full h-full object-cover" />
     </div>
     <div className="p-6">
       <h3 className="text-xl font-semibold text-[#0D161C] mb-3 group-hover:text-[#0077B6] transition-colors">
@@ -98,6 +102,8 @@ const ProjectWide: React.FC<ProjectWideProps> = ({
   impact,
   desc,
   href,
+  imageSrc,
+  imageAlt,
 }) => (
   <Link
     href={href}
@@ -113,8 +119,8 @@ const ProjectWide: React.FC<ProjectWideProps> = ({
       <p className="text-[#10B981] font-semibold mb-4">{impact}</p>
       <p className="text-gray-600">{desc}</p>
     </div>
-    <div className="h-64 md:h-full bg-gradient-to-br from-[#0077B6] to-[#10B981] flex items-center justify-center text-white font-semibold">
-      Proyecto Ambiental
+    <div className="h-64 md:h-full overflow-hidden">
+      <img src={imageSrc} alt={imageAlt} className="w-full h-full object-cover" />
     </div>
   </Link>
 );
@@ -454,9 +460,11 @@ export default function AmbientalAutorPage() {
             </div>
             <div className="lg:col-span-5">
               <div className="rounded-xl overflow-hidden shadow-lg border border-gray-200">
-                <div className="w-full h-96 bg-gradient-to-br from-[#0077B6] to-[#10B981] flex items-center justify-center text-white text-6xl">
-                  🔬💧
-                </div>
+                <img
+                  src="/images/Portal ambiental/autor/Fotos lab.png"
+                  alt="Pablo Cubides en laboratorio"
+                  className="w-full h-96 object-cover"
+                />
               </div>
             </div>
           </div>
@@ -525,21 +533,27 @@ export default function AmbientalAutorPage() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <ProjectWide
                 badge="CASO DE ESTUDIO"
-                title="Monitoreo de calidad del agua"
-                impact="−40% en falsos positivos"
-                desc="Sistema predictivo para optimizar el tratamiento en tiempo real."
+                title="Estudios de calidad del agua"
+                impact="Monitoreo, QA/QC y trazabilidad analítica"
+                desc="Evaluación de parámetros físico-químicos y microbiológicos para diagnóstico y control del recurso hídrico."
                 href="/ambiental/autor#proyectos"
+                imageSrc="/images/Portal ambiental/blog/monitoreo-ambiental-laboratorio.png"
+                imageAlt="Estudio de calidad del agua en laboratorio"
               />
 
               <ProjectCard
-                title="Modelización hidrológica de cuencas"
-                desc="Predicción de caudales con 95% de precisión para la gestión de embalses."
+                title="Estudios de tratamiento de agua"
+                desc="Análisis y optimización de procesos en PTAP/PTAR: coagulación, filtración, desinfección y reúso."
                 href="/ambiental/autor#proyectos"
+                imageSrc="/images/Portal ambiental/blog/tecnologias-tratamiento-agua.png"
+                imageAlt="Tecnologías de tratamiento de agua"
               />
               <ProjectCard
-                title="Plataforma de datos sobre sequías"
-                desc="Visualización y soporte a decisiones para el sector agrícola."
+                title="Análisis de datos de contaminación ambiental"
+                desc="Integración y visualización de datos para identificar focos críticos y apoyar decisiones de gestión ambiental."
                 href="/ambiental/autor#proyectos"
+                imageSrc="/images/Portal ambiental/blog/control-contaminacion-talleres.png"
+                imageAlt="Análisis de datos de contaminación ambiental"
               />
             </div>
           </div>

@@ -1,5 +1,7 @@
 // Database utilities and Prisma client re-export
 import { PrismaClient } from "@prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
+import { Pool } from "pg";
 
 // Global singleton to avoid multiple Prisma instances in development
 const globalForPrisma = globalThis as unknown as {
@@ -39,16 +41,16 @@ if (databaseUrl) {
   }
 }
 
+const pool = new Pool({
+  connectionString: databaseUrl,
+});
+
+const adapter = new PrismaPg(pool);
+
 export const prisma =
   globalForPrisma.prisma ??
   new PrismaClient({
-    // Optimize connection pool for pgbouncer
-    datasources: {
-      db: {
-        url: databaseUrl,
-      },
-    },
-    // Connection pool optimization
+    adapter,
     log:
       process.env.NODE_ENV === "development"
         ? ["query", "error", "warn"]

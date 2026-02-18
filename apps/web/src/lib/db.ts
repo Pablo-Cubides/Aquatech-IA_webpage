@@ -1,4 +1,6 @@
 import { PrismaClient } from "@prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
+import { Pool } from "pg";
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
@@ -55,17 +57,16 @@ if (databaseUrl && !databaseUrl.includes('localhost')) {
   }
 }
 
+const pool = new Pool({
+  connectionString: databaseUrl,
+});
+
+const adapter = new PrismaPg(pool);
+
 const prismaConfig: any = {
+  adapter,
   log: process.env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
 };
-
-if (databaseUrl) {
-  prismaConfig.datasources = {
-    db: {
-      url: databaseUrl,
-    },
-  };
-}
 
 export const prisma =
   globalForPrisma.prisma ??
