@@ -19,7 +19,7 @@ const nextConfig = {
   // it provides a runtime JS entry in packages/@ia-next/database/dist which
   // Next should import directly. Transpiling the package forces Next to
   // resolve TypeScript source which can cause module resolution errors.
-  transpilePackages: ["@ia-next/ui", "maplibre-gl"],
+  transpilePackages: ["@ia-next/ui"],
 
   // Environment variables to expose to client (only non-sensitive)
   env: {
@@ -52,7 +52,8 @@ const nextConfig = {
     minimumCacheTTL: 60,
     dangerouslyAllowSVG: false,
     contentDispositionType: "inline",
-    contentSecurityPolicy: "default-src 'self'; img-src 'self' https: data:; font-src 'self' https: data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';",
+    contentSecurityPolicy:
+      "default-src 'self'; img-src 'self' https: data:; font-src 'self' https: data:;",
   },
 
   // Security headers (additional to middleware)
@@ -76,10 +77,6 @@ const nextConfig = {
           {
             key: "X-XSS-Protection",
             value: "1; mode=block",
-          },
-          {
-            key: "Content-Security-Policy",
-            value: "default-src 'self'; connect-src 'self' https://www.google-analytics.com https://*.supabase.co https://*.vercel.app https://api.openaq.org https://api.gbif.org https://www.waterqualitydata.us https://eonet.gsfc.nasa.gov; img-src 'self' https: data:; font-src 'self' https: data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';",
           },
           {
             key: "Strict-Transport-Security",

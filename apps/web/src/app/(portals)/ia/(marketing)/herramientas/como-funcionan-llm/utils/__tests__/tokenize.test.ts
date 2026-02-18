@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { tokenize } from '../llm-simulation';
 
 describe('tokenize', () => {
-  it('should split simple spanish sentence into tokens', () => {
+  it('should split simple spanish sentence into tokens', async () => {
+    const { tokenize } = await import('../llm-simulation');
     const text = 'Los pájaros vuelan, porque tienen alas.';
     const tokens = tokenize(text);
     expect(tokens).toContain('Los');

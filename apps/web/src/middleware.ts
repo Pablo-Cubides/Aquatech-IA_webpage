@@ -24,11 +24,11 @@ export function middleware(request: NextRequest) {
     // Content Security Policy
     "Content-Security-Policy": [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com",
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com",
+      "style-src 'self' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: https: blob:",
-      "connect-src 'self' https://www.google-analytics.com https://*.supabase.co https://*.vercel.app",
+      "connect-src 'self' https://www.google-analytics.com https://*.supabase.co https://*.vercel.app https://api.openaq.org https://api.gbif.org https://www.waterqualitydata.us https://eonet.gsfc.nasa.gov",
       "frame-src 'self' https://accounts.google.com",
       "worker-src 'self' blob:",
       "child-src 'self' blob:",

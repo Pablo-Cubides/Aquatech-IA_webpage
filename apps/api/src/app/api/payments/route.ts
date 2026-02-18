@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../../../lib/auth";
 import { paymentService, CREDIT_PACKAGES } from "../../../lib/payment";
 import { logger } from "../../../lib/logger";
+import { checkRateLimit, getClientIP } from "../../../lib/rate-limit";
 import { z } from "zod";
 
 export const runtime = "nodejs";
@@ -34,12 +35,41 @@ export async function POST(request: NextRequest) {
   const startTime = Date.now();
 
   try {
+    const clientIP = getClientIP(request);
+
     // Get user session
     const session = await getServerSession(authOptions);
     if (!session?.user) {
       return NextResponse.json(
         { success: false, error: "Unauthorized" },
         { status: 401 },
+      );
+    }
+
+    const rateLimitIdentifier = `payment:${session.user.id || clientIP}`;
+    const rateLimitResult = await checkRateLimit(
+      "payment",
+      rateLimitIdentifier,
+      {
+        endpoint: "/api/payments",
+        userId: session.user.id,
+      },
+    );
+
+    if (!rateLimitResult.success) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Too many payment attempts. Please try again later.",
+        },
+        {
+          status: 429,
+          headers: {
+            "X-RateLimit-Limit": rateLimitResult.limit.toString(),
+            "X-RateLimit-Remaining": rateLimitResult.remaining.toString(),
+            "X-RateLimit-Reset": rateLimitResult.reset.toISOString(),
+          },
+        },
       );
     }
 

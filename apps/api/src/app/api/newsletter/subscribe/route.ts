@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import * as brevo from "@getbrevo/brevo";
 import { logger } from "../../../../lib/logger";
+import { checkRateLimit, getClientIP } from "../../../../lib/rate-limit";
 import { z } from "zod";
 
 // Initialize Brevo Contacts API
@@ -18,6 +19,28 @@ const subscribeSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    const identifier = `newsletter:${getClientIP(request)}`;
+    const rateLimitResult = await checkRateLimit("email", identifier, {
+      endpoint: "/api/newsletter/subscribe",
+    });
+
+    if (!rateLimitResult.success) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Demasiadas solicitudes. Intenta de nuevo más tarde.",
+        },
+        {
+          status: 429,
+          headers: {
+            "X-RateLimit-Limit": rateLimitResult.limit.toString(),
+            "X-RateLimit-Remaining": rateLimitResult.remaining.toString(),
+            "X-RateLimit-Reset": rateLimitResult.reset.toISOString(),
+          },
+        },
+      );
+    }
+
     const body = await request.json();
     const { email, portal, source } = subscribeSchema.parse(body);
 
@@ -47,7 +70,7 @@ export async function POST(request: NextRequest) {
         success: true,
         message: "¡Gracias por suscribirte! Revisa tu email para confirmar.",
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error: any) {
     // Si el contacto ya existe, Brevo devuelve un error específico
@@ -57,7 +80,7 @@ export async function POST(request: NextRequest) {
           success: true,
           message: "Este email ya está suscrito.",
         },
-        { status: 200 }
+        { status: 200 },
       );
     }
 
@@ -71,7 +94,7 @@ export async function POST(request: NextRequest) {
         success: false,
         message: "Error al suscribirse. Intenta de nuevo.",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
