@@ -30,6 +30,21 @@ const getDatabaseUrl = () => {
 
 const pool = new Pool({
   connectionString: getDatabaseUrl(),
+  ssl: (() => {
+    const url = getDatabaseUrl();
+    const isLocalDatabase =
+      !url ||
+      url.includes("localhost") ||
+      url.includes("127.0.0.1") ||
+      url.includes("@postgres:");
+    if (isLocalDatabase) {
+      return undefined;
+    }
+    return {
+      rejectUnauthorized:
+        process.env.DATABASE_SSL_REJECT_UNAUTHORIZED === "true",
+    };
+  })(),
 });
 
 const adapter = new PrismaPg(pool);

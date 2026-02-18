@@ -50,6 +50,13 @@ const getDatabaseUrl = () => {
 const databaseUrl =
   getDatabaseUrl() || "postgresql://postgres:postgres@localhost:5432/postgres"; // Fallback for build time
 
+const isLocalDatabase =
+  databaseUrl.includes("localhost") ||
+  databaseUrl.includes("127.0.0.1") ||
+  databaseUrl.includes("@postgres:");
+const rejectUnauthorized =
+  process.env.DATABASE_SSL_REJECT_UNAUTHORIZED === "true";
+
 // Debug connection (Safe Log)
 if (databaseUrl && !databaseUrl.includes("localhost")) {
   try {
@@ -64,6 +71,11 @@ if (databaseUrl && !databaseUrl.includes("localhost")) {
 
 const pool = new Pool({
   connectionString: databaseUrl,
+  ssl: isLocalDatabase
+    ? undefined
+    : {
+        rejectUnauthorized,
+      },
 });
 
 const adapter = new PrismaPg(pool);
