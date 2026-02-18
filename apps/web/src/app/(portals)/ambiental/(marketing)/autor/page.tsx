@@ -85,7 +85,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     className="group block bg-white border border-gray-200 rounded-xl overflow-hidden hover:border-[#0077B6] transition-colors"
   >
     <div className="aspect-video relative overflow-hidden">
-      <img src={imageSrc} alt={imageAlt} className="w-full h-full object-cover" />
+      <img
+        src={imageSrc}
+        alt={imageAlt}
+        className="w-full h-full object-cover"
+      />
     </div>
     <div className="p-6">
       <h3 className="text-xl font-semibold text-[#0D161C] mb-3 group-hover:text-[#0077B6] transition-colors">
@@ -120,7 +124,11 @@ const ProjectWide: React.FC<ProjectWideProps> = ({
       <p className="text-gray-600">{desc}</p>
     </div>
     <div className="h-64 md:h-full overflow-hidden">
-      <img src={imageSrc} alt={imageAlt} className="w-full h-full object-cover" />
+      <img
+        src={imageSrc}
+        alt={imageAlt}
+        className="w-full h-full object-cover"
+      />
     </div>
   </Link>
 );
@@ -169,12 +177,11 @@ const Faq: React.FC<FaqProps> = ({ q, a }) => (
 
 export const metadata: Metadata = {
   title:
-    "Pablo Cubides — Científico ambiental y especialista en gestión y tratamientos del agua | AquatechIA", 
+    "Pablo Cubides — Científico ambiental y especialista en gestión y tratamientos del agua | AquatechIA",
   description:
     "Perfil de Pablo Cubides, autor en AquatechIA. Ingeniero Químico y M. Sc. en Ingeniería Ambiental. Docente e investigador en gestión integral del recurso hídrico, PTAP/PTAR, calidad del agua, aseguramiento de calidad ISO/IEC 17025 y optimización de procesos ambientales.",
   openGraph: {
-    title:
-      "Pablo Cubides — Científico ambiental y especialista en agua",
+    title: "Pablo Cubides — Científico ambiental y especialista en agua",
     description:
       "Perfil de Pablo Cubides, autor en AquatechIA. Ingeniero Químico y M. Sc. en Ingeniería Ambiental. Docente e investigador en gestión integral del recurso hídrico, PTAP/PTAR, calidad del agua, aseguramiento de calidad ISO/IEC 17025 y optimización de procesos ambientales.",
     url: "https://aquatechia.com/ambiental/autor",
@@ -192,8 +199,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title:
-      "Pablo Cubides — Científico ambiental y especialista en agua",
+    title: "Pablo Cubides — Científico ambiental y especialista en agua",
     description:
       "Perfil de Pablo Cubides, autor en AquatechIA. Ingeniero Químico y M. Sc. en Ingeniería Ambiental.",
     images: ["/images/Portal ambiental/autor/Pablo Cubides.jpg"],

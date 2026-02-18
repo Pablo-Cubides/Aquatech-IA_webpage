@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
 import { logger } from "@/lib/logger";
-import { prisma } from "@ia-next/database";
+
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
@@ -150,7 +150,12 @@ export async function DELETE(request: Request) {
       );
     }
 
-    // SECURITY: Verify authentication with NextAuth
+    // SECURITY: Verify authentication with NextAuth (lazy import to avoid build-time provider validation)
+    const [{ getServerSession }, { authOptions }] = await Promise.all([
+      import("next-auth"),
+      import("@/lib/auth"),
+    ]);
+
     const session = await getServerSession(authOptions);
 
     // Type-safe user ID extraction
@@ -232,6 +237,8 @@ export async function DELETE(request: Request) {
  */
 async function checkIfAdmin(userId: string): Promise<boolean> {
   try {
+    const { prisma } = await import("@ia-next/database");
+
     const user = await prisma.user.findUnique({
       where: { id: userId },
       select: { role: true },

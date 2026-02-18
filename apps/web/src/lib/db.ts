@@ -13,47 +13,52 @@ const getDatabaseUrl = () => {
 
   // Fix: Vercel Integration often forces port 5432 (Session Mode) which hits limits.
   // We force port 6543 (Transaction Mode) for stability.
-  if (url.includes('pooler.supabase.com') && url.includes(':5432')) {
-    console.log('[DB-Init] 🔧 Auto-correcting DATABASE_URL: Switching 5432 -> 6543 (Transaction Mode)');
-    url = url.replace(':5432', ':6543');
+  if (url.includes("pooler.supabase.com") && url.includes(":5432")) {
+    console.log(
+      "[DB-Init] 🔧 Auto-correcting DATABASE_URL: Switching 5432 -> 6543 (Transaction Mode)",
+    );
+    url = url.replace(":5432", ":6543");
   }
 
   // Transaction mode requires pgbouncer=true for Prisma
-  if (url.includes(':6543') && !url.includes('pgbouncer=true')) {
-    const separator = url.includes('?') ? '&' : '?';
+  if (url.includes(":6543") && !url.includes("pgbouncer=true")) {
+    const separator = url.includes("?") ? "&" : "?";
     url = `${url}${separator}pgbouncer=true`;
   }
 
   // Enforce SSL (Required for Supabase)
-  if (!url.includes('sslmode=')) {
-    const separator = url.includes('?') ? '&' : '?';
+  if (!url.includes("sslmode=")) {
+    const separator = url.includes("?") ? "&" : "?";
     url = `${url}${separator}sslmode=require`;
   }
 
   // Increase connection timeout to 30s to avoid flakes
-  if (!url.includes('connect_timeout=')) {
-    const separator = url.includes('?') ? '&' : '?';
+  if (!url.includes("connect_timeout=")) {
+    const separator = url.includes("?") ? "&" : "?";
     url = `${url}${separator}connect_timeout=30`;
   }
 
   // Increase Prisma Pool timeout (default is 10s, which is too short for Serverless cold starts)
-  if (!url.includes('pool_timeout=')) {
-    const separator = url.includes('?') ? '&' : '?';
+  if (!url.includes("pool_timeout=")) {
+    const separator = url.includes("?") ? "&" : "?";
     url = `${url}${separator}pool_timeout=60`;
   }
 
   return url;
 };
 
-const databaseUrl = getDatabaseUrl() || "postgresql://postgres:postgres@localhost:5432/postgres"; // Fallback for build time
+const databaseUrl =
+  getDatabaseUrl() || "postgresql://postgres:postgres@localhost:5432/postgres"; // Fallback for build time
 
 // Debug connection (Safe Log)
-if (databaseUrl && !databaseUrl.includes('localhost')) {
+if (databaseUrl && !databaseUrl.includes("localhost")) {
   try {
     const url = new URL(databaseUrl);
-    console.log(`[DB-Init] 🚀 Connecting to: ${url.hostname}:${url.port}${url.pathname}`);
+    console.log(
+      `[DB-Init] 🚀 Connecting to: ${url.hostname}:${url.port}${url.pathname}`,
+    );
   } catch (e) {
-    console.log('[DB-Init] Failed to parse URL');
+    console.log("[DB-Init] Failed to parse URL");
   }
 }
 
@@ -65,11 +70,12 @@ const adapter = new PrismaPg(pool);
 
 const prismaConfig: any = {
   adapter,
-  log: process.env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
+  log:
+    process.env.NODE_ENV === "development"
+      ? ["query", "error", "warn"]
+      : ["error"],
 };
 
-export const prisma =
-  globalForPrisma.prisma ??
-  new PrismaClient(prismaConfig);
+export const prisma = globalForPrisma.prisma ?? new PrismaClient(prismaConfig);
 
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;

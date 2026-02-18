@@ -15,14 +15,16 @@ const getDatabaseUrl = () => {
 
   // Fix: Vercel Integration often forces port 5432 (Session Mode) which hits limits.
   // We force port 6543 (Transaction Mode) for stability.
-  if (url.includes('pooler.supabase.com') && url.includes(':5432')) {
-    console.log('[DB-Init] 🔧 Auto-correcting DATABASE_URL: Switching 5432 -> 6543 (Transaction Mode)');
-    url = url.replace(':5432', ':6543');
+  if (url.includes("pooler.supabase.com") && url.includes(":5432")) {
+    console.log(
+      "[DB-Init] 🔧 Auto-correcting DATABASE_URL: Switching 5432 -> 6543 (Transaction Mode)",
+    );
+    url = url.replace(":5432", ":6543");
   }
 
   // Transaction mode requires pgbouncer=true for Prisma
-  if (url.includes(':6543') && !url.includes('pgbouncer=true')) {
-    const separator = url.includes('?') ? '&' : '?';
+  if (url.includes(":6543") && !url.includes("pgbouncer=true")) {
+    const separator = url.includes("?") ? "&" : "?";
     url = `${url}${separator}pgbouncer=true`;
   }
 
@@ -35,9 +37,11 @@ const databaseUrl = getDatabaseUrl();
 if (databaseUrl) {
   try {
     const url = new URL(databaseUrl);
-    console.log(`[DB-Init] 🚀 Connecting to: ${url.hostname}:${url.port}${url.pathname}`);
+    console.log(
+      `[DB-Init] 🚀 Connecting to: ${url.hostname}:${url.port}${url.pathname}`,
+    );
   } catch (e) {
-    console.log('[DB-Init] Failed to parse URL');
+    console.log("[DB-Init] Failed to parse URL");
   }
 }
 
