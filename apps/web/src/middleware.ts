@@ -3,6 +3,45 @@ import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   const response = NextResponse.next();
+  const isDev = process.env.NODE_ENV === "development";
+
+  const contentSecurityPolicy = [
+    "default-src 'self'",
+    [
+      "script-src 'self' 'unsafe-inline'",
+      isDev ? "'unsafe-eval'" : "",
+      "https://www.googletagmanager.com",
+      "https://www.google-analytics.com",
+    ]
+      .filter(Boolean)
+      .join(" "),
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    "font-src 'self' https://fonts.gstatic.com data:",
+    "img-src 'self' data: https: blob:",
+    [
+      "connect-src 'self'",
+      "https://www.google-analytics.com",
+      "https://vitals.vercel-insights.com",
+      "https://*.supabase.co",
+      "https://*.vercel.app",
+      "https://api.openaq.org",
+      "https://api.gbif.org",
+      "https://www.waterqualitydata.us",
+      "https://eonet.gsfc.nasa.gov",
+      isDev ? "ws://localhost:*" : "",
+      isDev ? "wss://localhost:*" : "",
+    ]
+      .filter(Boolean)
+      .join(" "),
+    "frame-src 'self' https://accounts.google.com",
+    "worker-src 'self' blob:",
+    "child-src 'self' blob:",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    "frame-ancestors 'none'",
+    "upgrade-insecure-requests",
+  ].join("; ");
 
   // Security Headers
   const securityHeaders = {
@@ -22,22 +61,7 @@ export function middleware(request: NextRequest) {
     "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
 
     // Content Security Policy
-    "Content-Security-Policy": [
-      "default-src 'self'",
-      "script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com",
-      "style-src 'self' https://fonts.googleapis.com",
-      "font-src 'self' https://fonts.gstatic.com",
-      "img-src 'self' data: https: blob:",
-      "connect-src 'self' https://www.google-analytics.com https://*.supabase.co https://*.vercel.app https://api.openaq.org https://api.gbif.org https://www.waterqualitydata.us https://eonet.gsfc.nasa.gov",
-      "frame-src 'self' https://accounts.google.com",
-      "worker-src 'self' blob:",
-      "child-src 'self' blob:",
-      "object-src 'none'",
-      "base-uri 'self'",
-      "form-action 'self'",
-      "frame-ancestors 'none'",
-      "upgrade-insecure-requests",
-    ].join("; "),
+    "Content-Security-Policy": contentSecurityPolicy,
   };
 
   // Apply security headers
