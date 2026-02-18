@@ -91,6 +91,7 @@ const FileInput = ({
   const [isLoading, setIsLoading] = useState(false);
   const [questionsPreview, setQuestionsPreview] = useState<string[]>([]);
   const [isUploaded, setIsUploaded] = useState(false);
+  const requiresGroupName = showGroupNameInput;
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -136,7 +137,7 @@ const FileInput = ({
       setError("Por favor, seleccione un archivo");
       return;
     }
-    if (!groupName.trim()) {
+    if (requiresGroupName && !groupName.trim()) {
       setError("Por favor, ingrese un nombre para el grupo de preguntas");
       return;
     }
@@ -163,7 +164,7 @@ const FileInput = ({
 
     try {
       const questions = await parseQuestionsFromFile(file);
-      onUpload(questions, groupName);
+      onUpload(questions, groupName.trim() || "Archivo cargado");
       setIsUploaded(true);
       if (onSaveSuccess) {
         onSaveSuccess();
@@ -264,6 +265,7 @@ const FileInput = ({
 
           <div className="flex flex-col gap-4 mt-8">
             {!isUploaded && questionsPreview.length > 0 && (
+              requiresGroupName && (
               <button
                 key="save-button"
                 onClick={async () => {
@@ -271,7 +273,7 @@ const FileInput = ({
                     setError("Por favor, seleccione un archivo");
                     return;
                   }
-                  if (!groupName.trim()) {
+                  if (requiresGroupName && !groupName.trim()) {
                     setError(
                       "Por favor, ingrese un nombre para el grupo de preguntas",
                     );
@@ -282,11 +284,11 @@ const FileInput = ({
                   try {
                     const questions = await parseQuestionsFromFile(file);
                     if (typeof onSave === "function") {
-                      await onSave(questions, groupName);
+                      await onSave(questions, groupName.trim() || "Archivo cargado");
                       setIsUploaded(true);
                       if (onSaveSuccess) onSaveSuccess();
                     } else {
-                      onUpload(questions, groupName);
+                      onUpload(questions, groupName.trim() || "Archivo cargado");
                       setIsUploaded(true);
                       if (onSaveSuccess) onSaveSuccess();
                     }
@@ -302,6 +304,7 @@ const FileInput = ({
               >
                 {isLoading ? "Guardando..." : "Guardar"}
               </button>
+              )
             )}
 
             {(isUploaded || questionsPreview.length > 0 || file) && (
@@ -311,7 +314,7 @@ const FileInput = ({
                 className={`w-full px-8 py-5 text-2xl font-bold rounded-2xl transition-colors ${
                   isUploaded ? "bg-blue-600 hover:bg-blue-700" : "btn-primary"
                 } text-white disabled:opacity-50 disabled:cursor-not-allowed`}
-                disabled={isLoading || !groupName.trim()}
+                disabled={isLoading}
               >
                 {isLoading ? "Cargando..." : "Jugar"}
               </button>

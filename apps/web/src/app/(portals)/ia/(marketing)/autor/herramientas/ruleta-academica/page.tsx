@@ -82,6 +82,7 @@ export default function RuletaAcademicaPage() {
   const [loadedQuestions, setLoadedQuestions] = useState<string[]>([]);
   const [loadedName, setLoadedName] = useState<string>("");
   const [loading, setLoading] = useState(false);
+  const [bankError, setBankError] = useState<string>("");
 
   // Load saved banks from API on mount
   useEffect(() => {
@@ -107,6 +108,9 @@ export default function RuletaAcademicaPage() {
   const handleSelectBank = (id: number) => {
     setSelectedBankId(id);
     setLoading(true);
+    setBankError("");
+    setLoadedQuestions([]);
+    setLoadedName("");
 
     // Check if it's a default bank
     const defaultBank = DEFAULT_QUESTION_BANKS.find((b) => b.id === id);
@@ -119,14 +123,28 @@ export default function RuletaAcademicaPage() {
 
     // Fetch from API
     fetch(`/api/questionsets/${id}`)
-      .then((res) => res.json())
+      .then(async (res) => {
+        if (!res.ok) {
+          throw new Error("No fue posible cargar ese banco de preguntas.");
+        }
+        return res.json();
+      })
       .then((data) => {
-        setLoadedQuestions(data.questions.map((q: { text: string }) => q.text));
+        const questions = Array.isArray(data.questions)
+          ? data.questions.map((q: { text: string } | string) =>
+              typeof q === "string" ? q : q.text,
+            )
+          : [];
+        if (questions.length === 0) {
+          throw new Error("El banco no tiene preguntas disponibles.");
+        }
+        setLoadedQuestions(questions);
         setLoadedName(data.name);
       })
       .catch(() => {
         setLoadedQuestions([]);
         setLoadedName("");
+        setBankError("No se pudo cargar el banco seleccionado. Intenta otro.");
       })
       .finally(() => setLoading(false));
   };
@@ -155,6 +173,7 @@ export default function RuletaAcademicaPage() {
     setSelectedBankId(null);
     setLoadedQuestions([]);
     setLoadedName("");
+    setBankError("");
   };
 
   return (
@@ -223,7 +242,17 @@ export default function RuletaAcademicaPage() {
           <select
             className="w-full p-4 rounded-lg bg-gray-900 text-white text-lg border border-gray-600 focus:border-cyan-500 focus:outline-none transition-colors"
             value={selectedBankId ?? ""}
-            onChange={(e) => handleSelectBank(Number(e.target.value))}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (!value) {
+                setSelectedBankId(null);
+                setLoadedQuestions([]);
+                setLoadedName("");
+                setBankError("");
+                return;
+              }
+              handleSelectBank(Number(value));
+            }}
           >
             <option value="">-- Elegir banco --</option>
             {questionBanks.map((bank) => (
@@ -235,6 +264,10 @@ export default function RuletaAcademicaPage() {
 
           {loading && (
             <div className="text-cyan-400 mt-4 animate-pulse">Cargando preguntas...</div>
+          )}
+
+          {bankError && !loading && (
+            <div className="text-red-400 mt-4">{bankError}</div>
           )}
 
           {loadedQuestions.length > 0 && !loading && (
