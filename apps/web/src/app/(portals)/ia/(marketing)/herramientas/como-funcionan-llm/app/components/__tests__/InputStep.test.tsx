@@ -1,7 +1,7 @@
 /// <reference types="vitest" />
 /// <reference types="@testing-library/jest-dom" />
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import InputStep from "../InputStep";
 import { ProcessProvider } from "../../../context/ProcessContext";
@@ -22,7 +22,7 @@ const renderWithProvider = (props = {}) => {
   return render(
     <ProcessProvider>
       <InputStep demoTexts={mockDemoTexts} {...props} />
-    </ProcessProvider>
+    </ProcessProvider>,
   );
 };
 
@@ -41,7 +41,7 @@ describe("InputStep", () => {
     renderWithProvider();
 
     const textarea = screen.getByPlaceholderText(
-      /La inteligencia artificial es fascinante/i
+      /La inteligencia artificial es fascinante/i,
     );
     expect(textarea).toBeInTheDocument();
   });
@@ -124,7 +124,7 @@ describe("InputStep", () => {
       () => {
         expect(onNext).toHaveBeenCalled();
       },
-      { timeout: 500 }
+      { timeout: 500 },
     );
   });
 });

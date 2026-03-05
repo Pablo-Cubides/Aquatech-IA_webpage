@@ -5,12 +5,15 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getArticle, getAllArticles } from "@/lib/blog-articles";
 import { generateArticleSchema } from "@/lib/blog-seo";
+import { renderSafeRichText } from "@/lib/security/safe-rich-text";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const article = getArticle("ia", slug);
 
@@ -65,13 +68,24 @@ export async function generateStaticParams() {
   }));
 }
 
+interface TOCSubsection {
+  id: string;
+  title: string;
+}
+
+interface TOCSection {
+  id: string;
+  title: string;
+  subsections?: TOCSubsection[];
+}
+
 // Tabla de contenidos generada automáticamente
-const generateTOC = (sections: any[]) => {
+const generateTOC = (sections: TOCSection[]) => {
   return sections.map((section) => ({
     id: section.id,
     title: section.title,
     subsections:
-      section.subsections?.map((sub: any) => ({
+      section.subsections?.map((sub) => ({
         id: sub.id,
         title: sub.title,
       })) || [],
@@ -149,7 +163,10 @@ export default async function BlogArticlePage({ params }: PageProps) {
               </h1>
 
               <div className="flex flex-wrap items-center text-gray-300 text-sm gap-6 mb-6">
-                <Link href="/ia/autor" className="flex items-center hover:opacity-80 transition-opacity">
+                <Link
+                  href="/ia/autor"
+                  className="flex items-center hover:opacity-80 transition-opacity"
+                >
                   <Image
                     alt={`Avatar de ${article.author.name}`}
                     className="rounded-full mr-3"
@@ -277,13 +294,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
                   <div
                     className="text-gray-300 leading-7 mb-6"
                     dangerouslySetInnerHTML={{
-                      __html: section.content
-                        .replace(/\n/g, "<br>")
-                        .replace(
-                          /\*\*(.*?)\*\*/g,
-                          '<strong class="text-white">$1</strong>',
-                        )
-                        .replace(/• /g, "<br>• "),
+                      __html: renderSafeRichText(section.content, "text-white"),
                     }}
                   />
 
@@ -367,13 +378,10 @@ export default async function BlogArticlePage({ params }: PageProps) {
                       <div
                         className="text-gray-300 leading-7"
                         dangerouslySetInnerHTML={{
-                          __html: subsection.content
-                            .replace(/\n/g, "<br>")
-                            .replace(
-                              /\*\*(.*?)\*\*/g,
-                              '<strong class="text-white">$1</strong>',
-                            )
-                            .replace(/• /g, "<br>• "),
+                          __html: renderSafeRichText(
+                            subsection.content,
+                            "text-white",
+                          ),
                         }}
                       />
                     </div>
@@ -432,7 +440,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
                       </a>
                       {item.subsections.length > 0 && (
                         <ul className="pl-4 mt-2 space-y-2 border-l border-gray-700">
-                          {item.subsections.map((sub: any) => (
+                          {item.subsections.map((sub) => (
                             <li key={sub.id}>
                               <a
                                 className="text-sm text-gray-400 hover:text-[#00EFFF] transition-colors block py-1"

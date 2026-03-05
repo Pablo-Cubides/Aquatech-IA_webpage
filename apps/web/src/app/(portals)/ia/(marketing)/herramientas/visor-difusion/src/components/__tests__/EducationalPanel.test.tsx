@@ -1,7 +1,7 @@
 /// <reference types="vitest" />
 /// <reference types="@testing-library/jest-dom" />
-import { describe, it, expect, vi } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { describe, it, expect } from "vitest";
+import { render, screen } from "@testing-library/react";
 import EducationalPanel from "../EducationalPanel";
 
 describe("EducationalPanel", () => {
@@ -10,7 +10,7 @@ describe("EducationalPanel", () => {
       <EducationalPanel
         upperText="Test upper text content"
         lowerText="Test lower text content"
-      />
+      />,
     );
 
     expect(screen.getByText("Test upper text content")).toBeInTheDocument();
@@ -30,7 +30,7 @@ describe("EducationalPanel", () => {
         upperText="Upper"
         lowerText="Lower"
         className="custom-class"
-      />
+      />,
     );
 
     const panel = container.firstChild as HTMLElement;
@@ -39,7 +39,7 @@ describe("EducationalPanel", () => {
 
   it("should have correct styling classes", () => {
     const { container } = render(
-      <EducationalPanel upperText="Upper" lowerText="Lower" />
+      <EducationalPanel upperText="Upper" lowerText="Lower" />,
     );
 
     const panel = container.firstChild as HTMLElement;

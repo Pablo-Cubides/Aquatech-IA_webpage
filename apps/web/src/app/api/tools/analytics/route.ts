@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import * as Sentry from "@sentry/nextjs";
 import { prisma } from "@/lib/db";
+import { getClientIP } from "@/lib/security/rate-limit";
 
 export const runtime = "nodejs";
 
@@ -30,6 +31,7 @@ export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession();
     const { eventName, eventData, tool } = await request.json();
+    const clientIP = getClientIP(request.headers);
 
     if (!eventName || !tool) {
       return NextResponse.json(
@@ -46,10 +48,7 @@ export async function POST(request: NextRequest) {
         eventData: eventData || {},
         userId: session?.user?.email || null,
         userAgent: request.headers.get("user-agent"),
-        ipAddress:
-          request.headers.get("x-forwarded-for") ||
-          request.headers.get("x-client-ip") ||
-          "unknown",
+        ipAddress: clientIP,
       },
     });
 
@@ -85,7 +84,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET(_request: NextRequest) {
+export async function GET() {
   try {
     const session = await getServerSession();
 

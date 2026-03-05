@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
 
 const CASES_PUBLIC_PATH = "/static/visor-cases";
 
@@ -32,12 +30,6 @@ const EDUCATIONAL_TEXTS: Record<number, string> = {
   10: "✅ Proceso completado. La imagen ha pasado por todo el proceso de difusión, desde ruido puro hasta el resultado final detallado.",
 };
 
-function generatePlaceholderImage(): string {
-  const placeholder =
-    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==";
-  return placeholder;
-}
-
 function loadCases(): Record<string, CaseData> {
   const cases: Record<string, CaseData> = {
     "1": {
@@ -45,8 +37,9 @@ function loadCases(): Record<string, CaseData> {
       prompt: "Spider-Man wearing a gold medal, portrait painting",
       description: "Portrait painting of Spider-Man wearing a gold medal",
       title: "Spider-Man Dorado",
-      step_files: Array.from({ length: 9 }, (_, i) => 
-        `${CASES_PUBLIC_PATH}/1/step_${i + 1}.png`
+      step_files: Array.from(
+        { length: 9 },
+        (_, i) => `${CASES_PUBLIC_PATH}/1/step_${i + 1}.png`,
       ),
       total_steps: 9,
     },
@@ -55,8 +48,9 @@ function loadCases(): Record<string, CaseData> {
       prompt: "Superman and airplane",
       description: "Superman flying next to an airplane",
       title: "Superman y Avión",
-      step_files: Array.from({ length: 8 }, (_, i) => 
-        `${CASES_PUBLIC_PATH}/2/step_${i + 1}.png`
+      step_files: Array.from(
+        { length: 8 },
+        (_, i) => `${CASES_PUBLIC_PATH}/2/step_${i + 1}.png`,
       ),
       total_steps: 8,
     },
@@ -65,8 +59,9 @@ function loadCases(): Record<string, CaseData> {
       prompt: "Woman portrait",
       description: "Portrait of a woman",
       title: "Retrato de Mujer",
-      step_files: Array.from({ length: 9 }, (_, i) => 
-        `${CASES_PUBLIC_PATH}/3/step_${i + 1}.png`
+      step_files: Array.from(
+        { length: 9 },
+        (_, i) => `${CASES_PUBLIC_PATH}/3/step_${i + 1}.png`,
       ),
       total_steps: 9,
     },
@@ -75,8 +70,9 @@ function loadCases(): Record<string, CaseData> {
       prompt: "1990s cinema aesthetic",
       description: "90s cinema aesthetic image",
       title: "Cine de los 90s",
-      step_files: Array.from({ length: 7 }, (_, i) => 
-        `${CASES_PUBLIC_PATH}/flux-1/step_${i + 1}.png`
+      step_files: Array.from(
+        { length: 7 },
+        (_, i) => `${CASES_PUBLIC_PATH}/flux-1/step_${i + 1}.png`,
       ),
       total_steps: 7,
     },
@@ -85,8 +81,9 @@ function loadCases(): Record<string, CaseData> {
       prompt: "Medieval knight woman",
       description: "Medieval knight in armor",
       title: "Caballera Medieval",
-      step_files: Array.from({ length: 8 }, (_, i) => 
-        `${CASES_PUBLIC_PATH}/flux-1.1-2/step_${i + 1}.png`
+      step_files: Array.from(
+        { length: 8 },
+        (_, i) => `${CASES_PUBLIC_PATH}/flux-1.1-2/step_${i + 1}.png`,
       ),
       total_steps: 8,
     },
@@ -95,8 +92,9 @@ function loadCases(): Record<string, CaseData> {
       prompt: "Japanese ceramist working",
       description: "Japanese ceramist at work",
       title: "Ceramista Japonés",
-      step_files: Array.from({ length: 9 }, (_, i) => 
-        `${CASES_PUBLIC_PATH}/gemini-2/step_${i + 1}.png`
+      step_files: Array.from(
+        { length: 9 },
+        (_, i) => `${CASES_PUBLIC_PATH}/gemini-2/step_${i + 1}.png`,
       ),
       total_steps: 9,
     },
@@ -105,8 +103,9 @@ function loadCases(): Record<string, CaseData> {
       prompt: "Man with horse",
       description: "Man with a horse",
       title: "Hombre con Caballo",
-      step_files: Array.from({ length: 8 }, (_, i) => 
-        `${CASES_PUBLIC_PATH}/gemini-ai/step_${i + 1}.png`
+      step_files: Array.from(
+        { length: 8 },
+        (_, i) => `${CASES_PUBLIC_PATH}/gemini-ai/step_${i + 1}.png`,
       ),
       total_steps: 8,
     },
@@ -115,8 +114,9 @@ function loadCases(): Record<string, CaseData> {
       prompt: "Polestar 4 cover art",
       description: "Polestar 4 car cover",
       title: "Polestar 4 Portada",
-      step_files: Array.from({ length: 9 }, (_, i) => 
-        `${CASES_PUBLIC_PATH}/stable-diffusion/step_${i + 1}.png`
+      step_files: Array.from(
+        { length: 9 },
+        (_, i) => `${CASES_PUBLIC_PATH}/stable-diffusion/step_${i + 1}.png`,
       ),
       total_steps: 9,
     },
@@ -125,8 +125,9 @@ function loadCases(): Record<string, CaseData> {
       prompt: "Interrogation room scene",
       description: "Interrogation room",
       title: "Sala de Interrogatorio",
-      step_files: Array.from({ length: 8 }, (_, i) => 
-        `${CASES_PUBLIC_PATH}/stable-diffusion-2/step_${i + 1}.png`
+      step_files: Array.from(
+        { length: 8 },
+        (_, i) => `${CASES_PUBLIC_PATH}/stable-diffusion-2/step_${i + 1}.png`,
       ),
       total_steps: 8,
     },
@@ -147,11 +148,17 @@ export async function POST(request: NextRequest) {
     const cases = loadCases();
 
     if (Object.keys(cases).length === 0) {
-      return NextResponse.json({ error: "No cases available" }, { status: 500 });
+      return NextResponse.json(
+        { error: "No cases available" },
+        { status: 500 },
+      );
     }
 
     if (!cases[prompt_id]) {
-      return NextResponse.json({ error: `Case not found: ${prompt_id}` }, { status: 404 });
+      return NextResponse.json(
+        { error: `Case not found: ${prompt_id}` },
+        { status: 404 },
+      );
     }
 
     const caseData = cases[prompt_id];
@@ -163,12 +170,14 @@ export async function POST(request: NextRequest) {
     // If we are at or past the end, show the final image (last in array)
     // Otherwise show the requested step, or fallback to 0 if missing.
     const lastImageIndex = caseData.step_files.length - 1;
-    const stepIndex = normalizedStep >= caseData.step_files.length 
-      ? lastImageIndex 
-      : normalizedStep;
+    const stepIndex =
+      normalizedStep >= caseData.step_files.length
+        ? lastImageIndex
+        : normalizedStep;
 
-    const stepFilePath = caseData.step_files[stepIndex] || caseData.step_files[0];
-    
+    const stepFilePath =
+      caseData.step_files[stepIndex] || caseData.step_files[0];
+
     // Returning the path/URL directly instead of reading the file
     // This avoids bundling large static assets into the serverless function
     const educationalText =

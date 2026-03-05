@@ -17,53 +17,10 @@ declare const process: typeof globalThis.process;
 
 // Narrower types to avoid `any` throughout this file
 type AnyRecord = Record<string, unknown>;
-type MatchedSource = { name: string; url: string; description?: string };
 
-const BASE_URL = process.env.VERCEL_URL 
+const BASE_URL = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : "http://localhost:3000";
-
-/**
- * Country-specific sector name mappings
- * When a normalized sector name needs to map to different raw names per country
- */
-const COUNTRY_SECTOR_OVERRIDES: Record<string, Record<string, string>> = {
-  argentina: {
-    recreacion: "actividades_recreativas",
-    "vida-acuatica": "proteccion_vida_acuatica",
-  },
-  // Add more country-specific overrides as needed
-};
-
-/**
- * Desnormalize a sector ID from normalized form (with hyphens) to raw form (with underscores)
- * E.g., "agua-potable" -> "agua_potable" or "riego" -> "uso_agricola"
- * Strategy:
- * 1. Check country-specific overrides first
- * 2. Look for inverse mapping in SECTOR_NORMALIZATION_MAP
- * 3. Fall back to simple hyphen -> underscore replacement
- */
-function _denormalizeSector(normalizedSector: string, country?: string): string {
-  // Strategy 1: Country-specific overrides
-  if (country && COUNTRY_SECTOR_OVERRIDES[country]?.[normalizedSector]) {
-    const override = COUNTRY_SECTOR_OVERRIDES[country][normalizedSector];
-    return override;
-  }
-
-  // Strategy 2: Look for an explicit inverse mapping
-  for (const [raw, normalized] of Object.entries(SECTOR_NORMALIZATION_MAP)) {
-    if (normalized === normalizedSector) {
-      // Prefer raw names that use underscores (the actual JSON keys)
-      if (raw.includes("_") && !raw.includes("-")) {
-        return raw;
-      }
-    }
-  }
-
-  // Strategy 3: Simple replacement (fallback: agua-potable -> agua_potable)
-  const simpleReplacement = normalizedSector.replace(/-/g, "_");
-  return simpleReplacement;
-}
 
 /**
  * Normalize response format so frontend doesn't need domain-specific logic
@@ -116,7 +73,7 @@ async function loadNormasData(
   try {
     const sanitizedCountry = sanitizeFilename(country);
     const dataPath = `/data/${domain}/${sanitizedCountry}.json`;
-    
+
     const response = await fetch(`${BASE_URL}${dataPath}`, {
       cache: "force-cache",
     });
@@ -145,7 +102,10 @@ async function loadNormasData(
 export async function GET(request: NextRequest) {
   try {
     // Rate limiting
-    const ip = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "127.0.0.1";
+    const ip =
+      request.headers.get("x-forwarded-for") ||
+      request.headers.get("x-real-ip") ||
+      "127.0.0.1";
     const rateLimitResult = await rateLimitByIP(ip);
     if (!rateLimitResult.success) {
       return NextResponse.json(
@@ -223,7 +183,11 @@ export async function GET(request: NextRequest) {
 
     // Normalize format
     const sectorValue = sectorParam === null ? undefined : sectorParam;
-    const records = normalizeResponseFormat(domain, data as AnyRecord, sectorValue);
+    const records = normalizeResponseFormat(
+      domain,
+      data as AnyRecord,
+      sectorValue,
+    );
 
     // Search filter
     let filteredRecords = records;
@@ -242,7 +206,10 @@ export async function GET(request: NextRequest) {
       limit: limitValue,
     });
     const total = filteredRecords.length;
-    const paginated = filteredRecords.slice(paginationParams.skip, paginationParams.skip + paginationParams.take);
+    const paginated = filteredRecords.slice(
+      paginationParams.skip,
+      paginationParams.skip + paginationParams.take,
+    );
 
     return NextResponse.json({
       domain,

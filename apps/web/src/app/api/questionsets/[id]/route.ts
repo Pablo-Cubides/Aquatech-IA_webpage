@@ -2,7 +2,44 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
+import { z } from "zod";
 
+const ALLOWED_ROLES = new Set(["ADMIN", "MODERATOR"]);
+
+const updateQuestionSetSchema = z.object({
+  name: z.string().trim().min(1, "Nombre requerido").max(200),
+  questions: z
+    .array(z.string().trim().min(1, "Pregunta inválida"))
+    .min(1, "Debe haber al menos una pregunta"),
+});
+
+async function requirePrivilegedUser() {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user?.email) {
+    return {
+      ok: false as const,
+      response: NextResponse.json({ error: "No autorizado" }, { status: 401 }),
+    };
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { email: session.user.email },
+    select: { role: true },
+  });
+
+  if (!user?.role || !ALLOWED_ROLES.has(user.role)) {
+    return {
+      ok: false as const,
+      response: NextResponse.json(
+        { error: "Acceso denegado. Se requiere rol de administrador." },
+        { status: 403 },
+      ),
+    };
+  }
+
+  return { ok: true as const };
+}
 
 /**
  * GET /api/questionsets/[id]
@@ -14,6 +51,11 @@ export async function GET(
 ) {
   let idStr = "unknown";
   try {
+    const access = await requirePrivilegedUser();
+    if (!access.ok) {
+      return access.response;
+    }
+
     const resolvedParams = await params;
     idStr = resolvedParams.id;
     const id = parseInt(idStr);
@@ -44,7 +86,8 @@ export async function GET(
 
     return NextResponse.json(questionSet);
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error";
     console.error(`Error fetching question set ${idStr}:`, errorMessage);
     return NextResponse.json(
       { error: "Error al obtener conjunto" },
@@ -64,23 +107,9 @@ export async function DELETE(
 ) {
   let idStr = "unknown";
   try {
-    // Check authentication
-    const session = await getServerSession(authOptions);
-    if (!session?.user) {
-      return NextResponse.json({ error: "No autorizado" }, { status: 401 });
-    }
-
-    // Check admin role
-    const user = await prisma.user.findUnique({
-      where: { email: session.user.email! },
-      select: { role: true },
-    });
-
-    if (!user || (user.role !== "ADMIN" && user.role !== "MODERATOR")) {
-      return NextResponse.json(
-        { error: "Acceso denegado. Se requiere rol de administrador." },
-        { status: 403 },
-      );
+    const access = await requirePrivilegedUser();
+    if (!access.ok) {
+      return access.response;
     }
 
     const resolvedParams = await params;
@@ -113,7 +142,8 @@ export async function DELETE(
       message: "Conjunto eliminado exitosamente",
     });
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error";
     console.error(`Error deleting question set ${idStr}:`, errorMessage);
     return NextResponse.json(
       { error: "Error al eliminar conjunto" },
@@ -133,23 +163,9 @@ export async function PUT(
 ) {
   let idStr = "unknown";
   try {
-    // Check authentication
-    const session = await getServerSession(authOptions);
-    if (!session?.user) {
-      return NextResponse.json({ error: "No autorizado" }, { status: 401 });
-    }
-
-    // Check admin role
-    const user = await prisma.user.findUnique({
-      where: { email: session.user.email! },
-      select: { role: true },
-    });
-
-    if (!user || (user.role !== "ADMIN" && user.role !== "MODERATOR")) {
-      return NextResponse.json(
-        { error: "Acceso denegado. Se requiere rol de administrador." },
-        { status: 403 },
-      );
+    const access = await requirePrivilegedUser();
+    if (!access.ok) {
+      return access.response;
     }
 
     const resolvedParams = await params;
@@ -160,23 +176,15 @@ export async function PUT(
       return NextResponse.json({ error: "ID inválido" }, { status: 400 });
     }
 
-    // Parse body
-    const body = await req.json();
-    const { name, questions } = body;
-
-    if (!name || typeof name !== "string" || name.trim().length === 0) {
+    const parsedBody = updateQuestionSetSchema.safeParse(await req.json());
+    if (!parsedBody.success) {
       return NextResponse.json(
-        { error: "Nombre requerido" },
+        { error: "Datos inválidos", details: parsedBody.error.issues },
         { status: 400 },
       );
     }
 
-    if (!Array.isArray(questions) || questions.length === 0) {
-      return NextResponse.json(
-        { error: "Debe haber al menos una pregunta" },
-        { status: 400 },
-      );
-    }
+    const { name, questions } = parsedBody.data;
 
     // Check if exists
     const existing = await prisma.questionSet.findUnique({
@@ -191,9 +199,9 @@ export async function PUT(
     }
 
     // Check for name conflict (if name changed)
-    if (name.trim() !== existing.name) {
+    if (name !== existing.name) {
       const nameConflict = await prisma.questionSet.findUnique({
-        where: { name: name.trim() },
+        where: { name },
       });
       if (nameConflict) {
         return NextResponse.json(
@@ -211,7 +219,7 @@ export async function PUT(
       prisma.questionSet.update({
         where: { id },
         data: {
-          name: name.trim(),
+          name,
           questions: {
             create: questions.map((text: string) => ({ text })),
           },
@@ -232,7 +240,8 @@ export async function PUT(
 
     return NextResponse.json(updatedSet);
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error";
     console.error(`Error updating question set ${idStr}:`, errorMessage);
     return NextResponse.json(
       { error: "Error al actualizar conjunto" },

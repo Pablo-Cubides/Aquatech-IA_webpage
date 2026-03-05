@@ -19,6 +19,7 @@ vi.mock("../../../../lib/logger", () => ({
 vi.mock("../../../../lib/rate-limit", () => ({
   checkRateLimit: vi.fn(),
   getClientIP: vi.fn(() => "127.0.0.1"),
+  acquireWebhookReplayLock: vi.fn(),
 }));
 
 describe("/api/mp/webhook", () => {
@@ -28,8 +29,11 @@ describe("/api/mp/webhook", () => {
   });
 
   it("returns 401 when signature is invalid", async () => {
-    const { checkRateLimit } = await import("../../../../lib/rate-limit");
+    const { checkRateLimit, acquireWebhookReplayLock } = await import(
+      "../../../../lib/rate-limit"
+    );
     const checkRateLimitMock = vi.mocked(checkRateLimit);
+    vi.mocked(acquireWebhookReplayLock).mockResolvedValue("acquired");
     checkRateLimitMock.mockResolvedValue({
       success: true,
       limit: 5,
@@ -53,8 +57,11 @@ describe("/api/mp/webhook", () => {
   });
 
   it("processes webhook when signature and rate limit are valid", async () => {
-    const { checkRateLimit } = await import("../../../../lib/rate-limit");
+    const { checkRateLimit, acquireWebhookReplayLock } = await import(
+      "../../../../lib/rate-limit"
+    );
     const checkRateLimitMock = vi.mocked(checkRateLimit);
+    vi.mocked(acquireWebhookReplayLock).mockResolvedValue("acquired");
     checkRateLimitMock.mockResolvedValue({
       success: true,
       limit: 5,

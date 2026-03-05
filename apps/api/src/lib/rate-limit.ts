@@ -2,10 +2,25 @@ import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 import { logger } from "./logger";
 
+function getRequiredEnv(name: string): string {
+  const value = process.env[name];
+  if (!value) {
+    throw new Error(`${name} is not configured`);
+  }
+  return value;
+}
+
+function getErrorMessage(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
+  }
+  return "Unknown error";
+}
+
 // Initialize Redis client
 const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+  url: getRequiredEnv("UPSTASH_REDIS_REST_URL"),
+  token: getRequiredEnv("UPSTASH_REDIS_REST_TOKEN"),
 });
 
 // Different rate limits for different operations
@@ -54,7 +69,7 @@ export const ratelimits = {
 export async function checkRateLimit(
   limitType: keyof typeof ratelimits,
   identifier: string,
-  context?: Record<string, any>,
+  context?: Record<string, unknown>,
 ): Promise<{
   success: boolean;
   limit: number;
@@ -78,17 +93,23 @@ export async function checkRateLimit(
     }
 
     return { success, limit, remaining, reset: new Date(reset) };
-  } catch (error: any) {
-    // If rate limiting fails, allow the request but log the error
+  } catch (error: unknown) {
+    // If rate limiting fails, fail closed for sensitive operations
     await logger.error("Rate limit check failed", {
       limitType,
       identifier,
-      error: error.message,
+      error: getErrorMessage(error),
       ...context,
     });
 
+    const failClosedLimitTypes: Array<keyof typeof ratelimits> = [
+      "payment",
+      "email",
+      "auth",
+    ];
+
     return {
-      success: true,
+      success: !failClosedLimitTypes.includes(limitType),
       limit: 0,
       remaining: 0,
       reset: new Date(),
@@ -96,22 +117,130 @@ export async function checkRateLimit(
   }
 }
 
+export async function hasProcessedWebhookEvent(
+  source: string,
+  eventId: string,
+): Promise<boolean> {
+  try {
+    if (!eventId.trim()) {
+      return false;
+    }
+
+    const key = `webhook:event:${source}:${eventId}`;
+    const value = await redis.get<string>(key);
+    return value === "1";
+  } catch (error: unknown) {
+    await logger.warn("Webhook replay check failed", {
+      source,
+      eventId,
+      error: getErrorMessage(error),
+    });
+    return false;
+  }
+}
+
+export async function markWebhookEventProcessed(
+  source: string,
+  eventId: string,
+  ttlSeconds = 60 * 60,
+): Promise<void> {
+  try {
+    if (!eventId.trim()) {
+      return;
+    }
+
+    const key = `webhook:event:${source}:${eventId}`;
+    await redis.set(key, "1", { ex: ttlSeconds });
+  } catch (error: unknown) {
+    await logger.warn("Failed to persist webhook replay marker", {
+      source,
+      eventId,
+      error: getErrorMessage(error),
+    });
+  }
+}
+
+export async function acquireWebhookReplayLock(
+  source: string,
+  eventId: string,
+  ttlSeconds = 60 * 60,
+): Promise<"acquired" | "duplicate" | "error"> {
+  try {
+    if (!eventId.trim()) {
+      return "error";
+    }
+
+    const key = `webhook:event:${source}:${eventId}`;
+    const result = await redis.set(key, "1", { ex: ttlSeconds, nx: true });
+    return result === "OK" ? "acquired" : "duplicate";
+  } catch (error: unknown) {
+    await logger.warn("Webhook replay lock acquisition failed", {
+      source,
+      eventId,
+      error: getErrorMessage(error),
+    });
+    return "error";
+  }
+}
+
 // Helper function to get client IP address
 export function getClientIP(request: Request): string {
-  const forwarded = request.headers.get("x-forwarded-for");
-  const realIP = request.headers.get("x-real-ip");
-  const clientIP = request.headers.get("x-client-ip");
+  const trustForwardedHeaders = process.env.TRUST_PROXY_HEADERS === "true";
 
-  if (forwarded) {
-    return forwarded.split(",")[0].trim();
+  const isValidIp = (candidate: string): boolean => {
+    const ip = candidate.trim();
+    if (!ip) return false;
+
+    const isIpv4 =
+      /^(25[0-5]|2[0-4]\d|1?\d?\d)(\.(25[0-5]|2[0-4]\d|1?\d?\d)){3}$/.test(ip);
+    const isIpv6 = /^[0-9a-f:]+$/i.test(ip) && ip.includes(":");
+
+    return isIpv4 || isIpv6;
+  };
+
+  const pickIp = (headerValue: string | null): string | null => {
+    if (!headerValue) return null;
+
+    const candidates = headerValue
+      .split(",")
+      .map((part) => part.trim())
+      .filter(Boolean);
+
+    for (const candidate of candidates) {
+      if (isValidIp(candidate)) {
+        return candidate;
+      }
+    }
+
+    return null;
+  };
+
+  const trustedProxyHeaders = [
+    request.headers.get("cf-connecting-ip"),
+    request.headers.get("x-vercel-forwarded-for"),
+    request.headers.get("true-client-ip"),
+  ];
+
+  for (const headerValue of trustedProxyHeaders) {
+    const ip = pickIp(headerValue);
+    if (ip) {
+      return ip;
+    }
   }
 
-  if (realIP) {
-    return realIP.trim();
-  }
+  if (trustForwardedHeaders) {
+    const forwardedHeaders = [
+      request.headers.get("x-forwarded-for"),
+      request.headers.get("x-real-ip"),
+      request.headers.get("x-client-ip"),
+    ];
 
-  if (clientIP) {
-    return clientIP.trim();
+    for (const headerValue of forwardedHeaders) {
+      const ip = pickIp(headerValue);
+      if (ip) {
+        return ip;
+      }
+    }
   }
 
   return "unknown";

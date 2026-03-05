@@ -1,4 +1,5 @@
 import { prisma } from "@ia-next/database";
+import type { Prisma } from "@prisma/client";
 
 export enum LogLevel {
   DEBUG = "DEBUG",
@@ -17,7 +18,7 @@ interface LogContext {
   method?: string;
   statusCode?: number;
   duration?: number;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface QueuedLog {
@@ -31,8 +32,10 @@ class Logger {
   private queue: QueuedLog[] = [];
   private flushInterval: NodeJS.Timeout | null = null;
   private readonly BATCH_SIZE = 50;
+  private readonly MAX_QUEUE_SIZE = 5000;
   private readonly FLUSH_INTERVAL_MS = 5000; // 5 seconds
   private isFlushing = false;
+  private droppedLogs = 0;
 
   constructor() {
     // Start flush interval
@@ -77,7 +80,7 @@ class Logger {
         data: logsToFlush.map((log) => ({
           level: log.level,
           message: log.message,
-          context: log.context || {},
+          context: (log.context || {}) as Prisma.InputJsonValue,
           traceId: log.context?.traceId,
           userId: log.context?.userId,
           ipAddress: log.context?.ipAddress,
@@ -97,10 +100,26 @@ class Logger {
       }
     } catch (error) {
       console.error("Failed to flush logs to database:", error);
-      // Re-add logs to queue for retry (at the beginning)
+      // Re-add logs to queue for retry (at the beginning) with bounded memory
+      this.ensureQueueCapacity(logsToFlush.length);
       this.queue.unshift(...logsToFlush);
     } finally {
       this.isFlushing = false;
+    }
+  }
+
+  private ensureQueueCapacity(incomingCount: number): void {
+    const overflow = this.queue.length + incomingCount - this.MAX_QUEUE_SIZE;
+
+    if (overflow > 0) {
+      this.queue.splice(0, overflow);
+      this.droppedLogs += overflow;
+
+      if (this.droppedLogs % 100 === 0 || this.droppedLogs === overflow) {
+        console.warn(
+          `[Logger] Dropped ${this.droppedLogs} log entries due to queue pressure`,
+        );
+      }
     }
   }
 
@@ -130,7 +149,8 @@ class Logger {
         logMethod(`[${level}]`, message, context || {});
       }
 
-      // Add to queue for batch processing
+      // Add to queue for batch processing (bounded)
+      this.ensureQueueCapacity(1);
       this.queue.push({
         level,
         message,

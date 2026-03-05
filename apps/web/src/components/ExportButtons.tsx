@@ -12,7 +12,6 @@ export default function ExportButtons({
   matrixType,
   caseId,
   data,
-  matrixRef: _matrixRef,
 }: ExportButtonsProps) {
   const exportToPDF = async () => {
     console.log("Exportar a PDF:", { matrixType, caseId });

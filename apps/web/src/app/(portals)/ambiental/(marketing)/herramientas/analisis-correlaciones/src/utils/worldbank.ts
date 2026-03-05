@@ -50,14 +50,14 @@ export async function getCountries(): Promise<WBCountry[]> {
   try {
     // Usando el proxy: path=country
     const response = await fetch(
-      `${WB_API_BASE}?path=country&format=json&per_page=300`
+      `${WB_API_BASE}?path=country&format=json&per_page=300`,
     );
     const data = await response.json();
 
     if (Array.isArray(data) && data.length > 1) {
       return data[1].filter(
         (country: WBCountry) =>
-          country.region.value !== "Aggregates" && country.capitalCity
+          country.region.value !== "Aggregates" && country.capitalCity,
       );
     }
     return [];
@@ -85,14 +85,16 @@ export function getPopularIndicators(): WBIndicator[] {
       name: "Contaminación del aire PM2.5 (microgramos por metro cúbico)",
       sourceNote:
         "Exposición media anual de la población a concentraciones de partículas PM2.5",
-      sourceOrganization: "Brauer et al. 2017, for Global Burden of Disease Study",
+      sourceOrganization:
+        "Brauer et al. 2017, for Global Burden of Disease Study",
     },
     {
       id: "AG.LND.FRST.ZS",
       name: "Área forestal (% del área de tierra)",
       sourceNote:
         "Área forestal es la tierra bajo cobertura de bosques naturales o plantados",
-      sourceOrganization: "Organización de las Naciones Unidas para la Alimentación y la Agricultura",
+      sourceOrganization:
+        "Organización de las Naciones Unidas para la Alimentación y la Agricultura",
     },
     {
       id: "ER.H2O.FWTL.K3",
@@ -148,7 +150,8 @@ export function getPopularIndicators(): WBIndicator[] {
       name: "Acceso a servicios básicos de agua potable (% población)",
       sourceNote:
         "Porcentaje de personas que utilizan al menos servicios básicos de agua potable",
-      sourceOrganization: "WHO/UNICEF Joint Monitoring Programme (JMP) for Water Supply, Sanitation and Hygiene",
+      sourceOrganization:
+        "WHO/UNICEF Joint Monitoring Programme (JMP) for Water Supply, Sanitation and Hygiene",
     },
     {
       id: "AG.LND.AGRI.ZS",
@@ -169,7 +172,8 @@ export function getPopularIndicators(): WBIndicator[] {
       name: "Densidad de población (personas por km²)",
       sourceNote:
         "Densidad de población es la población de mitad de año dividida por área de tierra en km²",
-      sourceOrganization: "Food and Agriculture Organization and World Bank estimates",
+      sourceOrganization:
+        "Food and Agriculture Organization and World Bank estimates",
     },
     {
       id: "EG.ELC.RNEW.ZS",
@@ -186,11 +190,11 @@ export function getPopularIndicators(): WBIndicator[] {
  */
 export async function searchIndicators(
   query: string,
-  page: number = 1
+  page: number = 1,
 ): Promise<{ indicators: WBIndicator[]; total: number }> {
   try {
     const response = await fetch(
-      `${WB_API_BASE}?path=indicator&format=json&per_page=${DEFAULT_PER_PAGE}&page=${page}`
+      `${WB_API_BASE}?path=indicator&format=json&per_page=${DEFAULT_PER_PAGE}&page=${page}`,
     );
     const data = await response.json();
 
@@ -199,7 +203,7 @@ export async function searchIndicators(
       const filtered = allIndicators.filter(
         (ind) =>
           ind.name.toLowerCase().includes(query.toLowerCase()) ||
-          ind.sourceNote?.toLowerCase().includes(query.toLowerCase())
+          ind.sourceNote?.toLowerCase().includes(query.toLowerCase()),
       );
 
       return {
@@ -221,12 +225,12 @@ export async function getIndicatorData(
   countryCode: string,
   indicatorId: string,
   startYear: number,
-  endYear: number
+  endYear: number,
 ): Promise<WBTimeSeriesData | null> {
   try {
     const path = `country/${countryCode}/indicator/${indicatorId}`;
     const response = await fetch(
-      `${WB_API_BASE}?path=${path}&format=json&date=${startYear}:${endYear}&per_page=${DEFAULT_PER_PAGE}`
+      `${WB_API_BASE}?path=${path}&format=json&date=${startYear}:${endYear}&per_page=${DEFAULT_PER_PAGE}`,
     );
     const data = await response.json();
 
@@ -254,7 +258,7 @@ export async function getIndicatorData(
   } catch (error) {
     console.error(
       `Error fetching data for ${indicatorId} in ${countryCode}:`,
-      error
+      error,
     );
     return null;
   }
@@ -267,10 +271,10 @@ export async function getMultipleIndicators(
   countryCode: string,
   indicatorIds: string[],
   startYear: number,
-  endYear: number
+  endYear: number,
 ): Promise<WBTimeSeriesData[]> {
   const promises = indicatorIds.map((id) =>
-    getIndicatorData(countryCode, id, startYear, endYear)
+    getIndicatorData(countryCode, id, startYear, endYear),
   );
 
   const results = await Promise.all(promises);
@@ -280,9 +284,10 @@ export async function getMultipleIndicators(
 /**
  * Get available years range for a country
  */
-export async function getAvailableYears(
-  countryCode: string
-): Promise<{ min: number; max: number }> {
+export async function getAvailableYears(): Promise<{
+  min: number;
+  max: number;
+}> {
   try {
     // Default range based on typical World Bank data availability
     return {

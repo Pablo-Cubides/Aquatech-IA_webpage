@@ -8,7 +8,7 @@
 type LogLevel = "info" | "warn" | "error" | "debug";
 
 interface LogContext {
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 class Logger {
@@ -113,7 +113,7 @@ class Logger {
     }
   }
 
-  private productionLog(logEntry: any): void {
+  private productionLog(logEntry: Record<string, unknown>): void {
     // En producción, la empresa configurará integración con:
     // - Sentry para error tracking
     // - Winston para logs estructurados

@@ -64,10 +64,9 @@ async function parseQuestionsFromFile(file: File): Promise<string[]> {
           }
           resolve(questions);
         } catch (err) {
-          const message = err instanceof Error ? err.message : 'Error desconocido';
-          reject(
-            new Error(`Error al procesar el archivo Excel: ${message}`),
-          );
+          const message =
+            err instanceof Error ? err.message : "Error desconocido";
+          reject(new Error(`Error al procesar el archivo Excel: ${message}`));
         }
       };
       reader.onerror = () => reject(new Error("Error al leer el archivo"));
@@ -124,7 +123,7 @@ const FileInput = ({
       const questions = await parseQuestionsFromFile(selectedFile);
       setQuestionsPreview(questions);
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Error desconocido';
+      const message = err instanceof Error ? err.message : "Error desconocido";
       setError(message || "Error al previsualizar el archivo.");
       setQuestionsPreview([]);
     } finally {
@@ -153,7 +152,8 @@ const FileInput = ({
           window.location.href = `/ia/autor/herramientas/ruleta-academica/juego?questions=${encoded}`;
         }
       } catch (err) {
-        const message = err instanceof Error ? err.message : 'Error desconocido';
+        const message =
+          err instanceof Error ? err.message : "Error desconocido";
         setError(message || "Error al procesar el archivo");
       }
       return;
@@ -170,7 +170,7 @@ const FileInput = ({
         onSaveSuccess();
       }
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Error desconocido';
+      const message = err instanceof Error ? err.message : "Error desconocido";
       setError(message || "Error al procesar el archivo");
     } finally {
       setIsLoading(false);
@@ -264,48 +264,57 @@ const FileInput = ({
           )}
 
           <div className="flex flex-col gap-4 mt-8">
-            {!isUploaded && questionsPreview.length > 0 && (
+            {!isUploaded &&
+              questionsPreview.length > 0 &&
               requiresGroupName && (
-              <button
-                key="save-button"
-                onClick={async () => {
-                  if (!file) {
-                    setError("Por favor, seleccione un archivo");
-                    return;
-                  }
-                  if (requiresGroupName && !groupName.trim()) {
-                    setError(
-                      "Por favor, ingrese un nombre para el grupo de preguntas",
-                    );
-                    return;
-                  }
-                  setIsLoading(true);
-                  setError(null);
-                  try {
-                    const questions = await parseQuestionsFromFile(file);
-                    if (typeof onSave === "function") {
-                      await onSave(questions, groupName.trim() || "Archivo cargado");
-                      setIsUploaded(true);
-                      if (onSaveSuccess) onSaveSuccess();
-                    } else {
-                      onUpload(questions, groupName.trim() || "Archivo cargado");
-                      setIsUploaded(true);
-                      if (onSaveSuccess) onSaveSuccess();
+                <button
+                  key="save-button"
+                  onClick={async () => {
+                    if (!file) {
+                      setError("Por favor, seleccione un archivo");
+                      return;
                     }
-                  } catch (err) {
-                    const message = err instanceof Error ? err.message : 'Error desconocido';
-                    setError(message || "Error al procesar el archivo");
-                  } finally {
-                    setIsLoading(false);
-                  }
-                }}
-                className="w-full px-8 py-5 text-2xl font-bold text-white transition-colors bg-green-600 rounded-2xl hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
-                disabled={isLoading || !groupName.trim()}
-              >
-                {isLoading ? "Guardando..." : "Guardar"}
-              </button>
-              )
-            )}
+                    if (requiresGroupName && !groupName.trim()) {
+                      setError(
+                        "Por favor, ingrese un nombre para el grupo de preguntas",
+                      );
+                      return;
+                    }
+                    setIsLoading(true);
+                    setError(null);
+                    try {
+                      const questions = await parseQuestionsFromFile(file);
+                      if (typeof onSave === "function") {
+                        await onSave(
+                          questions,
+                          groupName.trim() || "Archivo cargado",
+                        );
+                        setIsUploaded(true);
+                        if (onSaveSuccess) onSaveSuccess();
+                      } else {
+                        onUpload(
+                          questions,
+                          groupName.trim() || "Archivo cargado",
+                        );
+                        setIsUploaded(true);
+                        if (onSaveSuccess) onSaveSuccess();
+                      }
+                    } catch (err) {
+                      const message =
+                        err instanceof Error
+                          ? err.message
+                          : "Error desconocido";
+                      setError(message || "Error al procesar el archivo");
+                    } finally {
+                      setIsLoading(false);
+                    }
+                  }}
+                  className="w-full px-8 py-5 text-2xl font-bold text-white transition-colors bg-green-600 rounded-2xl hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={isLoading || !groupName.trim()}
+                >
+                  {isLoading ? "Guardando..." : "Guardar"}
+                </button>
+              )}
 
             {(isUploaded || questionsPreview.length > 0 || file) && (
               <button

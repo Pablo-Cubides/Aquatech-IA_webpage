@@ -2,6 +2,14 @@ import { NextResponse } from "next/server";
 import { prisma } from "@ia-next/database";
 import { Redis } from "@upstash/redis";
 
+function getRequiredEnv(name: string): string {
+  const value = process.env[name];
+  if (!value) {
+    throw new Error(`${name} is not configured`);
+  }
+  return value;
+}
+
 export const runtime = "nodejs";
 
 interface HealthStatus {
@@ -44,8 +52,8 @@ async function checkRedis(): Promise<CheckResult> {
   const start = Date.now();
   try {
     const redis = new Redis({
-      url: process.env.UPSTASH_REDIS_REST_URL!,
-      token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+      url: getRequiredEnv("UPSTASH_REDIS_REST_URL"),
+      token: getRequiredEnv("UPSTASH_REDIS_REST_TOKEN"),
     });
 
     await redis.ping();

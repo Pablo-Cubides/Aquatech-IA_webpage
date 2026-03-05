@@ -5,12 +5,18 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/lib/db";
 import bcrypt from "bcryptjs";
 
+type DbUserWithPassword = {
+  password?: string | null;
+  role?: string | null;
+};
+
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma) as any,
+  adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      clientId: process.env.GOOGLE_CLIENT_ID || "disabled-google-client-id",
+      clientSecret:
+        process.env.GOOGLE_CLIENT_SECRET || "disabled-google-client-secret",
     }),
     CredentialsProvider({
       name: "credentials",
@@ -27,13 +33,15 @@ export const authOptions: NextAuthOptions = {
           where: { email: credentials.email },
         });
 
-        if (!user || !(user as any).password) {
+        const typedUser = user as (typeof user & DbUserWithPassword) | null;
+
+        if (!typedUser || !typedUser.password) {
           throw new Error("Usuario no encontrado");
         }
 
         const isPasswordValid = await bcrypt.compare(
           credentials.password,
-          (user as any).password
+          typedUser.password,
         );
 
         if (!isPasswordValid) {
@@ -41,11 +49,11 @@ export const authOptions: NextAuthOptions = {
         }
 
         return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          image: user.image,
-          role: user.role,
+          id: typedUser.id,
+          email: typedUser.email,
+          name: typedUser.name,
+          image: typedUser.image,
+          role: typedUser.role,
         };
       },
     }),
@@ -54,23 +62,23 @@ export const authOptions: NextAuthOptions = {
     session: async ({ session, token }) => {
       if (session?.user && token) {
         session.user.id = token.uid as string;
-        session.user.role = token.role as any;
+        session.user.role = token.role;
       }
       return session;
     },
     jwt: async ({ user, token, trigger, session }) => {
       if (user) {
         token.uid = user.id;
-        token.role = (user as any).role;
+        token.role = user.role;
       }
-      
+
       // Update token if session is updated manually
       if (trigger === "update" && session) {
         token.role = session.user.role;
         if (session.user.name) token.name = session.user.name;
         if (session.user.image) token.picture = session.user.image;
       }
-      
+
       return token;
     },
   },

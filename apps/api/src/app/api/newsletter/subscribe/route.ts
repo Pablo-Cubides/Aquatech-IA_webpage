@@ -17,6 +17,43 @@ const subscribeSchema = z.object({
   source: z.string().optional(),
 });
 
+function getErrorMessage(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
+  }
+  return "Unknown error";
+}
+
+function isDuplicateBrevoError(error: unknown): boolean {
+  if (typeof error !== "object" || error === null) {
+    return false;
+  }
+
+  const parsed = error as {
+    response?: {
+      body?: {
+        code?: unknown;
+      };
+    };
+  };
+
+  return parsed.response?.body?.code === "duplicate_parameter";
+}
+
+function getBrevoErrorBody(error: unknown): unknown {
+  if (typeof error !== "object" || error === null) {
+    return undefined;
+  }
+
+  const parsed = error as {
+    response?: {
+      body?: unknown;
+    };
+  };
+
+  return parsed.response?.body;
+}
+
 export async function POST(request: NextRequest) {
   try {
     const identifier = `newsletter:${getClientIP(request)}`;
@@ -72,9 +109,9 @@ export async function POST(request: NextRequest) {
       },
       { status: 200 },
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     // Si el contacto ya existe, Brevo devuelve un error específico
-    if (error.response?.body?.code === "duplicate_parameter") {
+    if (isDuplicateBrevoError(error)) {
       return NextResponse.json(
         {
           success: true,
@@ -85,8 +122,8 @@ export async function POST(request: NextRequest) {
     }
 
     await logger.error("Newsletter subscription failed", {
-      error: error.message,
-      body: error.response?.body,
+      error: getErrorMessage(error),
+      body: getBrevoErrorBody(error),
     });
 
     return NextResponse.json(

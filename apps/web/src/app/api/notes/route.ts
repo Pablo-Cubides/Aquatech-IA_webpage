@@ -2,8 +2,10 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { Prisma } from "@prisma/client";
 import { parsePagination, createPaginatedResponse } from "@/lib/pagination";
-
-
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { getClientIP, rateLimit } from "@/lib/security/rate-limit";
+import { logger } from "@/lib/logger";
 
 // Type for note input data
 interface NoteInput {
@@ -17,7 +19,10 @@ interface NoteInput {
 }
 
 // Helper to validate note data
-function validateNoteData(data: NoteInput): { valid: boolean; errors: string[] } {
+function validateNoteData(data: NoteInput): {
+  valid: boolean;
+  errors: string[];
+} {
   const errors: string[] = [];
 
   if (
@@ -63,6 +68,7 @@ function validateNoteData(data: NoteInput): { valid: boolean; errors: string[] }
  * - limit: number (optional) - items per page (default: 50, max: 100)
  */
 export async function GET(req: Request) {
+  const clientIP = getClientIP(req.headers);
   const { searchParams } = new URL(req.url);
   const university = searchParams.get("university")?.trim() || undefined;
   const course = searchParams.get("course")?.trim() || undefined;
@@ -74,6 +80,38 @@ export async function GET(req: Request) {
   });
 
   try {
+    const session = await getServerSession(authOptions);
+
+    if (!session?.user) {
+      return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+    }
+
+    if (session.user.role !== "ADMIN") {
+      return NextResponse.json({ error: "Prohibido" }, { status: 403 });
+    }
+
+    const rateLimitResult = await rateLimit(
+      `admin:notes:read:${session.user.id}:${clientIP}`,
+      {
+        interval: 60 * 1000,
+        uniqueTokenPerInterval: 120,
+      },
+    );
+
+    if (!rateLimitResult.success) {
+      return NextResponse.json(
+        { error: "Demasiadas solicitudes" },
+        {
+          status: 429,
+          headers: {
+            "X-RateLimit-Limit": rateLimitResult.limit.toString(),
+            "X-RateLimit-Remaining": rateLimitResult.remaining.toString(),
+            "X-RateLimit-Reset": new Date(rateLimitResult.reset).toISOString(),
+          },
+        },
+      );
+    }
+
     // Search by code (most specific) - no pagination for single result
     if (code) {
       const note = await prisma.note.findFirst({
@@ -140,7 +178,10 @@ export async function GET(req: Request) {
       createPaginatedResponse(notes, total, page, limit),
     );
   } catch (err) {
-    console.error("[GET /api/notes] Error:", err);
+    logger.error("[GET /api/notes] Error", {
+      error: err,
+      ipAddress: clientIP,
+    });
     const message = err instanceof Error ? err.message : "Error desconocido";
     return NextResponse.json(
       {
@@ -157,7 +198,41 @@ export async function GET(req: Request) {
  * Body: { notes: Note[] }
  */
 export async function POST(req: Request) {
+  const clientIP = getClientIP(req.headers);
+
   try {
+    const session = await getServerSession(authOptions);
+
+    if (!session?.user) {
+      return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+    }
+
+    if (session.user.role !== "ADMIN") {
+      return NextResponse.json({ error: "Prohibido" }, { status: 403 });
+    }
+
+    const rateLimitResult = await rateLimit(
+      `admin:notes:upload:${session.user.id}:${clientIP}`,
+      {
+        interval: 60 * 1000,
+        uniqueTokenPerInterval: 10,
+      },
+    );
+
+    if (!rateLimitResult.success) {
+      return NextResponse.json(
+        { error: "Demasiadas solicitudes" },
+        {
+          status: 429,
+          headers: {
+            "X-RateLimit-Limit": rateLimitResult.limit.toString(),
+            "X-RateLimit-Remaining": rateLimitResult.remaining.toString(),
+            "X-RateLimit-Reset": new Date(rateLimitResult.reset).toISOString(),
+          },
+        },
+      );
+    }
+
     const contentType = req.headers.get("content-type") || "";
 
     if (!contentType.includes("application/json")) {
@@ -198,14 +273,22 @@ export async function POST(req: Request) {
     notes.forEach((note: NoteInput, index: number) => {
       const validation = validateNoteData(note);
 
-      if (validation.valid && note.university && note.course && note.code !== undefined) {
+      if (
+        validation.valid &&
+        note.university &&
+        note.course &&
+        note.code !== undefined
+      ) {
         validNotes.push({
           university: note.university.trim(),
           course: note.course.trim(),
           code: String(note.code).trim(),
           grade: Number(note.grade),
           studentName: note.studentName?.trim() || note.name?.trim() || null,
-          metadata: note.metadata ? (note.metadata as Prisma.InputJsonValue) : Prisma.JsonNull,
+          metadata: note.metadata
+            ? (note.metadata as Prisma.InputJsonValue)
+            : Prisma.JsonNull,
+          uploadedBy: session.user.id,
         });
       } else {
         errors.push({ index, errors: validation.errors });
@@ -237,10 +320,18 @@ export async function POST(req: Request) {
       ...(errors.length > 0 && { validationErrors: errors.slice(0, 10) }),
     });
   } catch (err) {
-    console.error("[POST /api/notes] Error:", err);
+    logger.error("[POST /api/notes] Error", {
+      error: err,
+      ipAddress: clientIP,
+    });
 
     // Prisma unique constraint error
-    if (err && typeof err === "object" && "code" in err && err.code === "P2002") {
+    if (
+      err &&
+      typeof err === "object" &&
+      "code" in err &&
+      err.code === "P2002"
+    ) {
       const message = err instanceof Error ? err.message : "Registro duplicado";
       return NextResponse.json(
         {

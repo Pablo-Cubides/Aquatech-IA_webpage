@@ -1,7 +1,38 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { z } from "zod";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/lib/auth";
 
+const ALLOWED_ROLES = new Set(["ADMIN", "MODERATOR"]);
+
+async function requirePrivilegedUser() {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user?.email) {
+    return {
+      ok: false as const,
+      response: NextResponse.json({ error: "No autorizado" }, { status: 401 }),
+    };
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { email: session.user.email },
+    select: { role: true },
+  });
+
+  if (!user?.role || !ALLOWED_ROLES.has(user.role)) {
+    return {
+      ok: false as const,
+      response: NextResponse.json(
+        { error: "Acceso denegado. Se requiere rol de administrador." },
+        { status: 403 },
+      ),
+    };
+  }
+
+  return { ok: true as const };
+}
 
 // Validation schema
 const questionSetSchema = z.object({
@@ -17,6 +48,11 @@ const questionSetSchema = z.object({
  */
 export async function GET() {
   try {
+    const access = await requirePrivilegedUser();
+    if (!access.ok) {
+      return access.response;
+    }
+
     const questionSets = await prisma.questionSet.findMany({
       select: {
         id: true,
@@ -32,7 +68,8 @@ export async function GET() {
     return NextResponse.json(questionSets);
   } catch (error) {
     console.error("Error fetching question sets:", error);
-    const message = error instanceof Error ? error.message : "Error desconocido";
+    const message =
+      error instanceof Error ? error.message : "Error desconocido";
     return NextResponse.json(
       {
         error: "Error al obtener conjuntos de preguntas",
@@ -49,6 +86,11 @@ export async function GET() {
  */
 export async function POST(req: Request) {
   try {
+    const access = await requirePrivilegedUser();
+    if (!access.ok) {
+      return access.response;
+    }
+
     const body = await req.json();
 
     // Validate input
@@ -90,7 +132,8 @@ export async function POST(req: Request) {
     return NextResponse.json(questionSet, { status: 201 });
   } catch (error) {
     console.error("Error creating question set:", error);
-    const message = error instanceof Error ? error.message : "Error desconocido";
+    const message =
+      error instanceof Error ? error.message : "Error desconocido";
     return NextResponse.json(
       { error: "Error al crear conjunto de preguntas", details: message },
       { status: 500 },

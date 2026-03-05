@@ -45,9 +45,12 @@ const shortTitles: Record<string, string> = {
 
 export function loadDynamicCases(): Record<string, CaseData> {
   const cases: Record<string, CaseData> = {};
+  const isTestEnv = process.env.NODE_ENV === "test";
 
   if (!fs.existsSync(STATIC_CASES_DIR)) {
-    console.warn(`${STATIC_CASES_DIR} does not exist`);
+    if (!isTestEnv) {
+      console.warn(`${STATIC_CASES_DIR} does not exist`);
+    }
     return {};
   }
 
@@ -95,11 +98,6 @@ export function loadDynamicCases(): Record<string, CaseData> {
         step_files: stepFiles,
         total_steps: stepFiles.length,
       };
-      console.log(
-        `Loaded case '${caseId}' with ${stepFiles.length} steps (prompt present)`,
-      );
-    } else {
-      console.log(`Skipping case '${caseId}' because no prompt was found`);
     }
   }
 

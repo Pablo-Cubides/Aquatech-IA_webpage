@@ -25,15 +25,21 @@ function formatDate(iso: string) {
   });
 }
 
-export function BlogContent({ articles, categories, portal }: BlogContentProps) {
+export function BlogContent({
+  articles,
+  categories,
+  portal,
+}: BlogContentProps) {
   const [search, setSearch] = useState("");
-  const [activeCategorySlug, setActiveCategorySlug] = useState<string | null>(null);
+  const [activeCategorySlug, setActiveCategorySlug] = useState<string | null>(
+    null,
+  );
   const [sort, setSort] = useState<"newest" | "oldest" | "popular">("newest");
   const [view, setView] = useState<"grid" | "list">("grid");
 
   const isAmbiental = portal === "ambiental";
   const primaryColor = isAmbiental ? "green" : "violet";
-  
+
   // Theme colors based on portal
   const bgMain = isAmbiental ? "bg-[#F9FAFB]" : "bg-[#10111A]";
   const textMain = isAmbiental ? "text-[#1F2937]" : "text-white";
@@ -42,10 +48,11 @@ export function BlogContent({ articles, categories, portal }: BlogContentProps) 
   const textSecondary = isAmbiental ? "text-[#4B5563]" : "text-gray-300";
   const bgSticky = isAmbiental ? "bg-white/90" : "bg-gray-900/90";
   const borderSticky = isAmbiental ? "border-gray-200" : "border-gray-700";
-  const inputBg = isAmbiental ? "bg-white border-gray-300" : "bg-gray-800 border-gray-600";
+  const inputBg = isAmbiental
+    ? "bg-white border-gray-300"
+    : "bg-gray-800 border-gray-600";
   const inputText = isAmbiental ? "text-[#1F2937]" : "text-white";
-  const accentColor = isAmbiental ? "#16a34a" : "#00EFFF";
-  
+
   const gradientColors = isAmbiental
     ? "from-[#10B981]/20 via-white to-[#0077B6]/15"
     : "from-cyan-500/20 via-[#10111A] to-purple-500/15";
@@ -118,7 +125,9 @@ export function BlogContent({ articles, categories, portal }: BlogContentProps) 
           >
             {isAmbiental ? "Blog Ambiental" : "Blog de IA"}
           </h1>
-          <p className={`text-lg md:text-xl ${textSecondary} max-w-3xl mx-auto mt-6`}>
+          <p
+            className={`text-lg md:text-xl ${textSecondary} max-w-3xl mx-auto mt-6`}
+          >
             {isAmbiental
               ? "Artículos, análisis y soluciones innovadoras para los desafíos ambientales del siglo XXI"
               : "Guías, tutoriales y análisis sobre inteligencia artificial, machine learning y tecnologías emergentes"}
@@ -148,7 +157,9 @@ export function BlogContent({ articles, categories, portal }: BlogContentProps) 
       </section>
 
       {/* BARRA DE BÚSQUEDA + FILTROS (sticky) */}
-      <section className={`py-6 ${bgSticky} backdrop-blur-sm sticky top-0 z-40 border-b ${borderSticky} shadow-sm`}>
+      <section
+        className={`py-6 ${bgSticky} backdrop-blur-sm sticky top-0 z-40 border-b ${borderSticky} shadow-sm`}
+      >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-4 items-center">
             {/* Búsqueda */}
@@ -227,7 +238,9 @@ export function BlogContent({ articles, categories, portal }: BlogContentProps) 
               </select>
 
               {/* Toggle de vista */}
-              <div className={`hidden sm:flex items-center gap-1 ${isAmbiental ? 'bg-gray-100' : 'bg-gray-800'} rounded-lg p-1`}>
+              <div
+                className={`hidden sm:flex items-center gap-1 ${isAmbiental ? "bg-gray-100" : "bg-gray-800"} rounded-lg p-1`}
+              >
                 <button
                   onClick={() => setView("grid")}
                   className={classNames(
@@ -306,7 +319,9 @@ export function BlogContent({ articles, categories, portal }: BlogContentProps) 
 
             {/* Artículo destacado */}
             {featured && view === "grid" && (
-              <article className={`rounded-xl border ${borderCard} ${bgCard} overflow-hidden mb-12 group shadow-lg hover:shadow-xl transition-shadow`}>
+              <article
+                className={`rounded-xl border ${borderCard} ${bgCard} overflow-hidden mb-12 group shadow-lg hover:shadow-xl transition-shadow`}
+              >
                 <div className="grid md:grid-cols-2">
                   <Link
                     href={`/${portal}/blog/${featured.slug}`}
@@ -348,10 +363,14 @@ export function BlogContent({ articles, categories, portal }: BlogContentProps) 
                         {featured.title}
                       </Link>
                     </h3>
-                    <p className={`${textSecondary} mb-6 flex-grow leading-relaxed`}>
+                    <p
+                      className={`${textSecondary} mb-6 flex-grow leading-relaxed`}
+                    >
                       {featured.excerpt}
                     </p>
-                    <div className={`mt-auto flex items-center gap-4 text-sm ${textSecondary}`}>
+                    <div
+                      className={`mt-auto flex items-center gap-4 text-sm ${textSecondary}`}
+                    >
                       <div className="flex items-center gap-2">
                         <Image
                           src={featured.author.avatar}
@@ -404,7 +423,9 @@ export function BlogContent({ articles, categories, portal }: BlogContentProps) 
                 )}
               </div>
             ) : (
-              <div className={`text-center py-12 ${bgCard} rounded-xl border ${borderCard}`}>
+              <div
+                className={`text-center py-12 ${bgCard} rounded-xl border ${borderCard}`}
+              >
                 <div className="text-gray-400 text-6xl mb-4">🔍</div>
                 <h3 className={`text-xl font-semibold ${textMain} mb-2`}>
                   No se encontraron artículos
@@ -461,7 +482,9 @@ export function BlogContent({ articles, categories, portal }: BlogContentProps) 
                             ? post.title.slice(0, 47) + "..."
                             : post.title}
                         </h4>
-                        <div className={`flex items-center gap-2 mt-2 text-xs ${textSecondary}`}>
+                        <div
+                          className={`flex items-center gap-2 mt-2 text-xs ${textSecondary}`}
+                        >
                           <span>{formatDate(post.date)}</span>
                           <span>•</span>
                           <span>{post.readTime} min</span>
@@ -516,7 +539,9 @@ export function BlogContent({ articles, categories, portal }: BlogContentProps) 
             </div>
 
             {/* Categorías SEO */}
-            <div className={`${bgCard} p-6 rounded-xl border ${borderCard} shadow-sm`}>
+            <div
+              className={`${bgCard} p-6 rounded-xl border ${borderCard} shadow-sm`}
+            >
               <h3 className={`text-xl font-bold mb-6 ${textMain}`}>
                 Categorías
               </h3>
@@ -525,9 +550,11 @@ export function BlogContent({ articles, categories, portal }: BlogContentProps) 
                   <Link
                     key={category.slug}
                     href={`/${portal}/categoria/${category.slug}`}
-                    className={`w-full text-left p-3 rounded-lg ${isAmbiental ? 'hover:bg-gray-50' : 'hover:bg-gray-800'} transition-colors group flex justify-between items-center`}
+                    className={`w-full text-left p-3 rounded-lg ${isAmbiental ? "hover:bg-gray-50" : "hover:bg-gray-800"} transition-colors group flex justify-between items-center`}
                   >
-                    <span className={`font-medium ${textMain} group-hover:text-cyan-400`}>
+                    <span
+                      className={`font-medium ${textMain} group-hover:text-cyan-400`}
+                    >
                       {category.displayName}
                     </span>
                     <svg
@@ -566,10 +593,14 @@ function CardGrid({ post, portal, isAmbiental }: CardProps) {
   const borderCard = isAmbiental ? "border-gray-200" : "border-gray-700/50";
   const textMain = isAmbiental ? "text-[#1F2937]" : "text-white";
   const textSecondary = isAmbiental ? "text-[#4B5563]" : "text-gray-300";
-  const hoverColor = isAmbiental ? "group-hover:text-green-600" : "group-hover:text-cyan-400";
-  
+  const hoverColor = isAmbiental
+    ? "group-hover:text-green-600"
+    : "group-hover:text-cyan-400";
+
   return (
-    <article className={`rounded-xl border ${borderCard} ${bgCard} overflow-hidden group shadow-sm hover:shadow-lg transition-all`}>
+    <article
+      className={`rounded-xl border ${borderCard} ${bgCard} overflow-hidden group shadow-sm hover:shadow-lg transition-all`}
+    >
       <Link
         href={`/${portal}/blog/${post.slug}`}
         className="relative block aspect-[16/9]"
@@ -594,11 +625,17 @@ function CardGrid({ post, portal, isAmbiental }: CardProps) {
         </div>
       </Link>
       <div className="p-6">
-        <h3 className={`text-xl font-bold mb-3 ${hoverColor} transition-colors leading-tight ${textMain}`}>
+        <h3
+          className={`text-xl font-bold mb-3 ${hoverColor} transition-colors leading-tight ${textMain}`}
+        >
           <Link href={`/${portal}/blog/${post.slug}`}>{post.title}</Link>
         </h3>
-        <p className={`${textSecondary} mb-4 leading-relaxed`}>{post.excerpt}</p>
-        <div className={`flex items-center justify-between text-sm ${textSecondary} pt-4 border-t ${isAmbiental ? 'border-gray-100' : 'border-gray-700'}`}>
+        <p className={`${textSecondary} mb-4 leading-relaxed`}>
+          {post.excerpt}
+        </p>
+        <div
+          className={`flex items-center justify-between text-sm ${textSecondary} pt-4 border-t ${isAmbiental ? "border-gray-100" : "border-gray-700"}`}
+        >
           <div className="flex items-center gap-2">
             <Image
               src={post.author.avatar}
@@ -625,10 +662,14 @@ function CardList({ post, portal, isAmbiental }: CardProps) {
   const borderCard = isAmbiental ? "border-gray-200" : "border-gray-700/50";
   const textMain = isAmbiental ? "text-[#1F2937]" : "text-white";
   const textSecondary = isAmbiental ? "text-[#4B5563]" : "text-gray-300";
-  const hoverColor = isAmbiental ? "group-hover:text-green-600" : "group-hover:text-cyan-400";
-  
+  const hoverColor = isAmbiental
+    ? "group-hover:text-green-600"
+    : "group-hover:text-cyan-400";
+
   return (
-    <article className={`rounded-xl border ${borderCard} ${bgCard} overflow-hidden group shadow-sm hover:shadow-lg transition-all`}>
+    <article
+      className={`rounded-xl border ${borderCard} ${bgCard} overflow-hidden group shadow-sm hover:shadow-lg transition-all`}
+    >
       <div className="grid sm:grid-cols-[240px,1fr] gap-0">
         <Link
           href={`/${portal}/blog/${post.slug}`}
@@ -654,13 +695,17 @@ function CardList({ post, portal, isAmbiental }: CardProps) {
           </div>
         </Link>
         <div className="p-6 flex flex-col">
-          <h3 className={`text-xl font-bold mb-3 ${hoverColor} transition-colors leading-tight ${textMain}`}>
+          <h3
+            className={`text-xl font-bold mb-3 ${hoverColor} transition-colors leading-tight ${textMain}`}
+          >
             <Link href={`/${portal}/blog/${post.slug}`}>{post.title}</Link>
           </h3>
           <p className={`${textSecondary} flex-grow leading-relaxed`}>
             {post.excerpt}
           </p>
-          <div className={`flex items-center justify-between text-sm ${textSecondary} mt-4 pt-4 border-t ${isAmbiental ? 'border-gray-100' : 'border-gray-700'}`}>
+          <div
+            className={`flex items-center justify-between text-sm ${textSecondary} mt-4 pt-4 border-t ${isAmbiental ? "border-gray-100" : "border-gray-700"}`}
+          >
             <div className="flex items-center gap-2">
               <Image
                 src={post.author.avatar}

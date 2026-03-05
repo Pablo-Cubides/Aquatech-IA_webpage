@@ -74,16 +74,6 @@ function StepHeader({ num, title }: { num: number; title: string }) {
   );
 }
 
-// Kept for future use
-function _ParamCard({ title, summary }: { title: string; summary: string }) {
-  return (
-    <div className="glass rounded-xl p-5 hover:scale-[1.02] transition-all duration-300 cursor-default border-2 border-transparent hover:border-primary/30">
-      <h3 className="text-md font-bold text-gradient mb-3">{title}</h3>
-      <p className="text-sm text-[#CCCCCC] leading-relaxed">{summary}</p>
-    </div>
-  );
-}
-
 export default function Home() {
   // parámetros centrales del playground
   const [caseIndex, setCaseIndex] = useState(0);
@@ -150,8 +140,14 @@ export default function Home() {
       const el = document.querySelector("main") as HTMLElement;
       if (!el) throw new Error("Main element not found");
       const mod = await import("html2canvas");
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const html2canvas = (mod as { default?: (element: HTMLElement) => Promise<HTMLCanvasElement> }).default ?? (mod as any);
+      const html2canvas = (
+        mod as {
+          default?: (element: HTMLElement) => Promise<HTMLCanvasElement>;
+        }
+      ).default;
+      if (!html2canvas) {
+        throw new Error("html2canvas default export not found");
+      }
       const canvas = await html2canvas(el);
       const dataUrl = canvas.toDataURL("image/png");
       const a = document.createElement("a");
@@ -260,7 +256,10 @@ export default function Home() {
   }
 
   // Helpers to choose the most representative example index for a given parameter value
-  function nearestIndexForExamples(examples: Array<{ v: number }>, value: number) {
+  function nearestIndexForExamples(
+    examples: Array<{ v: number }>,
+    value: number,
+  ) {
     if (!examples || examples.length === 0) return 0;
     let bestIdx = 0;
     let bestDist = Number.POSITIVE_INFINITY;

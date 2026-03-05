@@ -10,7 +10,9 @@ import MapLegend from "../components/MapLegend";
 import ExportButtons from "../components/ExportButtons";
 import OpenAQLayerControl from "../components/OpenAQLayerControl";
 import EONETLayerControl from "../components/EONETLayerControl";
-import GBIFLayerControl, { type GBIFFilters } from "@/components/GBIFLayerControl";
+import GBIFLayerControl, {
+  type GBIFFilters,
+} from "@/components/GBIFLayerControl";
 import WQPLayerControl, { type WQPFilters } from "@/components/WQPLayerControl";
 import RangeFilter from "../components/RangeFilter";
 import ErrorBoundary from "../components/ErrorBoundary";
@@ -51,16 +53,14 @@ export default function HomePage() {
   const [selectedFeature, setSelectedFeature] = useState<GeoJSONFeature | null>(
     null,
   );
-  const [mapCenter, setMapCenter] = useState<[number, number]>([
-    -74.0721, 4.711,
-  ]);
+  const [, setMapCenter] = useState<[number, number]>([-74.0721, 4.711]);
   const [showUploadWizard, setShowUploadWizard] = useState(false);
   const [filters, setFilters] = useState<FilterState>({
     parameters: [],
   });
   const [openAQData, setOpenAQData] = useState<GeoJSONFeature[]>([]);
   const [showOpenAQLayer, setShowOpenAQLayer] = useState(false);
-  const [openAQParameter, setOpenAQParameter] = useState<string>('pm25');
+  const [openAQParameter, setOpenAQParameter] = useState<string>("pm25");
   const [eonetData, setEonetData] = useState<GeoJSONFeature[]>([]);
   const [showEONETLayer, setShowEONETLayer] = useState(false);
   const [gbifData, setGbifData] = useState<GeoJSONFeature[]>([]);
@@ -68,15 +68,21 @@ export default function HomePage() {
   const [gbifFilters, setGbifFilters] = useState<GBIFFilters>({});
   const [wqpData, setWqpData] = useState<GeoJSONFeature[]>([]);
   const [showWQPLayer, setShowWQPLayer] = useState(false);
-  const [wqpFilters, setWqpFilters] = useState<WQPFilters>({ statecode: "US:06" }); // Default to California
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [wqpFilters, setWqpFilters] = useState<WQPFilters>({
+    statecode: "US:06",
+  }); // Default to California
+  const [, setLoading] = useState(false);
+  const [, setError] = useState<string | null>(null);
   // const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   // const [isDetailsPanelCollapsed, setIsDetailsPanelCollapsed] = useState(false);
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
   const [isMobileDetailsOpen, setIsMobileDetailsOpen] = useState(false);
-  const [parameterRanges, setParameterRanges] = useState<Record<string, { min: number; max: number }>>({});
-  const [activeRangeFilters, setActiveRangeFilters] = useState<Record<string, { min: number; max: number }>>({});
+  const [parameterRanges, setParameterRanges] = useState<
+    Record<string, { min: number; max: number }>
+  >({});
+  const [activeRangeFilters, setActiveRangeFilters] = useState<
+    Record<string, { min: number; max: number }>
+  >({});
 
   // Memoize callbacks to prevent infinite renders
   const handleOpenAQDataLoad = useCallback((data: GeoJSONFeature[]) => {
@@ -103,41 +109,28 @@ export default function HomePage() {
     setError(err);
   }, []);
 
-  const handleGBIFDataLoad = useCallback((data: GeoJSONFeature[]) => {
-    setGbifData(data);
-  }, []);
-
-  const handleGBIFLoadingChange = useCallback((isLoading: boolean) => {
-    setLoading(isLoading);
-  }, []);
-
-  const handleGBIFError = useCallback((err: string | null) => {
-    setError(err);
-  }, []);
-
-  const handleWQPDataLoad = useCallback((data: GeoJSONFeature[]) => {
-    setWqpData(data);
-  }, []);
-
-  const handleWQPLoadingChange = useCallback((isLoading: boolean) => {
-    setLoading(isLoading);
-  }, []);
-
-  const handleWQPError = useCallback((err: string | null) => {
-    setError(err);
-  }, []);
-
   /* eslint-disable react-hooks/exhaustive-deps */
   const { data: session } = useSession();
 
   // Sync session with local user state
   useEffect(() => {
     if (session?.user) {
-      const user = session.user as any;
+      const sessionUser = session.user as {
+        id?: string;
+        email?: string | null;
+        role?: string;
+      };
+      const mappedRole: User["role"] =
+        sessionUser.role?.toLowerCase() === "admin" ||
+        sessionUser.role === "ADMIN"
+          ? "admin"
+          : sessionUser.role?.toLowerCase() === "uploader"
+            ? "uploader"
+            : "viewer";
       setUser({
-        id: user.id || "unknown", // Fallback if id missing
-        email: user.email || "",
-        role: user.role || "user", 
+        id: sessionUser.id || "unknown", // Fallback if id missing
+        email: sessionUser.email || "",
+        role: mappedRole,
       });
     } else {
       setUser(null);
@@ -415,7 +408,8 @@ export default function HomePage() {
         return Object.keys(activeRangeFilters).every((param) => {
           const value = feature.properties[param];
           if (value === null || value === undefined) return true;
-          const numValue = typeof value === "number" ? value : parseFloat(String(value));
+          const numValue =
+            typeof value === "number" ? value : parseFloat(String(value));
           if (isNaN(numValue)) return true;
           const range = activeRangeFilters[param];
           return numValue >= range.min && numValue <= range.max;
@@ -477,7 +471,7 @@ export default function HomePage() {
         setError(null);
 
         const result = await searchOccurrences({
-          country: gbifFilters.country || 'CO', // Use filter or default to Colombia
+          country: gbifFilters.country || "CO", // Use filter or default to Colombia
           taxonKey: gbifFilters.taxonKey,
           basisOfRecord: gbifFilters.basisOfRecord,
           year: gbifFilters.year,
@@ -489,7 +483,10 @@ export default function HomePage() {
           type: "Feature",
           geometry: {
             type: "Point",
-            coordinates: [occurrence.decimalLongitude, occurrence.decimalLatitude],
+            coordinates: [
+              occurrence.decimalLongitude,
+              occurrence.decimalLatitude,
+            ],
           },
           properties: {
             id: occurrence.key.toString(),
@@ -512,7 +509,7 @@ export default function HomePage() {
             _color: getTaxonColor({
               classKey: occurrence.classKey,
               phylumKey: occurrence.phylumKey,
-              kingdomKey: occurrence.kingdomKey
+              kingdomKey: occurrence.kingdomKey,
             }),
           },
         }));
@@ -520,7 +517,8 @@ export default function HomePage() {
         setGbifData(features);
         logger.info(`Loaded ${features.length} GBIF occurrences`);
       } catch (err) {
-        const errorMsg = err instanceof Error ? err.message : "Error loading GBIF data";
+        const errorMsg =
+          err instanceof Error ? err.message : "Error loading GBIF data";
         setError(errorMsg);
         logger.error("Failed to load GBIF data:", err);
       } finally {
@@ -545,11 +543,15 @@ export default function HomePage() {
 
         // Get the selected state's bounding box
         const selectedStateCode = wqpFilters.statecode || "US:06"; // Default to California
-        const selectedState = US_STATES.find(s => s.code === selectedStateCode);
+        const selectedState = US_STATES.find(
+          (s) => s.code === selectedStateCode,
+        );
         const stateBBox = selectedState?.bbox || "-124.48,32.53,-114.13,42.01"; // Default CA bbox
-        
-        logger.info(`Loading WQP data for ${selectedState?.name || 'California'}`);
-        
+
+        logger.info(
+          `Loading WQP data for ${selectedState?.name || "California"}`,
+        );
+
         const result = await searchStations({
           bBox: stateBBox,
           statecode: selectedStateCode,
@@ -573,7 +575,9 @@ export default function HomePage() {
             id: station.MonitoringLocationIdentifier,
             _layerType: "wqp",
             source: "wqp",
-            stationName: station.MonitoringLocationName || station.MonitoringLocationIdentifier,
+            stationName:
+              station.MonitoringLocationName ||
+              station.MonitoringLocationIdentifier,
             siteType: station.MonitoringLocationTypeName,
             organization: station.OrganizationFormalName,
             provider: station.ProviderName,
@@ -586,7 +590,8 @@ export default function HomePage() {
         setWqpData(features);
         logger.info(`Loaded ${features.length} WQP stations`);
       } catch (err) {
-        const errorMsg = err instanceof Error ? err.message : "Error loading WQP data";
+        const errorMsg =
+          err instanceof Error ? err.message : "Error loading WQP data";
         setError(errorMsg);
         logger.error("Failed to load WQP data:", err);
       } finally {
@@ -601,16 +606,6 @@ export default function HomePage() {
     logger.info("Upload completed successfully");
     setShowUploadWizard(false);
     // TODO: Process uploaded data and refresh datasets
-  };
-
-  // Mostrar wizard solo si el usuario está autenticado
-  const handleShowUploadWizard = () => {
-    if (!user) {
-      // Disparar modal de login global
-      document.dispatchEvent(new CustomEvent('open-auth-modal'));
-      return;
-    }
-    setShowUploadWizard(true);
   };
 
   return (
@@ -654,7 +649,9 @@ export default function HomePage() {
 
               <div className="flex items-center space-x-3 flex-1 lg:flex-initial">
                 {/* Logo */}
-                <h1 className="sr-only">Visor de Mapas Ambientales - AquatechIA</h1>
+                <h1 className="sr-only">
+                  Visor de Mapas Ambientales - AquatechIA
+                </h1>
                 <div className="relative w-auto h-20 sm:h-32 lg:h-40 hidden sm:block aspect-[2/1]">
                   <Image
                     src="/images/Portal ambiental/Herramientas/GeoVisor.png"
@@ -690,7 +687,9 @@ export default function HomePage() {
               </div>
               <div className="flex items-center space-x-2 sm:space-x-4">
                 {/* Search Bar - Hidden on mobile */}
-                {(currentData.length > 0 || openAQData.length > 0 || eonetData.length > 0) && (
+                {(currentData.length > 0 ||
+                  openAQData.length > 0 ||
+                  eonetData.length > 0) && (
                   <div className="hidden md:block">
                     <SearchBar
                       data={[...currentData, ...openAQData, ...eonetData]}
@@ -699,14 +698,16 @@ export default function HomePage() {
                         setMapCenter([
                           feature.geometry.coordinates[0] as number,
                           feature.geometry.coordinates[1] as number,
-                      ]);
-                    }}
-                  />
+                        ]);
+                      }}
+                    />
                   </div>
                 )}
-                
+
                 {/* Export Buttons - Hidden on mobile */}
-                {(currentData.length > 0 || openAQData.length > 0 || eonetData.length > 0) && (
+                {(currentData.length > 0 ||
+                  openAQData.length > 0 ||
+                  eonetData.length > 0) && (
                   <div className="hidden sm:block">
                     <ExportButtons
                       data={[...currentData, ...openAQData, ...eonetData]}
@@ -714,13 +715,13 @@ export default function HomePage() {
                         showEONETLayer
                           ? "NASA-EONET"
                           : showOpenAQLayer
-                          ? "OpenAQ"
-                          : selectedDataset?.name || "datos"
+                            ? "OpenAQ"
+                            : selectedDataset?.name || "datos"
                       }
                     />
                   </div>
                 )}
-                
+
                 <a
                   href="/guia"
                   className="hidden sm:flex items-center btn-secondary text-sm"
@@ -730,15 +731,16 @@ export default function HomePage() {
                 >
                   📖 <span className="hidden lg:inline ml-1">Guía de uso</span>
                 </a>
-                {user && (user.role === "admin" || user.role === "uploader") && (
-                  <button
-                    className="btn-primary text-sm"
-                    onClick={() => setShowUploadWizard(true)}
-                    aria-label="Abrir asistente para subir nuevos datos ambientales"
-                  >
-                    + Subir datos
-                  </button>
-                )}
+                {user &&
+                  (user.role === "admin" || user.role === "uploader") && (
+                    <button
+                      className="btn-primary text-sm"
+                      onClick={() => setShowUploadWizard(true)}
+                      aria-label="Abrir asistente para subir nuevos datos ambientales"
+                    >
+                      + Subir datos
+                    </button>
+                  )}
                 {user ? (
                   <button
                     className="btn-secondary"
@@ -748,9 +750,11 @@ export default function HomePage() {
                     Cerrar sesión
                   </button>
                 ) : (
-                   <button
+                  <button
                     className="btn-primary text-sm"
-                    onClick={() => document.dispatchEvent(new CustomEvent('open-auth-modal'))}
+                    onClick={() =>
+                      document.dispatchEvent(new CustomEvent("open-auth-modal"))
+                    }
                     aria-label="Iniciar sesión"
                   >
                     Iniciar Sesión
@@ -961,7 +965,8 @@ export default function HomePage() {
                             const range = parameterRanges[param];
                             if (!range) return null;
 
-                            const activeRange = activeRangeFilters[param] || range;
+                            const activeRange =
+                              activeRangeFilters[param] || range;
 
                             return (
                               <RangeFilter
@@ -1001,38 +1006,53 @@ export default function HomePage() {
           {/* Map container */}
           <div className="relative flex-1">
             <MapComponent
-              data={[...currentData, ...openAQData, ...eonetData, ...gbifData, ...wqpData]}
+              data={[
+                ...currentData,
+                ...openAQData,
+                ...eonetData,
+                ...gbifData,
+                ...wqpData,
+              ]}
               onPointClick={(feature) => {
                 setSelectedFeature(feature);
                 setIsMobileDetailsOpen(true);
               }}
               selectedParameters={filters.parameters}
-              colorByParameter={showOpenAQLayer || showEONETLayer || showGBIFLayer || showWQPLayer}
+              colorByParameter={
+                showOpenAQLayer ||
+                showEONETLayer ||
+                showGBIFLayer ||
+                showWQPLayer
+              }
             />
 
             {/* Map Legend - OpenAQ */}
-            {showOpenAQLayer && openAQData.length > 0 && (() => {
-              const legendRanges = getParameterLegendRanges(openAQParameter);
-              const parameterDisplayNames: Record<string, string> = {
-                pm25: 'PM2.5',
-                pm10: 'PM10',
-                o3: 'Ozono (O₃)',
-                no2: 'Dióxido de Nitrógeno (NO₂)',
-                so2: 'Dióxido de Azufre (SO₂)',
-                co: 'Monóxido de Carbono (CO)',
-              };
-              const displayName = parameterDisplayNames[openAQParameter] || openAQParameter.toUpperCase();
-              return (
-                <div className="absolute z-10 bottom-4 left-4">
-                  <MapLegend
-                    items={legendRanges}
-                    title={`Calidad del Aire - ${displayName}`}
-                    parameter="OpenAQ"
-                    units={legendRanges[0]?.units || 'µg/m³'}
-                  />
-                </div>
-              );
-            })()}
+            {showOpenAQLayer &&
+              openAQData.length > 0 &&
+              (() => {
+                const legendRanges = getParameterLegendRanges(openAQParameter);
+                const parameterDisplayNames: Record<string, string> = {
+                  pm25: "PM2.5",
+                  pm10: "PM10",
+                  o3: "Ozono (O₃)",
+                  no2: "Dióxido de Nitrógeno (NO₂)",
+                  so2: "Dióxido de Azufre (SO₂)",
+                  co: "Monóxido de Carbono (CO)",
+                };
+                const displayName =
+                  parameterDisplayNames[openAQParameter] ||
+                  openAQParameter.toUpperCase();
+                return (
+                  <div className="absolute z-10 bottom-4 left-4">
+                    <MapLegend
+                      items={legendRanges}
+                      title={`Calidad del Aire - ${displayName}`}
+                      parameter="OpenAQ"
+                      units={legendRanges[0]?.units || "µg/m³"}
+                    />
+                  </div>
+                );
+              })()}
 
             {/* Map Legend - NASA EONET */}
             {showEONETLayer && eonetData.length > 0 && (
@@ -1091,19 +1111,23 @@ export default function HomePage() {
             )}
 
             {/* Overlay message when no dataset is selected */}
-            {!selectedDataset && !showOpenAQLayer && !showEONETLayer && !showGBIFLayer && !showWQPLayer && (
-              <div className="absolute inset-0 flex items-center justify-center bg-black pointer-events-none bg-opacity-30">
-                <div className="p-6 text-center bg-white rounded-lg shadow-lg">
-                  <div className="mb-2 text-4xl text-gray-300">📊</div>
-                  <p className="font-medium text-gray-700">
-                    Selecciona un dataset para ver los datos
-                  </p>
-                  <p className="mt-1 text-sm text-gray-500">
-                    El mapa está listo para mostrar los puntos ambientales
-                  </p>
+            {!selectedDataset &&
+              !showOpenAQLayer &&
+              !showEONETLayer &&
+              !showGBIFLayer &&
+              !showWQPLayer && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black pointer-events-none bg-opacity-30">
+                  <div className="p-6 text-center bg-white rounded-lg shadow-lg">
+                    <div className="mb-2 text-4xl text-gray-300">📊</div>
+                    <p className="font-medium text-gray-700">
+                      Selecciona un dataset para ver los datos
+                    </p>
+                    <p className="mt-1 text-sm text-gray-500">
+                      El mapa está listo para mostrar los puntos ambientales
+                    </p>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
             {/* Overlay message when dataset is selected but no date */}
             {selectedDataset && !selectedDate && (
@@ -1181,7 +1205,11 @@ export default function HomePage() {
                         </p>
                         <p className="text-sm">
                           <span className="font-medium">Fecha:</span>{" "}
-                          {selectedFeature.properties.date ? new Date(String(selectedFeature.properties.date)).toLocaleString('es-ES') : "N/A"}
+                          {selectedFeature.properties.date
+                            ? new Date(
+                                String(selectedFeature.properties.date),
+                              ).toLocaleString("es-ES")
+                            : "N/A"}
                         </p>
                         <p className="text-sm">
                           <span className="font-medium">País:</span>{" "}
@@ -1191,37 +1219,52 @@ export default function HomePage() {
                           <span className="font-medium">Ciudad:</span>{" "}
                           {String(selectedFeature.properties.city || "N/A")}
                         </p>
-                        {String(selectedFeature.properties.entity) && String(selectedFeature.properties.entity) !== "N/A" && (
-                          <p className="text-sm">
-                            <span className="font-medium">Entidad:</span>{" "}
-                            {String(selectedFeature.properties.entity)}
-                          </p>
-                        )}
+                        {String(selectedFeature.properties.entity) &&
+                          String(selectedFeature.properties.entity) !==
+                            "N/A" && (
+                            <p className="text-sm">
+                              <span className="font-medium">Entidad:</span>{" "}
+                              {String(selectedFeature.properties.entity)}
+                            </p>
+                          )}
                       </div>
                     </div>
-                    
+
                     {/* Air Quality Measurement */}
                     <div>
-                      <h3 className="font-medium text-gray-900">Medición de Calidad del Aire</h3>
+                      <h3 className="font-medium text-gray-900">
+                        Medición de Calidad del Aire
+                      </h3>
                       <div className="mt-2 space-y-2">
                         <div className="flex justify-between text-sm">
                           <span className="font-medium">Parámetro:</span>
-                          <span>{String(selectedFeature.properties.parameterDisplay || selectedFeature.properties.parameter)}</span>
+                          <span>
+                            {String(
+                              selectedFeature.properties.parameterDisplay ||
+                                selectedFeature.properties.parameter,
+                            )}
+                          </span>
                         </div>
                         <div className="flex justify-between text-sm">
                           <span className="font-medium">Valor:</span>
                           <span className="font-semibold text-lg">
-                            {selectedFeature.properties.value !== undefined 
-                              ? `${selectedFeature.properties.value} ${String(selectedFeature.properties.units || 'µg/m³')}`
+                            {selectedFeature.properties.value !== undefined
+                              ? `${selectedFeature.properties.value} ${String(selectedFeature.properties.units || "µg/m³")}`
                               : "N/A"}
                           </span>
                         </div>
-                        {String(selectedFeature.properties.sensorType) && String(selectedFeature.properties.sensorType) !== "N/A" && (
-                          <div className="flex justify-between text-sm">
-                            <span className="font-medium">Tipo de Sensor:</span>
-                            <span className="text-xs">{String(selectedFeature.properties.sensorType)}</span>
-                          </div>
-                        )}
+                        {String(selectedFeature.properties.sensorType) &&
+                          String(selectedFeature.properties.sensorType) !==
+                            "N/A" && (
+                            <div className="flex justify-between text-sm">
+                              <span className="font-medium">
+                                Tipo de Sensor:
+                              </span>
+                              <span className="text-xs">
+                                {String(selectedFeature.properties.sensorType)}
+                              </span>
+                            </div>
+                          )}
                         <div className="mt-2 text-xs text-gray-500">
                           Fuente: OpenAQ
                         </div>
@@ -1237,7 +1280,9 @@ export default function HomePage() {
                     <div className="mt-2 space-y-2">
                       <div className="flex justify-between text-sm">
                         <span className="font-medium">Categoría:</span>
-                        <span>{String(selectedFeature.properties.categoria)}</span>
+                        <span>
+                          {String(selectedFeature.properties.categoria)}
+                        </span>
                       </div>
                       <div className="flex justify-between text-sm">
                         <span className="font-medium">Estado:</span>
@@ -1251,7 +1296,9 @@ export default function HomePage() {
                           {String(selectedFeature.properties.estado)}
                         </span>
                       </div>
-                      {(selectedFeature.properties.descripcion && typeof selectedFeature.properties.descripcion !== 'undefined') ? (
+                      {selectedFeature.properties.descripcion &&
+                      typeof selectedFeature.properties.descripcion !==
+                        "undefined" ? (
                         <div className="text-sm">
                           <span className="font-medium">Descripción:</span>
                           <p className="mt-1 text-gray-600">
@@ -1259,7 +1306,8 @@ export default function HomePage() {
                           </p>
                         </div>
                       ) : null}
-                      {(selectedFeature.properties.link && typeof selectedFeature.properties.link !== 'undefined') ? (
+                      {selectedFeature.properties.link &&
+                      typeof selectedFeature.properties.link !== "undefined" ? (
                         <a
                           href={String(selectedFeature.properties.link)}
                           target="_blank"
@@ -1279,36 +1327,58 @@ export default function HomePage() {
                     <div className="mt-2 space-y-2">
                       <div className="flex justify-between text-sm">
                         <span className="font-medium">Especie:</span>
-                        <span className="italic">{String(selectedFeature.properties.scientificName)}</span>
+                        <span className="italic">
+                          {String(selectedFeature.properties.scientificName)}
+                        </span>
                       </div>
-                      {(selectedFeature.properties.kingdom && typeof selectedFeature.properties.kingdom !== 'undefined') ? (
+                      {selectedFeature.properties.kingdom &&
+                      typeof selectedFeature.properties.kingdom !==
+                        "undefined" ? (
                         <div className="flex justify-between text-sm">
                           <span className="font-medium">Reino:</span>
-                          <span>{String(selectedFeature.properties.kingdom)}</span>
+                          <span>
+                            {String(selectedFeature.properties.kingdom)}
+                          </span>
                         </div>
                       ) : null}
-                      {(selectedFeature.properties.family && typeof selectedFeature.properties.family !== 'undefined') ? (
+                      {selectedFeature.properties.family &&
+                      typeof selectedFeature.properties.family !==
+                        "undefined" ? (
                         <div className="flex justify-between text-sm">
                           <span className="font-medium">Familia:</span>
-                          <span>{String(selectedFeature.properties.family)}</span>
+                          <span>
+                            {String(selectedFeature.properties.family)}
+                          </span>
                         </div>
                       ) : null}
-                      {(selectedFeature.properties.basisOfRecord && typeof selectedFeature.properties.basisOfRecord !== 'undefined') ? (
+                      {selectedFeature.properties.basisOfRecord &&
+                      typeof selectedFeature.properties.basisOfRecord !==
+                        "undefined" ? (
                         <div className="flex justify-between text-sm">
                           <span className="font-medium">Tipo:</span>
-                          <span>{String(selectedFeature.properties.basisOfRecord)}</span>
+                          <span>
+                            {String(selectedFeature.properties.basisOfRecord)}
+                          </span>
                         </div>
                       ) : null}
-                      {(selectedFeature.properties.eventDate && typeof selectedFeature.properties.eventDate !== 'undefined') ? (
+                      {selectedFeature.properties.eventDate &&
+                      typeof selectedFeature.properties.eventDate !==
+                        "undefined" ? (
                         <div className="flex justify-between text-sm">
                           <span className="font-medium">Fecha:</span>
-                          <span>{String(selectedFeature.properties.eventDate)}</span>
+                          <span>
+                            {String(selectedFeature.properties.eventDate)}
+                          </span>
                         </div>
                       ) : null}
-                      {(selectedFeature.properties.country && typeof selectedFeature.properties.country !== 'undefined') ? (
+                      {selectedFeature.properties.country &&
+                      typeof selectedFeature.properties.country !==
+                        "undefined" ? (
                         <div className="flex justify-between text-sm">
                           <span className="font-medium">País:</span>
-                          <span>{String(selectedFeature.properties.country)}</span>
+                          <span>
+                            {String(selectedFeature.properties.country)}
+                          </span>
                         </div>
                       ) : null}
                     </div>
@@ -1321,27 +1391,43 @@ export default function HomePage() {
                     <div className="mt-2 space-y-2">
                       <div className="flex justify-between text-sm">
                         <span className="font-medium">Estación:</span>
-                        <span>{String(selectedFeature.properties.stationName)}</span>
+                        <span>
+                          {String(selectedFeature.properties.stationName)}
+                        </span>
                       </div>
-                      {(selectedFeature.properties.siteType && typeof selectedFeature.properties.siteType !== 'undefined') ? (
+                      {selectedFeature.properties.siteType &&
+                      typeof selectedFeature.properties.siteType !==
+                        "undefined" ? (
                         <div className="flex justify-between text-sm">
                           <span className="font-medium">Tipo:</span>
-                          <span>{String(selectedFeature.properties.siteType)}</span>
+                          <span>
+                            {String(selectedFeature.properties.siteType)}
+                          </span>
                         </div>
                       ) : null}
-                      {(selectedFeature.properties.organization && typeof selectedFeature.properties.organization !== 'undefined') ? (
+                      {selectedFeature.properties.organization &&
+                      typeof selectedFeature.properties.organization !==
+                        "undefined" ? (
                         <div className="flex justify-between text-sm">
                           <span className="font-medium">Organización:</span>
-                          <span className="text-xs">{String(selectedFeature.properties.organization)}</span>
+                          <span className="text-xs">
+                            {String(selectedFeature.properties.organization)}
+                          </span>
                         </div>
                       ) : null}
-                      {(selectedFeature.properties.provider && typeof selectedFeature.properties.provider !== 'undefined') ? (
+                      {selectedFeature.properties.provider &&
+                      typeof selectedFeature.properties.provider !==
+                        "undefined" ? (
                         <div className="flex justify-between text-sm">
                           <span className="font-medium">Fuente:</span>
-                          <span>{String(selectedFeature.properties.provider)}</span>
+                          <span>
+                            {String(selectedFeature.properties.provider)}
+                          </span>
                         </div>
                       ) : null}
-                      {(selectedFeature.properties.description && typeof selectedFeature.properties.description !== 'undefined') ? (
+                      {selectedFeature.properties.description &&
+                      typeof selectedFeature.properties.description !==
+                        "undefined" ? (
                         <div className="text-sm">
                           <span className="font-medium">Descripción:</span>
                           <p className="mt-1 text-gray-600 text-xs">
@@ -1381,7 +1467,7 @@ export default function HomePage() {
                         </p>
                       </div>
                     </div>
-                    
+
                     <div>
                       <h3 className="font-medium text-gray-900">Parámetros</h3>
                       <div className="mt-2 space-y-2">
@@ -1395,13 +1481,15 @@ export default function HomePage() {
                             >
                               <span className="font-medium">{param}:</span>
                               <span>
-                                {value !== undefined ? `${value} ${unit}` : "N/A"}
+                                {value !== undefined
+                                  ? `${value} ${unit}`
+                                  : "N/A"}
                               </span>
                             </div>
-                        );
-                      })}
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
                   </>
                 )}
               </div>

@@ -7,18 +7,16 @@ export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      clientId: process.env.GOOGLE_CLIENT_ID || "disabled-google-client-id",
+      clientSecret:
+        process.env.GOOGLE_CLIENT_SECRET || "disabled-google-client-secret",
     }),
   ],
   callbacks: {
     session: async ({ session, user }) => {
       if (session?.user && user) {
-        // @ts-ignore - Extending session user
         session.user.id = user.id;
-        // @ts-ignore - role exists in our User model
         session.user.role = user.role;
-        // @ts-ignore - credits exists in our User model
         session.user.credits = user.credits;
       }
       return session;

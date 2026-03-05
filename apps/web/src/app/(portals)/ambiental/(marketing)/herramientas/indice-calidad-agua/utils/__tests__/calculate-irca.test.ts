@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+
 import { describe, it, expect } from "vitest";
 import { calculateIRCA } from "../calculate-irca";
 import type { WaterSample } from "../../types";

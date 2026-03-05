@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars */
+
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -37,13 +39,17 @@ describe("AuthModal", () => {
     it("should not render when isOpen is false", () => {
       render(<AuthModal isOpen={false} onClose={mockOnClose} />);
 
-      expect(screen.queryByRole("heading", { name: "Iniciar Sesión" })).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole("heading", { name: "Iniciar Sesión" }),
+      ).not.toBeInTheDocument();
     });
 
     it("should render when isOpen is true", () => {
       render(<AuthModal isOpen={true} onClose={mockOnClose} />);
 
-      expect(screen.getByRole("heading", { name: "Iniciar Sesión" })).toBeInTheDocument();
+      expect(
+        screen.getByRole("heading", { name: "Iniciar Sesión" }),
+      ).toBeInTheDocument();
     });
 
     it("should render with dark theme by default", async () => {
@@ -75,7 +81,9 @@ describe("AuthModal", () => {
     it('should show "Iniciar Sesión" title', () => {
       render(<AuthModal isOpen={true} onClose={mockOnClose} />);
 
-      expect(screen.getByRole("heading", { name: "Iniciar Sesión" })).toBeInTheDocument();
+      expect(
+        screen.getByRole("heading", { name: "Iniciar Sesión" }),
+      ).toBeInTheDocument();
     });
 
     it("should show Google sign-in button", () => {
@@ -88,9 +96,7 @@ describe("AuthModal", () => {
       render(<AuthModal isOpen={true} onClose={mockOnClose} />);
 
       expect(
-        screen.getByText(
-          /Accede a tu cuenta para continuar/,
-        ),
+        screen.getByText(/Accede a tu cuenta para continuar/),
       ).toBeInTheDocument();
     });
 
@@ -103,7 +109,10 @@ describe("AuthModal", () => {
       await userEvent.click(googleButton);
 
       await waitFor(() => {
-        expect(signIn).toHaveBeenCalledWith("google", expect.objectContaining({ callbackUrl: expect.any(String) }));
+        expect(signIn).toHaveBeenCalledWith(
+          "google",
+          expect.objectContaining({ callbackUrl: expect.any(String) }),
+        );
       });
     });
 
@@ -120,9 +129,7 @@ describe("AuthModal", () => {
       expect(screen.getByText("Conectando...")).toBeInTheDocument();
 
       // Find button by its loading text instead
-      const loadingButton = screen
-        .getByText("Conectando...")
-        .closest("button");
+      const loadingButton = screen.getByText("Conectando...").closest("button");
       expect(loadingButton).toBeDisabled();
     });
 
@@ -310,7 +317,9 @@ describe("AuthModal", () => {
       render(<AuthModal isOpen={true} onClose={mockOnClose} />);
 
       // Click on the modal content container (not the text which may trigger other handlers)
-      const modalContent = screen.getByRole("heading", { name: "Iniciar Sesión" }).closest('div[class*="rounded-xl"]');
+      const modalContent = screen
+        .getByRole("heading", { name: "Iniciar Sesión" })
+        .closest('div[class*="rounded-xl"]');
       if (modalContent) {
         fireEvent.click(modalContent);
       }
@@ -381,7 +390,7 @@ describe("AuthButton", () => {
       expect(screen.getByText("Iniciar sesión")).toBeInTheDocument();
     });
 
-    it('should show user name when authenticated', () => {
+    it("should show user name when authenticated", () => {
       (useSession as any).mockReturnValue({
         data: {
           user: { name: "John Doe", email: "john@example.com" },

@@ -19,6 +19,7 @@ vi.mock("../../../../lib/logger", () => ({
 vi.mock("../../../../lib/rate-limit", () => ({
   checkRateLimit: vi.fn(),
   getClientIP: vi.fn(() => "127.0.0.1"),
+  acquireWebhookReplayLock: vi.fn(),
 }));
 
 describe("/api/email/webhook", () => {
@@ -28,7 +29,10 @@ describe("/api/email/webhook", () => {
   });
 
   it("returns 401 when Brevo signature is invalid", async () => {
-    const { checkRateLimit } = await import("../../../../lib/rate-limit");
+    const { checkRateLimit, acquireWebhookReplayLock } = await import(
+      "../../../../lib/rate-limit"
+    );
+    vi.mocked(acquireWebhookReplayLock).mockResolvedValue("acquired");
     vi.mocked(checkRateLimit).mockResolvedValue({
       success: true,
       limit: 10,
@@ -52,7 +56,10 @@ describe("/api/email/webhook", () => {
   });
 
   it("processes webhook when signature is valid", async () => {
-    const { checkRateLimit } = await import("../../../../lib/rate-limit");
+    const { checkRateLimit, acquireWebhookReplayLock } = await import(
+      "../../../../lib/rate-limit"
+    );
+    vi.mocked(acquireWebhookReplayLock).mockResolvedValue("acquired");
     vi.mocked(checkRateLimit).mockResolvedValue({
       success: true,
       limit: 10,

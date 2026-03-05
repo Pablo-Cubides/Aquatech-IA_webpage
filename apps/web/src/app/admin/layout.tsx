@@ -2,14 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { 
-  LayoutDashboard, 
-  Users, 
-  Calendar, 
-  Settings, 
-  LogOut,
-  ShieldAlert
-} from "lucide-react";
+import { LayoutDashboard, Users, Calendar, ShieldAlert } from "lucide-react";
 
 export default async function AdminLayout({
   children,
@@ -35,24 +28,24 @@ export default async function AdminLayout({
         </div>
 
         <nav className="flex-1 p-4 space-y-2">
-          <Link 
-            href="/admin" 
+          <Link
+            href="/admin"
             className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition-colors text-slate-300 hover:text-white"
           >
             <LayoutDashboard className="w-5 h-5" />
             Dashboard
           </Link>
-          
-          <Link 
-            href="/admin/users" 
+
+          <Link
+            href="/admin/users"
             className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition-colors text-slate-300 hover:text-white"
           >
             <Users className="w-5 h-5" />
             Usuarios
           </Link>
 
-          <Link 
-            href="/admin/content" 
+          <Link
+            href="/admin/content"
             className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition-colors text-slate-300 hover:text-white"
           >
             <Calendar className="w-5 h-5" />
@@ -66,7 +59,9 @@ export default async function AdminLayout({
               {session.user?.name?.[0] || "A"}
             </div>
             <div className="flex-1 overflow-hidden">
-              <p className="text-sm font-medium truncate">{session.user?.name}</p>
+              <p className="text-sm font-medium truncate">
+                {session.user?.name}
+              </p>
               <p className="text-xs truncate opacity-70">Administrador</p>
             </div>
           </div>
@@ -75,9 +70,7 @@ export default async function AdminLayout({
 
       {/* Main Content */}
       <main className="flex-1 overflow-auto bg-slate-950">
-        <div className="p-8">
-          {children}
-        </div>
+        <div className="p-8">{children}</div>
       </main>
     </div>
   );

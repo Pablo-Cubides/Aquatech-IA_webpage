@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Pool } from "pg";
 
@@ -81,7 +81,7 @@ const pool = new Pool({
 
 const adapter = new PrismaPg(pool);
 
-const prismaConfig: any = {
+const prismaConfig: Prisma.PrismaClientOptions = {
   adapter,
   log:
     process.env.NODE_ENV === "development"

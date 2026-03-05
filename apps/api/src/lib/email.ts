@@ -1,6 +1,47 @@
 import * as brevo from "@getbrevo/brevo";
 import { prisma } from "@ia-next/database";
+import { EmailEventStatus, EmailEventType, Prisma } from "@prisma/client";
 import { logger } from "./logger";
+
+function getErrorMessage(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
+  }
+  return "Unknown error";
+}
+
+function toEmailEventType(template: EmailTemplate): EmailEventType {
+  const map: Record<EmailTemplate, EmailEventType> = {
+    [EmailTemplate.WELCOME]: EmailEventType.WELCOME,
+  };
+
+  return map[template];
+}
+
+function parseWebhookEvent(input: unknown): {
+  eventType?: string;
+  messageId?: string;
+  raw: unknown;
+} {
+  if (typeof input !== "object" || input === null) {
+    return { raw: input };
+  }
+
+  const parsed = input as Record<string, unknown>;
+
+  return {
+    eventType: typeof parsed.event === "string" ? parsed.event : undefined,
+    messageId:
+      typeof parsed["message-id"] === "string"
+        ? parsed["message-id"]
+        : undefined,
+    raw: input,
+  };
+}
+
+function toInputJsonValue(value: unknown): Prisma.InputJsonValue {
+  return JSON.parse(JSON.stringify(value ?? null)) as Prisma.InputJsonValue;
+}
 
 // Initialize Brevo client
 const apiInstance = new brevo.TransactionalEmailsApi();
@@ -18,7 +59,7 @@ interface EmailData {
   name?: string;
   template: EmailTemplate;
   templateId?: number;
-  variables?: Record<string, any>;
+  variables?: Record<string, unknown>;
   userId?: string;
 }
 
@@ -45,11 +86,14 @@ class EmailService {
         data: {
           userId,
           email: to,
-          event: template.toUpperCase() as any,
+          event: toEmailEventType(template),
           templateId: finalTemplateId.toString(),
           subject: config.subject,
-          status: "SENT",
-          metadata: { variables, name },
+          status: EmailEventStatus.SENT,
+          metadata: toInputJsonValue({
+            variables,
+            ...(name ? { name } : {}),
+          }),
         },
       });
 
@@ -81,11 +125,12 @@ class EmailService {
       });
 
       return result.body?.messageId || null;
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorMessage = getErrorMessage(error);
       await logger.error("Failed to send email", {
         to,
         template,
-        error: error.message,
+        error: errorMessage,
       });
 
       // Update email event status to failed
@@ -93,18 +138,18 @@ class EmailService {
         await prisma.emailEvent.updateMany({
           where: {
             email: to,
-            event: template.toUpperCase() as any,
-            status: "SENT",
+            event: toEmailEventType(template),
+            status: EmailEventStatus.SENT,
           },
           data: {
-            status: "ERROR",
+            status: EmailEventStatus.ERROR,
             processedAt: new Date(),
-            metadata: { error: error.message },
+            metadata: toInputJsonValue({ error: errorMessage }),
           },
         });
-      } catch (updateError) {
+      } catch (updateError: unknown) {
         await logger.error("Failed to update email event status", {
-          error: updateError,
+          error: getErrorMessage(updateError),
         });
       }
 
@@ -124,9 +169,9 @@ class EmailService {
   }
 
   // Handle webhook events from Brevo
-  async handleWebhookEvent(event: any) {
+  async handleWebhookEvent(event: unknown) {
     try {
-      const { email, event: eventType, "message-id": messageId } = event;
+      const { eventType, messageId, raw } = parseWebhookEvent(event);
 
       if (!messageId) {
         await logger.warn("Received webhook event without message ID", {
@@ -158,20 +203,24 @@ class EmailService {
         blocked: "BLOCKED",
       };
 
-      const newStatus = statusMap[eventType] || "ERROR";
+      const newStatus = (eventType ? statusMap[eventType] : undefined) || "ERROR";
+
+      const existingMetadata =
+        typeof emailEvent.metadata === "object" &&
+        emailEvent.metadata !== null &&
+        !Array.isArray(emailEvent.metadata)
+          ? (emailEvent.metadata as Record<string, unknown>)
+          : {};
 
       await prisma.emailEvent.update({
         where: { id: emailEvent.id },
         data: {
-          status: newStatus as any,
+          status: newStatus as EmailEventStatus,
           processedAt: new Date(),
-          metadata: {
-            ...(typeof emailEvent.metadata === "object" &&
-            emailEvent.metadata !== null
-              ? (emailEvent.metadata as Record<string, any>)
-              : {}),
-            webhookEvent: event,
-          },
+          metadata: toInputJsonValue({
+            ...existingMetadata,
+            webhookEvent: raw,
+          }),
         },
       });
 
@@ -180,9 +229,9 @@ class EmailService {
         eventType,
         newStatus,
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       await logger.error("Failed to process email webhook", {
-        error: error.message,
+        error: getErrorMessage(error),
         event,
       });
     }

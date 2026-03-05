@@ -4,11 +4,32 @@
  */
 
 import { Redis } from "@upstash/redis";
+import { logger } from "@/lib/logger";
 
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
-});
+let redisClient: Redis | null = null;
+let redisDisabled = false;
+
+function getRedisClient(): Redis | null {
+  if (redisClient) {
+    return redisClient;
+  }
+
+  if (redisDisabled) {
+    return null;
+  }
+
+  const url = process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+
+  if (!url || !token) {
+    redisDisabled = true;
+    logger.warn("Rate limit Redis disabled: missing Upstash environment variables");
+    return null;
+  }
+
+  redisClient = new Redis({ url, token });
+  return redisClient;
+}
 
 export type RateLimitConfig = {
   interval: number; // Time window in milliseconds
@@ -40,44 +61,63 @@ export async function rateLimit(
   const key = `rate-limit:${identifier}`;
   const now = Date.now();
   const window = config.interval;
+  const limit = config.uniqueTokenPerInterval;
+  const redis = getRedisClient();
+
+  if (!redis) {
+    const isSensitive =
+      identifier.includes("payment") ||
+      identifier.includes("admin") ||
+      identifier.includes("auth") ||
+      identifier.includes("delete");
+
+    return {
+      success: !isSensitive,
+      limit,
+      remaining: isSensitive ? 0 : limit,
+      reset: now + window,
+    };
+  }
 
   try {
-    // Get current count
-    const current = await redis.get<number>(key);
+    const created = await redis.set(key, 1, { px: window, nx: true });
 
-    if (current === null) {
-      // First request in window
-      await redis.set(key, 1, { px: window });
+    if (created === "OK") {
       return {
         success: true,
-        limit: config.uniqueTokenPerInterval,
-        remaining: config.uniqueTokenPerInterval - 1,
+        limit,
+        remaining: limit - 1,
         reset: now + window,
       };
     }
 
-    if (current >= config.uniqueTokenPerInterval) {
-      // Rate limit exceeded
-      const ttl = await redis.ttl(key);
+    const current = await redis.incr(key);
+    let ttlSeconds = await redis.ttl(key);
+
+    if (ttlSeconds < 0) {
+      ttlSeconds = Math.ceil(window / 1000);
+      await redis.expire(key, ttlSeconds);
+    }
+
+    const reset = now + ttlSeconds * 1000;
+
+    if (current > limit) {
       return {
         success: false,
-        limit: config.uniqueTokenPerInterval,
+        limit,
         remaining: 0,
-        reset: now + ttl * 1000,
+        reset,
       };
     }
 
-    // Increment counter
-    await redis.incr(key);
-
     return {
       success: true,
-      limit: config.uniqueTokenPerInterval,
-      remaining: config.uniqueTokenPerInterval - current - 1,
-      reset: now + window,
+      limit,
+      remaining: Math.max(limit - current, 0),
+      reset,
     };
-  } catch (error) {
-    console.error("Rate limiting error:", error);
+  } catch (error: unknown) {
+    logger.error("Rate limiting error", error, { identifier });
     // SECURITY: Fail closed for sensitive endpoints
     // If identifier suggests sensitive operation, deny on error
     const isSensitive =
@@ -89,7 +129,7 @@ export async function rateLimit(
     if (isSensitive) {
       return {
         success: false,
-        limit: config.uniqueTokenPerInterval,
+        limit,
         remaining: 0,
         reset: now + window,
       };
@@ -98,8 +138,8 @@ export async function rateLimit(
     // Fail open for read-only operations
     return {
       success: true,
-      limit: config.uniqueTokenPerInterval,
-      remaining: config.uniqueTokenPerInterval,
+      limit,
+      remaining: limit,
       reset: now + window,
     };
   }
@@ -139,20 +179,61 @@ export async function rateLimitByUser(
  * Get client IP from request headers
  */
 export function getClientIP(headers: Headers): string {
-  // Try various headers that may contain the real IP
-  const forwardedFor = headers.get("x-forwarded-for");
-  if (forwardedFor) {
-    return forwardedFor.split(",")[0].trim();
+  const trustForwardedHeaders = process.env.TRUST_PROXY_HEADERS === "true";
+
+  const isValidIp = (candidate: string): boolean => {
+    const ip = candidate.trim();
+    if (!ip) return false;
+
+    const isIpv4 =
+      /^(25[0-5]|2[0-4]\d|1?\d?\d)(\.(25[0-5]|2[0-4]\d|1?\d?\d)){3}$/.test(ip);
+    const isIpv6 = /^[0-9a-f:]+$/i.test(ip) && ip.includes(":");
+
+    return isIpv4 || isIpv6;
+  };
+
+  const pickIp = (headerValue: string | null): string | null => {
+    if (!headerValue) return null;
+
+    const candidates = headerValue
+      .split(",")
+      .map((part) => part.trim())
+      .filter(Boolean);
+
+    for (const candidate of candidates) {
+      if (isValidIp(candidate)) {
+        return candidate;
+      }
+    }
+
+    return null;
+  };
+
+  const trustedProxyHeaders = [
+    headers.get("cf-connecting-ip"),
+    headers.get("x-vercel-forwarded-for"),
+    headers.get("true-client-ip"),
+  ];
+
+  for (const headerValue of trustedProxyHeaders) {
+    const ip = pickIp(headerValue);
+    if (ip) {
+      return ip;
+    }
   }
 
-  const realIP = headers.get("x-real-ip");
-  if (realIP) {
-    return realIP.trim();
-  }
+  if (trustForwardedHeaders) {
+    const forwardedHeaders = [
+      headers.get("x-forwarded-for"),
+      headers.get("x-real-ip"),
+    ];
 
-  const cfConnectingIP = headers.get("cf-connecting-ip");
-  if (cfConnectingIP) {
-    return cfConnectingIP.trim();
+    for (const headerValue of forwardedHeaders) {
+      const ip = pickIp(headerValue);
+      if (ip) {
+        return ip;
+      }
+    }
   }
 
   return "unknown";

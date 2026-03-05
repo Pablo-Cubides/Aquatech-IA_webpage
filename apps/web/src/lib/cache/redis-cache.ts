@@ -6,10 +6,30 @@
 import { Redis } from "@upstash/redis";
 import { logger } from "@/lib/logger";
 
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
-});
+let redisClient: Redis | null = null;
+let redisDisabled = false;
+
+function getRedisClient(): Redis | null {
+  if (redisClient) {
+    return redisClient;
+  }
+
+  if (redisDisabled) {
+    return null;
+  }
+
+  const url = process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+
+  if (!url || !token) {
+    redisDisabled = true;
+    logger.warn("Redis cache disabled: missing Upstash environment variables");
+    return null;
+  }
+
+  redisClient = new Redis({ url, token });
+  return redisClient;
+}
 
 export interface CacheOptions {
   ttl?: number; // Time to live in seconds (default: 15 minutes)
@@ -30,6 +50,9 @@ export class RedisCache {
    */
   async get<T>(key: string): Promise<T | null> {
     try {
+      const redis = getRedisClient();
+      if (!redis) return null;
+
       const fullKey = `${this.prefix}:${key}`;
       const value = await redis.get<T>(fullKey);
 
@@ -51,6 +74,9 @@ export class RedisCache {
    */
   async set<T>(key: string, value: T, ttl?: number): Promise<boolean> {
     try {
+      const redis = getRedisClient();
+      if (!redis) return false;
+
       const fullKey = `${this.prefix}:${key}`;
       const expirationSeconds = ttl || this.defaultTTL;
 
@@ -69,6 +95,9 @@ export class RedisCache {
    */
   async delete(key: string): Promise<boolean> {
     try {
+      const redis = getRedisClient();
+      if (!redis) return false;
+
       const fullKey = `${this.prefix}:${key}`;
       await redis.del(fullKey);
 
@@ -85,6 +114,9 @@ export class RedisCache {
    */
   async clear(): Promise<boolean> {
     try {
+      const redis = getRedisClient();
+      if (!redis) return false;
+
       const pattern = `${this.prefix}:*`;
       const keys = await redis.keys(pattern);
 
@@ -142,6 +174,9 @@ export class RedisCache {
    */
   async increment(key: string, amount: number = 1): Promise<number> {
     try {
+      const redis = getRedisClient();
+      if (!redis) return 0;
+
       const fullKey = `${this.prefix}:${key}`;
       const newValue = await redis.incrby(fullKey, amount);
       return newValue;
@@ -156,6 +191,9 @@ export class RedisCache {
    */
   async exists(key: string): Promise<boolean> {
     try {
+      const redis = getRedisClient();
+      if (!redis) return false;
+
       const fullKey = `${this.prefix}:${key}`;
       const result = await redis.exists(fullKey);
       return result === 1;

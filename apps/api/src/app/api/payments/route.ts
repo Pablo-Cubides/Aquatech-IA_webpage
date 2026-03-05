@@ -12,16 +12,23 @@ const createPaymentSchema = z.object({
   packageId: z.string().min(1),
 });
 
-export async function GET(request: NextRequest) {
+function getErrorMessage(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
+  }
+  return "Unknown error";
+}
+
+export async function GET() {
   try {
     // Return available credit packages
     return NextResponse.json({
       success: true,
       packages: CREDIT_PACKAGES,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     await logger.error("Failed to get credit packages", {
-      error: error.message,
+      error: getErrorMessage(error),
     });
 
     return NextResponse.json(
@@ -110,10 +117,11 @@ export async function POST(request: NextRequest) {
         package: creditPackage,
       },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     const duration = Date.now() - startTime;
+    const errorMessage = getErrorMessage(error);
     await logger.request("POST", "/api/payments", 500, duration, {
-      error: error.message,
+      error: errorMessage,
     });
 
     if (error instanceof z.ZodError) {
@@ -128,7 +136,7 @@ export async function POST(request: NextRequest) {
     }
 
     await logger.error("Failed to create payment", {
-      error: error.message,
+      error: errorMessage,
     });
 
     return NextResponse.json(

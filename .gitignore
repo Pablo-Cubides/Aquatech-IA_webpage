@@ -54,6 +54,9 @@ lint_output.txt
 sampling_test_output.txt
 next_dev*.log
 
+# TypeScript build artifacts
+*.tsbuildinfo
+
 
 # Runtime data
 pids

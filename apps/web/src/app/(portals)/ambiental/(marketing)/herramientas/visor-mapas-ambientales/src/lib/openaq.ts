@@ -83,64 +83,62 @@ export interface OpenAQMeasurement {
   sensorType?: string;
 }
 
-const OPENAQ_API_BASE = 'https://api.openaq.org/v3';
-
 /**
  * OpenAQ country ID mapping (based on API response)
  * These IDs are used internally by OpenAQ v3 API
  * Updated 2024-12-16 with correct IDs from /v3/countries endpoint
  */
 const COUNTRY_ID_MAP: Record<string, string> = {
-  'CO': '138', // Colombia
-  'US': '155', // United States (was incorrectly 225)
-  'MX': '157', // México (was incorrectly 156)
-  'BR': '45',  // Brasil (was incorrectly 33)
-  'AR': '6',   // Argentina (was incorrectly 10)
-  'CL': '3',   // Chile (was incorrectly 45)
-  'PE': '5',   // Perú (was incorrectly 173)
-  'EC': '137', // Ecuador
-  'VE': '232', // Venezuela (may not have data)
-  'GB': '79',  // United Kingdom
-  'DE': '50',  // Germany (was incorrectly 57)
-  'FR': '22',  // France (was incorrectly 74)
-  'ES': '67',  // Spain (was incorrectly 204)
-  'IT': '91',  // Italy (was incorrectly 107)
-  'IN': '9',   // India (was incorrectly 101)
-  'CN': '10',  // China (was incorrectly 46)
-  'JP': '190', // Japan (was incorrectly 109)
-  'AU': '177', // Australia (was incorrectly 13)
-  'CA': '156', // Canada (was incorrectly 38)
+  CO: "138", // Colombia
+  US: "155", // United States (was incorrectly 225)
+  MX: "157", // México (was incorrectly 156)
+  BR: "45", // Brasil (was incorrectly 33)
+  AR: "6", // Argentina (was incorrectly 10)
+  CL: "3", // Chile (was incorrectly 45)
+  PE: "5", // Perú (was incorrectly 173)
+  EC: "137", // Ecuador
+  VE: "232", // Venezuela (may not have data)
+  GB: "79", // United Kingdom
+  DE: "50", // Germany (was incorrectly 57)
+  FR: "22", // France (was incorrectly 74)
+  ES: "67", // Spain (was incorrectly 204)
+  IT: "91", // Italy (was incorrectly 107)
+  IN: "9", // India (was incorrectly 101)
+  CN: "10", // China (was incorrectly 46)
+  JP: "190", // Japan (was incorrectly 109)
+  AU: "177", // Australia (was incorrectly 13)
+  CA: "156", // Canada (was incorrectly 38)
   // Additional countries from API
-  'CR': '29',  // Costa Rica
-  'GT': '118', // Guatemala
-  'HN': '136', // Honduras
-  'PA': '232', // Panama (may not have data)
-  'TH': '111', // Thailand
-  'KR': '25',  // South Korea
-  'TW': '189', // Taiwan
-  'SG': '231', // Singapore
-  'PH': '183', // Philippines
-  'ID': '1',   // Indonesia
-  'MY': '2',   // Malaysia
-  'VN': '56',  // Vietnam
-  'ZA': '37',  // South Africa
-  'NG': '100', // Nigeria
-  'KE': '17',  // Kenya
-  'EG': '162', // Egypt
-  'MA': '27',  // Morocco
-  'PL': '77',  // Poland
-  'NL': '94',  // Netherlands
-  'BE': '60',  // Belgium
-  'CH': '92',  // Switzerland
-  'AT': '89',  // Austria
-  'PT': '141', // Portugal
-  'GR': '80',  // Greece
-  'TR': '66',  // Turkey
-  'RU': '48',  // Russia
-  'UA': '34',  // Ukraine
-  'IL': '11',  // Israel
-  'AE': '59',  // UAE
-  'SA': '106', // Saudi Arabia
+  CR: "29", // Costa Rica
+  GT: "118", // Guatemala
+  HN: "136", // Honduras
+  PA: "232", // Panama (may not have data)
+  TH: "111", // Thailand
+  KR: "25", // South Korea
+  TW: "189", // Taiwan
+  SG: "231", // Singapore
+  PH: "183", // Philippines
+  ID: "1", // Indonesia
+  MY: "2", // Malaysia
+  VN: "56", // Vietnam
+  ZA: "37", // South Africa
+  NG: "100", // Nigeria
+  KE: "17", // Kenya
+  EG: "162", // Egypt
+  MA: "27", // Morocco
+  PL: "77", // Poland
+  NL: "94", // Netherlands
+  BE: "60", // Belgium
+  CH: "92", // Switzerland
+  AT: "89", // Austria
+  PT: "141", // Portugal
+  GR: "80", // Greece
+  TR: "66", // Turkey
+  RU: "48", // Russia
+  UA: "34", // Ukraine
+  IL: "11", // Israel
+  AE: "59", // UAE
+  SA: "106", // Saudi Arabia
 };
 
 /**
@@ -164,26 +162,32 @@ export async function getOpenAQLocations(params: {
 }): Promise<OpenAQLocation[]> {
   try {
     const searchParams = new URLSearchParams();
-    
+
     if (params.latitude && params.longitude) {
-      searchParams.append('coordinates', `${params.latitude},${params.longitude}`);
+      searchParams.append(
+        "coordinates",
+        `${params.latitude},${params.longitude}`,
+      );
       if (params.radius) {
-        searchParams.append('radius', (params.radius * 1000).toString()); // convert km to m
+        searchParams.append("radius", (params.radius * 1000).toString()); // convert km to m
       }
     }
-    
-    if (params.country) searchParams.append('country', params.country);
-    if (params.city) searchParams.append('city', params.city);
-    if (params.parameter) searchParams.append('parameter', params.parameter);
-    searchParams.append('limit', (params.limit || 100).toString());
-    searchParams.append('order_by', 'lastUpdated');
-    searchParams.append('sort', 'desc');
 
-    const response = await fetch(`/api/openaq/locations?${searchParams.toString()}`, {
-      headers: {
-        'Accept': 'application/json',
+    if (params.country) searchParams.append("country", params.country);
+    if (params.city) searchParams.append("city", params.city);
+    if (params.parameter) searchParams.append("parameter", params.parameter);
+    searchParams.append("limit", (params.limit || 100).toString());
+    searchParams.append("order_by", "lastUpdated");
+    searchParams.append("sort", "desc");
+
+    const response = await fetch(
+      `/api/openaq/locations?${searchParams.toString()}`,
+      {
+        headers: {
+          Accept: "application/json",
+        },
       },
-    });
+    );
 
     if (!response.ok) {
       throw new Error(`OpenAQ API error: ${response.status}`);
@@ -192,7 +196,7 @@ export async function getOpenAQLocations(params: {
     const data = await response.json();
     return data.results || [];
   } catch (error) {
-    console.error('Error fetching OpenAQ locations:', error);
+    console.error("Error fetching OpenAQ locations:", error);
     return [];
   }
 }
@@ -217,45 +221,54 @@ export async function getOpenAQMeasurements(params: {
     // OpenAQ v3 API uses /locations endpoint
     // Note: radius must be <= 25000 meters (25 km)
     const searchParams = new URLSearchParams();
-    
+
     // Determine search strategy
     if (params.locationId) {
-      searchParams.append('location_id', params.locationId.toString());
+      searchParams.append("location_id", params.locationId.toString());
     } else if (params.country) {
       // Always use country when provided - this allows filtering by country
-      searchParams.append('countries_id', getCountryId(params.country));
+      searchParams.append("countries_id", getCountryId(params.country));
     } else if (params.latitude && params.longitude) {
-      searchParams.append('coordinates', `${params.latitude},${params.longitude}`);
+      searchParams.append(
+        "coordinates",
+        `${params.latitude},${params.longitude}`,
+      );
       if (params.radius) {
         // Cap radius at 25000 meters (25 km) - API maximum
         const radiusMeters = Math.min(params.radius * 1000, 25000);
-        searchParams.append('radius', radiusMeters.toString());
+        searchParams.append("radius", radiusMeters.toString());
       } else {
-        searchParams.append('radius', '10000');
+        searchParams.append("radius", "10000");
       }
     } else if (params.city) {
-      searchParams.append('city', params.city);
+      searchParams.append("city", params.city);
     } else {
-      console.warn('No valid OpenAQ search parameters provided');
+      console.warn("No valid OpenAQ search parameters provided");
       return [];
     }
-    
+
     // Optional filters
-    if (params.parameter) searchParams.append('parameter', params.parameter);
-    
-    searchParams.append('limit', Math.min(params.limit || 1000, 10000).toString());
+    if (params.parameter) searchParams.append("parameter", params.parameter);
+
+    searchParams.append(
+      "limit",
+      Math.min(params.limit || 1000, 10000).toString(),
+    );
     // Note: order_by only accepts 'id' for /locations endpoint
 
     // Use locations endpoint
-    const response = await fetch(`/api/openaq/locations?${searchParams.toString()}`, {
-      headers: {
-        'Accept': 'application/json',
+    const response = await fetch(
+      `/api/openaq/locations?${searchParams.toString()}`,
+      {
+        headers: {
+          Accept: "application/json",
+        },
       },
-    });
+    );
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      console.error('OpenAQ API error:', response.status, errorData);
+      console.error("OpenAQ API error:", response.status, errorData);
       throw new Error(`OpenAQ API error: ${response.status}`);
     }
 
@@ -263,21 +276,34 @@ export async function getOpenAQMeasurements(params: {
     // Convert locations to measurement format
     if (data.results && Array.isArray(data.results)) {
       const measurements: OpenAQMeasurement[] = [];
-      
+
       for (const location of data.results) {
         // Skip locations without coordinates
-        if (!location.coordinates?.latitude || !location.coordinates?.longitude) {
+        if (
+          !location.coordinates?.latitude ||
+          !location.coordinates?.longitude
+        ) {
           continue;
         }
-        
+
         // Extract sensor data for the requested parameter
         const sensors = location.sensors || [];
-        const sensor = sensors.find((s: any) => {
-          const paramName = s.parameter?.name?.toLowerCase() || '';
-          const requestedParam = (params.parameter || 'pm25').toLowerCase();
-          return paramName === requestedParam || paramName.includes(requestedParam);
-        });
-        
+        type OpenAQSensor = NonNullable<OpenAQLocation["sensors"]>[number];
+        const sensor = sensors.find(
+          (
+            s: OpenAQSensor & {
+              summary?: { value?: { last?: number }; avg?: number };
+              latest?: { value?: number };
+            },
+          ) => {
+            const paramName = s.parameter?.name?.toLowerCase() || "";
+            const requestedParam = (params.parameter || "pm25").toLowerCase();
+            return (
+              paramName === requestedParam || paramName.includes(requestedParam)
+            );
+          },
+        );
+
         // Get actual value from sensor summary if available
         let actualValue: number | null = null;
         if (sensor) {
@@ -290,30 +316,33 @@ export async function getOpenAQMeasurements(params: {
             actualValue = sensor.latest.value;
           }
         }
-        
+
         // If no real value, try to get from location-level statistics
-        if (actualValue === null && location.summary?.value?.last !== undefined) {
+        if (
+          actualValue === null &&
+          location.summary?.value?.last !== undefined
+        ) {
           actualValue = location.summary.value.last;
         }
-        
+
         // Skip locations without valid measurement data
         // Use a simulated value only as last resort for demo purposes
         if (actualValue === null) {
           // Generate a realistic value based on typical AQI ranges for the region
           // This helps visualize the map when API doesn't provide real values
-          const countryCode = location.country?.code || '';
-          const baseFactor = ['IN', 'CN', 'BD'].includes(countryCode) ? 60 : 25;
+          const countryCode = location.country?.code || "";
+          const baseFactor = ["IN", "CN", "BD"].includes(countryCode) ? 60 : 25;
           actualValue = Math.round((Math.random() * baseFactor + 5) * 10) / 10;
         }
-        
+
         measurements.push({
           locationId: location.id,
           location: location.name || `Station ${location.id}`,
-          city: location.locality || '',
+          city: location.locality || "",
           country: {
-            id: location.country?.id?.toString() || '',
-            code: location.country?.code || '',
-            name: location.country?.name || '',
+            id: location.country?.id?.toString() || "",
+            code: location.country?.code || "",
+            name: location.country?.name || "",
           },
           coordinates: {
             latitude: location.coordinates.latitude,
@@ -321,27 +350,29 @@ export async function getOpenAQMeasurements(params: {
           },
           parameter: {
             id: sensor?.parameter?.id || 2,
-            name: sensor?.parameter?.name || params.parameter || 'pm25',
-            units: sensor?.parameter?.units || 'µg/m³',
-            displayName: sensor?.parameter?.displayName || (params.parameter || 'PM2.5').toUpperCase(),
+            name: sensor?.parameter?.name || params.parameter || "pm25",
+            units: sensor?.parameter?.units || "µg/m³",
+            displayName:
+              sensor?.parameter?.displayName ||
+              (params.parameter || "PM2.5").toUpperCase(),
           },
           value: actualValue,
           isMobile: location.isMobile || false,
           isAnalysis: false,
-          entity: location.owner?.name || '',
-          sensorType: sensor?.name || '',
+          entity: location.owner?.name || "",
+          sensorType: sensor?.name || "",
           date: {
             utc: location.datetimeLast?.utc || new Date().toISOString(),
             local: location.datetimeLast?.local || new Date().toISOString(),
           },
         });
       }
-      
+
       return measurements;
     }
     return [];
   } catch (error) {
-    console.error('Error fetching OpenAQ measurements:', error);
+    console.error("Error fetching OpenAQ measurements:", error);
     return [];
   }
 }
@@ -349,17 +380,19 @@ export async function getOpenAQMeasurements(params: {
 /**
  * Get available parameters (pollutants)
  */
-export async function getOpenAQParameters(): Promise<Array<{
-  id: number;
-  name: string;
-  units: string;
-  displayName: string;
-  description?: string;
-}>> {
+export async function getOpenAQParameters(): Promise<
+  Array<{
+    id: number;
+    name: string;
+    units: string;
+    displayName: string;
+    description?: string;
+  }>
+> {
   try {
-    const response = await fetch('/api/openaq/parameters', {
+    const response = await fetch("/api/openaq/parameters", {
       headers: {
-        'Accept': 'application/json',
+        Accept: "application/json",
       },
     });
 
@@ -370,7 +403,7 @@ export async function getOpenAQParameters(): Promise<Array<{
     const data = await response.json();
     return data.results || [];
   } catch (error) {
-    console.error('Error fetching OpenAQ parameters:', error);
+    console.error("Error fetching OpenAQ parameters:", error);
     return [];
   }
 }
@@ -380,16 +413,18 @@ export async function getOpenAQParameters(): Promise<Array<{
  */
 export function openAQToGeoJSON(measurements: OpenAQMeasurement[]) {
   return measurements
-    .filter(m => m.coordinates && m.coordinates.latitude && m.coordinates.longitude)
-    .map(m => ({
-      type: 'Feature' as const,
+    .filter(
+      (m) => m.coordinates && m.coordinates.latitude && m.coordinates.longitude,
+    )
+    .map((m) => ({
+      type: "Feature" as const,
       geometry: {
-        type: 'Point' as const,
+        type: "Point" as const,
         coordinates: [m.coordinates.longitude, m.coordinates.latitude],
       },
       properties: {
         id: `openaq-${m.locationId}-${m.date.utc}`,
-        source: 'openaq',
+        source: "openaq",
         locationId: m.locationId,
         location: m.location,
         parameter: m.parameter.name,
@@ -400,10 +435,10 @@ export function openAQToGeoJSON(measurements: OpenAQMeasurement[]) {
         dateUTC: m.date.utc,
         country: m.country.name,
         countryCode: m.country.code,
-        city: m.city || 'N/A',
+        city: m.city || "N/A",
         isMobile: m.isMobile,
-        sensorType: m.sensorType || 'N/A',
-        entity: m.entity || 'N/A',
+        sensorType: m.sensorType || "N/A",
+        entity: m.entity || "N/A",
       },
     }));
 }
@@ -423,12 +458,12 @@ export function getAQIColor(parameter: string, value: number): string {
   };
 
   const colors = [
-    '#00E400', // Good (Green)
-    '#FFFF00', // Moderate (Yellow)
-    '#FF7E00', // Unhealthy for Sensitive Groups (Orange)
-    '#FF0000', // Unhealthy (Red)
-    '#8F3F97', // Very Unhealthy (Purple)
-    '#7E0023', // Hazardous (Maroon)
+    "#00E400", // Good (Green)
+    "#FFFF00", // Moderate (Yellow)
+    "#FF7E00", // Unhealthy for Sensitive Groups (Orange)
+    "#FF0000", // Unhealthy (Red)
+    "#8F3F97", // Very Unhealthy (Purple)
+    "#7E0023", // Hazardous (Maroon)
   ];
 
   const paramThresholds = thresholds[parameter.toLowerCase()];
@@ -457,12 +492,12 @@ export function getAQICategory(parameter: string, value: number): string {
   };
 
   const categories = [
-    'Bueno',
-    'Moderado',
-    'Malo para Sensibles',
-    'Malo',
-    'Muy Malo',
-    'Peligroso',
+    "Bueno",
+    "Moderado",
+    "Malo para Sensibles",
+    "Malo",
+    "Muy Malo",
+    "Peligroso",
   ];
 
   const paramThresholds = thresholds[parameter.toLowerCase()];
@@ -487,54 +522,68 @@ export function getParameterLegendRanges(parameter: string): Array<{
   units: string;
 }> {
   const param = parameter.toLowerCase();
-  
+
   const colors = [
-    '#00E400', // Good (Green)
-    '#FFFF00', // Moderate (Yellow)
-    '#FF7E00', // Unhealthy for Sensitive Groups (Orange)
-    '#FF0000', // Unhealthy (Red)
-    '#8F3F97', // Very Unhealthy (Purple)
-    '#7E0023', // Hazardous (Maroon)
+    "#00E400", // Good (Green)
+    "#FFFF00", // Moderate (Yellow)
+    "#FF7E00", // Unhealthy for Sensitive Groups (Orange)
+    "#FF0000", // Unhealthy (Red)
+    "#8F3F97", // Very Unhealthy (Purple)
+    "#7E0023", // Hazardous (Maroon)
   ];
 
   const categories = [
-    'Bueno',
-    'Moderado',
-    'Insalubre (sensibles)',
-    'Insalubre',
-    'Muy insalubre',
-    'Peligroso',
+    "Bueno",
+    "Moderado",
+    "Insalubre (sensibles)",
+    "Insalubre",
+    "Muy insalubre",
+    "Peligroso",
   ];
 
   // Define ranges for each parameter based on EPA AQI breakpoints
   const ranges: Record<string, { ranges: string[]; units: string }> = {
     pm25: {
-      ranges: ['0-12', '12.1-35.4', '35.5-55.4', '55.5-150.4', '150.5-250.4', '250.5+'],
-      units: 'µg/m³'
+      ranges: [
+        "0-12",
+        "12.1-35.4",
+        "35.5-55.4",
+        "55.5-150.4",
+        "150.5-250.4",
+        "250.5+",
+      ],
+      units: "µg/m³",
     },
     pm10: {
-      ranges: ['0-54', '55-154', '155-254', '255-354', '355-424', '425+'],
-      units: 'µg/m³'
+      ranges: ["0-54", "55-154", "155-254", "255-354", "355-424", "425+"],
+      units: "µg/m³",
     },
     o3: {
-      ranges: ['0-54', '55-70', '71-85', '86-105', '106-200', '201+'],
-      units: 'ppb'
+      ranges: ["0-54", "55-70", "71-85", "86-105", "106-200", "201+"],
+      units: "ppb",
     },
     no2: {
-      ranges: ['0-53', '54-100', '101-360', '361-649', '650-1249', '1250+'],
-      units: 'ppb'
+      ranges: ["0-53", "54-100", "101-360", "361-649", "650-1249", "1250+"],
+      units: "ppb",
     },
     so2: {
-      ranges: ['0-35', '36-75', '76-185', '186-304', '305-604', '605+'],
-      units: 'ppb'
+      ranges: ["0-35", "36-75", "76-185", "186-304", "305-604", "605+"],
+      units: "ppb",
     },
     co: {
-      ranges: ['0-4.4', '4.5-9.4', '9.5-12.4', '12.5-15.4', '15.5-30.4', '30.5+'],
-      units: 'ppm'
+      ranges: [
+        "0-4.4",
+        "4.5-9.4",
+        "9.5-12.4",
+        "12.5-15.4",
+        "15.5-30.4",
+        "30.5+",
+      ],
+      units: "ppm",
     },
   };
 
-  const paramConfig = ranges[param] || ranges['pm25']; // Default to PM2.5
+  const paramConfig = ranges[param] || ranges["pm25"]; // Default to PM2.5
 
   return paramConfig.ranges.map((range, index) => ({
     color: colors[index],

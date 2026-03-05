@@ -1,10 +1,5 @@
 import { NextResponse } from "next/server";
 
-const CASES_PUBLIC_PATH = "/static/visor-cases";
-const BASE_URL = process.env.VERCEL_URL 
-  ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
-
 const shortTitles: Record<string, string> = {
   "1": "Spider-Man Dorado",
   "2": "Superman y Avión",
@@ -44,7 +39,7 @@ const caseDescriptions: Record<string, string> = {
 export async function GET() {
   try {
     const caseIds = Object.keys(shortTitles);
-    
+
     const promptsList = caseIds.map((caseId) => ({
       id: caseId,
       title: shortTitles[caseId] || `Caso ${caseId}`,

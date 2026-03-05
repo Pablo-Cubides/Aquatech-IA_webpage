@@ -5,8 +5,6 @@
 
 import type { GeoJSONFeature } from "../types";
 
-const EONET_API_BASE = "https://eonet.gsfc.nasa.gov/api/v3";
-
 export interface EONETEvent {
   id: string;
   title: string;

@@ -1,13 +1,7 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import {
-  getOpenAQLocations,
-  getOpenAQMeasurements,
-  openAQToGeoJSON,
-  getOpenAQParameters,
-  type OpenAQMeasurement,
-} from "../lib/openaq";
+import { useState, useEffect } from "react";
+import { getOpenAQMeasurements, openAQToGeoJSON } from "../lib/openaq";
 import type { GeoJSONFeature } from "../types";
 
 interface OpenAQLayerControlProps {
@@ -39,23 +33,6 @@ export default function OpenAQLayerControl({
   const [radius, setRadius] = useState(10); // km (max 25km for OpenAQ API)
   const [latitude] = useState(4.711); // Bogotá
   const [longitude] = useState(-74.0721); // Bogotá
-  const [availableParams, setAvailableParams] = useState<
-    Array<{ name: string; displayName: string }>
-  >([]);
-
-  // Load available parameters
-  useEffect(() => {
-    const loadParams = async () => {
-      const params = await getOpenAQParameters();
-      setAvailableParams(
-        params.map((p) => ({
-          name: p.name,
-          displayName: p.displayName || p.name,
-        }))
-      );
-    };
-    loadParams();
-  }, []);
 
   // Load OpenAQ data when enabled
   useEffect(() => {
@@ -78,11 +55,15 @@ export default function OpenAQLayerControl({
           longitude,
           radius,
           limit: 1000,
-          dateFrom: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().split('T')[0], // Last 24 hours in YYYY-MM-DD format
+          dateFrom: new Date(Date.now() - 24 * 60 * 60 * 1000)
+            .toISOString()
+            .split("T")[0], // Last 24 hours in YYYY-MM-DD format
         });
 
         if (measurements.length === 0) {
-          onError("No se encontraron datos de OpenAQ para los filtros seleccionados");
+          onError(
+            "No se encontraron datos de OpenAQ para los filtros seleccionados",
+          );
           onDataLoad([]);
         } else {
           const geojson = openAQToGeoJSON(measurements);
@@ -100,7 +81,17 @@ export default function OpenAQLayerControl({
     };
 
     loadData();
-  }, [isEnabled, country, parameter, radius, latitude, longitude, onDataLoad, onLoadingChange, onError]);
+  }, [
+    isEnabled,
+    country,
+    parameter,
+    radius,
+    latitude,
+    longitude,
+    onDataLoad,
+    onLoadingChange,
+    onError,
+  ]);
 
   return (
     <div className="space-y-3">

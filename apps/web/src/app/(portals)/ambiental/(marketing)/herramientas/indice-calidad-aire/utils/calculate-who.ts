@@ -5,30 +5,28 @@
 
 import type {
   PollutantId,
-  PollutantMeasurement,
   AirQualityMeasurement,
   WHOResult,
-  Category,
   AQIResult,
-} from '../types';
-import { POLLUTANTS } from '../types';
-import { 
-  WHO_GUIDELINES, 
-  WHO_INDEX_CATEGORIES, 
-  getWHOGuideline, 
+} from "../types";
+import { POLLUTANTS } from "../types";
+import {
+  WHO_GUIDELINES,
+  WHO_INDEX_CATEGORIES,
+  getWHOGuideline,
   getWHOCategory,
-  calculateWHOPercentage 
-} from '../data/breakpoints/who-guidelines';
-import { WHO_INDEX_PROFILE } from '../data/index-profiles';
+  calculateWHOPercentage,
+} from "../data/breakpoints/who-guidelines";
+import { WHO_INDEX_PROFILE } from "../data/index-profiles";
 
 /**
  * Get WHO category name from percentage
  */
 function getWHOCategoryName(percentage: number): string {
-  if (percentage <= 100) return 'complies';
-  if (percentage <= 150) return 'slight-excess';
-  if (percentage <= 300) return 'high-excess';
-  return 'extreme-excess';
+  if (percentage <= 100) return "complies";
+  if (percentage <= 150) return "slight-excess";
+  if (percentage <= 300) return "high-excess";
+  return "extreme-excess";
 }
 
 /**
@@ -37,25 +35,25 @@ function getWHOCategoryName(percentage: number): string {
 export function calculateWHOPollutant(
   pollutantId: PollutantId,
   concentration: number,
-  period: 'annual' | 'daily' | '8hour' | '1hour' = 'daily'
+  period: "annual" | "daily" | "8hour" | "1hour" = "daily",
 ): WHOResult | null {
   const guideline = getWHOGuideline(pollutantId, period);
-  
+
   if (guideline === undefined) {
     return null;
   }
-  
+
   const percentage = calculateWHOPercentage(concentration, guideline);
   const category = getWHOCategory(percentage);
   const pollutant = POLLUTANTS[pollutantId];
-  
+
   return {
     pollutantId,
     pollutantName: pollutant.name,
     concentration,
     guideline,
     percentage: Math.round(percentage * 10) / 10, // Round to 1 decimal
-    category: getWHOCategoryName(percentage) as WHOResult['category'],
+    category: getWHOCategoryName(percentage) as WHOResult["category"],
     categoryName: category.name,
     color: category.color,
   };
@@ -65,36 +63,43 @@ export function calculateWHOPollutant(
  * Calculate WHO index for all pollutants in a measurement
  */
 export function calculateWHOIndex(
-  measurement: AirQualityMeasurement
+  measurement: AirQualityMeasurement,
 ): AQIResult {
-  const subIndices: AQIResult['subIndices'] = [];
+  const subIndices: AQIResult["subIndices"] = [];
   const missingPollutants: PollutantId[] = [];
   const whoResults: WHOResult[] = [];
-  
+
   // Process each pollutant
   for (const guideline of WHO_GUIDELINES) {
     const pollutantMeasurement = measurement.pollutants.find(
-      p => p.pollutantId === guideline.pollutantId
+      (p) => p.pollutantId === guideline.pollutantId,
     );
-    
-    if (!pollutantMeasurement || pollutantMeasurement.value === null || pollutantMeasurement.value === undefined) {
+
+    if (
+      !pollutantMeasurement ||
+      pollutantMeasurement.value === null ||
+      pollutantMeasurement.value === undefined
+    ) {
       missingPollutants.push(guideline.pollutantId);
       continue;
     }
-    
+
     // Determine the appropriate period based on available data
-    const period = guideline.daily24hGuideline ? 'daily' : 
-                   guideline.eightHourGuideline ? '8hour' : 'annual';
-    
+    const period = guideline.daily24hGuideline
+      ? "daily"
+      : guideline.eightHourGuideline
+        ? "8hour"
+        : "annual";
+
     const result = calculateWHOPollutant(
       guideline.pollutantId,
       pollutantMeasurement.value,
-      period
+      period,
     );
-    
+
     if (result) {
       whoResults.push(result);
-      
+
       // Convert to SubIndexResult format
       const category = getWHOCategory(result.percentage);
       subIndices.push({
@@ -107,33 +112,37 @@ export function calculateWHOIndex(
       });
     }
   }
-  
+
   // If no valid results, return error
   if (whoResults.length === 0) {
     const fallbackCategory = WHO_INDEX_CATEGORIES[0];
     return {
-      profileId: 'who-index',
-      profileName: 'Índice OMS',
+      profileId: "who-index",
+      profileName: "Índice OMS",
       index: -1,
-      category: { ...fallbackCategory, name: 'Sin datos suficientes', shortName: 'N/D' },
-      criticalPollutant: 'pm25' as PollutantId,
-      criticalPollutantName: 'N/D',
+      category: {
+        ...fallbackCategory,
+        name: "Sin datos suficientes",
+        shortName: "N/D",
+      },
+      criticalPollutant: "pm25" as PollutantId,
+      criticalPollutantName: "N/D",
       subIndices: [],
       missingPollutants,
       measurement,
       calculatedAt: new Date().toISOString(),
     };
   }
-  
+
   // Find the pollutant with highest percentage over guideline
-  const maxResult = whoResults.reduce((max, current) => 
-    current.percentage > max.percentage ? current : max
+  const maxResult = whoResults.reduce((max, current) =>
+    current.percentage > max.percentage ? current : max,
   );
-  
+
   const finalCategory = getWHOCategory(maxResult.percentage);
-  
+
   return {
-    profileId: 'who-index',
+    profileId: "who-index",
     profileName: WHO_INDEX_PROFILE.name,
     index: Math.round(maxResult.percentage),
     category: finalCategory,
@@ -150,41 +159,42 @@ export function calculateWHOIndex(
  * Get WHO compliance summary for a measurement
  * Returns how many pollutants comply vs exceed guidelines
  */
-export function getWHOComplianceSummary(
-  measurement: AirQualityMeasurement
-): {
+export function getWHOComplianceSummary(measurement: AirQualityMeasurement): {
   total: number;
   compliant: number;
   nonCompliant: number;
   results: WHOResult[];
 } {
   const results: WHOResult[] = [];
-  
+
   for (const guideline of WHO_GUIDELINES) {
     const pollutantMeasurement = measurement.pollutants.find(
-      p => p.pollutantId === guideline.pollutantId
+      (p) => p.pollutantId === guideline.pollutantId,
     );
-    
+
     if (!pollutantMeasurement || pollutantMeasurement.value === null) {
       continue;
     }
-    
-    const period = guideline.daily24hGuideline ? 'daily' : 
-                   guideline.eightHourGuideline ? '8hour' : 'annual';
-    
+
+    const period = guideline.daily24hGuideline
+      ? "daily"
+      : guideline.eightHourGuideline
+        ? "8hour"
+        : "annual";
+
     const result = calculateWHOPollutant(
       guideline.pollutantId,
       pollutantMeasurement.value,
-      period
+      period,
     );
-    
+
     if (result) {
       results.push(result);
     }
   }
-  
-  const compliant = results.filter(r => r.percentage <= 100).length;
-  
+
+  const compliant = results.filter((r) => r.percentage <= 100).length;
+
   return {
     total: results.length,
     compliant,

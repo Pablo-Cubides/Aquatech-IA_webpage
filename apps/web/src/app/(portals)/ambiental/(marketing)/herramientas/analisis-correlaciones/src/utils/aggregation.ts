@@ -65,7 +65,7 @@ function aggregate(values: number[], method: AggregationMethod): number {
  */
 export function aggregateByYear(
   data: TimeSeriesPoint[],
-  method: AggregationMethod = "mean"
+  method: AggregationMethod = "mean",
 ): AggregatedData[] {
   const yearGroups = new Map<number, number[]>();
 
@@ -74,7 +74,10 @@ export function aggregateByYear(
       if (!yearGroups.has(point.year)) {
         yearGroups.set(point.year, []);
       }
-      yearGroups.get(point.year)!.push(point.value);
+      const group = yearGroups.get(point.year);
+      if (group) {
+        group.push(point.value);
+      }
     }
   });
 
@@ -95,7 +98,7 @@ export function aggregateByYear(
  */
 export function aggregateByQuarter(
   data: TimeSeriesPoint[],
-  method: AggregationMethod = "mean"
+  method: AggregationMethod = "mean",
 ): AggregatedData[] {
   const quarterGroups = new Map<string, number[]>();
 
@@ -107,7 +110,10 @@ export function aggregateByQuarter(
       if (!quarterGroups.has(key)) {
         quarterGroups.set(key, []);
       }
-      quarterGroups.get(key)!.push(point.value);
+      const group = quarterGroups.get(key);
+      if (group) {
+        group.push(point.value);
+      }
     }
   });
 
@@ -128,7 +134,7 @@ export function aggregateByQuarter(
  */
 export function aggregateByMonth(
   data: TimeSeriesPoint[],
-  method: AggregationMethod = "mean"
+  method: AggregationMethod = "mean",
 ): AggregatedData[] {
   const monthGroups = new Map<string, number[]>();
 
@@ -139,7 +145,10 @@ export function aggregateByMonth(
       if (!monthGroups.has(key)) {
         monthGroups.set(key, []);
       }
-      monthGroups.get(key)!.push(point.value);
+      const group = monthGroups.get(key);
+      if (group) {
+        group.push(point.value);
+      }
     }
   });
 
@@ -159,7 +168,7 @@ export function aggregateByMonth(
  * Detect temporal scale of data
  */
 export function detectTemporalScale(
-  data: TimeSeriesPoint[]
+  data: TimeSeriesPoint[],
 ): AggregationPeriod {
   const hasMonthData = data.some((point) => point.month !== undefined);
 
@@ -181,7 +190,7 @@ export function detectTemporalScale(
  */
 export function alignDatasets(
   dataset1: AggregatedData[],
-  dataset2: AggregatedData[]
+  dataset2: AggregatedData[],
 ): { aligned1: number[]; aligned2: number[]; periods: string[] } {
   const periods1 = new Set(dataset1.map((d) => d.period));
   const periods2 = new Set(dataset2.map((d) => d.period));
@@ -194,8 +203,12 @@ export function alignDatasets(
   const map1 = new Map(dataset1.map((d) => [d.period, d.value]));
   const map2 = new Map(dataset2.map((d) => [d.period, d.value]));
 
-  const aligned1 = commonPeriods.map((p) => map1.get(p)!);
-  const aligned2 = commonPeriods.map((p) => map2.get(p)!);
+  const aligned1 = commonPeriods
+    .map((p) => map1.get(p))
+    .filter((value): value is number => value !== undefined);
+  const aligned2 = commonPeriods
+    .map((p) => map2.get(p))
+    .filter((value): value is number => value !== undefined);
 
   return {
     aligned1,
@@ -268,7 +281,7 @@ export function interpolateMissing(data: AggregatedData[]): AggregatedData[] {
  */
 export function movingAverage(
   data: AggregatedData[],
-  windowSize: number = 3
+  windowSize: number = 3,
 ): AggregatedData[] {
   const result: AggregatedData[] = [];
 
@@ -305,21 +318,21 @@ export interface GrowthAnalysisResult {
  * Calculate growth rates and CAGR
  */
 export function calculateGrowthAnalysis(
-  data: Array<{ year: string; value: number }>
+  data: Array<{ year: string; value: number }>,
 ): GrowthAnalysisResult {
-  const sortedData = [...data].sort((a, b) => 
-    parseInt(a.year) - parseInt(b.year)
+  const sortedData = [...data].sort(
+    (a, b) => parseInt(a.year) - parseInt(b.year),
   );
 
-  const periods = sortedData.map(d => d.year);
-  const values = sortedData.map(d => d.value);
+  const periods = sortedData.map((d) => d.year);
+  const values = sortedData.map((d) => d.value);
   const growthRates: number[] = [];
 
   // Calculate year-over-year growth rates
   for (let i = 1; i < values.length; i++) {
     const prevValue = values[i - 1];
     const currentValue = values[i];
-    
+
     if (prevValue === 0) {
       growthRates.push(0);
     } else {
@@ -332,21 +345,21 @@ export function calculateGrowthAnalysis(
   const startValue = values[0];
   const endValue = values[values.length - 1];
   const years = values.length - 1;
-  
+
   let cagr = 0;
   if (startValue > 0 && years > 0) {
     cagr = (Math.pow(endValue / startValue, 1 / years) - 1) * 100;
   }
 
   // Total change
-  const totalChange = startValue !== 0 
-    ? ((endValue - startValue) / startValue) * 100 
-    : 0;
+  const totalChange =
+    startValue !== 0 ? ((endValue - startValue) / startValue) * 100 : 0;
 
   // Average growth rate
-  const avgGrowthRate = growthRates.length > 0
-    ? growthRates.reduce((sum, rate) => sum + rate, 0) / growthRates.length
-    : 0;
+  const avgGrowthRate =
+    growthRates.length > 0
+      ? growthRates.reduce((sum, rate) => sum + rate, 0) / growthRates.length
+      : 0;
 
   return {
     periods,
@@ -363,7 +376,7 @@ export interface TrendAnalysisResult {
   intercept: number; // Linear regression intercept
   r2: number; // R-squared (goodness of fit)
   projections: Array<{ year: string; value: number }>; // Future projections
-  trend: 'increasing' | 'decreasing' | 'stable';
+  trend: "increasing" | "decreasing" | "stable";
 }
 
 /**
@@ -371,15 +384,15 @@ export interface TrendAnalysisResult {
  */
 export function calculateTrendAnalysis(
   data: Array<{ year: string; value: number }>,
-  projectYears: number = 3
+  projectYears: number = 3,
 ): TrendAnalysisResult {
-  const sortedData = [...data].sort((a, b) => 
-    parseInt(a.year) - parseInt(b.year)
+  const sortedData = [...data].sort(
+    (a, b) => parseInt(a.year) - parseInt(b.year),
   );
 
   // Prepare data for regression
   const x = sortedData.map((_, i) => i); // 0, 1, 2, ...
-  const y = sortedData.map(d => d.value);
+  const y = sortedData.map((d) => d.value);
 
   // Calculate means
   const xMean = x.reduce((sum, val) => sum + val, 0) / x.length;
@@ -407,12 +420,13 @@ export function calculateTrendAnalysis(
     ssTot += Math.pow(y[i] - yMean, 2);
   }
 
-  const r2 = ssTot !== 0 ? 1 - (ssRes / ssTot) : 0;
+  const r2 = ssTot !== 0 ? 1 - ssRes / ssTot : 0;
 
   // Determine trend
-  let trend: 'increasing' | 'decreasing' | 'stable' = 'stable';
-  if (Math.abs(slope) > 0.01) { // Threshold for "stable"
-    trend = slope > 0 ? 'increasing' : 'decreasing';
+  let trend: "increasing" | "decreasing" | "stable" = "stable";
+  if (Math.abs(slope) > 0.01) {
+    // Threshold for "stable"
+    trend = slope > 0 ? "increasing" : "decreasing";
   }
 
   // Generate projections
@@ -441,7 +455,10 @@ export interface ComparisonResult {
   countries: string[];
   years: string[];
   values: number[][]; // values[countryIndex][yearIndex]
-  rankings: Array<{ year: string; ranking: Array<{ country: string; value: number; rank: number }> }>;
+  rankings: Array<{
+    year: string;
+    ranking: Array<{ country: string; value: number; rank: number }>;
+  }>;
   statistics: {
     country: string;
     min: number;
@@ -458,30 +475,30 @@ export function calculateComparisonAnalysis(
   datasets: Array<{
     name: string; // Country or dataset name
     data: Array<{ year: string; value: number }>;
-  }>
+  }>,
 ): ComparisonResult {
   // Get all unique years
   const allYears = new Set<string>();
-  datasets.forEach(ds => {
-    ds.data.forEach(point => allYears.add(point.year));
+  datasets.forEach((ds) => {
+    ds.data.forEach((point) => allYears.add(point.year));
   });
   const years = Array.from(allYears).sort();
 
   // Build values matrix
-  const countries = datasets.map(ds => ds.name);
+  const countries = datasets.map((ds) => ds.name);
   const values: number[][] = [];
 
-  datasets.forEach(ds => {
+  datasets.forEach((ds) => {
     const yearValues: number[] = [];
-    years.forEach(year => {
-      const point = ds.data.find(p => p.year === year);
+    years.forEach((year) => {
+      const point = ds.data.find((p) => p.year === year);
       yearValues.push(point?.value ?? 0);
     });
     values.push(yearValues);
   });
 
   // Calculate rankings for each year
-  const rankings = years.map(year => {
+  const rankings = years.map((year) => {
     const yearIndex = years.indexOf(year);
     const countryValues = countries.map((country, i) => ({
       country,
@@ -491,7 +508,7 @@ export function calculateComparisonAnalysis(
 
     // Sort by value descending
     countryValues.sort((a, b) => b.value - a.value);
-    
+
     // Assign ranks
     countryValues.forEach((item, index) => {
       item.rank = index + 1;
@@ -502,8 +519,8 @@ export function calculateComparisonAnalysis(
 
   // Calculate statistics for each country
   const statistics = datasets.map((ds, i) => {
-    const countryValues = values[i].filter(v => v > 0); // Exclude zeros
-    
+    const countryValues = values[i].filter((v) => v > 0); // Exclude zeros
+
     if (countryValues.length === 0) {
       return {
         country: ds.name,
@@ -516,12 +533,12 @@ export function calculateComparisonAnalysis(
 
     const min = Math.min(...countryValues);
     const max = Math.max(...countryValues);
-    const meanVal = countryValues.reduce((sum, v) => sum + v, 0) / countryValues.length;
-    
-    const variance = countryValues.reduce(
-      (sum, v) => sum + Math.pow(v - meanVal, 2), 
-      0
-    ) / countryValues.length;
+    const meanVal =
+      countryValues.reduce((sum, v) => sum + v, 0) / countryValues.length;
+
+    const variance =
+      countryValues.reduce((sum, v) => sum + Math.pow(v - meanVal, 2), 0) /
+      countryValues.length;
     const stdDev = Math.sqrt(variance);
 
     return {
@@ -541,4 +558,3 @@ export function calculateComparisonAnalysis(
     statistics,
   };
 }
-

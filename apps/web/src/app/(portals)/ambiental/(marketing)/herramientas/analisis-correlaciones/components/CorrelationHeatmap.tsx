@@ -1,38 +1,44 @@
-import React from "react"
+import React from "react";
 
 interface CorrelationResult {
-  column_a: string
-  column_b: string
-  pearson: number | null
-  spearman: number | null
-  kendall: number | null
+  column_a: string;
+  column_b: string;
+  pearson: number | null;
+  spearman: number | null;
+  kendall: number | null;
 }
 
 interface CorrelationHeatmapProps {
-  numericColumns: string[]
-  correlationResults: CorrelationResult[]
-  method: "pearson" | "spearman" | "kendall"
-  onSelectPair?: (a: string, b: string) => void
-  selectedPair?: [string, string] | null
+  numericColumns: string[];
+  correlationResults: CorrelationResult[];
+  method: "pearson" | "spearman" | "kendall";
+  onSelectPair?: (a: string, b: string) => void;
+  selectedPair?: [string, string] | null;
 }
 
 function getColor(value: number) {
   // Azul fuerte = correlación fuerte, amarillo = moderada, rojo = débil
-  if (Math.abs(value) > 0.75) return "bg-blue-400 text-white"
-  if (Math.abs(value) >= 0.4) return "bg-yellow-300 text-gray-900"
-  return "bg-red-300 text-gray-900"
+  if (Math.abs(value) > 0.75) return "bg-blue-400 text-white";
+  if (Math.abs(value) >= 0.4) return "bg-yellow-300 text-gray-900";
+  return "bg-red-300 text-gray-900";
 }
 
-export default function CorrelationHeatmap({ numericColumns, correlationResults, method, onSelectPair, selectedPair }: CorrelationHeatmapProps) {
+export default function CorrelationHeatmap({
+  numericColumns,
+  correlationResults,
+  method,
+  onSelectPair,
+  selectedPair,
+}: CorrelationHeatmapProps) {
   // Crear matriz para acceso rápido
-  const matrix: Record<string, Record<string, number | null>> = {}
-  correlationResults.forEach(res => {
-    if (!matrix[res.column_a]) matrix[res.column_a] = {}
-    matrix[res.column_a][res.column_b] = res[method]
+  const matrix: Record<string, Record<string, number | null>> = {};
+  correlationResults.forEach((res) => {
+    if (!matrix[res.column_a]) matrix[res.column_a] = {};
+    matrix[res.column_a][res.column_b] = res[method];
     // Simetría
-    if (!matrix[res.column_b]) matrix[res.column_b] = {}
-    matrix[res.column_b][res.column_a] = res[method]
-  })
+    if (!matrix[res.column_b]) matrix[res.column_b] = {};
+    matrix[res.column_b][res.column_a] = res[method];
+  });
 
   return (
     <div>
@@ -43,8 +49,8 @@ export default function CorrelationHeatmap({ numericColumns, correlationResults,
             <tr>
               <th className="p-2 border bg-gray-50">Columna</th>
               {numericColumns.map((col, idx) => (
-                <th 
-                  key={col} 
+                <th
+                  key={col}
                   className="p-2 border bg-gray-50 text-center font-bold text-blue-600"
                   title={col}
                 >
@@ -54,26 +60,40 @@ export default function CorrelationHeatmap({ numericColumns, correlationResults,
             </tr>
           </thead>
           <tbody>
-            {numericColumns.map(rowCol => (
+            {numericColumns.map((rowCol) => (
               <tr key={rowCol}>
-                <td className="p-2 border font-semibold bg-gray-50">{rowCol}</td>
-                {numericColumns.map((colCol, colIdx) => {
+                <td className="p-2 border font-semibold bg-gray-50">
+                  {rowCol}
+                </td>
+                {numericColumns.map((colCol) => {
                   if (rowCol === colCol) {
-                    return <td key={colCol} className="p-2 border bg-gray-100 text-center">—</td>
+                    return (
+                      <td
+                        key={colCol}
+                        className="p-2 border bg-gray-100 text-center"
+                      >
+                        —
+                      </td>
+                    );
                   }
-                  const value = matrix[rowCol]?.[colCol]
-                  const isSelected = selectedPair && ((selectedPair[0] === rowCol && selectedPair[1] === colCol) || (selectedPair[1] === rowCol && selectedPair[0] === colCol))
-                  const hasValue = value !== undefined && value !== null
+                  const value = matrix[rowCol]?.[colCol];
+                  const isSelected =
+                    selectedPair &&
+                    ((selectedPair[0] === rowCol &&
+                      selectedPair[1] === colCol) ||
+                      (selectedPair[1] === rowCol &&
+                        selectedPair[0] === colCol));
+                  const hasValue = value !== undefined && value !== null;
                   return (
                     <td
                       key={colCol}
-                      className={`p-2 border text-center cursor-pointer transition-all ${hasValue ? getColor(value) : 'bg-gray-100'} ${isSelected ? 'ring-2 ring-primary' : ''}`}
-                      title={`Correlación: ${hasValue ? value.toFixed(2) : 'N/A'}`}
+                      className={`p-2 border text-center cursor-pointer transition-all ${hasValue ? getColor(value) : "bg-gray-100"} ${isSelected ? "ring-2 ring-primary" : ""}`}
+                      title={`Correlación: ${hasValue ? value.toFixed(2) : "N/A"}`}
                       onClick={() => hasValue && onSelectPair?.(rowCol, colCol)}
                     >
-                      {hasValue ? value.toFixed(2) : 'N/A'}
+                      {hasValue ? value.toFixed(2) : "N/A"}
                     </td>
-                  )
+                  );
                 })}
               </tr>
             ))}
@@ -83,23 +103,33 @@ export default function CorrelationHeatmap({ numericColumns, correlationResults,
 
       {/* Leyenda de colores */}
       <div className="mt-2 text-xs text-gray-500">
-        <span className="bg-blue-400 text-white px-2 py-1 rounded">Fuerte (&gt; 0.75)</span>
-        <span className="bg-yellow-300 text-gray-900 px-2 py-1 rounded ml-2">Moderada (0.4–0.75)</span>
-        <span className="bg-red-300 text-gray-900 px-2 py-1 rounded ml-2">Débil (&lt; 0.4)</span>
+        <span className="bg-blue-400 text-white px-2 py-1 rounded">
+          Fuerte (&gt; 0.75)
+        </span>
+        <span className="bg-yellow-300 text-gray-900 px-2 py-1 rounded ml-2">
+          Moderada (0.4–0.75)
+        </span>
+        <span className="bg-red-300 text-gray-900 px-2 py-1 rounded ml-2">
+          Débil (&lt; 0.4)
+        </span>
       </div>
 
       {/* Leyenda de variables */}
       <div className="mt-4 p-3 bg-gray-50 rounded-lg border">
-        <span className="font-semibold text-gray-700 text-sm block mb-2">Variables analizadas:</span>
+        <span className="font-semibold text-gray-700 text-sm block mb-2">
+          Variables analizadas:
+        </span>
         <div className="grid grid-cols-1 gap-1 text-xs">
           {numericColumns.map((col, i) => (
             <div key={col} className="flex items-start gap-2">
-              <span className="font-bold text-blue-600 min-w-[30px]">V{i + 1}:</span>
+              <span className="font-bold text-blue-600 min-w-[30px]">
+                V{i + 1}:
+              </span>
               <span className="text-gray-600">{col}</span>
             </div>
           ))}
         </div>
       </div>
     </div>
-  )
+  );
 }

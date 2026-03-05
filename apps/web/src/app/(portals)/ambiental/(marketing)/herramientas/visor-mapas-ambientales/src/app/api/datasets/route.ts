@@ -160,7 +160,7 @@ export async function DELETE(request: Request) {
 
     // Type-safe user ID extraction
     const userId = (session?.user as { id?: string } | undefined)?.id;
-    
+
     if (!userId) {
       logger.warn("Unauthorized DELETE attempt", {
         datasetId,

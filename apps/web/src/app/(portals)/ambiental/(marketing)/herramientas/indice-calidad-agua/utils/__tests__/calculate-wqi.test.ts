@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+
 import { describe, it, expect } from "vitest";
 import { calculateWQI } from "../calculate-wqi";
 import type { WaterSample } from "../../types";

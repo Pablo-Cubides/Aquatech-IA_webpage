@@ -1,13 +1,24 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Plus, Trash2, Edit3, Save, X, Upload, Eye } from "lucide-react";
+import { Plus, Trash2, Edit3, Save, X, Eye } from "lucide-react";
 
 interface QuestionBank {
   id: number;
   name: string;
   questions: string[];
   createdAt?: string;
+}
+
+interface ApiQuestion {
+  text?: string;
+}
+
+interface ApiQuestionSet {
+  id: number;
+  name: string;
+  createdAt?: string;
+  questions?: ApiQuestion[];
 }
 
 // Default banks (hardcoded, can't be deleted)
@@ -33,7 +44,7 @@ export default function QuestionBanksAdmin() {
   const [banks, setBanks] = useState<QuestionBank[]>(DEFAULT_BANKS);
   const [loading, setLoading] = useState(true);
   const [selectedBank, setSelectedBank] = useState<QuestionBank | null>(null);
-  
+
   // Form state
   const [formName, setFormName] = useState("");
   const [formQuestions, setFormQuestions] = useState<string[]>([]);
@@ -46,11 +57,11 @@ export default function QuestionBanksAdmin() {
       try {
         const res = await fetch("/api/questionsets");
         if (res.ok) {
-          const data = await res.json();
-          const apiBanks = data.map((b: any) => ({
+          const data = (await res.json()) as ApiQuestionSet[];
+          const apiBanks = data.map((b) => ({
             id: b.id,
             name: b.name,
-            questions: b.questions?.map((q: any) => q.text || q) || [],
+            questions: b.questions?.map((q) => q.text || "") || [],
             createdAt: b.createdAt,
           }));
           setBanks([...DEFAULT_BANKS, ...apiBanks]);
@@ -89,12 +100,18 @@ export default function QuestionBanksAdmin() {
       const res = await fetch("/api/questionsets", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: formName.trim(), questions: formQuestions }),
+        body: JSON.stringify({
+          name: formName.trim(),
+          questions: formQuestions,
+        }),
       });
 
       if (res.ok) {
         const data = await res.json();
-        setBanks([...banks, { id: data.id, name: formName, questions: formQuestions }]);
+        setBanks([
+          ...banks,
+          { id: data.id, name: formName, questions: formQuestions },
+        ]);
         setMode("list");
         setFormName("");
         setFormQuestions([]);
@@ -152,13 +169,20 @@ export default function QuestionBanksAdmin() {
       const res = await fetch(`/api/questionsets/${selectedBank.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: formName.trim(), questions: formQuestions }),
+        body: JSON.stringify({
+          name: formName.trim(),
+          questions: formQuestions,
+        }),
       });
 
       if (res.ok) {
-        setBanks(banks.map((b) => 
-          b.id === selectedBank.id ? { ...b, name: formName, questions: formQuestions } : b
-        ));
+        setBanks(
+          banks.map((b) =>
+            b.id === selectedBank.id
+              ? { ...b, name: formName, questions: formQuestions }
+              : b,
+          ),
+        );
         setMode("list");
         setSelectedBank(null);
         setFormName("");
@@ -183,7 +207,9 @@ export default function QuestionBanksAdmin() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-white">Bancos de Preguntas</h1>
-          <p className="text-slate-400 mt-1">Gestiona los bancos para la Ruleta Académica</p>
+          <p className="text-slate-400 mt-1">
+            Gestiona los bancos para la Ruleta Académica
+          </p>
         </div>
         {mode === "list" && (
           <button
@@ -207,7 +233,9 @@ export default function QuestionBanksAdmin() {
       {mode === "list" && (
         <div className="space-y-4">
           {loading ? (
-            <div className="text-slate-400 animate-pulse">Cargando bancos...</div>
+            <div className="text-slate-400 animate-pulse">
+              Cargando bancos...
+            </div>
           ) : banks.length === 0 ? (
             <div className="text-slate-400">No hay bancos de preguntas</div>
           ) : (
@@ -289,7 +317,9 @@ export default function QuestionBanksAdmin() {
 
           {/* Bank name */}
           <div>
-            <label className="block text-sm text-slate-400 mb-2">Nombre del banco</label>
+            <label className="block text-sm text-slate-400 mb-2">
+              Nombre del banco
+            </label>
             <input
               type="text"
               value={formName}
@@ -301,7 +331,9 @@ export default function QuestionBanksAdmin() {
 
           {/* Add question */}
           <div>
-            <label className="block text-sm text-slate-400 mb-2">Agregar pregunta</label>
+            <label className="block text-sm text-slate-400 mb-2">
+              Agregar pregunta
+            </label>
             <div className="flex gap-2">
               <input
                 type="text"
@@ -336,7 +368,9 @@ export default function QuestionBanksAdmin() {
                     key={i}
                     className="flex items-start gap-3 bg-slate-800/50 rounded-lg p-3 group"
                   >
-                    <span className="text-emerald-400 font-mono text-sm">{i + 1}.</span>
+                    <span className="text-emerald-400 font-mono text-sm">
+                      {i + 1}.
+                    </span>
                     <span className="flex-1 text-slate-300 text-sm">{q}</span>
                     <button
                       onClick={() => handleRemoveQuestion(i)}
@@ -372,8 +406,12 @@ export default function QuestionBanksAdmin() {
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-6">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-lg font-bold text-white">{selectedBank.name}</h2>
-              <p className="text-slate-400 text-sm">{selectedBank.questions.length} preguntas</p>
+              <h2 className="text-lg font-bold text-white">
+                {selectedBank.name}
+              </h2>
+              <p className="text-slate-400 text-sm">
+                {selectedBank.questions.length} preguntas
+              </p>
             </div>
             <button
               onClick={() => {
@@ -388,8 +426,13 @@ export default function QuestionBanksAdmin() {
 
           <ul className="space-y-2 max-h-96 overflow-y-auto">
             {selectedBank.questions.map((q, i) => (
-              <li key={i} className="flex items-start gap-3 bg-slate-800/50 rounded-lg p-3">
-                <span className="text-cyan-400 font-mono text-sm">{i + 1}.</span>
+              <li
+                key={i}
+                className="flex items-start gap-3 bg-slate-800/50 rounded-lg p-3"
+              >
+                <span className="text-cyan-400 font-mono text-sm">
+                  {i + 1}.
+                </span>
                 <span className="text-slate-300 text-sm">{q}</span>
               </li>
             ))}

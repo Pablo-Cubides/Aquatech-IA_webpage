@@ -1,12 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import {
-  getEONETEvents,
-  eonetToGeoJSON,
-  getCategoryNameES,
-  type EONETParams,
-} from "../lib/eonet";
+import { useState, useEffect, useCallback } from "react";
+import { getEONETEvents, eonetToGeoJSON, type EONETParams } from "../lib/eonet";
 import type { GeoJSONFeature } from "../types";
 
 interface EONETLayerControlProps {
@@ -43,7 +38,7 @@ export default function EONETLayerControl({
     { id: "snow-and-ice", name: "Nieve y Hielo" },
   ];
 
-  const fetchEONETData = async () => {
+  const fetchEONETData = useCallback(async () => {
     setLoading(true);
     onLoadingChange(true);
 
@@ -72,7 +67,7 @@ export default function EONETLayerControl({
       setLoading(false);
       onLoadingChange(false);
     }
-  };
+  }, [status, days, category, onLoadingChange, onDataLoad, onError]);
 
   useEffect(() => {
     if (enabled) {
@@ -80,7 +75,7 @@ export default function EONETLayerControl({
     } else {
       onDataLoad([]);
     }
-  }, [enabled, status, days, category]);
+  }, [enabled, status, days, category, fetchEONETData, onDataLoad]);
 
   return (
     <div className="border border-gray-200 rounded-lg p-4 bg-gradient-to-br from-purple-50 to-blue-50">

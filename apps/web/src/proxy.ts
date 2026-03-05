@@ -5,17 +5,28 @@ export function proxy(request: NextRequest) {
   const response = NextResponse.next();
   const isDev = process.env.NODE_ENV === "development";
 
+  const scriptSrc = [
+    "script-src 'self'",
+    isDev ? "'unsafe-inline'" : "",
+    isDev ? "'unsafe-eval'" : "",
+    "https://www.googletagmanager.com",
+    "https://www.google-analytics.com",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  const styleSrc = [
+    "style-src 'self'",
+    isDev ? "'unsafe-inline'" : "",
+    "https://fonts.googleapis.com",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   const contentSecurityPolicy = [
     "default-src 'self'",
-    [
-      "script-src 'self' 'unsafe-inline'",
-      isDev ? "'unsafe-eval'" : "",
-      "https://www.googletagmanager.com",
-      "https://www.google-analytics.com",
-    ]
-      .filter(Boolean)
-      .join(" "),
-    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    scriptSrc,
+    styleSrc,
     "font-src 'self' https://fonts.gstatic.com data:",
     "img-src 'self' data: https: blob:",
     [
@@ -40,6 +51,7 @@ export function proxy(request: NextRequest) {
     "base-uri 'self'",
     "form-action 'self'",
     "frame-ancestors 'none'",
+    "script-src-attr 'none'",
     "upgrade-insecure-requests",
   ].join("; ");
 

@@ -295,13 +295,19 @@ export const LEGACY_CATEGORY_MAP: Record<
   },
 
   // IA legacy categories
-  "Machine Learning": { portal: "ia", newSlug: "fundamentos-inteligencia-artificial" },
+  "Machine Learning": {
+    portal: "ia",
+    newSlug: "fundamentos-inteligencia-artificial",
+  },
   "Computer Vision": {
     portal: "ia",
     newSlug: "generadores-imagenes-contenido-creativo-ia",
   },
   NLP: { portal: "ia", newSlug: "modelos-lenguaje-asistentes-llm" },
-  "Deep Learning": { portal: "ia", newSlug: "fundamentos-inteligencia-artificial" },
+  "Deep Learning": {
+    portal: "ia",
+    newSlug: "fundamentos-inteligencia-artificial",
+  },
 };
 
 /**
@@ -332,7 +338,6 @@ export function getCategoryBreadcrumbs(
   category: BlogCategory,
   baseUrl = "https://aquatechia.com",
 ) {
-  const portalName = portal === "ia" ? "Portal IA" : "Portal Ambiental";
   return [
     { name: "Inicio", url: `${baseUrl}/${portal}` },
     { name: "Blog", url: `${baseUrl}/${portal}/blog` },

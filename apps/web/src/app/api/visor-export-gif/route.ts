@@ -1,10 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const CASES_PUBLIC_PATH = "/static/visor-cases";
-const BASE_URL = process.env.VERCEL_URL 
-  ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
-
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);

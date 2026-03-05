@@ -1,11 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
 import { paymentService } from "../../../../lib/payment";
 import { logger } from "../../../../lib/logger";
-import { checkRateLimit, getClientIP } from "../../../../lib/rate-limit";
+import {
+  checkRateLimit,
+  getClientIP,
+  acquireWebhookReplayLock,
+} from "../../../../lib/rate-limit";
 import crypto from "crypto";
 
 // Force Node.js runtime
 export const runtime = "nodejs";
+
+function getErrorMessage(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
+  }
+  return "Unknown error";
+}
 
 // Validate MercadoPago webhook signature
 function validateWebhookSignature(body: string, signature: string): boolean {
@@ -62,6 +73,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const contentType = request.headers.get("content-type") || "";
+    if (!contentType.includes("application/json")) {
+      return NextResponse.json(
+        { error: "Invalid content type" },
+        { status: 415 },
+      );
+    }
+
     // Get raw body for signature validation
     const rawBody = await request.text();
     const signature = request.headers.get("x-signature") || "";
@@ -72,27 +91,78 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
     }
 
-    const body = JSON.parse(rawBody);
+    let body: unknown;
+    try {
+      body = JSON.parse(rawBody);
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+    }
+
+    const parsedBody = body as {
+      type?: string;
+      action?: string;
+      data?: { id?: string | number };
+    };
+    const eventType = parsedBody?.type;
+    const eventDataId = parsedBody?.data?.id;
+
+    if (!eventType || eventDataId === undefined || eventDataId === null) {
+      await logger.warn("MercadoPago webhook missing required event fields", {
+        endpoint: "/api/mp/webhook",
+      });
+      return NextResponse.json(
+        { error: "Invalid webhook payload" },
+        { status: 400 },
+      );
+    }
+
+    const webhookEventId = `${eventType}:${String(eventDataId)}`;
+
+    const replayLockResult = await acquireWebhookReplayLock(
+      "mercadopago",
+      webhookEventId,
+    );
+
+    if (replayLockResult === "duplicate") {
+      await logger.warn("Duplicate MercadoPago webhook ignored", {
+        eventId: webhookEventId,
+      });
+      return NextResponse.json({ received: true, duplicate: true });
+    }
+
+    if (replayLockResult === "error") {
+      await logger.error(
+        "MercadoPago webhook replay lock infrastructure error",
+        {
+          eventId: webhookEventId,
+        },
+      );
+      return NextResponse.json(
+        { error: "Webhook lock unavailable" },
+        { status: 503 },
+      );
+    }
 
     // Process MercadoPago webhook
-    await paymentService.handleWebhook(body);
+    await paymentService.handleWebhook(parsedBody);
 
     const duration = Date.now() - startTime;
     await logger.request("POST", "/api/mp/webhook", 200, duration, {
-      type: body?.type,
-      action: body?.action,
-      dataId: body?.data?.id,
+      type: eventType,
+      action: parsedBody?.action,
+      dataId: String(eventDataId),
     });
 
     return NextResponse.json({ received: true });
-  } catch (error: any) {
+  } catch (error: unknown) {
     const duration = Date.now() - startTime;
+    const errorMessage = getErrorMessage(error);
     await logger.request("POST", "/api/mp/webhook", 500, duration, {
-      error: error.message,
+      error: errorMessage,
     });
 
     await logger.error("MercadoPago webhook failed", {
-      error: error.message,
+      error: errorMessage,
     });
 
     return NextResponse.json(

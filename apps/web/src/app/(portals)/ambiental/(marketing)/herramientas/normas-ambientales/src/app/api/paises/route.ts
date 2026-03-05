@@ -5,7 +5,6 @@ import { validateDomain } from "@/lib/constants";
 
 // Global declarations for Node.js environment
 declare const URL: typeof globalThis.URL;
-declare const process: typeof globalThis.process;
 
 /**
  * Get available countries for a given domain
@@ -13,8 +12,13 @@ declare const process: typeof globalThis.process;
  */
 async function getCountriesForDomain(domain: string): Promise<string[]> {
   try {
-    const domains = ["agua", "calidad-aire", "residuos-solidos", "vertimientos"];
-    
+    const domains = [
+      "agua",
+      "calidad-aire",
+      "residuos-solidos",
+      "vertimientos",
+    ];
+
     if (!domains.includes(domain)) {
       return [];
     }
@@ -46,7 +50,10 @@ async function getCountriesForDomain(domain: string): Promise<string[]> {
 
     return commonCountries;
   } catch (error) {
-    logger.error(`[paises] Error getting countries for domain ${domain}:`, error);
+    logger.error(
+      `[paises] Error getting countries for domain ${domain}:`,
+      error,
+    );
     return [];
   }
 }
