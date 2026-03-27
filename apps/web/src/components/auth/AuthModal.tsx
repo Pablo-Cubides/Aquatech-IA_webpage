@@ -696,6 +696,32 @@ interface AuthButtonProps {
   className?: string;
 }
 
+function AuthButtonFallback({ theme = "dark", className }: AuthButtonProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const styles = {
+    dark: "rounded-lg border border-white/20 px-4 py-2 text-sm font-medium text-[#B6C2DF] transition-all hover:border-[#00EFFF] hover:text-[#00EFFF] opacity-80",
+    light:
+      "rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition-all hover:border-[#0077B6] hover:text-[#0077B6] hover:bg-blue-50 opacity-80",
+  };
+
+  return (
+    <>
+      <button
+        onClick={() => setIsModalOpen(true)}
+        className={className || styles[theme]}
+      >
+        Iniciar sesión
+      </button>
+      <AuthModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        theme={theme}
+      />
+    </>
+  );
+}
+
 function AuthButtonContent({ theme = "dark", className }: AuthButtonProps) {
   const { data: session } = useSession();
   const searchParams = useSearchParams();
@@ -735,13 +761,7 @@ function AuthButtonContent({ theme = "dark", className }: AuthButtonProps) {
 
 export function AuthButton(props: AuthButtonProps) {
   return (
-    <Suspense
-      fallback={
-        <button className="rounded-lg border border-white/20 px-4 py-2 text-sm font-medium text-[#B6C2DF]">
-          ...
-        </button>
-      }
-    >
+    <Suspense fallback={<AuthButtonFallback {...props} />}>
       <AuthButtonContent {...props} />
     </Suspense>
   );

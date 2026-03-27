@@ -101,11 +101,15 @@ export async function GET(request: NextRequest) {
     const apiUrl = `${HF_API_BASE}?${params.toString()}`;
 
     // Fetch from Hugging Face API
+    const hfHeaders: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+    if (process.env.HUGGINGFACE_API_KEY) {
+      hfHeaders["Authorization"] = `Bearer ${process.env.HUGGINGFACE_API_KEY}`;
+    }
+
     const response = await fetch(apiUrl, {
-      headers: {
-        Authorization: `Bearer ${process.env.HUGGINGFACE_API_KEY}`,
-        "Content-Type": "application/json",
-      },
+      headers: hfHeaders,
       next: { revalidate: CACHE_DURATION },
     });
 
