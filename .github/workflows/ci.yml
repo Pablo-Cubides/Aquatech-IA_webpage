@@ -196,7 +196,12 @@ jobs:
       - name: Setup environment variables
         run: |
           echo "SKIP_ENV_VALIDATION=1" >> $GITHUB_ENV
+          echo "NODE_ENV=production" >> $GITHUB_ENV
           echo "DATABASE_URL=postgresql://user:pass@localhost:5432/test" >> $GITHUB_ENV
+          echo "NEXTAUTH_URL=http://localhost:3000" >> $GITHUB_ENV
+          echo "NEXTAUTH_SECRET=ci-dummy-secret-for-build-only" >> $GITHUB_ENV
+          echo "UPSTASH_REDIS_REST_URL=https://dummy-upstash.upstash.io" >> $GITHUB_ENV
+          echo "UPSTASH_REDIS_REST_TOKEN=ci-dummy-token" >> $GITHUB_ENV
 
       - name: Build all packages
         run: pnpm build

@@ -5,10 +5,13 @@ export function proxy(request: NextRequest) {
   const response = NextResponse.next();
   const isDev = process.env.NODE_ENV === "development";
 
+  // Next.js requires 'unsafe-inline' and 'unsafe-eval' for its runtime
+  // (SSR hydration, Turbopack chunks, React event handlers).
+  // Without these, ALL JavaScript is blocked by the browser in production.
   const scriptSrc = [
     "script-src 'self'",
-    isDev ? "'unsafe-inline'" : "",
-    isDev ? "'unsafe-eval'" : "",
+    "'unsafe-inline'", // Required for Next.js runtime scripts in all envs
+    "'unsafe-eval'",   // Required for Turbopack/SSR hydration
     "https://www.googletagmanager.com",
     "https://www.google-analytics.com",
   ]
@@ -17,7 +20,7 @@ export function proxy(request: NextRequest) {
 
   const styleSrc = [
     "style-src 'self'",
-    isDev ? "'unsafe-inline'" : "",
+    "'unsafe-inline'", // Required for Next.js inline styles in all envs
     "https://fonts.googleapis.com",
   ]
     .filter(Boolean)
@@ -39,6 +42,8 @@ export function proxy(request: NextRequest) {
       "https://api.gbif.org",
       "https://www.waterqualitydata.us",
       "https://eonet.gsfc.nasa.gov",
+      "https://huggingface.co",
+      "https://arxiv.org",
       isDev ? "ws://localhost:*" : "",
       isDev ? "wss://localhost:*" : "",
     ]
@@ -49,9 +54,8 @@ export function proxy(request: NextRequest) {
     "child-src 'self' blob:",
     "object-src 'none'",
     "base-uri 'self'",
-    "form-action 'self'",
+    "form-action 'self' https://accounts.google.com",
     "frame-ancestors 'none'",
-    "script-src-attr 'none'",
     "upgrade-insecure-requests",
   ].join("; ");
 

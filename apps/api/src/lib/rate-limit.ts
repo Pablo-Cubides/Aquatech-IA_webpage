@@ -2,14 +2,6 @@ import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 import { logger } from "./logger";
 
-function getRequiredEnv(name: string): string {
-  const value = process.env[name];
-  if (!value) {
-    throw new Error(`${name} is not configured`);
-  }
-  return value;
-}
-
 function getErrorMessage(error: unknown): string {
   if (error instanceof Error) {
     return error.message;
@@ -17,54 +9,73 @@ function getErrorMessage(error: unknown): string {
   return "Unknown error";
 }
 
-// Initialize Redis client
-const redis = new Redis({
-  url: getRequiredEnv("UPSTASH_REDIS_REST_URL"),
-  token: getRequiredEnv("UPSTASH_REDIS_REST_TOKEN"),
-});
+// Lazy initialization — avoids crash at build time when env vars are absent
+let _redis: Redis | null = null;
+let _ratelimits: ReturnType<typeof createRatelimits> | null = null;
 
-// Different rate limits for different operations
-export const ratelimits = {
-  // API requests: 100 requests per minute per IP
-  api: new Ratelimit({
-    redis,
-    limiter: Ratelimit.slidingWindow(100, "1 m"),
-    analytics: true,
-    prefix: "ratelimit:api",
-  }),
+function getRedis(): Redis {
+  if (!_redis) {
+    const url = process.env.UPSTASH_REDIS_REST_URL;
+    const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+    if (!url || !token) {
+      throw new Error("UPSTASH_REDIS_REST_URL or UPSTASH_REDIS_REST_TOKEN is not configured");
+    }
+    _redis = new Redis({ url, token });
+  }
+  return _redis;
+}
 
-  // Payment creation: 5 requests per minute per user
-  payment: new Ratelimit({
-    redis,
-    limiter: Ratelimit.slidingWindow(5, "1 m"),
-    analytics: true,
-    prefix: "ratelimit:payment",
-  }),
+function createRatelimits(redis: Redis) {
+  return {
+    // API requests: 100 requests per minute per IP
+    api: new Ratelimit({
+      redis,
+      limiter: Ratelimit.slidingWindow(100, "1 m"),
+      analytics: true,
+      prefix: "ratelimit:api",
+    }),
 
-  // Email sending: 10 emails per hour per user
-  email: new Ratelimit({
-    redis,
-    limiter: Ratelimit.slidingWindow(10, "1 h"),
-    analytics: true,
-    prefix: "ratelimit:email",
-  }),
+    // Payment creation: 5 requests per minute per user
+    payment: new Ratelimit({
+      redis,
+      limiter: Ratelimit.slidingWindow(5, "1 m"),
+      analytics: true,
+      prefix: "ratelimit:payment",
+    }),
 
-  // Auth attempts: 10 attempts per 15 minutes per IP
-  auth: new Ratelimit({
-    redis,
-    limiter: Ratelimit.slidingWindow(10, "15 m"),
-    analytics: true,
-    prefix: "ratelimit:auth",
-  }),
+    // Email sending: 10 emails per hour per user
+    email: new Ratelimit({
+      redis,
+      limiter: Ratelimit.slidingWindow(10, "1 h"),
+      analytics: true,
+      prefix: "ratelimit:email",
+    }),
 
-  // Tool usage: Based on user credits (no hard limit, but logged)
-  tool: new Ratelimit({
-    redis,
-    limiter: Ratelimit.slidingWindow(1000, "1 d"),
-    analytics: true,
-    prefix: "ratelimit:tool",
-  }),
-};
+    // Auth attempts: 10 attempts per 15 minutes per IP
+    auth: new Ratelimit({
+      redis,
+      limiter: Ratelimit.slidingWindow(10, "15 m"),
+      analytics: true,
+      prefix: "ratelimit:auth",
+    }),
+
+    // Tool usage: Based on user credits (no hard limit, but logged)
+    tool: new Ratelimit({
+      redis,
+      limiter: Ratelimit.slidingWindow(1000, "1 d"),
+      analytics: true,
+      prefix: "ratelimit:tool",
+    }),
+  };
+}
+
+function getRatelimits() {
+  if (!_ratelimits) {
+    _ratelimits = createRatelimits(getRedis());
+  }
+  return _ratelimits;
+}
+
 
 export async function checkRateLimit(
   limitType: keyof typeof ratelimits,
@@ -77,7 +88,7 @@ export async function checkRateLimit(
   reset: Date;
 }> {
   try {
-    const ratelimit = ratelimits[limitType];
+    const ratelimit = getRatelimits()[limitType];
     const { success, limit, remaining, reset } =
       await ratelimit.limit(identifier);
 
@@ -102,11 +113,11 @@ export async function checkRateLimit(
       ...context,
     });
 
-    const failClosedLimitTypes: Array<keyof typeof ratelimits> = [
+    const failClosedLimitTypes = [
       "payment",
       "email",
       "auth",
-    ];
+    ] as const;
 
     return {
       success: !failClosedLimitTypes.includes(limitType),
@@ -127,7 +138,7 @@ export async function hasProcessedWebhookEvent(
     }
 
     const key = `webhook:event:${source}:${eventId}`;
-    const value = await redis.get<string>(key);
+    const value = await getRedis().get<string>(key);
     return value === "1";
   } catch (error: unknown) {
     await logger.warn("Webhook replay check failed", {
@@ -150,7 +161,7 @@ export async function markWebhookEventProcessed(
     }
 
     const key = `webhook:event:${source}:${eventId}`;
-    await redis.set(key, "1", { ex: ttlSeconds });
+    await getRedis().set(key, "1", { ex: ttlSeconds });
   } catch (error: unknown) {
     await logger.warn("Failed to persist webhook replay marker", {
       source,
@@ -171,7 +182,7 @@ export async function acquireWebhookReplayLock(
     }
 
     const key = `webhook:event:${source}:${eventId}`;
-    const result = await redis.set(key, "1", { ex: ttlSeconds, nx: true });
+    const result = await getRedis().set(key, "1", { ex: ttlSeconds, nx: true });
     return result === "OK" ? "acquired" : "duplicate";
   } catch (error: unknown) {
     await logger.warn("Webhook replay lock acquisition failed", {
