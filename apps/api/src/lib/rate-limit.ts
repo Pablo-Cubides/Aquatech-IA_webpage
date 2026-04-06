@@ -69,6 +69,8 @@ function createRatelimits(redis: Redis) {
   };
 }
 
+type RatelimitType = keyof ReturnType<typeof createRatelimits>;
+
 function getRatelimits() {
   if (!_ratelimits) {
     _ratelimits = createRatelimits(getRedis());
@@ -78,7 +80,7 @@ function getRatelimits() {
 
 
 export async function checkRateLimit(
-  limitType: keyof typeof ratelimits,
+  limitType: RatelimitType,
   identifier: string,
   context?: Record<string, unknown>,
 ): Promise<{
@@ -113,11 +115,11 @@ export async function checkRateLimit(
       ...context,
     });
 
-    const failClosedLimitTypes = [
+    const failClosedLimitTypes: readonly RatelimitType[] = [
       "payment",
       "email",
       "auth",
-    ] as const;
+    ];
 
     return {
       success: !failClosedLimitTypes.includes(limitType),
