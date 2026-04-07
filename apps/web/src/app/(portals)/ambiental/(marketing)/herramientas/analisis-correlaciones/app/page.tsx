@@ -430,7 +430,10 @@ export default function HomePage() {
           secondCountryData.forEach((series) => {
             const cleanData = series.data
               .filter((d) => d.value !== null)
-              .map((d) => ({ year: d.year.toString(), value: Number(d.value) }));
+              .map((d) => ({
+                year: d.year.toString(),
+                value: Number(d.value),
+              }));
 
             if (cleanData.length > 0) {
               datasets.push({

@@ -23,7 +23,9 @@ function getRedisClient(): Redis | null {
 
   if (!url || !token) {
     redisDisabled = true;
-    logger.warn("Rate limit Redis disabled: missing Upstash environment variables");
+    logger.warn(
+      "Rate limit Redis disabled: missing Upstash environment variables",
+    );
     return null;
   }
 

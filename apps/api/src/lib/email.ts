@@ -203,7 +203,8 @@ class EmailService {
         blocked: "BLOCKED",
       };
 
-      const newStatus = (eventType ? statusMap[eventType] : undefined) || "ERROR";
+      const newStatus =
+        (eventType ? statusMap[eventType] : undefined) || "ERROR";
 
       const existingMetadata =
         typeof emailEvent.metadata === "object" &&

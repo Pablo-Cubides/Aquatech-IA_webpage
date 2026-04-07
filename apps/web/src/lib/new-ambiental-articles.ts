@@ -915,6 +915,159 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
       "saneamiento",
     ],
   },
+  "desafios-mecanismos-tratamiento-aguas-riego": {
+    slug: "desafios-mecanismos-tratamiento-aguas-riego",
+    title: "Desafíos y Mecanismos de Tratamiento Avanzado para Aguas de Riego: Gestión de Contaminantes Emergentes",
+    category: "Control y Tratamiento de Contaminación",
+    date: "2026-04-07",
+    readTime: 8,
+    excerpt: "El reúso de aguas residuales en esquemas agrícolas exige una transición urgente. Análisis sobre la gestión de contaminantes emergentes en la Sabana de Bogotá.",
+    heroImage: "https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?auto=format&fit=crop&w=1200&q=80",
+    author: {
+      name: "Pablo Cubides",
+      avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
+      bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
+    },
+    content: {
+      introduction: "El reúso de aguas residuales en esquemas agrícolas, particularmente en sistemas hidráulicos de alta presión antrópica como **La Ramada** (Sabana Occidental de Cundinamarca), exige una transición urgente en los paradigmas de tratamiento actuales.\n\nLa problemática central radica en que las Plantas de Tratamiento de Aguas Residuales (PTAR) convencionales están diseñadas principalmente para la remoción de macronutrientes y la Demanda Bioquímica de Oxígeno (DBO). Sin embargo, estas infraestructuras resultan ineficientes ante la creciente presencia de **Contaminantes Emergentes (CE)**.",
+      sections: [
+        {
+          id: "problematica-contaminantes-emergentes",
+          title: "La Problemática de los Contaminantes Emergentes (CE)",
+          content: "Los CE abarcan una amplia gama de productos farmacéuticos como *antibióticos, analgésicos y antihipertensivos*. Estos compuestos presentan estructuras moleculares complejas que les confieren una **alta recalcitrancia** (resistencia a la degradación). \n\nPara mitigar este impacto ambiental y sanitario, es indispensable estructurar trenes de tratamiento modulares que combinen separaciones físicas tradicionales con procesos de degradación química de alta energía.",
+          callout: {
+            type: "warning",
+            title: "Riesgo de Bioacumulación",
+            content: "Al ingresar a los canales de riego en concentraciones del orden de los microgramos por litro (μg/L), estos contaminantes generan una fuerte presión selectiva sobre los ecosistemas edáficos y representan un grave vector de bioacumulación.",
+          }
+        },
+        {
+          id: "coagulacion-floculacion",
+          title: "1. Coagulación y Floculación: Desestabilización Coloidal",
+          content: "Este proceso fisicoquímico primario busca la remoción de material particulado suspendido y fracciones de materia orgánica disuelta.\n\n**Mecanismo:** La adición de sales metálicas, como el cloruro férrico (FeCl3), induce la compresión de la doble capa eléctrica de los coloides. Esto anula las fuerzas de repulsión electrostática, permitiendo la aglomeración de partículas mediante las fuerzas de *Van der Waals* durante las fases de mezcla rápida y lenta.\n\n**Alcance en CE:** Aunque es altamente eficiente para reducir la turbiedad y compuestos con afinidad hidrofóbica, su capacidad para remover moléculas polares disueltas de bajo peso molecular (como la mayoría de los fármacos) es mecánicamente limitada. Por ello, actúa como un **pretratamiento indispensable** para optimizar las etapas posteriores."
+        },
+        {
+          id: "adsorcion-carbon-activado",
+          title: "2. Adsorción con Carbón Activado: Transferencia de Masa",
+          content: "Implementado generalmente como una operación de afino, la adsorción explota fenómenos de superficie para capturar solutos disueltos.\n\n**Mecanismo:** El proceso se rige por la afinidad química y el tamaño de poro del material adsorbente. La dinámica de captura en el equilibrio termodinámico suele modelarse mediante isotermas (ej. la isoterma de Langmuir), la cual asume que la adsorción ocurre en una monocapa sobre sitios energéticamente homogéneos sin interacción entre las moléculas adsorbidas.\n\n**Variable Crítica:** La tasa de agotamiento del carbón activado depende directamente de la \"competencia\" por los sitios activos entre la Materia Orgánica Natural (MON) remanente y los microcontaminantes objetivo."
+        },
+        {
+          id: "fotocatalisis-heterogenea",
+          title: "3. Fotocatálisis Heterogénea: Procesos de Oxidación Avanzada (POA)",
+          content: "El núcleo tecnológico para la degradación de moléculas recalcitrantes reside en los POA. Específicamente, mediante el uso de semiconductores minerales como la **ilmenita** (un óxido de hierro y titanio) acoplados a agentes oxidantes como el peróxido de hidrógeno (H2O2).\n\n**Mecanismo de Activación:** Al irradiar el catalizador con fotones que superan su energía de banda prohibida (*Band Gap*), se promueve un electrón desde la banda de valencia hacia la banda de conducción, generando un par electrón-hueco (e- / h+).\n\n**Ruta Radicalaria:** Estos pares interactúan con el agua y el peróxido de hidrógeno circundante para producir **radicales hidroxilo (HO•)**. Este radical es un oxidante no selectivo con un potencial de oxidación extremadamente alto (2.80 V), capaz de romper enlaces carbono-carbono y conducir a la completa mineralización de los fármacos (transformándolos en CO2, H2O y ácidos inorgánicos).\n\n**Transición Energética:** El diseño avanzado del reactor evalúa la cinética de reacción bajo iniciación con radiación UV-C (alta energía, menor longitud de onda), seguida de un sostenimiento mediante radiación solar, buscando la máxima viabilidad técnica y eficiencia energética a escala real.",
+          image: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=1200&q=80"
+        }
+      ],
+      conclusion: "La integración de estos tres sistemas busca crear un efecto sinérgico poderoso: la Coagulación acondiciona la matriz reduciendo interferentes ópticos, la Fotocatálisis oxida estructuralmente los fármacos y la microbiología, y la Adsorción actúa como barrera final.\n\nLa evaluación metodológica rigurosa de estas variables cinéticas e isotérmicas, transitando desde moléculas trazadoras modelo hasta matrices reales complejas, establece los parámetros de diseño necesarios para escalar estas infraestructuras de tratamiento. \n\nEl objetivo final es claro: **asegurar la viabilidad toxicológica del agua y proteger el futuro de la agroindustria colombiana.**"
+    },
+    tags: ["contaminantes emergentes", "aguas residuales", "PTAR", "fotocatálisis", "POAs", "coagulación", "adsorción", "reuso", "Sabana de Bogotá"],
+    nextArticle: {
+      slug: "desafio-agua-america-latina-rural-estadisticas",
+      title: "El Desafío del Agua en la América Latina Rural: Estadísticas de una Brecha Urgente"
+    }
+  },
+  "superpoder-borra-cafe-limpiar-agua": {
+    slug: "superpoder-borra-cafe-limpiar-agua",
+    title: "De tu taza al grifo: El \"superpoder\" oculto de la borra de café para limpiar el agua",
+    category: "Nuevas Tecnologías Ambientales",
+    date: "2026-04-07",
+    readTime: 5,
+    excerpt: "¿Sabías que cada vez que preparas un café, estás desechando una de las herramientas más poderosas de la química ambiental? Descubre cómo la borra de café puede eliminar nitratos y cromo.",
+    heroImage: "https://images.unsplash.com/photo-1559525839-b184a4d698c7?auto=format&fit=crop&w=1200&q=80",
+    author: {
+      name: "Pablo Cubides",
+      avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
+      bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
+    },
+    content: {
+      introduction: "¿Sabías que cada vez que preparas un café, estás desechando una de las herramientas más poderosas de la química ambiental? Lo que tú llamas \"desecho\" o borra de café (SCG, por sus siglas en inglés), la ciencia lo llama bioadsorbente de alto rendimiento.\n\nA nivel mundial, producimos más de 6 millones de toneladas de este residuo al año. Pero, ¿y si te dijera que este residuo tiene la clave para eliminar contaminantes letales como los nitratos de la agricultura y el cromo hexavalente de la industria?",
+      sections: [
+        {
+          id: "quimica-esponja-negra",
+          title: "🧪 La Química detrás de la \"Esponja\" Negra",
+          content: "No es magia, es ciencia de superficies. La borra de café no es solo polvo quemado; es una estructura lignocelulósica ultra-porosa rica en celulosa, lignina y grupos funcionales clave como:\n\n*   Hidroxilos (–OH)\n*   Carboxilos (–COOH)\n*   Aminas (N–H)\n\nEstos grupos actúan como \"imanes químicos\" que atrapan metales y aniones mientras el agua fluye a través de ellos.",
+          image: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=1200&q=80"
+        },
+        {
+          id: "desafio-nitratos",
+          title: "🚫 El Desafío de los Nitratos (NO3-)",
+          content: "La contaminación por nitratos es una bomba de tiempo silenciosa en nuestras zonas agrícolas, causando desde la degradación de ecosistemas (eutrofización) hasta problemas graves de salud como la metahemoglobinemia en bebés.\n\n**¿Cómo lo soluciona el café?**\nLa investigación más reciente (2020-2025) revela que no basta con usar la borra cruda. Para los nitratos, la clave es la activación:\n\n*   **Tratamiento con HCl (Ácido Clorhídrico):** Una concentración de 0.4 M prepara la superficie para atraer específicamente los aniones de nitrato.\n*   **Carbonización a Baja Temperatura:** Calentar la borra a solo 200 °C crea un biochar que mantiene intactos los grupos funcionales necesarios, logrando recuperaciones de nitratos superiores al 80%."
+        },
+        {
+          id: "caso-cromo-vi",
+          title: "🏭 El Caso del Cromo VI (Cr VI): ¡Más eficiente que el carbón comercial!",
+          content: "Basado en estudios locales recientes realizados en la Universidad Nacional de Colombia, se ha demostrado que los residuos de café (o \"cunchos\") son una alternativa revolucionaria para limpiar ríos contaminados por curtiembres.\n\n**El hallazgo:** En pruebas comparativas, los residuos de café sin tratamiento costoso mostraron una capacidad de remoción de Cromo VI superior al 95%, ajustándose perfectamente al modelo de Freundlich.\n\n**El impacto:** Esto significa que podemos tratar aguas industriales con un material que hoy es gratuito, compitiendo codo a codo con carbones activados comerciales de alto costo.\n\nReferencia del estudio: [Repositorio UTadeo](https://expeditiorepositorio.utadeo.edu.co/entities/publication/110fcfae-def6-4dbb-a827-ed6ef84cc2b1)",
+          callout: {
+            type: "info",
+            title: "Referencia Clave",
+            content: "Para consultar el estudio sobre bioadsorbentes de Cromo VI a base de café, visita la investigación académica completa en el repositorio."
+          }
+        },
+        {
+          id: "innovacion-ia",
+          title: "🤖 Innovación 2025: Inteligencia Artificial en el Laboratorio",
+          content: "La frontera de esta investigación ya no es solo química, es digital. Se están utilizando modelos de Machine Learning (como Random Forest y Redes Neuronales) para predecir exactamente cuánta borra de café necesitas según el pH y la temperatura del agua.\n\n**Precisión asombrosa:** Estos modelos logran una exactitud superior al 90% (R² > 0.89), permitiendo optimizar plantas de tratamiento rurales sin necesidad de costosos experimentos de prueba y error."
+        },
+        {
+          id: "datos-rapidos-eficiencia",
+          title: "📊 Datos Rápidos: Café vs. El Mundo",
+          content: "| Contaminante | Eficiencia con Café Modificado | Condición Óptima |\n| :--- | :--- | :--- |\n| **Nitratos (NO3-)** | 80.7% - 83.8% | pH ácido (3-4) |\n| **Cromo VI (Cr VI)** | > 95% | Tiempo de contacto 60 min |\n| **Plomo (Pb2+)** | 98% | Biochar optimizado |\n| **Colorantes (Azul Metileno)** | 100% | 6 ciclos de reutilización |"
+        }
+      ],
+      conclusion: "🌍 **Sostenibilidad y Futuro**\nImplementar filtros de borra de café no solo limpia el agua; reduce la huella de carbono de la industria cafetalera y evita que los residuos orgánicos terminen en vertederos produciendo gases de efecto invernadero.\n\n¿El siguiente paso? Proyectos comunitarios y \"CoffeeBots\" (nanopartículas magnéticas de café) que ya están siendo probados para limpiar microplásticos y aceites en el mar.\n\n💡 **Conclusión**\nLa próxima vez que disfrutes tu café, mira esos restos negros con otros ojos. No son basura; son la tecnología de limpieza hídrica del futuro: barata, sostenible y ultra-eficiente.\n\n¿Te interesa la ciencia ambiental? ¡Comparte este post y ayudemos a que la economía circular llegue a cada taza!\n\n*Este artículo se basa en investigaciones académicas publicadas entre 2014 y 2025 en revistas como Revista Mutis, MDPI, SciELO y Frontiers in Chemical Engineering.*"
+    },
+    tags: ["Economía Circular", "Tratamiento de Agua", "Borra de Café", "Sostenibilidad", "Innovación", "Ciencia Ambiental", "SCG"],
+    nextArticle: {
+      slug: "desafios-mecanismos-tratamiento-aguas-riego",
+      title: "Desafíos y Mecanismos de Tratamiento Avanzado para Aguas de Riego"
+    }
+  },
+  "paradoja-agua-valle-medio-magdalena-proyecto-megia": {
+    slug: "paradoja-agua-valle-medio-magdalena-proyecto-megia",
+    title: "De Residuo a Recurso: La Paradoja del Agua en el Valle Medio del Magdalena (Análisis Crítico - Proyecto MEGIA)",
+    category: "Investigación y Casos de Estudio",
+    date: "2026-04-07",
+    readTime: 12,
+    excerpt: "Análisis crítico de cómo la ingeniería choca con las barreras normativas en el reúso de aguas de producción en la industria de hidrocarburos. El caso del Proyecto MEGIA.",
+    heroImage: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80",
+    author: {
+      name: "Pablo Cubides",
+      avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
+      bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
+    },
+    content: {
+      introduction: "### Introducción: El Elefante en la Habitación\n\nEn la industria de los hidrocarburos, el petróleo se lleva los titulares, pero el agua es quien dicta la operación. En el Valle Medio del Magdalena (VMM), por cada barril de crudo, gestionamos volúmenes inmensos de agua de producción. La narrativa convencional se centra en la captación, pero el verdadero desafío técnico y ambiental reside en el retorno.\n\nComo parte del equipo técnico del Proyecto MEGIA (Modelo Multiescala de Gestión Integral del Agua), específicamente liderando el Producto 15, nos enfrentamos a una pregunta que va más allá de la química: ¿Por qué, si tenemos la tecnología para tratar el agua, seguimos prefiriendo el vertimiento sobre el reúso?\n\nEste artículo no es un reporte de laboratorio; es un análisis de cómo la ingeniería choca con la barrera regulatoria y cómo propusimos un tren de tratamiento capaz de romper ese estancamiento.",
+      sections: [
+        {
+          id: "trampa-normativa",
+          title: "1. La Trampa Normativa: Cuando la Ley Desincentiva la Economía Circular",
+          content: "Durante el análisis de la información secundaria y la normatividad vigente (Decreto 1076, Res. 631 de 2015 para vertimientos y Res. 1207 de 2014 para reúso), encontramos una incoherencia sistémica crítica.\n\n**El hallazgo:** Los estándares para reúso son, en muchos parámetros, irracionalmente más estrictos que los de vertimiento.\n\n**La realidad:** Hoy en día, para una operadora es técnica y económicamente más viable tratar el agua para \"cumplir y verter\" al río, que tratarla para reusarla en agricultura o industria.\n\n**El dato crítico:** Parámetros como Fenoles, Hidrocarburos Totales y ciertos metales tienen límites en la norma de reúso que obligan a niveles de potabilización casi clínica, mientras que el vertimiento permite cargas más laxas.\n\n**La consecuencia:** Se perpetúa un modelo lineal (extraer -> tratar -> verter) en lugar de uno circular.\n\n**Nuestra crítica:** La norma de reúso en Colombia carece de flexibilidad. No distingue adecuadamente entre un reúso para intercambio de calor industrial y uno para riego de cultivos. Exige monitorear una lista taxativa de parámetros (incluyendo algunos irrelevantes para aguas de producción) que encarecen el proceso sin aportar valor ambiental real.",
+          image: "https://images.unsplash.com/photo-1528659551408-db372d8dcade?auto=format&fit=crop&w=1200&q=80"
+        },
+        {
+          id: "reto-tecnico-vmm",
+          title: "2. El Reto Técnico: Desarmando el \"Cóctel\" del VMM",
+          content: "Las aguas de producción en el VMM no son simples aguas aceitosas; son matrices complejas con tres enemigos principales que inhabilitan las tecnologías convencionales por sí solas:\n\n*   **Salinidad Extrema:** Cloruros disparados que \"queman\" cualquier intento de riego agrícola sin desalinización.\n*   **Emulsiones Recalcitrantes:** Grasas y aceites estabilizados que los separadores API estándar no logran romper.\n*   **Compuestos Orgánicos Disueltos:** Fenoles y BTEX que requieren algo más que física para ser eliminados.\n\nLa mayoría de los sistemas actuales en campo operan con tecnologías físicas (flotación, filtración) que son insuficientes para alcanzar estándares de reúso agrícola. Se necesitaba un cambio de paradigma en el diseño del proceso."
+        },
+        {
+          id: "solucion-tren-hibrido",
+          title: "3. La Solución: Un Tren de Tratamiento Híbrido",
+          content: "Para el Producto 15, no nos conformamos con evaluar lo existente. Diseñamos, simulamos y probamos a escala laboratorio un prototipo de tren de tratamiento secuencial diseñado específicamente para atacar las tres problemáticas mencionadas.\n\nLa filosofía fue: Atacar cada contaminante con la tecnología termodinámicamente más eficiente para su naturaleza.\n\n**A. Tratamiento Primario: Electrocoagulación (El Rompedor)**\nEn lugar de usar químicos costosos para romper las emulsiones, utilizamos electricidad y placas de sacrificio (aluminio).\n*   **Resultado:** Remociones de grasas y aceites superiores al 96%.\n*   **Ventaja:** El sistema desestabiliza las cargas de los coloides y genera microburbujas que flotan el contaminante. Es el pre-tratamiento perfecto para proteger las etapas siguientes.\n\n**B. Tratamiento Secundario: Biorreactor de Membrana (MBR)**\nPara los orgánicos disueltos (fenoles), la biología es imbatible. Implementamos un MBR, que combina lodos activados con una filtración física.\n*   **El reto:** Aclimatar las bacterias a la alta salinidad del agua.\n*   **Resultado:** Una vez aclimatadas, las bacterias degradaron la carga orgánica remanente, entregando un efluente visualmente limpio, pero aún salino.\n\n**C. Tratamiento Terciario: Ósmosis Inversa (La Barrera Final)**\nEl paso ineludible para el reúso agrícola. Con el agua ya libre de grasas (que ensuciarían las membranas) y de orgánicos (que harían biofouling), la ósmosis inversa pudo operar con máxima eficiencia.\n*   **Resultado Final:** Cloruros por debajo de 0.1 mg/L y DQO < 5 mg/L.\n\n**Conclusión del Prototipo:** Técnicamente, es posible transformar agua de producción petrolera en agua apta para riego. La barrera no es la ingeniería, es el costo energético (OPEX) y la rigidez normativa."
+        },
+        {
+          id: "gestion-lodos",
+          title: "4. Los Lodos: El Residuo del Residuo",
+          content: "Ningún tratamiento de agua es \"limpio\"; todos transfieren la contaminación de la fase líquida a la sólida. El proyecto MEGIA abordó esto proponiendo una Ruta de Decisión para Lodos.\n\nCategorizamos los lodos en tres grupos (Base Aceite, Base Agua, Biolodos) y propusimos alternativas de valorización real:\n\n*   **Recuperación Energética:** Para lodos con alto contenido de hidrocarburos (>10%), la incineración o coprocesamiento no es disposición, es recuperación de energía.\n*   **Construcción:** Las cenizas de lodos inorgánicos (base agua) mostraron potencial para ser estabilizadas en matrices de cemento o ladrillos, inmovilizando metales pesados.\n*   **Biolodos:** Potencial generación de biogás, aunque limitada por la toxicidad de los hidrocarburos previos."
+        }
+      ],
+      conclusion: "### Conclusiones y Recomendaciones Estratégicas\n\nEl Proyecto MEGIA, a través del Producto 15, deja tres mensajes claros para la industria y el regulador:\n\n1.  **Flexibilización Normativa:** Es urgente modernizar la Resolución 1207. Necesitamos rangos dinámicos y evaluación de riesgo caso a caso, no listas estáticas que bloquean la innovación.\n2.  **Tecnología en Tren:** Ninguna \"bala de plata\" (una sola tecnología) funcionará en el VMM. El futuro es la integración de procesos electroquímicos, biológicos y de membrana.\n3.  **El Costo de No Hacer Nada:** Seguir vertiendo agua tratada mientras la región sufre estrés hídrico es un error estratégico. El reúso tiene un costo operativo, sí, pero el costo social y ambiental de agotar las fuentes hídricas es infinitamente mayor.\n\n**La ingeniería ya hizo su parte. Ahora le toca a la regulación.**\n\n_Este artículo se basa en los resultados del Informe Final del Producto 15 del Proyecto MEGIA._"
+    },
+    tags: ["Proyecto MEGIA", "Valle Medio del Magdalena", "agua de producción", "reúso de agua", "electrocoagulación", "MBR", "ósmosis inversa", "Resolución 1207", "hidrocarburos", "economía circular"],
+    nextArticle: {
+      slug: "superpoder-borra-cafe-limpiar-agua",
+      title: "De tu taza al grifo: El 'superpoder' oculto de la borra de café para limpiar el agua"
+    }
+  },
 };
 
 export function getLatestArticles(count: number = 2): BlogArticle[] {

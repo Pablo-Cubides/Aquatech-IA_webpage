@@ -2,7 +2,7 @@ name: Supabase Keep-Alive
 
 on:
   schedule:
-    - cron: '0 0 * * *' # Ejecuta DIARIO a las 00:00 UTC para evitar pausas
+    - cron: "0 0 * * *" # Ejecuta DIARIO a las 00:00 UTC para evitar pausas
   workflow_dispatch: # Permite ejecución manual desde GitHub UI
 
 jobs:
@@ -10,13 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - uses: pnpm/action-setup@v4
         # Uses version from package.json packageManager field
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'pnpm'
+          node-version: "20"
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
