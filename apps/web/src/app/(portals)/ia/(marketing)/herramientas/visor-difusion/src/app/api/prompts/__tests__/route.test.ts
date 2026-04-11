@@ -1,4 +1,4 @@
-import { GET } from '../route';
+import { GET } from '../routeHandler';
 
 describe('/api/prompts', () => {
   it('should return list of prompts', async () => {

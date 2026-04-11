@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { GET } from "../route";
+import { GET } from "../routeHandler";
 
 describe("/api/noise/[step]", () => {
   it("should return a response for noise endpoint", async () => {
