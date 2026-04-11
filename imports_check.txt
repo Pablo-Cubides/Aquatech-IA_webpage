@@ -1,8 +1,0 @@
-
-Path                                                                                                                                                  LineNumber Line
-----                                                                                                                                                  ---------- ----
-D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\privacy\page.tsx                                                               2 import PrivacyPageContent from "../../../ia/(marketing)/privacy/page";
-D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ambiental\(marketing)\terms\page.tsx                                                                 2 import TermsPageContent from "../../../ia/(marketing)/terms/page";
-D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\herramientas\visor-difusion\src\app\api\noise\[step]\__tests__\route.test.ts          2 import { GET } from "../route";
-D:\Empresas\AquatechIA\webpage\apps\web\src\app\(portals)\ia\(marketing)\herramientas\visor-difusion\src\app\api\prompts\__tests__\route.test.ts               1 import { GET } from '../route';
-
