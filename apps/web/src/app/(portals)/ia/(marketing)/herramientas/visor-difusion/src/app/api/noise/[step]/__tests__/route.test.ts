@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { NextRequest } from "next/server";
-import { GET } from "../routeHandler";
+import { GET } from "../route";
 
 describe("/api/noise/[step]", () => {
   it("should return a response for noise endpoint", async () => {
