@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import Page from "./app/page";
+import Page from "./app/PageComponent";
 
 export default function FiltradorIAWrapper() {
   return <Page />;

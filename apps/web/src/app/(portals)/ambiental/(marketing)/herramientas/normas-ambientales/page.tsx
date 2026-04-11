@@ -1,6 +1,6 @@
 "use client"
 import React from "react"
-import Page from "./src/app/page"
+import Page from "./src/app/PageComponent"
 import { ProcessProvider } from "./src/context/ProcessContext"
 
 export default function NormasAmbientalesWrapper() {

@@ -132,3 +132,5 @@ env/
 !.vscode/extensions.json
 !.vscode/mcp.json
 .env*.local
+content/blog/extraction_debug.txt
+content/blog/raw_studio_response.txt

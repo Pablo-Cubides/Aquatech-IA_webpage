@@ -647,7 +647,7 @@ export default function AmbientalAutorPage() {
                   </div>
                 </div>
                 <Link
-                  href="/ambiental/autor/herramientas/ruleta-academica"
+                  href="/ia/autor/herramientas/ruleta-academica"
                   className="inline-flex items-center gap-2 w-full justify-center bg-gradient-to-r from-[#10B981] to-[#0077B6] text-white font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-opacity"
                 >
                   <RotateCcw className="w-4 h-4" />
