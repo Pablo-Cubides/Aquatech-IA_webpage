@@ -922,7 +922,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2026-04-07",
     readTime: 8,
     excerpt: "El reúso de aguas residuales en esquemas agrícolas exige una transición urgente. Análisis sobre la gestión de contaminantes emergentes en la Sabana de Bogotá.",
-    heroImage: "https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?auto=format&fit=crop&w=1200&q=80",
+    heroImage: "/images/Portal ambiental/blog/tratamiento_riego.png",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
@@ -955,15 +955,15 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
           id: "fotocatalisis-heterogenea",
           title: "3. Fotocatálisis Heterogénea: Procesos de Oxidación Avanzada (POA)",
           content: "El núcleo tecnológico para la degradación de moléculas recalcitrantes reside en los POA. Específicamente, mediante el uso de semiconductores minerales como la **ilmenita** (un óxido de hierro y titanio) acoplados a agentes oxidantes como el peróxido de hidrógeno (H2O2).\n\n**Mecanismo de Activación:** Al irradiar el catalizador con fotones que superan su energía de banda prohibida (*Band Gap*), se promueve un electrón desde la banda de valencia hacia la banda de conducción, generando un par electrón-hueco (e- / h+).\n\n**Ruta Radicalaria:** Estos pares interactúan con el agua y el peróxido de hidrógeno circundante para producir **radicales hidroxilo (HO•)**. Este radical es un oxidante no selectivo con un potencial de oxidación extremadamente alto (2.80 V), capaz de romper enlaces carbono-carbono y conducir a la completa mineralización de los fármacos (transformándolos en CO2, H2O y ácidos inorgánicos).\n\n**Transición Energética:** El diseño avanzado del reactor evalúa la cinética de reacción bajo iniciación con radiación UV-C (alta energía, menor longitud de onda), seguida de un sostenimiento mediante radiación solar, buscando la máxima viabilidad técnica y eficiencia energética a escala real.",
-          image: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=1200&q=80"
+          image: "/images/Portal ambiental/blog/tratamiento_riego.png"
         }
       ],
       conclusion: "La integración de estos tres sistemas busca crear un efecto sinérgico poderoso: la Coagulación acondiciona la matriz reduciendo interferentes ópticos, la Fotocatálisis oxida estructuralmente los fármacos y la microbiología, y la Adsorción actúa como barrera final.\n\nLa evaluación metodológica rigurosa de estas variables cinéticas e isotérmicas, transitando desde moléculas trazadoras modelo hasta matrices reales complejas, establece los parámetros de diseño necesarios para escalar estas infraestructuras de tratamiento. \n\nEl objetivo final es claro: **asegurar la viabilidad toxicológica del agua y proteger el futuro de la agroindustria colombiana.**"
     },
-    tags: ["contaminantes emergentes", "aguas residuales", "PTAR", "fotocatálisis", "POAs", "coagulación", "adsorción", "reuso", "Sabana de Bogotá"],
+    tags: ["contaminantes emergentes", "aguas residuales", "PTAR", "fotocatálisis", "POAs", "coagulación", "adsorción", "reúso", "Sabana de Bogotá"],
     nextArticle: {
-      slug: "desafio-agua-america-latina-rural-estadisticas",
-      title: "El Desafío del Agua en la América Latina Rural: Estadísticas de una Brecha Urgente"
+      slug: "superpoder-borra-cafe-limpiar-agua",
+      title: "De tu taza al grifo: El 'superpoder' oculto de la borra de café para limpiar el agua"
     }
   },
   "superpoder-borra-cafe-limpiar-agua": {
@@ -973,7 +973,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2026-04-07",
     readTime: 5,
     excerpt: "¿Sabías que cada vez que preparas un café, estás desechando una de las herramientas más poderosas de la química ambiental? Descubre cómo la borra de café puede eliminar nitratos y cromo.",
-    heroImage: "https://images.unsplash.com/photo-1559525839-b184a4d698c7?auto=format&fit=crop&w=1200&q=80",
+    heroImage: "/images/Portal ambiental/blog/cafe_filtro.png",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
@@ -986,12 +986,12 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
           id: "quimica-esponja-negra",
           title: "🧪 La Química detrás de la \"Esponja\" Negra",
           content: "No es magia, es ciencia de superficies. La borra de café no es solo polvo quemado; es una estructura lignocelulósica ultra-porosa rica en celulosa, lignina y grupos funcionales clave como:\n\n*   Hidroxilos (–OH)\n*   Carboxilos (–COOH)\n*   Aminas (N–H)\n\nEstos grupos actúan como \"imanes químicos\" que atrapan metales y aniones mientras el agua fluye a través de ellos.",
-          image: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=1200&q=80"
+          image: "/images/Portal ambiental/blog/cafe_filtro.png"
         },
         {
           id: "desafio-nitratos",
           title: "🚫 El Desafío de los Nitratos (NO3-)",
-          content: "La contaminación por nitratos es una bomba de tiempo silenciosa en nuestras zonas agrícolas, causando desde la degradación de ecosistemas (eutrofización) hasta problemas graves de salud como la metahemoglobinemia en bebés.\n\n**¿Cómo lo soluciona el café?**\nLa investigación más reciente (2020-2025) revela que no basta con usar la borra cruda. Para los nitratos, la clave es la activación:\n\n*   **Tratamiento con HCl (Ácido Clorhídrico):** Una concentración de 0.4 M prepara la superficie para atraer específicamente los aniones de nitrato.\n*   **Carbonización a Baja Temperatura:** Calentar la borra a solo 200 °C crea un biochar que mantiene intactos los grupos funcionales necesarios, logrando recuperaciones de nitratos superiores al 80%."
+          content: "La contaminación por nitratos es una bomba de tiempo silenciosa en nuestras zonas agrícolas, causando desde la degradación de ecosistemas (eutrofización) hasta problemas graves de salud como la metahemoglobinemia en bebés.\n\n**¿Cómo lo soluciona el café?**\nLa investigación más reciente (2020-2025) revela que no basta con usar la borra cruda. Para los nitratos, la clave es la activación:\n\n*   **Tratamiento con HCl (Ácido Clorhídrico):** Una concentración de 0.4 M prepara la superficie para atraer específicamente los aniones de nitrato.\n*   **Carbonización a Baja Temperatura:** Calentar la borra de café a solo 200 °C crea un biochar que mantiene intactos los grupos funcionales necesarios, logrando recuperaciones de nitratos superiores al 80%."
         },
         {
           id: "caso-cromo-vi",
@@ -1029,7 +1029,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2026-04-07",
     readTime: 12,
     excerpt: "Análisis crítico de cómo la ingeniería choca con las barreras normativas en el reúso de aguas de producción en la industria de hidrocarburos. El caso del Proyecto MEGIA.",
-    heroImage: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80",
+    heroImage: "/images/Portal ambiental/blog/megia_planta.png",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
@@ -1042,7 +1042,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
           id: "trampa-normativa",
           title: "1. La Trampa Normativa: Cuando la Ley Desincentiva la Economía Circular",
           content: "Durante el análisis de la información secundaria y la normatividad vigente (Decreto 1076, Res. 631 de 2015 para vertimientos y Res. 1207 de 2014 para reúso), encontramos una incoherencia sistémica crítica.\n\n**El hallazgo:** Los estándares para reúso son, en muchos parámetros, irracionalmente más estrictos que los de vertimiento.\n\n**La realidad:** Hoy en día, para una operadora es técnica y económicamente más viable tratar el agua para \"cumplir y verter\" al río, que tratarla para reusarla en agricultura o industria.\n\n**El dato crítico:** Parámetros como Fenoles, Hidrocarburos Totales y ciertos metales tienen límites en la norma de reúso que obligan a niveles de potabilización casi clínica, mientras que el vertimiento permite cargas más laxas.\n\n**La consecuencia:** Se perpetúa un modelo lineal (extraer -> tratar -> verter) en lugar de uno circular.\n\n**Nuestra crítica:** La norma de reúso en Colombia carece de flexibilidad. No distingue adecuadamente entre un reúso para intercambio de calor industrial y uno para riego de cultivos. Exige monitorear una lista taxativa de parámetros (incluyendo algunos irrelevantes para aguas de producción) que encarecen el proceso sin aportar valor ambiental real.",
-          image: "https://images.unsplash.com/photo-1528659551408-db372d8dcade?auto=format&fit=crop&w=1200&q=80"
+          image: "/images/Portal ambiental/blog/megia_planta.png"
         },
         {
           id: "reto-tecnico-vmm",

@@ -277,9 +277,10 @@ export default async function BlogArticlePage({ params }: PageProps) {
             {/* Contenido principal */}
             <div className="prose prose-lg max-w-none ">
               {/* Introducción */}
-              <p className="text-xl leading-relaxed text-gray-600 mb-8 font-medium">
-                {article.content.introduction}
-              </p>
+              <div 
+                className="text-xl leading-relaxed text-gray-600 mb-8 font-medium"
+                dangerouslySetInnerHTML={{ __html: renderSafeRichText(article.content.introduction, "text-[#0D161C]") }}
+              />
 
               {/* Secciones */}
               {article.content.sections.map((section) => (
@@ -353,7 +354,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
                         >
                           {section.callout.title}
                         </h4>
-                        <p
+                        <div
                           className={
                             section.callout.type === "info"
                               ? "text-blue-700"
@@ -361,9 +362,8 @@ export default async function BlogArticlePage({ params }: PageProps) {
                                 ? "text-green-700"
                                 : "text-red-700"
                           }
-                        >
-                          {section.callout.content}
-                        </p>
+                          dangerouslySetInnerHTML={{ __html: renderSafeRichText(section.callout.content, "font-bold") }}
+                        />
                       </div>
                     </div>
                   )}
@@ -401,9 +401,10 @@ export default async function BlogArticlePage({ params }: PageProps) {
                   >
                     Conclusión
                   </h2>
-                  <p className="text-gray-600 leading-7 text-lg">
-                    {article.content.conclusion}
-                  </p>
+                  <div 
+                    className="text-gray-600 leading-7 text-lg"
+                    dangerouslySetInnerHTML={{ __html: renderSafeRichText(article.content.conclusion, "text-[#0D161C]") }}
+                  />
                 </section>
               )}
 

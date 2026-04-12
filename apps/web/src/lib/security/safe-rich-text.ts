@@ -14,7 +14,9 @@ export function renderSafeRichText(input: string, strongClass: string): string {
   const escaped = escapeHtml(input);
 
   return escaped
+    .replace(/\*\*\*(.+?)\*\*\*/g, `<strong class="${strongClass}"><em>$1</em></strong>`)
     .replace(/\*\*(.+?)\*\*/g, `<strong class="${strongClass}">$1</strong>`)
+    .replace(/\*(.+?)\*/g, "<em>$1</em>")
     .replace(/\r?\n/g, "<br>")
     .replace(/• /g, "<br>• ");
 }
