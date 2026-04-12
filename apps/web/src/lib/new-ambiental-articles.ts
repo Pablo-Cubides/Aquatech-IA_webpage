@@ -73,7 +73,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2025-01-02",
     readTime: 15,
     excerpt: "Descubre cómo KoboToolbox, Google Earth Engine y marcos ESG están revolucionando la consultoría ambiental. Del Excel estático a ecosistemas de datos inteligentes.",
-    heroImage: "/images/Portal ambiental/blog/software-gestion-ambiental.png",
+    heroImage: "/images/Portal ambiental/blog/cerebro_digital_ia.png",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
@@ -86,17 +86,19 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
           id: "recoleccion-datos",
           title: "1. Recolección en Campo: KoboToolbox y la Soberanía de Datos",
           content: "El primer paso para digitalizar la gestión ambiental es eliminar el papel en el levantamiento de información primaria.\n\n**Herramienta clave:** [KoboToolbox](https://www.kobotoolbox.org/) (Open Source).\n\n**Por qué usarla:** Permite crear formularios complejos que funcionan offline en celulares o tablets. Captura coordenadas GPS, fotos y firmas sin necesidad de internet en la selva o el campo. Al llegar a la oficina, los datos se sincronizan automáticamente con tu base de datos central.",
-          image: "https://images.unsplash.com/photo-1512418490979-92798ccc1380?auto=format&fit=crop&w=1200&q=80",
+          image: "/images/Portal ambiental/blog/cerebro_digital_ia.png",
         },
         {
           id: "geospatial-earth-engine",
           title: "2. Mapas de Precisión: QGIS y el poder de Google Earth Engine",
           content: "No se puede gestionar lo que no se puede mapear. Mientras QGIS sigue siendo el rey del escritorio, la nube ofrece capacidades sobrehumanas.\n\n**Google Earth Engine (GEE):** Permite procesar décadas de imágenes satelitales Sentinel y Landsat en segundos. Existe un [Manual en Español](https://github.com/google/earthengine-api) enfocado en ingenieros colombianos que facilita este aprendizaje.\n\n**Caso de uso:** Detectar cambios en el uso del suelo o estrés hídrico en una cuenca de 100,000 hectáreas sin descargar un solo gigabyte de información.",
+          image: "/images/Portal ambiental/blog/google_earth_engine_ia.png",
         },
         {
           id: "grafana-realtime",
           title: "3. Dashboards Médicos para la Industria: Grafana",
           content: "Si gestionas una planta de tratamiento (PTAR/PTAP) o una red de sensores de aire, los reportes mensuales ya no son suficientes.\n\n**Grafana:** Es el estándar de oro para ver 'series temporales'.\n\n**Ventaja estratégica:** Conecta tus sensores IoT para ver en vivo el pH, la turbidez o el nivel de los tanques. Configura alertas a Telegram si un parámetro supera el límite legal de la Resolución 1207 o 0631.",
+          image: "/images/Portal ambiental/blog/grafana_ambiental_ia.png",
           callout: {
             type: "info",
             title: "Dato Clave",
