@@ -35,16 +35,6 @@ interface ProjectCardProps {
   imageAlt: string;
 }
 
-interface ProjectWideProps {
-  badge: string;
-  title: string;
-  impact: string;
-  desc: string;
-  href: string;
-  imageSrc: string;
-  imageAlt: string;
-}
-
 interface StackCardProps {
   icon: React.ReactNode;
   title: string;
@@ -96,39 +86,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         {title}
       </h3>
       <p className="text-gray-600">{desc}</p>
-    </div>
-  </Link>
-);
-
-const ProjectWide: React.FC<ProjectWideProps> = ({
-  badge,
-  title,
-  impact,
-  desc,
-  href,
-  imageSrc,
-  imageAlt,
-}) => (
-  <Link
-    href={href}
-    className="group bg-white border border-gray-200 rounded-xl overflow-hidden grid md:grid-cols-2 gap-8 items-center hover:border-[#0077B6] transition-colors"
-  >
-    <div className="p-8">
-      <span className="bg-[#E8F5E8] text-[#10B981] text-sm px-3 py-1 rounded-full font-medium">
-        {badge}
-      </span>
-      <h3 className="text-2xl font-bold text-[#0D161C] mt-4 mb-2 group-hover:text-[#0077B6] transition-colors">
-        {title}
-      </h3>
-      <p className="text-[#10B981] font-semibold mb-4">{impact}</p>
-      <p className="text-gray-600">{desc}</p>
-    </div>
-    <div className="h-64 md:h-full overflow-hidden">
-      <img
-        src={imageSrc}
-        alt={imageAlt}
-        className="w-full h-full object-cover"
-      />
     </div>
   </Link>
 );
@@ -536,19 +493,17 @@ export default function AmbientalAutorPage() {
               Proyectos destacados
             </h2>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              <ProjectWide
-                badge="INVESTIGACIÓN Y DESARROLLO"
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <ProjectCard
                 title="Proyecto MEGIA: Gestión Integral del Agua"
-                impact="Optimización de Tratamientos y Reúso en Hidrocarburos"
-                desc="Liderazgo técnico en la evaluación de tecnologías híbridas (Electrocoagulación + MBR + Ósmosis) para transformar aguas de producción en recursos para el sector agrícola."
+                desc="Evaluación de tecnologías híbridas (Electrocoagulación + MBR + Ósmosis) para el reúso de aguas de producción en el sector agrícola."
                 href="/ambiental/blog/paradoja-agua-valle-medio-magdalena-proyecto-megia"
                 imageSrc="/images/Portal ambiental/blog/megia_planta.png"
                 imageAlt="Planta de tratamiento Proyecto MEGIA"
               />
 
               <ProjectCard
-                title="Tratamiento de Aguas de Riego"
+                title="Desafíos y Mecanismos de Tratamiento Avanzado para Aguas de Riego: Gestión de Contaminantes Emergentes"
                 desc="Gestión de contaminantes emergentes y fármacos mediante procesos de oxidación avanzada para asegurar la inocuidad en la Sabana de Bogotá."
                 href="/ambiental/blog/desafios-mecanismos-tratamiento-aguas-riego"
                 imageSrc="/images/Portal ambiental/blog/tratamiento_riego.png"
