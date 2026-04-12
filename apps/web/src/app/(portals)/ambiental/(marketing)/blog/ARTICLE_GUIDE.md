@@ -103,5 +103,8 @@ Para artículos que requieren alta profundidad técnica y científica, recomenda
     - Asegura que el lenguaje sea estratégico ("AgTech", "ESG").
     - Reemplaza cualquier placeholder por datos reales obtenidos en la investigación.
 
+> [!TIP]
+> **Skill Automatizada**: Existe una guía técnica para agentes de IA que automatiza todo este proceso en [notebooklm-article-generator.md](file:///d:/Empresas/AquatechIA/webpage/apps/web/src/docs/skills/notebooklm-article-generator.md). Si eres un agente de IA, sigue esos pasos ante una solicitud de "generar artículo".
+
 ---
 *Para soporte técnico sobre la estructura de datos, contactar al equipo de desarrollo de Aquatech-IA.*
