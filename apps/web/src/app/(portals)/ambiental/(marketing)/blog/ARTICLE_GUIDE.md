@@ -87,5 +87,21 @@ El portal utiliza una versión segura de Markdown. Solo se permiten:
 3. **Actualizar el Índice**: Asegúrate de que el slug sea único y esté correctamente exportado.
 4. **Verificación de UI**: Revisa el artículo en `/ambiental/blog/[slug]` para confirmar que los saltos de línea y negritas se ven bien.
 
+## 5. Workflow Avanzado con NotebookLM (Recomendado)
+
+Para artículos que requieren alta profundidad técnica y científica, recomendamos el uso de **NotebookLM** como motor de investigación y estructuración.
+
+### Paso a Paso:
+1. **Recolección de Fuentes**: Crea un notebook y carga fuentes de alta calidad (Manuales de ingeniería, Legislación ambiental, Artículos científicos o Transcripciones de YouTube especializadas).
+2. **Investigación Profunda**: Utiliza el chat de NotebookLM para identificar tendencias, herramientas específicas y marcos legales (ej. "Lista de herramientas digitales para gestión hídrica 2025").
+3. **Generación de Borrador (Studio)**:
+    - Ve a la sección **Studio** dentro de NotebookLM.
+    - Selecciona el formato **"Blog Post"**.
+    - Usa el resultado como base estructural del artículo.
+4. **Refinamiento para Aquatech-IA**:
+    - Ajusta el borrador al formato de la [Plantilla de Datos](#plantilla-de-datos).
+    - Asegura que el lenguaje sea estratégico ("AgTech", "ESG").
+    - Reemplaza cualquier placeholder por datos reales obtenidos en la investigación.
+
 ---
 *Para soporte técnico sobre la estructura de datos, contactar al equipo de desarrollo de Aquatech-IA.*
