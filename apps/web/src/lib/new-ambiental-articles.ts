@@ -61,13 +61,13 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     },
     tags: ["sensores", "IoT", "Arduino", "ESP32", "calidad del agua", "monitoreo ambiental", "low-cost"],
     nextArticle: {
-      slug: "herramientas-software-gratuito-gestion-ambiental",
-      title: "Herramientas digitales gratuitas para gestión ambiental",
+      slug: "cerebro-digital-gestion-ambiental-esg",
+      title: "Más allá del papel: El Cerebro Digital de la Gestión Ambiental y ESG",
     },
   },
 
-  "herramientas-software-gratuito-gestion-ambiental": {
-    slug: "herramientas-software-gratuito-gestion-ambiental",
+  "cerebro-digital-gestion-ambiental-esg": {
+    slug: "cerebro-digital-gestion-ambiental-esg",
     title: "Más allá del papel: El Cerebro Digital de la Gestión Ambiental y ESG",
     category: "Nuevas Tecnologías Ambientales",
     date: "2025-01-02",

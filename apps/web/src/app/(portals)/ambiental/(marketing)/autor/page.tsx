@@ -538,28 +538,28 @@ export default function AmbientalAutorPage() {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <ProjectWide
-                badge="CASO DE ESTUDIO"
-                title="Estudios de calidad del agua"
-                impact="Monitoreo, QA/QC y trazabilidad analítica"
-                desc="Evaluación de parámetros físico-químicos y microbiológicos para diagnóstico y control del recurso hídrico."
-                href="/ambiental/autor#proyectos"
-                imageSrc="/images/Portal ambiental/blog/monitoreo-ambiental-laboratorio.png"
-                imageAlt="Estudio de calidad del agua en laboratorio"
+                badge="INVESTIGACIÓN Y DESARROLLO"
+                title="Proyecto MEGIA: Gestión Integral del Agua"
+                impact="Optimización de Tratamientos y Reúso en Hidrocarburos"
+                desc="Liderazgo técnico en la evaluación de tecnologías híbridas (Electrocoagulación + MBR + Ósmosis) para transformar aguas de producción en recursos para el sector agrícola."
+                href="/ambiental/blog/paradoja-agua-valle-medio-magdalena-proyecto-megia"
+                imageSrc="/images/Portal ambiental/blog/megia_planta.png"
+                imageAlt="Planta de tratamiento Proyecto MEGIA"
               />
 
               <ProjectCard
-                title="Estudios de tratamiento de agua"
-                desc="Análisis y optimización de procesos en PTAP/PTAR: coagulación, filtración, desinfección y reúso."
-                href="/ambiental/autor#proyectos"
-                imageSrc="/images/Portal ambiental/blog/tecnologias-tratamiento-agua.png"
-                imageAlt="Tecnologías de tratamiento de agua"
+                title="Tratamiento de Aguas de Riego"
+                desc="Gestión de contaminantes emergentes y fármacos mediante procesos de oxidación avanzada para asegurar la inocuidad en la Sabana de Bogotá."
+                href="/ambiental/blog/desafios-mecanismos-tratamiento-aguas-riego"
+                imageSrc="/images/Portal ambiental/blog/tratamiento_riego.png"
+                imageAlt="Sistema de tratamiento para aguas de riego"
               />
               <ProjectCard
-                title="Análisis de datos de contaminación ambiental"
-                desc="Integración y visualización de datos para identificar focos críticos y apoyar decisiones de gestión ambiental."
-                href="/ambiental/autor#proyectos"
-                imageSrc="/images/Portal ambiental/blog/control-contaminacion-talleres.png"
-                imageAlt="Análisis de datos de contaminación ambiental"
+                title="Bioadsorbentes: Borra de Café"
+                desc="Investigación aplicada en economía circular para la remoción de metales pesados (Cromo VI) y nitratos usando residuos del café."
+                href="/ambiental/blog/superpoder-borra-cafe-limpiar-agua"
+                imageSrc="/images/Portal ambiental/blog/cafe_filtro.png"
+                imageAlt="Investigación con borra de café"
               />
             </div>
           </div>
@@ -753,25 +753,25 @@ export default function AmbientalAutorPage() {
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               <ArticleCard
-                title="Optimización de PTAP mediante coagulación avanzada"
-                excerpt="Metodologías para mejorar la eficiencia en plantas de tratamiento de agua potable"
-                category="Tratamiento"
-                readTime="8 min"
-                href="/ambiental/blog/optimizacion-ptap-coagulacion"
-              />
-              <ArticleCard
-                title="Humedales artificiales para aguas residuales"
-                excerpt="Diseño y operación de sistemas naturales de tratamiento"
+                title="Más allá del papel: El Cerebro Digital de la Gestión Ambiental"
+                excerpt="Cómo las herramientas digitales y marcos ESG están transformando la sostenibilidad corporativa."
                 category="Tecnología"
-                readTime="6 min"
-                href="/ambiental/blog/humedales-artificiales"
+                readTime="12 min"
+                href="/ambiental/blog/cerebro-digital-gestion-ambiental-esg"
               />
               <ArticleCard
-                title="Teledetección aplicada al monitoreo hídrico"
-                excerpt="Uso de imágenes satelitales para gestión de recursos hídricos"
-                category="Investigación"
+                title="Gestión Comunitaria del Agua Rural"
+                excerpt="Modelos sostenibles e inclusivos para la gobernanza del agua en comunidades vulnerables."
+                category="Social"
                 readTime="10 min"
-                href="/ambiental/blog/teledeteccion-monitoreo"
+                href="/ambiental/blog/gestion-comunitaria-agua-rural-inclusiva-sostenible"
+              />
+              <ArticleCard
+                title="El Desafío del Agua en América Latina Rural"
+                excerpt="Análisis de las brechas de acceso y calidad del agua en sectores rurales colombianos."
+                category="Investigación"
+                readTime="9 min"
+                href="/ambiental/blog/desafio-agua-america-latina-rural-estadisticas"
               />
             </div>
           </div>
