@@ -68,4 +68,12 @@ if [ $HAS_ERROR -eq 1 ]; then
 fi
 
 echo "✅ No secrets detected"
+
+# Check for syntax errors (braces) in staged files
+echo "🔍 Validating syntax (braces)..."
+node scripts/validate-syntax.js
+if [ $? -ne 0 ]; then
+  exit 1
+fi
+
 exit 0
