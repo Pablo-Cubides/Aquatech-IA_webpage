@@ -77,7 +77,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     excerpt:
       "161 millones de personas carecen de agua potable segura en Latinoamérica. Analizamos las cifras de la CEPAL que revelan la magnitud de una crisis hídrica que golpea desproporcionadamente a las zonas rurales y a los hogares más pobres.",
     heroImage:
-      "https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=1200&q=80",
+      "/images/portal-ambiental/blog/desafio-agua-rural-latam.jpg",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ambiental/autor/Pablo Cubides.jpg",
@@ -93,7 +93,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
           content:
             "Los datos revelan que el progreso hacia el ODS 6 (Agua limpia y saneamiento) es alarmantemente insuficiente, con una brecha que se ensancha drásticamente en las zonas rurales:\n\n**161 millones de personas** (25% de la población) carecen de acceso a agua potable gestionada de forma segura.\n\n**431 millones de personas** (66% de la población regional) no cuentan con saneamiento gestionado de forma segura.\n\n**24 millones de personas** en el ámbito rural carecen incluso de instalaciones básicas para el lavado de manos, una carencia crítica para la salud pública.",
           image:
-            "https://images.unsplash.com/photo-1594398901394-4e34939a4fd0?auto=format&fit=crop&w=1200&q=80",
+            "/images/portal-ambiental/blog/agua-rural-contaminacion.jpg",
           callout: {
             type: "warning",
             title: "Off-track en el ODS 6",
@@ -125,7 +125,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
           content:
             "El cambio climático amplifica las ineficiencias de gestión preexistentes con consecuencias ya visibles y cuantificables:\n\n**7,000 km²** de superficies de agua dulce desaparecidas en Sudamérica entre 2005 y 2018 — equivalente a cuatro veces el tamaño de São Paulo.\n\n**7,282 km²** de nieves permanentes y glaciares perdidos, reservas críticas de agua dulce para millones de personas en los Andes y regiones montañosas.\n\nEstas pérdidas no son proyecciones futuras: son la realidad presente que ya está afectando la disponibilidad del recurso para comunidades rurales en países como Perú, Bolivia, Colombia y Ecuador.",
           image:
-            "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=1200&q=80",
+            "/images/portal-ambiental/blog/soluciones-basadas-naturaleza.jpg",
         },
         {
           id: "propuesta-inversion",
@@ -169,7 +169,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     excerpt:
       "Las juntas de agua y cooperativas rurales son la columna vertebral del acceso hídrico en Latinoamérica. Descubre cómo el capital social, la vigilancia activa comunitaria y las herramientas de bajo costo están democratizando la gestión del agua en zonas rurales.",
     heroImage:
-      "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=2000&q=80",
+      "/images/portal-ambiental/blog/poder-agua-comunidad.jpg",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ambiental/autor/Pablo Cubides.jpg",
@@ -185,7 +185,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
           content:
             "Los modelos de gestión comunitaria presentan ventajas estructurales frente a las alternativas privadas en entornos rurales:\n\n**Gobernanza Democrática:** Al democratizar la toma de decisiones, se reduce la conflictividad hídrica y se garantiza que las soluciones respondan a la realidad del territorio.\n\n**Resiliencia ante el Cambio Climático:** La comunidad es el primer sensor de las sequías y el retroceso de glaciares. Su capacidad de acción inmediata es la base de la adaptación local.\n\n**Eficiencia y Mantenimiento:** La autogestión garantiza que la infraestructura se mantenga operativa incluso cuando la presencia del Estado es dispersa o intermitente.\n\nLos Diálogos Regionales del Agua 2023 marcaron un hito al reconocer formalmente la gestión comunitaria dentro de los procesos políticos regionales.",
           image:
-            "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=80",
+            "/images/portal-ambiental/blog/comunidad-rural-desarrollo.jpg",
         },
         {
           id: "modelos-gestion-region",
@@ -217,7 +217,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
           content:
             "La falta de información en tiempo real ha sido históricamente el gran obstáculo. Hoy, herramientas como **EnviroDIY** y la plataforma **Monitor My Watershed** están cambiando esa realidad mediante sensores de bajo costo y código abierto.\n\n**Parámetros clave para el monitoreo comunitario:**\n\n**Turbidez (Claridad):** Indicador crítico de riesgo microbiológico. Alta turbidez = patógenos escondidos = cloración ineficaz.\n\n**Temperatura:** La \"variable maestra\" del ecosistema. Cambios bruscos alertan sobre descargas industriales o servidas calientes.\n\n**E. coli / Coliformes:** Dado que solo el 42% del agua residual en ALC recibe tratamiento, el riesgo de contaminación fecal es permanente, especialmente tras lluvias intensas.",
           image:
-            "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80",
+            "/images/portal-ambiental/blog/irca-laboratorio-monitoreo.jpg",
         },
         {
           id: "ruta-inversion-sostenible",

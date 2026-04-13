@@ -53,7 +53,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-12-09",
     readTime: 12,
     excerpt: "Descubre cómo evaluar la calidad del agua potable con los índices IRCA, WQI y DWQI. Incluye herramienta gratuita, ejemplos prácticos y normatividad colombiana.",
-    heroImage: "https://images.unsplash.com/photo-1529079337819-f6d0024bd364?auto=format&fit=crop&w=2000&q=80",
+    heroImage: "/images/portal-ambiental/blog/irca-calidad-agua-potable.jpg",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ambiental/autor/Pablo Cubides.jpg",
@@ -66,7 +66,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
           id: "que-es-irca",
           title: "¿Qué es el IRCA y por qué es importante?",
           content: "El Índice de Riesgo de Calidad del Agua Potable (IRCA) es un indicador establecido por la Resolución 2115 de 2007 del Ministerio de la Protección Social de Colombia. Este índice evalúa 22 parámetros fisicoquímicos y microbiológicos para determinar el nivel de riesgo del agua que consumes. El resultado es un porcentaje de 0% a 100%: entre más bajo, mejor calidad tiene el agua. Un IRCA de 0% significa agua sin riesgo, mientras que 80% o más indica que el agua es inviable sanitariamente.",
-          image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80",
+          image: "/images/portal-ambiental/blog/irca-laboratorio-monitoreo.jpg",
           callout: {
             type: "info",
             title: "Niveles de riesgo del IRCA",
@@ -118,7 +118,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
           id: "herramienta-calculadora",
           title: "Usa nuestra calculadora gratuita de índices",
           content: "Hemos desarrollado una herramienta web gratuita que te permite calcular los tres índices (IRCA, WQI y DWQI) de forma rápida y profesional. Solo necesitas cargar un archivo CSV con tus datos de laboratorio y la herramienta hará todo el trabajo por ti.",
-          image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
+          image: "/images/portal-ambiental/blog/irca-analisis-datos.jpg",
           subsections: [
             {
               id: "caracteristicas-herramienta",
@@ -194,7 +194,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-12-09",
     readTime: 14,
     excerpt: "Aprende a leer e interpretar los índices de calidad del aire más utilizados en el mundo. Protege tu salud con información en tiempo real y herramientas gratuitas.",
-    heroImage: "https://images.unsplash.com/photo-1567095761054-7a02e69e5c43?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "/images/portal-ambiental/blog/escuelas-rurales-agua-hero.jpg",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ambiental/autor/Pablo Cubides.jpg",
@@ -207,7 +207,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
           id: "que-son-indices-aire",
           title: "¿Qué son los índices de calidad del aire?",
           content: "Los índices de calidad del aire son herramientas que convierten las concentraciones de contaminantes atmosféricos (medidas en µg/m³ o mg/m³) en una escala numérica fácil de entender, generalmente de 0 a 500. Cada índice divide esta escala en categorías con códigos de colores que indican el nivel de riesgo para la salud: verde (bueno), amarillo (moderado), naranja (dañino para grupos sensibles), rojo (dañino), morado (muy dañino) y marrón (peligroso).",
-          image: "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?auto=format&fit=crop&w=1200&q=80",
+          image: "/images/portal-ambiental/blog/escuelas-rurales-almacenamiento.jpg",
           callout: {
             type: "info",
             title: "Los 6 contaminantes criterio",
@@ -286,7 +286,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
             title: "¡Calcula tu índice ahora!",
             content: "Cruza tus datos de PM2.5, PM10 y gases contaminantes con los estándares internacionales. \n\n [🚀 Ir al Calculador de Calidad del Aire](/ambiental/herramientas/indice-calidad-aire)",
           },
-          image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80",
+          image: "/images/portal-ambiental/blog/matrices-eia-metodologias.jpg",
           subsections: [
             {
               id: "caracteristicas-calculadora-aire",
@@ -366,7 +366,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-12-09",
     readTime: 16,
     excerpt: "Domina las metodologías de EIA para el licenciamiento ambiental. Análisis técnico de Leopold, Conesa y Battelle-Columbus con casos prácticos.",
-    heroImage: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=2000&q=80",
+    heroImage: "/images/portal-ambiental/blog/matrices-eia-metodologias.jpg",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ambiental/autor/Pablo Cubides.jpg",
@@ -424,7 +424,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-12-09",
     readTime: 14,
     excerpt: "Domina el análisis espacial para la gestión ambiental. Guía técnica sobre sensores Sentinel, índices NDVI/NDWI y el estándar MAGNA-SIRGAS para Colombia.",
-    heroImage: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=2000&q=80",
+    heroImage: "/images/portal-ambiental/blog/gestion-ambiental-digital.jpg",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ambiental/autor/Pablo Cubides.jpg",
@@ -437,7 +437,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
           id: "que-es-sig",
           title: "¿Qué es un Sistema de Información Geográfica (SIG)?",
           content: "Un SIG es una plataforma que integra hardware, software, datos y procedimientos para capturar, almacenar, manipular, analizar y visualizar información geográficamente referenciada. Es la herramienta definitiva para relacionar datos tabulares con ubicación espacial.",
-          image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
+          image: "/images/portal-ambiental/blog/irca-analisis-datos.jpg",
           callout: {
             type: "info",
             title: "Componentes de un SIG",
@@ -470,7 +470,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
           id: "proyectos-visor",
           title: "Visualiza tus Proyectos con AquatechIA",
           content: "Nuestra plataforma ambiental cuenta con un **Visor de Mapas** diseñado para gestores ambientales. Carga tus capas GeoJSON, visualiza datos de biodiversidad de GBIF y genera mapas profesionales en segundos.",
-          image: "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=1200&q=80",
+          image: "/images/portal-ambiental/blog/matrices-eia-metodologias.jpg",
           callout: {
             type: "success",
             title: "Explora el Visor SIG",
@@ -495,7 +495,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-12-09",
     readTime: 12,
     excerpt: "Guía técnica sobre la legislación ambiental en Colombia. Parámetros clave de las resoluciones 2115, 631 y 2254 para cumplimiento legal y gestión técnica.",
-    heroImage: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=2000&q=80",
+    heroImage: "/images/portal-ambiental/blog/normatividad-ambiental-guia.jpg",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ambiental/autor/Pablo Cubides.jpg",
@@ -542,7 +542,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
           id: "herramienta-normas",
           title: "Gestiona tu Cumplimiento con Nuestra Herramienta",
           content: "Nuestra plataforma ambiental incluye un **Navegador de Normas Ambientales** actualizado, que te permite filtrar límites permisibles por sector y descargar los textos legales completos.",
-          image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1200&q=80",
+          image: "/images/portal-ambiental/blog/normatividad-ambiental-guia.jpg",
           callout: {
             type: "success",
             title: "¡Consulta las normas ahora!",
@@ -578,7 +578,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-12-09",
     readTime: 14,
     excerpt: "Descubre relaciones ocultas en tus datos ambientales. Guía técnica sobre correlaciones para estudios científicos y gestión avanzada del recurso hídrico y aire.",
-    heroImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=2000&q=80",
+    heroImage: "/images/portal-ambiental/blog/irca-analisis-datos.jpg",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ambiental/autor/Pablo Cubides.jpg",
@@ -658,7 +658,7 @@ export const IA_ARTICLES: Record<string, BlogArticle> = {
     excerpt:
       "Una exploración técnica pero accesible de los mecanismos que hacen posible la inteligencia artificial generativa moderna.",
     heroImage:
-      "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1600&q=80",
+      "/images/portal-ambiental/blog/llm-transformers-architecture.jpg",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal IA/Autor/Pablo Cubides.png",
@@ -674,7 +674,7 @@ export const IA_ARTICLES: Record<string, BlogArticle> = {
           content:
             "Un Transformer es una arquitectura de red neuronal diseñada para procesar secuencias de datos, especialmente texto. A diferencia de las RNN que procesaban palabras una por una, los Transformers pueden analizar toda una oración simultáneamente.",
           image:
-            "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=1200&q=80",
+            "/images/portal-ambiental/blog/neural-network-concept.jpg",
           subsections: [
             {
               id: "ventajas-clave",
@@ -723,7 +723,7 @@ export const IA_ARTICLES: Record<string, BlogArticle> = {
     excerpt:
       "Descubre los fundamentos matemáticos y conceptuales detrás de Stable Diffusion y otros modelos de generación de imágenes.",
     heroImage:
-      "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1600&q=80",
+      "/images/portal-ambiental/blog/stable-diffusion-art.jpg",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal IA/Autor/Pablo Cubides.png",
@@ -739,7 +739,7 @@ export const IA_ARTICLES: Record<string, BlogArticle> = {
           content:
             "Los modelos de difusión funcionan mediante un proceso de dos etapas: primero aprenden a añadir ruido gradualmente a imágenes reales hasta convertirlas en ruido puro, y luego aprenden a revertir este proceso para generar nuevas imágenes.",
           image:
-            "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80",
+            "/images/portal-ambiental/blog/diffusion-process.jpg",
           callout: {
             type: "info",
             title: "Analogía: El escultor y el mármol",

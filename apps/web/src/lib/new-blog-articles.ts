@@ -16,7 +16,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     date: "2025-01-15",
     readTime: 10,
     excerpt: "Descubre 5 tareas diarias que puedes automatizar hoy mismo usando IA: correos, reportes en Excel y organización de archivos. Guía práctica sin código.",
-    heroImage: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "/images/portal-ambiental/blog/automatizacion-ia-oficina.jpg",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal IA/Autor/Pablo Cubides.png",
@@ -29,7 +29,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "tareas-delegables",
           title: "¿Qué tareas repetitivas puedo delegar a la IA hoy mismo?",
           content: "Este no es un artículo de teoría futurista. Hablamos de problemas reales que consumen tu lunes por la mañana. Estas son las actividades que herramientas como Zapier, ChatGPT o Make pueden hacer por ti ahora:\n\n• **Resumir hilos de correos interminables**\n• **Limpiar bases de datos desordenadas en Excel**\n• **Clasificar facturas y documentos automáticamente**\n• **Convertir notas de voz en listas de tareas**\n• **Extraer datos específicos de PDFs complejos**\n\nLo mejor: no necesitas ser ingeniero de software. Solo necesitas saber conectar \"A\" con \"B\".",
-          image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80",
+          image: "/images/portal-ambiental/blog/matrices-eia-metodologias.jpg",
         },
         {
           id: "gestion-correo",
@@ -45,7 +45,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "reportes-excel",
           title: "Automatizar reportes semanales y análisis de datos",
           content: "Hacer el mismo reporte en Excel cada viernes debería ser ilegal en 2025. La IA puede analizar tus datos y escribir el informe por ti.\n\n**Cómo hacerlo paso a paso:**\n1. Sube tu archivo Excel o CSV a ChatGPT (Data Analyst) o usa Copilot en Excel\n2. Escribe la instrucción: \"*Analiza esta tabla de ventas. Identifica las 3 tendencias principales de la semana, compara con el promedio del mes anterior y genera un párrafo de conclusiones para mi jefe.*\"\n3. Copia el resultado. Listo.",
-          image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
+          image: "/images/portal-ambiental/blog/irca-analisis-datos.jpg",
         },
         {
           id: "limpieza-datos",
@@ -84,7 +84,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     date: "2025-01-14",
     readTime: 11,
     excerpt: "Aprende a integrar Inteligencia Artificial en Excel, Gmail, Outlook y tu Calendario. Trucos prácticos para multiplicar tu productividad sin cambiar de apps.",
-    heroImage: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "/images/portal-ambiental/blog/productividad-ia-escritorio.jpg",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal IA/Autor/Pablo Cubides.png",
@@ -97,7 +97,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "porque-ia-office",
           title: "¿Por qué la IA es el mejor complemento para tu Office de siempre?",
           content: "Porque elimina la fricción. Ya no tienes que salir de Excel para buscar una fórmula en Google, ni salir del correo para redactar una respuesta formal. La IA ahora vive dentro de estas apps.",
-          image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80",
+          image: "/images/portal-ambiental/blog/laptop-trabajo-ia.jpg",
         },
         {
           id: "excel-ia",
@@ -113,7 +113,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "correo-ia",
           title: "Correo + IA: Tu secretario 24/7",
           content: "El correo electrónico es la mayor fuente de estrés laboral. La IA te ayuda a procesarlo, no solo a leerlo.\n\n**Aplicaciones reales:**\n• **Resúmenes ejecutivos:** Si te copian en un hilo de 30 correos, pide a la IA: \"Resume la discusión, dime qué se decidió y si tengo alguna tarea asignada\"\n• **Cambio de tono:** Escribe un borrador rápido y sucio con las ideas clave, y pide a la IA: \"Reescribe esto para que suene profesional, empático y conciso\"\n• **Búsqueda semántica:** En lugar de buscar por palabras clave, pregúntale a tu correo: \"¿Cuándo fue la última vez que el cliente X mencionó problemas con la facturación?\"",
-          image: "https://images.unsplash.com/photo-1596526131083-e8c633c948d2?auto=format&fit=crop&w=1200&q=80",
+          image: "/images/portal-ambiental/blog/gestion-correo-teclado.jpg",
         },
         {
           id: "calendario-ia",
@@ -147,7 +147,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     date: "2025-01-13",
     readTime: 12,
     excerpt: "Guía paso a paso para crear flujos de trabajo (workflows) automáticos con IA. Conecta Drive, Gmail y WhatsApp sin saber programar. Ideal para estudiantes y PYMES.",
-    heroImage: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "/images/portal-ambiental/blog/reunion-equipo-ia.jpg",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal IA/Autor/Pablo Cubides.png",
@@ -160,7 +160,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "que-es-workflow",
           title: "¿Qué es un flujo de trabajo (workflow) con IA?",
           content: "Un flujo de trabajo es simplemente una secuencia de \"Si pasa esto... entonces haz aquello\". La diferencia es que ahora, en medio de esa secuencia, ponemos un cerebro de Inteligencia Artificial para que tome decisiones, resuma textos o clasifique información.",
-          image: "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1200&q=80",
+          image: "/images/portal-ambiental/blog/flujo-trabajo-digital.jpg",
         },
         {
           id: "flujo-bibliotecario",
@@ -176,7 +176,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "flujo-secretario",
           title: "Flujo \"El Secretario de Actas\": Reunión → Transcripción → Email",
           content: "Deja de tomar notas frenéticamente en las reuniones.\n\n**El Proceso:**\n1. Graba la reunión (en Zoom, Teams, Meet o incluso una nota de voz)\n2. Sube el archivo a una carpeta de Drive o Dropbox\n3. **Acción IA:** Una herramienta como Whisper (de OpenAI) transcribe el audio a texto. Luego, ChatGPT procesa ese texto: \"Extrae los compromisos, responsables y fechas límite\"\n4. **Entrega:** Se envía un correo automático a todos los asistentes con el acta perfectamente formateada",
-          image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1200&q=80",
+          image: "/images/portal-ambiental/blog/transcripcion-reuniones.jpg",
         },
         {
           id: "flujo-guardian",
@@ -211,7 +211,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     date: "2025-01-12",
     readTime: 13,
     excerpt: "Aprende a generar imágenes de calidad profesional con DALL-E 3, Midjourney y Stable Diffusion. Guía de 5 pasos para ingenieros y no diseñadores.",
-    heroImage: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "/images/portal-ambiental/blog/codigo-ia-manos.jpg",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal IA/Autor/Pablo Cubides.png",
@@ -224,7 +224,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "elegir-herramienta",
           title: "¿Qué herramienta de IA debo elegir? (Panorama 2025)",
           content: "No todas las IAs sirven para lo mismo. Elige según tu necesidad:\n\n**DALL-E 3 (vía ChatGPT):** La mejor para principiantes. Entiende el lenguaje natural perfectamente y es ideal para seguir instrucciones precisas (ej. \"Pon un casco amarillo al ingeniero\").\n\n**Midjourney (v6/v7):** La reina de la estética. Si necesitas realismo fotográfico, arte conceptual para videojuegos o renders arquitectónicos que ganen concursos, esta es la opción. Requiere Discord o su nueva web alpha.\n\n**Stable Diffusion (SDXL / SD3):** Para control total. Es de código abierto. Si te preocupa la privacidad o quieres instalarlo en tu propio servidor sin pagar suscripciones mensuales, este es el camino.",
-          image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80",
+          image: "/images/portal-ambiental/blog/arte-generativo-colores.jpg",
         },
         {
           id: "flujo-5-pasos",
@@ -240,7 +240,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "prompts-copiar",
           title: "Prompts listos para copiar",
           content: "**Para presentaciones corporativas:**\n\"*Infografía minimalista sobre el ciclo del agua, diseño plano (flat design), fondo blanco, paleta de colores azul corporativo y verde, estilo vectorial limpio, alta resolución.*\"\n\n**Para portadas de informes técnicos:**\n\"*Primer plano cinemático de una gota de agua limpia cayendo sobre una hoja, macro fotografía, profundidad de campo baja (fondo desenfocado), iluminación de estudio, nítido.*\"\n\n**Para miniaturas de YouTube:**\n\"*Robot futurista analizando un río, colores neón vibrantes, alto contraste, expresión amigable, estilo arte digital 3D tipo Pixar.*\"",
-          image: "https://images.unsplash.com/photo-1617791160505-6f00504e3519?auto=format&fit=crop&w=1200&q=80",
+          image: "/images/portal-ambiental/blog/diseño-vectorial-ia.jpg",
         },
         {
           id: "errores-comunes",
@@ -269,7 +269,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     date: "2025-01-11",
     readTime: 10,
     excerpt: "¿Quién es dueño de una imagen hecha con IA? Guía sobre copyright, uso comercial y riesgos legales de usar Midjourney o DALL-E en 2025.",
-    heroImage: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "/images/portal-ambiental/blog/normatividad-ambiental-guia.jpg",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal IA/Autor/Pablo Cubides.png",
@@ -292,7 +292,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "terminos-plataformas",
           title: "Términos de uso comercial por plataforma (2025)",
           content: "Cada herramienta tiene sus propias reglas de juego.\n\n**1. Midjourney**\n• Si pagas suscripción, eres dueño de los \"assets\" y puedes usarlos comercialmente\n• La excepción millonaria: Si tu empresa factura más de $1,000,000 USD al año, debes contratar el plan \"Pro\" o \"Mega\"\n• Cuidado: En planes básicos, tus imágenes son públicas en la galería. Solo el plan Pro tiene \"Stealth Mode\"\n\n**2. OpenAI (DALL-E 3 / ChatGPT)**\n• OpenAI te cede la propiedad de las imágenes que generas\n• Puedes usarlas para fines comerciales libremente, independientemente de tu facturación\n\n**3. Stability AI (Stable Diffusion)**\n• Licencia comunitaria gratuita para uso comercial si tu empresa factura menos de $1M USD anuales\n• Si pasas ese umbral, necesitas licencia \"Enterprise\"",
-          image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1200&q=80",
+          image: "/images/portal-ambiental/blog/normatividad-ambiental-guia.jpg",
         },
         {
           id: "riesgos-legales",
@@ -331,7 +331,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     date: "2025-01-10",
     readTime: 14,
     excerpt: "Deja de obtener resultados aleatorios. Domina la estructura de prompts avanzados con parámetros de iluminación, cámara y estilo en Midjourney y DALL-E.",
-    heroImage: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "/images/portal-ambiental/blog/tecnologia-futurista-ia.jpg",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal IA/Autor/Pablo Cubides.png",
@@ -344,7 +344,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "anatomia-prompt",
           title: "La anatomía de un Prompt Maestro",
           content: "Olvídate de las frases sueltas. Un prompt profesional tiene estructura de capas:\n\n1. **Sujeto:** ¿Qué es? (Un ingeniero ambiental)\n2. **Medio:** ¿Qué formato? (Fotografía, ilustración a tinta, render 3D)\n3. **Estilo:** ¿Qué referencia visual? (Cyberpunk, Art Deco, Minimalista)\n4. **Iluminación:** ¿Cómo es la luz? (Volumétrica, cinemática, luz de neón)\n5. **Cámara/Técnica:** (Gran angular, macro, ISO 100, vista de dron)\n6. **Parámetros:** Comandos técnicos (--ar, --no)",
-          image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1200&q=80",
+          image: "/images/portal-ambiental/blog/stable-diffusion-art.jpg",
         },
         {
           id: "parametros-tecnicos",
@@ -360,7 +360,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "ejemplos-practicos",
           title: "Ejemplos prácticos para copiar",
           content: "**Caso 1: Render de Arquitectura Sostenible**\n```\nLuxury eco-lodge in the Amazon rainforest, bamboo structure, glass walls, sustainable architecture, blending with nature, hyper-realistic, 8k, unreal engine 5 render, cinematic lighting, morning mist --ar 16:9 --no people\n```\n\n**Caso 2: Fotografía de Producto**\n```\nProduct photography of a glass water bottle, clear water, splashing, studio lighting, softbox, white background, 85mm lens, sharp focus, 4k, commercial aesthetic --ar 4:5\n```\n\n**Caso 3: Ilustración para Blog de Tecnología**\n```\nArtificial Intelligence brain connecting to a city, isometric illustration, gradient colors blue and purple, tech style, vector art, clean lines, minimalist background --ar 3:2\n```",
-          image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=1200&q=80",
+          image: "/images/portal-ambiental/blog/neural-network-concept.jpg",
         },
         {
           id: "image-prompting",
@@ -395,7 +395,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     date: "2025-01-09",
     readTime: 12,
     excerpt: "Aprende a escribir prompts efectivos para ChatGPT, Claude y Gemini. Guía definitiva con 5 reglas de oro, plantillas copiables y ejemplos de antes/después.",
-    heroImage: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "/images/portal-ambiental/blog/llm-transformers-architecture.jpg",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal IA/Autor/Pablo Cubides.png",
@@ -408,7 +408,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "que-es-prompt",
           title: "¿Qué es un prompt y por qué define el 80% del resultado?",
           content: "Un prompt es simplemente el texto de entrada que le das al modelo. Pero no es solo una pregunta; es el contexto, la restricción y el formato que guía la respuesta.",
-          image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80",
+          image: "/images/portal-ambiental/blog/prompting-personas-ia.jpg",
         },
         {
           id: "cinco-reglas",
@@ -429,7 +429,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "antes-despues",
           title: "Ejemplos Reales: Antes y Después",
           content: "❌ **Prompt Malo:** \"Explícame qué es la DBO.\"\n→ Resultado probable: Una definición de diccionario genérica de Wikipedia.\n\n✅ **Prompt Bueno:** \"Actúa como profesor de ingeniería ambiental. Explícame qué es la Demanda Bioquímica de Oxígeno (DBO) utilizando una analogía sencilla para estudiantes de primer semestre. Luego, dame un ejemplo numérico de cómo afecta una alta DBO a un río en Colombia.\"\n→ Resultado: Una explicación pedagógica, contextualizada y útil.",
-          image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1200&q=80",
+          image: "/images/portal-ambiental/blog/programacion-pantalla-codigo.jpg",
         },
         {
           id: "errores-prompting",
@@ -458,7 +458,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     date: "2025-01-08",
     readTime: 11,
     excerpt: "Transforma tu forma de estudiar con IA. Flujos de trabajo para resumir textos, crear simulacros de examen y entender temas complejos sin hacer trampa.",
-    heroImage: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "/images/portal-ambiental/blog/estudio-preparacion-examen.jpg",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal IA/Autor/Pablo Cubides.png",
@@ -471,7 +471,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "active-recall",
           title: "Por qué la IA es el mejor compañero de estudio",
           content: "La ciencia del aprendizaje nos dice que leer y subrayar es poco efectivo. Lo que funciona es el **Active Recall** (intentar recordar) y la **síntesis**. Los LLMs son perfectos para esto porque pueden generarte preguntas infinitas sobre tu material.",
-          image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=1200&q=80",
+          image: "/images/portal-ambiental/blog/biblioteca-estudio-ia.jpg",
         },
         {
           id: "flujo-triturador",
@@ -492,7 +492,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "flujo-feynman",
           title: "Flujo 3: La Técnica Feynman (Explicar para entender)",
           content: "Si no puedes explicarlo simple, no lo entiendes.\n\n**Prompt:**\n\"*Estoy estudiando el concepto de [tema]. Explícamelo como si yo tuviera 12 años. Usa una analogía relacionada con [algo que te guste, ej: cocinar o videojuegos].*\"",
-          image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80",
+          image: "/images/portal-ambiental/blog/grupo-estudio-laptop.jpg",
         },
         {
           id: "advertencias-eticas",
@@ -531,7 +531,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     date: "2025-01-07",
     readTime: 10,
     excerpt: "Guía de productividad con IA para profesionales. Automatiza correos, analiza informes y genera ideas en minutos. Casos de uso por profesión.",
-    heroImage: "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "/images/portal-ambiental/blog/flujo-trabajo-digital.jpg",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal IA/Autor/Pablo Cubides.png",
@@ -544,7 +544,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "tareas-delegables",
           title: "¿Qué tareas son realmente delegables a una IA hoy?",
           content: "No intentes que la IA haga tu trabajo completo. Úsala para las tareas \"puente\":\n\n• **Borradores:** De correos, informes, memos\n• **Síntesis:** De hilos de email largos, reuniones transcritas, PDFs técnicos\n• **Transformación:** De texto a tabla, de lista a párrafo, de tono informal a formal",
-          image: "https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?auto=format&fit=crop&w=1200&q=80",
+          image: "/images/portal-ambiental/blog/trabajo-diario-oficina.jpg",
         },
         {
           id: "casos-por-profesion",
@@ -589,7 +589,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     date: "2025-01-06",
     readTime: 9,
     excerpt: "¿Confundido con los términos de IA? Te explicamos la diferencia entre Inteligencia Artificial, Machine Learning y Deep Learning con analogías simples y ejemplos.",
-    heroImage: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "/images/portal-ambiental/blog/stable-diffusion-art.jpg",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal IA/Autor/Pablo Cubides.png",
@@ -602,7 +602,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "jerarquia-matrioshkas",
           title: "La Jerarquía: Imagina unas muñecas rusas (Matrioshkas)",
           content: "La forma más fácil de visualizarlo es como círculos dentro de círculos:\n\n**1. Inteligencia Artificial (El Círculo Grande):**\nEs la disciplina académica completa. Cualquier técnica que permita a una máquina imitar el comportamiento humano inteligente.\n\n**2. Machine Learning (El Círculo Mediano):**\nEs un subconjunto de la IA. Aquí, la máquina no sigue solo reglas fijas; aprende de los datos para mejorar sin ser programada para cada caso.\n\n**3. Deep Learning (El Círculo Pequeño):**\nEs un subconjunto del ML especializado. Utiliza Redes Neuronales Artificiales con muchas capas (por eso lo de \"profundo\") para resolver problemas vastos y complejos.",
-          image: "https://images.unsplash.com/photo-1507146153580-69a1fe6d8aa1?auto=format&fit=crop&w=1200&q=80",
+          image: "/images/portal-ambiental/blog/jerarquia-conceptos-ia.jpg",
         },
         {
           id: "tabla-comparativa",
@@ -623,7 +623,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "deep-learning",
           title: "Deep Learning: El cerebro artificial",
           content: "El Deep Learning lleva esto al extremo inspirándose en la biología. Utiliza capas de neuronas digitales:\n\n• La primera capa detecta bordes\n• La segunda detecta formas (ojos, orejas)\n• La tercera detecta rostros completos\n\nEs la tecnología detrás de los coches autónomos, los traductores en tiempo real y la generación de imágenes con IA.",
-          image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=80",
+          image: "/images/portal-ambiental/blog/llm-transformers-architecture.jpg",
         },
         {
           id: "cual-aplicar",
@@ -652,7 +652,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     date: "2025-01-05",
     readTime: 10,
     excerpt: "La IA Generativa (GenAI) no solo analiza, crea. Descubre cómo funciona esta tecnología y sus aplicaciones reales en ingeniería, educación y empresas en 2025.",
-    heroImage: "https://images.unsplash.com/photo-1655720828018-edd2daec9349?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "/images/portal-ambiental/blog/ia-generativa-abstracto.jpg",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal IA/Autor/Pablo Cubides.png",
@@ -665,7 +665,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "como-funciona",
           title: "¿Cómo funciona realmente? (Sin magia, solo probabilidad)",
           content: "Los modelos generativos (como GPT-4 o Claude) son, en esencia, predictores de secuencias hiper-avanzados. Imagínalos como el autocompletar de tu celular, pero entrenado con todo el conocimiento de la humanidad.\n\nCuando le pides un poema, no está \"sintiendo\"; está calculando, palabra por palabra, cuál es la continuación más probable y coherente basada en los patrones que aprendió durante su entrenamiento.",
-          image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=1200&q=80",
+                image: "/images/portal-ambiental/blog/codigo-ia-manos.jpg",
         },
         {
           id: "aplicaciones-2025",
@@ -686,7 +686,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "es-peligrosa",
           title: "¿Es peligrosa la IA Generativa?",
           content: "La tecnología es neutra; el uso no. El mayor riesgo actual no es una rebelión de robots, sino:\n\n• **Desinformación:** Deepfakes que parecen reales\n• **Dependencia cognitiva:** Dejar de pensar porque la IA lo hace por ti\n• **Automatización de sesgos:** La IA replica los prejuicios de sus datos de entrenamiento",
-          image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1200&q=80",
+          image: "/images/portal-ambiental/blog/seguridad-robot-ia.jpg",
         },
         {
           id: "primer-experimento",
@@ -715,7 +715,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     date: "2025-01-04",
     readTime: 11,
     excerpt: "Guía paso a paso para profesionales no técnicos. Aprende a integrar la IA en tu flujo de trabajo usando herramientas No-Code. Casos de uso reales.",
-    heroImage: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "/images/portal-ambiental/blog/matrices-eia-metodologias.jpg",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal IA/Autor/Pablo Cubides.png",
@@ -728,7 +728,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "elige-herramienta",
           title: "Paso 1: Elige tu \"Navaja Suiza\" (Las Herramientas)",
           content: "No necesitas instalar nada. Empieza con las herramientas de chat avanzadas que funcionan en tu navegador:\n\n**ChatGPT (OpenAI):** El todoterreno. Excelente para redacción, análisis de texto y creatividad.\n\n**Claude (Anthropic):** El analista. Tiene una capacidad superior para leer documentos largos (PDFs de 100 páginas) y redactar con un tono más humano.\n\n**Perplexity:** El investigador. Conectado a internet en tiempo real y cita sus fuentes. Ideal para buscar información verificada.",
-          image: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1200&q=80",
+          image: "/images/portal-ambiental/blog/automatizacion-ia-oficina.jpg",
         },
         {
           id: "aprende-prompting",
@@ -744,7 +744,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "automatiza-no-code",
           title: "Paso 3: Automatiza sin código (No-Code)",
           content: "Aquí es donde ocurre la magia real. Puedes conectar aplicaciones entre sí con plataformas como **Zapier** o **Make**.\n\n**Caso Real:** Un abogado configuró una automatización donde cada vez que le llega un correo con un adjunto \"Contrato\", Zapier lo envía a ChatGPT para que extraiga las cláusulas de riesgo y le mande un resumen a Slack. Todo esto sin escribir una sola línea de código.",
-          image: "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1200&q=80",
+          image: "/images/portal-ambiental/blog/flujo-trabajo-digital.jpg",
         },
         {
           id: "casos-latam",
