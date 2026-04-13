@@ -100,11 +100,11 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
         {
           id: "como-calcular",
           title: "Cómo calcular los índices paso a paso",
-          content: "Calcular estos índices manualmente puede ser complejo, pero con nuestra herramienta gratuita es instantáneo. Aquí te explicamos el proceso general:",
+          content: "Calcular estos índices manualmente puede ser complejo, pero con nuestra herramienta gratuita es instantáneo. Solo necesitas los datos de laboratorio de los parámetros básicos como turbidez (15 pts), cloro residual (15 pts) y coliformes (15 pts c/u).",
           callout: {
             type: "success",
             title: "Usa nuestra calculadora gratuita",
-            content: "Ahorra tiempo y evita errores. Nuestra calculadora de índices de calidad de agua procesa tus datos en segundos y genera reportes profesionales con gráficos y explicaciones detalladas. ¡Pruébala ahora!",
+            content: "Ahorra tiempo y evita errores. Nuestra calculadora de índices de calidad de agua procesa tus datos en segundos y genera reportes profesionales. \n\n [🚀 Ir a la Calculadora de Índices de Calidad de Agua](/ambiental/herramientas/indice-calidad-agua)",
           },
           subsections: [
             {
@@ -344,7 +344,12 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
         {
           id: "herramienta-calculadora-aire",
           title: "Calcula índices de calidad del aire gratis",
-          content: "Hemos creado una herramienta web gratuita que te permite calcular los 5 índices principales (US AQI, ICA Colombia, IBOCA, EAQI, OMS) a partir de tus datos de monitoreo. Solo necesitas las concentraciones de los 6 contaminantes y la herramienta hace todo el cálculo automáticamente.",
+          content: "Hemos creado una herramienta web gratuita que te permite calcular los 5 índices principales (US AQI, ICA Colombia, IBOCA, EAQI, OMS) a partir de tus datos de monitoreo.",
+          callout: {
+            type: "success",
+            title: "¡Calcula tu índice ahora!",
+            content: "Cruza tus datos de PM2.5, PM10 y gases contaminantes con los estándares internacionales. \n\n [🚀 Ir al Calculador de Calidad del Aire](/ambiental/herramientas/indice-calidad-aire)",
+          },
           image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80",
           subsections: [
             {
@@ -424,163 +429,54 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     category: "Gestión Ambiental",
     date: "2024-12-09",
     readTime: 16,
-    excerpt: "Domina las metodologías de EIA más utilizadas en Latinoamérica. Guía paso a paso con ejemplos prácticos y herramienta gratuita para generar tus matrices profesionales.",
-    heroImage: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1600&q=80",
+    excerpt: "Domina las metodologías de EIA para el licenciamiento ambiental. Análisis técnico de Leopold, Conesa y Battelle-Columbus con casos prácticos.",
+    heroImage: "https://images.unsplash.com/photo-1590401487834-3158013e80d4?auto=format&fit=crop&w=2000&q=80",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
       bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
-      introduction: "La Evaluación de Impacto Ambiental (EIA) es un requisito obligatorio para obtener licencias ambientales en Colombia y la mayoría de países latinoamericanos. Pero, ¿cómo se evalúan sistemáticamente los impactos de un proyecto? Las matrices de evaluación ambiental son herramientas metodológicas que permiten identificar, valorar y comparar impactos de forma estructurada. En este artículo te enseñaremos las tres metodologías más utilizadas: Leopold, Conesa y Battelle-Columbus, con ejemplos prácticos y acceso a nuestra herramienta gratuita para generar matrices profesionales en minutos.",
+      introduction: "La Evaluación de Impacto Ambiental (EIA) es el núcleo técnico de cualquier trámite de licenciamiento. No se trata solo de cumplir un requisito legal; es un ejercicio de predicción científica sobre cómo un proyecto alterará su entorno. En este artículo profundizamos en las metodologías más aceptadas por autoridades como la ANLA en Colombia, desde la clásica matriz de **Leopold** hasta el sofisticado método de **Conesa** y el enfoque cuantitativo de **Battelle-Columbus**.",
       sections: [
         {
-          id: "que-es-eia",
-          title: "¿Qué es una Evaluación de Impacto Ambiental?",
-          content: "La EIA es un procedimiento técnico-administrativo que sirve para identificar, predecir e interpretar los impactos ambientales que producirá un proyecto en su entorno en caso de ser ejecutado. Su objetivo principal es establecer las medidas para prevenir, mitigar, corregir o compensar dichos impactos. En Colombia, la Ley 99 de 1993 y el Decreto 1076 de 2015 regulan el proceso de licenciamiento ambiental.",
-          callout: {
-            type: "info",
-            title: "Proyectos que requieren EIA en Colombia",
-            content: "• Hidrocarburos (exploración y explotación)\n• Minería (mediana y gran escala)\n• Infraestructura vial (autopistas, túneles)\n• Energía (centrales térmicas, hidroeléctricas, eólicas)\n• Puertos y aeropuertos\n• Proyectos urbanísticos >5 hectáreas\n• Distritos de riego\n• Manejo de residuos peligrosos",
-          },
-        },
-        {
-          id: "matriz-leopold",
-          title: "Matriz de Leopold: La pionera de las metodologías",
-          content: "Desarrollada en 1971 por el Servicio Geológico de Estados Unidos, la Matriz de Leopold es la metodología de identificación de impactos más conocida mundialmente. Consiste en una matriz de doble entrada donde las filas representan factores ambientales (componentes del medio) y las columnas representan acciones del proyecto que pueden causar impacto.",
-          image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200&q=80",
+          id: "metodologia-comparada",
+          title: "Leopold vs Conesa vs Battelle",
+          content: "Elegir la metodología correcta depende de la fase del proyecto y el nivel de detalle requerido. A continuación, desglosamos sus bases técnicas:",
           subsections: [
             {
-              id: "estructura-leopold",
-              title: "Estructura de la matriz de Leopold",
-              content: "**Dimensiones originales:**\n• 88 factores ambientales (filas)\n• 100 acciones del proyecto (columnas)\n• Total: 8,800 intersecciones posibles\n\n**Factores ambientales agrupados en:**\n• Características físicas y químicas (tierra, agua, atmósfera)\n• Condiciones biológicas (flora, fauna)\n• Factores culturales (uso del territorio, salud, empleo)\n• Relaciones ecológicas\n\n**Acciones del proyecto agrupadas en:**\n• Modificación del régimen\n• Transformación del territorio\n• Renovación de recursos\n• Cambios en el tráfico\n• Disposición de residuos\n• Tratamientos químicos",
+              id: "leopold-tecnico",
+              title: "1. Matriz de Leopold: El cribado inicial",
+              content: "Diseñada originalmente con 100 acciones y 88 factores, esta matriz causa-efecto evalúa cada celda con:\n• **Magnitud (M):** Escala de -10 a +10. Representa la extensión o escala de la alteración.\n• **Importancia (I):** Escala de 1 a 10. Representa el peso relativo del factor afectado en el ecosistema local.\n• **Uso:** Ideal para diagnósticos ambientales de alternativas (DAA) donde se requiere una visión rápida de los puntos críticos.",
             },
             {
-              id: "calificacion-leopold",
-              title: "Cómo calificar en Leopold",
-              content: "Cada intersección (impacto) se califica con DOS valores:\n\n**Magnitud (M):**\n• Escala de -10 a +10 (0 = sin impacto)\n• Signo negativo = impacto adverso\n• Signo positivo = impacto beneficioso\n• Número indica intensidad del impacto\n\n**Importancia (I):**\n• Escala de 1 a 10\n• 1 = poca importancia\n• 10 = muy importante\n• Se refiere a la relevancia del impacto en el contexto del proyecto\n\n**Ejemplo:**\nUna carretera causa pérdida de cobertura vegetal:\n• Magnitud = -7 (impacto adverso fuerte)\n• Importancia = 8 (muy relevante para el ecosistema)\n\nSe anota como: -7/8 en la celda correspondiente.",
-            },
-            {
-              id: "ventajas-limitaciones-leopold",
-              title: "Ventajas y limitaciones",
-              content: "**Ventajas:**\n✅ Fácil de entender y aplicar\n✅ Buena herramienta de identificación preliminar\n✅ Visual y resumida\n✅ Permite comparar alternativas del proyecto\n\n**Limitaciones:**\n❌ No considera interacciones entre impactos\n❌ Subjetividad en las calificaciones\n❌ No distingue impactos a corto, mediano y largo plazo\n❌ No incluye medidas de manejo",
+              id: "conesa-tecnico",
+              title: "2. Método de Conesa: Valoración Integral",
+              content: "Es el estándar en Estudios de Impacto Ambiental debido a su fórmula de **Importancia (I)** que integra 11 atributos técnicos para asignar un valor numérico preciso:\n\n**I = ± [3IN + 2EX + MO + PE + RV + SI + AC + EF + PR + MC]**\n\n• **IN (Intensidad):** Grado de incidencia.\n• **EX (Extensión):** Área de influencia física.\n• **MO (Momento):** Tiempo entre la acción y la aparición del efecto.\n• **PE (Persistencia):** Tiempo que permanecería el efecto.\n• **RV (Reversibilidad):** Capacidad del medio de retornar a su estado inicial.\n• **Otros:** Sinergia, Acumulación, Efecto, Periodicidad y Recuperabilidad.\n\n**Interpretación:** I < 25 (Irrelevante), 25-50 (Moderado), 50-75 (Severo), > 75 (Crítico).",
             },
           ],
         },
         {
-          id: "metodo-conesa",
-          title: "Método de Conesa: El estándar en Latinoamérica",
-          content: "El Método de Vicente Conesa Fernández-Vítora (1995) es el más utilizado en España y Latinoamérica porque ofrece un enfoque cuantitativo más robusto que Leopold. En lugar de dos valores simples, Conesa calcula la importancia del impacto mediante una fórmula que considera 11 atributos.",
-          subsections: [
-            {
-              id: "formula-conesa",
-              title: "Fórmula de importancia del impacto",
-              content: "**I = ± [3IN + 2EX + MO + PE + RV + SI + AC + EF + PR + MC]**\n\nDonde:\n• **IN (Intensidad):** 1-12. Grado de incidencia\n• **EX (Extensión):** 1-8. Área afectada\n• **MO (Momento):** 1-4. Plazo de manifestación\n• **PE (Persistencia):** 1-4. Permanencia en el tiempo\n• **RV (Reversibilidad):** 1-4. Capacidad de retornar al estado inicial\n• **SI (Sinergia):** 1-4. Acción simultánea de varios impactos\n• **AC (Acumulación):** 1-4. Incremento progresivo\n• **EF (Efecto):** 1-4. Directo o indirecto\n• **PR (Periodicidad):** 1-4. Regularidad de manifestación\n• **MC (Recuperabilidad):** 1-8. Posibilidad de reconstrucción\n\n**Ejemplo práctico:**\nContaminación acústica por construcción de carretera:\n• IN=8 (alta), EX=4 (local), MO=4 (inmediato), PE=2 (temporal)\n• RV=2 (medio plazo), SI=1 (sin sinergia), AC=1 (simple)\n• EF=4 (directo), PR=4 (continuo), MC=4 (mitigable)\n\nI = -[3(8) + 2(4) + 4 + 2 + 2 + 1 + 1 + 4 + 4 + 4] = **-54**",
-            },
-            {
-              id: "categorias-conesa",
-              title: "Categorías de impacto según Conesa",
-              content: "Una vez calculada la importancia, se clasifica el impacto:\n\n**< 25: Compatible**\n• Recuperación inmediata tras cese de la actividad\n• No necesita medidas correctoras\n\n**25-50: Moderado**\n• Recuperación en el medio plazo\n• Requiere medidas simples de mitigación\n\n**50-75: Severo**\n• Recuperación solo con medidas correctoras intensivas\n• Requiere Plan de Manejo Ambiental robusto\n\n**≥75: Crítico**\n• Imposible de recuperar incluso con medidas\n• Debe evitarse o cambiar diseño del proyecto\n• Puede ser causa de no viabilidad ambiental",
-            },
-          ],
+          id: "battelle-columbus",
+          title: "Battelle-Columbus: Cuantificación Pura",
+          content: "Diseñado para proyectos hídricos, este sistema utiliza **Unidades de Impacto Ambiental (UIA)** y una estructura jerárquica de 4 niveles: 4 Categorías, 18 Componentes y 78 Parámetros ambientales. Se basa en funciones de transformación que convierten medidas físicas (ej. mg/L de DBO) en una escala de 0 a 1 de calidad ambiental. Incorpora un sistema de 'banderas rojas' para alertar sobre riesgos críticos que exceden los límites de absorción del medio.",
         },
         {
-          id: "sistema-battelle",
-          title: "Sistema Battelle-Columbus: Análisis cuantitativo avanzado",
-          content: "Desarrollado por el Battelle Columbus Laboratory en 1972 para proyectos de gestión del agua, este sistema utiliza 78 parámetros ambientales agrupados en 18 componentes y 4 categorías principales. Su característica distintiva es el uso de Unidades de Impacto Ambiental (UIA) y funciones de transformación.",
-          subsections: [
-            {
-              id: "estructura-battelle",
-              title: "Estructura jerárquica de Battelle",
-              content: "**Nivel 1 - Categorías (4):**\n• Ecología (240 UIA max)\n• Contaminación ambiental (402 UIA)\n• Aspectos estéticos (153 UIA)\n• Aspectos de interés humano (205 UIA)\n**Total: 1000 UIA**\n\n**Nivel 2 - Componentes (18):**\nEjemplo en Ecología:\n• Especies y poblaciones\n• Hábitats y comunidades\n• Ecosistemas\n\n**Nivel 3 - Parámetros (78):**\nEjemplo en Agua:\n• DBO\n• Oxígeno disuelto\n• Coliformes fecales\n• pH",
-            },
-            {
-              id: "funciones-transformacion",
-              title: "Funciones de transformación",
-              content: "El núcleo de Battelle son las curvas de transformación que convierten magnitudes físicas en unidades ambientales:\n\n**Proceso:**\n1. Medir valor del parámetro (ej: DBO = 15 mg/L)\n2. Aplicar función de transformación → Calidad ambiental (CA)\n3. Multiplicar CA × Peso del parámetro → UIA\n\n**Ejemplo:**\nDBO en río:\n• Situación sin proyecto: 5 mg/L → CA=0.9 → UIA=0.9×20=18\n• Situación con proyecto: 25 mg/L → CA=0.5 → UIA=0.5×20=10\n• Impacto: 10-18 = **-8 UIA**\n\nSe repite para los 78 parámetros y se suma el total.",
-            },
-          ],
-        },
-        {
-          id: "herramienta-generador",
-          title: "Generador automático de matrices EIA",
-          content: "Crear estas matrices manualmente puede tomar días de trabajo. Por eso desarrollamos una herramienta web gratuita que te guía paso a paso para generar matrices profesionales de Leopold, Conesa y Battelle en minutos.",
-          image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80",
+          id: "herramienta-matrices",
+          title: "Genera tus Matrices con AquatechIA",
+          content: "Sabemos que el cálculo de matrices de Conesa para cientos de interacciones puede ser propenso a errores. Por ello, hemos integrado un generador automatizado en nuestra plataforma que sigue rigurosamente esta metodología.",
           callout: {
             type: "success",
-            title: "Prueba el generador gratuito",
-            content: "✅ Wizard paso a paso guiado\n✅ Base de datos con tipos de proyectos comunes\n✅ Cálculo automático de importancia (Conesa)\n✅ Gráficos de impactos por categoría\n✅ Exportación a PDF y Excel\n✅ Memoria de cálculo incluida\n✅ Sin registro, 100% gratis",
+            title: "Herramienta Profesional",
+            content: "Nuestro generador te permite calificar atributos, calcular la importancia automáticamente y exportar la matriz lista para incluir en tu EIA. \n\n [🚀 Ir al Generador de Matrices de Impacto](/ambiental/herramientas/generador-matrices)",
           },
-          subsections: [
-            {
-              id: "como-usar-generador",
-              title: "Cómo usar el generador",
-              content: "**Paso 1: Selecciona tipo de proyecto**\n• Carretera\n• Hidroeléctrica\n• Minería\n• Urbanización\n• Cultivo agrícola\n• O personaliza\n\n**Paso 2: Define acciones del proyecto**\n• El sistema sugiere acciones típicas\n• Puedes agregar acciones específicas\n• Describe duración y magnitud estimada\n\n**Paso 3: Selecciona factores ambientales**\n• Lista preconfigurada según el proyecto\n• Agrega factores relevantes localmente\n• Describe estado actual (línea base)\n\n**Paso 4: Evalúa impactos**\n• La herramienta te guía en la calificación\n• Conesa: responde 11 preguntas por impacto\n• Leopold: asigna magnitud e importancia\n• Battelle: ingresa mediciones proyectadas\n\n**Paso 5: Descarga matriz profesional**\n• PDF con tablas formateadas\n• Excel editable para ajustes\n• Incluye gráficos y memoria de cálculo",
-            },
-          ],
-        },
-        {
-          id: "interpretacion-resultados",
-          title: "Cómo interpretar y usar los resultados",
-          content: "Una vez generada la matriz, debes interpretar los resultados para la toma de decisiones y el diseño del Plan de Manejo Ambiental (PMA):",
-          subsections: [
-            {
-              id: "identificar-criticos",
-              title: "1. Identificar impactos críticos y severos",
-              content: "**Impactos críticos (Conesa ≥75):**\n• Requieren rediseño del proyecto o alternativa\n• Deben incluirse en la evaluación de viabilidad\n• Podrían ser causa de negación de licencia\n\n**Ejemplo:**\nAfectación de zona de protección de humedal Ramsar\n→ Acción: Reubicar trazado de carretera\n\n**Impactos severos (Conesa 50-75):**\n• Requieren medidas de manejo robustas\n• Monitoreo intensivo durante construcción\n• Inversión significativa en mitigación\n\n**Ejemplo:**\nEmisiones atmosféricas de planta cementera\n→ Acción: Filtros de manga, monitoreo continuo",
-            },
-            {
-              id: "priorizar-medidas",
-              title: "2. Priorizar medidas de manejo",
-              content: "La jerarquía de manejo ambiental es:\n\n**1. EVITAR (Prevención)**\nEliminar la fuente del impacto\nEj: Cambiar tecnología menos contaminante\n\n**2. MINIMIZAR (Mitigación)**\nReducir magnitud o duración del impacto\nEj: Barreras acústicas, horarios restringidos\n\n**3. RESTAURAR/REHABILITAR (Corrección)**\nRestaurar condiciones originales\nEj: Revegetalización, restauración de cauces\n\n**4. COMPENSAR (Compensación)**\nGenerar beneficios equivalentes en otro lugar\nEj: Reforestación de área equivalente\n\n**5. MONITOREAR (Seguimiento)**\nVerificar eficacia de medidas\nEj: Mediciones trimestrales de calidad de agua",
-            },
-            {
-              id: "costos-ambientales",
-              title: "3. Estimar costos del PMA",
-              content: "Con base en los impactos identificados, estima los costos del Plan de Manejo Ambiental:\n\n**Costos típicos por categoría:**\n• Prevención y mitigación: 3-8% del valor del proyecto\n• Compensación forestal: $2-5 millones/ha\n• Compensación hídrica: 1% del valor del proyecto\n• Monitoreo ambiental: $50-200 millones/año\n• Arqueología preventiva: $100-500 millones\n• Manejo social: 2-5% del valor del proyecto\n\n**Total PMA:**\nGeneralmente 5-15% del presupuesto total del proyecto.",
-            },
-          ],
-        },
-        {
-          id: "casos-ejemplo",
-          title: "Ejemplos de matrices por tipo de proyecto",
-          content: "Para ilustrar la aplicación práctica, veamos ejemplos simplificados de matrices para proyectos comunes:",
-          subsections: [
-            {
-              id: "ejemplo-carretera",
-              title: "Ejemplo: Carretera secundaria 15 km",
-              content: "**Impactos significativos identificados:**\n\n🔴 **Críticos (ninguno)**\n\n🟠 **Severos:**\n• Remoción cobertura vegetal (Conesa: -67)\n  → 15 ha bosque secundario\n  → Medida: Compensación 3:1 = 45 ha\n• Afectación fauna (Conesa: -58)\n  → Pasos de fauna cada 2 km\n  → Señalización preventiva\n\n🟡 **Moderados:**\n• Generación material particulado (-42)\n• Ruido en fase constructiva (-38)\n• Alteración drenajes naturales (-45)\n\n**Costo estimado PMA:** $450 millones (8% del proyecto)",
-            },
-            {
-              id: "ejemplo-mineria",
-              title: "Ejemplo: Mina subterránea de carbón",
-              content: "**Impactos significativos:**\n\n🔴 **Críticos:**\n• Afectación acuífero regional (Conesa: -82)\n  → INVIABLE en diseño original\n  → Rediseño: inyección y sellado de galerías\n\n🟠 **Severos:**\n• Subsidencia terreno (Conesa: -71)\n  → Monitoreo topográfico trimestral\n  → Relleno controlado de galerías\n• Generación aguas ácidas (Conesa: -65)\n  → Planta de tratamiento de drenajes\n  → Neutralización química continua\n\n**Costo estimado PMA:** $8,500 millones (12% del proyecto)",
-            },
-          ],
-        },
-        {
-          id: "normatividad-eia",
-          title: "Marco legal de EIA en Colombia",
-          content: "Es fundamental conocer el marco normativo para garantizar que tu matriz cumple con los requisitos legales:",
-          subsections: [
-            {
-              id: "normativa-principal",
-              title: "Normativa principal",
-              content: "**Ley 99 de 1993**\n• Crea el Ministerio de Ambiente\n• Establece licencia ambiental como requisito\n• Define autoridades ambientales competentes\n\n**Decreto 1076 de 2015 (Decreto Único Ambiental)**\n• Libro 2, Parte 2, Título 2, Capítulo 3: Licencias\n• Define proyectos que requieren licencia\n• Establece términos de evaluación\n\n**Resolución 1402 de 2018**\n• Metodología para elaboración de EIA\n• Términos de referencia por sector\n• Contenido mínimo del estudio",
-            },
-            {
-              id: "terminos-referencia",
-              title: "Términos de referencia",
-              content: "La ANLA (Autoridad Nacional de Licencias Ambientales) publica términos de referencia específicos por sector:\n\n• M-M-INA-01: Minería\n• EIA-H: Hidrocarburos\n• TdR-14: Infraestructura vial\n• TdR-7: Proyectos hidroeléctricos\n• TdR-13: Puertos marítimos\n\nDescárgalos en: www.anla.gov.co → Trámites → Términos de Referencia",
-            },
-          ],
         },
       ],
-      conclusion: "Las matrices de evaluación de impacto ambiental son herramientas fundamentales para cualquier profesional ambiental. Ya sea que estés preparando un EIA para licenciamiento, evaluando la viabilidad ambiental de un proyecto o simplemente aprendiendo sobre gestión ambiental, dominar Leopold, Conesa y Battelle te abrirá puertas. Usa nuestro generador gratuito para crear matrices profesionales en minutos y dedica tu tiempo a lo que realmente importa: diseñar medidas efectivas para proteger el medio ambiente. ¡Comienza ahora y lleva tus EIA al siguiente nivel!",
+      conclusion: "Las matrices de impacto ambiental no son tablas estáticas; son modelos dinámicos de riesgo territorial. Al utilizar metodologías rigurosas como Conesa y herramientas de automatización, garantizamos que los Planes de Manejo Ambiental (PMA) sean sólidos frente a la revisión de la autoridad ambiental.",
     },
-    tags: ["EIA", "matriz Leopold", "método Conesa", "Battelle", "licencia ambiental", "PMA", "evaluación ambiental", "impacto ambiental"],
+    tags: ["EIA", "Leopold", "Conesa", "Battelle", "licencia ambiental", "PMA", "impacto ambiental", "ANLA"],
     nextArticle: {
-      slug: "visor-mapas-sig-ambiental",
+      slug: "visualizacion-geoespacial-sig-monitoreo",
       title: "Visualización Geoespacial de Datos Ambientales con SIG",
     },
   },
@@ -610,123 +506,51 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
             type: "info",
             title: "Componentes de un SIG",
             content: "• **Hardware:** Computadoras, servidores, sensores GPS/drones\n• **Software:** QGIS, ArcGIS, Google Earth Engine, MapLibre\n• **Datos:** Capas vectoriales (puntos/líneas/polígonos) y raster (imágenes)\n• **Procesos:** Georeferenciación, consultas espaciales, análisis\n• **Personas:** Profesionales capacitados en análisis geoespacial",
+    category: "Geotecnología",
+    date: "2024-12-09",
+    readTime: 14,
+    excerpt: "Domina el análisis espacial para la gestión ambiental. Guía técnica sobre sensores Sentinel, índices NDVI/NDWI y el estándar MAGNA-SIRGAS para Colombia.",
+    heroImage: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=2000&q=80",
+    author: {
+      name: "Pablo Cubides",
+      avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
+      bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
+    },
+    content: {
+      introduction: "En la era del Big Data ambiental, la capacidad de ver datos en un mapa no es suficiente; necesitamos entender la dinámica del territorio a través de sensores remotos y modelos geoestadísticos. Desde el monitoreo de la deforestación en tiempo real hasta el análisis de cuencas hidrográficas, los Sistemas de Información Geográfica (SIG) son el lenguaje con el que interpretamos los ecosistemas. En este artículo profundizamos en las tecnologías Sentinel, los índices espectrales y el marco de referencia **MAGNA-SIRGAS**, pilar de la precisión cartográfica en Colombia.",
+      sections: [
+        {
+          id: "sensores-remotos",
+          title: "Monitoreo Satelital: Más allá de lo Visible",
+          content: "Los sensores remotos nos permiten 'ver' en bandas del espectro electromagnético que el ojo humano ignora. El programa Copernicus de la ESA con sus satélites **Sentinel-2** ha democratizado el acceso a imágenes de 10m de resolución, esenciales para el monitoreo ambiental continuo.",
+          subsections: [
+            {
+              id: "indices-espectrales",
+              title: "Índices NDVI y NDWI",
+              content: "• **NDVI (Vegetación):** Utiliza las bandas Roja e Infrarrojo Cercano para medir la salud fotosintética. Un valor > 0.6 indica vegetación densa y saludable.\n• **NDWI (Agua):** Crucial para hidrología, permite diferenciar cuerpos de agua de vegetación y suelo desnudo mediante bandas verdes e infrarrojas.\n• **Impacto:** Con estos índices podemos detectar estrés hídrico en cultivos o retroceso de glaciares sin salir al campo.",
+            },
+          ],
+        },
+        {
+          id: "geodesia-colombia",
+          title: "Precisión en Colombia: MAGNA-SIRGAS",
+          content: "Todo análisis geoespacial en Colombia debe regirse por el sistema **MAGNA-SIRGAS**. El uso de proyecciones obsoletas como el Datum Bogotá puede generar desplazamientos de cientos de metros en la ubicación de límites ambientales.",
+          callout: {
+            type: "info",
+            title: "Dato Técnico",
+            content: "Desde 2020, Colombia implementó el **Origen Nacional**, una proyección única que elimina las zonas de origen (Este-Este, Oeste-Oeste) facilitando la interoperabilidad de datos entre la CAR, el IGAC y el ANLA.",
           },
         },
         {
-          id: "fuentes-datos",
-          title: "Fuentes de datos geoespaciales gratuitas",
-          content: "La revolución de los datos abiertos ha democratizado el acceso a información geográfica de calidad. Aquí están las principales fuentes que puedes usar gratuitamente:",
-          subsections: [
-            {
-              id: "gbif-biodiversidad",
-              title: "GBIF: El banco de biodiversidad global",
-              content: "**GBIF (Global Biodiversity Information Facility)**\n• Base de datos: >2 mil millones de registros de especies\n• Cobertura: Global, con énfasis en América\n• Datos incluyen: Coordenadas, fecha, especie, observador\n• Acceso: API REST, portal web gbif.org\n• Casos de uso:\n  - Mapas de distribución de especies\n  - Análisis de puntos calientes de biodiversidad\n  - Identificación de corredores biológicos\n  - Evaluación de amenazas a especies endémicas\n\n**Ejemplo de uso:**\nBusca 'Panthera onca' (jaguar) en Colombia y obtén un mapa con >5,000 registros de avistamientos, atropellamientos y cámaras trampa. Útil para diseñar corredores de conservación.",
-            },
-            {
-              id: "water-quality-portal",
-              title: "Water Quality Portal: Monitoreo hídrico USA",
-              content: "**Water Quality Portal (USGS/EPA)**\n• Base de datos: >400 millones de registros de calidad de agua\n• Cobertura: Estados Unidos principalmente\n• Datos incluyen: Ubicación de estaciones, parámetros fisicoquímicos históricos\n• Acceso: API WQX, descarga CSV/JSON\n• Casos de uso:\n  - Análisis de tendencias temporales de contaminación\n  - Mapas de estaciones de monitoreo\n  - Comparación de cuencas hidrográficas\n  - Validación de modelos de calidad de agua\n\n**Ejemplo:**\nDescarga 20 años de datos de DBO, OD y coliformes del río Mississippi para identificar puntos críticos de contaminación y estacionalidad.",
-            },
-            {
-              id: "satelital-copernicus",
-              title: "Imágenes satelitales: Copernicus y Landsat",
-              content: "**Copernicus/Sentinel (ESA):**\n• Satélites Sentinel-1 (radar) y Sentinel-2 (óptico)\n• Resolución: 10m por píxel\n• Frecuencia: Imágenes cada 5 días\n• Descarga: scihub.copernicus.eu, Google Earth Engine\n\n**Landsat (NASA/USGS):**\n• Programa más antiguo (desde 1972)\n• Landsat 8/9 activos\n• Resolución: 30m\n• Historial completo de cambio de cobertura terrestre\n\n**Aplicaciones ambientales:**\n• NDVI (salud vegetación)\n• Detección de deforestación\n• Monitoreo de cuerpos de agua\n• Índices de quemas\n• Crecimiento urbano",
-            },
-            {
-              id: "openstreetmap",
-              title: "OpenStreetMap: El mapa colaborativo",
-              content: "**OpenStreetMap (OSM)**\n• Wikipedia de los mapas\n• Comunidad de millones de editores\n• Datos: Vías, edificios, uso del suelo, hidrografía\n• Descarga: planet.osm, API Overpass\n• Licencia: Libre uso con atribución\n\n**Útil para contexto en mapas ambientales:**\n• Capa base de carreteras y poblados\n• Identificación de áreas urbanas vs rurales\n• Análisis de accesibilidad a áreas protegidas\n• Cálculo de distancias a infraestructura",
-            },
-          ],
-        },
-        {
-          id: "tipos-analisis",
-          title: "Tipos de análisis geoespacial ambiental",
-          content: "Los SIG permiten realizar análisis sofisticados que serían imposibles sin la dimensión espacial. Aquí los más comunes en proyectos ambientales:",
-          subsections: [
-            {
-              id: "analisis-buffer",
-              title: "Áreas de influencia (Buffer)",
-              content: "Crea polígonos alrededor de elementos a una distancia definida.\n\n**Ejemplo ambiental:**\n• Zona de protección de 30m alrededor de quebradas (según POT)\n• Área de influencia de 5 km de mina para EIA\n• Cobertura de 500m de estaciones de monitoreo\n\n**Aplicación:**\nSi tienes una carretera proyectada, creas un buffer de 200m a cada lado y calculas cuántas hectáreas de bosque serán afectadas.",
-            },
-            {
-              id: "interpolacion",
-              title: "Interpolación espacial",
-              content: "Estima valores en ubicaciones no medidas a partir de puntos medidos.\n\n**Métodos comunes:**\n• IDW (Inverse Distance Weighting)\n• Kriging (geoestadística)\n• Splines\n\n**Ejemplo:**\nTienes 10 estaciones de calidad de aire con PM₂.₅ medido. Con interpolación generas un mapa de toda la ciudad estimando concentraciones en áreas sin estación.\n\n**Resultado:** Mapa de calor que identifica zonas críticas de contaminación.",
-            },
-            {
-              id: "superposicion",
-              title: "Superposición de capas (Overlay)",
-              content: "Combina múltiples capas para análisis multi-criterio.\n\n**Ejemplo: Identificar áreas prioritarias de conservación**\n\nCapas a superponer:\n• Riqueza de especies (de GBIF)\n• Áreas protegidas existentes\n• Amenazas (minería, deforestación)\n• Conectividad ecológica\n\nResultado: Mapa de áreas prioritarias donde hay alta biodiversidad, baja protección y alta amenaza.",
-            },
-            {
-              id: "analisis-redes",
-              title: "Análisis de redes (Network)",
-              content: "Calcula rutas óptimas, accesibilidad y conectividad.\n\n**Aplicaciones ambientales:**\n• Ruta óptima para patrullaje en parque nacional\n• Análisis de conectividad entre parches de bosque\n• Tiempo de respuesta a derrames ambientales\n• Distancia a centros de acopio de residuos\n\n**Ejemplo:**\nCalcula cuántos minutos tardaría un equipo de emergencias en llegar a cualquier punto de un río tras un derrame de petróleo.",
-            },
-          ],
-        },
-        {
-          id: "herramienta-visor",
-          title: "Visor interactivo de mapas ambientales",
-          content: "Hemos desarrollado una herramienta web gratuita que te permite crear mapas interactivos profesionales sin necesidad de instalar software complejo. Ideal para estudiantes, consultores y autoridades ambientales.",
+          id: "proyectos-visor",
+          title: "Visualiza tus Proyectos con AquatechIA",
+          content: "Nuestra plataforma ambiental cuenta con un **Visor de Mapas** diseñado para gestores ambientales. Carga tus capas GeoJSON, visualiza datos de biodiversidad de GBIF y genera mapas profesionales en segundos.",
           image: "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=1200&q=80",
           callout: {
             type: "success",
-            title: "Características del visor",
-            content: "✅ Mapas interactivos con zoom/pan\n✅ Integración directa con GBIF y Water Quality Portal\n✅ Carga de archivos GeoJSON, KML, CSV con coordenadas\n✅ Múltiples capas base (satélite, topográfico, OpenStreetMap)\n✅ Leyendas dinámicas con simbolización personalizada\n✅ Filtros por categoría, fecha, especie, parámetro\n✅ Exportación de mapas como PNG\n✅ Sin registro, 100% gratis",
+            title: "Explora el Visor SIG",
+            content: "Analiza capas satelitales, coberturas de tierra e índices de vegetación en una plataforma integrada. \n\n [🌍 Abrir Visor de Mapas Ambientales](/ambiental/herramientas/visor-mapas-ambientales)",
           },
-          subsections: [
-            {
-              id: "como-usar-visor",
-              title: "Cómo usar el visor paso a paso",
-              content: "**Opción 1: Conectar con fuentes de datos**\n\n1. Selecciona fuente:\n   • GBIF para biodiversidad\n   • Water Quality Portal para agua\n\n2. Define búsqueda:\n   • Especie: 'Morpho peleides' (mariposa morfo)\n   • Área: Colombia, departamento Chocó\n   • Fecha: últimos 10 años\n\n3. El visor consulta la API y carga puntos automáticamente\n\n4. Visualiza:\n   • Puntos con colores por año\n   • Click en punto para ver detalles\n   • Agrupa puntos cercanos (clustering)\n\n**Opción 2: Cargar tus propios datos**\n\n1. Prepara archivo CSV:\n```\nlatitud,longitud,nombre,categoria,valor\n4.6097,-74.0817,Estación Kennedy,PM2.5,35\n4.7110,-74.0721,Estación Suba,PM2.5,28\n```\n\n2. Carga archivo en el visor\n\n3. El sistema detecta coordenadas automáticamente\n\n4. Personaliza:\n   • Color por categoría\n   • Tamaño de símbolo por valor\n   • Etiquetas con información",
-            },
-            {
-              id: "casos-uso-visor",
-              title: "Casos de uso del visor",
-              content: "**1. Mapa de distribución de especie amenazada**\n• Busca 'Tremarctos ornatus' (oso de anteojos) en GBIF\n• Superpón capa de áreas protegidas (GeoJSON)\n• Identifica registros fuera de protección → acción: proponer ampliación\n\n**2. Red de monitoreo de calidad de agua**\n• Carga CSV con ubicación y parámetros de tus estaciones\n• Codifica por color según cumplimiento normativo\n• Genera mapa para informe a autoridad ambiental\n\n**3. Línea base ambiental para EIA**\n• Carga polígono del área de influencia del proyecto\n• Consulta GBIF: especies en la zona\n• Carga capas de ecosistemas, cuencas, áreas protegidas\n• Exporta mapa para capítulo de línea base del EIA",
-            },
-          ],
-        },
-        {
-          id: "software-sig",
-          title: "Software SIG recomendado por nivel",
-          content: "Según tu experiencia y presupuesto, estas son las mejores opciones:",
-          subsections: [
-            {
-              id: "principiantes",
-              title: "Nivel principiante (sin experiencia)",
-              content: "**Google My Maps**\n• Gratis, en línea\n• Interfaz intuitiva\n• Limitado a funciones básicas\n• Ideal para: Ubicar puntos, trazar rutas simples\n\n**QGIS Web Client**\n• Visualizador web de proyectos QGIS\n• No requiere instalación\n• Solo visualización e interacción básica\n\n**Nuestra herramienta Visor de Mapas Ambientales**\n• Diseñada específicamente para datos ambientales\n• Sin curva de aprendizaje\n• Integración con APIs científicas",
-            },
-            {
-              id: "intermedio",
-              title: "Nivel intermedio (estudiantes, técnicos)",
-              content: "**QGIS (Quantum GIS)**\n• ✅ Gratis y de código abierto\n• ✅ Muy completo (casi todo lo de ArcGIS)\n• ✅ Plugins para análisis específicos\n• ✅ Comunidad activa en español\n• Descarga: qgis.org\n\n**Recomendado si:**\n• Vas a hacer análisis espaciales complejos\n• Necesitas editar datos geográficos\n• Quieres generar mapas para publicaciones\n• Presupuesto limitado\n\n**Plugins ambientales útiles:**\n• Profile Tool (perfiles topográficos)\n• Geospatial Data Abstraction Library\n• Semi-Automatic Classification (imágenes satelitales)",
-            },
-            {
-              id: "avanzado",
-              title: "Nivel avanzado (profesionales, empresas)",
-              content: "**ArcGIS Pro (Esri)**\n• Software comercial líder ($$$)\n• Integración total con servicios en la nube\n• Herramientas avanzadas de modelado\n• Soporte técnico profesional\n• Ideal para empresas consultoras\n\n**Google Earth Engine**\n• Plataforma en la nube para big data geoespacial\n• Gratis para investigación y educación\n• Catálogo petabyte de imágenes satelitales\n• Requiere programación (JavaScript o Python)\n• Ideal para análisis de cambio de cobertura a gran escala\n\n**R con paquetes espaciales**\n• sf, raster, terra, leaflet\n• Análisis estadístico + SIG en un solo ambiente\n• Reproducibilidad científica\n• Curva de aprendizaje alta",
-            },
-          ],
-        },
-        {
-          id: "proyectos-reales",
-          title: "Proyectos ambientales reales con SIG",
-          content: "Para inspirarte, aquí hay ejemplos de proyectos ambientales exitosos que usaron SIG:",
-          subsections: [
-            {
-              id: "corredor-biologico",
-              title: "Diseño de corredor biológico para jaguar (WWF)",
-              content: "**Problema:**\nPoblaciones fragmentadas de jaguar en Centroamérica sin conectividad genética.\n\n**Solución con SIG:**\n• Mapeo de registros de jaguar (cámaras trampa + GBIF)\n• Análisis de cobertura vegetal (Landsat histórico)\n• Modelado de idoneidad de hábitat\n• Identificación de puntos de cruce de carreteras\n• Diseño de corredores mínimos de 5 km de ancho\n\n**Resultado:**\nMesoamerican Biological Corridor: 1,000 km de México a Panamá, protegiendo no solo jaguares sino cientos de especies.",
-            },
-            {
-              id: "deforestacion-tiempo-real",
-              title: "Alertas de deforestación en tiempo real (Global Forest Watch)",
-              content: "**Problema:**\nDeforestación ilegal en Amazonía difícil de detectar y frenar a tiempo.\n\n**Solución con SIG:**\n• Procesamiento automático de imágenes Sentinel-2 diarias\n• Algoritmos ML para detectar pérdida de cobertura\n• Alertas GLAD (Global Land Analysis & Discovery)\n• Mapas públicos en globalforestwatch.org\n• Notificaciones a autoridades en <72 horas\n\n**Resultado:**\nReducción de 31% en deforestación en áreas monitoreadas (estudio 2021). Herramienta usada por 180 países.",
-            },
-          ],
         },
       ],
       conclusion: "Los Sistemas de Información Geográfica son el microscopio del siglo XXI para entender nuestro planeta. Ya no son herramientas exclusivas de expertos: hoy cualquier persona con curiosidad y acceso a internet puede crear mapas ambientales profesionales. Usa nuestra herramienta gratuita para comenzar a visualizar datos ambientales, explora las fuentes de datos abiertos y atrévete a hacer tus propios análisis. El primer paso para proteger el medio ambiente es saber dónde están los problemas. Los mapas te lo mostrarán. ¿Estás listo para ver el mundo con otros ojos?",
@@ -743,89 +567,78 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     title: "Guía de Normatividad Ambiental en Colombia: Agua, Aire, Vertimientos y Residuos Sólidos",
     category: "Normatividad Ambiental",
     date: "2024-12-09",
-    readTime: 11,
-    excerpt: "Navega fácilmente por la normatividad ambiental colombiana. Resoluciones, decretos y límites permisibles organizados por dominio con herramienta de consulta gratuita.",
-    heroImage: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1600&q=80",
+    readTime: 12,
+    excerpt: "Guía técnica sobre la legislación ambiental en Colombia. Parámetros clave de las resoluciones 2115, 631 y 2254 para cumplimiento legal y gestión técnica.",
+    heroImage: "https://images.unsplash.com/photo-1576085898303-d40283c4488b?auto=format&fit=crop&w=2000&q=80",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
       bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
-      introduction: "La normatividad ambiental colombiana es extensa y compleja: cientos de decretos, resoluciones, acuerdos y sentencias que regulan desde la calidad del agua potable hasta la gestión de residuos peligrosos. Para empresas, consultores y autoridades ambientales, mantenerse actualizado y encontrar rápidamente la norma correcta es un desafío constante. ¿Cuál es el límite permisible de DBO en vertimientos? ¿Qué dice la Resolución 2254 sobre calidad del aire? ¿Cuándo entró en vigencia el nuevo código de colores para residuos? En este artículo encontrarás una guía organizada de la normatividad ambiental colombiana por dominio, con acceso a nuestra herramienta gratuita que funciona como un buscador inteligente de normas.",
+      introduction: "El cumplimiento normativo en Colombia no es solo una obligación legal; es la base técnica para cualquier proyecto de ingeniería sostenible. Desde la calidad del agua potable bajo la **Resolución 2115** hasta los límites de emisión atmosférica de la **Resolución 2254**, los gestores ambientales enfrentan una matriz compleja de requerimientos. En AquatechIA hemos consolidado esta guía técnica para facilitar la interpretación de los parámetros más críticos y te ofrecemos acceso a nuestro Navegador de Normas para una consulta ágil y sectorizada.",
       sections: [
         {
-          id: "marco-legal",
-          title: "Marco legal ambiental de Colombia",
-          content: "El sistema normativo ambiental colombiano se basa en una jerarquía de leyes, decretos, resoluciones y acuerdos. La pirámide normativa va desde la Constitución Política hasta las resoluciones técnicas específicas.",
+          id: "matriz-cumplimiento",
+          title: "Estructura de la Matriz Legal Ambiental",
+          content: "En Colombia, la gestión ambiental se rige por el Decreto Único Reglamentario 1076 de 2015, pero son las resoluciones técnicas las que definen los límites de operación. Comprender la jerarquía normativa permite a las industrias evitar sanciones que pueden superar los 5,000 SMMLV.",
           callout: {
-            type: "info",
-            title: "Jerarquía normativa ambiental",
-            content: "1. **Constitución Política 1991** (Art. 79-80: derecho ambiente sano)\n2. **Leyes** (Ley 99/1993: crea MinAmbiente y SINA)\n3. **Decretos** (Decreto 1076/2015: Decreto Único Ambiental)\n4. **Resoluciones** (técnicas específicas por dominio)\n5. **Acuerdos** (autoridades ambientales regionales)\n6. **Sentencias** (Corte Constitucional, jurisprudencia)",
+            type: "warning",
+            title: "Importancia Técnica",
+            content: "El desconocimiento de un parámetro de vertimiento puede invalidar un permiso de uso de aguas. Siempre verifique la norma técnica específica para su CIIU (Clasificación Industrial Internacional Uniforme).",
           },
         },
         {
-          id: "agua-potable",
-          title: "Normatividad de Agua Potable",
-          content: "La calidad del agua para consumo humano está regulada principalmente por la Resolución 2115 de 2007, que establece características físicas, químicas y microbiológicas y el IRCA.",
+          id: "agua-consumo-humano",
+          title: "Agua Potable: Resolución 2115 de 2007",
+          content: "Esta resolución define el sistema de control y vigilancia para la calidad del agua de consumo humano. El cumplimiento se mide a través del IRCA (Índice de Riesgo de la Calidad del Agua).",
           subsections: [
             {
-              id: "resolucion-2115",
-              title: "Resolución 2115 de 2007",
-              content: "**Entidad emisora:** Ministerio de Protección Social y Ambiente\n**Objeto:** Características, instrumentos básicos y frecuencias del sistema de control y vigilancia para la calidad del agua potable\n\n**Parámetros regulados (22 total):**\n• Microbiológicos: E. coli, coliformes totales\n• Físicos: pH, turbiedad, color, cloro residual\n• Químicos: dureza, alcalinidad, fluoruros, cloruros, nitratos\n• Metales: aluminio, hierro, manganeso\n• Sustancias tóxicas: plomo, arsénico, mercurio, cadmio\n\n**Índice IRCA:**\n• 0-5%: Sin riesgo\n• 5.1-14%: Riesgo bajo\n• 14.1-35%: Riesgo medio\n• 35.1-80%: Riesgo alto\n• >80%: Inviable sanitariamente",
+              id: "parametros-potable",
+              title: "Parámetros Críticos y Límites",
+              content: "• **Microbiológicos:** Ausencia total de *E. coli* y Coliformes Totales (0 UFC/100ml).\n• **Físicos:** Turbiedad ≤ 2 UNT; pH entre 6.5 y 9.0.\n• **Químicos:** Cloro Residual Libre entre 0.3 y 2.0 mg/L; Dureza Total ≤ 300 mg/L.\n• **Consecuencias:** Un IRCA superior al 5% indica un riesgo que requiere intervención inmediata de la autoridad sanitaria.",
             },
           ],
         },
         {
-          id: "vertimientos",
-          title: "Normatividad de Vertimientos",
-          content: "La Resolución 631 de 2015 es la norma técnica más importante para vertimientos, estableciendo parámetros y límites máximos permisibles según el tipo de actividad económica.",
+          id: "vertimientos-industriales",
+          title: "Vertimientos Puntuales: Resolución 631 de 2015",
+          content: "Regula las descargas a cuerpos de agua superficiales y alcantarillado. A diferencia de normas anteriores, la 631 establece límites por sector productivo (8 sectores, 73 actividades).",
           subsections: [
             {
-              id: "resolucion-631",
-              title: "Resolución 631 de 2015",
-              content: "**Ámbito:** Vertimientos puntuales a cuerpos de agua superficiales y alcantarillado\n\n**Estructura:**\n• 73 actividades económicas con límites específicos\n• Parámetros generales (pH, DBO, SST, grasas)\n• Parámetros específicos por sector (fenoles, metales pesados, hidrocarburos)\n• Análisis y reporte semestral obligatorio\n\n**Ejemplos de límites:**\n**Aguas residuales domésticas:**\n• DBO₅: 250 mg/L\n• SST: 250 mg/L\n• Grasas y aceites: 20 mg/L\n\n**Industria de alimentos:**\n• DBO₅: 800 mg/L\n• DQO: 1,500 mg/L\n• Fenoles: 0.2 mg/L",
+              id: "limites-631",
+              title: "Límites Generales vs Específicos",
+              content: "• **Domésticas (ARU/ARD):** DBO₅ ≤ 90 mg/L; DQO ≤ 180 mg/L; SST ≤ 90 mg/L.\n• **Industriales:** Los límites de metales pesados (Pb, Cd, Hg) y compuestos orgánicos varían drásticamente entre el sector minero, manufacturero o agroindustrial.\n• **Urgencia:** El reporte de caracterización es obligatorio ante la CAR/ANLA para mantener la concesión de vertimientos.",
             },
           ],
         },
         {
-          id: "calidad-aire",
-          title: "Normatividad de Calidad del Aire",
-          content: "La Resolución 2254 de 2017 establece los niveles máximos permisibles de contaminantes en el aire ambiente y los índices de calidad del aire para Colombia.",
-          subsections: [
-            {
-              id: "resolucion-2254",
-              title: "Resolución 2254 de 2017",
-              content: "**Contaminantes regulados:**\n• PM₂.₅ (Material Particulado Fino)\n• PM₁₀ (Material Particulado)\n• SO₂ (Dióxido de azufre)\n• NO₂ (Dióxido de nitrógeno)\n• O₃ (Ozono troposférico)\n• CO (Monóxido de carbono)\n\n**Niveles máximos permisibles:**\n• PM₂.₅: 25 µg/m³ (anual), 50 µg/m³ (24h)\n• PM₁₀: 50 µg/m³ (anual), 100 µg/m³ (24h)\n• NO₂: 60 µg/m³ (anual), 200 µg/m³ (1h)\n\n**Índice de Calidad del Aire (ICA):**\nEscala 0-500 con 6 categorías (Bueno a Peligroso)",
-            },
-          ],
-        },
-        {
-          id: "residuos-solidos",
-          title: "Normatividad de Residuos Sólidos",
-          content: "La gestión integral de residuos está regulada por el Decreto 1077 de 2015 (sector vivienda) y resoluciones específicas según el tipo de residuo.",
-          subsections: [
-            {
-              id: "decreto-1077",
-              title: "Decreto 1077 de 2015 y Resolución 2184 de 2019",
-              content: "**Decreto 1077/2015:**\n• Gestión integral de residuos sólidos ordinarios\n• Obligaciones de usuarios, prestadores y municipios\n• Separación en la fuente obligatoria\n\n**Resolución 2184/2019 - Código de colores:**\n• **Blanco:** Residuos aprovechables (plástico, vidrio, metal, papel)\n• **Negro:** Residuos no aprovechables (contaminados, mezclados)\n• **Verde:** Residuos orgánicos biodegradables\n\n**Sanciones por incumplimiento:**\nMultas hasta 5,000 SMMLV según gravedad",
-            },
-          ],
-        },
-        {
-          id: "herramienta-navegador",
-          title: "Navegador de normas ambientales",
-          content: "Hemos creado una herramienta web gratuita que funciona como un buscador inteligente de normatividad ambiental colombiana. Encuentra rápidamente la norma que necesitas, consulta límites permisibles y compara requisitos.",
+          id: "herramienta-normas",
+          title: "Gestiona tu Cumplimiento con Nuestra Herramienta",
+          content: "Nuestra plataforma ambiental incluye un **Navegador de Normas Ambientales** actualizado, que te permite filtrar límites permisibles por sector y descargar los textos legales completos.",
+          image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1200&q=80",
           callout: {
             type: "success",
-            title: "Características del navegador",
-            content: "✅ Base de datos actualizada de normas vigentes\n✅ Búsqueda por dominio (agua, aire, residuos, vertimientos)\n✅ Filtro por sector económico\n✅ Tabla de parámetros y límites permisibles\n✅ Descarga de textos legales completos\n✅ Comparativa entre normativas\n✅ Historial de modificaciones\n✅ Gratis y sin registro",
+            title: "¡Consulta las normas ahora!",
+            content: "Simplifica tu matriz legal. Revisa parámetros, límites y vigencias en segundos con nuestro buscador especializado. \n\n [👉 Ir al Navegador de Normas Ambientales](/ambiental/herramientas/normas-ambientales)",
           },
         },
+        {
+          id: "aire-y-atmosfera",
+          title: "Calidad del Aire: Resolución 2254 de 2017",
+          content: "Establece la norma de calidad del aire ambiente (inmisión) para proteger la salud. Se enfoca en contaminantes criterio que afectan el sistema respiratorio.",
+          subsections: [
+            {
+              id: "niveles-aire",
+              title: "Material Particulado y Gases",
+              content: "• **PM10:** 50 µg/m³ (Anual); 100 µg/m³ (24h).\n• **PM2.5:** 25 µg/m³ (Anual); 50 µg/m³ (24h).\n• **Gases:** NO₂ ≤ 60 µg/m³; SO₂ ≤ 50 µg/m³.\n• **Enfoque:** La superación de estos niveles activa los Protocolos para el Manejo de Episodios Críticos de Contaminación del Aire.",
+            },
+          ],
+        },
       ],
-      conclusion: "Mantenerse actualizado en normatividad ambiental ya no tiene que ser una tarea titánica. Con nuestra herramienta navegador de normas, tienes acceso instantáneo a la información legal que necesitas para cumplir con tus obligaciones ambientales. Ya seas un empresario que debe reportar vertimientos, un consultor preparando una EIA o una autoridad verificando cumplimiento, esta herramienta te ahorrará horas de búsqueda. La normatividad ambiental existe para proteger nuestro entorno: conocerla es el primer paso para cumplirla.",
+      conclusion: "Mantenerse al día con la normatividad ambiental es un pilar estratégico para la competitividad industrial y la protección de los ecosistemas. En AquatechIA trabajamos para convertir la complejidad legal en datos accionables. Te invitamos a utilizar nuestro Navegador de Normas para asegurar que tu proyecto cumpla con los estándares más exigentes de la legislación colombiana.",
     },
-    tags: ["normativa ambiental", "Resolución 2115", "Resolución 631", "Resolución 2254", "Decreto 1077", "límites permisibles", "legislación Colombia"],
+    tags: ["normativa ambiental", "Resolución 2115", "Resolución 631", "Resolución 2254", "Decreto 1076", "IRCA", "gestión ambiental Colombia"],
     nextArticle: {
       slug: "analisis-correlaciones-estadistica-ambiental",
       title: "Análisis Estadístico de Datos Ambientales: Correlaciones",
@@ -838,52 +651,40 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     category: "Gestión Ambiental",
     date: "2024-12-09",
     readTime: 14,
-    excerpt: "Descubre relaciones ocultas en tus datos ambientales. Guía práctica de análisis de correlaciones con herramienta gratuita para estudios científicos y gestión ambiental.",
-    heroImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=80",
+    excerpt: "Descubre relaciones ocultas en tus datos ambientales. Guía técnica sobre correlaciones para estudios científicos y gestión avanzada del recurso hídrico y aire.",
+    heroImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=2000&q=80",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
       bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
-      introduction: "¿La temperatura del agua está relacionada con la concentración de oxígeno disuelto? ¿El PM₂.₅ aumenta cuando sube la humedad? ¿La deforestación se correlaciona con pérdida de biodiversidad? Estas preguntas solo pueden responderse con análisis estadístico riguroso. El análisis de correlaciones es una herramienta fundamental para descubrir relaciones entre variables ambientales, validar hipótesis y fundamentar decisiones de gestión. En este artículo aprenderás cuándo usar Pearson, Spearman o Kendall, cómo interpretar correctamente los resultados y cómo usar nuestra herramienta gratuita para hacer análisis profesionales sin necesidad de ser experto en estadística.",
+      introduction: "¿La temperatura del agua está relacionada con la concentración de oxígeno disuelto? ¿El PM2.5 aumenta cuando sube la humedad? Estas preguntas no pueden responderse por intuición; requieren un rigor estadístico que valide la significancia de las relaciones. En la gestión ambiental moderna, donde manejamos grandes volúmenes de datos provenientes de redes de sensores IoT, imágenes satelitales (GEE) o encuestas socio-ambientales (KoboToolbox), el análisis de correlaciones se vuelve la brújula para identificar impulsores de degradación o éxito en la restauración. En este artículo profundizamos en los coeficientes de Pearson, Spearman y Kendall, sus aplicaciones técnicas y cómo nuestra herramienta interna facilita estos cálculos complejos.",
       sections: [
         {
-          id: "que-es-correlacion",
-          title: "¿Qué es una correlación y qué NO es?",
-          content: "Una correlación mide la fuerza y dirección de la relación entre dos variables. El coeficiente de correlación (r) varía de -1 a +1, donde +1 indica relación positiva perfecta, -1 relación negativa perfecta y 0 sin relación.",
+          id: "importancia-monitoreo",
+          title: "La Correlación en el Monitoreo Ambiental",
+          content: "En ciencias ambientales, rara vez una variable actúa de forma aislada. La correlación nos permite entender la interdependencia entre contaminantes, factores climáticos y salud de ecosistemas. Medir la fuerza (magnitud) y la dirección (positiva o negativa) es el primer paso para construir modelos predictivos confiables.",
           callout: {
-            type: "warning",
-            title: "¡Correlación NO implica causación!",
-            content: "Este es el error más común en análisis ambiental. Si temperatura y helados se correlacionan, NO significa que el calor cause helados. Ambos pueden estar causados por una tercera variable (verano). Siempre busca el mecanismo causal subyacente.",
+            type: "info",
+            title: "Dato Clave",
+            content: "Una correlación de r=0.8 entre dos contaminantes indica que probablemente comparten la misma fuente de emisión o proceso de transporte. Identificar esto ahorra miles de dólares en estudios de caracterización.",
           },
         },
         {
-          id: "pearson",
-          title: "Coeficiente de Pearson: Relaciones lineales",
-          content: "El coeficiente de correlación de Pearson (r) mide relaciones lineales entre variables cuantitativas continuas. Es el más común pero tiene requisitos estrictos.",
+          id: "comparativa-coeficientes",
+          title: "Pearson vs Spearman vs Kendall: ¿Cuál elegir?",
+          content: "No todos los datos ambientales se comportan igual. Elegir el coeficiente incorrecto puede llevar a conclusiones erróneas sobre el impacto ambiental.",
           subsections: [
             {
-              id: "cuando-pearson",
-              title: "Cuándo usar Pearson",
-              content: "✅ **Usa Pearson cuando:**\n• Ambas variables son cuantitativas continuas\n• La relación es lineal (gráfico de dispersión forma línea recta)\n• Datos siguen distribución normal (o n>30)\n• No hay valores atípicos extremos\n\n**Ejemplo ambiental:**\nTemperatura del agua vs Oxígeno disuelto\n→ Relación lineal negativa: a mayor temperatura, menor OD",
+              id: "pearson-tecnico",
+              title: "1. Pearson (Paramétrico)",
+              content: "Ideal para relaciones lineales puras entre variables continuas (ej: pH vs Alcalinidad). Requiere que los datos sigan una distribución normal y que no existan valores atípicos significativos (outliers), los cuales son muy comunes en sensores ambientales defectuosos.",
             },
             {
-              id: "interpretacion-pearson",
-              title: "Interpretación de r de Pearson",
-              content: "**Magnitud de la correlación:**\n• |r| < 0.3: Débil\n• 0.3 ≤ |r| < 0.7: Moderada\n• |r| ≥ 0.7: Fuerte\n\n**Signo:**\n• r > 0: Relación positiva (suben juntas)\n• r < 0: Relación negativa (una sube, otra baja)\n\n**Ejemplo:**\nr = -0.85 entre temperatura (°C) y OD (mg/L)\n→ Correlación **fuerte negativa**\n→ Por cada 1°C de aumento, el OD disminuye ~0.5 mg/L",
-            },
-          ],
-        },
-        {
-          id: "spearman",
-          title: "Coeficiente de Spearman: Relaciones monótonas",
-          content: "El coeficiente de Spearman (ρ o rs) es la versión no paramétrica de Pearson. Mide relaciones monótonas (no necesariamente lineales) usando rangos en lugar de valores absolutos.",
-          subsections: [
-            {
-              id: "cuando-spearman",
-              title: "Cuándo usar Spearman",
-              content: "✅ **Usa Spearman cuando:**\n• La relación no es lineal pero es monótona (siempre sube o siempre baja)\n• Datos ordinales (escalas de Likert, rangos)\n• Distribución no normal\n• Hay valores atípicos que distorsionarían Pearson\n\n**Ejemplo ambiental:**\nÍndice de biodiversidad vs Área protegida\n→ Relación monótona pero no lineal (logarítmica)\n→ Spearman capta mejor la tendencia que Pearson",
+              id: "spearman-tecnico",
+              title: "2. Spearman (No paramétrico)",
+              content: "Basado en rangos. Es robusto ante valores atípicos y detecta relaciones no lineales pero monótonas (siempre crecientes o decrecientes). Es perfecto para variables de biodiversidad o percepción social donde los datos no son perfectamente normales.\n\n**Usa Spearman cuando:**\n• Datos ordinales (escalas de Likert, rangos)\n• Distribución no normal\n• Hay valores atípicos que distorsionarían Pearson\n\n**Ejemplo ambiental:**\nÍndice de biodiversidad vs Área protegida\n→ Relación monótona pero no lineal (logarítmica)\n→ Spearman capta mejor la tendencia que Pearson",
             },
           ],
         },
@@ -902,11 +703,11 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
         {
           id: "herramienta-analisis",
           title: "Herramienta de análisis de correlaciones",
-          content: "Nuestra calculadora gratuita te permite analizar correlaciones entre múltiples variables ambientales sin necesidad de instalar software estadístico complejo como R o SPSS.",
+          content: "Nuestra calculadora gratuita te permite analizar correlaciones entre múltiples variables ambientales sin necesidad de instalar software estadístico complejo.",
           callout: {
             type: "success",
-            title: "Características",
-            content: "✅ Calcula Pearson, Spearman y Kendall simultáneamente\n✅ Matriz de correlaciones con mapa de calor\n✅ Gráficos de dispersión interactivos\n✅ Pruebas de significancia (p-valor)\n✅ Interpretación automática de resultados\n✅ Exportación a Excel/CSV\n✅ Integración con APIs de datos globales\n✅ Gratis, sin registro",
+            title: "Realiza tu análisis técnico",
+            content: "Calcula Pearson, Spearman y Kendall simultáneamente con interpretación de p-valor. \n\n [📊 Ir a la Herramienta de Correlaciones](/ambiental/herramientas/analisis-correlaciones)",
           },
         },
       ],

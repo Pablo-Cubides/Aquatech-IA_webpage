@@ -748,7 +748,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     excerpt:
       "161 millones de personas carecen de agua potable segura en Latinoamérica. Analizamos las cifras de la CEPAL que revelan la magnitud de una crisis hídrica que golpea desproporcionadamente a las zonas rurales y a los hogares más pobres.",
     heroImage:
-      "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=1200&q=80",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
@@ -840,7 +840,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     excerpt:
       "Las juntas de agua y cooperativas rurales son la columna vertebral del acceso hídrico en Latinoamérica. Descubre cómo el capital social, la vigilancia activa comunitaria y las herramientas de bajo costo están democratizando la gestión del agua en zonas rurales.",
     heroImage:
-      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1582213726895-52ac94ec250c?auto=format&fit=crop&w=1200&q=80",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
