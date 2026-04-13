@@ -56,7 +56,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     heroImage: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=1600&q=80",
     author: {
       name: "Pablo Cubides",
-      avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
+      avatar: "/images/portal-ambiental/autor/Pablo Cubides.jpg",
       bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
@@ -66,7 +66,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
           id: "que-es-irca",
           title: "¿Qué es el IRCA y por qué es importante?",
           content: "El Índice de Riesgo de Calidad del Agua Potable (IRCA) es un indicador establecido por la Resolución 2115 de 2007 del Ministerio de la Protección Social de Colombia. Este índice evalúa 22 parámetros fisicoquímicos y microbiológicos para determinar el nivel de riesgo del agua que consumes. El resultado es un porcentaje de 0% a 100%: entre más bajo, mejor calidad tiene el agua. Un IRCA de 0% significa agua sin riesgo, mientras que 80% o más indica que el agua es inviable sanitariamente.",
-          image: "https://images.unsplash.com/photo-1580741569180-94ec70a0e2a1?auto=format&fit=crop&w=1200&q=80",
+          image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80",
           callout: {
             type: "info",
             title: "Niveles de riesgo del IRCA",
@@ -197,7 +197,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     heroImage: "https://images.unsplash.com/photo-1567095761054-7a02e69e5c43?auto=format&fit=crop&w=1600&q=80",
     author: {
       name: "Pablo Cubides",
-      avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
+      avatar: "/images/portal-ambiental/autor/Pablo Cubides.jpg",
       bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
@@ -366,10 +366,10 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-12-09",
     readTime: 16,
     excerpt: "Domina las metodologías de EIA para el licenciamiento ambiental. Análisis técnico de Leopold, Conesa y Battelle-Columbus con casos prácticos.",
-    heroImage: "https://images.unsplash.com/photo-1590401487834-3158013e80d4?auto=format&fit=crop&w=2000&q=80",
+    heroImage: "https://images.unsplash.com/photo-1574680077845-84bb5e534d52?auto=format&fit=crop&w=2000&q=80",
     author: {
       name: "Pablo Cubides",
-      avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
+      avatar: "/images/portal-ambiental/autor/Pablo Cubides.jpg",
       bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
@@ -427,7 +427,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     heroImage: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=2000&q=80",
     author: {
       name: "Pablo Cubides",
-      avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
+      avatar: "/images/portal-ambiental/autor/Pablo Cubides.jpg",
       bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
@@ -495,10 +495,10 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-12-09",
     readTime: 12,
     excerpt: "Guía técnica sobre la legislación ambiental en Colombia. Parámetros clave de las resoluciones 2115, 631 y 2254 para cumplimiento legal y gestión técnica.",
-    heroImage: "https://images.unsplash.com/photo-1576085898303-d40283c4488b?auto=format&fit=crop&w=2000&q=80",
+    heroImage: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=2000&q=80",
     author: {
       name: "Pablo Cubides",
-      avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
+      avatar: "/images/portal-ambiental/autor/Pablo Cubides.jpg",
       bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
@@ -581,7 +581,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     heroImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=2000&q=80",
     author: {
       name: "Pablo Cubides",
-      avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
+      avatar: "/images/portal-ambiental/autor/Pablo Cubides.jpg",
       bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {

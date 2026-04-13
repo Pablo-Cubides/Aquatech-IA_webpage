@@ -11,10 +11,10 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2025-01-02",
     readTime: 15,
     excerpt: "Descubre cómo KoboToolbox, Google Earth Engine y marcos ESG están revolucionando la consultoría ambiental. Del Excel estático a ecosistemas de datos inteligentes.",
-    heroImage: "/images/Portal ambiental/blog/cerebro_digital_ia.png",
+    heroImage: "/images/portal-ambiental/blog/cerebro_digital_ia.png",
     author: {
       name: "Pablo Cubides",
-      avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
+      avatar: "/images/portal-ambiental/autor/Pablo Cubides.jpg",
       bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
@@ -24,19 +24,19 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
           id: "recoleccion-datos",
           title: "1. Recolección en Campo: KoboToolbox y la Soberanía de Datos",
           content: "El primer paso para digitalizar la gestión ambiental es eliminar el papel en el levantamiento de información primaria.\n\n**Herramienta clave:** [KoboToolbox](https://www.kobotoolbox.org/) (Open Source).\n\n**Por qué usarla:** Permite crear formularios complejos que funcionan offline en celulares o tablets. Captura coordenadas GPS, fotos y firmas sin necesidad de internet en la selva o el campo. Al llegar a la oficina, los datos se sincronizan automáticamente con tu base de datos central.",
-          image: "/images/Portal ambiental/blog/cerebro_digital_ia.png",
+          image: "/images/portal-ambiental/blog/cerebro_digital_ia.png",
         },
         {
           id: "geospatial-earth-engine",
           title: "2. Mapas de Precisión: QGIS y el poder de Google Earth Engine",
           content: "No se puede gestionar lo que no se puede mapear. Mientras QGIS sigue siendo el rey del escritorio, la nube ofrece capacidades sobrehumanas.\n\n**Google Earth Engine (GEE):** Permite procesar décadas de imágenes satelitales Sentinel y Landsat en segundos. Existe un [Manual en Español](https://github.com/google/earthengine-api) enfocado en ingenieros colombianos que facilita este aprendizaje.\n\n**Caso de uso:** Detectar cambios en el uso del suelo o estrés hídrico en una cuenca de 100,000 hectáreas sin descargar un solo gigabyte de información.",
-          image: "/images/Portal ambiental/blog/google_earth_engine_ia.png",
+          image: "/images/portal-ambiental/blog/google_earth_engine_ia.png",
         },
         {
           id: "grafana-realtime",
           title: "3. Dashboards Médicos para la Industria: Grafana",
           content: "Si gestionas una planta de tratamiento (PTAR/PTAP) o una red de sensores de aire, los reportes mensuales ya no son suficientes.\n\n**Grafana:** Es el estándar de oro para ver 'series temporales'.\n\n**Ventaja estratégica:** Conecta tus sensores IoT para ver en vivo el pH, la turbidez o el nivel de los tanques. Configura alertas a Telegram si un parámetro supera el límite legal de la Resolución 1207 o 0631.",
-          image: "/images/Portal ambiental/blog/grafana_ambiental_ia.png",
+          image: "/images/portal-ambiental/blog/grafana_ambiental_ia.png",
           callout: {
             type: "info",
             title: "Dato Clave",
@@ -80,7 +80,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
       "https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=1200&q=80",
     author: {
       name: "Pablo Cubides",
-      avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
+      avatar: "/images/portal-ambiental/autor/Pablo Cubides.jpg",
       bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
@@ -169,10 +169,10 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     excerpt:
       "Las juntas de agua y cooperativas rurales son la columna vertebral del acceso hídrico en Latinoamérica. Descubre cómo el capital social, la vigilancia activa comunitaria y las herramientas de bajo costo están democratizando la gestión del agua en zonas rurales.",
     heroImage:
-      "https://images.unsplash.com/photo-1582213726895-52ac94ec250c?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=1200&q=80",
     author: {
       name: "Pablo Cubides",
-      avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
+      avatar: "/images/portal-ambiental/autor/Pablo Cubides.jpg",
       bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
@@ -253,10 +253,10 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2026-04-07",
     readTime: 8,
     excerpt: "El reúso de aguas residuales en esquemas agrícolas exige una transición urgente. Análisis sobre la gestión de contaminantes emergentes en la Sabana de Bogotá.",
-    heroImage: "/images/Portal ambiental/blog/tratamiento_riego.png",
+    heroImage: "/images/portal-ambiental/blog/tratamiento_riego.png",
     author: {
       name: "Pablo Cubides",
-      avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
+      avatar: "/images/portal-ambiental/autor/Pablo Cubides.jpg",
       bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
@@ -286,7 +286,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
           id: "fotocatalisis-heterogenea",
           title: "3. Fotocatálisis Heterogénea: Procesos de Oxidación Avanzada (POA)",
           content: "El núcleo tecnológico para la degradación de moléculas recalcitrantes reside en los POA. Específicamente, mediante el uso de semiconductores minerales como la **ilmenita** (un óxido de hierro y titanio) acoplados a agentes oxidantes como el peróxido de hidrógeno (H2O2).\n\n**Mecanismo de Activación:** Al irradiar el catalizador con fotones que superan su energía de banda prohibida (*Band Gap*), se promueve un electrón desde la banda de valencia hacia la banda de conducción, generando un par electrón-hueco (e- / h+).\n\n**Ruta Radicalaria:** Estos pares interactúan con el agua y el peróxido de hidrógeno circundante para producir **radicales hidroxilo (HO•)**. Este radical es un oxidante no selectivo con un potencial de oxidación extremadamente alto (2.80 V), capaz de romper enlaces carbono-carbono y conducir a la completa mineralización de los fármacos (transformándolos en CO2, H2O y ácidos inorgánicos).\n\n**Transición Energética:** El diseño avanzado del reactor evalúa la cinética de reacción bajo iniciación con radiación UV-C (alta energía, menor longitud de onda), seguida de un sostenimiento mediante radiación solar, buscando la máxima viabilidad técnica y eficiencia energética a escala real.",
-          image: "/images/Portal ambiental/blog/tratamiento_riego.png"
+          image: "/images/portal-ambiental/blog/tratamiento_riego.png"
         }
       ],
       conclusion: "La integración de estos tres sistemas busca crear un efecto sinérgico poderoso: la Coagulación acondiciona la matriz reduciendo interferentes ópticos, la Fotocatálisis oxida estructuralmente los fármacos y la microbiología, y la Adsorción actúa como barrera final.\n\nLa evaluación metodológica rigurosa de estas variables cinéticas e isotérmicas, transitando desde moléculas trazadoras modelo hasta matrices reales complejas, establece los parámetros de diseño necesarios para escalar estas infraestructuras de tratamiento. \n\nEl objetivo final es claro: **asegurar la viabilidad toxicológica del agua y proteger el futuro de la agroindustria colombiana.**"
@@ -304,10 +304,10 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2026-04-07",
     readTime: 5,
     excerpt: "¿Sabías que cada vez que preparas un café, estás desechando una de las herramientas más poderosas de la química ambiental? Descubre cómo la borra de café puede eliminar nitratos y cromo.",
-    heroImage: "/images/Portal ambiental/blog/cafe_filtro.png",
+    heroImage: "/images/portal-ambiental/blog/cafe_filtro.png",
     author: {
       name: "Pablo Cubides",
-      avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
+      avatar: "/images/portal-ambiental/autor/Pablo Cubides.jpg",
       bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
@@ -317,7 +317,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
           id: "quimica-esponja-negra",
           title: "🧪 La Química detrás de la \"Esponja\" Negra",
           content: "No es magia, es ciencia de superficies. La borra de café no es solo polvo quemado; es una estructura lignocelulósica ultra-porosa rica en celulosa, lignina y grupos funcionales clave como:\n\n*   Hidroxilos (–OH)\n*   Carboxilos (–COOH)\n*   Aminas (N–H)\n\nEstos grupos actúan como \"imanes químicos\" que atrapan metales y aniones mientras el agua fluye a través de ellos.",
-          image: "/images/Portal ambiental/blog/cafe_filtro.png"
+          image: "/images/portal-ambiental/blog/cafe_filtro.png"
         },
         {
           id: "desafio-nitratos",
@@ -360,10 +360,10 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2026-04-07",
     readTime: 12,
     excerpt: "Análisis crítico de cómo la ingeniería choca con las barreras normativas en el reúso de aguas de producción en la industria de hidrocarburos. El caso del Proyecto MEGIA.",
-    heroImage: "/images/Portal ambiental/blog/megia_planta.png",
+    heroImage: "/images/portal-ambiental/blog/megia_planta.png",
     author: {
       name: "Pablo Cubides",
-      avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
+      avatar: "/images/portal-ambiental/autor/Pablo Cubides.jpg",
       bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
@@ -373,7 +373,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
           id: "trampa-normativa",
           title: "1. La Trampa Normativa: Cuando la Ley Desincentiva la Economía Circular",
           content: "Durante el análisis de la información secundaria y la normatividad vigente (Decreto 1076, Res. 631 de 2015 para vertimientos y Res. 1207 de 2014 para reúso), encontramos una incoherencia sistémica crítica.\n\n**El hallazgo:** Los estándares para reúso son, en muchos parámetros, irracionalmente más estrictos que los de vertimiento.\n\n**La realidad:** Hoy en día, para una operadora es técnica y económicamente más viable tratar el agua para \"cumplir y verter\" al río, que tratarla para reusarla en agricultura o industria.\n\n**El dato crítico:** Parámetros como Fenoles, Hidrocarburos Totales y ciertos metales tienen límites en la norma de reúso que obligan a niveles de potabilización casi clínica, mientras que el vertimiento permite cargas más laxas.\n\n**La consecuencia:** Se perpetúa un modelo lineal (extraer -> tratar -> verter) en lugar de uno circular.\n\n**Nuestra crítica:** La norma de reúso en Colombia carece de flexibilidad. No distingue adecuadamente entre un reúso para intercambio de calor industrial y uno para riego de cultivos. Exige monitorear una lista taxativa de parámetros (incluyendo algunos irrelevantes para aguas de producción) que encarecen el proceso sin aportar valor ambiental real.",
-          image: "/images/Portal ambiental/blog/megia_planta.png"
+          image: "/images/portal-ambiental/blog/megia_planta.png"
         },
         {
           id: "reto-tecnico-vmm",
