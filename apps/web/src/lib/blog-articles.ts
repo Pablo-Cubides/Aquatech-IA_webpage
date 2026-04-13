@@ -53,7 +53,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-12-09",
     readTime: 12,
     excerpt: "Descubre cómo evaluar la calidad del agua potable con los índices IRCA, WQI y DWQI. Incluye herramienta gratuita, ejemplos prácticos y normatividad colombiana.",
-    heroImage: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=80",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ambiental/autor/Pablo Cubides.jpg",
@@ -366,7 +366,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-12-09",
     readTime: 16,
     excerpt: "Domina las metodologías de EIA para el licenciamiento ambiental. Análisis técnico de Leopold, Conesa y Battelle-Columbus con casos prácticos.",
-    heroImage: "https://images.unsplash.com/photo-1574680077845-84bb5e534d52?auto=format&fit=crop&w=2000&q=80",
+    heroImage: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=2000&q=80",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ambiental/autor/Pablo Cubides.jpg",

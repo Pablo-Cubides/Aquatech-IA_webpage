@@ -169,7 +169,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     excerpt:
       "Las juntas de agua y cooperativas rurales son la columna vertebral del acceso hídrico en Latinoamérica. Descubre cómo el capital social, la vigilancia activa comunitaria y las herramientas de bajo costo están democratizando la gestión del agua en zonas rurales.",
     heroImage:
-      "https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=2000&q=80",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ambiental/autor/Pablo Cubides.jpg",
