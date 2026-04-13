@@ -53,7 +53,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-12-09",
     readTime: 12,
     excerpt: "Descubre cómo evaluar la calidad del agua potable con los índices IRCA, WQI y DWQI. Incluye herramienta gratuita, ejemplos prácticos y normatividad colombiana.",
-    heroImage: "https://images.unsplash.com/photo-1544453844-1535a247bbbd?auto=format&fit=crop&w=2000&q=80",
+    heroImage: "https://images.unsplash.com/photo-1529079337819-f6d0024bd364?auto=format&fit=crop&w=2000&q=80",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ambiental/autor/Pablo Cubides.jpg",
