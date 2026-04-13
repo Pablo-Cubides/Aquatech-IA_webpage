@@ -484,28 +484,6 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
   "visor-mapas-sig-ambiental": {
     slug: "visor-mapas-sig-ambiental",
     title: "Visualización Geoespacial de Datos Ambientales: Herramientas SIG para el Monitoreo Territorial",
-    category: "Nuevas Tecnologías Ambientales",
-    date: "2024-12-09",
-    readTime: 13,
-    excerpt: "Descubre cómo los Sistemas de Información Geográfica revolucionan el monitoreo ambiental. Mapas interactivos, datos en tiempo real y herramientas gratuitas para análisis territorial.",
-    heroImage: "https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1600&q=80",
-    author: {
-      name: "Pablo Cubides",
-      avatar: "/images/Portal ambiental/autor/Pablo Cubides.jpg",
-      bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
-    },
-    content: {
-      introduction: "Imagina poder ver en un mapa interactivo, en tiempo real, dónde hay deforestación, puntos de contaminación del agua, distribución de especies en peligro o calidad del aire en tu ciudad. Los Sistemas de Información Geográfica (SIG) hacen posible este superpoder ambiental. Ya no necesitas ser un experto cartógrafo ni tener software costoso: hoy existen herramientas web gratuitas que ponen el poder del análisis geoespacial al alcance de todos. En este artículo aprenderás cómo funcionan los SIG ambientales, qué fuentes de datos geográficos están disponibles gratuitamente y cómo usar nuestra herramienta de mapas interactivos para visualizar y analizar datos ambientales de forma profesional.",
-      sections: [
-        {
-          id: "que-es-sig",
-          title: "¿Qué es un Sistema de Información Geográfica (SIG)?",
-          content: "Un SIG es una plataforma que integra hardware, software, datos y procedimientos para capturar, almacenar, manipular, analizar y visualizar información geográficamente referenciada. En el contexto ambiental, los SIG permiten responder preguntas como: ¿Dónde está ocurriendo la deforestación? ¿Qué áreas están en riesgo de inundación? ¿Cómo se distribuyen las especies de un ecosistema? La clave está en la capacidad de relacionar datos tabulares (bases de datos) con información espacial (coordenadas geográficas).",
-          image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
-          callout: {
-            type: "info",
-            title: "Componentes de un SIG",
-            content: "• **Hardware:** Computadoras, servidores, sensores GPS/drones\n• **Software:** QGIS, ArcGIS, Google Earth Engine, MapLibre\n• **Datos:** Capas vectoriales (puntos/líneas/polígonos) y raster (imágenes)\n• **Procesos:** Georeferenciación, consultas espaciales, análisis\n• **Personas:** Profesionales capacitados en análisis geoespacial",
     category: "Geotecnología",
     date: "2024-12-09",
     readTime: 14,
@@ -517,8 +495,19 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
       bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
-      introduction: "En la era del Big Data ambiental, la capacidad de ver datos en un mapa no es suficiente; necesitamos entender la dinámica del territorio a través de sensores remotos y modelos geoestadísticos. Desde el monitoreo de la deforestación en tiempo real hasta el análisis de cuencas hidrográficas, los Sistemas de Información Geográfica (SIG) son el lenguaje con el que interpretamos los ecosistemas. En este artículo profundizamos en las tecnologías Sentinel, los índices espectrales y el marco de referencia **MAGNA-SIRGAS**, pilar de la precisión cartográfica en Colombia.",
+      introduction: "Imagina poder ver en un mapa interactivo, en tiempo real, dónde hay deforestación, puntos de contaminación del agua, distribución de especies en peligro o calidad del aire en tu ciudad. Los Sistemas de Información Geográfica (SIG) hacen posible este superpoder ambiental. En la era del Big Data ambiental, la capacidad de ver datos en un mapa no es suficiente; necesitamos entender la dinámica del territorio a través de sensores remotos y modelos geoestadísticos.",
       sections: [
+        {
+          id: "que-es-sig",
+          title: "¿Qué es un Sistema de Información Geográfica (SIG)?",
+          content: "Un SIG es una plataforma que integra hardware, software, datos y procedimientos para capturar, almacenar, manipular, analizar y visualizar información geográficamente referenciada. Es la herramienta definitiva para relacionar datos tabulares con ubicación espacial.",
+          image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
+          callout: {
+            type: "info",
+            title: "Componentes de un SIG",
+            content: "• **Hardware:** Computadoras, servidores, sensores GPS/drones\n• **Software:** QGIS, ArcGIS, Google Earth Engine, MapLibre\n• **Datos:** Capas vectoriales y raster\n• **Personas:** Profesionales capacitados en análisis geoespacial",
+          },
+        },
         {
           id: "sensores-remotos",
           title: "Monitoreo Satelital: Más allá de lo Visible",
@@ -527,7 +516,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
             {
               id: "indices-espectrales",
               title: "Índices NDVI y NDWI",
-              content: "• **NDVI (Vegetación):** Utiliza las bandas Roja e Infrarrojo Cercano para medir la salud fotosintética. Un valor > 0.6 indica vegetación densa y saludable.\n• **NDWI (Agua):** Crucial para hidrología, permite diferenciar cuerpos de agua de vegetación y suelo desnudo mediante bandas verdes e infrarrojas.\n• **Impacto:** Con estos índices podemos detectar estrés hídrico en cultivos o retroceso de glaciares sin salir al campo.",
+              content: "• **NDVI (Vegetación):** Utiliza las bandas Roja e Infrarrojo Cercano para medir la salud fotosintética.\n• **NDWI (Agua):** Crucial para hidrología, permite diferenciar cuerpos de agua de vegetación y suelo desnudo.\n• **Impacto:** Con estos índices podemos detectar estrés hídrico en cultivos o retroceso de glaciares sin salir al campo.",
             },
           ],
         },
@@ -538,7 +527,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
           callout: {
             type: "info",
             title: "Dato Técnico",
-            content: "Desde 2020, Colombia implementó el **Origen Nacional**, una proyección única que elimina las zonas de origen (Este-Este, Oeste-Oeste) facilitando la interoperabilidad de datos entre la CAR, el IGAC y el ANLA.",
+            content: "Desde 2020, Colombia implementó el **Origen Nacional**, una proyección única que elimina las zonas de origen (Este-Este, Oeste-Oeste) facilitando la interoperabilidad de datos.",
           },
         },
         {
@@ -553,14 +542,15 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
           },
         },
       ],
-      conclusion: "Los Sistemas de Información Geográfica son el microscopio del siglo XXI para entender nuestro planeta. Ya no son herramientas exclusivas de expertos: hoy cualquier persona con curiosidad y acceso a internet puede crear mapas ambientales profesionales. Usa nuestra herramienta gratuita para comenzar a visualizar datos ambientales, explora las fuentes de datos abiertos y atrévete a hacer tus propios análisis. El primer paso para proteger el medio ambiente es saber dónde están los problemas. Los mapas te lo mostrarán. ¿Estás listo para ver el mundo con otros ojos?",
+      conclusion: "Los Sistemas de Información Geográfica son el microscopio del siglo XXI para entender nuestro planeta. Usa nuestra herramienta gratuita para comenzar a visualizar datos ambientales y atrévete a hacer tus propios análisis.",
     },
-    tags: ["SIG", "mapas ambientales", "QGIS", "GBIF", "análisis espacial", "geoespacial", "monitoreo ambiental", "datos abiertos"],
+    tags: ["SIG", "mapas ambientales", "QGIS", "GBIF", "análisis espacial", "geoespacial", "monitoreo ambiental"],
     nextArticle: {
       slug: "navegador-normas-ambientales",
       title: "Guía de Normatividad Ambiental en Colombia",
     },
   },
+
 
   "navegador-normas-ambientales": {
     slug: "navegador-normas-ambientales",
