@@ -280,7 +280,7 @@ export default function AmbientalHerramientasPage() {
                   <img
                     alt="Análisis de correlaciones ambientales con mapa de calor"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/portal-ambiental/herramientas/analisis-correlaciones.png"
+                    src="/images/portal-ambiental/herramientas/analisis-datos-cientificos.jpg"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
@@ -390,7 +390,7 @@ export default function AmbientalHerramientasPage() {
                   <img
                     alt="Dashboard de indicadores de calidad del agua IRCA"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/portal-ambiental/blog/irca-analisis-datos.jpg"
+                    src="/images/portal-ambiental/herramientas/persona-tomando-agua.jpg"
                   />
                   <div className="absolute top-4 right-4 bg-[var(--accent-secondary)]/90 text-[var(--bg-primary)] px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border border-white/20">
                     Próximamente
@@ -406,7 +406,7 @@ export default function AmbientalHerramientasPage() {
                   <img
                     alt="Calculadora de índices de calidad del aire AQI"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/portal-ambiental/herramientas/indice-calidad-aire.png"
+                    src="/images/portal-ambiental/herramientas/dashboard-monitoreo-aire.jpg"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
