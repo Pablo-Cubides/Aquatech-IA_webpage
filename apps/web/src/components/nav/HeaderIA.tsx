@@ -16,11 +16,18 @@ export default function HeaderIA() {
           href="/"
           className="transition-transform duration-300 hover:scale-105"
         >
-          <img
-            src="/images/Portal IA/Nombre Aquatech-ia light.png"
-            alt="Aquatech IA"
-            className="h-8 w-auto object-contain"
-          />
+          <div className="flex items-center gap-2">
+            <img
+              src="/images/gota-aquatech.png"
+              alt=""
+              className="h-8 w-auto object-contain"
+            />
+            <img
+              src="/images/portal-ia/nombre-ia.png"
+              alt="Aquatech IA"
+              className="h-8 w-auto object-contain"
+            />
+          </div>
         </Link>
 
         {/* Selector de portal */}

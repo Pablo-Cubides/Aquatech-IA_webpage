@@ -65,7 +65,7 @@ export default function GuiaECOstatsPage() {
           <div className="max-w-6xl mx-auto relative z-10 flex flex-col items-center text-center">
             <div className="animate-float mb-6">
               <img
-                src="/images/Portal ambiental/Herramientas/ECOStats - sin fondo.png"
+                src="/images/portal-ambiental/herramientas/ecostats.png"
                 alt="ECOstats"
                 className="max-w-full h-auto max-h-[160px] drop-shadow-lg"
               />

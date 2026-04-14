@@ -15,11 +15,18 @@ export default function HeaderAmbiental() {
           href="/ambiental"
           className="transition-transform duration-300 hover:scale-105"
         >
-          <img
-            src="/images/Portal ambiental/Nombre Aquatech IA dark.png"
-            alt="Aquatech IA"
-            className="h-8 w-auto object-contain"
-          />
+          <div className="flex items-center gap-2">
+            <img
+              src="/images/gota-aquatech.png"
+              alt=""
+              className="h-8 w-auto object-contain"
+            />
+            <img
+              src="/images/portal-ambiental/nombre-ambiental.png"
+              alt="Aquatech IA"
+              className="h-8 w-auto object-contain"
+            />
+          </div>
         </Link>
 
         {/* Selector de portales */}

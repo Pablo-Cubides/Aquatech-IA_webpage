@@ -75,16 +75,20 @@ const ExpertiseCard: React.FC<ExpertiseCardProps> = ({ icon, title, desc }) => (
 const ProjectCard: React.FC<ProjectCardProps> = ({
   title,
   desc,
+  image,
   href,
 }) => (
   <Link
     href={href}
     className="group block bg-[var(--bg-tertiary)] border border-[var(--border-secondary)] rounded-xl overflow-hidden hover:border-[var(--accent-primary)] transition-colors"
   >
-    <div className="aspect-video bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] relative">
-      <div className="absolute inset-0 flex items-center justify-center font-semibold text-white">
-        Proyecto IA
-      </div>
+    <div className="aspect-video relative overflow-hidden bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)]">
+      <img
+        src={image}
+        alt={title}
+        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+      />
+      <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors" />
     </div>
     <div className="p-6">
       <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-3 group-hover:text-[var(--accent-primary)] transition-colors">
@@ -100,6 +104,7 @@ const ProjectWide: React.FC<ProjectWideProps> = ({
   title,
   impact,
   desc,
+  image,
   href,
 }) => (
   <div className="lg:col-span-3">
@@ -108,10 +113,13 @@ const ProjectWide: React.FC<ProjectWideProps> = ({
       className="group block bg-[var(--bg-tertiary)] border border-[var(--border-secondary)] rounded-xl overflow-hidden hover:border-[var(--accent-primary)] transition-colors"
     >
       <div className="flex flex-col lg:flex-row">
-        <div className="lg:w-1/2 aspect-video lg:aspect-auto bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] relative">
-          <div className="absolute inset-0 flex items-center justify-center font-semibold text-white">
-            {title}
-          </div>
+        <div className="lg:w-1/2 aspect-video lg:aspect-auto relative overflow-hidden bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)]">
+          <img
+            src={image}
+            alt={title}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors" />
         </div>
         <div className="p-8 lg:w-1/2">
           <span className="inline-block px-3 py-1 bg-[var(--accent-primary)] text-white text-sm font-medium rounded-full mb-4">
@@ -191,7 +199,7 @@ export const metadata: Metadata = {
     url: "/ia/autor",
     images: [
       {
-        url: "/images/authors/pablo-cubides-ia-profile.jpg",
+        url: "/images/portal-ia/autor/pablo-cubides-2.png",
         width: 1200,
         height: 630,
         alt: "Retrato de Pablo A. Cubides - IA Specialist",
@@ -343,7 +351,7 @@ export default function IAAutorPage() {
               {/* Logo Aquatech */}
               <div className="mb-8">
                 <img
-                  src="/images/Portal IA/Aquatech-ia logo light 512.png"
+                  src="/images/portal-ia/logo-ia-light.png"
                   alt="Aquatech IA"
                   className="object-contain w-auto h-40"
                 />
@@ -424,7 +432,7 @@ export default function IAAutorPage() {
             <div className="flex justify-center lg:col-span-5 lg:justify-end">
               <div className="relative">
                 <Image
-                  src="/images/Portal IA/Autor/Pablo Cubides.png"
+                  src="/images/portal-ia/autor/pablo-cubides-2.png"
                   alt="Retrato de Pablo Andrés Cubides Guerrero - IA Specialist"
                   width={360}
                   height={360}
@@ -483,7 +491,7 @@ export default function IAAutorPage() {
             <div className="lg:col-span-5">
               <div className="rounded-xl overflow-hidden border border-[rgba(0,239,255,0.1)]">
                 <Image
-                  src="/images/authors/pablo-cubides-ai-work.jpg"
+                  src="/images/portal-ia/blog/reunion-equipo-ia.jpg"
                   alt="Pablo Cubides trabajando en arquitecturas de IA"
                   width={600}
                   height={400}
@@ -561,21 +569,21 @@ export default function IAAutorPage() {
                 title="AquatechIA Platform"
                 impact="Comunidades LATAM"
                 desc="Integración de contenidos, herramientas y demostradores de IA aplicada. LLMs, RAG, agentes y modelos generativos en producción."
-                image="/images/projects/aquatechia-platform.jpg"
+                image="/images/portal-ia/logo-ia.png"
                 href="/ia/autor#proyectos"
               />
 
               <ProjectCard
                 title="Herramientas IA para imagen"
                 desc="Edición y generación con FastAPI + Next.js + WebSockets integrando FLUX, InstantID y ControlNet Hair en tiempo real."
-                image="/images/projects/ai-image-tools.jpg"
+                image="/images/portal-ia/herramientas/pixelgen-logo.png"
                 href="/ia/autor#proyectos"
               />
 
               <ProjectCard
                 title="RAG y asistentes especializados"
                 desc="Sistemas de recuperación aumentada con LangChain y CrewAI para documentación técnica y soporte automatizado."
-                image="/images/projects/rag-assistants.jpg"
+                image="/images/portal-ia/herramientas/como-funcionan-llm.png"
                 href="/ia/autor#proyectos"
               />
             </div>

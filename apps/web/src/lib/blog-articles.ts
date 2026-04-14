@@ -56,7 +56,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     heroImage: "/images/portal-ambiental/blog/irca-calidad-agua-potable.jpg",
     author: {
       name: "Pablo Cubides",
-      avatar: "/images/portal-ambiental/autor/Pablo Cubides.jpg",
+      avatar: "/images/portal-ambiental/autor/pablo-cubides-2.png",
       bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
@@ -197,7 +197,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     heroImage: "/images/portal-ambiental/blog/escuelas-rurales-agua-hero.jpg",
     author: {
       name: "Pablo Cubides",
-      avatar: "/images/portal-ambiental/autor/Pablo Cubides.jpg",
+      avatar: "/images/portal-ambiental/autor/pablo-cubides-2.png",
       bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
@@ -369,7 +369,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     heroImage: "/images/portal-ambiental/blog/matrices-eia-metodologias.jpg",
     author: {
       name: "Pablo Cubides",
-      avatar: "/images/portal-ambiental/autor/Pablo Cubides.jpg",
+      avatar: "/images/portal-ambiental/autor/pablo-cubides-2.png",
       bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
@@ -427,7 +427,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     heroImage: "/images/portal-ambiental/blog/gestion-ambiental-digital.jpg",
     author: {
       name: "Pablo Cubides",
-      avatar: "/images/portal-ambiental/autor/Pablo Cubides.jpg",
+      avatar: "/images/portal-ambiental/autor/pablo-cubides-2.png",
       bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
@@ -498,7 +498,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     heroImage: "/images/portal-ambiental/blog/normatividad-ambiental-guia.jpg",
     author: {
       name: "Pablo Cubides",
-      avatar: "/images/portal-ambiental/autor/Pablo Cubides.jpg",
+      avatar: "/images/portal-ambiental/autor/pablo-cubides-2.png",
       bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
@@ -581,7 +581,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     heroImage: "/images/portal-ambiental/blog/irca-analisis-datos.jpg",
     author: {
       name: "Pablo Cubides",
-      avatar: "/images/portal-ambiental/autor/Pablo Cubides.jpg",
+      avatar: "/images/portal-ambiental/autor/pablo-cubides-2.png",
       bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
@@ -658,10 +658,10 @@ export const IA_ARTICLES: Record<string, BlogArticle> = {
     excerpt:
       "Una exploración técnica pero accesible de los mecanismos que hacen posible la inteligencia artificial generativa moderna.",
     heroImage:
-      "/images/portal-ambiental/blog/llm-transformers-architecture.jpg",
+      "/images/portal-ia/blog/llm-transformers-architecture.jpg",
     author: {
       name: "Pablo Cubides",
-      avatar: "/images/Portal IA/Autor/Pablo Cubides.png",
+      avatar: "/images/portal-ia/autor/pablo-cubides-2.png",
       bio: "Ingeniero Químico · M. Sc. en Ingeniería Ambiental · Docente universitario · Desarrollador en IA, redes neuronales y optimización",
     },
     content: {
@@ -674,7 +674,7 @@ export const IA_ARTICLES: Record<string, BlogArticle> = {
           content:
             "Un Transformer es una arquitectura de red neuronal diseñada para procesar secuencias de datos, especialmente texto. A diferencia de las RNN que procesaban palabras una por una, los Transformers pueden analizar toda una oración simultáneamente.",
           image:
-            "/images/portal-ambiental/blog/neural-network-concept.jpg",
+            "/images/portal-ia/blog/neural-network-concept.jpg",
           subsections: [
             {
               id: "ventajas-clave",
@@ -723,10 +723,10 @@ export const IA_ARTICLES: Record<string, BlogArticle> = {
     excerpt:
       "Descubre los fundamentos matemáticos y conceptuales detrás de Stable Diffusion y otros modelos de generación de imágenes.",
     heroImage:
-      "/images/portal-ambiental/blog/stable-diffusion-art.jpg",
+      "/images/portal-ia/blog/stable-diffusion-art.jpg",
     author: {
       name: "Pablo Cubides",
-      avatar: "/images/Portal IA/Autor/Pablo Cubides.png",
+      avatar: "/images/portal-ia/autor/pablo-cubides-2.png",
       bio: "Ingeniero Químico · M. Sc. en Ingeniería Ambiental · Docente universitario · Desarrollador en IA, redes neuronales y optimización",
     },
     content: {
@@ -739,7 +739,7 @@ export const IA_ARTICLES: Record<string, BlogArticle> = {
           content:
             "Los modelos de difusión funcionan mediante un proceso de dos etapas: primero aprenden a añadir ruido gradualmente a imágenes reales hasta convertirlas en ruido puro, y luego aprenden a revertir este proceso para generar nuevas imágenes.",
           image:
-            "/images/portal-ambiental/blog/diffusion-process.jpg",
+            "/images/portal-ia/blog/diffusion-process.jpg",
           callout: {
             type: "info",
             title: "Analogía: El escultor y el mármol",

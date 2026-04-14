@@ -27,7 +27,7 @@ export default function AmbientalHerramientasPage() {
             {/* Logo */}
             <div className="mb-8 flex justify-center">
               <img
-                src="/images/Portal ambiental/Aquatech-ia logo dark 512.png"
+                src="/images/portal-ambiental/logo-ambiental.png"
                 alt="Aquatech IA"
                 className="h-40 w-auto object-contain"
               />
@@ -146,7 +146,7 @@ export default function AmbientalHerramientasPage() {
                   <img
                     alt="Visualización interactiva de mapas ambientales"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/Portal ambiental/Herramientas/visor-mapas-ambientales.png"
+                    src="/images/portal-ambiental/herramientas/visor-mapas-ambientales.png"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
@@ -164,7 +164,7 @@ export default function AmbientalHerramientasPage() {
                   <img
                     alt="Herramienta de generación de matrices de EIA"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/Portal ambiental/Herramientas/generador-matrices-eia.png"
+                    src="/images/portal-ambiental/herramientas/generador-matrices-eia.png"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
@@ -268,7 +268,7 @@ export default function AmbientalHerramientasPage() {
                   <img
                     alt="Base de datos de normas ambientales internacionales"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/Portal ambiental/Herramientas/normas-ambientales.png"
+                    src="/images/portal-ambiental/herramientas/normas-ambientales.png"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
@@ -286,7 +286,7 @@ export default function AmbientalHerramientasPage() {
                   <img
                     alt="Análisis de correlaciones ambientales con mapa de calor"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/Portal ambiental/Herramientas/analisis-correlaciones.png"
+                    src="/images/portal-ambiental/herramientas/analisis-correlaciones.png"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
@@ -396,7 +396,7 @@ export default function AmbientalHerramientasPage() {
                   <img
                     alt="Análisis de índices de calidad de agua potable"
                     className="w-full h-full object-cover object-center tool-image"
-                    src="/images/Portal ambiental/Herramientas/indice-calidad-agua.png"
+                    src="/images/portal-ambiental/herramientas/indice-calidad-agua.png"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
@@ -414,7 +414,7 @@ export default function AmbientalHerramientasPage() {
                   <img
                     alt="Calculadora de índices de calidad del aire AQI"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/Portal ambiental/Herramientas/indice-calidad-aire.png"
+                    src="/images/portal-ambiental/herramientas/indice-calidad-aire.png"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">

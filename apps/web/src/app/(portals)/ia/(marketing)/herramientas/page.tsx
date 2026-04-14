@@ -30,7 +30,7 @@ export default function IAHerramientasPage() {
             {/* Logo */}
             <div className="mb-8 flex justify-center">
               <img
-                src="/images/Portal IA/Aquatech-ia logo light 512.png"
+                src="/images/portal-ia/logo-ia-light.png"
                 alt="Aquatech IA"
                 className="h-40 w-auto object-contain"
               />
@@ -153,7 +153,7 @@ export default function IAHerramientasPage() {
                   <img
                     alt="Diagrama claro y detallado de la arquitectura de un modelo Transformer"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/Portal IA/Herramientas/como-funcionan-llm.png"
+                    src="/images/portal-ia/herramientas/como-funcionan-llm.png"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
@@ -169,9 +169,9 @@ export default function IAHerramientasPage() {
               <div className="grid lg:grid-cols-2 lg:gap-8 items-center">
                 <div className="h-64 lg:h-full min-h-[400px] overflow-hidden relative">
                   <img
-                    alt="Secuencia visual del proceso de difusión"
+                    alt="Interfaz de configuración de parámetros de IA"
                     className="w-full h-full object-cover tool-image"
-                    src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1600&q=80"
+                    src="/images/portal-ia/herramientas/llm-tune-logo.png"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
@@ -292,7 +292,7 @@ export default function IAHerramientasPage() {
                   <img
                     alt="Diagrama de flujo del pipeline de moderación de IA"
                     className="w-full h-full object-cover tool-image"
-                    src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=80"
+                    src="/images/portal-ia/herramientas/filtrado-ia-logo.png"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
@@ -310,7 +310,7 @@ export default function IAHerramientasPage() {
                   <img
                     alt="Visor interactivo para visualizar el proceso de difusión y resultados"
                     className="w-full h-full object-cover tool-image"
-                    src="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=1600&q=80"
+                    src="/images/portal-ia/herramientas/pixelgen-logo.png"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">

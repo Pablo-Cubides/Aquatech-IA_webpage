@@ -59,7 +59,7 @@ export default function Home() {
             style={{ position: "relative", zIndex: 1, marginBottom: "2rem" }}
           >
             <img
-              src="/images/Portal IA/Herramientas/FiltrarIA.png"
+              src="/images/portal-ia/herramientas/filtrado-ia-logo.png"
               alt="FiltrarIA"
               style={{
                 height: "80px",

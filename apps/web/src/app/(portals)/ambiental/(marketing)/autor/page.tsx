@@ -145,7 +145,7 @@ export const metadata: Metadata = {
     siteName: "AquatechIA",
     images: [
       {
-        url: "/images/Portal ambiental/autor/Pablo Cubides 2.png",
+        url: "/images/portal-ambiental/autor/pablo-cubides-2.png",
         width: 800,
         height: 600,
         alt: "Retrato de Pablo Cubides",
@@ -159,7 +159,7 @@ export const metadata: Metadata = {
     title: "Pablo Cubides — Científico ambiental y especialista en agua",
     description:
       "Perfil de Pablo Cubides, autor en AquatechIA. Ingeniero Químico y M. Sc. en Ingeniería Ambiental.",
-    images: ["/images/Portal ambiental/autor/Pablo Cubides 2.png"],
+    images: ["/images/portal-ambiental/autor/pablo-cubides-2.png"],
   },
 };
 
@@ -289,7 +289,7 @@ export default function AmbientalAutorPage() {
               {/* Logo Aquatech */}
               <div className="mb-8">
                 <img
-                  src="/images/Portal ambiental/Aquatech-ia logo dark 512.png"
+                  src="/images/portal-ambiental/logo-ambiental.png"
                   alt="Aquatech IA"
                   className="h-40 w-auto object-contain"
                 />
@@ -375,7 +375,7 @@ export default function AmbientalAutorPage() {
             <div className="lg:col-span-5 flex justify-center lg:justify-end">
               <div className="relative w-80 h-80 bg-gradient-to-br from-[#E8F4F8] to-[#F0FDF4] rounded-full border-4 border-[#0077B6] shadow-xl flex items-center justify-center overflow-hidden">
                 <img
-                  src="/images/Portal ambiental/autor/Pablo Cubides 2.png"
+                  src="/images/portal-ambiental/autor/pablo-cubides-2.png"
                   alt="Retrato de Pablo Cubides - Especialista Ambiental"
                   className="w-full h-full object-contain"
                 />
@@ -424,7 +424,7 @@ export default function AmbientalAutorPage() {
             <div className="lg:col-span-5">
               <div className="rounded-xl overflow-hidden shadow-lg border border-gray-200">
                 <img
-                  src="/images/Portal ambiental/autor/Fotos lab.png"
+                  src="/images/portal-ambiental/autor/fotos-lab.png"
                   alt="Pablo Cubides en laboratorio"
                   className="w-full h-96 object-cover"
                 />
@@ -498,7 +498,7 @@ export default function AmbientalAutorPage() {
                 title="Proyecto MEGIA: Gestión Integral del Agua"
                 desc="Evaluación de tecnologías híbridas (Electrocoagulación + MBR + Ósmosis) para el reúso de aguas de producción en el sector agrícola."
                 href="/ambiental/blog/paradoja-agua-valle-medio-magdalena-proyecto-megia"
-                imageSrc="/images/Portal ambiental/blog/megia_planta.png"
+                imageSrc="/images/portal-ambiental/blog/megia_planta.png"
                 imageAlt="Planta de tratamiento Proyecto MEGIA"
               />
 
@@ -506,14 +506,14 @@ export default function AmbientalAutorPage() {
                 title="Desafíos y Mecanismos de Tratamiento Avanzado para Aguas de Riego: Gestión de Contaminantes Emergentes"
                 desc="Gestión de contaminantes emergentes y fármacos mediante procesos de oxidación avanzada para asegurar la inocuidad en la Sabana de Bogotá."
                 href="/ambiental/blog/desafios-mecanismos-tratamiento-aguas-riego"
-                imageSrc="/images/Portal ambiental/blog/tratamiento_riego.png"
+                imageSrc="/images/portal-ambiental/blog/tratamiento_riego.png"
                 imageAlt="Sistema de tratamiento para aguas de riego"
               />
               <ProjectCard
                 title="Bioadsorbentes: Borra de Café"
                 desc="Investigación aplicada en economía circular para la remoción de metales pesados (Cromo VI) y nitratos usando residuos del café."
                 href="/ambiental/blog/superpoder-borra-cafe-limpiar-agua"
-                imageSrc="/images/Portal ambiental/blog/cafe_filtro.png"
+                imageSrc="/images/portal-ambiental/blog/cafe_filtro.png"
                 imageAlt="Investigación con borra de café"
               />
             </div>

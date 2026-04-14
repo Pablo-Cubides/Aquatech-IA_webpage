@@ -39,7 +39,7 @@ export default function GuiaGeoVisorPage() {
         <div className="max-w-6xl mx-auto relative z-10 flex flex-col items-center text-center">
           <div className="animate-float mb-8">
             <img 
-              src="/images/Portal ambiental/Herramientas/GeoVisor-sin fondo.png" 
+              src="/images/portal-ambiental/herramientas/geovisor.png" 
               alt="GeoVisor" 
               className="max-w-full h-auto max-h-[300px] drop-shadow-2xl"
             />

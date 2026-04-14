@@ -751,7 +751,7 @@ export default function HomePage() {
             {/* Logo section */}
             <div style={{ flexShrink: 0 }}>
               <img
-                src="/images/Portal ambiental/Herramientas/ECOStats.png"
+                src="/images/portal-ambiental/herramientas/ecostats.png"
                 alt="Logo ECOStats"
                 style={{
                   width: "400px",

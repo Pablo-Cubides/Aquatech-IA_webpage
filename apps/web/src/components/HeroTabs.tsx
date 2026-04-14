@@ -21,7 +21,7 @@ export default function HeroTabs({ knowledge }: HeroTabsProps) {
           {/* Logo */}
           <div className="flex justify-center mb-8">
             <img
-              src="/images/Portal ambiental/Herramientas/MatrizIA.png"
+              src="/images/portal-ambiental/herramientas/matriz-ia.png"
               alt="Matriz IA"
               className="object-contain w-auto h-64"
             />
