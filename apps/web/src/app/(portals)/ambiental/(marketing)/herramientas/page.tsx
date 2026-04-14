@@ -142,16 +142,14 @@ export default function AmbientalHerramientasPage() {
                     </Link>
                   </div>
                 </div>
-                <div className="h-64 lg:h-full min-h-[400px] overflow-hidden order-1 lg:order-2 relative">
+                <div className="aspect-video relative overflow-hidden bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)]">
                   <img
                     alt="Visualización interactiva de mapas ambientales"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/portal-ambiental/herramientas/visor-mapas-ambientales.png"
+                    src="/images/portal-ambiental/blog/google-earth-engine-ia.png"
                   />
-                  <div className="absolute top-4 right-4">
-                    <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
-                      ✓ Disponible
-                    </span>
+                  <div className="absolute top-4 right-4 bg-green-500/90 text-white px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border border-white/20">
+                    ✓ Disponible
                   </div>
                 </div>
               </div>
@@ -160,16 +158,14 @@ export default function AmbientalHerramientasPage() {
             {/* Herramienta 2: Generador de Matrices */}
             <article className="bg-gradient-to-br from-blue-50 to-white border border-blue-200 transition-all duration-300 hover:-translate-y-2 hover:shadow-lg hover:shadow-blue-500/10 hover:border-[#0077B6]/30 backdrop-blur-sm rounded-2xl overflow-hidden">
               <div className="grid lg:grid-cols-2 lg:gap-8 items-center">
-                <div className="h-64 lg:h-full min-h-[400px] overflow-hidden relative">
+                <div className="aspect-video relative overflow-hidden bg-gradient-to-br from-[var(--accent-secondary)] to-[var(--accent-primary)]">
                   <img
                     alt="Herramienta de generación de matrices de EIA"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/portal-ambiental/herramientas/generador-matrices-eia.png"
+                    src="/images/portal-ambiental/blog/estudio-impacto-ambiental.png"
                   />
-                  <div className="absolute top-4 right-4">
-                    <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
-                      ✓ Disponible
-                    </span>
+                  <div className="absolute top-4 left-4 bg-green-500/90 text-white px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border border-white/20">
+                    ✓ Disponible
                   </div>
                 </div>
                 <div className="p-8 md:p-12 lg:p-16 flex flex-col">
@@ -264,16 +260,14 @@ export default function AmbientalHerramientasPage() {
                     </Link>
                   </div>
                 </div>
-                <div className="h-64 lg:h-full min-h-[400px] overflow-hidden order-1 lg:order-2 relative">
+                <div className="aspect-video relative overflow-hidden bg-gradient-to-br from-[var(--accent-secondary)] to-[var(--accent-primary)]">
                   <img
-                    alt="Base de datos de normas ambientales internacionales"
+                    alt="Generador de reportes normatividad ambiental"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/portal-ambiental/herramientas/normas-ambientales.png"
+                    src="/images/portal-ambiental/blog/jerarquia-normativa-ambiental.png"
                   />
-                  <div className="absolute top-4 right-4">
-                    <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
-                      ✓ Disponible
-                    </span>
+                  <div className="absolute top-4 left-4 bg-[var(--accent-secondary)]/90 text-[var(--bg-primary)] px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border border-white/20">
+                    Próximamente
                   </div>
                 </div>
               </div>
@@ -392,16 +386,14 @@ export default function AmbientalHerramientasPage() {
                     </Link>
                   </div>
                 </div>
-                <div className="h-64 lg:h-full min-h-[400px] overflow-hidden order-1 lg:order-2 relative">
+                <div className="aspect-video relative overflow-hidden bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)]">
                   <img
-                    alt="Análisis de índices de calidad de agua potable"
-                    className="w-full h-full object-cover object-center tool-image"
-                    src="/images/portal-ambiental/herramientas/indice-calidad-agua.png"
+                    alt="Dashboard de indicadores de calidad del agua IRCA"
+                    className="w-full h-full object-cover tool-image"
+                    src="/images/portal-ambiental/blog/irca-analisis-datos.jpg"
                   />
-                  <div className="absolute top-4 right-4">
-                    <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
-                      ✓ Disponible
-                    </span>
+                  <div className="absolute top-4 right-4 bg-[var(--accent-secondary)]/90 text-[var(--bg-primary)] px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border border-white/20">
+                    Próximamente
                   </div>
                 </div>
               </div>

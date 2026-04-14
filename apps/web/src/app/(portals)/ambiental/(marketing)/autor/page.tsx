@@ -498,7 +498,7 @@ export default function AmbientalAutorPage() {
                 title="Proyecto MEGIA: Gestión Integral del Agua"
                 desc="Evaluación de tecnologías híbridas (Electrocoagulación + MBR + Ósmosis) para el reúso de aguas de producción en el sector agrícola."
                 href="/ambiental/blog/paradoja-agua-valle-medio-magdalena-proyecto-megia"
-                imageSrc="/images/portal-ambiental/blog/megia_planta.png"
+                imageSrc="/images/portal-ambiental/blog/megia-planta.png"
                 imageAlt="Planta de tratamiento Proyecto MEGIA"
               />
 
@@ -506,14 +506,14 @@ export default function AmbientalAutorPage() {
                 title="Desafíos y Mecanismos de Tratamiento Avanzado para Aguas de Riego: Gestión de Contaminantes Emergentes"
                 desc="Gestión de contaminantes emergentes y fármacos mediante procesos de oxidación avanzada para asegurar la inocuidad en la Sabana de Bogotá."
                 href="/ambiental/blog/desafios-mecanismos-tratamiento-aguas-riego"
-                imageSrc="/images/portal-ambiental/blog/tratamiento_riego.png"
+                imageSrc="/images/portal-ambiental/blog/tratamiento-riego.png"
                 imageAlt="Sistema de tratamiento para aguas de riego"
               />
               <ProjectCard
                 title="Bioadsorbentes: Borra de Café"
                 desc="Investigación aplicada en economía circular para la remoción de metales pesados (Cromo VI) y nitratos usando residuos del café."
                 href="/ambiental/blog/superpoder-borra-cafe-limpiar-agua"
-                imageSrc="/images/portal-ambiental/blog/cafe_filtro.png"
+                imageSrc="/images/portal-ambiental/blog/cafe-filtro.png"
                 imageAlt="Investigación con borra de café"
               />
             </div>

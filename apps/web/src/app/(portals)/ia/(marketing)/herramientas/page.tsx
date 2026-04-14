@@ -306,16 +306,14 @@ export default function IAHerramientasPage() {
             {/* Herramienta 4: Visor de Difusión */}
             <article className="bg-gradient-to-br from-[#1a1b2e] to-[#10111a] border border-[rgba(0,239,255,0.1)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_25px_-5px_rgba(0,239,255,0.1),0_8px_10px_-6px_rgba(0,239,255,0.1),0_0_0_1px_rgba(0,239,255,0.2)] hover:border-[rgba(0,239,255,0.3)] backdrop-blur-sm rounded-2xl overflow-hidden">
               <div className="grid lg:grid-cols-2 lg:gap-8 items-center">
-                <div className="h-64 lg:h-full min-h-[400px] overflow-hidden relative">
+                <div className="aspect-video relative overflow-hidden bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)]">
                   <img
-                    alt="Visor interactivo para visualizar el proceso de difusión y resultados"
+                    alt="Arte generado con Stable Diffusion"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/portal-ia/herramientas/pixelgen-logo.png"
+                    src="/images/portal-ia/blog/stable-diffusion-art.jpg"
                   />
-                  <div className="absolute top-4 right-4">
-                    <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
-                      ✓ Disponible
-                    </span>
+                  <div className="absolute top-4 right-4 bg-[var(--accent-secondary)]/90 text-[var(--bg-primary)] px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border border-white/20">
+                    Próximamente
                   </div>
                 </div>
                 <div className="p-8 md:p-12 lg:p-16 flex flex-col">
@@ -424,16 +422,14 @@ export default function IAHerramientasPage() {
                     </Link>
                   </div>
                 </div>
-                <div className="h-64 lg:h-full min-h-[400px] overflow-hidden order-1 lg:order-2 relative">
+                <div className="aspect-video relative overflow-hidden bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)]">
                   <img
-                    alt="Biblioteca de recursos y papers de investigación"
+                    alt="Diagrama de arquitectura Transformers para modelos de lenguaje"
                     className="w-full h-full object-cover tool-image"
-                    src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=1600&q=80"
+                    src="/images/portal-ia/blog/llm-transformers-architecture.jpg"
                   />
-                  <div className="absolute top-4 right-4">
-                    <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
-                      ✓ Disponible
-                    </span>
+                  <div className="absolute top-4 right-4 bg-green-500/90 text-white px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border border-white/20">
+                    ✓ Disponible
                   </div>
                 </div>
               </div>
@@ -442,16 +438,14 @@ export default function IAHerramientasPage() {
             {/* Herramienta 6: Modelos de Tendencia */}
             <article className="bg-gradient-to-br from-[#1a1b2e] to-[#10111a] border border-[rgba(0,239,255,0.1)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_25px_-5px_rgba(0,239,255,0.1),0_8px_10px_-6px_rgba(0,239,255,0.1),0_0_0_1px_rgba(0,239,255,0.2)] hover:border-[rgba(0,239,255,0.3)] backdrop-blur-sm rounded-2xl overflow-hidden">
               <div className="grid lg:grid-cols-2 lg:gap-8 items-center">
-                <div className="h-64 lg:h-full min-h-[400px] overflow-hidden relative">
+                <div className="aspect-video relative overflow-hidden bg-gradient-to-br from-[var(--accent-secondary)] to-[var(--accent-primary)]">
                   <img
-                    alt="Análisis de tendencias y modelos predictivos"
+                    alt="Análisis estadístico y modelos de tendencia con IA"
                     className="w-full h-full object-cover tool-image"
-                    src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=80"
+                    src="/images/portal-ia/blog/modelos-tendencia.jpg"
                   />
-                  <div className="absolute top-4 right-4">
-                    <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
-                      ✓ Disponible
-                    </span>
+                  <div className="absolute top-4 left-4 bg-green-500/90 text-white px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border border-white/20">
+                    ✓ Disponible
                   </div>
                 </div>
                 <div className="p-8 md:p-12 lg:p-16 flex flex-col">

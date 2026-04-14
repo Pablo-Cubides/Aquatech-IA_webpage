@@ -566,25 +566,25 @@ export default function IAAutorPage() {
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
               <ProjectWide
                 badge="HUB EDUCATIVO IA (2025–)"
-                title="AquatechIA Platform"
-                impact="Comunidades LATAM"
-                desc="Integración de contenidos, herramientas y demostradores de IA aplicada. LLMs, RAG, agentes y modelos generativos en producción."
-                image="/images/portal-ia/logo-ia.png"
-                href="/ia/autor#proyectos"
+                title="Análisis de Sentimiento Social"
+                impact="Implementación de IA para monitorear la percepción pública en redes sobre proyectos de infraestructura energética."
+                desc="IA generativa aplicada al análisis de datos sociales."
+                image="/images/portal-ia/blog/ia-generativa-abstracto.jpg"
+                href="/ia/blog/analisis-sentimiento-monitoreo-social"
               />
 
               <ProjectCard
                 title="Herramientas IA para imagen"
                 desc="Edición y generación con FastAPI + Next.js + WebSockets integrando FLUX, InstantID y ControlNet Hair en tiempo real."
-                image="/images/portal-ia/herramientas/pixelgen-logo.png"
+                image="/images/portal-ia/blog/stable-diffusion-art.jpg"
                 href="/ia/autor#proyectos"
               />
 
               <ProjectCard
-                title="RAG y asistentes especializados"
-                desc="Sistemas de recuperación aumentada con LangChain y CrewAI para documentación técnica y soporte automatizado."
-                image="/images/portal-ia/herramientas/como-funcionan-llm.png"
-                href="/ia/autor#proyectos"
+                title="Sistema RAG para Normativa Ambiental"
+                desc="Arquitectura avanzada de Retrieval-Augmented Generation para consulta semántica de licencias y decretos ambientales."
+                image="/images/portal-ia/blog/llm-transformers-architecture.jpg"
+                href="/ia/blog/rag-normativa-ambiental-inteligente"
               />
             </div>
           </div>
