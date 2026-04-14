@@ -232,7 +232,7 @@ export default function ConsultaNotaIAPage() {
             <div className="inline-flex items-center gap-3 mb-6">
               <div className="w-auto h-60 justify-center">
                 <img
-                  src="/images/Portal IA/Autor/Consulta tu nota.png"
+                  src="/images/portal-ia/autor/consulta-nota.png"
                   alt="Consulta tu Nota"
                   className="w-full h-full object-contain"
                 />

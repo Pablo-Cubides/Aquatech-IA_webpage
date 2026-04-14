@@ -40,7 +40,7 @@ export async function exportCorrelationsPDF(
   let yPosition = margin;
 
   // --- Header ---
-  const logoUrl = "/images/Logo Aquatech - IA 512 - sin fondo.png";
+  const logoUrl = "/images/portal-ambiental/logo-ia-sin-fondo.png";
   try {
     const img = new Image();
     img.src = logoUrl;

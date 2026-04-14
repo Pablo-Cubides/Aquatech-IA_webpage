@@ -27,7 +27,7 @@ Los artículos se gestionan en `apps/web/src/lib/new-ambiental-articles.ts`. Cad
         id: "id-seccion",
         title: "Título de la Sección",
         content: "Cuerpo de la sección con soporte para listas (solo viñetas `-`) y enlaces.",
-        image: "/images/Portal ambiental/blog/imagen_opcional.png", // Opcional
+        image: "/images/portal-ambiental/blog/imagen-opcional.png", // Opcional
         callout: { // Opcional
           type: "info" | "warning",
           title: "Título del Callout",
@@ -66,7 +66,7 @@ El portal utiliza una versión segura de Markdown. Solo se permiten:
 ## 3. Guía de Imágenes
 
 ### Especificaciones Técnicas
-- **Ubicación**: Guardar en `apps/web/public/images/Portal ambiental/blog/`.
+- **Ubicación**: Guardar en `apps/web/public/images/portal-ambiental/blog/`.
 - **Formato**: `.png` o `.webp` (preferido para web).
 - **Dimensiones**:
     - **Hero Image**: 1200x630px (aspecto 1.91:1) para compatibilidad con redes sociales.

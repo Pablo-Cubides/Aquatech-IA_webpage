@@ -311,7 +311,7 @@ export default function ProductosIAPage() {
             {/* Logo */}
             <div className="mb-8 flex justify-center">
               <img
-                src="/images/Portal IA/Aquatech-ia logo light 512.png"
+                src="/images/portal-ia/logo-ia-light.png"
                 alt="Aquatech IA"
                 className="h-20 w-auto object-contain"
               />

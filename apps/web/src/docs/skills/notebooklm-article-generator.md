@@ -25,7 +25,7 @@ Esta "Skill" define el proceso que debe seguir el asistente inteligente (Antigra
 ## Fase 3: Generación de Activos Visuales
 1.  **Prompt de IA**: Usar `generate_image` para crear una `heroImage`.
 2.  **Especificación**: Imagen estilo "Premium Engineering", minimalista, enfocada en el aspecto técnico del tema (ej. macrofotografía de agua, sensores, o mapas satelitales).
-3.  **Localización**: Guardar en `apps/web/public/images/Portal ambiental/blog/` con un nombre representativo.
+3.  **Localización**: Guardar en `apps/web/public/images/portal-ambiental/blog/` con un nombre en minúsculas y separado por guiones (lowercase-hyphenated).
 
 ## Fase 4: Integración Técnica (TypeScript)
 1.  **Mapeo de Datos**: Convertir el borrador al objeto `BlogArticle` para `new-ambiental-articles.ts`.

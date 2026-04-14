@@ -299,7 +299,7 @@ export default function RuletaAcademicaPage() {
       {/* Logo */}
       <div className="mb-8">
         <img
-          src="/images/Portal IA/Autor/Ruleta academica.png"
+          src="/images/portal-ia/autor/ruleta-academica.png"
           alt="Ruleta Académica"
           className="h-32 w-auto drop-shadow-lg"
         />

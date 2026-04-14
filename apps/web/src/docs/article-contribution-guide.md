@@ -14,10 +14,10 @@ Los artículos se gestionan en `apps/web/src/lib/new-ambiental-articles.ts`. Cad
   date: "YYYY-MM-DD",
   readTime: 10,
   excerpt: "Resumen corto para la tarjeta del blog.",
-  heroImage: "/images/Portal ambiental/blog/nombre_imagen.png",
+  heroImage: "/images/portal-ambiental/blog/nombre-imagen.png",
   author: {
     name: "Nombre del Autor",
-    avatar: "/images/Portal ambiental/autor/Avatar.jpg",
+    avatar: "/images/portal-ambiental/autor/avatar.jpg",
     bio: "Breve biografía técnica.",
   },
   content: {
@@ -27,7 +27,7 @@ Los artículos se gestionan en `apps/web/src/lib/new-ambiental-articles.ts`. Cad
         id: "id-seccion",
         title: "Título de la Sección",
         content: "Texto con formato enriquecido.",
-        image: "/images/Portal ambiental/blog/imagen_seccion.png", // Opcional
+        image: "/images/portal-ambiental/blog/imagen-seccion.png", // Opcional
         callout: { // Opcional
           type: "info" | "warning" | "success",
           title: "Título del Callout",
@@ -57,8 +57,8 @@ Los artículos se gestionan en `apps/web/src/lib/new-ambiental-articles.ts`. Cad
 
 ### Imágenes
 - **Calidad**: Usar imágenes de alta resolución (mínimo 1200px de ancho para Hero).
-- **Ruta**: Guardar siempre en `apps/web/public/images/Portal ambiental/blog/`.
-- **Nombres**: Usar `snake_case` (ej. `mi_nueva_imagen.png`).
+- **Ruta**: Guardar siempre en `apps/web/public/images/portal-ambiental/blog/`.
+- **Nombres**: Usar `kebab-case` o `lowercase-hyphenated` (ej. `mi-nueva-imagen.png`).
 - **Alt Text**: El slug y título se usan para accesibilidad, asegurar que sean descriptivos.
 
 ## 3. Proceso de Publicación

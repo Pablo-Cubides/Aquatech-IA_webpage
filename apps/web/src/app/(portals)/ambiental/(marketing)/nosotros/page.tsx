@@ -17,7 +17,7 @@ export default function AmbientalNosotrosPage() {
             {/* Logo */}
             <div className="mb-8 flex justify-center lg:justify-start">
               <img
-                src="/images/Portal ambiental/Aquatech-ia logo dark 512.png"
+                src="/images/portal-ambiental/logo-ambiental.png"
                 alt="Aquatech IA"
                 className="h-20 w-auto object-contain"
               />

@@ -17,7 +17,7 @@ export default function Home() {
           }}
         >
           <img
-            src="/images/Portal IA/Herramientas/FiltrarIA.png"
+            src="/images/portal-ia/herramientas/filtrado-ia-logo.png"
             alt="FiltrarIA"
             style={{
               height: "auto",

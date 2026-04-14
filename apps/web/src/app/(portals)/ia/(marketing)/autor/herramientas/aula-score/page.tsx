@@ -76,7 +76,7 @@ export default function ConfigurationPage() {
         <div className="mb-12 text-center">
           <div className="mb-6">
             <img
-              src="/images/Portal IA/Autor/Aula Score.png"
+              src="/images/portal-ia/autor/aula-score.png"
               alt="Aula Score"
               className="h-40 w-auto mx-auto object-contain"
             />

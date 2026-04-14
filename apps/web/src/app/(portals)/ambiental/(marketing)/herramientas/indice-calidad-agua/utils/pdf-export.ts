@@ -79,7 +79,7 @@ function generateReportHTML(
       <!-- Header con Logo -->
       <div style="text-align: center; margin-bottom: 30px; border-bottom: 3px solid #10b981; padding-bottom: 20px;">
         <img 
-          src="/images/Logo Aquatech - IA 512 - sin fondo.png" 
+          src="/images/portal-ambiental/logo-ia-sin-fondo.png" 
           alt="AquatechIA" 
           style="height: 80px; margin-bottom: 15px;"
           onerror="this.style.display='none'"

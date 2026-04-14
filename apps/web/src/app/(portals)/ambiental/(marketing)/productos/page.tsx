@@ -76,7 +76,7 @@ export default function ProductosAmbientalPage() {
           {/* Logo */}
           <div className="mb-8 flex justify-center">
             <img
-              src="/images/Portal ambiental/Aquatech-ia logo dark 512.png"
+              src="/images/portal-ambiental/logo-ambiental.png"
               alt="Aquatech IA"
               className="h-20 w-auto object-contain"
             />

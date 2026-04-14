@@ -49,7 +49,7 @@ export default function IAPage() {
             {/* Logo */}
             <div className="mb-12 flex justify-center animate-in fade-in slide-in-from-top-4 duration-700">
               <img
-                src="/images/Logo Aquatech - IA 512 - sin fondo.png"
+                src="/images/portal-ia/logo-ia-light.png"
                 alt="Aquatech IA Logo"
                 className="h-32 w-auto sm:h-40 md:h-48 lg:h-64 object-contain drop-shadow-[0_0_30px_rgba(0,239,255,0.7)]"
               />
@@ -243,7 +243,7 @@ export default function IAPage() {
             <div className="w-48 h-48 md:w-64 md:h-64 relative flex-shrink-0">
               <div className="absolute inset-0 bg-[#00EFFF] rounded-full opacity-10 scale-110"></div>
               <Image
-                src="/images/Portal IA/Autor/Pablo Cubides.png"
+                src="/images/portal-ia/autor/pablo-cubides-2.png"
                 alt="Pablo Cubides"
                 width={256}
                 height={256}

@@ -48,7 +48,7 @@ export default function AmbientalPage() {
             {/* Logo */}
             <div className="mb-12 flex justify-center animate-in fade-in slide-in-from-top-4 duration-700">
               <img
-                src="/images/Logo Aquatech - IA 512 - sin fondo.png"
+                src="/images/portal-ambiental/logo-ia-sin-fondo.png"
                 alt="Aquatech Ambiental Logo"
                 className="h-32 w-auto sm:h-40 md:h-48 lg:h-64 object-contain drop-shadow-2xl"
               />
@@ -248,7 +248,7 @@ export default function AmbientalPage() {
             <div className="w-48 h-48 md:w-64 md:h-64 relative flex-shrink-0">
               <div className="absolute inset-0 bg-[#009A8F] rounded-full opacity-10 scale-110"></div>
               <img
-                src="/images/Portal ambiental/autor/Pablo Cubides.jpg"
+                src="/images/portal-ambiental/autor/pablo-cubides-2.png"
                 alt="Pablo Cubides"
                 className="w-full h-full object-cover rounded-full border-4 border-white shadow-lg relative z-10"
               />

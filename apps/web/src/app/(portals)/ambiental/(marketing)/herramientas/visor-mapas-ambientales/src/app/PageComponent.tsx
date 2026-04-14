@@ -654,7 +654,7 @@ export default function HomePage() {
                 </h1>
                 <div className="relative w-auto h-20 sm:h-32 lg:h-40 hidden sm:block aspect-[2/1]">
                   <Image
-                    src="/images/Portal ambiental/Herramientas/GeoVisor.png"
+                    src="/images/portal-ambiental/herramientas/geovisor.png"
                     alt="Geovisor AquatechIA"
                     fill
                     className="object-contain"
