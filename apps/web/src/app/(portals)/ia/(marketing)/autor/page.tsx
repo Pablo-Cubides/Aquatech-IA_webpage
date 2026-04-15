@@ -199,9 +199,9 @@ export const metadata: Metadata = {
     url: "/ia/autor",
     images: [
       {
-        url: "/images/portal-ia/autor/pablo-cubides-2.png",
+        url: "/images/portal-ia/autor/pablo-cubides.png",
         width: 1200,
-        height: 630,
+        height: 1600,
         alt: "Retrato de Pablo A. Cubides - IA Specialist",
       },
     ],
@@ -431,14 +431,16 @@ export default function IAAutorPage() {
 
             <div className="flex justify-center lg:col-span-5 lg:justify-end">
               <div className="relative">
-                <Image
-                  src="/images/portal-ia/autor/pablo-cubides-2.png"
-                  alt="Retrato de Pablo Andrés Cubides Guerrero - IA Specialist"
-                  width={360}
-                  height={360}
-                  className="rounded-full border-4 border-[#333333] shadow-xl"
-                  priority
-                />
+                <div className="absolute -inset-4 bg-gradient-to-tr from-[#00efff] to-[#0095FF] rounded-2xl blur-2xl opacity-20"></div>
+                <div className="relative aspect-[3/4] w-80 overflow-hidden rounded-2xl border border-gray-800 shadow-2xl">
+                  <Image
+                    src="/images/portal-ia/autor/pablo-cubides.png"
+                    alt="Retrato de Pablo Andrés Cubides Guerrero - IA Specialist"
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </div>
               </div>
             </div>
           </div>

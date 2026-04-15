@@ -240,14 +240,13 @@ export default function IAPage() {
       <section id="autor" className="bg-[#10111A] py-24">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center gap-12 bg-[#1A1B26] rounded-3xl p-8 md:p-12 shadow-lg border border-gray-800">
-            <div className="w-48 h-48 md:w-64 md:h-64 relative flex-shrink-0">
-              <div className="absolute inset-0 bg-[#00EFFF] rounded-full opacity-10 scale-110"></div>
+            <div className="relative flex-shrink-0 w-48 aspect-[3/4] md:w-64 overflow-hidden rounded-2xl border-4 border-[#10111A] shadow-[0_0_20px_rgba(0,239,255,0.3)]">
+              <div className="absolute inset-0 bg-[#00EFFF] opacity-10 scale-110"></div>
               <Image
-                src="/images/portal-ia/autor/pablo-cubides-2.png"
+                src="/images/portal-ia/autor/pablo-cubides.png"
                 alt="Pablo Cubides"
-                width={256}
-                height={256}
-                className="w-full h-full object-cover rounded-full border-4 border-[#10111A] shadow-[0_0_20px_rgba(0,239,255,0.3)] relative z-10"
+                fill
+                className="object-cover relative z-10"
               />
             </div>
             <div className="flex-1 text-center md:text-left">
