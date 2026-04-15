@@ -350,7 +350,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
                         >
                           {section.callout.title}
                         </h4>
-                        <p
+                        <div
                           className={
                             section.callout.type === "info"
                               ? "text-blue-200"
@@ -358,9 +358,10 @@ export default async function BlogArticlePage({ params }: PageProps) {
                                 ? "text-cyan-200"
                                 : "text-red-200"
                           }
-                        >
-                          {section.callout.content}
-                        </p>
+                          dangerouslySetInnerHTML={{
+                            __html: renderSafeRichText(section.callout.content, ""),
+                          }}
+                        />
                       </div>
                     </div>
                   )}

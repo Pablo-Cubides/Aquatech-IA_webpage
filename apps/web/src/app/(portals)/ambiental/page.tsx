@@ -248,7 +248,7 @@ export default function AmbientalPage() {
             <div className="w-48 h-48 md:w-64 md:h-64 relative flex-shrink-0">
               <div className="absolute inset-0 bg-[#009A8F] rounded-full opacity-10 scale-110"></div>
               <img
-                src="/images/portal-ambiental/autor/pablo-cubides-2.png"
+                src="/images/portal-ambiental/autor/pablo-cubides.png"
                 alt="Pablo Cubides"
                 className="w-full h-full object-cover rounded-full border-4 border-white shadow-lg relative z-10"
               />
