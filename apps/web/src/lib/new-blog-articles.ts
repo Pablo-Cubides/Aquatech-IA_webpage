@@ -10,7 +10,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-04-14",
     readTime: 18,
     excerpt: "Descubre la mecánica interna de los modelos de lenguaje modernos. Un análisis profundo sobre tokens, atención y generación autorregresiva.",
-    heroImage: "/images/portal-ia/blog/llm-transformers-architecture.jpg",
+    heroImage: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1200",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ia/autor/pablo-cubides.png",
@@ -23,7 +23,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "tokenizacion",
           title: "1. Tokenización: El lenguaje de los algoritmos",
           content: "Las redes neuronales no procesan palabras, procesan números. Antes de que cualquier modelo pueda analizar texto, este debe ser convertido en vectores numéricos. La **tokenización** es el proceso de fragmentación del texto en sub-unidades (tokens). Algoritmos como *Byte-Pair Encoding (BPE)* garantizan que palabras comunes sean un solo token, mientras que palabras raras se desarmen en fragmentos más pequeños.\n\nGracias a este proceso, los LLM pueden lidiar con cualquier palabra nueva en cualquier idioma sin colapsar. La eficiencia de un tokenizador define directamente cuántos recursos consumirá el modelo en su inferencia.",
-          image: "/images/portal-ia/blog/jerarquia-conceptos-ia.jpg",
+          image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800",
         },
         {
           id: "atencion",
@@ -66,7 +66,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-04-13",
     readTime: 12,
     excerpt: "Aprende a controlar la creatividad y precisión de las respuestas generativas de la inteligencia artificial.",
-    heroImage: "/images/portal-ia/blog/neural-network-concept.jpg",
+    heroImage: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=1200",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ia/autor/pablo-cubides.png",
@@ -84,7 +84,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "topp",
           title: "2. Top-P (Nucleus Sampling): Control Dinámico",
           content: "En lugar de simplemente jugar con probabilidades escaladas, el hiperparámetro **Top-P** suma secuencialmente la masa de probabilidad estricta. Si fijamos Top-P en 0.90, la red evalúa tokens de mayor a menor hasta que las probabilidades sumen el 90%.\n\nEsto significa que frente a contextos obvios, el modelo restringe sus opciones a solo un par de palabras. Frente a contextos ambiguos, el abanico crece y elige entre muchas opciones aleatoriamente pero con sentido gramatical.",
-          image: "/images/portal-ia/blog/productividad-ia-escritorio.jpg",
+          image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80&w=800",
         },
         {
           id: "topk",
@@ -117,7 +117,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-04-12",
     readTime: 16,
     excerpt: "Analizamos cómo los modelos modernos detectan y filtran contenido malicioso para garantizar entornos seguros y éticos.",
-    heroImage: "/images/portal-ia/blog/seguridad-robot-ia.jpg",
+    heroImage: "https://images.unsplash.com/photo-1610563166150-b34df4f3bcd6?auto=format&fit=crop&q=80&w=1200",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ia/autor/pablo-cubides.png",
@@ -135,7 +135,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "moderacion",
           title: "2. Escudos de Moderación Activa",
           content: "A pesar del entrenamiento ético, existen los *Jailbreaks* o vectores de ataque (prompts maliciosos). Aquí intervienen modelos auxiliares conocidos como APIs de Moderación. Estos clasificadores evalúan el prompt del usuario en milisegundos bajo etiquetas como Odio, Automutilación Política o Violencia Explícita.",
-          image: "/images/portal-ia/blog/laptop-trabajo-ia.jpg",
+          image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800",
         },
         {
           id: "filtros",
@@ -168,7 +168,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-04-11",
     readTime: 14,
     excerpt: "Analizando paso a paso cómo Midjourney y Stable Diffusion convierten el ruido semántico en fotografías impactantes.",
-    heroImage: "/images/portal-ia/blog/stable-diffusion-art.jpg",
+    heroImage: "https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?auto=format&fit=crop&q=80&w=1200",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ia/autor/pablo-cubides.png",
@@ -181,7 +181,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "ruido",
           title: "1. Termodinámica Artificial: Arruinar para Aprender",
           content: "El entrenamiento (Forward Diffusion) implica añadir conscientemente grados progresivos de ruido gaussiano a imágenes de alta definición, etapa por etapa, hasta que solo quedan píxeles borrosos. La red neuronal U-Net no memoriza la imagen; en cambio, aprende las operaciones matemáticas inversas requeridas para retirar precisamente esa capa de ruido.",
-          image: "/images/portal-ia/blog/diffusion-process.jpg",
+          image: "https://images.unsplash.com/photo-1558486012-817176f84c6d?auto=format&fit=crop&q=80&w=800",
         },
         {
           id: "denoising",
@@ -219,7 +219,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-04-10",
     readTime: 20,
     excerpt: "Navegamos a través de la bibliografía definitiva y los ensayos revisados por pares que catapultaron la algoritmia moderna a la omnipresencia global.",
-    heroImage: "/images/portal-ia/blog/biblioteca-estudio-ia.jpg",
+    heroImage: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&q=80&w=1200",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ia/autor/pablo-cubides.png",
@@ -237,7 +237,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "era-moderna",
           title: "2. La Edad de la Atención (2017)",
           content: "No existe texto más sagrado en el estado del arte moderno que *'Attention Is All You Need'* de Vaswani et al. Este documento liberó el procesamiento NLP de cadenas recurrentes secuenciales hacia una ejecución paralela hiper-eficiente. Poco después, *'BERT: Pre-training of Deep Bidirectional Transformers'* evidenció cómo la atención bidireccional establecía récords universales de exactitud semántica.",
-          image: "/images/portal-ia/blog/estudio-preparacion-examen.jpg",
+          image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=800",
         },
         {
           id: "investigacion-actual",
@@ -270,7 +270,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-04-09",
     readTime: 15,
     excerpt: "Analítica del frente abierto, los repositorios comunitarios, la irrupción de Llama 3 y la balanza competitiva frente a oligopolios cerrados.",
-    heroImage: "/images/portal-ia/blog/codigo-ia-manos.jpg",
+    heroImage: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&q=80&w=1200",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ia/autor/pablo-cubides.png",
@@ -288,7 +288,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "huggingface",
           title: "2. Hugging Face: El Hub Central",
           content: "Sin el ecosistema de Hugging Face, esta democratización hubiera sido estéril. HF estandarizó los pipelines para que el mismo fragmento de código (Transformers library) consuma igualitariamente modelos de visión de Microsoft, NLP de Google o audios de OpenAI. Ha mutado en un repositorio colosal de pesos pre-entrenados y finetuneados.",
-          image: "/images/portal-ia/blog/flujo-trabajo-digital.jpg",
+          image: "https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&q=80&w=800",
         },
         {
           id: "cuantizacion",
