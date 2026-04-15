@@ -14,7 +14,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     heroImage: "/images/portal-ambiental/blog/cerebro-digital-ia.png",
     author: {
       name: "Pablo Cubides",
-      avatar: "/images/portal-ambiental/autor/pablo-cubides.png",
+      avatar: "/images/portal-ambiental/autor/pablo-cubides.jpg",
       bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
@@ -79,7 +79,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
       "/images/portal-ambiental/blog/desafio-agua-rural-latam.jpg",
     author: {
       name: "Pablo Cubides",
-      avatar: "/images/portal-ambiental/autor/pablo-cubides.png",
+      avatar: "/images/portal-ambiental/autor/pablo-cubides.jpg",
       bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
@@ -171,7 +171,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
       "/images/portal-ambiental/blog/poder-agua-comunidad.jpg",
     author: {
       name: "Pablo Cubides",
-      avatar: "/images/portal-ambiental/autor/pablo-cubides.png",
+      avatar: "/images/portal-ambiental/autor/pablo-cubides.jpg",
       bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
@@ -255,7 +255,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     heroImage: "/images/portal-ambiental/blog/tratamiento-riego.png",
     author: {
       name: "Pablo Cubides",
-      avatar: "/images/portal-ambiental/autor/pablo-cubides.png",
+      avatar: "/images/portal-ambiental/autor/pablo-cubides.jpg",
       bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
@@ -305,7 +305,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     heroImage: "/images/portal-ambiental/blog/cafe-filtro.png",
     author: {
       name: "Pablo Cubides",
-      avatar: "/images/portal-ambiental/autor/pablo-cubides.png",
+      avatar: "/images/portal-ambiental/autor/pablo-cubides.jpg",
       bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
@@ -360,7 +360,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     heroImage: "/images/portal-ambiental/blog/megia-planta.png",
     author: {
       name: "Pablo Cubides",
-      avatar: "/images/portal-ambiental/autor/pablo-cubides.png",
+      avatar: "/images/portal-ambiental/autor/pablo-cubides.jpg",
       bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
     },
     content: {
