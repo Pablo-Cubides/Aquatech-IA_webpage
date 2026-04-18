@@ -117,7 +117,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-04-12",
     readTime: 16,
     excerpt: "Analizamos cómo los modelos modernos detectan y filtran contenido malicioso para garantizar entornos seguros y éticos.",
-    heroImage: "https://images.unsplash.com/photo-1610563166150-b34df4f3bcd6?auto=format&fit=crop&q=80&w=1200",
+    heroImage: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=1200",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ia/autor/pablo-cubides.png",
@@ -135,7 +135,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "moderacion",
           title: "2. Escudos de Moderación Activa",
           content: "A pesar del entrenamiento ético, existen los *Jailbreaks* o vectores de ataque (prompts maliciosos). Aquí intervienen modelos auxiliares conocidos como APIs de Moderación. Estos clasificadores evalúan el prompt del usuario en milisegundos bajo etiquetas como Odio, Automutilación Política o Violencia Explícita.",
-          image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800",
+          image: "https://images.unsplash.com/photo-1555949963-aa79dcee57d1?auto=format&fit=crop&q=80&w=800",
         },
         {
           id: "filtros",
@@ -270,7 +270,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-04-09",
     readTime: 15,
     excerpt: "Analítica del frente abierto, los repositorios comunitarios, la irrupción de Llama 3 y la balanza competitiva frente a oligopolios cerrados.",
-    heroImage: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&q=80&w=1200",
+    heroImage: "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?auto=format&fit=crop&q=80&w=1200",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ia/autor/pablo-cubides.png",
@@ -288,7 +288,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "huggingface",
           title: "2. Hugging Face: El Hub Central",
           content: "Sin el ecosistema de Hugging Face, esta democratización hubiera sido estéril. HF estandarizó los pipelines para que el mismo fragmento de código (Transformers library) consuma igualitariamente modelos de visión de Microsoft, NLP de Google o audios de OpenAI. Ha mutado en un repositorio colosal de pesos pre-entrenados y finetuneados.",
-          image: "https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&q=80&w=800",
+          image: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&q=80&w=800",
         },
         {
           id: "cuantizacion",
