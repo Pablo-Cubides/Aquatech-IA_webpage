@@ -22,10 +22,10 @@ Esta "Skill" define el proceso que debe seguir el asistente inteligente (Antigra
     - Referencias a herramientas específicas (Open Source o Industriales).
     - Terminología técnica de ingeniería ambiental.
 
-## Fase 3: Generación de Activos Visuales
-1.  **Prompt de IA**: Usar `generate_image` para crear una `heroImage`.
-2.  **Especificación**: Imagen estilo "Premium Engineering", minimalista, enfocada en el aspecto técnico del tema (ej. macrofotografía de agua, sensores, o mapas satelitales).
-3.  **Localización**: Guardar en `apps/web/public/images/portal-ambiental/blog/` con un nombre en minúsculas y separado por guiones (lowercase-hyphenated).
+## Fase 3: Generación de Activos Visuales e Imágenes
+1.  **Imágenes de Herramientas**: Si el artículo promueve una nueva herramienta del portal, generar la imagen con `generate_image` y guardarla localmente bajo `apps/web/public/images/`. Añadir un parámetro de caché `?v=X` a su ruta en el código.
+2.  **Imágenes del Artículo**: Buscar una foto de alta calidad libre en Unsplash o, en caso de imágenes conceptuales/científicas exclusivas, generarlas y subirlas a **Cloudinary**.
+3.  **Avatares de Autor**: Respetar rígidamente las rutas definidas en `media-and-assets-guide.md` según el portal.
 
 ## Fase 4: Integración Técnica (TypeScript)
 1.  **Mapeo de Datos**: Convertir el borrador al objeto `BlogArticle` para `new-ambiental-articles.ts`.

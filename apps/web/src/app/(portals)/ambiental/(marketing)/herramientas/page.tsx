@@ -146,7 +146,7 @@ export default function AmbientalHerramientasPage() {
                   <img
                     alt="Visualización interactiva de mapas ambientales"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/portal-ambiental/blog/google-earth-engine-ia.png"
+                    src="/images/portal-ambiental/herramientas/visor-mapas-ambientales-v2.png"
                   />
                   <div className="absolute top-4 right-4 bg-green-500/90 text-white px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border border-white/20">
                     ✓ Disponible
@@ -162,7 +162,7 @@ export default function AmbientalHerramientasPage() {
                   <img
                     alt="Herramienta de generación de matrices de EIA"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/portal-ambiental/blog/estudio-impacto-ambiental.png"
+                    src="/images/portal-ambiental/herramientas/generador-matrices-eia-v2.png"
                   />
                   <div className="absolute top-4 left-4 bg-green-500/90 text-white px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border border-white/20">
                     ✓ Disponible
@@ -264,7 +264,7 @@ export default function AmbientalHerramientasPage() {
                   <img
                     alt="Generador de reportes normatividad ambiental"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/portal-ambiental/blog/jerarquia-normativa-ambiental.png"
+                    src="/images/portal-ambiental/herramientas/normas-ambientales-v2.png"
                   />
                   <div className="absolute top-4 left-4 bg-[var(--accent-secondary)]/90 text-[var(--bg-primary)] px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border border-white/20">
                     Próximamente
@@ -280,7 +280,7 @@ export default function AmbientalHerramientasPage() {
                   <img
                     alt="Análisis de correlaciones ambientales con mapa de calor"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/portal-ambiental/herramientas/analisis-datos-cientificos.jpg"
+                    src="/images/portal-ambiental/herramientas/analisis-correlaciones-v2.png"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
@@ -390,7 +390,7 @@ export default function AmbientalHerramientasPage() {
                   <img
                     alt="Dashboard de indicadores de calidad del agua IRCA"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/portal-ambiental/herramientas/persona-tomando-agua.jpg"
+                    src="/images/portal-ambiental/herramientas/indice-calidad-agua-v2.png"
                   />
                   <div className="absolute top-4 right-4 bg-[var(--accent-secondary)]/90 text-[var(--bg-primary)] px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border border-white/20">
                     Próximamente
@@ -406,7 +406,7 @@ export default function AmbientalHerramientasPage() {
                   <img
                     alt="Calculadora de índices de calidad del aire AQI"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/portal-ambiental/herramientas/dashboard-monitoreo-aire.jpg"
+                    src="/images/portal-ambiental/herramientas/indice-calidad-aire-v2.png"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">

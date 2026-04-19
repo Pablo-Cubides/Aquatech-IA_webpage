@@ -22,10 +22,17 @@ Si los cambios afectan la estructura de datos de los artículos o la lógica del
 1.  **Ejecución**: `pnpm run build --filter @ia-next/web`.
 2.  **Propósito**: Confirmar que Turbopack puede procesar todos los archivos estáticos sin errores de memoria o sintaxis.
 
-## Fase 4: Automatización (Husky Hooks)
+## Fase 4: Preparación de Git (PowerShell Windows)
+Debido a que el entorno subyacente es **Windows (PowerShell)**, es estrictamente obligatorio:
+- **No usar `&&`**: PowerShell usa `;` para encadenar comandos. Sin embargo, no se recomienda encadenar comandos complejos. Es mejor correrlos de a uno.
+- **Rutas con paréntesis**: Las rutas del framework Next.js como `apps/web/src/app/(portals)` pueden romperse en la terminal si no se escapan. **CUALQUIER RUTA** usada en comandos de `git add` que contenga paréntesis debe ir **envuelta en comillas simples**. 
+  - Ejemplo Correcto: `git add 'apps/web/src/app/(portals)/ia/page.tsx'`
+  - Ejemplo Incorrecto: `git add apps/web/src/app/(portals)/ia/page.tsx`
+
+## Fase 5: Automatización (Husky Hooks)
 Para reforzar esta skill, se han configurado los siguientes candados automáticos:
 -   **Pre-commit**: Bloquea el commit si hay errores de sintaxis básicos.
--   **Pre-push**: Bloquea el push si el build no es estable.
+-   **Pre-push**: Bloquea el push si el build no es estable. *(Nota: remover las líneas obsoletas `.husky.sh` si Husky levanta una advertencia de deprecación).*
 
 ---
 

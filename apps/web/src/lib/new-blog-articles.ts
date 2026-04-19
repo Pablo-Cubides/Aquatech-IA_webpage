@@ -10,7 +10,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-04-14",
     readTime: 18,
     excerpt: "Descubre la mecánica interna de los modelos de lenguaje modernos. Un análisis profundo sobre tokens, atención y generación autorregresiva.",
-    heroImage: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1200",
+    heroImage: "/images/portal-ia/blog/llm-transformer-hero-v2.png",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ia/autor/pablo-cubides.png",
@@ -23,7 +23,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "tokenizacion",
           title: "1. Tokenización: El lenguaje de los algoritmos",
           content: "Las redes neuronales no procesan palabras, procesan números. Antes de que cualquier modelo pueda analizar texto, este debe ser convertido en vectores numéricos. La **tokenización** es el proceso de fragmentación del texto en sub-unidades (tokens). Algoritmos como *Byte-Pair Encoding (BPE)* garantizan que palabras comunes sean un solo token, mientras que palabras raras se desarmen en fragmentos más pequeños.\n\nGracias a este proceso, los LLM pueden lidiar con cualquier palabra nueva en cualquier idioma sin colapsar. La eficiencia de un tokenizador define directamente cuántos recursos consumirá el modelo en su inferencia.",
-          image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800",
+          image: "/images/portal-ia/blog/tokenization-v2.png",
         },
         {
           id: "atencion",
@@ -66,7 +66,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-04-13",
     readTime: 12,
     excerpt: "Aprende a controlar la creatividad y precisión de las respuestas generativas de la inteligencia artificial.",
-    heroImage: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=1200",
+    heroImage: "/images/portal-ia/blog/decoding-parameters-hero-v2.png",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ia/autor/pablo-cubides.png",
@@ -84,7 +84,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "topp",
           title: "2. Top-P (Nucleus Sampling): Control Dinámico",
           content: "En lugar de simplemente jugar con probabilidades escaladas, el hiperparámetro **Top-P** suma secuencialmente la masa de probabilidad estricta. Si fijamos Top-P en 0.90, la red evalúa tokens de mayor a menor hasta que las probabilidades sumen el 90%.\n\nEsto significa que frente a contextos obvios, el modelo restringe sus opciones a solo un par de palabras. Frente a contextos ambiguos, el abanico crece y elige entre muchas opciones aleatoriamente pero con sentido gramatical.",
-          image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80&w=800",
+          image: "/images/portal-ia/blog/decoding-parameters-section-v2.png",
         },
         {
           id: "topk",
@@ -117,7 +117,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-04-12",
     readTime: 16,
     excerpt: "Analizamos cómo los modelos modernos detectan y filtran contenido malicioso para garantizar entornos seguros y éticos.",
-    heroImage: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=1200",
+    heroImage: "/images/portal-ia/herramientas/ai-filtering-tool-v2.png",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ia/autor/pablo-cubides.png",
@@ -168,7 +168,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-04-11",
     readTime: 14,
     excerpt: "Analizando paso a paso cómo Midjourney y Stable Diffusion convierten el ruido semántico en fotografías impactantes.",
-    heroImage: "https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?auto=format&fit=crop&q=80&w=1200",
+    heroImage: "/images/portal-ia/herramientas/diffusion-viewer-tool-v2.png",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ia/autor/pablo-cubides.png",
@@ -219,7 +219,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-04-10",
     readTime: 20,
     excerpt: "Navegamos a través de la bibliografía definitiva y los ensayos revisados por pares que catapultaron la algoritmia moderna a la omnipresencia global.",
-    heroImage: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&q=80&w=1200",
+    heroImage: "/images/portal-ia/herramientas/ai-papers-tool-v2.png",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ia/autor/pablo-cubides.png",
@@ -270,7 +270,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-04-09",
     readTime: 15,
     excerpt: "Analítica del frente abierto, los repositorios comunitarios, la irrupción de Llama 3 y la balanza competitiva frente a oligopolios cerrados.",
-    heroImage: "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?auto=format&fit=crop&q=80&w=1200",
+    heroImage: "/images/portal-ia/herramientas/ai-trending-models-tool-v2.png",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ia/autor/pablo-cubides.png",
