@@ -120,7 +120,7 @@ export default function Home() {
           <div className="flex justify-center">
             <div className="relative">
               <Image
-                src="/images/Logo Aquatech - IA 512 - sin fondo.png"
+                src="/images/logo-aquatech.png"
                 alt="Aquatech IA"
                 width={280}
                 height={280}

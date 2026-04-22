@@ -75,11 +75,11 @@ export default function ProductosAmbientalPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 text-center">
           {/* Logo */}
           <div className="mb-8 flex justify-center">
-            <img
-              src="/images/portal-ambiental/logo-ambiental.png"
-              alt="Aquatech IA"
-              className="h-20 w-auto object-contain"
-            />
+              <img
+                src="/images/logo-aquatech.png"
+                alt="Aquatech IA"
+                className="h-20 w-auto object-contain"
+              />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-[var(--ink)]">
             Recursos recomendados para aprender, trabajar y equiparte en gestión

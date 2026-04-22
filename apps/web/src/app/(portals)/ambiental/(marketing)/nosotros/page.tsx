@@ -17,7 +17,7 @@ export default function AmbientalNosotrosPage() {
             {/* Logo */}
             <div className="mb-8 flex justify-center lg:justify-start">
               <img
-                src="/images/portal-ambiental/logo-ambiental.png"
+                src="/images/logo-aquatech.png"
                 alt="Aquatech IA"
                 className="h-20 w-auto object-contain"
               />
@@ -52,7 +52,7 @@ export default function AmbientalNosotrosPage() {
             <div className="absolute -inset-2 rounded-lg bg-gradient-to-r from-[#10B981] to-green-300 blur opacity-20 transition duration-1000 group-hover:opacity-40" />
             <div className="relative overflow-hidden rounded-lg shadow-2xl">
               <img
-                src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&h=400&fit=crop&crop=center"
+                src="/images/portal-ambiental/nosotros-hero.png"
                 alt="Tecnología para el monitoreo y gestión ambiental"
                 className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
               />

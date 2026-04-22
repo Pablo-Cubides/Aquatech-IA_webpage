@@ -49,7 +49,7 @@ export default function IAPage() {
             {/* Logo */}
             <div className="mb-12 flex justify-center animate-in fade-in slide-in-from-top-4 duration-700">
               <img
-                src="/images/portal-ia/logo-ia-light.png"
+                src="/images/logo-aquatech.png"
                 alt="Aquatech IA Logo"
                 className="h-32 w-auto sm:h-40 md:h-48 lg:h-64 object-contain drop-shadow-[0_0_30px_rgba(0,239,255,0.7)]"
               />

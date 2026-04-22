@@ -289,7 +289,7 @@ export default function AmbientalAutorPage() {
               {/* Logo Aquatech */}
               <div className="mb-8">
                 <img
-                  src="/images/portal-ambiental/logo-ambiental.png"
+                  src="/images/logo-aquatech.png"
                   alt="Aquatech IA"
                   className="h-40 w-auto object-contain"
                 />

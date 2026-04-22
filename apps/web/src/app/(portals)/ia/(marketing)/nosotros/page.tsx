@@ -26,7 +26,7 @@ export default function NosotrosPage() {
             {/* Logo */}
             <div className="mb-8 flex justify-center lg:justify-start">
               <img
-                src="/images/portal-ia/logo-ia-light.png"
+                src="/images/logo-aquatech.png"
                 alt="Aquatech IA"
                 className="h-20 w-auto object-contain"
               />
@@ -61,7 +61,7 @@ export default function NosotrosPage() {
             <div className="absolute -inset-2 rounded-lg bg-gradient-to-r from-[#00EFFF] to-blue-500 blur transition duration-1000 opacity-30 hover:opacity-40" />
             <div className="relative overflow-hidden rounded-lg shadow-2xl">
               <img
-                src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&h=400&fit=crop&crop=center"
+                src="/images/portal-ia/ia-nosotros-hero.png"
                 alt="Tecnología e IA aplicada al agua y ambiente"
                 className="w-full h-auto transition-transform duration-300 hover:scale-105"
               />

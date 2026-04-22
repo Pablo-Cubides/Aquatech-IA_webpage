@@ -30,7 +30,7 @@ export default function IAHerramientasPage() {
             {/* Logo */}
             <div className="mb-8 flex justify-center">
               <img
-                src="/images/portal-ia/logo-ia-light.png"
+                src="/images/logo-aquatech.png"
                 alt="Aquatech IA"
                 className="h-40 w-auto object-contain"
               />

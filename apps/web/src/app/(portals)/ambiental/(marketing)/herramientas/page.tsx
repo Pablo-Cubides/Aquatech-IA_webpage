@@ -27,7 +27,7 @@ export default function AmbientalHerramientasPage() {
             {/* Logo */}
             <div className="mb-8 flex justify-center">
               <img
-                src="/images/portal-ambiental/logo-ambiental.png"
+                src="/images/logo-aquatech.png"
                 alt="Aquatech IA"
                 className="h-40 w-auto object-contain"
               />

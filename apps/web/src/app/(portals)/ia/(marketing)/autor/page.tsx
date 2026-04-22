@@ -351,7 +351,7 @@ export default function IAAutorPage() {
               {/* Logo Aquatech */}
               <div className="mb-8">
                 <img
-                  src="/images/portal-ia/logo-ia-light.png"
+                  src="/images/logo-aquatech.png"
                   alt="Aquatech IA"
                   className="object-contain w-auto h-40"
                 />
