@@ -567,26 +567,33 @@ export default function IAAutorPage() {
 
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
               <ProjectWide
-                badge="HUB EDUCATIVO IA (2025–)"
-                title="Análisis de Sentimiento Social"
-                impact="Implementación de IA para monitorear la percepción pública en redes sobre proyectos de infraestructura energética."
-                desc="IA generativa aplicada al análisis de datos sociales."
-                image="/images/portal-ia/blog/ia-generativa-abstracto.jpg"
-                href="/ia/blog/analisis-sentimiento-monitoreo-social"
+                badge="SISTEMA MULTI-AGENTE (2024–)"
+                title="Cubides Bots: Productividad con IA Local"
+                impact="Integración de agentes especializados para flujos de trabajo académicos, personales y empresariales."
+                desc="Orquestación modular con Python, PowerShell y Node.js bajo entornos Dockerizados y seguros."
+                image="/images/portal-ia/blog/cubides-bots-hero.png"
+                href="/ia/blog/ecosistema-bots-empresariales-cubides"
               />
 
               <ProjectCard
-                title="Herramientas IA para imagen"
-                desc="Edición y generación con FastAPI + Next.js + WebSockets integrando FLUX, InstantID y ControlNet Hair en tiempo real."
-                image="/images/portal-ia/blog/stable-diffusion-art.jpg"
-                href="/ia/autor#proyectos"
+                title="Spartan: Marketplace Inteligente"
+                desc="Infraestructura full-stack con Next.js y analítica de datos para la gestión comercial y optimización de servicios."
+                image="/images/portal-ia/blog/spartan-webpage-hero.png"
+                href="/ia/blog/spartan-plataforma-gestion-inteligente"
               />
 
               <ProjectCard
-                title="Sistema RAG para Normativa Ambiental"
-                desc="Arquitectura avanzada de Retrieval-Augmented Generation para consulta semántica de licencias y decretos ambientales."
-                image="/images/portal-ia/blog/llm-transformers-architecture.jpg"
-                href="/ia/blog/rag-normativa-ambiental-inteligente"
+                title="Asistentes de WhatsApp con LLM"
+                desc="Implementación de chatbots conversacionales utilizando la API de WhatsApp e inteligencia artificial para atención al cliente."
+                image="/images/portal-ia/blog/chatbot-whatsapp-hero.png"
+                href="/ia/blog/integracion-llm-whatsapp-chatbot"
+              />
+
+              <ProjectCard
+                title="Aquatech-IA: Portal Ambiental"
+                desc="Plataforma de digitalización para la gestión ambiental, integrando herramientas técnicas y hubs de conocimiento."
+                image="/images/portal-ia/blog/aquatech-ia-hero.png"
+                href="/ia/blog/aquatech-ia-portal-ambiental-digital"
               />
             </div>
           </div>

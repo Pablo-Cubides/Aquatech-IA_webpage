@@ -3,6 +3,139 @@
 import type { BlogArticle } from "./blog-articles";
 
 export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
+  "ecosistema-bots-empresariales-cubides": {
+    slug: "ecosistema-bots-empresariales-cubides",
+    title: "La Trinidad de la Productividad: El Sistema Multi-Agente Cubides Bots",
+    category: "Agentes de IA",
+    date: "2024-04-23",
+    readTime: 15,
+    excerpt: "Análisis técnico del ecosistema Cubides_bots: Orquestación modular de agentes locales para productividad académica, personal y empresarial.",
+    heroImage: "/images/portal-ia/blog/cubides-bots-hero.png",
+    author: {
+      name: "Pablo Cubides",
+      avatar: "/images/portal-ia/autor/pablo-cubides.png",
+      bio: "Ingeniero Químico · M. Sc. en Ingeniería Ambiental · Docente universitario · Desarrollador en IA, redes neuronales y optimización",
+    },
+    content: {
+      introduction: "En un entorno saturado de interfaces pesadas, el proyecto Cubides_bots emerge como una solución de minimalismo productivo. Basado en la línea de comandos y la orquestación de agentes locales, este sistema redefine la automatización mediante un enfoque modular y hermético.",
+      sections: [
+        {
+          id: "orquestacion",
+          title: "1. Orquestación Políglota y Modular",
+          content: "La robustez de Cubides_bots radica en su base tecnológica diversificada: PowerShell para automatización del sistema, Python para la lógica de LLMs y Node.js para integraciones ágiles. Esta arquitectura permite intercambiar componentes sin comprometer la estabilidad del núcleo.",
+        },
+        {
+          id: "seguridad",
+          title: "2. Seguridad Hermética y Aislamiento",
+          content: "A diferencia de asistentes convencionales, Cubides_bots implementa aislamiento total a través de Dockerización. Cada agente opera en contenedores independientes, mientras que la gestión de secretos se realiza con SOPS, asegurando privacidad de nivel profesional.",
+        },
+        {
+          id: "trinidad",
+          title: "3. La Trinidad de la Especialización",
+          content: "El sistema se estructura en tres dominios: \n- **Agente Académico**: Optimizado para investigación y síntesis.\n- **Agente Personal**: Gestión de hábitos y coaching.\n- **Agente Empresarial**: Flujos de trabajo profesionales y automatización de oficina.",
+        }
+      ],
+      conclusion: "Cubides_bots establece un estándar para la IA local y privada, protegiendo la propiedad intelectual mientras optimiza el enfoque cognitivo a través de la potencia multi-agente.",
+    },
+    tags: ["Agentes IA", "Docker", "Productividad", "Python", "Local AI"],
+    nextArticle: {
+      slug: "como-funcionan-los-llm-guia",
+      title: "Cómo funcionan los LLM: De la Tokenización al Transformer",
+    },
+  },
+  "spartan-plataforma-gestion-inteligente": {
+    slug: "spartan-plataforma-gestion-inteligente",
+    title: "Spartan: Arquitectura de un Marketplace Inteligente con IA",
+    category: "Desarrollo Web",
+    date: "2024-04-22",
+    readTime: 12,
+    excerpt: "Explorando la infraestructura de Spartan, un ecosistema digital que integra gestión de datos, marketplace y servicios automatizados.",
+    heroImage: "/images/portal-ia/blog/spartan-webpage-hero.png",
+    author: {
+      name: "Pablo Cubides",
+      avatar: "/images/portal-ia/autor/pablo-cubides.png",
+      bio: "Ingeniero Químico · M. Sc. en Ingeniería Ambiental · Docente universitario · Desarrollador en IA, redes neuronales y optimización",
+    },
+    content: {
+      introduction: "Spartan representa la convergencia entre el e-commerce moderno y la gestión inteligente de datos. Este proyecto no solo facilita la comercialización de productos, sino que implementa una capa lógica avanzada para la optimización de inventarios y análisis de mercado.",
+      sections: [
+        {
+          id: "marketplace",
+          title: "1. Ecosistema de Marketplace",
+          content: "La plataforma utiliza un stack moderno para garantizar transacciones rápidas y seguras. La integración con pasarelas de pago y sistemas de logística automatizada permite una escalabilidad sin precedentes en el sector.",
+        },
+        {
+          id: "datos",
+          title: "2. Gestión y Analítica de Datos",
+          content: "Detrás de la interfaz, Spartan procesa grandes volúmenes de información utilizando arquitecturas de bases de datos optimizadas, permitiendo a los administradores tomar decisiones basadas en tendencias de consumo reales.",
+        }
+      ],
+      conclusion: "Spartan es más que una web; es una infraestructura digital diseñada para soportar los desafíos del comercio y la gestión de servicios en la era de la información.",
+    },
+    tags: ["E-commerce", "Next.js", "Data Management", "Full Stack"],
+  },
+  "integracion-llm-whatsapp-chatbot": {
+    slug: "integracion-llm-whatsapp-chatbot",
+    title: "Chatbots de WhatsApp con LLM: El Futuro de la Atención al Cliente",
+    category: "Conversational IA",
+    date: "2024-04-21",
+    readTime: 10,
+    excerpt: "Guía técnica sobre la integración de modelos de lenguaje de gran escala en WhatsApp para crear asistentes conversacionales humanos.",
+    heroImage: "/images/portal-ia/blog/chatbot-whatsapp-hero.png",
+    author: {
+      name: "Pablo Cubides",
+      avatar: "/images/portal-ia/autor/pablo-cubides.png",
+      bio: "Ingeniero Químico · M. Sc. en Ingeniería Ambiental · Docente universitario · Desarrollador en IA, redes neuronales y optimización",
+    },
+    content: {
+      introduction: "La comunicación directa por WhatsApp es vital para las empresas modernas. Integrar LLMs en este canal eleva la experiencia del usuario de simples menús rígidos a conversaciones fluidas y contextuales.",
+      sections: [
+        {
+          id: "arquitectura",
+          title: "1. Conectividad y Webhooks",
+          content: "El proyecto utiliza la API de WhatsApp Business vinculada a un backend en Node.js/Python. Los webhooks procesan los mensajes en tiempo real, enviándolos al motor de IA para generar respuestas coherentes.",
+        },
+        {
+          id: "memoria",
+          title: "2. Contexto y Memoria de Corto Plazo",
+          content: "Para que un chatbot sea efectivo, debe recordar el historial de la conversación. Implementamos buffers de memoria que permiten al LLM entender referencias pasadas, creando un diálogo natural y resolutivo.",
+        }
+      ],
+      conclusion: "La democratización de los LLMs está permitiendo que pequeñas y medianas empresas ofrezcan una atención al cliente de nivel élite mediante automatizaciones en WhatsApp.",
+    },
+    tags: ["WhatsApp API", "LLM", "Chatbots", "Node.js", "AI Integration"],
+  },
+  "aquatech-ia-portal-ambiental-digital": {
+    slug: "aquatech-ia-portal-ambiental-digital",
+    title: "Aquatech-IA: Digitalizando la Sostenibilidad Ambiental",
+    category: "Soluciones Ambientales",
+    date: "2024-04-20",
+    readTime: 14,
+    excerpt: "Cómo el portal Aquatech-IA utiliza tecnologías de información para facilitar la gestión ambiental y el cumplimiento normativo.",
+    heroImage: "/images/portal-ia/blog/aquatech-ia-hero.png",
+    author: {
+      name: "Pablo Cubides",
+      avatar: "/images/portal-ia/autor/pablo-cubides.png",
+      bio: "Ingeniero Químico · M. Sc. en Ingeniería Ambiental · Docente universitario · Desarrollador en IA, redes neuronales y optimización",
+    },
+    content: {
+      introduction: "Aquatech-IA es la plataforma central donde la ingeniería ambiental se encuentra con la analítica de datos. Este portal ha sido diseñado para centralizar herramientas críticas de cálculo e investigación ambiental.",
+      sections: [
+        {
+          id: "herramientas",
+          title: "1. Herramientas de Cálculo y Cumplimiento",
+          content: "Desde calculadoras de IRCA hasta simuladores de dispersión, el portal ofrece módulos interactivos que simplifican tareas técnicas complejas, garantizando precisión en los reportes ambientales.",
+        },
+        {
+          id: "educacion",
+          title: "2. Repositorio de Conocimiento",
+          content: "El blog y las secciones de autor sirven como un hub educativo, transformando datos brutos en insights accionables para profesionales y estudiantes del sector ambiental.",
+        }
+      ],
+      conclusion: "Con Aquatech-IA, estamos construyendo el puente necesario entre la tecnología de vanguardia y la preservación del entorno natural.",
+    },
+    tags: ["Sostenibilidad", "Ingeniería Ambiental", "EdTech", "Data Science"],
+  },
   "como-funcionan-los-llm-guia": {
     slug: "como-funcionan-los-llm-guia",
     title: "Cómo funcionan los LLM: De la Tokenización al Transformer",
