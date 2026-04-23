@@ -85,18 +85,26 @@ export default function ClassificationPage() {
       {/* Header */}
       <div className="mb-12">
         <div className="flex justify-between items-end">
-          <div className="flex flex-col gap-2">
-            <img 
-              src="/images/portal-ia/autor/aula-score.png" 
-              alt="Aula Score" 
-              className="h-20 md:h-28 w-auto object-contain"
-            />
-            <p className="text-foreground-secondary text-lg font-medium ml-1">Clasificación en vivo</p>
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-4">
+              <img
+                src="/images/logo-aquatech.png"
+                alt="Aquatech Logo"
+                className="h-8 w-auto brightness-0 invert opacity-70"
+              />
+              <div className="h-6 w-[1px] bg-white/20"></div>
+              <img 
+                src="/images/portal-ia/autor/aula-score.png" 
+                alt="Aula Score" 
+                className="h-10 md:h-14 w-auto object-contain"
+              />
+            </div>
+            <p className="text-white text-xl font-bold tracking-tight ml-1">Clasificación en vivo</p>
           </div>
           <div className="flex gap-4 mb-4">
             <button
               onClick={() => setShowTimer(true)}
-              className="p-4 bg-surface hover:bg-surface-hover rounded-xl border border-border transition-all hover:scale-105"
+              className="p-4 bg-surface hover:bg-surface-hover rounded-xl border border-border transition-all hover:scale-105 active:scale-95 shadow-lg"
               aria-label="Abrir temporizador"
               title="Temporizador"
             >
@@ -104,12 +112,13 @@ export default function ClassificationPage() {
             </button>
             <button
               onClick={() => router.push("/ia/autor/herramientas/aula-score")}
-              className="btn-secondary py-4 px-8"
+              className="btn-secondary py-4 px-8 text-lg"
             >
               Nueva sesión
             </button>
           </div>
         </div>
+        <div className="h-[1px] w-full bg-gradient-to-r from-primary-color/50 via-success-color to-transparent mt-4"></div>
       </div>
 
       {/* Tablero de puntuación */}

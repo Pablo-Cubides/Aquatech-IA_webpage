@@ -15,12 +15,12 @@ export function ScoreCard({
   onDecrement,
 }: ScoreCardProps) {
   return (
-    <div className="card card-glass flex flex-row items-center justify-between p-6 md:p-8 transition-all hover:scale-[1.01]">
+    <div className="card card-premium flex flex-row items-center justify-between p-6 md:p-8 transition-all hover:scale-[1.01]">
       <div className="flex-1">
         <h3 className="heading-tertiary text-2xl font-bold text-white tracking-tight">
           {name}
         </h3>
-        <p className="text-sm text-foreground-secondary opacity-70">Grupo de competencia</p>
+        <p className="text-sm text-foreground-secondary">Grupo de competencia</p>
       </div>
 
       <div className="flex flex-row items-center gap-8 md:gap-12">

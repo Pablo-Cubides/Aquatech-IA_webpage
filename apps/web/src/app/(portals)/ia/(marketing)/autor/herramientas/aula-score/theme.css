@@ -35,8 +35,9 @@
   --border: #1e293b;
 
   --foreground: #ffffff;
-  --foreground-secondary: #cbd5e1;
-  --foreground-tertiary: #94a3b8;
+  --foreground-secondary: #ffffff;
+  --foreground-tertiary: #f1f5f9;
+  --foreground-muted: #94a3b8;
   
   --glass-bg: rgba(255, 255, 255, 0.03);
   --glass-border: rgba(255, 255, 255, 0.1);
@@ -49,6 +50,10 @@
 
 body {
   background-color: var(--background);
+  background-image: 
+    radial-gradient(circle at 50% -20%, rgba(0, 239, 255, 0.08), transparent 50%),
+    radial-gradient(circle at 0% 100%, rgba(16, 185, 129, 0.05), transparent 40%);
+  background-attachment: fixed;
   color: var(--foreground);
   transition: background-color 300ms, color 300ms;
 }
@@ -62,11 +67,28 @@ body {
 }
 
 .card-glass {
-  background: var(--glass-bg);
+  background: rgba(255, 255, 255, 0.05);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+}
+
+.card-premium {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.card-premium::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0, 239, 255, 0.5), transparent);
 }
 
 .card:hover {
@@ -167,7 +189,7 @@ body {
 }
 
 .input-primary::placeholder {
-  color: var(--foreground-secondary);
+  color: var(--foreground-muted);
 }
 
 .input-primary:focus {

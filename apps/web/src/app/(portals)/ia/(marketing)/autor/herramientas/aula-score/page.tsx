@@ -73,15 +73,21 @@ export default function ConfigurationPage() {
 
       <div className="mx-auto max-w-2xl">
         {/* Header */}
-        <div className="mb-12 text-center">
-          <div className="mb-6">
+        <div className="mb-12 flex flex-col items-center">
+          <div className="flex items-center gap-6 mb-8 mt-4">
+            <img
+              src="/images/logo-aquatech.png"
+              alt="Aquatech Logo"
+              className="h-10 md:h-12 w-auto brightness-0 invert opacity-80"
+            />
+            <div className="h-8 w-[1px] bg-white/20"></div>
             <img
               src="/images/portal-ia/autor/aula-score.png"
               alt="Aula Score"
-              className="h-32 md:h-48 w-auto mx-auto object-contain"
+              className="h-14 md:h-20 w-auto object-contain"
             />
           </div>
-          <div className="h-1 w-24 mx-auto bg-gradient-to-r from-primary-color to-success-color rounded-full"></div>
+          <div className="h-1 w-32 bg-gradient-to-r from-primary-color via-success-color to-primary-color rounded-full blur-[1px]"></div>
         </div>
 
         {/* Card principal */}
