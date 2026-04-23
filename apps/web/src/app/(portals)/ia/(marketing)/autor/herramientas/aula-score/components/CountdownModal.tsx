@@ -44,7 +44,7 @@ export function CountdownModal({ isOpen, onComplete }: CountdownModalProps) {
       closeButton={false}
     >
       <div className="flex items-center justify-center h-48">
-        <div className="text-9xl font-bold text-primary-color animate-pulse">
+        <div className="text-9xl font-black text-brand-gradient glow-text animate-pulse">
           {count > 0 ? count : "¡YA!"}
         </div>
       </div>

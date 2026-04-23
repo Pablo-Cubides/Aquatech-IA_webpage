@@ -30,13 +30,17 @@
   --accent-cyan: #00efff;
 
   --background: #000000;
-  --surface: #000000;
-  --surface-hover: #1a1d2e;
-  --border: #334155;
+  --surface: #0a0a0a;
+  --surface-hover: #111111;
+  --border: #1e293b;
 
-  --foreground: #f1f5f9;
+  --foreground: #ffffff;
   --foreground-secondary: #cbd5e1;
   --foreground-tertiary: #94a3b8;
+  
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-blur: blur(12px);
 }
 
 * {
@@ -46,19 +50,31 @@
 body {
   background-color: var(--background);
   color: var(--foreground);
-  transition: colors 200ms;
+  transition: background-color 300ms, color 300ms;
 }
 
 .card {
   background-color: var(--surface);
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   padding: 1.5rem;
-  transition: all 200ms;
+  transition: all 300ms ease;
+  border: 1px solid var(--border);
+}
+
+.card-glass {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
 .card:hover {
   background-color: var(--surface-hover);
+  transform: translateY(-2px);
+  border-color: var(--primary-color);
 }
+
 
 .btn-primary {
   padding: 0.75rem 1.5rem;
@@ -193,6 +209,21 @@ p {
   font-weight: 600;
   color: var(--foreground);
 }
+
+.text-primary-color {
+  color: var(--primary-color);
+}
+
+.text-brand-gradient {
+  background: linear-gradient(135deg, var(--primary-color), var(--success-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.glow-text {
+  text-shadow: 0 0 20px rgba(0, 239, 255, 0.4);
+}
+
 
 .modal-overlay {
   position: fixed;

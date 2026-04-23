@@ -68,7 +68,7 @@ export default function ConfigurationPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-surface p-6">
+    <div className="min-h-screen bg-background p-6 md:p-12">
       <ThemeToggle />
 
       <div className="mx-auto max-w-2xl">
@@ -78,14 +78,15 @@ export default function ConfigurationPage() {
             <img
               src="/images/portal-ia/autor/aula-score.png"
               alt="Aula Score"
-              className="h-40 w-auto mx-auto object-contain"
+              className="h-32 md:h-48 w-auto mx-auto object-contain"
             />
           </div>
-          <div className="h-1 w-24 mx-auto bg-gradient-to-r from-primary-color to-secondary-color rounded-full"></div>
+          <div className="h-1 w-24 mx-auto bg-gradient-to-r from-primary-color to-success-color rounded-full"></div>
         </div>
 
         {/* Card principal */}
-        <div className="card border border-primary-color/20 space-y-8 shadow-xl">
+        <div className="card card-glass border-none space-y-8 shadow-2xl p-8 md:p-10">
+
           {step === 1 ? (
             <>
               <div>

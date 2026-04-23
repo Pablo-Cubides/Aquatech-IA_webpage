@@ -73,7 +73,7 @@ export function TimerModal({ isOpen, onClose }: TimerModalProps) {
       <div className="space-y-6">
         {/* Display del tiempo */}
         <div className="text-center">
-          <div className="text-6xl font-bold text-primary-color font-mono">
+          <div className="text-7xl font-black text-brand-gradient glow-text font-mono tracking-tighter">
             {String(displayMinutes).padStart(1, "0")}:
             {String(displaySeconds).padStart(2, "0")}
           </div>

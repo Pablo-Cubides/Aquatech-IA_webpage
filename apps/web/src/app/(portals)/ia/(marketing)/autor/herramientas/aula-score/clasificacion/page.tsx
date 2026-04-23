@@ -79,28 +79,32 @@ export default function ClassificationPage() {
   const displayGroups = groups;
 
   return (
-    <div className="min-h-screen bg-background text-foreground p-6">
+    <div className="min-h-screen bg-background text-foreground p-6 md:p-12">
       <ThemeToggle />
 
       {/* Header */}
-      <div className="mb-8">
-        <div className="flex justify-between items-center">
-          <div>
-            <h1 className="heading-primary">Aula Score</h1>
-            <p className="text-foreground-secondary">Clasificación en vivo</p>
+      <div className="mb-12">
+        <div className="flex justify-between items-end">
+          <div className="flex flex-col gap-2">
+            <img 
+              src="/images/portal-ia/autor/aula-score.png" 
+              alt="Aula Score" 
+              className="h-20 md:h-28 w-auto object-contain"
+            />
+            <p className="text-foreground-secondary text-lg font-medium ml-1">Clasificación en vivo</p>
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-4 mb-4">
             <button
               onClick={() => setShowTimer(true)}
-              className="p-3 bg-surface hover:bg-surface-hover rounded-lg transition-colors"
+              className="p-4 bg-surface hover:bg-surface-hover rounded-xl border border-border transition-all hover:scale-105"
               aria-label="Abrir temporizador"
               title="Temporizador"
             >
-              ⏱️
+              <span className="text-2xl">⏱️</span>
             </button>
             <button
               onClick={() => router.push("/ia/autor/herramientas/aula-score")}
-              className="btn-secondary"
+              className="btn-secondary py-4 px-8"
             >
               Nueva sesión
             </button>
@@ -109,9 +113,9 @@ export default function ClassificationPage() {
       </div>
 
       {/* Tablero de puntuación */}
-      <div className="space-y-8">
+      <div className="max-w-6xl mx-auto space-y-12">
         {isStarted && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
             {displayGroups.map((group) => (
               <ScoreCard
                 key={group.id}
@@ -124,6 +128,7 @@ export default function ClassificationPage() {
             ))}
           </div>
         )}
+
 
         {/* Botón agregar grupo */}
         {isStarted && (

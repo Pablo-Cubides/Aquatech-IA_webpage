@@ -15,33 +15,41 @@ export function ScoreCard({
   onDecrement,
 }: ScoreCardProps) {
   return (
-    <div className="card flex flex-col items-center justify-center p-8 min-h-48">
-      <h3 className="heading-tertiary text-center mb-6 text-xl">{name}</h3>
-
-      <div
-        style={{ fontSize: "4rem" }}
-        className="font-bold text-primary-color mb-8"
-      >
-        {score}
+    <div className="card card-glass flex flex-row items-center justify-between p-6 md:p-8 transition-all hover:scale-[1.01]">
+      <div className="flex-1">
+        <h3 className="heading-tertiary text-2xl font-bold text-white tracking-tight">
+          {name}
+        </h3>
+        <p className="text-sm text-foreground-secondary opacity-70">Grupo de competencia</p>
       </div>
 
-      <div className="flex gap-4">
-        <button
-          onClick={onDecrement}
-          disabled={score === 0}
-          className="btn-danger rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold"
-          aria-label={`Disminuir puntos de ${name}`}
+      <div className="flex flex-row items-center gap-8 md:gap-12">
+        <div className="flex gap-3">
+          <button
+            onClick={onDecrement}
+            disabled={score === 0}
+            className="btn-danger rounded-xl w-12 h-12 flex items-center justify-center text-xl font-bold shadow-lg active:scale-90"
+            aria-label={`Disminuir puntos de ${name}`}
+          >
+            −
+          </button>
+          <button
+            onClick={onIncrement}
+            className="btn-success rounded-xl w-12 h-12 flex items-center justify-center text-xl font-bold shadow-lg active:scale-90"
+            aria-label={`Aumentar puntos de ${name}`}
+          >
+            +
+          </button>
+        </div>
+
+        <div
+          className="text-brand-gradient glow-text font-black leading-none min-w-[3ch] text-right"
+          style={{ fontSize: "5rem" }}
         >
-          −
-        </button>
-        <button
-          onClick={onIncrement}
-          className="btn-success rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold"
-          aria-label={`Aumentar puntos de ${name}`}
-        >
-          +
-        </button>
+          {score}
+        </div>
       </div>
     </div>
   );
 }
+
