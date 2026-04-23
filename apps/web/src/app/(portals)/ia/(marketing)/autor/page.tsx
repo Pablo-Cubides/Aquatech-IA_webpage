@@ -568,30 +568,30 @@ export default function IAAutorPage() {
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
               <ProjectWide
                 badge="SISTEMA MULTI-AGENTE (2024–)"
-                title="Cubides Bots: Productividad con IA Local"
-                impact="Integración de agentes especializados para flujos de trabajo académicos, personales y empresariales."
-                desc="Orquestación modular con Python, PowerShell y Node.js bajo entornos Dockerizados y seguros."
+                title="Cubides_bots: Soberanía y Productividad con IA Local"
+                impact="Ecosistema de Multi-Agentes Aislados con Hardening de Docker y Cifrado SOPS/AGE."
+                desc="Orquestación profesional con PowerShell 7+ y Python para la gestión soberana de información académica y empresarial bajo entornos herméticos."
                 image="/images/portal-ia/blog/cubides-bots-hero.png"
                 href="/ia/blog/ecosistema-bots-empresariales-cubides"
               />
 
               <ProjectCard
-                title="Spartan: Marketplace Inteligente"
-                desc="Infraestructura full-stack con Next.js y analítica de datos para la gestión comercial y optimización de servicios."
+                title="Spartan Club: Marketplace Multimodal"
+                desc="Infraestructura full-stack de alto rendimiento con Next.js 15, React 19 e integración de visión artificial vía Gemini 1.5 Flash."
                 image="/images/portal-ia/blog/spartan-webpage-hero.png"
                 href="/ia/blog/spartan-plataforma-gestion-inteligente"
               />
 
               <ProjectCard
-                title="Asistentes de WhatsApp con LLM"
-                desc="Implementación de chatbots conversacionales utilizando la API de WhatsApp e inteligencia artificial para atención al cliente."
+                title="WhatsApp Enterprise AI Platform"
+                desc="Chatbots conversacionales robustos con automatización Playwright, arquitectura de workers distribuida (Celery) y persistencia SQL."
                 image="/images/portal-ia/blog/chatbot-whatsapp-hero.png"
                 href="/ia/blog/integracion-llm-whatsapp-chatbot"
               />
 
               <ProjectCard
                 title="Aquatech-IA: Portal Ambiental"
-                desc="Plataforma de digitalización para la gestión ambiental, integrando herramientas técnicas y hubs de conocimiento."
+                desc="Ecosistema monorepo avanzado (Turborepo) con ingesta de macro-datos OpenAQ/GBIF y soporte para Model Context Protocol (MCP)."
                 image="/images/portal-ia/blog/aquatech-ia-hero.png"
                 href="/ia/blog/aquatech-ia-portal-ambiental-digital"
               />
@@ -634,25 +634,25 @@ export default function IAAutorPage() {
 
             <div className="grid grid-cols-1 gap-8 mb-8 md:grid-cols-2 lg:grid-cols-3">
               <ArticleCard
-                title="Cómo funcionan los LLMs: Guía completa"
-                excerpt="Explicación detallada de la arquitectura Transformer, attention mechanisms y el proceso de entrenamiento de modelos de lenguaje."
-                category="Machine Learning"
-                readTime="15 min"
-                href="/ia/blog/como-funcionan-llms-guia-completa"
-              />
-              <ArticleCard
-                title="RAG vs Fine-tuning: ¿Cuándo usar cada uno?"
-                excerpt="Comparación práctica entre Retrieval-Augmented Generation y fine-tuning para casos de uso específicos en producción."
-                category="LLMs"
-                readTime="12 min"
-                href="/ia/blog/rag-vs-fine-tuning-cuando-usar"
-              />
-              <ArticleCard
-                title="Construyendo agentes de IA con LangChain y CrewAI"
-                excerpt="Tutorial paso a paso para crear agentes inteligentes que pueden colaborar y ejecutar tareas complejas de forma autónoma."
-                category="Agentes de IA"
+                title="Cómo funcionan los LLM: De la Tokenización al Transformer"
+                excerpt="Análisis profundo de la arquitectura Transformer, mecanismos de auto-atención y el viaje probabilístico de la generación de texto."
+                category="Arquitectura"
                 readTime="18 min"
-                href="/ia/blog/agentes-ia-langchain-crewai"
+                href="/ia/blog/como-funcionan-los-llm-guia"
+              />
+              <ArticleCard
+                title="Seguridad en IA: Protegiendo el Diálogo"
+                excerpt="Cómo los modelos modernos detectan y filtran contenido mediante RLHF, Red Teaming y escudos de moderación activa."
+                category="Seguridad"
+                readTime="16 min"
+                href="/ia/blog/seguridad-y-filtrado-ia"
+              />
+              <ArticleCard
+                title="Modelos de Difusión Espacial"
+                excerpt="Descubre la matemática detrás de Midjourney y Stable Diffusion: convirtiendo el ruido semántico en realismo fotográfico."
+                category="Visión IA"
+                readTime="14 min"
+                href="/ia/blog/generacion-de-imagenes-difusion"
               />
             </div>
 

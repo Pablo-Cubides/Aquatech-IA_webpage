@@ -5,11 +5,11 @@ import type { BlogArticle } from "./blog-articles";
 export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
   "ecosistema-bots-empresariales-cubides": {
     slug: "ecosistema-bots-empresariales-cubides",
-    title: "La Trinidad de la Productividad: El Sistema Multi-Agente Cubides Bots",
+    title: "Cubides_bots: Arquitectura de Multi-Agentes, Seguridad Hermética y Soberanía Tecnológica",
     category: "Agentes de IA",
     date: "2024-04-23",
-    readTime: 15,
-    excerpt: "Análisis técnico del ecosistema Cubides_bots: Orquestación modular de agentes locales para productividad académica, personal y empresarial.",
+    readTime: 25,
+    excerpt: "Manual técnico detallado sobre el proyecto Cubides_bots: Orquestación modular de agentes locales, aislamiento con Docker, cifrado SOPS/AGE y automatización con PowerShell.",
     heroImage: "/images/portal-ia/blog/cubides-bots-hero.png",
     author: {
       name: "Pablo Cubides",
@@ -17,39 +17,50 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
       bio: "Ingeniero Químico · M. Sc. en Ingeniería Ambiental · Docente universitario · Desarrollador en IA, redes neuronales y optimización",
     },
     content: {
-      introduction: "En un entorno saturado de interfaces pesadas, el proyecto Cubides_bots emerge como una solución de minimalismo productivo. Basado en la línea de comandos y la orquestación de agentes locales, este sistema redefine la automatización mediante un enfoque modular y hermético.",
+      introduction: "En un panorama saturado de soluciones en la nube de 'caja negra', el proyecto Cubides_bots surge como un manifiesto por la soberanía tecnológica. Este ecosistema no es solo un asistente; es una infraestructura de **Multi-Agentes Aislados** diseñada para ejecutarse localmente, garantizando que tus datos y tu propiedad intelectual nunca abandonen tu perímetro. Basado en tres pilares fundamentales —Aislamiento Estricto (Docker), Criptografía por Diseño (SOPS) y Orquestación Robusta (PowerShell)—, este sistema redefine lo que significa la productividad asistida por IA.",
       sections: [
         {
-          id: "orquestacion",
-          title: "1. Orquestación Políglota y Modular",
-          content: "La robustez de Cubides_bots radica en su base tecnológica diversificada: PowerShell para automatización del sistema, Python para la lógica de LLMs y Node.js para integraciones ágiles. Esta arquitectura permite intercambiar componentes sin comprometer la estabilidad del núcleo.",
+          id: "arquitectura",
+          title: "1. La Arquitectura de la 'Trinidad': Tres Dominios, Tres Agentes",
+          content: "El sistema no es un monolito, sino que se fragmenta en tres identidades especializadas, cada una con su propia pila tecnológica y puerto de red:\n\n- **Agente Académico (Colega):** Construido sobre Node.js y OpenClaw. Escucha en el puerto `18789`. Su propósito es la síntesis de información de alto nivel, investigación de papers y flujos de datos vía WebSockets.\n- **Agente Personal (Coach):** Implementado mediante Claude CLI. Opera directamente en la terminal sin puertos expuestos interactivamente. Está diseñado para la introspección, planificación de hábitos y coaching privado.\n- **Agente Empresarial (Socio):** Desarrollado con FastAPI y Python. Escucha en el puerto `8003`. Es el 'caballo de batalla' encargado de flujos de trabajo profesionales, automatización de documentos y consultas estratégicas de negocio.\n\nEsta separación asegura que el compromiso de un agente no comprometa la integridad de los demás.",
         },
         {
-          id: "seguridad",
-          title: "2. Seguridad Hermética y Aislamiento",
-          content: "A diferencia de asistentes convencionales, Cubides_bots implementa aislamiento total a través de Dockerización. Cada agente opera en contenedores independientes, mientras que la gestión de secretos se realiza con SOPS, asegurando privacidad de nivel profesional.",
+          id: "docker-hardening",
+          title: "2. Contenedorización y Hardening de Seguridad",
+          content: "Cada agente dentro de Cubides_bots vive dentro de un entorno Dockerizado con políticas de seguridad agresivas. El archivo `docker-compose.yml` no solo gestiona el levantamiento, sino que impone restricciones de kernel:\n\n```yaml\nservices:\n  academic-agent:\n    cap_drop: [ALL] # Elimina todas las capacidades peligrosas del kernel\n    read_only: true # El sistema de archivos raíz es de solo lectura\n    security_opt:\n      - no-new-privileges:true # Impide la escalada de privilegios dentro del contenedor\n```\n\nEste nivel de 'Hardening' garantiza que incluso si un script malicioso intentara ejecutarse, el contenedor estaría tan restringido que no podría mutar su propio sistema ni acceder a la red del host de forma no autorizada.",
         },
         {
-          id: "trinidad",
-          title: "3. La Trinidad de la Especialización",
-          content: "El sistema se estructura en tres dominios: \n- **Agente Académico**: Optimizado para investigación y síntesis.\n- **Agente Personal**: Gestión de hábitos y coaching.\n- **Agente Empresarial**: Flujos de trabajo profesionales y automatización de oficina.",
+          id: "power-shell",
+          title: "3. El Motor de Orquestación: PowerShell 7+",
+          content: "Contrario a la creencia popular de que PowerShell es solo para administración de Windows, en Cubides_bots representa el **83.1% de la lógica de orquestación**. Se utiliza PowerShell Core 7 por su capacidad para manejar JSON, procesos en segundo plano y su robustez multiplataforma.\n\nScripts como `Invoke-Academic.ps1` no solo lanzan contenedores; gestionan el ciclo de vida completo: verifican dependencias, descifran secretos en memoria volátil (JIT) y, lo más importante, ejecutan el script `Clean-Runtime.ps1` para purgar cualquier rastro de secretos o variables de entorno temporales una vez finalizada la sesión.",
+        },
+        {
+          id: "secretos",
+          title: "4. Criptografía con SOPS y AGE",
+          content: "En Cubides_bots, los archivos `.env` en texto plano están prohibidos. La gestión de secretos se realiza mediante **SOPS (Secrets Operations)** y claves maestras generadas con **AGE**.\n\n- Los secretos se guardan en archivos `.enc.yaml` cifrados asimétricamente.\n- Solo el script de orquestación, poseedor de la llave privada local, puede descifrar estos valores momentáneamente para inyectarlos en el proceso del contenedor.\n- Esto permite subir la configuración a repositorios de Git sin el menor riesgo de fuga de credenciales.",
+        },
+        {
+          id: "troubleshooting",
+          title: "5. Guía de Despliegue y Troubleshooting",
+          content: "Si estás implementando este sistema, ten en cuenta estos puntos técnicos críticos:\n\n1. **Variable de Entorno AGE:** Asegúrate de que `$env:SOPS_AGE_KEY_FILE` apunte a tu `keys.txt` privado.\n2. **Persistencia de Logs:** Dado que el contenedor es `read_only`, los logs deben montarse mediante volúmenes del sistema de archivos del host (`/app/logs:/var/log/app`).\n3. **WebSockets en Node.js:** Si el puerto `18789` falla, verifica que el firewall de Docker no esté bloqueando el túnel SSL.\n\nPara profundizar en la implementación, consulta el código fuente directamente.",
+          callout: {
+            type: "info",
+            title: "Visita el Proyecto",
+            content: "👉 Ver en GitHub: [Pablo-Cubides/Cubides_bots](https://github.com/Pablo-Cubides/Cubides_bots)",
+          },
         }
       ],
-      conclusion: "Cubides_bots establece un estándar para la IA local y privada, protegiendo la propiedad intelectual mientras optimiza el enfoque cognitivo a través de la potencia multi-agente.",
+      conclusion: "Cubides_bots no es solo una herramienta de automatización, es la realización de un ecosistema de IA privada donde el usuario es el único soberano de su información. El futuro del trabajo no está en la nube pública, sino en los agentes locales orquestados con precisión quirúrgica.",
     },
-    tags: ["Agentes IA", "Docker", "Productividad", "Python", "Local AI"],
-    nextArticle: {
-      slug: "como-funcionan-los-llm-guia",
-      title: "Cómo funcionan los LLM: De la Tokenización al Transformer",
-    },
+    tags: ["Agentes IA", "Docker", "PowerShell", "Security", "SOPS", "Local-AI"],
   },
   "spartan-plataforma-gestion-inteligente": {
     slug: "spartan-plataforma-gestion-inteligente",
-    title: "Spartan: Arquitectura de un Marketplace Inteligente con IA",
+    title: "Spartan Club: Arquitectura de una Plataforma de Marketplace y Coaching Multimodal (v1.1.0)",
     category: "Desarrollo Web",
     date: "2024-04-22",
-    readTime: 12,
-    excerpt: "Explorando la infraestructura de Spartan, un ecosistema digital que integra gestión de datos, marketplace y servicios automatizados.",
+    readTime: 15,
+    excerpt: "Explorando la infraestructura avanzada de Spartan: Next.js 15, integración con Gemini 1.5 Flash para visión artificial y sistemas de pagos resilientes.",
     heroImage: "/images/portal-ia/blog/spartan-webpage-hero.png",
     author: {
       name: "Pablo Cubides",
@@ -57,30 +68,45 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
       bio: "Ingeniero Químico · M. Sc. en Ingeniería Ambiental · Docente universitario · Desarrollador en IA, redes neuronales y optimización",
     },
     content: {
-      introduction: "Spartan representa la convergencia entre el e-commerce moderno y la gestión inteligente de datos. Este proyecto no solo facilita la comercialización de productos, sino que implementa una capa lógica avanzada para la optimización de inventarios y análisis de mercado.",
+      introduction: "Spartan no es solo un sitio web; es un organismo digital diseñado para soportar un ecosistema masivo de usuarios, marketplace y coaching asistido por inteligencia artificial. Su arquitectura ha evolucionado bajo el lema del rendimiento extremo, utilizando las últimas fronteras del desarrollo web para ofrecer una experiencia fluida, rápida y segura.",
       sections: [
         {
-          id: "marketplace",
-          title: "1. Ecosistema de Marketplace",
-          content: "La plataforma utiliza un stack moderno para garantizar transacciones rápidas y seguras. La integración con pasarelas de pago y sistemas de logística automatizada permite una escalabilidad sin precedentes en el sector.",
+          id: "stack-moderno",
+          title: "1. El Corazón Tecnológico: Next.js 15 y React 19",
+          content: "Apostando por la innovación, Spartan utiliza **Next.js 15.3** (RC) y **React 19**. Esta combinación permite aprovechar al máximo los *Server Components*, reduciendo drásticamente el JavaScript enviado al cliente. La gestión de datos se apoya en **Prisma 5.17** interactuando con una base de datos **PostgreSQL en Supabase**, garantizando consultas optimizadas y una integridad referencial estricta.",
         },
         {
-          id: "datos",
-          title: "2. Gestión y Analítica de Datos",
-          content: "Detrás de la interfaz, Spartan procesa grandes volúmenes de información utilizando arquitecturas de bases de datos optimizadas, permitiendo a los administradores tomar decisiones basadas en tendencias de consumo reales.",
+          id: "ia-multimodal",
+          title: "2. Coaching Multimodal con Gemini 1.5 Flash",
+          content: "La gran innovación de Spartan es su motor de IA integrado. No se limita al texto; gracias a la implementación de **Google Gemini 1.5 Flash**, la plataforma puede procesar imágenes de los usuarios para realizar análisis de progreso físico y visual. Las conversaciones con el coach no se pierden en el limbo: se almacenan de forma **encriptada** (Firebase Admin SDK + encriptación simétrica) para que solo el usuario tenga acceso a su historial de progreso.",
+        },
+        {
+          id: "resiliencia-pagos",
+          title: "3. Marketplace y Resiliencia en Pagos",
+          content: "Un marketplace es tan fuerte como su sistema financiero. Spartan ha implementado una arquitectura de pagos dual con **Stripe** y **MercadoPago**. Se gestionan webhooks protegidos mediante firmas criptográficas **HMAC-SHA256**, lo que impide cualquier intento de fraude por inyección de transacciones falsas. El sistema de créditos interno monitoriza meticulosamente el uso de recursos de IA, optimizando los costos operativos.",
+        },
+        {
+          id: "seguridad-escalabilidad",
+          title: "4. Seguridad y Rate Limiting",
+          content: "Para evitar abusos y ataques de denegación de servicio (DoS), el backend integra **Upstash Redis** para el control de *Rate Limiting*. Todas las entradas de la API están validadas mediante **Zod schemas**, asegurando que los datos que entran al sistema sean íntegros y seguros antes de tocar la persistencia.",
+          callout: {
+            type: "info",
+            title: "Repositorio de Referencia",
+            content: "👉 Ver en GitHub: [Pablo-Cubides/spartan](https://github.com/Pablo-Cubides/spartan)",
+          },
         }
       ],
-      conclusion: "Spartan es más que una web; es una infraestructura digital diseñada para soportar los desafíos del comercio y la gestión de servicios en la era de la información.",
+      conclusion: "En resumen, Spartan ejemplifica cómo integrar tecnologías de vanguardia —IA multimodal, pagos globales y esquemas de seguridad modernos— en una plataforma coherente preparada para la escala global.",
     },
-    tags: ["E-commerce", "Next.js", "Data Management", "Full Stack"],
+    tags: ["Next.js 15", "React 19", "Gemini IA", "Fintech", "Supabase"],
   },
   "integracion-llm-whatsapp-chatbot": {
     slug: "integracion-llm-whatsapp-chatbot",
-    title: "Chatbots de WhatsApp con LLM: El Futuro de la Atención al Cliente",
+    title: "Enterprise WhatsApp AI Platform: Más allá de la API oficial con Playwright y Celery",
     category: "Conversational IA",
     date: "2024-04-21",
-    readTime: 10,
-    excerpt: "Guía técnica sobre la integración de modelos de lenguaje de gran escala en WhatsApp para crear asistentes conversacionales humanos.",
+    readTime: 12,
+    excerpt: "Desentrañando la ingeniería de un chatbot de WhatsApp empresarial: Automatización con Playwright, gestión de colas distribuida y persistencia SQL.",
     heroImage: "/images/portal-ia/blog/chatbot-whatsapp-hero.png",
     author: {
       name: "Pablo Cubides",
@@ -88,30 +114,40 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
       bio: "Ingeniero Químico · M. Sc. en Ingeniería Ambiental · Docente universitario · Desarrollador en IA, redes neuronales y optimización",
     },
     content: {
-      introduction: "La comunicación directa por WhatsApp es vital para las empresas modernas. Integrar LLMs en este canal eleva la experiencia del usuario de simples menús rígidos a conversaciones fluidas y contextuales.",
+      introduction: "La automatización de WhatsApp para empresas suele estar limitada por costes prohibitivos o APIs rígidas. El proyecto **Chatbot WhatsApp LLM** rompe estas barreras utilizando la potencia de la automatización basada en navegador y orquestación asíncrona, permitiendo integrar cualquier LLM en el canal de comunicación más usado del mundo.",
       sections: [
         {
-          id: "arquitectura",
-          title: "1. Conectividad y Webhooks",
-          content: "El proyecto utiliza la API de WhatsApp Business vinculada a un backend en Node.js/Python. Los webhooks procesan los mensajes en tiempo real, enviándolos al motor de IA para generar respuestas coherentes.",
+          id: "playwright",
+          title: "1. El Motor de Interacción: Playwright",
+          content: "En lugar de depender exclusivamente de webhooks de terceros, este sistema utiliza un módulo de `whatsapp_automator.py` basado en **Playwright**. Este permite simular la interacción en WhatsApp Web con un realismo total, gestionando sesiones persistentes de navegador y detectando cambios reactivos en el DOM para capturar mensajes instantáneamente.",
         },
         {
-          id: "memoria",
-          title: "2. Contexto y Memoria de Corto Plazo",
-          content: "Para que un chatbot sea efectivo, debe recordar el historial de la conversación. Implementamos buffers de memoria que permiten al LLM entender referencias pasadas, creando un diálogo natural y resolutivo.",
+          id: "celery-workers",
+          title: "2. Arquitectura de Workers con Celery",
+          content: "Para garantizar que la API de **FastAPI** no se bloquee mientras el chatbot 'piensa' o navega, implementamos una arquitectura de workers distribuidos. Los **Celery Workers** se encargan de ejecutar las estancias del navegador en modo *headless*, permitiendo que el sistema pueda escalar horizontalmente para procesar múltiples conversaciones concurrentes sin latencia perceptible.",
+        },
+        {
+          id: "alembic",
+          title: "3. Robustez de Base de Datos con Alembic",
+          content: "La gestión de datos no se deja al azar. El sistema utiliza **Alembic** para el versionado y migración del esquema SQL. Esto asegura que cada actualización en el historial de conversaciones o la estructura de los usuarios sea reversible y reproducible, vital para entornos empresariales donde la pérdida de datos no es una opción.",
+          callout: {
+            type: "info",
+            title: "Mira el Código",
+            content: "👉 Ver en GitHub: [Pablo-Cubides/chatbot-whatsapp-llm](https://github.com/Pablo-Cubides/chatbot-whatsapp-llm)",
+          },
         }
       ],
-      conclusion: "La democratización de los LLMs está permitiendo que pequeñas y medianas empresas ofrezcan una atención al cliente de nivel élite mediante automatizaciones en WhatsApp.",
+      conclusion: "Este chatbot representa la combinación perfecta entre automatización de bajo nivel y arquitectura de software moderna, permitiendo que la IA conversacional trabaje realmente para el negocio.",
     },
-    tags: ["WhatsApp API", "LLM", "Chatbots", "Node.js", "AI Integration"],
+    tags: ["FastAPI", "Playwright", "Celery", "PostgreSQL", "WhatsApp AI"],
   },
   "aquatech-ia-portal-ambiental-digital": {
     slug: "aquatech-ia-portal-ambiental-digital",
-    title: "Aquatech-IA: Digitalizando la Sostenibilidad Ambiental",
+    title: "Monorepos y Ciencia de Datos: El Ecosistema Técnico de Aquatech-IA",
     category: "Soluciones Ambientales",
     date: "2024-04-20",
-    readTime: 14,
-    excerpt: "Cómo el portal Aquatech-IA utiliza tecnologías de información para facilitar la gestión ambiental y el cumplimiento normativo.",
+    readTime: 15,
+    excerpt: "Análisis del monorepo Aquatech-IA: Turborepo, pnpm workspaces y la integración de fuentes de datos ambientales masivas (OpenAQ, GBIF).",
     heroImage: "/images/portal-ia/blog/aquatech-ia-hero.png",
     author: {
       name: "Pablo Cubides",
@@ -119,22 +155,32 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
       bio: "Ingeniero Químico · M. Sc. en Ingeniería Ambiental · Docente universitario · Desarrollador en IA, redes neuronales y optimización",
     },
     content: {
-      introduction: "Aquatech-IA es la plataforma central donde la ingeniería ambiental se encuentra con la analítica de datos. Este portal ha sido diseñado para centralizar herramientas críticas de cálculo e investigación ambiental.",
+      introduction: "Aquatech-IA representa el puente entre la rigurosidad científica del monitoreo ambiental y la agilidad de la ingeniería de software moderna. Construido como un monorepo de alto rendimiento, el portal centraliza flujos de datos complejos para transformarlos en herramientas de decisión inmediata.",
       sections: [
         {
-          id: "herramientas",
-          title: "1. Herramientas de Cálculo y Cumplimiento",
-          content: "Desde calculadoras de IRCA hasta simuladores de dispersión, el portal ofrece módulos interactivos que simplifican tareas técnicas complejas, garantizando precisión en los reportes ambientales.",
+          id: "monorepo",
+          title: "1. Gestión con Turborepo y pnpm workspaces",
+          content: "Para manejar múltiples aplicaciones (`apps/web`, `apps/api`) y paquetes compartidos de lógica empresarial, Aquatech utiliza **Turborepo** sobre **pnpm workspaces**. Esto nos permite ejecutar builds paralelos con un sistema de caché 'remote caching' que reduce el tiempo de despliegue en un 70%, asegurando que cada componente del ecosistema se mantenga sincronizado.",
         },
         {
-          id: "educacion",
-          title: "2. Repositorio de Conocimiento",
-          content: "El blog y las secciones de autor sirven como un hub educativo, transformando datos brutos en insights accionables para profesionales y estudiantes del sector ambiental.",
+          id: "datos-cientificos",
+          title: "2. Integración de Macro-datos Ambientales",
+          content: "La verdadera potencia de Aquatech reside en su capacidad de ingesta de datos. La plataforma consume en tiempo real APIs globales de **OpenAQ** (calidad del aire), **GBIF** (biodiversidad) y **WQP** (calidad del agua). Estos datos se normalizan mediante una capa de backend enriquecida para alimentar visores cartográficos interactivos basados en **Leaflet** y filtros de IA.",
+        },
+        {
+          id: "ai-first",
+          title: "3. Filosofía AI-First y MCP",
+          content: "El desarrollo de Aquatech-IA está optimizado para la asistencia por agentes. Implementamos compatibilidad con el **Model Context Protocol (MCP)**, lo que permite que herramientas de IA interactúen directamente con el sistema de archivos y las bases de datos del portal para generar reportes automáticos o realizar diagnosis preventivas de sensores ambientales locales.",
+          callout: {
+            type: "info",
+            title: "Repositorio Web",
+            content: "👉 Ver en GitHub: [Pablo-Cubides/Aquatech-IA_webpage](https://github.com/Pablo-Cubides/Aquatech-IA_webpage)",
+          },
         }
       ],
-      conclusion: "Con Aquatech-IA, estamos construyendo el puente necesario entre la tecnología de vanguardia y la preservación del entorno natural.",
+      conclusion: "En resumen, Aquatech-IA demuestra que el software ambiental debe ser tan robusto y escalable como cualquier plataforma financiera de Wall Street, poniendo la tecnología al servicio de la preservación del planeta.",
     },
-    tags: ["Sostenibilidad", "Ingeniería Ambiental", "EdTech", "Data Science"],
+    tags: ["Monorepo", "Turborepo", "Data Science", "Environmental-Tech", "Open Data"],
   },
   "como-funcionan-los-llm-guia": {
     slug: "como-funcionan-los-llm-guia",
