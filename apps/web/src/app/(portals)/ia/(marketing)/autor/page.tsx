@@ -40,6 +40,8 @@ interface ProjectWideProps {
   desc: string;
   image: string;
   href: string;
+  tags?: string[];
+  metrics?: { label: string; value: string }[];
 }
 
 interface StackCardProps {
@@ -106,34 +108,85 @@ const ProjectWide: React.FC<ProjectWideProps> = ({
   desc,
   image,
   href,
+  tags,
+  metrics,
 }) => (
   <div className="lg:col-span-3">
     <Link
       href={href}
-      className="group block bg-[var(--bg-tertiary)] border border-[var(--border-secondary)] rounded-xl overflow-hidden hover:border-[var(--accent-primary)] transition-colors"
+      className="group block bg-[var(--bg-tertiary)] border border-[var(--border-secondary)] rounded-2xl overflow-hidden hover:border-[var(--accent-primary)] hover:shadow-[0_0_30px_rgba(0,180,216,0.15)] transition-all duration-300 relative"
+      itemScope
+      itemType="https://schema.org/SoftwareApplication"
     >
-      <div className="flex flex-col lg:flex-row">
-        <div className="lg:w-1/2 aspect-video lg:aspect-auto relative overflow-hidden bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)]">
+      <div className="flex flex-col lg:flex-row relative z-10 bg-[#060606]">
+        <div className="relative overflow-hidden aspect-video lg:aspect-auto lg:w-1/2 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)]">
           <img
             src={image}
             alt={title}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            itemProp="image"
+            className="block object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors" />
+          <div className="absolute inset-0 transition-opacity duration-300 opacity-20 bg-gradient-to-r from-black via-transparent to-transparent group-hover:opacity-0" />
         </div>
-        <div className="p-8 lg:w-1/2">
-          <span className="inline-block px-3 py-1 bg-[var(--accent-primary)] text-white text-sm font-medium rounded-full mb-4">
-            {badge}
-          </span>
-          <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-2 group-hover:text-[var(--accent-primary)] transition-colors">
+        <div className="p-8 lg:w-1/2 lg:p-10 flex flex-col justify-center">
+          <div className="flex items-start justify-between mb-4">
+            <span className="inline-block px-3 py-1 bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] border border-[var(--accent-primary)]/20 text-xs font-bold tracking-wider rounded-full uppercase">
+              {badge}
+            </span>
+          </div>
+          
+          <h3 
+            className="text-2xl md:text-3xl font-bold text-white mb-3 group-hover:text-[var(--accent-primary)] transition-colors leading-tight" 
+            itemProp="name"
+          >
             {title}
           </h3>
-          <p className="text-[var(--accent-primary)] font-medium mb-3">
+          
+          <p className="text-[var(--accent-secondary)] font-medium mb-4 text-sm md:text-base leading-snug">
             {impact}
           </p>
-          <p className="text-[var(--text-secondary)]">{desc}</p>
+          
+          <p 
+            className="text-[var(--text-secondary)] mb-6 text-sm md:text-base leading-relaxed"
+            itemProp="description"
+          >
+            {desc}
+          </p>
+          
+          {metrics && metrics.length > 0 && (
+             <div className="grid grid-cols-2 gap-4 mb-6 pb-6 border-b border-[var(--border-secondary)]/50">
+               {metrics.map(m => (
+                 <div key={m.label} className="group/metric">
+                   <div className="text-xl md:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-[var(--text-secondary)] group-hover/metric:text-[var(--accent-primary)] transition-colors duration-300">{m.value}</div>
+                   <div className="mt-1 text-xs font-semibold tracking-widest uppercase text-[var(--accent-tertiary)]">{m.label}</div>
+                 </div>
+               ))}
+             </div>
+          )}
+
+          <div className="flex-grow" />
+
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-end w-full">
+            {tags && tags.length > 0 && (
+              <div className="flex flex-wrap gap-2 flex-grow">
+                {tags.map(tag => (
+                  <span key={tag} className="px-2.5 py-1 text-xs font-semibold bg-[var(--bg-secondary)] text-[var(--text-secondary)] border border-[var(--border-secondary)] rounded-md">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+            
+            <div className="flex items-center text-[var(--accent-primary)] font-bold text-sm tracking-wide uppercase mt-4 sm:mt-0 transition-transform group-hover:translate-x-2">
+               Explorar Arquitectura <ArrowRight className="w-5 h-5 ml-2" />
+            </div>
+          </div>
         </div>
       </div>
+      
+      {/* Decorative Glow Elements */}
+      <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-[var(--accent-primary)]/10 rounded-full blur-[100px] pointer-events-none group-hover:bg-[var(--accent-primary)]/20 transition-colors duration-700" />
+      <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 bg-[var(--accent-secondary)]/10 rounded-full blur-[100px] pointer-events-none group-hover:bg-[var(--accent-secondary)]/20 transition-colors duration-700" />
     </Link>
   </div>
 );
@@ -573,6 +626,11 @@ export default function IAAutorPage() {
                 desc="Orquestación profesional con PowerShell 7+ y Python para la gestión soberana de información académica y empresarial bajo entornos herméticos."
                 image="/images/portal-ia/blog/cubides-bots-hero.png"
                 href="/ia/blog/ecosistema-bots-empresariales-cubides"
+                tags={["Python", "PowerShell Core", "Docker Compose", "SOPS", "LLMs Locales", "Node.js"]}
+                metrics={[
+                  { label: "Tiempo Orquestación", value: "-60%" },
+                  { label: "Seguridad", value: "Aislamiento Total" }
+                ]}
               />
 
               <ProjectCard

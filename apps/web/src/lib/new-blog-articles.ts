@@ -17,40 +17,40 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
       bio: "Ingeniero Químico · M. Sc. en Ingeniería Ambiental · Docente universitario · Desarrollador en IA, redes neuronales y optimización",
     },
     content: {
-      introduction: "En un panorama saturado de soluciones en la nube de 'caja negra', el proyecto Cubides_bots surge como un manifiesto por la soberanía tecnológica. Este ecosistema no es solo un asistente; es una infraestructura de **Multi-Agentes Aislados** diseñada para ejecutarse localmente, garantizando que tus datos y tu propiedad intelectual nunca abandonen tu perímetro. Basado en tres pilares fundamentales —Aislamiento Estricto (Docker), Criptografía por Diseño (SOPS) y Orquestación Robusta (PowerShell)—, este sistema redefine lo que significa la productividad asistida por IA.",
+      introduction: "En un panorama saturado de soluciones en la nube de 'caja negra', el proyecto Cubides_bots surge como un manifiesto por la soberanía tecnológica. Este ecosistema no es solo un asistente; es una infraestructura de **Multi-Agentes Aislados** diseñada para ejecutarse localmente, garantizando que tus datos y tu propiedad intelectual nunca abandonen tu perímetro. Pero para entender su valor, primero debemos entender qué es exactamente un 'Agente' en el mundo de la IA.",
       sections: [
         {
+          id: "que-es-un-agente",
+          title: "1. ¿Qué es un Agente de IA y cómo funciona?",
+          content: "Un modelo de lenguaje común (como ChatGPT en su versión básica) es reactivo: esperas que responda a una pregunta directa y ahí termina su labor. Un **Agente de Inteligencia Artificial**, por otro lado, es proactivo.\n\nSe trata de un sistema que envuelve al modelo de lenguaje con herramientas adicionales (acceso web, ejecución de código, lectura de archivos, capacidad de memoria a largo plazo) y un bucle de razonamiento autónomo. Al darle un objetivo complejo a un agente, este puede:\n1. **Planificar:** Dividir el problema en sub-tareas.\n2. **Ejecutar:** Utilizar herramientas externas como buscar en Google o ejecutar un script de Python.\n3. **Evaluar:** Analizar si el resultado fue el esperado y corregirse si se equivoca.\n\nLa ventaja de tener agentes en lugar de simples chatbots es que se convierten en verdaderos 'empleados digitales' capaces de ejecutar flujos de trabajo asíncronos y multipaso sin supervisión humana constante.",
+        },
+        {
           id: "arquitectura",
-          title: "1. La Arquitectura de la 'Trinidad': Tres Dominios, Tres Agentes",
-          content: "El sistema no es un monolito, sino que se fragmenta en tres identidades especializadas, cada una con su propia pila tecnológica y puerto de red:\n\n- **Agente Académico (Colega):** Construido sobre Node.js y OpenClaw. Escucha en el puerto `18789`. Su propósito es la síntesis de información de alto nivel, investigación de papers y flujos de datos vía WebSockets.\n- **Agente Personal (Coach):** Implementado mediante Claude CLI. Opera directamente en la terminal sin puertos expuestos interactivamente. Está diseñado para la introspección, planificación de hábitos y coaching privado.\n- **Agente Empresarial (Socio):** Desarrollado con FastAPI y Python. Escucha en el puerto `8003`. Es el 'caballo de batalla' encargado de flujos de trabajo profesionales, automatización de documentos y consultas estratégicas de negocio.\n\nEsta separación asegura que el compromiso de un agente no comprometa la integridad de los demás.",
+          title: "2. La Arquitectura de la 'Trinidad': Tres Dominios, Tres Agentes",
+          content: "Aplicando estos conceptos fundamentales, el sistema Cubides_bots no centraliza todo en un único 'super-agente', sino que divide las cargas cognitivas en tres identidades especializadas, cada una con su propia pila tecnológica y base de habilidades (tools):\n\n- **Agente Académico (Colega):** Escucha en el puerto `18789`. Especializado en navegar bases de datos científicas, leer papers y sintetizar metodologías.\n- **Agente Personal (Coach):** Opera directamente en la terminal interactiva. Su 'system prompt' y memoria están calibrados para la planificación de hábitos y resolución de problemas diarios.\n- **Agente Empresarial (Socio):** Desarrollado con FastAPI, expone endpoints en el puerto `8003`. Está armado con herramientas de manipulación de hojas de cálculo, redacción corporativa y gestión de correos electrónicos.\n\nEsta separación evita la 'alucinación cruzada', asegurando que el agente de investigación científica no se confunda con tareas de contabilidad.",
         },
         {
           id: "docker-hardening",
-          title: "2. Contenedorización y Hardening de Seguridad",
-          content: "Cada agente dentro de Cubides_bots vive dentro de un entorno Dockerizado con políticas de seguridad agresivas. El archivo `docker-compose.yml` no solo gestiona el levantamiento, sino que impone restricciones de kernel:\n\n```yaml\nservices:\n  academic-agent:\n    cap_drop: [ALL] # Elimina todas las capacidades peligrosas del kernel\n    read_only: true # El sistema de archivos raíz es de solo lectura\n    security_opt:\n      - no-new-privileges:true # Impide la escalada de privilegios dentro del contenedor\n```\n\nEste nivel de 'Hardening' garantiza que incluso si un script malicioso intentara ejecutarse, el contenedor estaría tan restringido que no podría mutar su propio sistema ni acceder a la red del host de forma no autorizada.",
+          title: "3. Contenedorización y Hardening de Seguridad",
+          content: "Otorgarle a un agente la capacidad de ejecutar código o acceder a tus archivos locales es inherentemente peligroso si el modelo alucina o sufre un ataque de inyección de prompt. Por eso, cada agente dentro de Cubides_bots vive dentro de un entorno Dockerizado con políticas de seguridad agresivas:\n\n```yaml\nservices:\n  academic-agent:\n    cap_drop: [ALL] # Elimina capacidades peligrosas del kernel\n    read_only: true # Filesystem de solo lectura\n    security_opt:\n      - no-new-privileges:true\n```\n\nEste nivel de 'Hardening' garantiza que el agente funcione en una 'sandbox' criptográficamente aislada. Si el Agente Académico intenta borrar el disco C:, fallará silenciosamente.",
         },
         {
           id: "power-shell",
-          title: "3. El Motor de Orquestación: PowerShell 7+",
-          content: "Contrario a la creencia popular de que PowerShell es solo para administración de Windows, en Cubides_bots representa el **83.1% de la lógica de orquestación**. Se utiliza PowerShell Core 7 por su capacidad para manejar JSON, procesos en segundo plano y su robustez multiplataforma.\n\nScripts como `Invoke-Academic.ps1` no solo lanzan contenedores; gestionan el ciclo de vida completo: verifican dependencias, descifran secretos en memoria volátil (JIT) y, lo más importante, ejecutan el script `Clean-Runtime.ps1` para purgar cualquier rastro de secretos o variables de entorno temporales una vez finalizada la sesión.",
+          title: "4. El Motor de Orquestación: PowerShell 7+",
+          content: "Para coordinar a estos empleados digitales, el **83.1% de la lógica de orquestación** de Cubides_bots utiliza PowerShell Core 7. \n\nScripts automatizados se encargan de despertar a los agentes solo cuando se necesitan, inyectar el contexto correcto, y lo más importante, ejecutar rutinas para apagar y purgar el entorno (`Clean-Runtime.ps1`) una vez el agente completa su labor, garantizando eficiencia de recursos en la máquina host.",
         },
         {
           id: "secretos",
-          title: "4. Criptografía con SOPS y AGE",
-          content: "En Cubides_bots, los archivos `.env` en texto plano están prohibidos. La gestión de secretos se realiza mediante **SOPS (Secrets Operations)** y claves maestras generadas con **AGE**.\n\n- Los secretos se guardan en archivos `.enc.yaml` cifrados asimétricamente.\n- Solo el script de orquestación, poseedor de la llave privada local, puede descifrar estos valores momentáneamente para inyectarlos en el proceso del contenedor.\n- Esto permite subir la configuración a repositorios de Git sin el menor riesgo de fuga de credenciales.",
-        },
-        {
-          id: "troubleshooting",
-          title: "5. Guía de Despliegue y Troubleshooting",
-          content: "Si estás implementando este sistema, ten en cuenta estos puntos técnicos críticos:\n\n1. **Variable de Entorno AGE:** Asegúrate de que `$env:SOPS_AGE_KEY_FILE` apunte a tu `keys.txt` privado.\n2. **Persistencia de Logs:** Dado que el contenedor es `read_only`, los logs deben montarse mediante volúmenes del sistema de archivos del host (`/app/logs:/var/log/app`).\n3. **WebSockets en Node.js:** Si el puerto `18789` falla, verifica que el firewall de Docker no esté bloqueando el túnel SSL.\n\nPara profundizar en la implementación, consulta el código fuente directamente.",
+          title: "5. Criptografía con SOPS y AGE",
+          content: "Para que un agente sea verdaderamente autónomo, necesita llaves API (OpenAI, Anthropic, SerpAPI). En Cubides_bots, la gestión de estos secretos se realiza mediante **SOPS (Secrets Operations)**.\n\nLos agentes carecen de las llaves maestras; es el orquestador maestro (PowerShell) quien descifra asimétricamente los archivos `.enc.yaml` por milisegundos, los inyecta en la RAM volátil del contenedor del agente y borra el rastro. Esto permite que todo el código del sistema, incluyendo su configuración, pueda subirse a GitHub sin comprometer la seguridad.",
           callout: {
             type: "info",
             title: "Visita el Proyecto",
-            content: "👉 Ver en GitHub: [Pablo-Cubides/Cubides_bots](https://github.com/Pablo-Cubides/Cubides_bots)",
+            content: "👉 Explora el código del sistema y aprende a orquestar tus propios agentes en [Pablo-Cubides/Cubides_bots](https://github.com/Pablo-Cubides/Cubides_bots)",
           },
         }
       ],
-      conclusion: "Cubides_bots no es solo una herramienta de automatización, es la realización de un ecosistema de IA privada donde el usuario es el único soberano de su información. El futuro del trabajo no está en la nube pública, sino en los agentes locales orquestados con precisión quirúrgica.",
+      conclusion: "Tener agentes de IA es dar un paso de la asistencia básica a la colaboración digital activa. Cubides_bots demuestra que es posible delegar tareas de alto nivel operando con tecnología open-source, de forma totalmente soberana, en la privacidad de tu propio hardware.",
     },
     tags: ["Agentes IA", "Docker", "PowerShell", "Security", "SOPS", "Local-AI"],
   },
