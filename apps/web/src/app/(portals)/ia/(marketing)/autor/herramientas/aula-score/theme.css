@@ -216,6 +216,7 @@ p {
 
 .text-brand-gradient {
   background: linear-gradient(135deg, var(--primary-color), var(--success-color));
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
