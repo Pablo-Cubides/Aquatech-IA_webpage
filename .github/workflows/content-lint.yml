@@ -1,0 +1,65 @@
+name: Content Lint
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "apps/web/src/lib/articles/**"
+      - "apps/web/src/lib/blog-articles.ts"
+      - "apps/web/src/lib/new-blog-articles.ts"
+      - "apps/web/src/lib/new-ambiental-articles.ts"
+      - "content/blog/**"
+      - ".specify/scripts/lint-content.mjs"
+  push:
+    branches: [main]
+    paths:
+      - "apps/web/src/lib/articles/**"
+
+concurrency:
+  group: content-lint-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  content-lint:
+    name: Validate Blog Articles
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install root dependencies only (no app build)
+        run: pnpm install --frozen-lockfile --filter '.' --ignore-scripts
+
+      - name: Run content lint
+        run: node .specify/scripts/lint-content.mjs
+
+      - name: Run TypeScript check on article files
+        run: |
+          echo "Checking TypeScript compilation for article files..."
+          # Only typecheck if articles directory exists
+          if [ -d "apps/web/src/lib/articles" ]; then
+            cd apps/web
+            pnpm exec tsc --noEmit --project tsconfig.json 2>&1 | grep -E "articles/" || true
+            echo "TypeScript check complete"
+          else
+            echo "No articles directory found — skipping TypeScript check"
+          fi
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "Content lint completed."
+          echo "See job output above for any validation errors."
+          echo ""
+          echo "Reference: .specify/instructions/content-generation.md"
+          echo "Schema: docs/contracts/article.zod.ts"

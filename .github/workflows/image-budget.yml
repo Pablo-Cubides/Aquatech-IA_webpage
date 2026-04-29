@@ -1,0 +1,106 @@
+name: Image Budget
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "apps/web/public/images/**"
+      - ".specify/scripts/image-budget.mjs"
+  push:
+    branches: [main]
+    paths:
+      - "apps/web/public/images/**"
+
+concurrency:
+  group: image-budget-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  image-budget:
+    name: Enforce Image Budgets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # needed for git diff HEAD~1 HEAD
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Check image budgets (changed files only)
+        run: node .specify/scripts/image-budget.mjs --changed-only
+
+      - name: Check for missing alt text in changed articles
+        if: always()
+        run: |
+          echo "Checking for images referenced without alt text in changed article files..."
+
+          # Find changed article files
+          CHANGED_ARTICLES=$(git diff --name-only HEAD~1 HEAD 2>/dev/null | grep "apps/web/src/lib/articles/" | grep "\.ts$" || true)
+
+          if [ -z "$CHANGED_ARTICLES" ]; then
+            echo "No article files changed — skipping alt text check"
+            exit 0
+          fi
+
+          MISSING_ALT=0
+          for FILE in $CHANGED_ARTICLES; do
+            if [ -f "$FILE" ]; then
+              # Check for image fields with empty strings
+              if grep -qE "image:\s*\"\"" "$FILE"; then
+                echo "⚠️  $FILE: image field is empty — set a Cloudinary URL"
+              fi
+              # Check for heroImage empty
+              if grep -qE "heroImage:\s*\"\"" "$FILE"; then
+                echo "✗ $FILE: heroImage is empty — required before publishing"
+                MISSING_ALT=1
+              fi
+            fi
+          done
+
+          if [ $MISSING_ALT -eq 1 ]; then
+            echo ""
+            echo "Upload images to Cloudinary and set heroImage URLs."
+            echo "See: .specify/instructions/image-generation.md"
+            exit 1
+          fi
+
+          echo "✓ All changed articles have heroImage set"
+
+      - name: Check for AI-generated images without manifests
+        if: always()
+        run: |
+          echo "Checking for AI-generated images without .image-manifest.json..."
+
+          # Get changed image files
+          CHANGED_IMAGES=$(git diff --name-only HEAD~1 HEAD 2>/dev/null | grep "apps/web/public/images/" | grep -v "\.image-manifest\.json$" | grep -E "\.(jpg|jpeg|png|webp|avif)$" || true)
+
+          if [ -z "$CHANGED_IMAGES" ]; then
+            echo "No new images — skipping manifest check"
+            exit 0
+          fi
+
+          echo "New images in this PR:"
+          for IMG in $CHANGED_IMAGES; do
+            echo "  $IMG"
+          done
+          echo ""
+          echo "ℹ️  If any of the above are AI-generated, create a .image-manifest.json alongside them."
+          echo "    See: .specify/instructions/image-generation.md §AI-Generated Images"
+          echo "    Schema: docs/contracts/image-manifest.zod.ts"
+
+      - name: Budget summary
+        if: always()
+        run: |
+          echo ""
+          echo "Image budget reference (constitution §5.3):"
+          echo "  Hero:    ≤200KB"
+          echo "  Inline:  ≤80KB"
+          echo "  Tool UI: ≤120KB"
+          echo "  Author:  ≤40KB"
+          echo "  Icon:    ≤10KB"
+          echo ""
+          echo "To optimize: pnpm img:optimize <path> --context=<hero|inline|tool|author>"

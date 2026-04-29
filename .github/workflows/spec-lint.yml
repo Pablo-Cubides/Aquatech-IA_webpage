@@ -1,0 +1,75 @@
+name: Spec Lint
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+concurrency:
+  group: spec-lint-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  spec-lint:
+    name: Validate Spec Index
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Validate specs/README.md index
+        run: node .specify/scripts/lint-specs.mjs
+
+      - name: Check PR references spec (pull_request only)
+        if: github.event_name == 'pull_request'
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PR_LABELS: ${{ join(github.event.pull_request.labels.*.name, ',') }}
+        run: |
+          echo "Checking PR spec reference..."
+
+          # Allow PRs with no-spec label
+          if echo "$PR_LABELS" | grep -q "no-spec"; then
+            echo "✓ PR has 'no-spec' label — skipping spec reference check"
+            exit 0
+          fi
+
+          # Check for SPEC-NNN reference in PR body
+          if echo "$PR_BODY" | grep -qE "Spec:\s*SPEC-[0-9]+"; then
+            SPEC_REF=$(echo "$PR_BODY" | grep -oE "SPEC-[0-9]+" | head -1)
+            echo "✓ PR references $SPEC_REF"
+
+            # Verify the spec exists
+            SPEC_NUM=$(echo "$SPEC_REF" | grep -oE "[0-9]+")
+            SPEC_DIR=$(find specs/ -maxdepth 1 -type d -name "${SPEC_NUM}-*" 2>/dev/null | head -1)
+
+            if [ -z "$SPEC_DIR" ]; then
+              echo "✗ Referenced $SPEC_REF does not exist in specs/"
+              echo "  Create it first: pnpm spec:new <slug> --spec-id=$SPEC_NUM"
+              exit 1
+            fi
+
+            if [ ! -f "$SPEC_DIR/spec.md" ]; then
+              echo "✗ $SPEC_DIR/spec.md not found"
+              exit 1
+            fi
+
+            echo "✓ Spec directory and spec.md verified: $SPEC_DIR"
+          else
+            echo ""
+            echo "✗ PR body must contain a spec reference."
+            echo "  Format: 'Spec: SPEC-NNN'"
+            echo "  If this is a trivial change, add the 'no-spec' label to the PR."
+            echo ""
+            echo "  Examples:"
+            echo "    Spec: SPEC-001"
+            echo "    Spec: SPEC-100"
+            echo ""
+            exit 1
+          fi
