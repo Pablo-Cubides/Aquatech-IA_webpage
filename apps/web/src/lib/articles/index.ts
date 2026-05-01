@@ -13,7 +13,7 @@
  * To get all articles (legacy + new) for a portal, use getAllArticles() below.
  */
 
-import { NEW_IA_ARTICLES, NEW_AMBIENTAL_ARTICLES } from "../blog-articles";
+import { IA_ARTICLES, AMBIENTAL_ARTICLES } from "../blog-articles";
 import type { BlogArticle } from "../blog-articles";
 
 // ─── New articles (one file per article) ─────────────────────────────────────
@@ -35,7 +35,7 @@ const NEW_AMBIENTAL_ARTICLES_V2: BlogArticle[] = [
 
 /** All IA portal articles (legacy + new), sorted by date descending */
 export function getAllIAArticles(): BlogArticle[] {
-  const legacy = Object.values(NEW_IA_ARTICLES);
+  const legacy = Object.values(IA_ARTICLES);
   const latest = NEW_IA_ARTICLES_V2;
   return [...legacy, ...latest].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
@@ -44,7 +44,7 @@ export function getAllIAArticles(): BlogArticle[] {
 
 /** All Ambiental portal articles (legacy + new), sorted by date descending */
 export function getAllAmbientalArticles(): BlogArticle[] {
-  const legacy = Object.values(NEW_AMBIENTAL_ARTICLES);
+  const legacy = Object.values(AMBIENTAL_ARTICLES);
   const latest = NEW_AMBIENTAL_ARTICLES_V2;
   return [...legacy, ...latest].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
