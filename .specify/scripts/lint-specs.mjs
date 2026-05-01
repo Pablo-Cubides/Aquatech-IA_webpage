@@ -41,12 +41,17 @@ if (!existsSync(SPECS_README)) {
 
 // ─── 3. Parse specs from README.md table ─────────────────────────────────────
 const readmeContent = readFileSync(SPECS_README, "utf-8");
-// Table columns: ID | Title | Portal | Status | Date
-const specRowPattern = /\|\s*\[SPEC-(\d+)\]\(([^)]+)\)\s*\|([^|]+)\|[^|]+\|([^|]+)\|/g;
+// Matches any row with [SPEC-NNN](...) and captures all pipe-separated cells
+const specRowPattern = /^\|(\s*\[SPEC-(\d+)\]\(([^)]+)\)[^|]*)\|(.+)$/gm;
 const indexedSpecs = [];
 
 for (const match of readmeContent.matchAll(specRowPattern)) {
-  const [, id, link, title, status] = match;
+  const [, , id, link, rest] = match;
+  const cells = rest.split("|").map(c => c.trim()).filter(c => c !== "");
+  // cells: [Title, Status, Date] (4-col) or [Title, Portal, Status, Date] (5-col)
+  // Status is always the second-to-last cell (before the date)
+  const status = cells.length >= 3 ? cells[cells.length - 2] : cells[0];
+  const title  = cells[0];
   indexedSpecs.push({
     id: `SPEC-${id}`,
     link: link.trim(),
@@ -91,7 +96,7 @@ if (existsSync(SPECS_DIR)) {
 }
 
 // ─── 6. Validate spec.md status field ────────────────────────────────────────
-const validStatuses = ["draft", "review", "approved", "implemented", "deprecated"];
+const validStatuses = ["draft", "review", "approved", "implemented", "deprecated", "stub"];
 for (const spec of indexedSpecs) {
   if (!validStatuses.includes(spec.status.toLowerCase())) {
     err(`${spec.id}: Invalid status "${spec.status}". Valid: ${validStatuses.join(", ")}`);
