@@ -41,7 +41,8 @@ if (!existsSync(SPECS_README)) {
 
 // ─── 3. Parse specs from README.md table ─────────────────────────────────────
 const readmeContent = readFileSync(SPECS_README, "utf-8");
-const specRowPattern = /\|\s*\[SPEC-(\d+)\]\(([^)]+)\)\s*\|([^|]+)\|([^|]+)\|/g;
+// Table columns: ID | Title | Portal | Status | Date
+const specRowPattern = /\|\s*\[SPEC-(\d+)\]\(([^)]+)\)\s*\|([^|]+)\|[^|]+\|([^|]+)\|/g;
 const indexedSpecs = [];
 
 for (const match of readmeContent.matchAll(specRowPattern)) {
