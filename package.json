@@ -18,7 +18,14 @@
     "test:ui": "turbo run test:ui",
     "clean": "turbo clean && rm -rf node_modules",
     "postinstall": "turbo run postinstall --parallel",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "spec:new": "node .specify/scripts/new-feature.mjs",
+    "content:new": "node .specify/scripts/new-content.mjs",
+    "img:optimize": "node .specify/scripts/optimize-image.mjs",
+    "img:budget": "node .specify/scripts/image-budget.mjs",
+    "lint:content": "node .specify/scripts/lint-content.mjs",
+    "lint:specs": "node .specify/scripts/lint-specs.mjs",
+    "release:preflight": "node .specify/scripts/release-preflight.mjs"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.9.1",

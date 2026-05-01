@@ -1,0 +1,260 @@
+openapi: "3.1.0"
+info:
+  title: AquatechIA API
+  version: "1.0.0"
+  description: |
+    Internal API for AquatechIA platform.
+    Source of truth: Zod schemas in apps/api/src/ route handlers.
+    This file is maintained in sync with those schemas.
+    Constitution §4: All public endpoints must have Zod validation + rate limiting.
+  contact:
+    name: Pablo Cubides
+    email: pacubidesg@gmail.com
+
+servers:
+  - url: http://localhost:3001/api
+    description: Local development
+  - url: https://aquatechIA.com/api
+    description: Production (Vercel)
+
+tags:
+  - name: auth
+    description: Authentication endpoints (Firebase + NextAuth)
+  - name: payments
+    description: MercadoPago payment processing
+  - name: credits
+    description: User credit system
+  - name: webhooks
+    description: External service webhooks (MercadoPago, Brevo)
+  - name: content
+    description: Blog content endpoints (if API-served)
+
+# ─── Security Schemes ──────────────────────────────────────────────────────────
+components:
+  securitySchemes:
+    firebaseToken:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Firebase ID token
+
+  schemas:
+    # ─── Shared ────────────────────────────────────────────────────────────────
+    ErrorResponse:
+      type: object
+      required: [error, message]
+      properties:
+        error:
+          type: string
+          description: Machine-readable error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: object
+          description: Additional error context (e.g., Zod validation errors)
+
+    ValidationError:
+      allOf:
+        - $ref: "#/components/schemas/ErrorResponse"
+        - type: object
+          properties:
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
+
+    # ─── Credits ───────────────────────────────────────────────────────────────
+    UserCredits:
+      type: object
+      required: [userId, balance, updatedAt]
+      properties:
+        userId:
+          type: string
+        balance:
+          type: integer
+          minimum: 0
+          description: Current credit balance (cannot be negative — BR from SPEC-003)
+        updatedAt:
+          type: string
+          format: date-time
+
+    # ─── Payments ──────────────────────────────────────────────────────────────
+    PaymentInitRequest:
+      type: object
+      required: [productId, quantity]
+      properties:
+        productId:
+          type: string
+        quantity:
+          type: integer
+          minimum: 1
+          maximum: 100
+
+    PaymentInitResponse:
+      type: object
+      required: [checkoutUrl, preferenceId]
+      properties:
+        checkoutUrl:
+          type: string
+          format: uri
+          description: MercadoPago Checkout Pro URL
+        preferenceId:
+          type: string
+
+    # ─── MercadoPago Webhook ────────────────────────────────────────────────────
+    MercadoPagoWebhookPayload:
+      type: object
+      required: [action, data]
+      properties:
+        action:
+          type: string
+          enum: [payment.created, payment.updated]
+        data:
+          type: object
+          required: [id]
+          properties:
+            id:
+              type: string
+              description: MercadoPago payment ID
+
+# ─── Paths ────────────────────────────────────────────────────────────────────
+paths:
+
+  # ─── Health ──────────────────────────────────────────────────────────────────
+  /health:
+    get:
+      summary: Health check
+      operationId: healthCheck
+      responses:
+        "200":
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+
+  # ─── Credits ─────────────────────────────────────────────────────────────────
+  /credits:
+    get:
+      summary: Get current user's credit balance
+      operationId: getCredits
+      tags: [credits]
+      security:
+        - firebaseToken: []
+      responses:
+        "200":
+          description: User credit balance
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserCredits"
+        "401":
+          description: Unauthenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "429":
+          description: Rate limited
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  # ─── Payments ────────────────────────────────────────────────────────────────
+  /payments/init:
+    post:
+      summary: Initialize a MercadoPago Checkout Pro payment
+      operationId: initPayment
+      tags: [payments]
+      security:
+        - firebaseToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PaymentInitRequest"
+      responses:
+        "200":
+          description: Checkout URL created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaymentInitResponse"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        "401":
+          description: Unauthenticated
+        "429":
+          description: Rate limited
+
+  # ─── Webhooks ────────────────────────────────────────────────────────────────
+  /webhooks/mercadopago:
+    post:
+      summary: MercadoPago payment notification webhook
+      operationId: mercadoPagoWebhook
+      tags: [webhooks]
+      description: |
+        Receives payment status updates from MercadoPago.
+        Signature validation required (x-signature header).
+        Constitution §6: "MercadoPago webhook signatures validated before processing."
+      parameters:
+        - in: header
+          name: x-signature
+          required: true
+          schema:
+            type: string
+          description: MercadoPago webhook signature for validation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MercadoPagoWebhookPayload"
+      responses:
+        "200":
+          description: Webhook processed
+        "400":
+          description: Invalid signature or malformed payload
+        "500":
+          description: Processing error (logged to Sentry)
+
+  /webhooks/brevo:
+    post:
+      summary: Brevo transactional email event webhook
+      operationId: brevoWebhook
+      tags: [webhooks]
+      description: Receives email delivery status events from Brevo.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Brevo event payload (structure varies by event type)
+      responses:
+        "200":
+          description: Event processed
+        "400":
+          description: Malformed payload
+
+# ─── Note ─────────────────────────────────────────────────────────────────────
+# This OpenAPI file covers the critical endpoints (payments, credits, webhooks).
+# Additional endpoints (tools, auth helpers, etc.) will be added as SPEC-001,
+# SPEC-002, SPEC-003 are fully implemented.
+# Do not manually maintain this YAML for Zod-typed endpoints — generate it.

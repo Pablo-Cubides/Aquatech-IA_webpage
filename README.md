@@ -134,6 +134,74 @@ pnpm build
 pnpm start
 ```
 
+## 📐 Spec-Driven Development (SDD)
+
+This project follows Spec-Driven Development. Specifications are the source of truth — code serves the spec.
+
+### Quick commands
+
+```bash
+# Create a new feature spec
+pnpm spec:new <slug>
+# Example: pnpm spec:new user-notifications
+
+# Create a new blog article
+pnpm content:new <portal> <slug>
+# Example: pnpm content:new ia redes-neuronales-cnn
+
+# Optimize an image
+pnpm img:optimize <path> --context=<hero|inline|tool|author>
+# Example: pnpm img:optimize ./tmp/hero.jpg --context=hero --cloudinary
+
+# Validate content pipeline
+pnpm lint:content    # Validate all article files
+pnpm lint:specs      # Validate spec index integrity
+pnpm img:budget      # Check all images against size budgets
+
+# Full pre-push preflight
+pnpm release:preflight
+```
+
+### SDD structure
+
+```
+.specify/
+├── memory/
+│   ├── constitution.md          # Immutable project principles
+│   └── three-strikes-log.md     # Log of automation triggers
+├── templates/                   # Spec, plan, tasks, ADR, content, image, release templates
+├── scripts/                     # Automation scripts (new-feature, new-content, optimize-image, etc.)
+└── instructions/                # AI agent operating rules
+
+specs/                           # All feature specs (SPEC-NNN)
+docs/
+├── adr/                         # Architecture Decision Records
+├── contracts/                   # Zod schemas, OpenAPI spec, JSON Schemas
+└── domain/                      # Glossary, personas
+.github/
+├── prompts/                     # AI slash commands (/spec.new, /content.new, etc.)
+└── pull_request_template.md     # PR template enforcing spec reference
+```
+
+### AI agent slash commands
+
+| Command | Purpose |
+|---|---|
+| `/spec.new` | Bootstrap a new feature spec |
+| `/spec.clarify` | Resolve open questions before approval |
+| `/spec.plan` | Generate technical plan from approved spec |
+| `/spec.tasks` | Break plan into atomic tasks |
+| `/spec.analyze` | Validate implementation against spec |
+| `/content.new` | Generate a new blog article |
+| `/content.review` | Review article before publishing |
+| `/image.audit` | Audit all images for budget/format compliance |
+| `/release.preflight` | Run full preflight before push to main |
+| `/three-strikes` | Create artifact for a repeated pattern |
+
+**Full documentation**: [.specify/instructions/agent-sdd-workflow.md](.specify/instructions/agent-sdd-workflow.md)
+
+---
+
 ## 📝 License
 
 Private project - All rights reserved
