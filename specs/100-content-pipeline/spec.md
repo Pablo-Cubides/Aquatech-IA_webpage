@@ -1,8 +1,13 @@
-# SPEC-100 — Blog Content Pipeline
-> **Status**: approved | **Owner**: Pablo Cubides | **Created**: 2026-04-28  
-> **Plan**: [plan.md](plan.md) | **Tasks**: [tasks.md](tasks.md) | **ADR**: [ADR-0008](../../docs/adr/0008-ts-data-vs-mdx-for-articles.md)
-
 ---
+id: SPEC-100
+title: Blog Content Pipeline
+status: approved
+owner: Pablo Cubides
+created: 2026-04-28
+updated: 2026-05-01
+---
+
+# SPEC-100 — Blog Content Pipeline
 
 ## 1. Problem
 
@@ -13,7 +18,26 @@ Per ADR-0008, we continue with TypeScript data files (not MDX). The goal is a cl
 
 ---
 
-## 2. Users
+## 2. Constraints
+
+- **C-001**: Zod schema MUST be the single source of truth for structural validation of articles.
+- **C-002**: Every article MUST pass `lint-content.mjs` business rules before merge.
+- **C-003**: No mega-files allowed; each article must be in its own file (BR-006).
+- **C-004**: CI must block merge on any validation error.
+
+---
+
+## 3. Non-Goals
+
+- Migration of the 2 legacy Markdown files in `content/blog/`.
+- MDX compilation (per ADR-0008).
+- CMS integration / Article editing UI.
+- Multi-language articles (future spec).
+- Article comments / reactions.
+
+---
+
+## 4. Users
 
 | Persona | Role | How affected |
 |---|---|---|
@@ -22,7 +46,7 @@ Per ADR-0008, we continue with TypeScript data files (not MDX). The goal is a cl
 
 ---
 
-## 3. User Stories
+## 5. User Stories
 
 ### US-001: Create a new article
 ```gherkin
@@ -74,7 +98,7 @@ Acceptance Criteria:
 
 ---
 
-## 4. Business Rules
+## 6. Business Rules
 
 - **BR-001**: Slugs are globally unique across both portals (ia + ambiental).
 - **BR-002**: `date` must be a valid ISO 8601 date. Articles cannot be future-dated.
@@ -86,7 +110,7 @@ Acceptance Criteria:
 
 ---
 
-## 5. Non-Functional Requirements
+## 7. Non-Functional Requirements
 
 ### Performance
 - [x] Content pipeline (lint + typecheck) adds <30s to CI run.
@@ -99,7 +123,7 @@ Acceptance Criteria:
 
 ---
 
-## 6. Edge Cases & Error Scenarios
+## 8. Edge Cases & Error Scenarios
 
 | Scenario | Expected behavior |
 |---|---|
@@ -111,18 +135,7 @@ Acceptance Criteria:
 
 ---
 
-## 7. Out of Scope
-
-- Migration of the 2 Markdown files in `content/blog/` — archived, not part of the pipeline.
-- MDX compilation — per ADR-0008.
-- CMS integration.
-- Article editing UI.
-- Multi-language articles (future spec).
-- Article comments / reactions.
-
----
-
-## 8. Dependencies
+## 9. Dependencies
 
 | Dependency | Type | Notes |
 |---|---|---|

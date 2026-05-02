@@ -1,6 +1,14 @@
+---
+id: SPEC-207
+title: "Visor de Mapas Ambientales"
+status: stub
+owner: Pablo Cubides
+created: 2026-04-28
+updated: 2026-05-01
+---
+
 # SPEC-207 — Visor de Mapas Ambientales
-> **Status**: stub | **Owner**: Pablo Cubides | **Created**: 2026-04-28  
-> **Full spec**: created when this tool undergoes significant changes (see specs/README.md §Tool Specs)
+
 
 ---
 

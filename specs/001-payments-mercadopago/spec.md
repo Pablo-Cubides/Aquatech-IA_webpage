@@ -1,8 +1,13 @@
-# SPEC-001 — MercadoPago Payment & Credit Purchase
-> **Status**: approved | **Owner**: Pablo Cubides | **Created**: 2026-04-28  
-> **Plan**: [plan.md](plan.md) | **Tasks**: [tasks.md](tasks.md) | **ADR**: [ADR-0004](../../docs/adr/0004-mercadopago-checkout-pro.md)
-
 ---
+id: SPEC-001
+title: MercadoPago Payment & Credit Purchase
+status: approved
+owner: Pablo Cubides
+created: 2026-04-28
+updated: 2026-05-01
+---
+
+# SPEC-001 — MercadoPago Payment & Credit Purchase
 
 ## 1. Problem
 
@@ -13,7 +18,26 @@ MercadoPago Checkout Pro is selected per ADR-0004. The integration involves crea
 
 ---
 
-## 2. Users
+## 2. Constraints
+
+- **C-001**: Must validate webhook signature via `x-signature` header before any DB write (Security constraint).
+- **C-002**: Payment processing must be idempotent (BR-003) to prevent double crediting.
+- **C-003**: No card data can be stored or transmitted through our servers (PCI compliance).
+- **C-004**: Must use Zod for all incoming payload validation.
+
+---
+
+## 3. Non-Goals
+
+- Subscription / recurring payments.
+- Partial refunds (manual process for now).
+- Multiple currencies (single currency per region).
+- Invoice generation.
+- Admin dashboard for payment monitoring.
+
+---
+
+## 4. Users
 
 | Persona | Role | How affected |
 |---|---|---|
@@ -23,7 +47,7 @@ MercadoPago Checkout Pro is selected per ADR-0004. The integration involves crea
 
 ---
 
-## 3. User Stories
+## 5. User Stories
 
 ### US-001: Purchase credits
 ```gherkin
@@ -69,7 +93,7 @@ Acceptance Criteria:
 
 ---
 
-## 4. Business Rules
+## 6. Business Rules
 
 - **BR-001**: Credit balance can never go negative (enforced at DB level via constraint and application logic).
 - **BR-002**: Credits are added only after a `payment.updated` webhook with `status: approved`.
@@ -80,7 +104,7 @@ Acceptance Criteria:
 
 ---
 
-## 5. Non-Functional Requirements
+## 7. Non-Functional Requirements
 
 ### Performance
 - [x] Payment init endpoint responds in <500ms (preference creation is async to MercadoPago).
@@ -99,7 +123,7 @@ Acceptance Criteria:
 
 ---
 
-## 6. Edge Cases & Error Scenarios
+## 8. Edge Cases & Error Scenarios
 
 | Scenario | Expected behavior |
 |---|---|
@@ -112,17 +136,7 @@ Acceptance Criteria:
 
 ---
 
-## 7. Out of Scope
-
-- Subscription / recurring payments.
-- Partial refunds (manual process for now).
-- Multiple currencies (MercadoPago COP / ARS / MXN — single currency per region, handled by MP).
-- Invoice generation.
-- Admin dashboard for payment monitoring.
-
----
-
-## 8. Dependencies
+## 9. Dependencies
 
 | Dependency | Type | Notes |
 |---|---|---|

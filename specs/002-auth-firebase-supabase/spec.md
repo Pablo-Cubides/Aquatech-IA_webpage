@@ -1,8 +1,13 @@
-# SPEC-002 — Authentication Flow (Firebase + NextAuth + Supabase)
-> **Status**: approved | **Owner**: Pablo Cubides | **Created**: 2026-04-28  
-> **Plan**: [plan.md](plan.md) | **Tasks**: [tasks.md](tasks.md) | **ADR**: [ADR-0003](../../docs/adr/0003-firebase-auth-supabase-db.md)
-
 ---
+id: SPEC-002
+title: Authentication Flow (Firebase + NextAuth + Supabase)
+status: approved
+owner: Pablo Cubides
+created: 2026-04-28
+updated: 2026-05-01
+---
+
+# SPEC-002 — Authentication Flow (Firebase + NextAuth + Supabase)
 
 ## 1. Problem
 
@@ -13,7 +18,26 @@ Three systems are involved (Firebase Auth, NextAuth, Supabase) per ADR-0003. The
 
 ---
 
-## 2. Users
+## 2. Constraints
+
+- **C-001**: Firebase token MUST be validated server-side on every protected API call — client-side auth state is never trusted.
+- **C-002**: A user record in Supabase must be created exactly once per Firebase UID (Idempotency).
+- **C-003**: Session cookies must be `httpOnly`, `secure`, and `sameSite: lax`.
+- **C-004**: No user PII beyond email and display name stored in our database.
+
+---
+
+## 3. Non-Goals
+
+- Email/password authentication.
+- Magic link / passwordless email auth.
+- Multi-factor authentication.
+- Social logins beyond Google.
+- Admin user management UI.
+
+---
+
+## 4. Users
 
 | Persona | Role | How affected |
 |---|---|---|
@@ -23,7 +47,7 @@ Three systems are involved (Firebase Auth, NextAuth, Supabase) per ADR-0003. The
 
 ---
 
-## 3. User Stories
+## 5. User Stories
 
 ### US-001: Sign in with Google
 ```gherkin
@@ -82,7 +106,7 @@ Acceptance Criteria:
 
 ---
 
-## 4. Business Rules
+## 6. Business Rules
 
 - **BR-001**: A user record in Supabase is created exactly once per Firebase UID — duplicate creation attempts are no-ops.
 - **BR-002**: Firebase token is validated server-side on every protected API call — client-side auth state is not trusted.
@@ -92,7 +116,7 @@ Acceptance Criteria:
 
 ---
 
-## 5. Non-Functional Requirements
+## 7. Non-Functional Requirements
 
 ### Security
 - [x] Firebase token validated server-side via Firebase Admin SDK on every protected endpoint.
@@ -111,7 +135,7 @@ Acceptance Criteria:
 
 ---
 
-## 6. Edge Cases & Error Scenarios
+## 8. Edge Cases & Error Scenarios
 
 | Scenario | Expected behavior |
 |---|---|
@@ -124,17 +148,7 @@ Acceptance Criteria:
 
 ---
 
-## 7. Out of Scope
-
-- Email/password authentication (not planned — Google OAuth only for now).
-- Magic link / passwordless email auth.
-- Multi-factor authentication.
-- Social logins beyond Google (future ADR needed).
-- Admin user management UI.
-
----
-
-## 8. Dependencies
+## 9. Dependencies
 
 | Dependency | Type | Notes |
 |---|---|---|

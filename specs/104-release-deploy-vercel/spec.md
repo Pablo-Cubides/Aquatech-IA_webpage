@@ -1,20 +1,50 @@
-# SPEC-104 — Release & Vercel Deploy Process
-> **Status**: approved | **Owner**: Pablo Cubides | **Created**: 2026-04-28  
-> **ADR**: [ADR-0011](../../docs/adr/0011-trunk-based-vercel-deploy.md)
-
+---
+id: SPEC-104
+title: "Release & Vercel Deploy Process"
+status: approved
+owner: Pablo Cubides
+created: 2026-04-28
+updated: 2026-05-02
 ---
 
-## 1. Problem
+# SPEC-104 — Release & Vercel Deploy Process
+
+## 1. Problem [REQUIRED]
 
 Without a formal release process, pushes to `main` can deploy broken code, missing env vars, or un-migrated DB schemas to production. This spec defines what must be true before any push to `main` and what to do post-deploy.
 
 ---
 
-## 2. Rules (process spec)
+## 2. Constraints [REQUIRED]
+
+- **C-001**: NO push to `main` is allowed if `release-preflight.mjs` fails.
+- **C-002**: Production environment variables MUST be set in Vercel before merging the PR that uses them.
+- **C-003**: Destructive database migrations MUST be approved via a separate plan documented in the PR.
+
+---
+
+## 3. Non-Goals [REQUIRED]
+
+- Automated end-to-end testing (future scope).
+- Automated rollback on performance regression.
+- Managing DNS records or external domain routing.
+
+---
+
+## 4. Users [REQUIRED]
+
+| Persona | Role | How affected |
+|---|---|---|
+| Pablo (Instructor) | Release Manager | Oversees deployment health and performs smoke tests |
+| AI Agent | Developer | Ensures all pre-flight checks pass before proposing a merge |
+
+---
+
+## 5. User Stories [REQUIRED]
+
+> *Note: This is a process spec; requirements serve as scenarios.*
 
 ### Pre-Push Requirements (automated via `pre-push` hook)
-All of the following must pass before push to `main`:
-
 | Check | Command | Blocking? |
 |---|---|---|
 | TypeScript compile | `pnpm typecheck` | Yes |
@@ -25,15 +55,6 @@ All of the following must pass before push to `main`:
 | Image budget (changed files) | `pnpm img:budget --changed-only` | Yes |
 | Dependency audit | `pnpm audit --audit-level moderate` | Warning only |
 
-All checks are consolidated in `release-preflight.mjs` and invoked by `.husky/pre-push`.
-
-### Deploy Pipeline
-1. Push to `main` → Vercel auto-triggers build.
-2. Vercel runs `pnpm build` (same as local build).
-3. Build passes → deployment goes live at production URL.
-4. Build fails → Vercel does NOT update production (safe — previous deploy stays live).
-5. Developer checks Vercel dashboard for deployment status.
-
 ### Post-Deploy Smoke Tests (manual, <5 minutes)
 | Check | What to verify |
 |---|---|
@@ -41,26 +62,45 @@ All checks are consolidated in `release-preflight.mjs` and invoked by `.husky/pr
 | IA Portal | `/ia` loads, navigation works |
 | Ambiental Portal | `/ambiental` loads, navigation works |
 | Auth | Sign-in flow completes |
-| Most recently deployed feature | Acceptance criteria from its spec pass manually |
+| Latest Feature | Acceptance criteria from its spec pass manually |
 | Sentry | No new error spike in the 5 minutes post-deploy |
 
-### Rollback Procedure
-If critical issue found post-deploy:
-1. Vercel Dashboard → Deployments → previous deployment → "Promote to Production".
-2. Takes ~30 seconds. No git changes needed.
-3. Open a GitHub Issue describing the issue.
-4. Fix on `hotfix/description` branch.
-5. Merge hotfix PR with `Spec: no-spec: hotfix` or reference the relevant spec.
+---
 
-### Env Var Protocol
-- Any new env var must be added to `.env.example` in the same PR.
-- New env vars must be configured in Vercel Dashboard (production + preview environments) before the PR is merged.
-- Never merge a PR that adds a `process.env.NEW_VAR` reference without adding it to `.env.example` and Vercel.
+## 6. Business Rules [REQUIRED]
 
-### DB Migration Protocol
-- Schema changes: `prisma migrate dev` creates migration file. Migration file committed to repo.
-- Migrations run automatically on Vercel deploy if configured, or manually via `prisma migrate deploy`.
-- Destructive migrations (DROP, ALTER NOT NULL on existing data) require explicit plan documented in the PR.
+- **BR-001**: Vercel Dashboard is the source of truth for deployment status.
+- **BR-002**: A failed build on Vercel results in NO update to production (safe-state).
+- **BR-003**: Rollback via "Promote to Production" in Vercel Dashboard is the primary recovery mechanism.
+- **BR-004**: Any new env var must be added to `.env.example` in the same PR.
+
+---
+
+## 7. Non-Functional Requirements [REQUIRED]
+
+- [x] Pre-push hook enforces all quality gates.
+- [x] Rollback completes in <60 seconds.
+- [x] Production build identical to local build environment.
+
+---
+
+## 8. Edge Cases & Error Scenarios [REQUIRED]
+
+| Scenario | Expected behavior |
+|---|---|
+| Vercel build fails | Previous deployment stays live; developer fixes on branch |
+| Env var missing in production | App may fail; developer performs manual rollback and fixes |
+| Database migration fails | Deploy fails; developer must resolve migration state manually |
+
+---
+
+## 9. Dependencies [OPTIONAL]
+
+| Dependency | Type | Notes |
+|---|---|---|
+| Vercel | Platform | Primary hosting and deployment |
+| Prisma | DB | Handles migrations |
+| Sentry | Telemetry | Post-deploy error monitoring |
 
 ---
 

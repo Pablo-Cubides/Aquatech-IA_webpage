@@ -1,10 +1,15 @@
-# SPEC-102 — Image Pipeline (Optimization & CDN)
-> **Status**: approved | **Owner**: Pablo Cubides | **Created**: 2026-04-28  
-> **Plan**: [plan.md](plan.md) | **Tasks**: [tasks.md](tasks.md) | **ADR**: [ADR-0009](../../docs/adr/0009-image-pipeline-local-vs-cloudinary.md)
-
+---
+id: SPEC-102
+title: "Image Pipeline (Optimization & CDN)"
+status: approved
+owner: Pablo Cubides
+created: 2026-04-28
+updated: 2026-05-02
 ---
 
-## 1. Problem
+# SPEC-102 — Image Pipeline (Optimization & CDN)
+
+## 1. Problem [REQUIRED]
 
 AquatechIA images are currently added without a consistent optimization pipeline. Some images exceed LCP-impacting sizes. There is no AVIF variant generation, no budget enforcement, and no clear rule for where images should be stored (local vs CDN). This results in unnecessary bandwidth costs, slower page loads, and inconsistent asset quality.
 
@@ -13,7 +18,24 @@ Per ADR-0009, new blog images go to Cloudinary; tool/UI images stay local. `shar
 
 ---
 
-## 2. Users
+## 2. Constraints [REQUIRED]
+
+- **C-001**: Must use `sharp` for server-side optimization to avoid browser-side processing overhead.
+- **C-002**: Every image MUST have AVIF and WebP variants to satisfy modern browser performance budgets.
+- **C-003**: Performance budgets are hard limits; CI must fail if an image exceeds the allocated size for its context.
+
+---
+
+## 3. Non-Goals [REQUIRED]
+
+- Automatic Cloudinary upload from CLI (manual upload is the current process; future improvement via Cloudinary SDK).
+- Video asset pipeline.
+- SVG optimization (SVGs handled manually).
+- Image CDN for tool UI assets (local is sufficient at current scale).
+
+---
+
+## 4. Users [REQUIRED]
 
 | Persona | Role | How affected |
 |---|---|---|
@@ -23,7 +45,7 @@ Per ADR-0009, new blog images go to Cloudinary; tool/UI images stay local. `shar
 
 ---
 
-## 3. User Stories
+## 5. User Stories [REQUIRED]
 
 ### US-001: Optimize an image before publishing
 ```gherkin
@@ -82,7 +104,7 @@ Acceptance Criteria:
 
 ---
 
-## 4. Business Rules
+## 6. Business Rules [REQUIRED]
 
 - **BR-001**: All images must have AVIF + WebP + JPEG variants (except SVG icons).
 - **BR-002**: Budgets per context (constitution §5.3): hero ≤200KB, inline ≤80KB, tool ≤120KB, author ≤40KB, icon ≤10KB.
@@ -94,7 +116,7 @@ Acceptance Criteria:
 
 ---
 
-## 5. Non-Functional Requirements
+## 7. Non-Functional Requirements [REQUIRED]
 
 ### Performance
 - [x] Hero images ≤200KB (AVIF) = LCP <2.5s target achievable on 4G.
@@ -106,7 +128,7 @@ Acceptance Criteria:
 
 ---
 
-## 6. Edge Cases & Error Scenarios
+## 8. Edge Cases & Error Scenarios [REQUIRED]
 
 | Scenario | Expected behavior |
 |---|---|
@@ -118,16 +140,7 @@ Acceptance Criteria:
 
 ---
 
-## 7. Out of Scope
-
-- Automatic Cloudinary upload from CLI (manual upload is the current process; future improvement via Cloudinary SDK).
-- Video asset pipeline.
-- SVG optimization (SVGs handled manually).
-- Image CDN for tool UI assets (local is sufficient at current scale).
-
----
-
-## 8. Dependencies
+## 9. Dependencies [OPTIONAL]
 
 | Dependency | Type | Notes |
 |---|---|---|

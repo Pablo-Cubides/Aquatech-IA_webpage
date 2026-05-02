@@ -1,6 +1,14 @@
+---
+id: SPEC-206
+title: "Cómo Funcionan los LLM"
+status: stub
+owner: Pablo Cubides
+created: 2026-04-28
+updated: 2026-05-01
+---
+
 # SPEC-206 — Cómo Funcionan los LLM
-> **Status**: stub | **Owner**: Pablo Cubides | **Created**: 2026-04-28  
-> **Full spec**: created when this tool undergoes significant changes (see specs/README.md §Tool Specs)
+
 
 ---
 

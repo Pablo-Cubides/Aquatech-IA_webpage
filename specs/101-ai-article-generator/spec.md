@@ -1,10 +1,15 @@
-# SPEC-101 — AI Article Generator
-> **Status**: approved | **Owner**: Pablo Cubides | **Created**: 2026-04-28  
-> **Plan**: [plan.md](plan.md) | **Tasks**: [tasks.md](tasks.md) | **ADR**: [ADR-0010](../../docs/adr/0010-ai-articles-direct-publish.md)
-
+---
+id: SPEC-101
+title: "AI Article Generator"
+status: approved
+owner: Pablo Cubides
+created: 2026-04-28
+updated: 2026-05-02
 ---
 
-## 1. Problem
+# SPEC-101 — AI Article Generator
+
+## 1. Problem [REQUIRED]
 
 AquatechIA needs to publish technical blog content regularly. Writing full articles manually is time-intensive. AI agents (Claude Code, Copilot, Antigravity) can generate high-quality technical content — but they need clear rules, a defined input contract, and automated validation to ensure structural correctness before publication.
 
@@ -15,7 +20,25 @@ Per ADR-0010, AI-generated articles are published directly without mandatory hum
 
 ---
 
-## 2. Users
+## 2. Constraints [REQUIRED]
+
+- **C-001**: AI agents MUST NOT use `any` types in generated article objects.
+- **C-002**: No external libraries allowed for article generation beyond standard `@ia-next` packages.
+- **C-003**: Generated content MUST be valid Spanish (primary) with English technical terms allowed.
+- **C-004**: Must use Zod for structural validation before committing.
+
+---
+
+## 3. Non-Goals [REQUIRED]
+
+- Automatic image generation alongside the article (separate process per SPEC-102).
+- Automatic SEO optimization / A/B testing of titles.
+- Scheduled article publishing.
+- Social media post generation from articles.
+
+---
+
+## 4. Users [REQUIRED]
 
 | Persona | Role | How affected |
 |---|---|---|
@@ -24,7 +47,7 @@ Per ADR-0010, AI-generated articles are published directly without mandatory hum
 
 ---
 
-## 3. User Stories
+## 5. User Stories [REQUIRED]
 
 ### US-001: Generate a new article via AI agent
 ```gherkin
@@ -70,7 +93,7 @@ Acceptance Criteria:
 
 ---
 
-## 4. Business Rules
+## 6. Business Rules [REQUIRED]
 
 - **BR-001**: AI agents MUST read `.specify/instructions/content-generation.md` before generating.
 - **BR-002**: AI agents MUST read `.specify/memory/constitution.md` before generating.
@@ -81,7 +104,7 @@ Acceptance Criteria:
 
 ---
 
-## 5. Non-Functional Requirements
+## 7. Non-Functional Requirements [REQUIRED]
 
 ### Content Quality
 - [x] `pnpm lint:content` passes before merge.
@@ -94,7 +117,7 @@ Acceptance Criteria:
 
 ---
 
-## 6. Edge Cases & Error Scenarios
+## 8. Edge Cases & Error Scenarios [REQUIRED]
 
 | Scenario | Expected behavior |
 |---|---|
@@ -106,16 +129,7 @@ Acceptance Criteria:
 
 ---
 
-## 7. Out of Scope
-
-- Automatic image generation alongside the article (separate process per SPEC-102).
-- Automatic SEO optimization / A/B testing of titles.
-- Scheduled article publishing.
-- Social media post generation from articles.
-
----
-
-## 8. Dependencies
+## 9. Dependencies [OPTIONAL]
 
 | Dependency | Type | Notes |
 |---|---|---|

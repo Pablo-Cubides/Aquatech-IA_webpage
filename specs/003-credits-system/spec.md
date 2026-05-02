@@ -1,8 +1,13 @@
-# SPEC-003 — Credit System (Balance, Consumption, Refund)
-> **Status**: approved | **Owner**: Pablo Cubides | **Created**: 2026-04-28  
-> **Plan**: [plan.md](plan.md) | **Tasks**: [tasks.md](tasks.md)
-
 ---
+id: SPEC-003
+title: Credit System (Balance, Consumption, Refund)
+status: approved
+owner: Pablo Cubides
+created: 2026-04-28
+updated: 2026-05-01
+---
+
+# SPEC-003 — Credit System (Balance, Consumption, Refund)
 
 ## 1. Problem
 
@@ -10,7 +15,26 @@ Premium tools on both portals require a gating mechanism that incentivizes payme
 
 ---
 
-## 2. Users
+## 2. Constraints
+
+- **C-001**: Credit deduction MUST be atomic — use DB transactions (Prisma `$transaction`).
+- **C-002**: Balance can NEVER go below 0 (DB-level constraint + application check).
+- **C-003**: Credit amounts and prices must be determined server-side — never accept them from client input.
+- **C-004**: Every movement must be logged in `credit_transactions` for audit.
+
+---
+
+## 3. Non-Goals
+
+- Credit expiry / expiration dates.
+- Credit transfer between users.
+- Credit history UI (future spec).
+- Promotional credit codes / discount system.
+- Per-tool pricing UI.
+
+---
+
+## 4. Users
 
 | Persona | Role | How affected |
 |---|---|---|
@@ -19,7 +43,7 @@ Premium tools on both portals require a gating mechanism that incentivizes payme
 
 ---
 
-## 3. User Stories
+## 5. User Stories
 
 ### US-001: View credit balance
 ```gherkin
@@ -85,7 +109,7 @@ Acceptance Criteria:
 
 ---
 
-## 4. Business Rules
+## 6. Business Rules
 
 - **BR-001**: Credit balance is always an integer ≥ 0. Fractional credits are not supported.
 - **BR-002**: Credit deduction is atomic — if the tool action fails after deduction, credits are refunded.
@@ -96,7 +120,7 @@ Acceptance Criteria:
 
 ---
 
-## 5. Non-Functional Requirements
+## 7. Non-Functional Requirements
 
 ### Performance
 - [x] Balance check: <50ms (cached after auth, refreshed on mutation).
@@ -114,7 +138,7 @@ Acceptance Criteria:
 
 ---
 
-## 6. Edge Cases & Error Scenarios
+## 8. Edge Cases & Error Scenarios
 
 | Scenario | Expected behavior |
 |---|---|
@@ -126,17 +150,7 @@ Acceptance Criteria:
 
 ---
 
-## 7. Out of Scope
-
-- Credit expiry / expiration dates.
-- Credit transfer between users.
-- Credit history UI (future spec).
-- Promotional credit codes / discount system.
-- Per-tool pricing UI (prices are defined as server-side constants).
-
----
-
-## 8. Dependencies
+## 9. Dependencies
 
 | Dependency | Type | Notes |
 |---|---|---|

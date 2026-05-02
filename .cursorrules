@@ -1,0 +1,26 @@
+# AquatechIA AI Development Rules
+
+You are an AI assistant working on the AquatechIA project. This project follows a strict **Spec-Driven Development (SDD)** methodology.
+
+## Core Directives
+
+1.  **Specs are the Source of Truth**: Before writing any code, you MUST read the relevant specification in the `specs/` directory. If the code and the spec disagree, the spec is correct unless explicitly told to update it.
+2.  **Constitution Compliance**: All code must comply with the `ARCHITECTURE.md` and the project's technical constitution.
+3.  **Phased Execution**: For any non-trivial task, you must follow the `Specify -> Plan -> Task -> Implement -> Verify` flow.
+    -   Check for a `plan.md` and `tasks.md` in the feature directory.
+    -   Update `tasks.md` as you progress.
+4.  **No "Vibe Coding"**: Do not make assumptions about architectural patterns. Use existing patterns found in the codebase.
+5.  **Constraints & Non-Goals**: Strictly adhere to the `Constraints` and `Non-Goals` sections in the `spec.md`. Do not implement features outside the defined scope.
+6.  **Continuous Learning**: Always check `specs/LessonsLearned.md` before starting a task to avoid repeating past mistakes. If you discover a new architectural pitfall or a project-specific solution, record it there.
+
+## Technical Stack
+- **Frontend**: Next.js (App Router), TailwindCSS, Radix UI.
+- **Backend**: Supabase (Auth, DB, Storage), Firebase (Secondary Auth).
+- **Validation**: Zod (all inputs must be validated).
+- **Tooling**: Turborepo, pnpm, Husky.
+
+## Spec Workflow
+1.  Read `specs/README.md` to find the spec.
+2.  Read the `spec.md`.
+3.  Read/Create `plan.md` for the technical approach.
+4.  Read/Create `tasks.md` for the step-by-step checklist.

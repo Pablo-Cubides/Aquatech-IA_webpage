@@ -2,11 +2,11 @@
 /**
  * Spec linting for CI: validates that PRs referencing specs are well-formed.
  *
- * In CI context: checks that all specs listed in specs/README.md have the
- * expected directory structure (spec.md exists).
- *
- * In pre-push context: validates that any spec referenced in staged commit
- * messages exists and is in an approved state.
+ * Checks:
+ *   1. specs/README.md is synced with specs/ directories.
+ *   2. Every spec.md has valid YAML frontmatter.
+ *   3. spec.md status matches README.md status.
+ *   4. spec.md contains all required sections (Problem, Constraints, Non-Goals, User Stories).
  *
  * Usage: node .specify/scripts/lint-specs.mjs [--ci]
  * Exit code: 0 = all pass, 1 = errors found
@@ -15,6 +15,7 @@
 import { existsSync, readFileSync, readdirSync } from "fs";
 import { dirname, join, relative } from "path";
 import { fileURLToPath } from "url";
+import matter from "gray-matter";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..", "..");
@@ -26,6 +27,15 @@ let errors = 0;
 function err(msg) { console.error(`\x1b[31m[ERROR]\x1b[0m ${msg}`); errors++; }
 function ok(msg)  { console.log(`\x1b[32m[OK]\x1b[0m   ${msg}`); }
 function info(msg) { console.log(`\x1b[36m[INFO]\x1b[0m ${msg}`); }
+
+const REQUIRED_SECTIONS = [
+  { name: "Problem", pattern: /##\s*\d*\.?\s*Problem/i },
+  { name: "Constraints", pattern: /##\s*\d*\.?\s*Constraints/i },
+  { name: "Non-Goals", pattern: /##\s*\d*\.?\s*Non-Goals/i },
+  { name: "User Stories", pattern: /##\s*\d*\.?\s*User Stories/i }
+];
+
+const VALID_STATUSES = ["draft", "review", "approved", "implemented", "deprecated", "stub"];
 
 // ─── 1. Check specs directory exists ─────────────────────────────────────────
 if (!existsSync(SPECS_DIR)) {
@@ -41,28 +51,25 @@ if (!existsSync(SPECS_README)) {
 
 // ─── 3. Parse specs from README.md table ─────────────────────────────────────
 const readmeContent = readFileSync(SPECS_README, "utf-8");
-// Matches any row with [SPEC-NNN](...) and captures all pipe-separated cells
 const specRowPattern = /^\|(\s*\[SPEC-(\d+)\]\(([^)]+)\)[^|]*)\|(.+)$/gm;
 const indexedSpecs = [];
 
 for (const match of readmeContent.matchAll(specRowPattern)) {
   const [, , id, link, rest] = match;
   const cells = rest.split("|").map(c => c.trim()).filter(c => c !== "");
-  // cells: [Title, Status, Date] (4-col) or [Title, Portal, Status, Date] (5-col)
-  // Status is always the second-to-last cell (before the date)
   const status = cells.length >= 3 ? cells[cells.length - 2] : cells[0];
   const title  = cells[0];
   indexedSpecs.push({
     id: `SPEC-${id}`,
     link: link.trim(),
     title: title.trim(),
-    status: status.trim(),
+    status: status.trim().toLowerCase(),
   });
 }
 
 info(`Found ${indexedSpecs.length} specs in README.md index`);
 
-// ─── 4. Validate each indexed spec has a directory and spec.md ───────────────
+// ─── 4. Validate each indexed spec ───────────────────────────────────────────
 for (const spec of indexedSpecs) {
   const specDir = join(SPECS_DIR, spec.link.replace("/spec.md", ""));
   const specFile = join(SPECS_DIR, spec.link);
@@ -77,7 +84,44 @@ for (const spec of indexedSpecs) {
     continue;
   }
 
-  ok(`${spec.id}: ${spec.title} [${spec.status}]`);
+  // Deep validation using gray-matter
+  let specErrors = 0;
+  function specErr(msg) { err(msg); specErrors++; }
+
+  try {
+    const fileContent = readFileSync(specFile, "utf-8");
+    const { data, content } = matter(fileContent);
+
+    // Validate Frontmatter
+    if (!data.id) specErr(`${spec.id}: Missing 'id' in YAML frontmatter`);
+    if (data.id && data.id !== spec.id) specErr(`${spec.id}: Frontmatter ID mismatch (found ${data.id})`);
+    
+    if (!data.status) {
+      specErr(`${spec.id}: Missing 'status' in YAML frontmatter`);
+    } else if (data.status.toLowerCase() !== spec.status) {
+      specErr(`${spec.id}: Status mismatch — README says "${spec.status}", Frontmatter says "${data.status}"`);
+    }
+
+    if (!VALID_STATUSES.includes(data.status?.toLowerCase())) {
+      specErr(`${spec.id}: Invalid status "${data.status}". Valid: ${VALID_STATUSES.join(", ")}`);
+    }
+
+    // Validate Required Sections (skip for stubs)
+    if (data.status !== "stub") {
+      for (const section of REQUIRED_SECTIONS) {
+        if (!section.pattern.test(content)) {
+          specErr(`${spec.id}: Missing required section "${section.name}"`);
+        }
+      }
+    }
+
+  } catch (e) {
+    specErr(`${spec.id}: Failed to parse spec.md — ${e.message}`);
+  }
+
+  if (specErrors === 0) {
+    ok(`${spec.id}: ${spec.title} [${spec.status}]`);
+  }
 }
 
 // ─── 5. Check for spec directories not in README ─────────────────────────────
@@ -92,14 +136,6 @@ if (existsSync(SPECS_DIR)) {
     if (!isIndexed) {
       err(`${specId}: Directory "specs/${dir}/" exists but is not in specs/README.md index. Add it.`);
     }
-  }
-}
-
-// ─── 6. Validate spec.md status field ────────────────────────────────────────
-const validStatuses = ["draft", "review", "approved", "implemented", "deprecated", "stub"];
-for (const spec of indexedSpecs) {
-  if (!validStatuses.includes(spec.status.toLowerCase())) {
-    err(`${spec.id}: Invalid status "${spec.status}". Valid: ${validStatuses.join(", ")}`);
   }
 }
 
