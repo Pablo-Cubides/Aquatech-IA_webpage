@@ -145,7 +145,7 @@ export const metadata: Metadata = {
     siteName: "AquatechIA",
     images: [
       {
-        url: "/images/portal-ambiental/autor/pablo-cubides.jpg",
+        url: "/images/portal-ambiental/autor/pablo-cubides-2.png",
         width: 800,
         height: 600,
         alt: "Retrato de Pablo Cubides",
@@ -159,7 +159,7 @@ export const metadata: Metadata = {
     title: "Pablo Cubides — Científico ambiental y especialista en agua",
     description:
       "Perfil de Pablo Cubides, autor en AquatechIA. Ingeniero Químico y M. Sc. en Ingeniería Ambiental.",
-    images: ["/images/portal-ambiental/autor/pablo-cubides.jpg"],
+    images: ["/images/portal-ambiental/autor/pablo-cubides-2.png"],
   },
 };
 
@@ -375,7 +375,7 @@ export default function AmbientalAutorPage() {
             <div className="lg:col-span-5 flex justify-center lg:justify-end">
               <div className="relative w-80 h-80 bg-gradient-to-br from-[#E8F4F8] to-[#F0FDF4] rounded-full border-4 border-[#0077B6] shadow-xl flex items-center justify-center overflow-hidden">
                 <img
-                  src="/images/portal-ambiental/autor/pablo-cubides.jpg"
+                  src="/images/portal-ambiental/autor/pablo-cubides-2.png"
                   alt="Retrato de Pablo Cubides - Especialista Ambiental"
                   className="w-full h-full object-contain"
                 />
@@ -424,7 +424,7 @@ export default function AmbientalAutorPage() {
             <div className="lg:col-span-5">
               <div className="rounded-xl overflow-hidden shadow-lg border border-gray-200">
                 <img
-                  src="/images/portal-ambiental/autor/fotos-lab.png"
+                  src="/images/portal-ambiental/autor/fotos-lab.png?v=2"
                   alt="Pablo Cubides en laboratorio"
                   className="w-full h-96 object-cover"
                 />
