@@ -25,6 +25,7 @@
     "img:budget": "node .specify/scripts/image-budget.mjs",
     "lint:content": "node .specify/scripts/lint-content.mjs",
     "lint:specs": "node .specify/scripts/lint-specs.mjs",
+    "test:sdd-governance": "node .specify/scripts/lint-specs.mjs --self-test && node .specify/scripts/lint-content.mjs --self-test",
     "release:preflight": "node .specify/scripts/release-preflight.mjs"
   },
   "devDependencies": {

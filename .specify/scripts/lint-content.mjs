@@ -23,7 +23,9 @@ import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..", "..");
-const ARTICLES_ROOT = join(ROOT, "apps", "web", "src", "lib", "articles");
+const args = new Set(process.argv.slice(2));
+const ARTICLES_ROOT = process.env.LINT_CONTENT_ARTICLES_ROOT ||
+  join(ROOT, "apps", "web", "src", "lib", "articles");
 const PORTALS = ["ia", "ambiental"];
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -42,6 +44,74 @@ function ok(msg) { console.log(`\x1b[32m[OK]\x1b[0m   ${msg}`); }
 
 function countWords(text) {
   return text.replace(/\s+/g, " ").trim().split(" ").filter(Boolean).length;
+}
+
+function stripMarkdown(text) {
+  return text
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/`([^`]+)`/g, "$1")
+    .replace(/!\[[^\]]*\]\([^)]+\)/g, " ")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/[#>*_~\-]+/g, " ");
+}
+
+function extractStringField(content, fieldName) {
+  const values = [];
+  const patterns = [
+    new RegExp(`${fieldName}:\\s*"((?:\\\\.|[^"\\\\])*)"`, "gs"),
+    new RegExp(`${fieldName}:\\s*'((?:\\\\.|[^'\\\\])*)'`, "gs"),
+    new RegExp(`${fieldName}:\\s*\\\`([\\s\\S]*?)\\\``, "g"),
+  ];
+
+  for (const pattern of patterns) {
+    for (const match of content.matchAll(pattern)) {
+      values.push(match[1]);
+    }
+  }
+
+  return values;
+}
+
+function articleWordCount(content) {
+  const articleText = [
+    ...extractStringField(content, "introduction"),
+    ...extractStringField(content, "content"),
+    ...extractStringField(content, "conclusion"),
+  ].join(" ");
+
+  return countWords(stripMarkdown(articleText));
+}
+
+function readTimeWithinTolerance(actual, expected) {
+  const lower = Math.max(1, Math.floor(expected * 0.8));
+  const upper = Math.max(1, Math.ceil(expected * 1.2));
+  return actual >= lower && actual <= upper;
+}
+
+function assertSelfTest(condition, message) {
+  if (!condition) throw new Error(message);
+}
+
+function runSelfTest() {
+  const sampleArticle = `
+    introduction: "uno dos tres cuatro cinco",
+    sections: [
+      { id: "section-1", content: "seis siete ocho nueve diez" }
+    ],
+    conclusion: "once doce"
+  `;
+
+  assertSelfTest(articleWordCount(sampleArticle) === 12, "articleWordCount should collect article prose fields");
+  assertSelfTest(readTimeWithinTolerance(5, 5), "exact readTime should pass");
+  assertSelfTest(readTimeWithinTolerance(4, 5), "lower 20% readTime should pass");
+  assertSelfTest(readTimeWithinTolerance(6, 5), "upper 20% readTime should pass");
+  assertSelfTest(!readTimeWithinTolerance(7, 5), "readTime outside tolerance should fail");
+  console.log("lint-content self-test passed");
+}
+
+if (args.has("--self-test")) {
+  runSelfTest();
+  process.exit(0);
 }
 
 // ─── Collect all article files ────────────────────────────────────────────────
@@ -94,10 +164,22 @@ for (const { portal, path, slug } of articleFiles) {
     if (isNaN(date.getTime())) err(path, `Invalid date: ${dateMatch[1]}`);
   }
 
-  // 5. readTime: 0 indicates it hasn't been set
+  // 5. readTime must match the article word count within 20%
   const readTimeMatch = content.match(/readTime:\s*(\d+)/);
-  if (readTimeMatch && readTimeMatch[1] === "0") {
-    err(path, "readTime is 0 — must be calculated: ceil(wordCount / 200)");
+  if (readTimeMatch) {
+    const readTime = Number(readTimeMatch[1]);
+    if (readTime === 0) {
+      err(path, "readTime is 0 — must be calculated: ceil(wordCount / 200)");
+    } else {
+      const words = articleWordCount(content);
+      const expectedReadTime = Math.max(1, Math.ceil(words / 200));
+      if (words > 0 && !readTimeWithinTolerance(readTime, expectedReadTime)) {
+        err(
+          path,
+          `readTime ${readTime} is outside 20% tolerance for ${words} words (expected ~${expectedReadTime})`
+        );
+      }
+    }
   }
 
   // 6. excerpt length

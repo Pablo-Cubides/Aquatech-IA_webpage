@@ -1,0 +1,85 @@
+pipeline:
+  name: SDD Governance
+  identifier: SDD_Governance
+  projectIdentifier: <PROJECT_IDENTIFIER>
+  orgIdentifier: <ORG_IDENTIFIER>
+  tags:
+    spec: SPEC-106
+    purpose: sdd-governance
+  properties:
+    ci:
+      codebase:
+        connectorRef: <GITHUB_CONNECTOR_REF>
+        repoName: <GITHUB_REPO_NAME>
+        build: <+input>
+  stages:
+    - stage:
+        name: SDD Governance
+        identifier: SDD_Governance
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  name: Setup pnpm
+                  identifier: Setup_pnpm
+                  type: Run
+                  spec:
+                    shell: Sh
+                    command: |-
+                      corepack enable
+                      corepack prepare pnpm@8.15.6 --activate
+                      pnpm --version
+              - step:
+                  name: Install root dependencies
+                  identifier: Install_root_dependencies
+                  type: Run
+                  spec:
+                    shell: Sh
+                    command: pnpm install --frozen-lockfile --filter '.' --ignore-scripts
+              - step:
+                  name: Spec governance
+                  identifier: Spec_governance
+                  type: Run
+                  spec:
+                    shell: Sh
+                    command: |-
+                      CHANGED_FILES="$(git diff --name-only origin/main...HEAD 2>/dev/null || git diff --name-only HEAD~1 HEAD 2>/dev/null || true)"
+                      LINT_SPECS_CHANGED_FILES="$CHANGED_FILES" node .specify/scripts/lint-specs.mjs --changed-only --json | tee harness-spec-report.json
+              - step:
+                  name: Content governance
+                  identifier: Content_governance
+                  type: Run
+                  spec:
+                    shell: Sh
+                    command: |-
+                      CHANGED_ARTICLES="$(git diff --name-only origin/main...HEAD 2>/dev/null | grep -E '^(apps/web/src/lib/articles/|content/blog/|\.specify/scripts/lint-content\.mjs)' || true)"
+                      if [ -z "$CHANGED_ARTICLES" ]; then
+                        echo "No content files changed."
+                        exit 0
+                      fi
+                      pnpm lint:content
+              - step:
+                  name: Image governance
+                  identifier: Image_governance
+                  type: Run
+                  spec:
+                    shell: Sh
+                    command: |-
+                      CHANGED_IMAGES="$(git diff --name-only origin/main...HEAD 2>/dev/null | grep -E '^(apps/web/public/images/|\.specify/scripts/image-budget\.mjs)' || true)"
+                      if [ -z "$CHANGED_IMAGES" ]; then
+                        echo "No image files changed."
+                        exit 0
+                      fi
+                      pnpm img:budget --changed-only
+        advanced:
+          sendGitStatus:
+            enabled: true
+            name: Harness / SDD Governance

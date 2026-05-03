@@ -4,9 +4,5 @@
 # Run the full validation suite before push
 # Constitution §8.4: --no-verify is prohibited except for documented hotfix branches
 
-# Step 1: Original syntax + lint + typecheck + build validation
-node scripts/validate-push.js
-
-# Step 2: SDD pipeline checks (content lint, spec lint, image budget)
-# These run after the original checks to preserve existing behavior
+# Canonical pre-push validation: code quality + SDD pipeline checks
 node .specify/scripts/release-preflight.mjs

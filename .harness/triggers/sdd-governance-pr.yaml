@@ -1,0 +1,39 @@
+trigger:
+  name: SDD Governance PR
+  identifier: SDD_Governance_PR
+  enabled: true
+  description: Run SDD Governance for pull requests targeting main.
+  tags:
+    spec: SPEC-106
+  orgIdentifier: <ORG_IDENTIFIER>
+  projectIdentifier: <PROJECT_IDENTIFIER>
+  pipelineIdentifier: SDD_Governance
+  source:
+    type: Webhook
+    spec:
+      type: Github
+      spec:
+        type: PullRequest
+        spec:
+          connectorRef: <GITHUB_CONNECTOR_REF>
+          autoAbortPreviousExecutions: true
+          actions:
+            - Open
+            - Reopen
+            - Synchronize
+            - Edit
+            - Label
+            - Unlabel
+          payloadConditions:
+            - key: targetBranch
+              operator: Equals
+              value: main
+  inputYaml: |
+    pipeline:
+      properties:
+        ci:
+          codebase:
+            build:
+              type: PR
+              spec:
+                number: <+trigger.prNumber>
