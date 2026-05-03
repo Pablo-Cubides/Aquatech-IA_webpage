@@ -424,7 +424,7 @@ export default function AmbientalAutorPage() {
             <div className="lg:col-span-5">
               <div className="rounded-xl overflow-hidden shadow-lg border border-gray-200">
                 <img
-                  src="/images/portal-ambiental/autor/fotos-lab.png?v=2"
+                  src="/images/portal-ambiental/autor/fotos-lab.webp"
                   alt="Pablo Cubides en laboratorio"
                   className="w-full h-96 object-cover"
                 />
