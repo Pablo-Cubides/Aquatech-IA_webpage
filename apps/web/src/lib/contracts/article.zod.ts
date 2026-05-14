@@ -1,11 +1,23 @@
 /**
+ * App copy — DO NOT edit directly.
+ * Canonical: docs/contracts/article.zod.ts
+ * Sync: node .specify/scripts/sync-contracts.mjs
+ */
+
+/**
  * Single source of truth for the BlogArticle type.
- * Canonical version: docs/contracts/article.zod.ts
+ * All article files must validate against this schema.
+ *
+ * Constitution §7.1: "Each file exports a single BlogArticle object validated against article.zod.ts"
+ * Constitution §3.1: "Derive types from Zod schemas — never duplicate type definitions"
  *
  * Usage in article files:
  *   import { blogArticleSchema } from "@/lib/contracts/article.zod";
  *   import type { BlogArticle } from "@/lib/contracts/article.zod";
  *   const article: BlogArticle = blogArticleSchema.parse({ ... });
+ *
+ * NOTE: This file should be copied/symlinked to apps/web/src/lib/contracts/article.zod.ts
+ * The canonical version lives in docs/contracts/ for cross-team visibility.
  */
 
 import { z } from "zod";
@@ -28,11 +40,7 @@ const sectionSchema = z.object({
   id: z.string().regex(/^[a-z0-9-]+$/, "Section id must be kebab-case"),
   title: z.string().min(1, "Section title cannot be empty"),
   content: z.string().min(50, "Section content must be at least 50 characters"),
-  image: z
-    .string()
-    .url("image must be a valid URL")
-    .or(z.string().startsWith("/"))
-    .optional(),
+  image: z.string().url("image must be a valid URL").or(z.string().startsWith("/")).optional(),
   callout: calloutSchema.optional(),
   subsections: z.array(subsectionSchema).optional(),
 });
@@ -60,10 +68,7 @@ const contentSchema = z.object({
       },
       { message: "Section IDs must be unique within the article" }
     ),
-  conclusion: z
-    .string()
-    .min(50, "Conclusion must be at least 50 characters")
-    .optional(),
+  conclusion: z.string().min(50, "Conclusion must be at least 50 characters").optional(),
 });
 
 // ─── Main schema ──────────────────────────────────────────────────────────────
@@ -81,9 +86,7 @@ export const blogArticleSchema = z.object({
   date: z
     .string()
     .regex(/^\d{4}-\d{2}-\d{2}$/, "date must be ISO 8601 format: YYYY-MM-DD")
-    .refine((d) => !isNaN(new Date(d).getTime()), {
-      message: "date must be a valid date",
-    }),
+    .refine((d) => !isNaN(new Date(d).getTime()), { message: "date must be a valid date" }),
 
   readTime: z
     .number()
@@ -100,10 +103,7 @@ export const blogArticleSchema = z.object({
     .min(1, "heroImage cannot be empty — upload to Cloudinary before publishing")
     .refine(
       (v) => v.startsWith("http") || v.startsWith("/"),
-      {
-        message:
-          "heroImage must be a Cloudinary URL or an absolute path starting with /",
-      }
+      { message: "heroImage must be a Cloudinary URL or an absolute path starting with /" }
     ),
 
   author: authorSchema,
@@ -118,7 +118,7 @@ export const blogArticleSchema = z.object({
   nextArticle: nextArticleSchema.optional(),
 });
 
-// ─── Derived TypeScript types ─────────────────────────────────────────────────
+// ─── Derived TypeScript type ──────────────────────────────────────────────────
 
 export type BlogArticle = z.infer<typeof blogArticleSchema>;
 export type BlogArticleSection = z.infer<typeof sectionSchema>;
