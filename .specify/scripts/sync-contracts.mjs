@@ -42,6 +42,7 @@ function hash(content) {
  */
 function normalize(content) {
   return content
+    .replace(/\r\n/g, "\n") // normalize CRLF → LF (Windows git autocrlf)
     .split("\n")
     .filter((line) => !line.trim().startsWith("* Canonical version:"))
     .filter((line) => !line.trim().startsWith("// Canonical version:"))
@@ -58,6 +59,7 @@ function normalize(content) {
 function adaptForTarget(canonical, filename) {
   const note = `/**\n * App copy — DO NOT edit directly.\n * Canonical: docs/contracts/${filename}\n * Sync: node .specify/scripts/sync-contracts.mjs\n */\n`;
   const adapted = canonical
+    .replace(/\r\n/g, "\n") // normalize CRLF → LF before stripping
     // Quita el bloque de comentario canónico existente si lo hay
     .replace(/^\/\*\*[\s\S]*?\*\/\n/, "")
     // Asegura el import correcto

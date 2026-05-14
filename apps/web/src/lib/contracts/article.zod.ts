@@ -4,22 +4,6 @@
  * Sync: node .specify/scripts/sync-contracts.mjs
  */
 
-/**
- * Single source of truth for the BlogArticle type.
- * All article files must validate against this schema.
- *
- * Constitution §7.1: "Each file exports a single BlogArticle object validated against article.zod.ts"
- * Constitution §3.1: "Derive types from Zod schemas — never duplicate type definitions"
- *
- * Usage in article files:
- *   import { blogArticleSchema } from "@/lib/contracts/article.zod";
- *   import type { BlogArticle } from "@/lib/contracts/article.zod";
- *   const article: BlogArticle = blogArticleSchema.parse({ ... });
- *
- * NOTE: This file should be copied/symlinked to apps/web/src/lib/contracts/article.zod.ts
- * The canonical version lives in docs/contracts/ for cross-team visibility.
- */
-
 import { z } from "zod";
 
 // ─── Sub-schemas ──────────────────────────────────────────────────────────────

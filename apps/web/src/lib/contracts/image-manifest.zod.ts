@@ -4,14 +4,6 @@
  * Sync: node .specify/scripts/sync-contracts.mjs
  */
 
-/**
- * Schema for AI-generated image manifests.
- * Constitution §7.4: "Every AI-generated image must have a <slug>.image-manifest.json"
- *
- * Usage: Validate manifest files at CI or build time.
- *   import { imageManifestSchema } from "@/lib/contracts/image-manifest.zod";
- */
-
 import { z } from "zod";
 
 export const imageManifestSchema = z.object({
