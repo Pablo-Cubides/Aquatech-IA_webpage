@@ -1,8 +1,12 @@
 # ADR-NNNN — [Decision Title / Título de la decisión]
-> **Status / Estado**: `proposed` | `accepted` | `deprecated` | `superseded by ADR-NNNN`  
+> **Status / Estado**: `proposed` | `accepted` | `deprecated` | `superseded`  
 > **Date / Fecha**: YYYY-MM-DD  
+> **Last reviewed / Última revisión**: YYYY-MM-DD  
 > **Author / Autor**: [name]  
-> **Deciders / Decisores**: [name(s)]
+> **Deciders / Decisores**: [name(s)]  
+> **Supersedes**: ADR-XXXX *(omit if not applicable)*  
+> **Superseded by**: ADR-YYYY *(fill when this ADR becomes outdated)*  
+> **Related**: ADR-ZZZZ *(other ADRs with related decisions)*
 
 ---
 

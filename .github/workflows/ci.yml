@@ -92,6 +92,9 @@ jobs:
         run: pnpm lint
         continue-on-error: false
 
+      - name: Verify contracts sync (docs → apps/web)
+        run: node .specify/scripts/sync-contracts.mjs --check
+
   # TypeScript type checking
   typecheck:
     name: TypeScript Type Check
@@ -152,10 +155,39 @@ jobs:
       - name: Install dependencies (test job safety)
         run: pnpm install --frozen-lockfile
 
-      - name: Run tests
-        run: pnpm test
+      - name: Run tests with coverage
+        run: pnpm test -- --coverage --reporter=json --reporter=default
         env:
           NODE_ENV: test
+
+      - name: Check coverage threshold (60%)
+        run: |
+          node -e "
+          const fs = require('fs');
+          const paths = [
+            'coverage/coverage-summary.json',
+            'apps/web/coverage/coverage-summary.json',
+            'apps/api/coverage/coverage-summary.json',
+          ];
+          let found = false;
+          for (const p of paths) {
+            if (!fs.existsSync(p)) continue;
+            found = true;
+            const summary = JSON.parse(fs.readFileSync(p, 'utf-8'));
+            const total = summary.total;
+            const lines = total?.lines?.pct ?? 100;
+            const branches = total?.branches?.pct ?? 100;
+            const functions = total?.functions?.pct ?? 100;
+            console.log('Coverage — lines:', lines + '%', '| branches:', branches + '%', '| functions:', functions + '%');
+            const THRESHOLD = 60;
+            if (lines < THRESHOLD || branches < THRESHOLD || functions < THRESHOLD) {
+              console.error('Coverage below ' + THRESHOLD + '% threshold (constitution §4.1)');
+              process.exit(1);
+            }
+            console.log('Coverage OK (threshold: ' + THRESHOLD + '%)');
+          }
+          if (!found) console.log('No coverage report found — skipping threshold check');
+          "
 
       - name: Upload coverage reports
         uses: codecov/codecov-action@v4

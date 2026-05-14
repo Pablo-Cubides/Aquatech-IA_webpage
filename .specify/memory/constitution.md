@@ -1,5 +1,5 @@
 # AquatechIA — Constitution / Constitución
-> **Version**: 1.0.0 | **Status**: Active | **Last modified**: 2026-04-28  
+> **Version**: 1.1.0 | **Status**: Active | **Last modified**: 2026-05-14  
 > Changes to this document require an explicit ADR and a SemVer bump.  
 > Cambios a este documento requieren un ADR explícito y un bump de SemVer.
 
@@ -263,11 +263,26 @@ Every AI-generated image must have a `<slug>.image-manifest.json` alongside it:
 - Rollback: Vercel instant rollback to previous deployment.
 - `release-preflight.mjs` runs as part of `pre-push` hook before every push to main.
 
-### 8.4 Husky Hooks
+### 8.4 Git Hooks (Lefthook)
+Git hooks managed with **Lefthook** (`lefthook.yml` in repo root). Husky was retired (see ADR-0011).
+
 | Hook | What it runs | Bypassable? |
 |---|---|---|
-| `pre-commit` | Secret scan + syntax validation | `--no-verify` **prohibited** |
-| `pre-push` | Full preflight (lint + typecheck + test + content-lint + spec check) | `--no-verify` **prohibited** |
+| `pre-commit` | Secret scan on staged files | `--no-verify` **prohibited** |
+| `pre-push` | Full preflight (typecheck + lint + test + content-lint + spec-lint + contracts-sync + image-budget) | `--no-verify` **prohibited** |
+
+`--no-verify` is only allowed for documented hotfix branches created under an active incident. Must be documented in the PR body.
+
+### 8.5 Spec Lifecycle & Archiving
+
+Specs follow this lifecycle: `draft → review → approved → implementing → implemented → deprecated`
+
+**Archiving rules:**
+- A spec may be marked `deprecated` when the feature it describes is removed or superseded.
+- Deprecated specs stay in `specs/` indefinitely for historical reference — do NOT delete them.
+- When a spec supersedes another, add `supersedes: SPEC-NNN` to the frontmatter of the new spec and `superseded-by: SPEC-NNN` to the old one.
+- Stale specs (no activity for >60 days in `draft` or `review`) receive a `stale` label in `specs/README.md` and are flagged in the monthly review.
+- `stub` specs evolve to full specs only when the tool undergoes significant planned changes.
 
 ---
 

@@ -1,0 +1,57 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"\nconst input = process.env.CLAUDE_TOOL_INPUT || '';\nconst cmd = (() => { try { return JSON.parse(input).command || ''; } catch { return input; } })();\nconst banned = [\n  { pattern: /--no-verify/, msg: 'constitution §8.4: --no-verify está prohibido excepto en hotfix documentados' },\n  { pattern: /push.*--force.*main|push.*-f.*main/, msg: 'constitution §8.4: force-push a main está prohibido' },\n  { pattern: /git\\s+push\\s+--force(?!.*hotfix)/, msg: 'constitution §8.4: usa --force-with-lease o documenta el hotfix' }\n];\nfor (const { pattern, msg } of banned) {\n  if (pattern.test(cmd)) {\n    process.stderr.write('\\x1b[31m[HOOK BLOCKED]\\x1b[0m ' + msg + '\\n');\n    process.exit(2);\n  }\n}\nprocess.exit(0);\""
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"\nconst input = process.env.CLAUDE_TOOL_INPUT || '';\nlet filePath = '';\ntry { filePath = JSON.parse(input).file_path || JSON.parse(input).path || ''; } catch {}\nif (/\\.env($|\\.[^.]+$)/.test(filePath) && !filePath.includes('.env.example')) {\n  process.stderr.write('\\x1b[31m[HOOK BLOCKED]\\x1b[0m Editar .env requiere confirmación explícita del usuario (constitution §6)\\n');\n  process.exit(2);\n}\nprocess.exit(0);\""
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"\nconst input = process.env.CLAUDE_TOOL_INPUT || '';\nlet filePath = '';\ntry { filePath = JSON.parse(input).file_path || JSON.parse(input).path || ''; } catch {}\nif (!filePath) process.exit(0);\nconst ext = filePath.split('.').pop();\nif (['ts','tsx','js','jsx','mjs','cjs','json','css','md'].includes(ext)) {\n  const { execSync } = require('child_process');\n  try {\n    execSync('npx prettier --write \\\"' + filePath + '\\\" --log-level=silent', { stdio: 'pipe' });\n  } catch {}\n}\nprocess.exit(0);\""
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"\nconst now = new Date().toISOString();\nconst { execSync } = require('child_process');\nlet branch = 'unknown';\ntry { branch = execSync('git branch --show-current', { stdio: 'pipe' }).toString().trim(); } catch {}\nconsole.log('\\x1b[36m[Session ended]\\x1b[0m ' + now + ' | branch: ' + branch);\nconsole.log('Recuerda: pnpm release:preflight antes de push a main.');\nprocess.exit(0);\""
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(git status)",
+      "Bash(git log*)",
+      "Bash(git diff*)",
+      "Bash(git branch*)",
+      "Bash(ls*)",
+      "Bash(node --version)",
+      "Bash(pnpm --version)",
+      "Bash(node .specify/scripts/*)"
+    ]
+  }
+}

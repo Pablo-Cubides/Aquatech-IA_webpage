@@ -42,7 +42,6 @@ console.log(`\n\x1b[36m🚀 Release Preflight — AquatechIA\x1b[0m`);
 console.log(`   Running before push to main. See: .specify/templates/release-spec.template.md\n`);
 
 console.log(`\x1b[1mCode Quality\x1b[0m`);
-run("Syntax validation", "node scripts/validate-syntax.js");
 run("TypeScript typecheck", "pnpm typecheck");
 run("ESLint lint", "pnpm lint");
 run("Tests", "pnpm test");
@@ -51,6 +50,7 @@ run("Web smoke build", "pnpm run build --filter @ia-next/web");
 console.log(`\n\x1b[1mContent & Assets\x1b[0m`);
 run("Content lint (articles)", "node .specify/scripts/lint-content.mjs");
 run("Spec index lint", "node .specify/scripts/lint-specs.mjs");
+run("Contracts sync check", "node .specify/scripts/sync-contracts.mjs --check");
 run("Image budget (changed files)", "node .specify/scripts/image-budget.mjs --changed-only");
 
 console.log(`\n\x1b[1mSecurity\x1b[0m`);

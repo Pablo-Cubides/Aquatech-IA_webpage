@@ -1,10 +1,10 @@
 ---
 id: SPEC-106
 title: "Harness Engineering Governance"
-status: draft
+status: approved
 owner: Pablo Cubides
 created: 2026-05-03
-updated: 2026-05-03
+updated: 2026-05-14
 ---
 
 # SPEC-106 — Harness Engineering Governance

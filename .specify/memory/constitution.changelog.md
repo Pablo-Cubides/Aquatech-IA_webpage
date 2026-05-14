@@ -22,6 +22,17 @@ All modifications to `constitution.md` are recorded here with the corresponding 
 - §9 AI Agent Rules (10 rules for coding agents)
 - §10 Three-Strikes Rule
 
+## [1.1.0] — 2026-05-14
+
+**SDD harness improvements.** Based on expert review and 2025 best practices research.
+
+- Reviewed by: Claude Code (claude-opus-4-7 + claude-sonnet-4-6)
+- Sources: Anthropic docs, HumanLayer, Martin Fowler SDD series, Pixelmojo hooks guide
+
+### Changes
+- **§8.4**: Migrated git hooks from Husky → Lefthook. Updated hook descriptions.
+- **§8.5 (new)**: Added Spec Lifecycle & Archiving policy (stale after 60d, deprecated stays, supersedes field).
+
 ---
 
 *To modify the constitution: open a `spec/constitution-vX.Y.Z` branch, write an ADR in `docs/adr/`, get it reviewed, then merge. Bump SemVer accordingly.*

@@ -1,0 +1,18 @@
+# Lefthook — Git hooks configuration (replaces Husky)
+# Constitution §8.4: --no-verify is PROHIBITED except documented hotfix branches
+#
+# Docs: https://github.com/evilmartians/lefthook
+# Install: pnpm add -D lefthook -w && pnpm lefthook install
+
+pre-commit:
+  parallel: true
+  commands:
+    secret-scan:
+      run: node .specify/scripts/secret-scan.mjs
+      fail_text: "Secret scan failed — check staged files for hardcoded credentials"
+
+pre-push:
+  commands:
+    sdd-preflight:
+      run: node .specify/scripts/release-preflight.mjs
+      fail_text: "SDD preflight failed — fix errors before pushing"

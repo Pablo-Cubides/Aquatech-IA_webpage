@@ -1,21 +1,35 @@
+# Harness Pipeline — SDD Governance (SPEC-106)
+#
+# PURPOSE: Runs SDD governance checks on PRs targeting main.
+# Reports a GitHub status named "Harness / SDD Governance".
+# Does NOT replace GitHub Actions or Vercel (see ADR-0011, SPEC-106).
+#
+# SETUP (one-time — requires Harness account):
+#   1. Ir a https://app.harness.io y crear cuenta / proyecto
+#   2. Crear un GitHub connector con acceso al repo
+#   3. Reemplazar los 4 placeholders de abajo con tus identificadores reales
+#   4. Importar este YAML en Harness: Pipelines → Import from Git
+#   5. En GitHub: Settings → Branches → Add rule → require "Harness / SDD Governance"
+#
+# PLACEHOLDERS:
+#   <ORG_IDENTIFIER>       — Harness org ID   (Settings → Overview)
+#   <PROJECT_IDENTIFIER>   — Harness project ID (Project Settings → Overview)
+#   <GITHUB_CONNECTOR_REF> — Harness connector ref (Connectors → GitHub)
+#   <GITHUB_REPO_NAME>     — e.g. "Pablo-Cubides/Aquatech-IA_webpage"
+
 pipeline:
   name: SDD Governance
-  identifier: SDD_Governance
-  projectIdentifier: <PROJECT_IDENTIFIER>
+  identifier: sdd_governance
   orgIdentifier: <ORG_IDENTIFIER>
+  projectIdentifier: <PROJECT_IDENTIFIER>
   tags:
+    sdd: "true"
     spec: SPEC-106
-    purpose: sdd-governance
-  properties:
-    ci:
-      codebase:
-        connectorRef: <GITHUB_CONNECTOR_REF>
-        repoName: <GITHUB_REPO_NAME>
-        build: <+input>
+
   stages:
     - stage:
-        name: SDD Governance
-        identifier: SDD_Governance
+        name: SDD Spec & Content Lint
+        identifier: sdd_lint
         type: CI
         spec:
           cloneCodebase: true
@@ -28,58 +42,83 @@ pipeline:
           execution:
             steps:
               - step:
-                  name: Setup pnpm
-                  identifier: Setup_pnpm
+                  name: Setup pnpm + install
+                  identifier: setup
                   type: Run
                   spec:
                     shell: Sh
-                    command: |-
+                    command: |
                       corepack enable
-                      corepack prepare pnpm@8.15.6 --activate
-                      pnpm --version
+                      pnpm install --frozen-lockfile
+
               - step:
-                  name: Install root dependencies
-                  identifier: Install_root_dependencies
+                  name: Lint specs index
+                  identifier: lint_specs
                   type: Run
                   spec:
                     shell: Sh
-                    command: pnpm install --frozen-lockfile --filter '.' --ignore-scripts
+                    command: node .specify/scripts/lint-specs.mjs
+                    envVariables:
+                      CI: "true"
+
               - step:
-                  name: Spec governance
-                  identifier: Spec_governance
+                  name: Lint content articles
+                  identifier: lint_content
                   type: Run
                   spec:
                     shell: Sh
-                    command: |-
-                      CHANGED_FILES="$(git diff --name-only origin/main...HEAD 2>/dev/null || git diff --name-only HEAD~1 HEAD 2>/dev/null || true)"
-                      LINT_SPECS_CHANGED_FILES="$CHANGED_FILES" node .specify/scripts/lint-specs.mjs --changed-only --json | tee harness-spec-report.json
+                    command: node .specify/scripts/lint-content.mjs
+                    envVariables:
+                      CI: "true"
+
               - step:
-                  name: Content governance
-                  identifier: Content_governance
+                  name: Verify contracts sync
+                  identifier: verify_contracts
                   type: Run
                   spec:
                     shell: Sh
-                    command: |-
-                      CHANGED_ARTICLES="$(git diff --name-only origin/main...HEAD 2>/dev/null | grep -E '^(apps/web/src/lib/articles/|content/blog/|\.specify/scripts/lint-content\.mjs)' || true)"
-                      if [ -z "$CHANGED_ARTICLES" ]; then
-                        echo "No content files changed."
+                    command: node .specify/scripts/sync-contracts.mjs --check
+                    envVariables:
+                      CI: "true"
+
+    - stage:
+        name: PR Governance Policy
+        identifier: pr_governance
+        type: CI
+        spec:
+          cloneCodebase: false
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  name: PR Spec Reference Check
+                  identifier: pr_spec_ref
+                  type: Run
+                  spec:
+                    shell: Sh
+                    command: |
+                      PR_BODY="${HARNESS_PR_BODY:-}"
+                      LABELS="${HARNESS_PR_LABELS:-}"
+                      if echo "$PR_BODY" | grep -qE "Spec: SPEC-[0-9]+"; then
+                        echo "✅ PR references a spec"
                         exit 0
                       fi
-                      pnpm lint:content
-              - step:
-                  name: Image governance
-                  identifier: Image_governance
-                  type: Run
-                  spec:
-                    shell: Sh
-                    command: |-
-                      CHANGED_IMAGES="$(git diff --name-only origin/main...HEAD 2>/dev/null | grep -E '^(apps/web/public/images/|\.specify/scripts/image-budget\.mjs)' || true)"
-                      if [ -z "$CHANGED_IMAGES" ]; then
-                        echo "No image files changed."
+                      if echo "$LABELS" | grep -q "no-spec"; then
+                        echo "✅ PR carries no-spec label"
                         exit 0
                       fi
-                      pnpm img:budget --changed-only
-        advanced:
-          sendGitStatus:
-            enabled: true
-            name: Harness / SDD Governance
+                      echo "❌ PR must include 'Spec: SPEC-NNN' in body, or carry the no-spec label"
+                      exit 1
+
+  properties:
+    ci:
+      codebase:
+        connectorRef: <GITHUB_CONNECTOR_REF>
+        repoName: <GITHUB_REPO_NAME>
+        build: <+input>
+        prCloneStrategy: MergeCommit

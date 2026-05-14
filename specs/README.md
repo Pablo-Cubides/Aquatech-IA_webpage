@@ -23,7 +23,7 @@
 | [SPEC-103](103-git-workflow/spec.md) | Git Workflow & Branching Strategy | approved | 2026-04-28 |
 | [SPEC-104](104-release-deploy-vercel/spec.md) | Release & Vercel Deploy Process | approved | 2026-04-28 |
 | [SPEC-105](105-husky-validation/spec.md) | Husky Hooks & Validation Pipeline | approved | 2026-04-28 |
-| [SPEC-106](106-harness-engineering-governance/spec.md) | Harness Engineering Governance | draft | 2026-05-03 |
+| [SPEC-106](106-harness-engineering-governance/spec.md) | Harness Engineering Governance | approved | 2026-05-14 |
 
 ## Tool Specs (on-demand) / Specs de herramientas (bajo demanda)
 
