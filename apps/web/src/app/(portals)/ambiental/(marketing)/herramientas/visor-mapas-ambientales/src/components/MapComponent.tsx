@@ -35,18 +35,26 @@ export interface MapComponentProps {
   onPointClick?: (feature: GeoJSONFeature) => void;
   selectedParameters: string[];
   colorByParameter?: boolean;
+  onMapClick?: (lng: number, lat: number) => void;
 }
 
 export default function MapComponent({
   data,
   onPointClick,
   colorByParameter = false,
+  onMapClick,
 }: MapComponentProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<MapLibreGL.Map | null>(null);
   const maplibreRef = useRef<typeof import("maplibre-gl") | null>(null);
+  const onMapClickRef = useRef(onMapClick);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [mapError, setMapError] = useState<string | null>(null);
+
+  // Update ref when prop changes
+  useEffect(() => {
+    onMapClickRef.current = onMapClick;
+  }, [onMapClick]);
 
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
@@ -98,6 +106,17 @@ export default function MapComponent({
             new maplibregl.NavigationControl(),
             "top-right",
           );
+          
+          // Handle general map clicks
+          map.current?.on("click", (e) => {
+            if (onMapClickRef.current) {
+              // Only call it if we aren't clicking a feature in the points layer
+              const features = map.current?.queryRenderedFeatures(e.point, { layers: ["points"] });
+              if (!features || features.length === 0) {
+                onMapClickRef.current(e.lngLat.lng, e.lngLat.lat);
+              }
+            }
+          });
         });
 
         // Handle WebGL context loss

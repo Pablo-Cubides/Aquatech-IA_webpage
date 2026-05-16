@@ -14,6 +14,9 @@ import GBIFLayerControl, {
   type GBIFFilters,
 } from "@/components/GBIFLayerControl";
 import WQPLayerControl, { type WQPFilters } from "@/components/WQPLayerControl";
+import OpenMeteoLayerControl from "@/components/OpenMeteoLayerControl";
+import USGSLayerControl from "@/components/USGSLayerControl";
+import FIRMSLayerControl from "@/components/FIRMSLayerControl";
 import RangeFilter from "../components/RangeFilter";
 import ErrorBoundary from "../components/ErrorBoundary";
 import type {
@@ -27,6 +30,9 @@ import { logger } from "@/lib/logger";
 import { getParameterLegendRanges } from "../lib/openaq";
 import { searchOccurrences, getTaxonColor } from "@/lib/gbif";
 import { searchStations, getSiteTypeColor, US_STATES } from "@/lib/wqp";
+import { getEarthquakes } from "@/lib/usgs";
+import { getActiveFires } from "@/lib/firms";
+import { getWeatherDescription } from "@/lib/openmeteo";
 
 // Dynamically import MapComponent to avoid SSR issues
 const MapComponent = dynamic(() => import("../components/MapComponent"), {
@@ -71,6 +77,17 @@ export default function HomePage() {
   const [wqpFilters, setWqpFilters] = useState<WQPFilters>({
     statecode: "US:06",
   }); // Default to California
+  const [wqpResults, setWqpResults] = useState<any[]>([]);
+  const [loadingWqpResults, setLoadingWqpResults] = useState(false);
+  const [showOpenMeteoLayer, setShowOpenMeteoLayer] = useState(false);
+  const [openMeteoData, setOpenMeteoData] = useState<any>(null);
+  const [loadingWeather, setLoadingWeather] = useState(false);
+  const [usgsData, setUsgsData] = useState<GeoJSONFeature[]>([]);
+  const [showUSGSLayer, setShowUSGSLayer] = useState(false);
+  const [usgsFilters, setUsgsFilters] = useState({ period: "week", minMagnitude: "2.5" });
+  const [firmsData, setFirmsData] = useState<GeoJSONFeature[]>([]);
+  const [showFIRMSLayer, setShowFIRMSLayer] = useState(false);
+  const [firmsFilters, setFirmsFilters] = useState({ source: "VIIRS_SNPP_NRT", dayRange: 2 });
   const [, setLoading] = useState(false);
   const [, setError] = useState<string | null>(null);
   // const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -108,6 +125,31 @@ export default function HomePage() {
   const handleEONETError = useCallback((err: string | null) => {
     setError(err);
   }, []);
+
+  const handleMapClick = useCallback(async (lng: number, lat: number) => {
+    if (!showOpenMeteoLayer) return;
+    
+    try {
+      setLoadingWeather(true);
+      const { getCurrentWeather } = await import("@/lib/openmeteo");
+      const weather = await getCurrentWeather(lat, lng);
+      
+      // Select a fake feature to open the details panel
+      setSelectedFeature({
+        type: "Feature",
+        geometry: { type: "Point", coordinates: [lng, lat] },
+        properties: {
+          _layerType: "openmeteo",
+          weather: weather
+        }
+      });
+      setIsMobileDetailsOpen(true);
+    } catch (e) {
+      console.error("Failed to fetch weather", e);
+    } finally {
+      setLoadingWeather(false);
+    }
+  }, [showOpenMeteoLayer]);
 
   /* eslint-disable react-hooks/exhaustive-deps */
   const { data: session } = useSession();
@@ -197,6 +239,27 @@ export default function HomePage() {
       );
     }
   }, [selectedDataset]);
+
+  // Fetch WQP Results when a WQP station is selected
+  useEffect(() => {
+    if (selectedFeature && selectedFeature.properties._layerType === "wqp") {
+      const fetchWQPData = async () => {
+        setLoadingWqpResults(true);
+        try {
+          const { getStationResults } = await import("@/lib/wqp");
+          const results = await getStationResults(selectedFeature.properties.MonitoringLocationIdentifier as string);
+          setWqpResults(results);
+        } catch (e) {
+          console.error("Error fetching WQP results", e);
+        } finally {
+          setLoadingWqpResults(false);
+        }
+      };
+      fetchWQPData();
+    } else {
+      setWqpResults([]);
+    }
+  }, [selectedFeature]);
 
   // Load data for selected date
   useEffect(() => {
@@ -506,6 +569,7 @@ export default function HomePage() {
             classKey: occurrence.classKey,
             phylumKey: occurrence.phylumKey,
             kingdomKey: occurrence.kingdomKey,
+            media: occurrence.media,
             _color: getTaxonColor({
               classKey: occurrence.classKey,
               phylumKey: occurrence.phylumKey,
@@ -602,10 +666,84 @@ export default function HomePage() {
     loadWQPData();
   }, [showWQPLayer, wqpFilters]);
 
-  const handleUploadComplete = () => {
-    logger.info("Upload completed successfully");
+  // Load USGS Earthquake data
+  useEffect(() => {
+    if (!showUSGSLayer) {
+      setUsgsData([]);
+      return;
+    }
+
+    const loadUSGSData = async () => {
+      try {
+        setLoading(true);
+        const features = await getEarthquakes({
+          period: usgsFilters.period as any,
+          minMagnitude: usgsFilters.minMagnitude as any,
+        });
+        setUsgsData(features);
+      } catch (error) {
+        console.error("Error loading USGS data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadUSGSData();
+  }, [showUSGSLayer, usgsFilters]);
+
+  // Load FIRMS Fire data
+  useEffect(() => {
+    if (!showFIRMSLayer) {
+      setFirmsData([]);
+      return;
+    }
+
+    const loadFIRMSData = async () => {
+      try {
+        setLoading(true);
+        const features = await getActiveFires({
+          source: firmsFilters.source as any,
+          dayRange: firmsFilters.dayRange as any,
+        });
+        setFirmsData(features);
+      } catch (error) {
+        console.error("Error loading FIRMS data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadFIRMSData();
+  }, [showFIRMSLayer, firmsFilters]);
+
+  const handleUploadComplete = (data: {
+    metadata: any;
+    features: GeoJSONFeature[];
+  }) => {
+    logger.info("Upload completed successfully", data.metadata.name);
     setShowUploadWizard(false);
-    // TODO: Process uploaded data and refresh datasets
+
+    // Create a new dataset metadata
+    const newDataset: DatasetMetadata = {
+      id: Math.random().toString(36).substr(2, 9),
+      name: data.metadata.name,
+      description: data.metadata.description || "",
+      owner_id: user?.id || "anonymous",
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      column_mapping: {}, // Not strictly needed for display
+      available_dates: [new Date().toISOString().split("T")[0]],
+      parameters: Object.keys(data.features[0]?.properties || {}).filter(
+        (k) => !["id", "fecha", "pais", "departamento", "ciudad", "source"].includes(k)
+      ),
+      units: {},
+    };
+
+    // Add to datasets and select it
+    setDatasets((prev) => [...prev, newDataset]);
+    setSelectedDataset(newDataset);
+    setUnfilteredData(data.features);
+    setSelectedDate(newDataset.available_dates[0]);
   };
 
   return (
@@ -856,6 +994,25 @@ export default function HomePage() {
                 stationCount={wqpData.length}
               />
 
+              {/* Open-Meteo Weather Layer Control */}
+              <OpenMeteoLayerControl
+                onToggle={setShowOpenMeteoLayer}
+              />
+
+              {/* USGS Earthquake Layer Control */}
+              <USGSLayerControl
+                onToggle={setShowUSGSLayer}
+                onFiltersChange={setUsgsFilters}
+                earthquakeCount={usgsData.length}
+              />
+
+              {/* FIRMS Fire Layer Control */}
+              <FIRMSLayerControl
+                onToggle={setShowFIRMSLayer}
+                onFiltersChange={setFirmsFilters}
+                fireCount={firmsData.length}
+              />
+
               <hr className="my-4" />
               <div>
                 <label className="block mb-1 text-sm font-medium text-gray-700">
@@ -1012,6 +1169,8 @@ export default function HomePage() {
                 ...eonetData,
                 ...gbifData,
                 ...wqpData,
+                ...usgsData,
+                ...firmsData,
               ]}
               onPointClick={(feature) => {
                 setSelectedFeature(feature);
@@ -1022,8 +1181,11 @@ export default function HomePage() {
                 showOpenAQLayer ||
                 showEONETLayer ||
                 showGBIFLayer ||
-                showWQPLayer
+                showWQPLayer ||
+                showUSGSLayer ||
+                showFIRMSLayer
               }
+              onMapClick={handleMapClick}
             />
 
             {/* Map Legend - OpenAQ */}
@@ -1191,7 +1353,64 @@ export default function HomePage() {
             {selectedFeature ? (
               <div className="space-y-4">
                 {/* Check data source and display appropriate fields */}
-                {selectedFeature.properties.source === "openaq" ? (
+                {selectedFeature.properties._layerType === "openmeteo" ? (
+                  /* Open-Meteo Weather Data */
+                  (() => {
+                    const w = selectedFeature.properties.weather as any;
+                    const current = w?.current;
+                    let weatherDesc = { text: "Cargando...", icon: "⏳" };
+                    if (current?.weather_code !== undefined) {
+                      weatherDesc = getWeatherDescription(current.weather_code);
+                    }
+                    const coords = selectedFeature.geometry.coordinates;
+                    return (
+                      <div>
+                        <h3 className="font-medium text-gray-900 flex items-center gap-2">
+                          <span className="text-2xl">{weatherDesc.icon}</span>
+                          Clima Actual
+                        </h3>
+                        <p className="text-xs text-gray-500 mt-1">
+                          📍 Lat: {(coords[1] as number).toFixed(4)}°, Lon: {(coords[0] as number).toFixed(4)}°
+                          {w?.elevation !== undefined && ` · Alt: ${w.elevation}m`}
+                        </p>
+                        {loadingWeather ? (
+                          <div className="flex justify-center my-4">
+                            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+                          </div>
+                        ) : current ? (
+                          <div className="mt-3 space-y-2">
+                            <div className="bg-blue-50 p-3 rounded-lg text-center">
+                              <div className="text-3xl font-bold text-blue-800">{current.temperature_2m}°C</div>
+                              <div className="text-sm text-blue-600">{weatherDesc.text}</div>
+                              <div className="text-xs text-gray-500 mt-1">Sensación: {current.apparent_temperature}°C</div>
+                            </div>
+                            <div className="grid grid-cols-2 gap-2 text-sm">
+                              <div className="bg-gray-50 p-2 rounded">
+                                <span className="font-medium block text-gray-600">💧 Humedad</span>
+                                <span className="text-gray-900">{current.relative_humidity_2m}%</span>
+                              </div>
+                              <div className="bg-gray-50 p-2 rounded">
+                                <span className="font-medium block text-gray-600">💨 Viento</span>
+                                <span className="text-gray-900">{current.wind_speed_10m} km/h</span>
+                              </div>
+                              <div className="bg-gray-50 p-2 rounded">
+                                <span className="font-medium block text-gray-600">🌧️ Precipitación</span>
+                                <span className="text-gray-900">{current.precipitation} mm</span>
+                              </div>
+                              <div className="bg-gray-50 p-2 rounded">
+                                <span className="font-medium block text-gray-600">☁️ Nubosidad</span>
+                                <span className="text-gray-900">{current.cloud_cover}%</span>
+                              </div>
+                            </div>
+                            <div className="text-xs text-gray-400 mt-2">Fuente: Open-Meteo (datos en tiempo real)</div>
+                          </div>
+                        ) : (
+                          <p className="text-sm text-gray-500 mt-2 italic">No se pudieron cargar los datos climáticos.</p>
+                        )}
+                      </div>
+                    );
+                  })()
+                ) : selectedFeature.properties.source === "openaq" ? (
                   /* OpenAQ Air Quality Data */
                   <>
                     <div>
@@ -1203,13 +1422,14 @@ export default function HomePage() {
                           <span className="font-medium">Estación:</span>{" "}
                           {String(selectedFeature.properties.location || "N/A")}
                         </p>
-                        <p className="text-sm">
+                        <p className="text-sm flex items-center gap-2">
                           <span className="font-medium">Fecha:</span>{" "}
-                          {selectedFeature.properties.date
-                            ? new Date(
-                                String(selectedFeature.properties.date),
-                              ).toLocaleString("es-ES")
-                            : "N/A"}
+                          {String(selectedFeature.properties._dateFormatted || "N/A")}
+                          {selectedFeature.properties._isRecent && (
+                            <span className="px-1.5 py-0.5 rounded-full bg-green-100 text-green-700 text-[10px] font-bold animate-pulse">
+                              RECIENTE
+                            </span>
+                          )}
                         </p>
                         <p className="text-sm">
                           <span className="font-medium">País:</span>{" "}
@@ -1381,6 +1601,22 @@ export default function HomePage() {
                           </span>
                         </div>
                       ) : null}
+                      
+                      {selectedFeature.properties.media && 
+                       Array.isArray(selectedFeature.properties.media) && 
+                       selectedFeature.properties.media.length > 0 && 
+                       selectedFeature.properties.media[0].identifier ? (
+                        <div className="mt-3 rounded-lg overflow-hidden border border-gray-200">
+                          <img 
+                            src={selectedFeature.properties.media[0].identifier} 
+                            alt={String(selectedFeature.properties.scientificName || 'Especie')} 
+                            className="w-full h-40 object-cover"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).style.display = 'none';
+                            }}
+                          />
+                        </div>
+                      ) : null}
                     </div>
                   </div>
                 ) : selectedFeature.properties._layerType === "wqp" ? (
@@ -1435,6 +1671,125 @@ export default function HomePage() {
                           </p>
                         </div>
                       ) : null}
+                    </div>
+
+                    {/* WQP Measurements */}
+                    <div className="mt-4">
+                      <h4 className="font-medium text-gray-900 border-t pt-3">Últimas Mediciones</h4>
+                      {loadingWqpResults ? (
+                        <div className="flex justify-center my-4">
+                          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+                        </div>
+                      ) : wqpResults.length > 0 ? (
+                        <div className="mt-2 space-y-2 max-h-48 overflow-y-auto pr-1 custom-scrollbar">
+                          {wqpResults.map((res: any, idx: number) => (
+                            <div key={idx} className="bg-gray-50 p-2 rounded-lg border border-gray-100 text-sm">
+                              <div className="flex justify-between font-medium">
+                                <span className="text-gray-800">{res.CharacteristicName}</span>
+                                <span className="text-blue-700">
+                                  {res.ResultMeasureValue} {res.ResultMeasure_MeasureUnitCode}
+                                </span>
+                              </div>
+                              <div className="text-xs text-gray-500 mt-1">
+                                {new Date(res.ActivityStartDate).toLocaleDateString("es-ES")}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-sm text-gray-500 mt-2 italic">No hay mediciones recientes disponibles para esta estación.</p>
+                      )}
+                    </div>
+                  </div>
+                ) : selectedFeature.properties._layerType === "usgs_earthquake" ? (
+                  <div>
+                    <h3 className="font-medium text-gray-900 flex items-center gap-2">
+                      🌍 Sismo Detectado
+                    </h3>
+                    <div className="mt-2 space-y-2">
+                      <div className="bg-red-50 p-3 rounded-lg text-center">
+                        <div className="text-3xl font-bold text-red-700">
+                          M {String(selectedFeature.properties.magnitude)}
+                        </div>
+                        <div className="text-sm text-red-600">
+                          {String(selectedFeature.properties.place)}
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2 text-sm">
+                        <div className="bg-gray-50 p-2 rounded">
+                          <span className="font-medium block text-gray-600">📏 Profundidad</span>
+                          <span className="text-gray-900">{String(selectedFeature.properties.depth)} km</span>
+                        </div>
+                        <div className="bg-gray-50 p-2 rounded">
+                          <span className="font-medium block text-gray-600">📅 Fecha</span>
+                          <span className="text-gray-900">
+                            {new Date(selectedFeature.properties.time as number).toLocaleString("es-ES")}
+                          </span>
+                        </div>
+                      </div>
+                      {selectedFeature.properties.tsunami ? (
+                        <div className="bg-yellow-100 text-yellow-800 text-xs p-2 rounded font-semibold">
+                          ⚠️ Alerta de tsunami emitida
+                        </div>
+                      ) : null}
+                      {selectedFeature.properties.url ? (
+                        <a
+                          href={String(selectedFeature.properties.url)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm text-blue-600 hover:text-blue-700 underline block mt-2"
+                        >
+                          🔗 Ver en USGS
+                        </a>
+                      ) : null}
+                      <div className="text-xs text-gray-400 mt-2">Fuente: USGS Earthquake Hazards Program</div>
+                    </div>
+                  </div>
+                ) : selectedFeature.properties._layerType === "firms" ? (
+                  <div>
+                    <h3 className="font-medium text-gray-900 flex items-center gap-2">
+                      🔥 Foco de Calor Detectado
+                    </h3>
+                    <div className="mt-2 space-y-2">
+                      <div className="bg-orange-50 p-3 rounded-lg text-center">
+                        <div className="text-2xl font-bold text-orange-700">
+                          {String(selectedFeature.properties.brightness)}K
+                        </div>
+                        <div className="text-sm text-orange-600">
+                          Temperatura de Brillo
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2 text-sm">
+                        <div className="bg-gray-50 p-2 rounded">
+                          <span className="font-medium block text-gray-600">📅 Fecha</span>
+                          <span className="text-gray-900">{String(selectedFeature.properties.acq_date)}</span>
+                        </div>
+                        <div className="bg-gray-50 p-2 rounded">
+                          <span className="font-medium block text-gray-600">🕐 Hora</span>
+                          <span className="text-gray-900">{String(selectedFeature.properties.acq_time)}</span>
+                        </div>
+                        <div className="bg-gray-50 p-2 rounded">
+                          <span className="font-medium block text-gray-600">🛰️ Satélite</span>
+                          <span className="text-gray-900">{String(selectedFeature.properties.satellite)}</span>
+                        </div>
+                        <div className="bg-gray-50 p-2 rounded">
+                          <span className="font-medium block text-gray-600">🔥 FRP</span>
+                          <span className="text-gray-900">{String(selectedFeature.properties.frp)} MW</span>
+                        </div>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="font-medium">Confianza:</span>
+                        <span className={`font-semibold ${
+                          String(selectedFeature.properties.confidence).toLowerCase() === "high" || Number(selectedFeature.properties.confidence) >= 80
+                            ? "text-red-600"
+                            : String(selectedFeature.properties.confidence).toLowerCase() === "nominal" || Number(selectedFeature.properties.confidence) >= 50
+                              ? "text-orange-600"
+                              : "text-yellow-600"
+                        }`}>
+                          {String(selectedFeature.properties.confidence)}
+                        </span>
+                      </div>
+                      <div className="text-xs text-gray-400 mt-2">Fuente: NASA FIRMS</div>
                     </div>
                   </div>
                 ) : (

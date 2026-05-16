@@ -7,7 +7,14 @@
       "Bash(pnpm add *)",
       "Bash(npx lefthook *)",
       "Bash(git config *)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(node .specify/scripts/sync-contracts.mjs)",
+      "Bash(git commit -m 'chore\\(contracts\\): sync Zod contracts from docs canonical source *)",
+      "Bash(node .specify/scripts/sync-contracts.mjs --check)",
+      "Bash(node -e ' *)",
+      "Bash(git commit -m 'fix\\(contracts\\): normalize CRLF in sync-contracts.mjs for Windows compatibility *)"
     ]
   }
 }

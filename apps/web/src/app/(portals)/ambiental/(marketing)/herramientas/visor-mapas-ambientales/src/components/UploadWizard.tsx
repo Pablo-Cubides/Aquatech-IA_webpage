@@ -9,7 +9,10 @@ import type {
 } from "@/types";
 
 interface UploadWizardProps {
-  onComplete: () => void;
+  onComplete: (data: {
+    metadata: UploadWizardStep3;
+    features: Record<string, unknown>[];
+  }) => void;
   onCancel: () => void;
 }
 
@@ -156,14 +159,58 @@ export default function UploadWizard({
   const handleStep3Complete = () => {
     if (!step1Data || !step2Data || !step3Data.confirmWarning) return;
 
-    // TODO: Process result data when backend is ready
-    // const result = {
-    //   file: step1Data,
-    //   mapping: step2Data,
-    //   metadata: step3Data,
-    // };
+    setLoading(true);
 
-    onComplete();
+    try {
+      // Process data according to mapping
+      const processedFeatures = step2Data.rawData.map((row: any) => {
+        const mapping = step2Data.columnMapping;
+
+        // If it's GeoJSON, we already have features
+        if (step1Data.fileType === "geojson") {
+          return row;
+        }
+
+        // For CSV/XLSX, convert row to GeoJSON-like feature
+        const lat = parseFloat(String(row[mapping.lat]));
+        const lon = parseFloat(String(row[mapping.lon]));
+
+        if (isNaN(lat) || isNaN(lon)) return null;
+
+        const properties: Record<string, unknown> = {
+          id: Math.random().toString(36).substr(2, 9),
+          fecha: row[mapping.fecha],
+          pais: row[mapping.pais],
+          departamento: row[mapping.departamento],
+          ciudad: row[mapping.ciudad],
+          source: "user-upload",
+        };
+
+        // Add parameters
+        Object.entries(mapping.parameters).forEach(([param, col]) => {
+          if (col) {
+            properties[param] = row[col as string];
+          }
+        });
+
+        return {
+          type: "Feature",
+          geometry: {
+            type: "Point",
+            coordinates: [lon, lat],
+          },
+          properties,
+        };
+      }).filter(Boolean);
+
+      onComplete({
+        metadata: step3Data,
+        features: processedFeatures as Record<string, unknown>[],
+      });
+    } catch (err) {
+      setError("Error al procesar los datos finales.");
+      setLoading(false);
+    }
   };
 
   if (currentStep === 1) {

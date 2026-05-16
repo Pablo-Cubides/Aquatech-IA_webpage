@@ -173,6 +173,16 @@ export interface WQPStationResult {
   totalCount: number;
 }
 
+export interface WQPMeasurement {
+  ResultIdentifier: string;
+  ActivityStartDate: string;
+  CharacteristicName: string;
+  ResultMeasureValue: string;
+  ResultMeasure_MeasureUnitCode: string;
+  ResultSampleFractionText?: string;
+  ResultStatusIdentifier?: string;
+}
+
 interface WQPGeoJSONFeature {
   properties: Omit<WQPStation, "LatitudeMeasure" | "LongitudeMeasure">;
   geometry: {
@@ -267,6 +277,42 @@ export async function searchStations(
   } catch (error) {
     console.error("Error fetching WQP stations:", error);
     throw error;
+  }
+}
+
+/**
+ * Fetch latest measurements for a specific station
+ */
+export async function getStationResults(
+  siteId: string,
+  limit: number = 20
+): Promise<WQPMeasurement[]> {
+  try {
+    const queryParams = new URLSearchParams();
+    queryParams.append("siteid", siteId);
+    queryParams.append("mimeType", "json");
+    queryParams.append("zip", "no");
+
+    // Fetch from WQP Result API (needs proxy in route.ts)
+    const response = await fetch(`/api/wqp/results?${queryParams.toString()}`);
+    
+    if (!response.ok) {
+      throw new Error(`WQP API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    
+    // Sort by date descending and limit
+    const results = (data || [])
+      .sort((a: any, b: any) => {
+        return new Date(b.ActivityStartDate).getTime() - new Date(a.ActivityStartDate).getTime();
+      })
+      .slice(0, limit);
+
+    return results as WQPMeasurement[];
+  } catch (error) {
+    console.error("Error fetching WQP results:", error);
+    return [];
   }
 }
 

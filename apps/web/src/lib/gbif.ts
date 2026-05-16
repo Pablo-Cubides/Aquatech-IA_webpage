@@ -31,6 +31,11 @@ export interface GBIFOccurrence {
   orderKey?: number;
   familyKey?: number;
   genusKey?: number;
+  media?: Array<{
+    type: string;
+    format: string;
+    identifier: string; // The URL
+  }>;
 }
 
 export interface GBIFSearchParams {

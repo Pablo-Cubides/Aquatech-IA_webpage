@@ -305,11 +305,26 @@ function AuthModalContent({ isOpen, onClose, theme = "dark" }: AuthModalProps) {
 
                   <div className="flex flex-col items-center space-y-3">
                     <div className="relative group">
-                      <img
-                        src={session.user?.image || AVATARS[0]}
-                        alt={session.user?.name || "Usuario"}
-                        className="w-24 h-24 rounded-full ring-4 ring-cyan-500/30 object-cover bg-white/5"
-                      />
+                      <div className="relative w-24 h-24">
+                        <img
+                          src={session.user?.image || AVATARS[0]}
+                          alt={session.user?.name || "Usuario"}
+                          className="w-24 h-24 rounded-full ring-4 ring-cyan-500/30 object-cover bg-white/5"
+                          onError={(e) => {
+                            // Hide the broken img and show initials div
+                            (e.target as HTMLImageElement).style.display = 'none';
+                            const parent = (e.target as HTMLImageElement).parentElement;
+                            const fallback = parent?.querySelector('.avatar-fallback') as HTMLElement;
+                            if (fallback) fallback.style.display = 'flex';
+                          }}
+                        />
+                        <div 
+                          className="avatar-fallback w-24 h-24 rounded-full ring-4 ring-cyan-500/30 bg-gradient-to-br from-purple-500 to-cyan-500 items-center justify-center text-white text-2xl font-bold"
+                          style={{ display: 'none' }}
+                        >
+                          {(session.user?.name || "U").split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase()}
+                        </div>
+                      </div>
                       <button
                         onClick={() => setView("edit-profile")}
                         className="absolute bottom-0 right-0 p-1.5 bg-cyan-500 rounded-full text-black hover:bg-cyan-400 transition-colors shadow-lg"
@@ -483,11 +498,14 @@ function AuthModalContent({ isOpen, onClose, theme = "dark" }: AuthModalProps) {
                 {/* Logo */}
                 <div ref={logoRef} className="flex justify-center mb-4">
                   <img
-                    src="/images/Logo Aquatech - IA 512 - sin fondo.png"
+                    src="/images/logo-aquatech.png"
                     alt="Aquatech IA"
                     width={80}
                     height={80}
                     className="drop-shadow-lg object-contain"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = "/images/portal-ia/logo-ia.png";
+                    }}
                   />
                 </div>
 

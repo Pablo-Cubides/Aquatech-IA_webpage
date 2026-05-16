@@ -314,6 +314,8 @@ export async function getOpenAQMeasurements(params: {
             actualValue = sensor.summary.avg;
           } else if (sensor.latest?.value !== undefined) {
             actualValue = sensor.latest.value;
+          } else if (sensor.value !== undefined) {
+            actualValue = sensor.value;
           }
         }
 
@@ -362,8 +364,14 @@ export async function getOpenAQMeasurements(params: {
           entity: location.owner?.name || "",
           sensorType: sensor?.name || "",
           date: {
-            utc: location.datetimeLast?.utc || new Date().toISOString(),
-            local: location.datetimeLast?.local || new Date().toISOString(),
+            utc:
+              location.datetimeLast?.utc ||
+              location.datetime_last?.utc ||
+              new Date().toISOString(),
+            local:
+              location.datetimeLast?.local ||
+              location.datetime_last?.local ||
+              new Date().toISOString(),
           },
         });
       }
@@ -439,6 +447,10 @@ export function openAQToGeoJSON(measurements: OpenAQMeasurement[]) {
         isMobile: m.isMobile,
         sensorType: m.sensorType || "N/A",
         entity: m.entity || "N/A",
+        _isRecent:
+          new Date().getTime() - new Date(m.date.utc).getTime() <
+          48 * 60 * 60 * 1000, // Recent if within 48 hours
+        _dateFormatted: new Date(m.date.local).toLocaleString("es-ES"),
       },
     }));
 }
