@@ -38,7 +38,8 @@
     "test": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", "**/*.test.*", "**/*.spec.*"],
-      "outputs": []
+      "outputs": [],
+      "cache": false
     },
     "clean": {
       "cache": false,
