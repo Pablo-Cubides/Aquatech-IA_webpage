@@ -731,7 +731,7 @@ export default function HomePage() {
       owner_id: user?.id || "anonymous",
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
-      column_mapping: {}, // Not strictly needed for display
+      column_mapping: {} as any, // Not strictly needed for display
       available_dates: [new Date().toISOString().split("T")[0]],
       parameters: Object.keys(data.features[0]?.properties || {}).filter(
         (k) => !["id", "fecha", "pais", "departamento", "ciudad", "source"].includes(k)
@@ -1425,7 +1425,7 @@ export default function HomePage() {
                         <p className="text-sm flex items-center gap-2">
                           <span className="font-medium">Fecha:</span>{" "}
                           {String(selectedFeature.properties._dateFormatted || "N/A")}
-                          {selectedFeature.properties._isRecent && (
+                          {selectedFeature.properties._isRecent as any && (
                             <span className="px-1.5 py-0.5 rounded-full bg-green-100 text-green-700 text-[10px] font-bold animate-pulse">
                               RECIENTE
                             </span>
@@ -1868,7 +1868,7 @@ export default function HomePage() {
       {/* Upload wizard modal */}
       {showUploadWizard && (
         <UploadWizard
-          onComplete={handleUploadComplete}
+          onComplete={handleUploadComplete as any}
           onCancel={() => setShowUploadWizard(false)}
         />
       )}
