@@ -273,9 +273,8 @@ export default function WQPLayerControl({
           )}
 
           {/* Info */}
-          <div className="text-xs text-gray-600 bg-blue-50 p-2 rounded">
-            💡 <strong>WQP</strong> integra datos de USGS, EPA y 400+ agencias
-            de monitoreo de EE.UU. Los datos se cargan automáticamente al activar la capa.
+          <div className="text-xs text-red-700 bg-red-50 p-2 rounded">
+            🛑 <strong>Importante:</strong> WQP es una base de datos exclusiva de <strong>Estados Unidos</strong> (USGS/EPA). No contiene mediciones de Colombia ni otros países.
           </div>
 
           {/* API Note */}

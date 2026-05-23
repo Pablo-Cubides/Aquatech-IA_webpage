@@ -113,9 +113,11 @@ export default function FIRMSLayerControl({
             </div>
           </div>
 
+          <div className="text-xs text-amber-700 bg-amber-50 p-2 rounded">
+            ⚠️ Si no aparecen datos, asegúrate de haber configurado la variable de entorno <code>NEXT_PUBLIC_FIRMS_MAP_KEY</code> y verificar los filtros.
+          </div>
           <div className="text-xs text-gray-600 bg-orange-50 p-2 rounded">
-            💡 <strong>FIRMS</strong> detecta anomalías térmicas usando satélites MODIS y VIIRS de la NASA.
-            Los colores indican el nivel de confianza de detección.
+            💡 Los colores indican el nivel de confianza de la detección satelital (rojo = alta).
           </div>
         </div>
       )}

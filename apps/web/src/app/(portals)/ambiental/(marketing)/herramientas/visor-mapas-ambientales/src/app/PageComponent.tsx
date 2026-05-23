@@ -131,10 +131,22 @@ export default function HomePage() {
     
     try {
       setLoadingWeather(true);
+      
+      // Select a fake feature immediately to open the details panel with loading state
+      setSelectedFeature({
+        type: "Feature",
+        geometry: { type: "Point", coordinates: [lng, lat] },
+        properties: {
+          _layerType: "openmeteo",
+          loading: true
+        }
+      });
+      setIsMobileDetailsOpen(true);
+      
       const { getCurrentWeather } = await import("@/lib/openmeteo");
       const weather = await getCurrentWeather(lat, lng);
       
-      // Select a fake feature to open the details panel
+      // Update with actual data
       setSelectedFeature({
         type: "Feature",
         geometry: { type: "Point", coordinates: [lng, lat] },
@@ -143,9 +155,17 @@ export default function HomePage() {
           weather: weather
         }
       });
-      setIsMobileDetailsOpen(true);
     } catch (e) {
       console.error("Failed to fetch weather", e);
+      // Let it stay open with empty weather so it falls back to the "No se pudieron cargar" text
+      setSelectedFeature({
+        type: "Feature",
+        geometry: { type: "Point", coordinates: [lng, lat] },
+        properties: {
+          _layerType: "openmeteo",
+          weather: null
+        }
+      });
     } finally {
       setLoadingWeather(false);
     }

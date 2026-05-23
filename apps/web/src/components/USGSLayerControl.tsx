@@ -117,6 +117,9 @@ export default function USGSLayerControl({
             </div>
           </div>
 
+          <div className="text-xs text-amber-700 bg-amber-50 p-2 rounded">
+            ⚠️ <strong>Nota:</strong> Los sismos provienen de una red global. Si no ves ninguno en Colombia, es porque no ha habido sismos recientes con la magnitud seleccionada en esta zona.
+          </div>
           <div className="text-xs text-gray-600 bg-red-50 p-2 rounded">
             💡 Los colores de los marcadores indican la profundidad del sismo. Rojo = superficial, Azul = profundo.
           </div>
