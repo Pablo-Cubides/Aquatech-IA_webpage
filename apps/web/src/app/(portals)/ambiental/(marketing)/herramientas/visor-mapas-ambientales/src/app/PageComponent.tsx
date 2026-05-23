@@ -1277,7 +1277,10 @@ export default function HomePage() {
               !showOpenAQLayer &&
               !showEONETLayer &&
               !showGBIFLayer &&
-              !showWQPLayer && (
+              !showWQPLayer &&
+              !showOpenMeteoLayer &&
+              !showUSGSLayer &&
+              !showFIRMSLayer && (
                 <div className="absolute inset-0 flex items-center justify-center bg-black pointer-events-none bg-opacity-30">
                   <div className="p-6 text-center bg-white rounded-lg shadow-lg">
                     <div className="mb-2 text-4xl text-gray-300">📊</div>
@@ -1610,7 +1613,7 @@ export default function HomePage() {
                           <img 
                             src={selectedFeature.properties.media[0].identifier} 
                             alt={String(selectedFeature.properties.scientificName || 'Especie')} 
-                            className="w-full h-40 object-cover"
+                            className="w-full h-40 object-contain"
                             onError={(e) => {
                               (e.target as HTMLImageElement).style.display = 'none';
                             }}
@@ -1697,7 +1700,7 @@ export default function HomePage() {
                           ))}
                         </div>
                       ) : (
-                        <p className="text-sm text-gray-500 mt-2 italic">No hay mediciones recientes disponibles para esta estación.</p>
+                        <p className="text-sm text-gray-500 mt-2 italic">No hay mediciones disponibles para esta estación.</p>
                       )}
                     </div>
                   </div>

@@ -286,12 +286,13 @@ export async function getOpenAQMeasurements(params: {
           continue;
         }
 
-        // Verify location has recent data (within last 30 days) to avoid showing data from 2004/2016
+        // Keep all locations even if data is older than 30 days
         const datetimeLastStr = location.datetimeLast?.utc || location.datetime_last?.utc;
+        let isRecent = false;
         if (datetimeLastStr) {
           const daysSinceLastUpdate = (new Date().getTime() - new Date(datetimeLastStr).getTime()) / (1000 * 60 * 60 * 24);
-          if (daysSinceLastUpdate > 30) {
-            continue; // Skip stale stations
+          if (daysSinceLastUpdate <= 30) {
+            isRecent = true;
           }
         } else {
           continue; // Skip stations without valid update time
