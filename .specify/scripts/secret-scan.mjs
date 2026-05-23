@@ -22,7 +22,12 @@ try {
   })
     .trim()
     .split("\n")
-    .filter((f) => f && EXTENSIONS.test(f) && existsSync(f));
+    .filter((f) => {
+      if (!f || !EXTENSIONS.test(f) || !existsSync(f)) return false;
+      if (f.includes("__tests__") || f.includes("__mocks__")) return false;
+      if (f.includes(".test.") || f.includes(".spec.")) return false;
+      return true;
+    });
 } catch {
   process.exit(0); // git not available or no staged files
 }

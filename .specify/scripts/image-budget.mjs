@@ -103,9 +103,14 @@ if (changedOnly) {
   // In CI: only check images changed in this PR
   let changedFiles;
   try {
-    const output = execSync("git diff --name-only HEAD~1 HEAD", { cwd: ROOT, stdio: "pipe" })
-      .toString()
-      .trim();
+    let output = "";
+    try {
+      // Intentar comparar con upstream (rama local contra su remota)
+      output = execSync("git diff --name-only @{u}...HEAD", { cwd: ROOT, stdio: "pipe" }).toString().trim();
+    } catch {
+      // Fallback a origin/main
+      output = execSync("git diff --name-only origin/main...HEAD", { cwd: ROOT, stdio: "pipe" }).toString().trim();
+    }
     changedFiles = output.split("\n").filter((f) => {
       const ext = extname(f).toLowerCase();
       return IMAGE_EXTENSIONS.has(ext);

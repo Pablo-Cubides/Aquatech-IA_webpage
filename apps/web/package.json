@@ -15,6 +15,7 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@ia-next/contracts": "workspace:*",
     "@ia-next/database": "workspace:*",
     "@ia-next/typescript-config": "workspace:*",
     "@ia-next/ui": "workspace:*",

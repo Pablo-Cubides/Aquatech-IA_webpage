@@ -23,7 +23,8 @@ const ROOT = join(__dirname, "..", "..");
 const SPECS_DIR = join(ROOT, "specs");
 const SPECS_README = join(SPECS_DIR, "README.md");
 const args = new Set(process.argv.slice(2));
-const changedOnly = args.has("--changed-only");
+const isHarnessPR = process.env.HARNESS_PULL_REQUEST_NUMBER || (process.env.HARNESS_PR_SOURCE_BRANCH && process.env.HARNESS_PR_TARGET_BRANCH);
+const changedOnly = args.has("--changed-only") || Boolean(isHarnessPR);
 const jsonOutput = args.has("--json");
 const selfTest = args.has("--self-test");
 

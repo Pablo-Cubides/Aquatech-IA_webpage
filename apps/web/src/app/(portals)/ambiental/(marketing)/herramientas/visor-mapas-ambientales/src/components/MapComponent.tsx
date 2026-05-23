@@ -47,14 +47,26 @@ export default function MapComponent({
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<MapLibreGL.Map | null>(null);
   const maplibreRef = useRef<typeof import("maplibre-gl") | null>(null);
+  
+  // Use refs for callbacks and data to avoid stale closures in MapLibre event listeners
+  const onPointClickRef = useRef(onPointClick);
   const onMapClickRef = useRef(onMapClick);
+  const dataRef = useRef(data);
+  
   const [mapLoaded, setMapLoaded] = useState(false);
   const [mapError, setMapError] = useState<string | null>(null);
 
-  // Update ref when prop changes
+  useEffect(() => {
+    onPointClickRef.current = onPointClick;
+  }, [onPointClick]);
+
   useEffect(() => {
     onMapClickRef.current = onMapClick;
   }, [onMapClick]);
+
+  useEffect(() => {
+    dataRef.current = data;
+  }, [data]);
 
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
@@ -254,16 +266,29 @@ export default function MapComponent({
         },
       });
 
+      // Setup point click handler
       map.current.on("click", "points", (e) => {
-        if (onPointClick && e.features?.[0]) {
+        if (e.features?.[0]) {
           const feature = e.features[0];
-          // Convert maplibre feature to our GeoJSONFeature type
-          const geoJsonFeature: GeoJSONFeature = {
-            type: "Feature",
-            geometry: feature.geometry as GeoJSONFeature["geometry"],
-            properties: (feature.properties || {}) as Record<string, unknown>,
-          };
-          onPointClick(geoJsonFeature);
+          const featureId = feature.properties?.id;
+          
+          // Find original feature in dataRef to preserve nested properties (arrays, objects)
+          // MapLibre stringifies nested properties in returned features
+          const originalFeature = featureId 
+            ? dataRef.current.find(f => f.properties.id === featureId) 
+            : null;
+
+          if (originalFeature) {
+            onPointClickRef.current?.(originalFeature);
+          } else {
+            // Fallback
+            const geoJsonFeature: GeoJSONFeature = {
+              type: "Feature",
+              geometry: feature.geometry as GeoJSONFeature["geometry"],
+              properties: (feature.properties || {}) as Record<string, unknown>,
+            };
+            onPointClickRef.current?.(geoJsonFeature);
+          }
         }
       });
 
@@ -274,19 +299,54 @@ export default function MapComponent({
       map.current.on("mouseleave", "points", () => {
         if (map.current) map.current.getCanvas().style.cursor = "";
       });
+      
+      // General map click handler
+      map.current.on("click", (e) => {
+        if (!map.current) return;
+        // Check if we clicked on a point feature
+        const features = map.current.queryRenderedFeatures(e.point, {
+          layers: ["points"],
+        });
+        
+        // If we didn't click a point, trigger the general map click
+        if (!features || features.length === 0) {
+          onMapClickRef.current?.(e.lngLat.lng, e.lngLat.lat);
+        }
+      });
     }
 
     if (data.length > 0) {
       const maplibregl = maplibreRef.current;
       if (!maplibregl) return;
 
-      const bounds = new maplibregl.LngLatBounds();
-      data.forEach((f) =>
-        bounds.extend(f.geometry.coordinates as [number, number]),
-      );
-      map.current.fitBounds(bounds, { padding: 50, maxZoom: 16 });
+      try {
+        const bounds = new maplibregl.LngLatBounds();
+        let validPoints = 0;
+        
+        data.forEach((f) => {
+          if (f.geometry && Array.isArray(f.geometry.coordinates)) {
+            let coords: [number, number];
+            if (Array.isArray(f.geometry.coordinates[0])) {
+              coords = (f.geometry.coordinates[0] as number[]).slice(0, 2) as [number, number];
+            } else {
+              coords = f.geometry.coordinates.slice(0, 2) as [number, number];
+            }
+            
+            if (coords && coords.length >= 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
+              bounds.extend(coords);
+              validPoints++;
+            }
+          }
+        });
+        
+        if (validPoints > 0) {
+          map.current.fitBounds(bounds, { padding: 50, maxZoom: 16 });
+        }
+      } catch (err) {
+        console.error("Error extending bounds:", err);
+      }
     }
-  }, [data, mapLoaded, onPointClick, colorByParameter]);
+  }, [data, mapLoaded, colorByParameter]);
 
   return (
     <div className="w-full h-full relative" style={{ minHeight: "400px" }}>

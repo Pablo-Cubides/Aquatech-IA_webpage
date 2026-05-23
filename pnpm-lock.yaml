@@ -100,6 +100,9 @@ importers:
       '@getbrevo/brevo':
         specifier: ^3.0.1
         version: 3.0.1
+      '@ia-next/contracts':
+        specifier: workspace:*
+        version: link:../../packages/@ia-next/contracts
       '@ia-next/database':
         specifier: workspace:*
         version: link:../../packages/@ia-next/database
@@ -182,6 +185,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@ia-next/contracts':
+        specifier: workspace:*
+        version: link:../../packages/@ia-next/contracts
       '@ia-next/database':
         specifier: workspace:*
         version: link:../../packages/@ia-next/database
@@ -348,6 +354,19 @@ importers:
       tailwindcss:
         specifier: ^3.4.1
         version: 3.4.18
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+
+  packages/@ia-next/contracts:
+    dependencies:
+      zod:
+        specifier: ^4.1.5
+        version: 4.1.5
+    devDependencies:
+      '@ia-next/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
       typescript:
         specifier: ^5.9.3
         version: 5.9.3

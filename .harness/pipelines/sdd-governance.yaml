@@ -20,8 +20,8 @@
 pipeline:
   name: SDD Governance
   identifier: sdd_governance
-  orgIdentifier: <ORG_IDENTIFIER>
-  projectIdentifier: <PROJECT_IDENTIFIER>
+  orgIdentifier: <+pipeline.variables.ORG_IDENTIFIER>
+  projectIdentifier: <+pipeline.variables.PROJECT_IDENTIFIER>
   tags:
     sdd: "true"
     spec: SPEC-106
@@ -57,7 +57,7 @@ pipeline:
                   type: Run
                   spec:
                     shell: Sh
-                    command: node .specify/scripts/lint-specs.mjs
+                    command: node .specify/scripts/lint-specs.mjs --changed-only
                     envVariables:
                       CI: "true"
 

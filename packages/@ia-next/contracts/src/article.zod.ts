@@ -1,7 +1,6 @@
 /**
- * App copy — DO NOT edit directly.
- * Canonical: docs/contracts/article.zod.ts
- * Sync: node .specify/scripts/sync-contracts.mjs
+ * Single source of truth for the BlogArticle type.
+ * All article files must validate against this schema.
  */
 
 import { z } from "zod";

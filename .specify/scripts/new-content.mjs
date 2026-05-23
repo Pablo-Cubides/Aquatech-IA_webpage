@@ -57,8 +57,8 @@ if (!existsSync(outputDir)) {
 }
 
 // Generate article file
-const template = `import { blogArticleSchema } from "@/lib/contracts/article.zod";
-import type { BlogArticle } from "@/lib/contracts/article.zod";
+const template = `import { blogArticleSchema } from "@ia-next/contracts";
+import type { BlogArticle } from "@ia-next/contracts";
 
 // SPEC: Fill this article following .specify/instructions/content-generation.md
 // Constitution §7.1–7.2 applies to all content fields.

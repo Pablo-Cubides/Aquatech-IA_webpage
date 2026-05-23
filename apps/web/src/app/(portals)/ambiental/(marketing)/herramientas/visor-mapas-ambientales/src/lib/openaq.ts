@@ -286,6 +286,17 @@ export async function getOpenAQMeasurements(params: {
           continue;
         }
 
+        // Verify location has recent data (within last 30 days) to avoid showing data from 2004/2016
+        const datetimeLastStr = location.datetimeLast?.utc || location.datetime_last?.utc;
+        if (datetimeLastStr) {
+          const daysSinceLastUpdate = (new Date().getTime() - new Date(datetimeLastStr).getTime()) / (1000 * 60 * 60 * 24);
+          if (daysSinceLastUpdate > 30) {
+            continue; // Skip stale stations
+          }
+        } else {
+          continue; // Skip stations without valid update time
+        }
+
         // Extract sensor data for the requested parameter
         const sensors = location.sensors || [];
         type OpenAQSensor = NonNullable<OpenAQLocation["sensors"]>[number];

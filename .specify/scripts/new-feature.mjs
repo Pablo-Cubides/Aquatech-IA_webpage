@@ -46,74 +46,101 @@ function applyTemplate(template, vars) {
 
 // ─── Main ────────────────────────────────────────────────────────────────────
 
-const args = process.argv.slice(2);
-if (args.length === 0) {
-  error("Usage: node .specify/scripts/new-feature.mjs <slug> [--spec-id=NNN]");
-}
+import readline from "readline";
 
-const slug = args[0].toLowerCase().replace(/\s+/g, "-");
-if (!/^[a-z0-9-]+$/.test(slug)) error("Slug must be kebab-case (a-z, 0-9, hyphens only).");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
 
-const specIdArg = args.find((a) => a.startsWith("--spec-id="));
-const specId = specIdArg ? specIdArg.split("=")[1].padStart(3, "0") : getNextSpecId();
+const question = (query) => new Promise((resolve) => rl.question(query, resolve));
 
-const specDirName = `${specId}-${slug}`;
-const specDir = join(SPECS_DIR, specDirName);
+async function main() {
+  const args = process.argv.slice(2);
+  let inputSlug = "";
+  let inputSpecId = "";
 
-if (existsSync(specDir)) error(`Spec directory already exists: specs/${specDirName}`);
+  if (args.length > 0) {
+    inputSlug = args[0];
+    const specIdArg = args.find((a) => a.startsWith("--spec-id="));
+    if (specIdArg) inputSpecId = specIdArg.split("=")[1];
+  } else {
+    console.log("\x1b[36m[new-feature]\x1b[0m Modo interactivo (Ctrl+C para cancelar)\n");
+    inputSlug = await question("Nombre corto de la feature (ej. user-notifications): ");
+    const defaultSpecId = getNextSpecId();
+    inputSpecId = await question(`ID de la Spec (Enter para usar ${defaultSpecId}): `);
+    if (!inputSpecId.trim()) inputSpecId = defaultSpecId;
+    rl.close();
+  }
 
-const today = new Date().toISOString().slice(0, 10);
-const title = slug.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+  const slug = inputSlug.toLowerCase().replace(/\s+/g, "-");
+  if (!/^[a-z0-9-]+$/.test(slug)) {
+    rl.close();
+    error("Slug must be kebab-case (a-z, 0-9, hyphens only).");
+  }
 
-const vars = { specId, slug, title, today };
+  const specId = inputSpecId.padStart(3, "0");
 
-// Create directories
-mkdirSync(specDir, { recursive: true });
-log(`Created specs/${specDirName}/`);
+  const specDirName = `${specId}-${slug}`;
+  const specDir = join(SPECS_DIR, specDirName);
 
-// Generate spec.md
-const specContent = applyTemplate(readTemplate("spec.template.md"), vars)
-  .replace("SPEC-NNN", `SPEC-${specId}`)
-  .replace("[Feature Title / Título de la feature]", title)
-  .replace(/YYYY-MM-DD/g, today);
-writeFileSync(join(specDir, "spec.md"), specContent);
-success("spec.md created");
+  if (existsSync(specDir)) {
+    rl.close();
+    error(`Spec directory already exists: specs/${specDirName}`);
+  }
 
-// Generate plan.md
-const planContent = applyTemplate(readTemplate("plan.template.md"), vars)
-  .replace("SPEC-NNN", `SPEC-${specId}`)
-  .replace(/YYYY-MM-DD/g, today);
-writeFileSync(join(specDir, "plan.md"), planContent);
-success("plan.md created");
+  const today = new Date().toISOString().slice(0, 10);
+  const title = slug.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
 
-// Generate tasks.md
-const tasksContent = applyTemplate(readTemplate("tasks.template.md"), vars)
-  .replace("SPEC-NNN", `SPEC-${specId}`);
-writeFileSync(join(specDir, "tasks.md"), tasksContent);
-success("tasks.md created");
+  const vars = { specId, slug, title, today };
 
-// Update specs/README.md index
-const specsReadme = join(SPECS_DIR, "README.md");
-if (existsSync(specsReadme)) {
-  const content = readFileSync(specsReadme, "utf-8");
-  const newRow = `| [SPEC-${specId}](${specDirName}/spec.md) | ${title} | draft | ${today} |`;
-  const updatedContent = content.replace(
-    "<!-- NEW SPECS ABOVE THIS LINE -->",
-    `${newRow}\n<!-- NEW SPECS ABOVE THIS LINE -->`
-  );
-  writeFileSync(specsReadme, updatedContent);
-  success("specs/README.md updated");
-}
+  // Create directories
+  mkdirSync(specDir, { recursive: true });
+  log(`Created specs/${specDirName}/`);
 
-// Create git branch
-try {
-  execSync(`git checkout -b spec/SPEC-${specId}-${slug}`, { stdio: "pipe", cwd: ROOT });
-  success(`Git branch created: spec/SPEC-${specId}-${slug}`);
-} catch {
-  log("Could not create git branch automatically (may already exist or git not available).");
-}
+  // Generate spec.md
+  const specContent = applyTemplate(readTemplate("spec.template.md"), vars)
+    .replace("SPEC-NNN", `SPEC-${specId}`)
+    .replace("[Feature Title / Título de la feature]", title)
+    .replace(/YYYY-MM-DD/g, today);
+  writeFileSync(join(specDir, "spec.md"), specContent);
+  success("spec.md created");
 
-console.log(`
+  // Generate plan.md
+  const planContent = applyTemplate(readTemplate("plan.template.md"), vars)
+    .replace("SPEC-NNN", `SPEC-${specId}`)
+    .replace(/YYYY-MM-DD/g, today);
+  writeFileSync(join(specDir, "plan.md"), planContent);
+  success("plan.md created");
+
+  // Generate tasks.md
+  const tasksContent = applyTemplate(readTemplate("tasks.template.md"), vars)
+    .replace("SPEC-NNN", `SPEC-${specId}`);
+  writeFileSync(join(specDir, "tasks.md"), tasksContent);
+  success("tasks.md created");
+
+  // Update specs/README.md index
+  const specsReadme = join(SPECS_DIR, "README.md");
+  if (existsSync(specsReadme)) {
+    const content = readFileSync(specsReadme, "utf-8");
+    const newRow = `| [SPEC-${specId}](${specDirName}/spec.md) | ${title} | draft | ${today} |`;
+    const updatedContent = content.replace(
+      "<!-- NEW SPECS ABOVE THIS LINE -->",
+      `${newRow}\n<!-- NEW SPECS ABOVE THIS LINE -->`
+    );
+    writeFileSync(specsReadme, updatedContent);
+    success("specs/README.md updated");
+  }
+
+  // Create git branch
+  try {
+    execSync(`git checkout -b spec/SPEC-${specId}-${slug}`, { stdio: "pipe", cwd: ROOT });
+    success(`Git branch created: spec/SPEC-${specId}-${slug}`);
+  } catch {
+    log("Could not create git branch automatically (may already exist or git not available).");
+  }
+
+  console.log(`
 \x1b[32m✅ SPEC-${specId} bootstrapped successfully!\x1b[0m
 
   📁 specs/${specDirName}/
@@ -127,4 +154,12 @@ console.log(`
   3. Get spec approved, then fill plan.md
   4. Get plan approved, then fill tasks.md
   5. Start implementing task by task
-`);
+  `);
+  process.exit(0);
+}
+
+main().catch((err) => {
+  rl.close();
+  console.error(err);
+  process.exit(1);
+});

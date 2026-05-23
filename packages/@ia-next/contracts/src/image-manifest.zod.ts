@@ -1,9 +1,3 @@
-/**
- * App copy — DO NOT edit directly.
- * Canonical: docs/contracts/image-manifest.zod.ts
- * Sync: node .specify/scripts/sync-contracts.mjs
- */
-
 import { z } from "zod";
 
 export const imageManifestSchema = z.object({

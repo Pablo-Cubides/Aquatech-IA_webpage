@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   POPULAR_TAXON_GROUPS,
   BASIS_OF_RECORD_OPTIONS,
+  searchTaxonSuggestions,
+  type TaxonSuggestion
 } from "@/lib/gbif";
 
 interface GBIFLayerControlProps {
@@ -30,6 +32,32 @@ export default function GBIFLayerControl({
   const [selectedBasis, setSelectedBasis] = useState<string | undefined>();
   const [selectedYear, setSelectedYear] = useState<number | undefined>();
   const [expanded, setExpanded] = useState(false);
+  const [speciesSearch, setSpeciesSearch] = useState("");
+  const [speciesSuggestions, setSpeciesSuggestions] = useState<TaxonSuggestion[]>([]);
+  const [searchingSpecies, setSearchingSpecies] = useState(false);
+  const [selectedSpeciesName, setSelectedSpeciesName] = useState<string>("");
+
+  // Search debounce effect
+  useEffect(() => {
+    if (!speciesSearch || speciesSearch.length < 3) {
+      setSpeciesSuggestions([]);
+      return;
+    }
+
+    const timer = setTimeout(async () => {
+      setSearchingSpecies(true);
+      try {
+        const suggestions = await searchTaxonSuggestions(speciesSearch);
+        setSpeciesSuggestions(suggestions);
+      } catch (err) {
+        console.error("Error fetching species suggestions:", err);
+      } finally {
+        setSearchingSpecies(false);
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [speciesSearch]);
 
   const handleToggle = () => {
     const newEnabled = !enabled;
@@ -47,8 +75,11 @@ export default function GBIFLayerControl({
     });
   };
 
-  const handleTaxonChange = (taxonKey: number | undefined) => {
+  const handleTaxonChange = (taxonKey: number | undefined, scientificName?: string) => {
     setSelectedTaxon(taxonKey);
+    if (scientificName) setSelectedSpeciesName(scientificName);
+    else setSelectedSpeciesName("");
+    
     onFiltersChange({
       country: selectedCountry,
       taxonKey,
@@ -82,6 +113,9 @@ export default function GBIFLayerControl({
     setSelectedTaxon(undefined);
     setSelectedBasis(undefined);
     setSelectedYear(undefined);
+    setSpeciesSearch("");
+    setSelectedSpeciesName("");
+    setSpeciesSuggestions([]);
     onFiltersChange({ country: 'CO' });
   };
 
@@ -168,7 +202,7 @@ export default function GBIFLayerControl({
               {POPULAR_TAXON_GROUPS.map((group) => (
                 <button
                   key={group.taxonKey}
-                  onClick={() => handleTaxonChange(group.taxonKey)}
+                  onClick={() => handleTaxonChange(group.taxonKey, group.name)}
                   className={`text-xs px-2 py-1 rounded border transition-colors ${
                     selectedTaxon === group.taxonKey
                       ? "bg-green-100 border-green-500 text-green-800"
@@ -179,6 +213,66 @@ export default function GBIFLayerControl({
                   {group.icon} {group.name}
                 </button>
               ))}
+            </div>
+            
+            {/* Species Autocomplete Search */}
+            <div className="mt-3">
+              <label className="block text-xs font-medium text-gray-700 mb-2">
+                Buscar Especie (Nombre Científico o Común)
+              </label>
+              
+              {selectedSpeciesName && selectedTaxon && !POPULAR_TAXON_GROUPS.find(g => g.taxonKey === selectedTaxon) ? (
+                <div className="flex items-center justify-between bg-green-50 border border-green-200 p-2 rounded">
+                  <div className="text-xs text-green-800 flex items-center gap-2">
+                    <span>🔬</span>
+                    <span className="font-medium italic">{selectedSpeciesName}</span>
+                  </div>
+                  <button 
+                    onClick={() => handleTaxonChange(undefined)}
+                    className="text-green-600 hover:text-green-900 px-2 font-bold"
+                  >
+                    ×
+                  </button>
+                </div>
+              ) : (
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={speciesSearch}
+                    onChange={(e) => setSpeciesSearch(e.target.value)}
+                    placeholder="Ej: Panthera onca..."
+                    className="w-full text-xs px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  />
+                  {searchingSpecies && (
+                    <div className="absolute right-2 top-2">
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-green-600"></div>
+                    </div>
+                  )}
+                  
+                  {/* Suggestions Dropdown */}
+                  {speciesSuggestions.length > 0 && speciesSearch.length >= 3 && (
+                    <ul className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-48 overflow-y-auto custom-scrollbar">
+                      {speciesSuggestions.map((suggestion) => (
+                        <li 
+                          key={suggestion.key}
+                          onClick={() => {
+                            handleTaxonChange(suggestion.key, suggestion.scientificName);
+                            setSpeciesSearch("");
+                            setSpeciesSuggestions([]);
+                          }}
+                          className="px-3 py-2 hover:bg-green-50 cursor-pointer border-b border-gray-100 last:border-b-0"
+                        >
+                          <div className="text-sm font-medium italic text-gray-900">{suggestion.scientificName}</div>
+                          <div className="text-xs text-gray-500">
+                            {suggestion.rank} {suggestion.kingdom ? `• ${suggestion.kingdom}` : ''} 
+                            {suggestion.canonicalName && suggestion.canonicalName !== suggestion.scientificName ? ` • ${suggestion.canonicalName}` : ''}
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )}
             </div>
           </div>
 
