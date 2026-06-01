@@ -47,8 +47,13 @@ export async function getEarthquakes(
     const period = params.period || "week";
     const minMag = params.minMagnitude || "2.5";
 
-    // USGS provides pre-built GeoJSON feeds
-    const url = `https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/${minMag}_${period}.geojson`;
+    const paramsQuery = new URLSearchParams({
+      period,
+      minMagnitude: minMag
+    });
+
+    // Call our internal proxy API
+    const url = `/api/usgs/earthquakes?${paramsQuery.toString()}`;
 
     const response = await fetch(url);
     if (!response.ok) {

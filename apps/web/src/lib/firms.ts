@@ -35,7 +35,7 @@ export async function getActiveFires(
   try {
     const source = params.source || "VIIRS_SNPP_NRT";
     const dayRange = params.dayRange || 2;
-    const area = params.area || "world";
+    const area = params.area || "-82,-5,-66,14";
 
     const queryParams = new URLSearchParams({
       source,

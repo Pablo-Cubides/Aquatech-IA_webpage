@@ -123,7 +123,14 @@ export default function MapComponent({
           map.current?.on("click", (e) => {
             if (onMapClickRef.current) {
               // Only call it if we aren't clicking a feature in the points layer
-              const features = map.current?.queryRenderedFeatures(e.point, { layers: ["points"] });
+              let features: any[] | undefined = undefined;
+              if (map.current?.getLayer("points")) {
+                try {
+                  features = map.current?.queryRenderedFeatures(e.point, { layers: ["points"] });
+                } catch (err) {
+                  console.warn("Error querying points layer:", err);
+                }
+              }
               if (!features || features.length === 0) {
                 onMapClickRef.current(e.lngLat.lng, e.lngLat.lat);
               }
@@ -304,9 +311,16 @@ export default function MapComponent({
       map.current.on("click", (e) => {
         if (!map.current) return;
         // Check if we clicked on a point feature
-        const features = map.current.queryRenderedFeatures(e.point, {
-          layers: ["points"],
-        });
+        let features: any[] = [];
+        if (map.current.getLayer("points")) {
+          try {
+            features = map.current.queryRenderedFeatures(e.point, {
+              layers: ["points"],
+            });
+          } catch (err) {
+            console.warn("Error querying points layer:", err);
+          }
+        }
         
         // If we didn't click a point, trigger the general map click
         if (!features || features.length === 0) {

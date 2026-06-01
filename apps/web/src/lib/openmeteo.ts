@@ -70,13 +70,11 @@ export async function getCurrentWeather(lat: number, lon: number): Promise<OpenM
   try {
     const params = new URLSearchParams({
       latitude: lat.toString(),
-      longitude: lon.toString(),
-      current: "temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,wind_speed_10m,wind_direction_10m,weather_code,cloud_cover",
-      timezone: "auto"
+      longitude: lon.toString()
     });
 
-    // Directly call the Open-Meteo API from client side (it has CORS enabled and no API key required)
-    const response = await fetch(`https://api.open-meteo.com/v1/forecast?${params.toString()}`);
+    // Call our internal proxy API
+    const response = await fetch(`/api/openmeteo/weather?${params.toString()}`);
     
     if (!response.ok) {
       throw new Error(`Open-Meteo API error: ${response.status}`);
