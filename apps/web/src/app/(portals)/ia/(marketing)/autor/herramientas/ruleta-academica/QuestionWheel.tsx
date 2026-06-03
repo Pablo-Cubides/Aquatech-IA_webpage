@@ -33,6 +33,15 @@ const QuestionWheel = ({ questions }: QuestionWheelProps) => {
   const wheelRef = useRef<SVGSVGElement>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    // Inicializar el audio
+    if (typeof window !== "undefined") {
+      audioRef.current = new Audio("/audio/ruleta-suspenso.mp3");
+      audioRef.current.loop = true;
+    }
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -63,6 +72,13 @@ const QuestionWheel = ({ questions }: QuestionWheelProps) => {
     setIsSpinning(true);
     setSelectedQuestion("");
     setSelectedIndex(null);
+
+    // Reproducir música
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().catch((e) => console.log("Audio play blocked", e));
+    }
+
 
     // Choose random index
     let randomIndex = Math.floor(Math.random() * questionList.length);
@@ -122,6 +138,11 @@ const QuestionWheel = ({ questions }: QuestionWheelProps) => {
         setSelectedIndex(randomIndex);
         setIsSpinning(false);
         setIsModalOpen(true);
+
+        // Detener música
+        if (audioRef.current) {
+          audioRef.current.pause();
+        }
       }
     }
 
