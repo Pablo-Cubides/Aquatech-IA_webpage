@@ -38,7 +38,7 @@ const QuestionWheel = ({ questions }: QuestionWheelProps) => {
   useEffect(() => {
     // Inicializar el audio
     if (typeof window !== "undefined") {
-      audioRef.current = new Audio("/audio/ruleta-suspenso.mp3");
+      audioRef.current = new Audio("/audio/ruleta-terror.mp3");
       audioRef.current.loop = true;
     }
   }, []);
