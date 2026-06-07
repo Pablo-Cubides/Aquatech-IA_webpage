@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Info, Zap } from "lucide-react";
 import { WATER_USE_SECTORS, WaterUseSector } from "@/lib/types";
 import { getSectorEmoji } from "@/lib/sectorIcons";
@@ -272,28 +273,38 @@ export default function HomePage() {
                   <label className="block mb-4 text-sm font-bold tracking-wide text-gray-900 uppercase">
                     País:
                   </label>
-                  <div className="relative">
-                    <select
-                      value={selectedCountry}
-                      onChange={(e) => selectCountry(e.target.value)}
-                      disabled={isLoadingCountries}
-                      className="w-full p-4 text-base font-medium text-gray-900 transition-colors border-2 border-gray-300 rounded-lg appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-blue-400"
-                      style={{
-                        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E")`,
-                        backgroundPosition: "right 0.5rem center",
-                        backgroundRepeat: "no-repeat",
-                        backgroundSize: "1.5em 1.5em",
-                        paddingRight: "2.5rem",
-                      }}
-                    >
-                      <option value="">-- Selecciona un país --</option>
-                      {domainCountries.map((c) => (
-                        <option key={c.code} value={c.code}>
-                          {c.flag} {c.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                  <Select
+                    value={selectedCountry || undefined}
+                    onValueChange={selectCountry}
+                    disabled={isLoadingCountries}
+                  >
+                    <SelectTrigger className="w-full p-6 text-base font-medium text-gray-900 transition-colors border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-blue-400">
+                      <SelectValue placeholder="-- Selecciona un país --" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {domainCountries.map((c) => {
+                        const isFlagcdn = /^[a-zA-Z]{2}$/.test(c.code);
+                        return (
+                          <SelectItem key={c.code} value={c.code} className="cursor-pointer">
+                            <div className="flex items-center gap-2">
+                              {isFlagcdn ? (
+                                <img 
+                                  src={`https://flagcdn.com/w20/${c.code.toLowerCase()}.png`} 
+                                  width={20} 
+                                  height={15} 
+                                  alt={c.code} 
+                                  className="inline-block object-cover shadow-sm" 
+                                />
+                              ) : (
+                                <span>{c.flag}</span>
+                              )}
+                              <span>{c.name}</span>
+                            </div>
+                          </SelectItem>
+                        );
+                      })}
+                    </SelectContent>
+                  </Select>
                   {isLoadingCountries && (
                     <p className="flex items-center gap-2 mt-3 text-sm text-gray-500">
                       <span className="animate-spin">⏳</span> Cargando

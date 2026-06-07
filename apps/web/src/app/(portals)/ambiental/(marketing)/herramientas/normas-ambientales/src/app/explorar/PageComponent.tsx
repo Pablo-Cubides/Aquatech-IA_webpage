@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
   ArrowLeft,
   Search,
@@ -326,27 +327,37 @@ function ExplorarContent() {
                   <label className="block mb-3 text-sm font-semibold tracking-wide text-gray-900 uppercase">
                     País
                   </label>
-                  <select
-                    value={selectedCountry}
-                    onChange={(e) => {
-                      handleCountryChange(e.target.value);
-                    }}
-                    className="w-full px-4 py-3 text-sm font-medium text-gray-900 transition-all bg-white border-2 border-gray-300 rounded-lg appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    style={{
-                      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E")`,
-                      backgroundPosition: "right 0.5rem center",
-                      backgroundRepeat: "no-repeat",
-                      backgroundSize: "1.5em 1.5em",
-                      paddingRight: "2.5rem",
-                    }}
+                  <Select
+                    value={countryInfo?.code || selectedCountry || undefined}
+                    onValueChange={handleCountryChange}
                   >
-                    <option value="">-- Selecciona un país --</option>
-                    {availableCountries.map((country) => (
-                      <option key={country.code} value={country.code}>
-                        {country.flag} {country.name}
-                      </option>
-                    ))}
-                  </select>
+                    <SelectTrigger className="w-full px-4 py-6 text-base font-medium text-gray-900 transition-all bg-white border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                      <SelectValue placeholder="-- Selecciona un país --" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {availableCountries.map((country) => {
+                        const isFlagcdn = /^[a-zA-Z]{2}$/.test(country.code);
+                        return (
+                          <SelectItem key={country.code} value={country.code} className="cursor-pointer">
+                            <div className="flex items-center gap-2">
+                              {isFlagcdn ? (
+                                <img 
+                                  src={`https://flagcdn.com/w20/${country.code.toLowerCase()}.png`} 
+                                  width={20} 
+                                  height={15} 
+                                  alt={country.code} 
+                                  className="inline-block object-cover shadow-sm" 
+                                />
+                              ) : (
+                                <span>{country.flag}</span>
+                              )}
+                              <span>{country.name}</span>
+                            </div>
+                          </SelectItem>
+                        );
+                      })}
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 {/* Sector Selector - show if sectors exist (even if just 1) */}
@@ -362,25 +373,21 @@ function ExplorarContent() {
                       </div>
                     ) : (
                       // If multiple sectors, show dropdown
-                      <select
-                        value={selectedSector}
-                        onChange={(e) => handleSectorChange(e.target.value)}
-                        className="w-full px-4 py-3 pr-10 text-sm font-medium text-gray-900 transition-all bg-white bg-right bg-no-repeat border border-gray-300 rounded-lg appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        style={{
-                          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E")`,
-                          backgroundPosition: "right 0.5rem center",
-                          backgroundSize: "1.5em 1.5em",
-                        }}
+                      <Select
+                        value={selectedSector || undefined}
+                        onValueChange={handleSectorChange}
                       >
-                        <option value="">-- Seleccionar Sector --</option>
-                        {availableSectors.map((sector) => {
-                          return (
-                            <option key={sector.id} value={sector.id}>
+                        <SelectTrigger className="w-full px-4 py-6 text-base font-medium text-gray-900 transition-all bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                          <SelectValue placeholder="-- Seleccionar Sector --" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {availableSectors.map((sector) => (
+                            <SelectItem key={sector.id} value={sector.id} className="cursor-pointer">
                               {sector.label}
-                            </option>
-                          );
-                        })}
-                      </select>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     )}
                   </div>
                 )}
@@ -740,39 +747,46 @@ function ExplorarContent() {
                                 </thead>
                                 <tbody className="divide-y divide-slate-200">
                                   {records.map(
-                                    (record: AnyRecord, paramIndex: number) => (
-                                      <tr
-                                        key={paramIndex}
-                                        className="transition-colors hover:bg-blue-50"
-                                      >
-                                        <td className="px-4 py-3 font-medium text-gray-900">
-                                          {String(
-                                            record.parameter ??
-                                              record.parametro ??
-                                              "-",
-                                          )}
-                                        </td>
-                                        <td className="px-4 py-3 font-mono font-semibold text-blue-700">
-                                          {String(
-                                            record.limit ??
-                                              record.limite ??
-                                              "-",
-                                          )}
-                                        </td>
-                                        <td className="px-4 py-3 text-gray-600">
-                                          {String(
-                                            record.unit ?? record.unidad ?? "-",
-                                          )}
-                                        </td>
-                                        <td className="px-4 py-3 text-xs text-gray-600">
-                                          {Array.isArray(record.notes)
-                                            ? record.notes.join("; ")
-                                            : Array.isArray(record.notas)
-                                              ? record.notas.join("; ")
-                                              : ""}
-                                        </td>
-                                      </tr>
-                                    ),
+                                    (record: AnyRecord, paramIndex: number) => {
+                                      let limitVal = String(record.limit ?? record.limite ?? "-").trim();
+                                      let unitVal = String(record.unit ?? record.unidad ?? "-").trim();
+                                      
+                                      if ((unitVal === "-" || unitVal === "") && limitVal !== "-") {
+                                        const match = limitVal.match(/^(.*?)\s+([a-zA-Zµ%][a-zA-Zµ\/%0-9]*)$/);
+                                        if (match) {
+                                          const potentialLimit = match[1].trim();
+                                          const potentialUnit = match[2].trim();
+                                          if (/[\d]$/.test(potentialLimit) || /^[<>\d\.,\-\s]+$/.test(potentialLimit)) {
+                                            limitVal = potentialLimit;
+                                            unitVal = potentialUnit;
+                                          }
+                                        }
+                                      }
+
+                                      return (
+                                        <tr
+                                          key={paramIndex}
+                                          className="transition-colors hover:bg-blue-50"
+                                        >
+                                          <td className="px-4 py-3 font-medium text-gray-900">
+                                            {String(record.parameter ?? record.parametro ?? "-")}
+                                          </td>
+                                          <td className="px-4 py-3 font-mono font-semibold text-blue-700">
+                                            {limitVal}
+                                          </td>
+                                          <td className="px-4 py-3 text-gray-600">
+                                            {unitVal}
+                                          </td>
+                                          <td className="px-4 py-3 text-xs text-gray-600">
+                                            {Array.isArray(record.notes)
+                                              ? record.notes.join("; ")
+                                              : Array.isArray(record.notas)
+                                                ? record.notas.join("; ")
+                                                : ""}
+                                          </td>
+                                        </tr>
+                                      );
+                                    }
                                   )}
                                 </tbody>
                               </table>
