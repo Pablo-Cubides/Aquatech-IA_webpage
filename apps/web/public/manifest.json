@@ -13,10 +13,16 @@
       "type": "image/x-icon"
     },
     {
-      "src": "/images/Logo Aquatech - IA 512 - sin fondo.png",
+      "src": "/images/logo-aquatech.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/images/logo-aquatech.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
   "categories": ["education", "utilities", "productivity"],
@@ -30,14 +36,14 @@
       "short_name": "IA",
       "description": "Accede al Portal de Inteligencia Artificial",
       "url": "/ia",
-      "icons": [{ "src": "/images/Portal IA/Logo Aquatech - IA 512 - sin fondo.png", "sizes": "512x512" }]
+      "icons": [{ "src": "/images/logo-aquatech.png", "sizes": "512x512" }]
     },
     {
       "name": "Portal Ambiental",
       "short_name": "Ambiental",
       "description": "Accede al Portal de Gestión Ambiental",
       "url": "/ambiental",
-      "icons": [{ "src": "/images/Portal ambiental/Logo Aquatech - IA 512 - sin fondo.png", "sizes": "512x512" }]
+      "icons": [{ "src": "/images/logo-aquatech.png", "sizes": "512x512" }]
     }
   ]
 }

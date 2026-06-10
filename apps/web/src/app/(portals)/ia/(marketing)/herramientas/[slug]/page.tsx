@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       siteName: "AquatechIA",
       images: [
         {
-          url: `${baseUrl}/images/og/${slug}.jpg`,
+          url: `${baseUrl}/images/og-image.jpg`,
           width: 1200,
           height: 630,
           alt: `${tool.name} - Herramienta IA de AquatechIA`,
@@ -58,7 +58,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: "summary_large_image",
       title: tool.name,
       description: tool.seo.description,
-      images: [`${baseUrl}/images/og/${slug}.jpg`],
+      images: [`${baseUrl}/images/og-image.jpg`],
     },
     alternates: {
       canonical: canonicalUrl,

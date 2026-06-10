@@ -31,17 +31,18 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // Placeholder for Firebase auth validation
-  // TODO: Implement Firebase ID token validation
-
-  return NextResponse.json({
-    message: "Auth endpoint placeholder",
-    authenticated: false,
-  });
+  // Firebase ID token validation pendiente de implementación (SPEC futura).
+  // Hasta entonces el endpoint responde 501 explícito en lugar de un
+  // placeholder ambiguo que aparente autenticación.
+  return NextResponse.json(
+    { error: "Not implemented", authenticated: false },
+    { status: 501 },
+  );
 }
 
 export async function GET() {
-  return NextResponse.json({
-    message: "Auth status endpoint placeholder",
-  });
+  return NextResponse.json(
+    { error: "Not implemented" },
+    { status: 501 },
+  );
 }

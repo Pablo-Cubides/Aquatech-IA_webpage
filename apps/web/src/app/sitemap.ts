@@ -24,12 +24,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "daily",
       priority: 1.0,
     },
-    {
-      url: `${baseUrl}/home`,
-      lastModified: currentDate,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
   ];
 
   // IA Portal pages

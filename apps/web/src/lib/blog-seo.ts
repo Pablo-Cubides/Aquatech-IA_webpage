@@ -97,7 +97,7 @@ export function generateArticleSchema(
       name: publisherName,
       logo: {
         "@type": "ImageObject",
-        url: `${baseUrl}/images/logo.png`,
+        url: `${baseUrl}/images/logo-aquatech.png`,
       },
     },
     mainEntityOfPage: {
