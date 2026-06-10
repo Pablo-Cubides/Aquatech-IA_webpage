@@ -30,7 +30,7 @@ describe("/api/auth", () => {
     expect(response.status).toBe(429);
   });
 
-  it("returns placeholder auth response when rate limit allows", async () => {
+  it("returns 501 while Firebase token validation is not implemented", async () => {
     const { checkRateLimit } = await import("../../../lib/rate-limit");
     vi.mocked(checkRateLimit).mockResolvedValue({
       success: true,
@@ -48,9 +48,9 @@ describe("/api/auth", () => {
     const response = await POST(request);
     const body = await response.json();
 
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(501);
     expect(body).toEqual({
-      message: "Auth endpoint placeholder",
+      error: "Not implemented",
       authenticated: false,
     });
   });
