@@ -3,7 +3,7 @@ import "./globals.css";
 import { Providers } from "../components/auth/Providers";
 import Script from "next/script";
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com";
+const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com").trim().replace(/\/+$/, "");
 
 export const metadata: Metadata = {
   title: {

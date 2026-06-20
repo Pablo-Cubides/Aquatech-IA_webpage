@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
+const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "https://exploramodelo.com").trim().replace(/\/+$/, "");
 
 export const metadata: Metadata = {
   title: "ExploraModelo | Aprende cómo funcionan los LLM paso a paso",
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://exploramodelo.com'),
+  metadataBase: new URL(baseUrl),
   alternates: {
     canonical: "/",
   },
@@ -88,7 +89,7 @@ export default function RootLayout({
     "@type": "EducationalWebsite",
     "name": "ExploraModelo",
     "description": "Aplicación educativa interactiva que explica paso a paso cómo funcionan los modelos de lenguaje (LLM): tokenización, embeddings, atención, probabilidades y generación autoregresiva",
-    "url": process.env.NEXT_PUBLIC_BASE_URL || "https://exploramodelo.com",
+    "url": baseUrl,
     "inLanguage": "es-ES",
     "educationalLevel": "Intermedio a Avanzado",
     "learningResourceType": "Interactive Learning Tool",

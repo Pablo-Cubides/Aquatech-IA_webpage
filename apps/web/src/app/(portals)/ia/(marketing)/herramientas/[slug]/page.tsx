@@ -24,7 +24,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const tool = getToolBySlug(slug, "ia");
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com";
+  const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com").trim().replace(/\/+$/, "");
   const canonicalUrl = `${baseUrl}/ia/herramientas/${slug}`;
 
   if (!tool) {
@@ -82,7 +82,7 @@ export default async function IAHerramientaPage({ params }: Props) {
   // Determine if tool has internal route or external URL
   const isInternal = tool.url.startsWith("/");
   const toolUrl = isInternal ? tool.url : tool.url;
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com";
+  const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com").trim().replace(/\/+$/, "");
   const canonicalUrl = `${baseUrl}/ia/herramientas/${slug}`;
 
   return (

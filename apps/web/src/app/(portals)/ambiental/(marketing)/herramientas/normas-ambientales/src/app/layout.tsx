@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import ErrorBoundary from '@/components/ErrorBoundary';
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000').trim().replace(/\/+$/, '');
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),

@@ -4,7 +4,7 @@ import { Space_Grotesk, Noto_Sans } from "next/font/google";
 import { ChevronRight } from "lucide-react";
 import type { Metadata } from "next";
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com";
+const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com").trim().replace(/\/+$/, "");
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -115,6 +115,10 @@ export default function Home() {
 
       {/* Contenido principal */}
       <div className="relative z-20 h-full flex flex-col items-center justify-center px-4 py-8">
+        <h1 className="sr-only">
+          AquatechIA - Inteligencia Artificial y Gestion Ambiental Sostenible
+        </h1>
+
         {/* Logo principal */}
         <div className="text-center mb-8 animate-in fade-in slide-in-from-top-8 duration-1000">
           <div className="flex justify-center">

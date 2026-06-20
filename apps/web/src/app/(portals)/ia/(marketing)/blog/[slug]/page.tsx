@@ -24,7 +24,7 @@ export async function generateMetadata({
     };
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com";
+  const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com").trim().replace(/\/+$/, "");
   const articleUrl = `${baseUrl}/ia/blog/${slug}`;
 
   return {
@@ -109,7 +109,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
     notFound();
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com";
+  const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com").trim().replace(/\/+$/, "");
   const schema = generateArticleSchema(article, "ia", baseUrl);
   const toc = generateTOC(article.content.sections);
 

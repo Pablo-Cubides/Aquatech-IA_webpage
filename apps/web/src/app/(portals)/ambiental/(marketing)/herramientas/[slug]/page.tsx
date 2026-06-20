@@ -29,7 +29,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const tool = getToolBySlug(slug, "ambiental");
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com";
+  const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com").trim().replace(/\/+$/, "");
   const canonicalUrl = `${baseUrl}/ambiental/herramientas/${slug}`;
 
   if (!tool || EXCLUDED_SLUGS.includes(slug)) {
@@ -91,7 +91,7 @@ export default async function AmbientalHerramientaPage({ params }: Props) {
   }
 
   const isInternal = tool.url.startsWith("/");
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com";
+  const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com").trim().replace(/\/+$/, "");
   const canonicalUrl = `${baseUrl}/ambiental/herramientas/${slug}`;
 
   return (

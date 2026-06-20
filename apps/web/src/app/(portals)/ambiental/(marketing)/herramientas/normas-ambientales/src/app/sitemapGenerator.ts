@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import path from 'path';
 import fs from 'fs';
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://tudominio.com';
+const BASE_URL = (process.env.NEXT_PUBLIC_BASE_URL || 'https://tudominio.com').trim().replace(/\/+$/, '');
 
 // Dominios disponibles
 const DOMINIOS = ['agua', 'calidad-aire', 'residuos-solidos', 'vertimientos'];

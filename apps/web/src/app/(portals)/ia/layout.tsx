@@ -3,7 +3,7 @@ import { Space_Grotesk, Noto_Sans } from "next/font/google";
 import HeaderIA from "../../../components/nav/HeaderIA";
 import FooterIA from "../../../components/nav/FooterIA";
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com";
+const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com").trim().replace(/\/+$/, "");
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],

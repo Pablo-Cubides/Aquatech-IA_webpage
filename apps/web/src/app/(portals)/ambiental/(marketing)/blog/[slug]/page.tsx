@@ -24,7 +24,7 @@ export async function generateMetadata({
     };
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com";
+  const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com").trim().replace(/\/+$/, "");
   const articleUrl = `${baseUrl}/ambiental/blog/${slug}`;
 
   return {
@@ -109,7 +109,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
     notFound();
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com";
+  const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com").trim().replace(/\/+$/, "");
   const schema = generateArticleSchema(article, "ambiental", baseUrl);
   const toc = generateTOC(article.content.sections);
 
@@ -129,7 +129,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
             <nav className="mb-8 text-sm">
               <ol className="flex items-center space-x-2 text-gray-500">
                 <li>
-                  <Link href="/ia" className="hover:text-[#10B981]">
+                  <Link href="/ambiental" className="hover:text-[#10B981]">
                     Inicio
                   </Link>
                 </li>
@@ -137,7 +137,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
                   <span>›</span>
                 </li>
                 <li>
-                  <Link href="/ia/blog" className="hover:text-[#10B981]">
+                  <Link href="/ambiental/blog" className="hover:text-[#10B981]">
                     Blog
                   </Link>
                 </li>

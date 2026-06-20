@@ -157,7 +157,7 @@ export function isValidOrigin(origin: string | null): boolean {
   if (!origin) return false;
 
   const allowedOrigins = [
-    process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com",
+    (process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com").trim().replace(/\/+$/, ""),
     "http://localhost:3000",
     "http://localhost:3001",
   ];

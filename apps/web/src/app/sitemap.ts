@@ -3,7 +3,7 @@ import { getToolsByPortal } from "@/lib/services/tools-registry";
 import { getCategories, getAllArticleSlugs } from "@/lib/blog-seo";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com";
+  const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com").trim().replace(/\/+$/, "");
   const currentDate = new Date();
 
   // Get tools for both portals

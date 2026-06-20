@@ -5,7 +5,7 @@ import {
   BreadcrumbStructuredData,
 } from "@/components/seo/StructuredData";
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com";
+const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com").trim().replace(/\/+$/, "");
 const canonicalUrl = `${baseUrl}/ia/herramientas/modelos-tendencia`;
 
 export const metadata: Metadata = {

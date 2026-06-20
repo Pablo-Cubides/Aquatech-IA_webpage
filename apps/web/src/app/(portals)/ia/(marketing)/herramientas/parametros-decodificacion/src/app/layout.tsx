@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   publisher: "ExploraModelo",
   category: "Education",
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000",
+    (process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000").trim().replace(/\/+$/, ""),
   ),
   alternates: {
     canonical: "/ia/herramientas/parametros-decodificacion",
