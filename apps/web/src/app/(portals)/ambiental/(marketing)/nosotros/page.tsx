@@ -8,8 +8,24 @@ export const metadata: Metadata = {
 };
 
 export default function AmbientalNosotrosPage() {
+  const aboutSchema = {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    name: "Sobre Aquatech Ambiental - Gestión Ambiental",
+    url: "https://aquatechia.com/ambiental/nosotros",
+    description: "Impulsamos la gestión ambiental con datos, análisis y tecnología de vanguardia para proteger nuestros ecosistemas.",
+    publisher: {
+      "@type": "Organization",
+      name: "AquatechIA"
+    }
+  };
+
   return (
     <main className="bg-[#F5F9F8] text-[#0D161C]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
+      />
       {/* HERO */}
       <section className="relative overflow-hidden py-20 sm:py-28 lg:py-32 bg-white">
         <div className="relative mx-auto grid max-w-screen-xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
@@ -52,7 +68,7 @@ export default function AmbientalNosotrosPage() {
             <div className="absolute -inset-2 rounded-lg bg-gradient-to-r from-[#10B981] to-green-300 blur opacity-20 transition duration-1000 group-hover:opacity-40" />
             <div className="relative overflow-hidden rounded-lg shadow-2xl">
               <img
-                src="/images/portal-ambiental/nosotros-hero.png"
+                src="/images/portal-ambiental/nosotros-hero.webp"
                 alt="Tecnología para el monitoreo y gestión ambiental"
                 className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
               />

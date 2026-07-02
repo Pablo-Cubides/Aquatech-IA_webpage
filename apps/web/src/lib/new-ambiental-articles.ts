@@ -2,7 +2,47 @@
 import type { BlogArticle } from "./blog-articles";
 
 export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
-
+  "aquatech-ia-portal-ambiental-digital": {
+    slug: "aquatech-ia-portal-ambiental-digital",
+    title: "Monorepos y Ciencia de Datos: El Ecosistema Técnico de Aquatech-IA",
+    category: "Soluciones Ambientales",
+    date: "2024-04-20",
+    readTime: 15,
+    excerpt: "Análisis del monorepo Aquatech-IA: Turborepo, pnpm workspaces y la integración de fuentes de datos ambientales masivas (OpenAQ, GBIF).",
+    heroImage: "/images/portal-ia/blog/aquatech-ia-hero.png",
+    author: {
+      name: "Pablo Cubides",
+      avatar: "/images/portal-ia/autor/pablo-cubides.png",
+      bio: "Ingeniero Químico · M. Sc. en Ingeniería Ambiental · Docente universitario · Desarrollador en IA, redes neuronales y optimización",
+    },
+    content: {
+      introduction: "Aquatech-IA representa el puente entre la rigurosidad científica del monitoreo ambiental y la agilidad de la ingeniería de software moderna. Construido como un monorepo de alto rendimiento, el portal centraliza flujos de datos complejos para transformarlos en herramientas de decisión inmediata.",
+      sections: [
+        {
+          id: "monorepo",
+          title: "1. Gestión con Turborepo y pnpm workspaces",
+          content: "Para manejar múltiples aplicaciones (`apps/web`, `apps/api`) y paquetes compartidos de lógica empresarial, Aquatech utiliza **Turborepo** sobre **pnpm workspaces**. Esto nos permite ejecutar builds paralelos con un sistema de caché 'remote caching' que reduce el tiempo de despliegue en un 70%, asegurando que cada componente del ecosistema se mantenga sincronizado.",
+        },
+        {
+          id: "datos-cientificos",
+          title: "2. Integración de Macro-datos Ambientales",
+          content: "La verdadera potencia de Aquatech reside en su capacidad de ingesta de datos. La plataforma consume en tiempo real APIs globales de **OpenAQ** (calidad del aire), **GBIF** (biodiversidad) y **WQP** (calidad del agua). Estos datos se normalizan mediante una capa de backend enriquecida para alimentar visores cartográficos interactivos basados en **Leaflet** y filtros de IA.",
+        },
+        {
+          id: "ai-first",
+          title: "3. Filosofía AI-First y MCP",
+          content: "El desarrollo de Aquatech-IA está optimizado para la asistencia por agentes. Implementamos compatibilidad con el **Model Context Protocol (MCP)**, lo que permite que herramientas de IA interactúen directamente con el sistema de archivos y las bases de datos del portal para generar reportes automáticos o realizar diagnosis preventivas de sensores ambientales locales.",
+          callout: {
+            type: "info",
+            title: "Repositorio Web",
+            content: "👉 Ver en GitHub: [Pablo-Cubides/Aquatech-IA_webpage](https://github.com/Pablo-Cubides/Aquatech-IA_webpage)",
+          },
+        }
+      ],
+      conclusion: "En resumen, Aquatech-IA demuestra que el software ambiental debe ser tan robusto y escalable como cualquier plataforma financiera de Wall Street, poniendo la tecnología al servicio de la preservación del planeta.",
+    },
+    tags: ["Monorepo", "Turborepo", "Data Science", "Environmental-Tech", "Open Data"],
+  },
 
   "cerebro-digital-gestion-ambiental-esg": {
     slug: "cerebro-digital-gestion-ambiental-esg",

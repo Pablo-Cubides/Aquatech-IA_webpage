@@ -41,7 +41,7 @@ export default function InputStep({ demoTexts = [], onNext }: InputStepProps) {
         <div className="inline-flex items-center justify-center w-20 h-20 mb-6 rounded-full shadow-2xl bg-gradient-to-br from-cyan-400 to-cyan-600 shadow-cyan-500/50 animate-pulse">
           <span className="text-4xl">✏️</span>
         </div>
-        <h1
+        <h2
           className="mb-4 text-4xl font-black sm:text-5xl"
           style={{
             background: "linear-gradient(135deg, #00efff, #0095ff)",
@@ -52,7 +52,7 @@ export default function InputStep({ demoTexts = [], onNext }: InputStepProps) {
           }}
         >
           Bienvenido a ExploraModelo
-        </h1>
+        </h2>
 
         {isExplanationMode && (
           <div className="max-w-3xl mx-auto explanation-box">

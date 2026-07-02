@@ -141,47 +141,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     },
     tags: ["FastAPI", "Playwright", "Celery", "PostgreSQL", "WhatsApp AI"],
   },
-  "aquatech-ia-portal-ambiental-digital": {
-    slug: "aquatech-ia-portal-ambiental-digital",
-    title: "Monorepos y Ciencia de Datos: El Ecosistema Técnico de Aquatech-IA",
-    category: "Soluciones Ambientales",
-    date: "2024-04-20",
-    readTime: 15,
-    excerpt: "Análisis del monorepo Aquatech-IA: Turborepo, pnpm workspaces y la integración de fuentes de datos ambientales masivas (OpenAQ, GBIF).",
-    heroImage: "/images/portal-ia/blog/aquatech-ia-hero.png",
-    author: {
-      name: "Pablo Cubides",
-      avatar: "/images/portal-ia/autor/pablo-cubides.png",
-      bio: "Ingeniero Químico · M. Sc. en Ingeniería Ambiental · Docente universitario · Desarrollador en IA, redes neuronales y optimización",
-    },
-    content: {
-      introduction: "Aquatech-IA representa el puente entre la rigurosidad científica del monitoreo ambiental y la agilidad de la ingeniería de software moderna. Construido como un monorepo de alto rendimiento, el portal centraliza flujos de datos complejos para transformarlos en herramientas de decisión inmediata.",
-      sections: [
-        {
-          id: "monorepo",
-          title: "1. Gestión con Turborepo y pnpm workspaces",
-          content: "Para manejar múltiples aplicaciones (`apps/web`, `apps/api`) y paquetes compartidos de lógica empresarial, Aquatech utiliza **Turborepo** sobre **pnpm workspaces**. Esto nos permite ejecutar builds paralelos con un sistema de caché 'remote caching' que reduce el tiempo de despliegue en un 70%, asegurando que cada componente del ecosistema se mantenga sincronizado.",
-        },
-        {
-          id: "datos-cientificos",
-          title: "2. Integración de Macro-datos Ambientales",
-          content: "La verdadera potencia de Aquatech reside en su capacidad de ingesta de datos. La plataforma consume en tiempo real APIs globales de **OpenAQ** (calidad del aire), **GBIF** (biodiversidad) y **WQP** (calidad del agua). Estos datos se normalizan mediante una capa de backend enriquecida para alimentar visores cartográficos interactivos basados en **Leaflet** y filtros de IA.",
-        },
-        {
-          id: "ai-first",
-          title: "3. Filosofía AI-First y MCP",
-          content: "El desarrollo de Aquatech-IA está optimizado para la asistencia por agentes. Implementamos compatibilidad con el **Model Context Protocol (MCP)**, lo que permite que herramientas de IA interactúen directamente con el sistema de archivos y las bases de datos del portal para generar reportes automáticos o realizar diagnosis preventivas de sensores ambientales locales.",
-          callout: {
-            type: "info",
-            title: "Repositorio Web",
-            content: "👉 Ver en GitHub: [Pablo-Cubides/Aquatech-IA_webpage](https://github.com/Pablo-Cubides/Aquatech-IA_webpage)",
-          },
-        }
-      ],
-      conclusion: "En resumen, Aquatech-IA demuestra que el software ambiental debe ser tan robusto y escalable como cualquier plataforma financiera de Wall Street, poniendo la tecnología al servicio de la preservación del planeta.",
-    },
-    tags: ["Monorepo", "Turborepo", "Data Science", "Environmental-Tech", "Open Data"],
-  },
+
   "como-funcionan-los-llm-guia": {
     slug: "como-funcionan-los-llm-guia",
     title: "Cómo funcionan los LLM: De la Tokenización al Transformer",
@@ -274,11 +234,11 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
           id: "cta",
           title: "Controla los Parámetros",
           content: "Saber cuándo usar Temperatura versus Top-P es vital. Generalmente se recomienda modificar uno u otro, no ambos a la vez.",
-          callout: {
-            type: "success",
-            title: "Herramienta Activa",
-            content: "👉 [Prueba el Explorador de Parámetros Interactivo](/ia/herramientas/explorador-parametros)",
-          },
+            callout: {
+              type: "success",
+              title: "Herramienta Activa",
+              content: "👉 [Prueba el Explorador de Parámetros Interactivo](/ia/herramientas/parametros-decodificacion)",
+            },
         },
       ],
       conclusion: "Si logramos ajustar con precisión estos tres hiperparámetros, podremos calibrar cualquier modelo como si fuese un piano afinado para entregar tareas desde reportes financieros estrictos hasta narrativas abstractas.",
@@ -296,7 +256,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-04-12",
     readTime: 16,
     excerpt: "Analizamos cómo los modelos modernos detectan y filtran contenido malicioso para garantizar entornos seguros y éticos.",
-    heroImage: "/images/portal-ia/herramientas/ai-filtering-tool-v2.png",
+    heroImage: "/images/portal-ia/herramientas/ai-filtering-tool-v2.webp",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ia/autor/pablo-cubides.png",
@@ -347,7 +307,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-04-11",
     readTime: 14,
     excerpt: "Analizando paso a paso cómo Midjourney y Stable Diffusion convierten el ruido semántico en fotografías impactantes.",
-    heroImage: "/images/portal-ia/herramientas/diffusion-viewer-tool-v2.png",
+    heroImage: "/images/portal-ia/herramientas/diffusion-viewer-tool-v2.webp",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ia/autor/pablo-cubides.png",
@@ -398,7 +358,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-04-10",
     readTime: 20,
     excerpt: "Navegamos a través de la bibliografía definitiva y los ensayos revisados por pares que catapultaron la algoritmia moderna a la omnipresencia global.",
-    heroImage: "/images/portal-ia/herramientas/ai-papers-tool-v2.png",
+    heroImage: "/images/portal-ia/herramientas/ai-papers-tool-v2.webp",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ia/autor/pablo-cubides.png",
@@ -449,7 +409,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-04-09",
     readTime: 15,
     excerpt: "Analítica del frente abierto, los repositorios comunitarios, la irrupción de Llama 3 y la balanza competitiva frente a oligopolios cerrados.",
-    heroImage: "/images/portal-ia/herramientas/ai-trending-models-tool-v2.png",
+    heroImage: "/images/portal-ia/herramientas/ai-trending-models-tool-v2.webp",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ia/autor/pablo-cubides.png",

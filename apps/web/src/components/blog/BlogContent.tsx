@@ -107,7 +107,7 @@ export function BlogContent({
   const list = posts.slice(1);
 
   return (
-    <main className={`min-h-screen ${bgMain} ${textMain}`}>
+    <div className={`min-h-screen ${bgMain} ${textMain}`}>
       {/* HERO */}
       <section
         className={`py-16 md:py-24 bg-gradient-to-br ${gradientColors} text-center relative overflow-hidden`}
@@ -166,6 +166,7 @@ export function BlogContent({
             <div className="relative flex-1">
               <input
                 type="text"
+                aria-label="Buscar artículos"
                 placeholder="Buscar artículos, temas o autores..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
@@ -226,6 +227,7 @@ export function BlogContent({
             {/* Controles adicionales */}
             <div className="flex items-center gap-3">
               <select
+                aria-label="Ordenar artículos"
                 value={sort}
                 onChange={(e) =>
                   setSort(e.target.value as "newest" | "oldest" | "popular")
@@ -518,6 +520,7 @@ export function BlogContent({
                 <input
                   type="email"
                   required
+                  aria-label="Tu correo electrónico"
                   placeholder="Tu correo electrónico"
                   className="w-full rounded-lg px-4 py-3 text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-white"
                 />
@@ -577,7 +580,7 @@ export function BlogContent({
           </aside>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
 

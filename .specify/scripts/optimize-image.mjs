@@ -33,6 +33,14 @@ const BUDGETS = {
   icon:    10 * 1024,  //  10KB
 };
 
+const WIDTHS = {
+  hero:   1280,
+  inline:  800,
+  tool:    900,
+  author:  200,
+  icon:     64,
+};
+
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 function log(msg)     { console.log(`\x1b[36m[img-optimize]\x1b[0m ${msg}`); }
 function success(msg) { console.log(`\x1b[32m✓\x1b[0m ${msg}`); }
@@ -100,12 +108,21 @@ if (!existsSync(outputDir) && !dryRun) {
 
 let allWithinBudget = true;
 
+const maxWidth = WIDTHS[context];
+const getPipeline = () => {
+  let p = sharp(inputPath);
+  if (maxWidth) {
+    p = p.resize(maxWidth, null, { withoutEnlargement: true });
+  }
+  return p;
+};
+
 // ─── Generate AVIF ───────────────────────────────────────────────────────────
 const avifPath = join(outputDir, `${baseName}.avif`);
 log(`Generating AVIF...`);
 
 if (!dryRun) {
-  await sharp(inputPath)
+  await getPipeline()
     .avif({ quality: 80, effort: 6 })
     .toFile(avifPath);
 
@@ -120,7 +137,7 @@ const webpPath = join(outputDir, `${baseName}.webp`);
 log(`Generating WebP...`);
 
 if (!dryRun) {
-  await sharp(inputPath)
+  await getPipeline()
     .webp({ quality: 82, effort: 5 })
     .toFile(webpPath);
 
@@ -135,7 +152,7 @@ const jpegPath = join(outputDir, `${baseName}.jpg`);
 log(`Generating JPEG fallback...`);
 
 if (!dryRun) {
-  await sharp(inputPath)
+  await getPipeline()
     .jpeg({ quality: 85, progressive: true, mozjpeg: true })
     .toFile(jpegPath);
 

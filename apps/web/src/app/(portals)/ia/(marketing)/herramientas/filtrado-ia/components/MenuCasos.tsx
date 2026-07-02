@@ -47,7 +47,7 @@ const MenuCasos = () => {
       <div className={styles.stats}>
         {casos.length > 0 ? `Mostrando ${casosFiltrados.length} de ${casos.length} casos` : 'Cargando casos...'}
       </div>
-      <ul ref={listRef} className={styles.list} role="listbox" aria-label="Lista de casos">
+      <ul ref={listRef} className={styles.list} aria-label="Lista de casos">
         {casos.length === 0 && (
           <li className={styles.noCases}>
             No se han cargado casos. Intenta recargar la página o verifica la consola del navegador.

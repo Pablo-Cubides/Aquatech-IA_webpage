@@ -16,7 +16,7 @@ import { filterItems, sortItems } from "@/lib/filters-env";
 import { buildAffiliateUrl, trackViewList } from "@/lib/track-env";
 import type { Resource } from "@/lib/types-env";
 
-import data from "@/data/recommendations.json";
+import data from "@/data/recommendations-ambiental.json";
 
 // Static metadata moved to layout or use dynamic title setting
 

@@ -47,7 +47,7 @@ function formatBytes(b) {
 }
 
 function detectContext(filePath) {
-  const p = filePath.toLowerCase();
+  const p = filePath.toLowerCase().replace(/\\/g, "/");
   if (p.includes("/autor/"))       return "author";
   if (p.includes("/herramientas/")) return "tool";
   if (p.includes("/mapas/"))        return "tool";

@@ -30,35 +30,6 @@
     "last_verified_at": "2025-06-20"
   },
   {
-    "id": "hotmart-ia-educacion-productividad-etica",
-    "slug": "hotmart-ia-educacion-productividad-etica",
-    "type": "course",
-    "title": "IA aplicada a la educación: productividad docente sin perder ética",
-    "description": "Automatiza tareas y crea materiales con IA respetando lineamientos éticos.",
-    "language": "es",
-    "region": "LatAm",
-    "topics": ["educación-IA", "productividad", "IA-aplicada"],
-    "level": "intermedio",
-    "format": "grabado",
-    "platform": "Hotmart",
-    "affiliate_network": "Hotmart",
-    "affiliate_url": "https://go.hotmart.com/ia-edu",
-    "price": 50,
-    "currency": "USD",
-    "rating_value": 4.6,
-    "rating_count": 320,
-    "duration_hours": 8,
-    "includes": ["certificado", "comunidad"],
-    "images": [
-      {
-        "src": "https://lh3.googleusercontent.com/aida-public/AB6AXuAN4xW0bPQWzUYAQkvvVMHyif5ZNR7ROozVbty6BroXhhQqQl-NLEASQDagOYe88H6nvdS9ksQakjE63ppjEjFj99yT_eslsC8UaIVd_e_98ln_wjgDeJmHgObPgQK8EAbhNxCX5VUGQBPDX7PlLY-UlanM6cQSkNW5oKCB_Q_eVFNW54tvML9_zipn34yLoxAxbM0yU6spHOuI3prfF4X2KQAxLPDv7TCnfWhvKlEd3GpNZrDozZwmAqCqFcV_UImfm4N_df1WoYs",
-        "alt": "Curso IA aplicada a educación"
-      }
-    ],
-    "published_at": "2024-10-05",
-    "last_verified_at": "2025-06-15"
-  },
-  {
     "id": "amazon-lifestraw-personal",
     "slug": "amazon-lifestraw-personal",
     "type": "product",
@@ -86,32 +57,5 @@
     "badges": ["editor-pick"],
     "published_at": "2023-01-01",
     "last_verified_at": "2025-06-18"
-  },
-  {
-    "id": "ebook-ia-impacto-ambiental",
-    "slug": "ebook-ia-impacto-ambiental",
-    "type": "ebook",
-    "title": "Manual práctico de IA para impacto social y ambiental",
-    "description": "Guía en PDF para aplicar IA a proyectos de agua, residuos y energía.",
-    "language": "es",
-    "region": "LatAm",
-    "topics": ["IA-aplicada", "sostenibilidad", "productividad"],
-    "format": "pdf",
-    "platform": "Hotmart",
-    "affiliate_network": "Hotmart",
-    "affiliate_url": "https://go.hotmart.com/ebook-ia-ambiental",
-    "price": 10,
-    "currency": "USD",
-    "rating_value": 5,
-    "rating_count": 30,
-    "images": [
-      {
-        "src": "https://lh3.googleusercontent.com/aida-public/AB6AXuDmaEoVIJrkDsssnt4mDdx5KWwSCXXOQg1OOYWHE9Mnp6i8kbVhR9B7fkRKXoohmm5JdzzoTSH_U2AqBU3DFZSC-Ctnd3Mf4SbYvzgzDZo3fa1odZsp9h3ucy6IkGEFN_iDYgheua2_iIy7gQ6Ekg-qWQyZlfGRcmSBRNB36xloGQgNKL4uLD_JTu3Nq3tJYmd-OTEeESG3EE3NPu7f1UArtV52SCYWMjACy8_vyVEpraqHx2K7a9Le7kMSJumAMU8LZ-TfdcKvbHI",
-        "alt": "Ebook IA práctica"
-      }
-    ],
-    "badges": ["new"],
-    "published_at": "2025-05-10",
-    "last_verified_at": "2025-06-21"
   }
 ]

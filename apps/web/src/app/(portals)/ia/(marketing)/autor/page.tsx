@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import Script from "next/script";
 import {
   ChevronRight,
   ArrowLeft,
@@ -337,13 +336,11 @@ export default function IAAutorPage() {
     <>
       {/* JSON-LD SEO */}
       {/* JSON-LD SEO */}
-      <Script
-        id="person-jsonld"
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
       />
-      <Script
-        id="faq-jsonld"
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />

@@ -31,8 +31,24 @@ export const metadata: Metadata = {
 };
 
 export default function IAPage() {
+  const portalSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "IA Portal - AquatechIA",
+    url: "https://aquatechia.com/ia",
+    description: "Explora modelos generativos, visualizaciones y herramientas prácticas de inteligencia artificial aplicadas al agua y medio ambiente.",
+    publisher: {
+      "@type": "Organization",
+      name: "AquatechIA"
+    }
+  };
+
   return (
-    <main className="bg-black text-white">
+    <div className="bg-black text-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(portalSchema) }}
+      />
       {/* Hero */}
       <section className="relative overflow-hidden min-h-screen lg:h-screen flex items-center text-center">
         {/* Background Image */}
@@ -95,7 +111,7 @@ export default function IAPage() {
               medio ambiente, fomentando un futuro sostenible a través de la
               tecnología.
             </p>
-            <Link href="/ia/nosotros" className="mt-8 inline-block rounded-lg border border-cyan-400 px-6 py-2 font-medium text-cyan-400 transition-all duration-300 ease-out hover:bg-cyan-400 hover:text-black hover:-translate-y-1">
+            <Link href="/ia/nosotros" aria-label="Leer más sobre nosotros" className="mt-8 inline-block rounded-lg border border-cyan-400 px-6 py-2 font-medium text-cyan-400 transition-all duration-300 ease-out hover:bg-cyan-400 hover:text-black hover:-translate-y-1">
               Leer más
             </Link>
           </div>
@@ -141,9 +157,9 @@ export default function IAPage() {
                 <p className="mt-2 text-sm text-[#CCCCCC]">
                   {tool.shortDescription}
                 </p>
-                <button className="mt-4 w-full rounded-lg bg-cyan-500/15 py-2 font-semibold text-cyan-400 transition-all duration-300 hover:bg-cyan-500/25 hover:shadow-lg hover:shadow-cyan-500/30">
+                <span className="mt-4 block w-full text-center rounded-lg bg-cyan-500/15 py-2 font-semibold text-cyan-400 transition-all duration-300 hover:bg-cyan-500/25 hover:shadow-lg hover:shadow-cyan-500/30">
                   Abrir
-                </button>
+                </span>
               </a>
             ))}
           </div>
@@ -370,6 +386,6 @@ export default function IAPage() {
           </div>
         </div>
       </section> */}
-    </main>
+    </div>
   );
 }

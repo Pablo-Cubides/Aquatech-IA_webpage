@@ -18,10 +18,26 @@ const space = Space_Grotesk({
 });
 
 export default function IAHerramientasPage() {
+  const collectionSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Herramientas de IA",
+    url: "https://aquatechia.com/ia/herramientas",
+    description: "Explore nuestros módulos de inteligencia artificial diseñados para potenciar la gestión y el análisis en el sector del agua.",
+    publisher: {
+      "@type": "Organization",
+      name: "AquatechIA"
+    }
+  };
+
   return (
     <div
       className={`${noto.variable} ${space.variable} min-h-screen bg-[#000000] text-white`}
     >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
       {/* Hero Section */}
       <section className="relative py-16 md:py-24 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-radial from-[rgba(0,239,255,0.1)] via-transparent to-transparent"></div>
@@ -153,7 +169,7 @@ export default function IAHerramientasPage() {
                   <img
                     alt="Diagrama claro y detallado de la arquitectura de un modelo Transformer"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/portal-ia/herramientas/llm-architecture-tool-v2.png"
+                    src="/images/portal-ia/herramientas/llm-architecture-tool-v2.webp"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
@@ -171,7 +187,7 @@ export default function IAHerramientasPage() {
                   <img
                     alt="Interfaz de configuración de parámetros de IA"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/portal-ia/herramientas/llm-parameters-tool-v2.png"
+                    src="/images/portal-ia/herramientas/llm-parameters-tool-v2.webp"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
@@ -292,7 +308,7 @@ export default function IAHerramientasPage() {
                   <img
                     alt="Diagrama de flujo del pipeline de moderación de IA"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/portal-ia/herramientas/ai-filtering-tool-v2.png"
+                    src="/images/portal-ia/herramientas/ai-filtering-tool-v2.webp"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
@@ -310,7 +326,7 @@ export default function IAHerramientasPage() {
                   <img
                     alt="Arte generado con Stable Diffusion"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/portal-ia/herramientas/diffusion-viewer-tool-v2.png"
+                    src="/images/portal-ia/herramientas/diffusion-viewer-tool-v2.webp"
                   />
                   <div className="absolute top-4 right-4 bg-[var(--accent-secondary)]/90 text-[var(--bg-primary)] px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border border-white/20">
                     Próximamente
@@ -426,7 +442,7 @@ export default function IAHerramientasPage() {
                   <img
                     alt="Diagrama de arquitectura Transformers para modelos de lenguaje"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/portal-ia/herramientas/ai-papers-tool-v2.png"
+                    src="/images/portal-ia/herramientas/ai-papers-tool-v2.webp"
                   />
                   <div className="absolute top-4 right-4 bg-green-500/90 text-white px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border border-white/20">
                     ✓ Disponible
@@ -442,7 +458,7 @@ export default function IAHerramientasPage() {
                   <img
                     alt="Análisis estadístico y modelos de tendencia con IA"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/portal-ia/herramientas/ai-trending-models-tool-v2.png"
+                    src="/images/portal-ia/herramientas/ai-trending-models-tool-v2.webp"
                   />
                   <div className="absolute top-4 left-4 bg-green-500/90 text-white px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border border-white/20">
                     ✓ Disponible

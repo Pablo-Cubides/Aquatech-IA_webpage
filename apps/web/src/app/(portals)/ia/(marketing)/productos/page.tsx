@@ -163,10 +163,25 @@ export default function ProductosIAPage() {
     "Framework",
   ];
 
+  const itemListJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: productos.map((r, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      url: `https://aquatechia.com${r.href}`,
+      name: r.title,
+    })),
+  };
+
   return (
     <div
       className={`${noto.variable} ${space.variable} min-h-screen bg-[#000000] text-white`}
     >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
+      />
       {/* Design System */}
       <style jsx global>{`
         :root {

@@ -18,7 +18,7 @@ export default function HeaderAmbiental() {
           <div className="flex items-center gap-2">
             <img
               src="/images/gota-aquatech.png"
-              alt=""
+              alt="Logo Gota Aquatech"
               className="h-8 w-auto object-contain"
             />
             <img

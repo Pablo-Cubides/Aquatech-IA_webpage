@@ -8,8 +8,24 @@ export const metadata: Metadata = {
 };
 
 export default function NosotrosPage() {
+  const aboutSchema = {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    name: "Sobre Aquatech IA - Inteligencia Artificial",
+    url: "https://aquatechia.com/ia/nosotros",
+    description: "Conoce la misión, visión y valores de Aquatech IA.",
+    publisher: {
+      "@type": "Organization",
+      name: "AquatechIA"
+    }
+  };
+
   return (
     <main className="bg-[#000000] text-[#FFFFFF]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
+      />
       {/* HERO */}
       <section className="relative overflow-hidden bg-[#000000] py-20 sm:py-28 lg:py-32">
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#000000] via-transparent to-[#000000] opacity-60" />
@@ -61,7 +77,7 @@ export default function NosotrosPage() {
             <div className="absolute -inset-2 rounded-lg bg-gradient-to-r from-[#00EFFF] to-blue-500 blur transition duration-1000 opacity-30 hover:opacity-40" />
             <div className="relative overflow-hidden rounded-lg shadow-2xl">
               <img
-                src="/images/portal-ia/ia-nosotros-hero.png"
+                src="/images/portal-ia/ia-nosotros-hero.webp"
                 alt="Tecnología e IA aplicada al agua y ambiente"
                 className="w-full h-auto transition-transform duration-300 hover:scale-105"
               />

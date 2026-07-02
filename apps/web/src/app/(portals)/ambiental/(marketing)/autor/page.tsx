@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Script from "next/script";
 import { Space_Grotesk } from "next/font/google";
 import {
   ChevronRight,
@@ -227,13 +226,11 @@ export default function AmbientalAutorPage() {
   return (
     <>
       {/* JSON-LD SEO */}
-      <Script
-        id="person-jsonld"
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
       />
-      <Script
-        id="faq-jsonld"
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />

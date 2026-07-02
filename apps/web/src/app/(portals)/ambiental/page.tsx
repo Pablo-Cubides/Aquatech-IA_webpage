@@ -30,8 +30,24 @@ export const metadata: Metadata = {
 };
 
 export default function AmbientalPage() {
+  const portalSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Portal Ambiental - AquatechIA",
+    url: "https://aquatechia.com/ambiental",
+    description: "Mapas, normas y herramientas para proteger nuestros recursos naturales. Gestión ambiental con tecnología para un futuro sostenible.",
+    publisher: {
+      "@type": "Organization",
+      name: "AquatechIA"
+    }
+  };
+
   return (
-    <main className="bg-white text-black">
+    <div className="bg-white text-black">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(portalSchema) }}
+      />
       {/* HERO */}
       <section className="relative overflow-hidden min-h-screen lg:h-screen flex items-center text-center">
         {/* Background Image */}
@@ -92,7 +108,7 @@ export default function AmbientalPage() {
               ambiental, fomentando un futuro sostenible a través de soluciones
               innovadoras y una toma de decisiones informada.
             </p>
-            <Link href="/ambiental/nosotros" className="mt-8 inline-block rounded-lg border border-blue-600 px-6 py-2 font-medium text-blue-600 transition-all duration-300 ease-out hover:bg-blue-600 hover:text-white hover:-translate-y-1">
+            <Link href="/ambiental/nosotros" aria-label="Leer más sobre nosotros" className="mt-8 inline-block rounded-lg border border-blue-600 px-6 py-2 font-medium text-blue-600 transition-all duration-300 ease-out hover:bg-blue-600 hover:text-white hover:-translate-y-1">
               Leer más
             </Link>
           </div>
@@ -139,9 +155,9 @@ export default function AmbientalPage() {
                   <p className="mt-2 text-sm text-gray-700 flex-grow">
                     {tool.shortDescription}
                   </p>
-                  <button className="mt-4 w-full rounded-lg bg-[#0077B6]/10 py-2 font-semibold text-[#0077B6] transition-colors hover:bg-[#0077B6]/15 focus:outline-none focus:ring-2 focus:ring-[#0077B6]/50">
+                  <span className="mt-4 block w-full text-center rounded-lg bg-[#0077B6]/10 py-2 font-semibold text-[#0077B6] transition-colors hover:bg-[#0077B6]/15 focus:outline-none focus:ring-2 focus:ring-[#0077B6]/50">
                     Abrir
-                  </button>
+                  </span>
                 </article>
               </Link>
             ))}
@@ -367,6 +383,6 @@ export default function AmbientalPage() {
           </div>
         </div>
       </section> */}
-    </main>
+    </div>
   );
 }

@@ -65,7 +65,7 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div
+    <main
       className={`${notoSans.variable} ${spaceGrotesk.variable} h-screen relative overflow-hidden`}
     >
       {/* Fondo dividido con texturas - oculto en móvil */}
@@ -115,12 +115,15 @@ export default function Home() {
 
       {/* Contenido principal */}
       <div className="relative z-20 h-full flex flex-col items-center justify-center px-4 py-8">
-        <h1 className="sr-only">
-          AquatechIA - Inteligencia Artificial y Gestion Ambiental Sostenible
-        </h1>
+        {/* Encabezado principal (H1 SEO) */}
+        <div className="text-center mb-2 animate-in fade-in slide-in-from-top-4 duration-1000">
+          <h1 className="text-xs md:text-sm text-gray-400/80 font-medium tracking-widest uppercase mb-4" style={{ fontFamily: "var(--font-space)" }}>
+            AquatechIA - Inteligencia Artificial y Gestión Ambiental Sostenible
+          </h1>
+        </div>
 
         {/* Logo principal */}
-        <div className="text-center mb-8 animate-in fade-in slide-in-from-top-8 duration-1000">
+        <div className="text-center mb-8 animate-in fade-in slide-in-from-top-8 duration-1000 delay-100">
           <div className="flex justify-center">
             <div className="relative">
               <Image
@@ -248,12 +251,22 @@ export default function Home() {
         </div>
 
         {/* Footer minimalista */}
-        <div className="mt-8 text-center animate-in fade-in duration-1000 delay-500">
-          <p className="text-xs text-gray-500">
+        <div className="mt-8 text-center animate-in fade-in duration-1000 delay-500 w-full max-w-4xl">
+          <p className="text-xs text-gray-500 mb-3">
             © 2025 Aquatech IA · Innovación en cada gota
           </p>
+          <nav aria-label="Enlaces rápidos" className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-gray-400">
+            <Link href="/ia/herramientas" className="hover:text-cyan-400 transition-colors">Herramientas IA</Link>
+            <Link href="/ia/blog" className="hover:text-cyan-400 transition-colors">Blog IA</Link>
+            <Link href="/ambiental/herramientas" className="hover:text-green-500 transition-colors">Normas y Mapas</Link>
+            <Link href="/ambiental/blog" className="hover:text-green-500 transition-colors">Blog Ambiental</Link>
+            <Link href="/ambiental/productos" className="hover:text-green-500 transition-colors">Recursos Ambientales</Link>
+            <span className="text-gray-600">|</span>
+            <Link href="/ia/privacy" className="hover:text-cyan-400 transition-colors">Políticas de Privacidad</Link>
+            <Link href="/ia/terms" className="hover:text-cyan-400 transition-colors">Términos de Servicio</Link>
+          </nav>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

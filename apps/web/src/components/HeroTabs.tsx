@@ -27,6 +27,10 @@ export default function HeroTabs({ knowledge }: HeroTabsProps) {
             />
           </div>
 
+          <h1 className="text-3xl font-extrabold text-[#1F2937] mb-6 tracking-tight">
+            Generador de Matrices de Impacto Ambiental (EIA)
+          </h1>
+
           <div className="flex justify-center gap-4 mb-8">
             <button
               onClick={() => setTab("fundamentos")}

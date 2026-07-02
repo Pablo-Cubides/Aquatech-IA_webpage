@@ -45,6 +45,9 @@ export default function GuiaGeoVisorPage() {
             />
           </div>
           <div>
+            <h1 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">
+              Manual de Uso de GeoVisor
+            </h1>
             <p className="text-xl text-blue-50 max-w-2xl leading-relaxed mx-auto">
               Una herramienta diseñada para investigadores y profesionales ambientales. Construye, visualiza y comparte tus mapas de investigación de forma abierta y gratuita.
             </p>

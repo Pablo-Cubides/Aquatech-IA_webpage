@@ -16,10 +16,26 @@ const space = Space_Grotesk({
 });
 
 export default function AmbientalHerramientasPage() {
+  const collectionSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Herramientas Ambientales",
+    url: "https://aquatechia.com/ambiental/herramientas",
+    description: "Explora nuestras herramientas especializadas para análisis ambiental, evaluación de impacto y gestión de regulaciones.",
+    publisher: {
+      "@type": "Organization",
+      name: "AquatechIA"
+    }
+  };
+
   return (
     <div
       className={`${noto.variable} ${space.variable} min-h-screen bg-white text-black`}
     >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
       {/* Hero Section */}
       <section className="relative py-16 md:py-24 overflow-hidden bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -146,7 +162,7 @@ export default function AmbientalHerramientasPage() {
                   <img
                     alt="Visualización interactiva de mapas ambientales"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/portal-ambiental/herramientas/visor-mapas-ambientales-v2.png"
+                    src="/images/portal-ambiental/herramientas/visor-mapas-ambientales-v2.webp"
                   />
                   <div className="absolute top-4 right-4 bg-green-500/90 text-white px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border border-white/20">
                     ✓ Disponible
@@ -162,7 +178,7 @@ export default function AmbientalHerramientasPage() {
                   <img
                     alt="Herramienta de generación de matrices de EIA"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/portal-ambiental/herramientas/generador-matrices-eia-v2.png"
+                    src="/images/portal-ambiental/herramientas/generador-matrices-eia-v2.webp"
                   />
                   <div className="absolute top-4 left-4 bg-green-500/90 text-white px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border border-white/20">
                     ✓ Disponible
@@ -264,7 +280,7 @@ export default function AmbientalHerramientasPage() {
                   <img
                     alt="Generador de reportes normatividad ambiental"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/portal-ambiental/herramientas/normas-ambientales-v2.png"
+                    src="/images/portal-ambiental/herramientas/normas-ambientales-v2.webp"
                   />
                   <div className="absolute top-4 left-4 bg-[var(--accent-secondary)]/90 text-[var(--bg-primary)] px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border border-white/20">
                     Próximamente
@@ -280,7 +296,7 @@ export default function AmbientalHerramientasPage() {
                   <img
                     alt="Análisis de correlaciones ambientales con mapa de calor"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/portal-ambiental/herramientas/analisis-correlaciones-v2.png"
+                    src="/images/portal-ambiental/herramientas/analisis-correlaciones-v2.webp"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
@@ -390,7 +406,7 @@ export default function AmbientalHerramientasPage() {
                   <img
                     alt="Dashboard de indicadores de calidad del agua IRCA"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/portal-ambiental/herramientas/indice-calidad-agua-v2.png"
+                    src="/images/portal-ambiental/herramientas/indice-calidad-agua-v2.webp"
                   />
                   <div className="absolute top-4 right-4 bg-[var(--accent-secondary)]/90 text-[var(--bg-primary)] px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border border-white/20">
                     Próximamente
@@ -406,7 +422,7 @@ export default function AmbientalHerramientasPage() {
                   <img
                     alt="Calculadora de índices de calidad del aire AQI"
                     className="w-full h-full object-cover tool-image"
-                    src="/images/portal-ambiental/herramientas/indice-calidad-aire-v2.png"
+                    src="/images/portal-ambiental/herramientas/indice-calidad-aire-v2.webp"
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
