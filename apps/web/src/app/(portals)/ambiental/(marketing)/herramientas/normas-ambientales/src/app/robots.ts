@@ -15,10 +15,6 @@ export default function robots(): MetadataRoute.Robots {
           '/private/',
         ],
       },
-      {
-        userAgent: 'GPTBot', // OpenAI bot
-        disallow: ['/'], // Opcional: bloquear entrenamiento de IA
-      },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,
     host: baseUrl,

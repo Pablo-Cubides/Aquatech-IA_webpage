@@ -18,26 +18,6 @@ export default function robots(): MetadataRoute.Robots {
           "/*?*", // Disallow URLs with query parameters by default
         ],
       },
-      {
-        userAgent: "GPTBot", // OpenAI's bot
-        disallow: "/",
-      },
-      {
-        userAgent: "ChatGPT-User",
-        disallow: "/",
-      },
-      {
-        userAgent: "CCBot", // Common Crawl
-        disallow: "/",
-      },
-      {
-        userAgent: "anthropic-ai",
-        disallow: "/",
-      },
-      {
-        userAgent: "Claude-Web",
-        disallow: "/",
-      },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,
   };
