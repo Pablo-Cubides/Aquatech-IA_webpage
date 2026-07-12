@@ -122,7 +122,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
       />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16">
-        <main className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
           {/* Artículo */}
           <article className="lg:col-span-8">
             {/* Breadcrumb */}
@@ -467,6 +467,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
               <div className="relative">
                 <input
                   type="text"
+                  aria-label="Buscar artículos en el blog ambiental"
                   placeholder="Buscar artículos..."
                   className="w-full pl-10 pr-4 py-3 bg-gray-100 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#10B981] focus:border-[#10B981] text-[#0D161C] placeholder-gray-400 transition-colors"
                 />
@@ -525,6 +526,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
               <form className="space-y-3">
                 <input
                   type="email"
+                  aria-label="Tu correo electrónico para suscribirte al boletín de sostenibilidad"
                   className="w-full px-4 py-3 rounded-lg bg-white/90 border border-white/30 focus:ring-2 focus:ring-white text-[#10111A] placeholder-green-100 transition-colors"
                   placeholder="tu.email@ejemplo.com"
                 />
@@ -537,7 +539,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
               </form>
             </div>
           </aside>
-        </main>
+        </div>
 
         {/* Siguiente artículo */}
         {article.nextArticle && (

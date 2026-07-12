@@ -108,8 +108,8 @@ export default function AmbientalPage() {
               ambiental, fomentando un futuro sostenible a través de soluciones
               innovadoras y una toma de decisiones informada.
             </p>
-            <Link href="/ambiental/nosotros" aria-label="Leer más sobre nosotros" className="mt-8 inline-block rounded-lg border border-blue-600 px-6 py-2 font-medium text-blue-600 transition-all duration-300 ease-out hover:bg-blue-600 hover:text-white hover:-translate-y-1">
-              Leer más
+            <Link href="/ambiental/nosotros" aria-label="Conocer más sobre nuestro equipo de gestión ambiental" className="mt-8 inline-block rounded-lg border border-blue-600 px-6 py-2 font-medium text-blue-600 transition-all duration-300 ease-out hover:bg-blue-600 hover:text-white hover:-translate-y-1">
+              Conoce más sobre nuestro equipo
             </Link>
           </div>
 

@@ -123,6 +123,7 @@ export default function Filters({
           value={local.level[0] ?? ""}
           onChange={(e) => setLocal({ ...local, level: e.target.value ? [e.target.value as "intro" | "intermedio" | "avanzado"] : [] })}
           disabled={local.type === "product"}
+          aria-label="Filtrar por nivel de dificultad"
           className="rounded-lg border border-[var(--border)] bg-white px-2 py-2 text-sm"
         >
           <option value="">Nivel</option>
@@ -134,6 +135,7 @@ export default function Filters({
         <select
           value={local.format[0] ?? ""}
           onChange={(e) => setLocal({ ...local, format: e.target.value ? [e.target.value] : [] })}
+          aria-label="Filtrar por formato del recurso"
           className="rounded-lg border border-[var(--border)] bg-white px-2 py-2 text-sm"
         >
           <option value="">Formato</option>
@@ -147,6 +149,7 @@ export default function Filters({
         <select
           value={local.language[0] ?? ""}
           onChange={(e) => setLocal({ ...local, language: e.target.value ? [e.target.value as "es" | "en"] : [] })}
+          aria-label="Filtrar por idioma"
           className="rounded-lg border border-[var(--border)] bg-white px-2 py-2 text-sm"
         >
           <option value="">Idioma</option>
@@ -157,6 +160,7 @@ export default function Filters({
         <select
           value={local.region[0] ?? "LatAm"}
           onChange={(e) => setLocal({ ...local, region: e.target.value ? [e.target.value as "LatAm" | "Global"] : [] })}
+          aria-label="Filtrar por región geográfica"
           className="rounded-lg border border-[var(--border)] bg-white px-2 py-2 text-sm"
         >
           <option value="LatAm">LatAm</option>
@@ -166,6 +170,7 @@ export default function Filters({
         <select
           value={local.platform[0] ?? ""}
           onChange={(e) => setLocal({ ...local, platform: e.target.value ? [e.target.value] : [] })}
+          aria-label="Filtrar por plataforma o marca"
           className="rounded-lg border border-[var(--border)] bg-white px-2 py-2 text-sm"
         >
           <option value="">Plataforma / Marca</option>
@@ -179,6 +184,7 @@ export default function Filters({
         <select
           value={local.price}
           onChange={(e) => setLocal({ ...local, price: e.target.value as FiltersState["price"] })}
+          aria-label="Filtrar por rango de precio"
           className="rounded-lg border border-[var(--border)] bg-white px-2 py-2 text-sm"
         >
           <option value="all">Precio</option>
@@ -192,6 +198,7 @@ export default function Filters({
         <select
           value={local.sortBy}
           onChange={(e) => setLocal({ ...local, sortBy: e.target.value as SortBy })}
+          aria-label="Ordenar resultados por"
           className="col-span-2 md:col-span-1 rounded-lg border border-[var(--border)] bg-white px-2 py-2 text-sm"
         >
           <option value="relevance">Relevancia</option>

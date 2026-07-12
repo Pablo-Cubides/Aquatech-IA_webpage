@@ -269,6 +269,7 @@ function AuthModalContent({ isOpen, onClose, theme = "dark" }: AuthModalProps) {
           {/* Close button - Fixed relative to modal container */}
           <button
             onClick={onClose}
+            aria-label="Cerrar modal"
             className={`absolute top-4 right-4 z-30 p-2 rounded-lg transition-colors ${
               isDark
                 ? "text-gray-400 hover:text-white hover:bg-white/10"

@@ -48,7 +48,7 @@ export default function HeaderAmbiental() {
 
       {/* Navegación desktop */}
       <div className="hidden lg:flex items-center gap-8">
-        <nav className="flex items-center gap-6 text-sm font-medium">
+        <nav aria-label="Navegación principal de Ambiental" className="flex items-center gap-6 text-sm font-medium">
           <Link
             href="/ambiental/nosotros"
             className="text-gray-600 transition-colors duration-300 hover:text-blue-600"
@@ -120,7 +120,7 @@ export default function HeaderAmbiental() {
       {/* Menú móvil */}
       {isMenuOpen && (
         <div className="absolute top-full left-0 right-0 bg-white border-b border-blue-600/20 lg:hidden">
-          <nav className="flex flex-col p-4 space-y-3">
+          <nav aria-label="Navegación móvil de Ambiental" className="flex flex-col p-4 space-y-3">
             <Link
               href="/ambiental/nosotros"
               className="text-gray-600 transition-colors duration-300 hover:text-blue-600 py-2"

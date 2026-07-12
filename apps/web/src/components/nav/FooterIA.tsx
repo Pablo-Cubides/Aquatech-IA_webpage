@@ -47,8 +47,10 @@ export default function FooterIA() {
             </p>
             <div className="mt-4 flex justify-center gap-4 md:justify-start">
               <a
-                aria-label="LinkedIn"
-                href="#"
+                aria-label="Facebook"
+                href="https://www.facebook.com/Aquatechia/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400"
               >
                 <svg
@@ -58,12 +60,31 @@ export default function FooterIA() {
                   width="24"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24Zm0,192H40V40H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z" />
+                  <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm8,184V136h24a8,8,0,0,0,0-16H136V104a16,16,0,0,1,16-16h8a8,8,0,0,0,0-16h-8a32,32,0,0,0-32,32v16H96a8,8,0,0,0,0,16h24v72a8,8,0,0,0,16,0Z" />
+                </svg>
+              </a>
+              <a
+                aria-label="Instagram"
+                href="https://www.instagram.com/aquatech_ia/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400"
+              >
+                <svg
+                  fill="currentColor"
+                  height="24"
+                  viewBox="0 0 256 256"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M172,36H84A48.05,48.05,0,0,0,36,84v88a48.05,48.05,0,0,0,48,48h88a48.05,48.05,0,0,0,48-48V84A48.05,48.05,0,0,0,172,36Zm32,136a32,32,0,0,1-32,32H84a32,32,0,0,1-32-32V84A32,32,0,0,1,84,52h88a32,32,0,0,1,32,32ZM128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm60-88a8,8,0,1,1-8-8A8,8,0,0,1,188,72Z" />
                 </svg>
               </a>
               <a
                 aria-label="X (Twitter)"
-                href="#"
+                href="https://x.com/Aquatech_ia"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400"
               >
                 <svg
@@ -78,7 +99,9 @@ export default function FooterIA() {
               </a>
               <a
                 aria-label="YouTube"
-                href="#"
+                href="https://www.youtube.com/@AquatechIA"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400"
               >
                 <svg
@@ -99,7 +122,7 @@ export default function FooterIA() {
             <h3 className="text-sm font-bold uppercase tracking-wider text-white">
               Mapa del sitio
             </h3>
-            <nav className="mt-4 flex flex-col gap-2">
+            <nav aria-label="Navegación del mapa del sitio IA" className="mt-4 flex flex-col gap-2">
               <Link
                 href="/ia/nosotros"
                 className="text-sm text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400"
@@ -138,7 +161,7 @@ export default function FooterIA() {
             <h3 className="text-sm font-bold uppercase tracking-wider text-white">
               Recursos
             </h3>
-            <nav className="mt-4 flex flex-col gap-2">
+            <nav aria-label="Navegación de recursos de IA" className="mt-4 flex flex-col gap-2">
               <Link
                 href="/soporte"
                 className="text-sm text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400"
@@ -173,6 +196,7 @@ export default function FooterIA() {
                 <input
                   type="email"
                   required
+                  aria-label="Tu correo electrónico para suscribirte"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Tu email"

@@ -111,8 +111,8 @@ export default function IAPage() {
               medio ambiente, fomentando un futuro sostenible a través de la
               tecnología.
             </p>
-            <Link href="/ia/nosotros" aria-label="Leer más sobre nosotros" className="mt-8 inline-block rounded-lg border border-cyan-400 px-6 py-2 font-medium text-cyan-400 transition-all duration-300 ease-out hover:bg-cyan-400 hover:text-black hover:-translate-y-1">
-              Leer más
+            <Link href="/ia/nosotros" aria-label="Conocer más sobre nosotros" className="mt-8 inline-block rounded-lg border border-cyan-400 px-6 py-2 font-medium text-cyan-400 transition-all duration-300 ease-out hover:bg-cyan-400 hover:text-black hover:-translate-y-1">
+              Conoce más sobre nosotros
             </Link>
           </div>
 

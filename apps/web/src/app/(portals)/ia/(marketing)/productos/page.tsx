@@ -314,7 +314,7 @@ export default function ProductosIAPage() {
         }
       `}</style>
 
-      <main className="flex-grow">
+      <div className="flex-grow">
         {/* Header/Hero */}
         <section className="hero-gradient py-16 md:py-24 relative overflow-hidden">
           <div className="absolute inset-0 pointer-events-none opacity-20">
@@ -619,7 +619,7 @@ export default function ProductosIAPage() {
             </div>
           </div>
         </section>
-      </main>
+      </div>
     </div>
   );
 }

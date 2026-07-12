@@ -21,7 +21,7 @@ export default function NosotrosPage() {
   };
 
   return (
-    <main className="bg-[#000000] text-[#FFFFFF]">
+    <div className="bg-[#000000] text-[#FFFFFF]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
@@ -365,7 +365,7 @@ export default function NosotrosPage() {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }
 

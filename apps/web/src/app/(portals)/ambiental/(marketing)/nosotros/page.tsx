@@ -21,7 +21,7 @@ export default function AmbientalNosotrosPage() {
   };
 
   return (
-    <main className="bg-[#F5F9F8] text-[#0D161C]">
+    <div className="bg-[#F5F9F8] text-[#0D161C]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
@@ -388,7 +388,7 @@ export default function AmbientalNosotrosPage() {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }
 

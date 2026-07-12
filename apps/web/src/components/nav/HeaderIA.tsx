@@ -50,7 +50,7 @@ export default function HeaderIA() {
       {/* Navegación y acciones */}
       <div className="flex items-center gap-4 md:gap-8">
         {/* Navegación principal */}
-        <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
+        <nav aria-label="Navegación principal de IA" className="hidden md:flex items-center gap-6 text-sm font-medium">
           <Link
             href="/ia/nosotros"
             className="text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400"
@@ -116,7 +116,7 @@ export default function HeaderIA() {
       {/* Menú móvil */}
       {isMenuOpen && (
         <div className="absolute top-full left-0 right-0 bg-black/95 border-b border-cyan-500/20 md:hidden backdrop-blur-md">
-          <nav className="flex flex-col p-4 space-y-3">
+          <nav aria-label="Navegación móvil de IA" className="flex flex-col p-4 space-y-3">
             {/* Selector de portal en móvil */}
             <div className="flex h-9 items-center justify-center rounded-full bg-gray-900 p-1 text-sm border border-gray-700 sm:hidden mb-2">
               <Link
