@@ -296,7 +296,7 @@ describe("AuthModal", () => {
     it("should call onClose when close button is clicked", async () => {
       render(<AuthModal isOpen={true} onClose={mockOnClose} />);
 
-      const closeButton = screen.getByRole("button", { name: "" });
+      const closeButton = screen.getByRole("button", { name: "Cerrar modal" });
       await userEvent.click(closeButton);
 
       expect(mockOnClose).toHaveBeenCalled();
