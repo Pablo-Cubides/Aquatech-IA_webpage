@@ -47,18 +47,19 @@ export function getFlagEmoji(code?: string, name?: string): string {
 
 	// Common slug -> iso overrides for slugs like 'brasil', 'estados-unidos', etc.
 	const slugToIso: Record<string, string> = {
-		colombia: 'co+', mexico: 'mx', peru: 'pe', chile: 'cl', argentina: 'ar', brasil: 'br', brazil: 'br',
+		colombia: 'co', mexico: 'mx', peru: 'pe', chile: 'cl', argentina: 'ar', brasil: 'br', brazil: 'br',
 		'estados-unidos': 'us', eeuu: 'us', usa: 'us', 'united-states': 'us', 'union-europea': 'eu',
 		espana: 'es', españa: 'es', portugal: 'pt', ecuador: 'ec', bolivia: 'bo', uruguay: 'uy', paraguay: 'py',
-		guatemala: 'gt', honduras: 'hn', nicaragua: 'ni', 'costa-rica': 'cr', costarica: 'cr', 'republica-dominicana': 'do',
-		dominicana: 'do', venezuela: 've', canada: 'ca', australia: 'au', nueva_zelanda: 'nz',
+		'el-salvador': 'sv', elsalvador: 'sv', guatemala: 'gt', honduras: 'hn', nicaragua: 'ni',
+		'costa-rica': 'cr', costarica: 'cr', 'republica-dominicana': 'do', dominicana: 'do',
+		venezuela: 've', canada: 'ca', australia: 'au', nueva_zelanda: 'nz',
 		japon: 'jp', china: 'cn', india: 'in', francia: 'fr', alemania: 'de', reino_unido: 'gb', 'united-kingdom': 'gb'
 	};
 
 	if (slugToIso[key]) {
-		        const iso = slugToIso[key];
-		        const A = 0x1F1E6;
-		        try { return iso.toUpperCase().split('').map(c => String.fromCodePoint(A + c.charCodeAt(0) - 65)).join(''); } catch { /* fallthrough */ }	}
+		const iso = slugToIso[key];
+		const A = 0x1F1E6;
+		try { return iso.toUpperCase().split('').map(c => String.fromCodePoint(A + c.charCodeAt(0) - 65)).join(''); } catch { /* fallthrough */ }	}
 
 	// Try to derive from a 2-letter ISO code (take the first two chars if present)
 	const isoGuess = key.slice(0, 2);
@@ -84,6 +85,24 @@ export function getFlagEmoji(code?: string, name?: string): string {
 
 	// Final fallback: white flag (avoid returning text initials which can look like prefixes)
 	return '🏳️';
+}
+
+export function getCountryIsoCode(code?: string): string | null {
+	if (!code) return null;
+	const key = String(code).toLowerCase().trim();
+	if (/^[a-z]{2}$/.test(key)) return key;
+
+	const slugToIso: Record<string, string> = {
+		colombia: 'co', mexico: 'mx', peru: 'pe', chile: 'cl', argentina: 'ar', brasil: 'br', brazil: 'br',
+		'estados-unidos': 'us', eeuu: 'us', usa: 'us', 'united-states': 'us', 'union-europea': 'eu',
+		espana: 'es', españa: 'es', portugal: 'pt', ecuador: 'ec', bolivia: 'bo', uruguay: 'uy', paraguay: 'py',
+		'el-salvador': 'sv', elsalvador: 'sv', guatemala: 'gt', honduras: 'hn', nicaragua: 'ni',
+		'costa-rica': 'cr', costarica: 'cr', 'republica-dominicana': 'do', dominicana: 'do',
+		venezuela: 've', canada: 'ca', australia: 'au', nueva_zelanda: 'nz',
+		japon: 'jp', china: 'cn', india: 'in', francia: 'fr', alemania: 'de', reino_unido: 'gb', 'united-kingdom': 'gb'
+	};
+
+	return slugToIso[key] || null;
 }
 
 // Regulatory sources and official references for each country and domain

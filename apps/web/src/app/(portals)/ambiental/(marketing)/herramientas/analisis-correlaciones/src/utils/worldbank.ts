@@ -193,9 +193,19 @@ export async function searchIndicators(
   page: number = 1,
 ): Promise<{ indicators: WBIndicator[]; total: number }> {
   try {
-    const response = await fetch(
-      `${WB_API_BASE}?path=indicator&format=json&per_page=${DEFAULT_PER_PAGE}&page=${page}`,
-    );
+    // Send q parameter to search indicators server-side for efficiency
+    const searchParams = new URLSearchParams({
+      path: "indicator",
+      format: "json",
+      per_page: "100",
+      page: page.toString(),
+      q: query,
+    });
+
+    const response = await fetchWithRetry(`${WB_API_BASE}?${searchParams.toString()}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
     const data = await response.json();
 
     if (Array.isArray(data) && data.length > 1) {
@@ -207,8 +217,8 @@ export async function searchIndicators(
       );
 
       return {
-        indicators: filtered,
-        total: filtered.length,
+        indicators: filtered.length > 0 ? filtered : allIndicators,
+        total: data[0]?.total || filtered.length,
       };
     }
     return { indicators: [], total: 0 };
@@ -216,6 +226,33 @@ export async function searchIndicators(
     console.error("Error searching indicators:", error);
     return { indicators: [], total: 0 };
   }
+}
+
+/**
+ * Helper to fetch with retry and exponential backoff
+ */
+async function fetchWithRetry(url: string, retries = 3, delay = 1000): Promise<Response> {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const response = await fetch(url);
+      // If we get rate limited (429) or server error, we retry
+      if (response.status === 429 || response.status >= 500) {
+        if (i < retries - 1) {
+          console.warn(`[WorldBank API] Status ${response.status}. Retrying in ${delay}ms...`);
+          await new Promise((res) => setTimeout(res, delay));
+          delay *= 2; // Exponential backoff
+          continue;
+        }
+      }
+      return response;
+    } catch (err) {
+      if (i === retries - 1) throw err;
+      console.warn(`[WorldBank API] Connection error. Retrying in ${delay}ms...`);
+      await new Promise((res) => setTimeout(res, delay));
+      delay *= 2;
+    }
+  }
+  throw new Error("Failed to fetch after multiple retries");
 }
 
 /**
@@ -229,9 +266,14 @@ export async function getIndicatorData(
 ): Promise<WBTimeSeriesData | null> {
   try {
     const path = `country/${countryCode}/indicator/${indicatorId}`;
-    const response = await fetch(
+    const response = await fetchWithRetry(
       `${WB_API_BASE}?path=${path}&format=json&date=${startYear}:${endYear}&per_page=${DEFAULT_PER_PAGE}`,
     );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
     const data = await response.json();
 
     if (Array.isArray(data) && data.length > 1) {

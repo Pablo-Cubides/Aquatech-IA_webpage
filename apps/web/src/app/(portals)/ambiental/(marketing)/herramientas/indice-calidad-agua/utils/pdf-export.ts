@@ -224,7 +224,7 @@ function generateIndexDetails(indices: {
             ⚠️ Parámetros IRCA que NO cumplen (${nonCompliant.length}):
           </h4>
           <ul style="margin: 0; padding-left: 20px; font-size: 12px; color: #7f1d1d;">
-            ${nonCompliant.map(d => `<li>${d.parameter}: ${d.measuredValue} ${d.unit} (Límite: ${d.standard})</li>`).join("")}
+            ${nonCompliant.map(d => `<li>${d.parameter}: ${d.measuredValue} ${d.unit} (Límite: ${d.standardDisplay || d.standard})</li>`).join("")}
           </ul>
         </div>
       `);

@@ -61,11 +61,11 @@ export async function GET(request: NextRequest) {
   const targetUrl = `${WB_API_BASE}/${path}?${queryParams.toString()}`;
 
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 10000);
+  const timeout = setTimeout(() => controller.abort(), 20000);
 
   try {
     const response = await fetch(targetUrl, {
-      cache: "no-store",
+      next: { revalidate: 3600 },
       headers: {
         Accept: "application/json",
       },

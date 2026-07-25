@@ -21,7 +21,7 @@ import {
 } from "lucide-react";
 import { LoadingSkeleton, TableSkeleton } from "@/components/LoadingSkeleton";
 import { useExplorarState } from "@/lib/hooks";
-import { DOMINIOS, REGULATORY_SOURCES } from "@/lib/constants";
+import { DOMINIOS, REGULATORY_SOURCES, getCountryIsoCode } from "@/lib/constants";
 
 type AnyRecord = Record<string, unknown>;
 
@@ -272,6 +272,13 @@ function ExplorarContent() {
                 Volver
               </Link>
             </Button>
+            <div className="flex items-center">
+              <img
+                src="/images/logo-aquatech.png"
+                alt="Aquatech IA"
+                className="h-10 w-auto object-contain brightness-0 invert"
+              />
+            </div>
           </div>
           <h1 className="mb-2 text-4xl font-bold text-white">
             Explorador de Normas
@@ -336,13 +343,13 @@ function ExplorarContent() {
                     </SelectTrigger>
                     <SelectContent>
                       {availableCountries.map((country) => {
-                        const isFlagcdn = /^[a-zA-Z]{2}$/.test(country.code);
+                        const isoCode = getCountryIsoCode(country.code);
                         return (
                           <SelectItem key={country.code} value={country.code} className="cursor-pointer">
                             <div className="flex items-center gap-2">
-                              {isFlagcdn ? (
+                              {isoCode ? (
                                 <img 
-                                  src={`https://flagcdn.com/w20/${country.code.toLowerCase()}.png`} 
+                                  src={`https://flagcdn.com/w20/${isoCode.toLowerCase()}.png`} 
                                   width={20} 
                                   height={15} 
                                   alt={country.code} 

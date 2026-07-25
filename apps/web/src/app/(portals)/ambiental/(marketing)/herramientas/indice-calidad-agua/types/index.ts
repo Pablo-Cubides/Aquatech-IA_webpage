@@ -43,6 +43,7 @@ export interface IndexDetail {
   measuredValue: number;
   unit: string;
   standard?: number;
+  standardDisplay?: string;
   complies: boolean;
   contribution?: number;
   qi?: number;

@@ -34,6 +34,15 @@ export function calculateWQI(sample: WaterSample): IndexResult | null {
     const measuredParam = sample.parameters.find(
       (p) => {
         const normalizedParamName = normalizeParameterName(p.name);
+        
+        // Prevent mismatch between Nitratos and Nitritos
+        if (
+          (normalizedWqiName.includes("nitrato") && normalizedParamName.includes("nitrito")) ||
+          (normalizedWqiName.includes("nitrito") && normalizedParamName.includes("nitrato"))
+        ) {
+          return false;
+        }
+
         // Matching exacto o por inclusión
         if (normalizedParamName === normalizedWqiName) return true;
         if (normalizedParamName.includes(normalizedWqiName)) return true;

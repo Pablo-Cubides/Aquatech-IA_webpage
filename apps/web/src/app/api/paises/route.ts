@@ -52,7 +52,7 @@ export async function GET(request: Request) {
           const data = JSON.parse(content);
           const countryName =
             data.pais || data.country || file.replace(".json", "");
-          const countryCode = file.replace(".json", "").toUpperCase();
+          const countryCode = file.replace(".json", "").toLowerCase();
 
           return {
             code: countryCode,

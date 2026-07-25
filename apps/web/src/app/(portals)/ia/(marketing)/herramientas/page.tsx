@@ -155,13 +155,11 @@ export default function IAHerramientasPage() {
                       Abrir módulo
                     </Link>
                     <Link
-                      href="https://github.com/Pablo-Cubides/Como_funcionan_llm"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      href="/guia/como-funcionan-llm"
                       className="inline-flex items-center gap-2 px-6 py-3 bg-[#0095FF] text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors"
                     >
                       <DocIcon />
-                      Ver en GitHub
+                      Documentación
                     </Link>
                   </div>
                 </div>
@@ -237,13 +235,11 @@ export default function IAHerramientasPage() {
                       Abrir módulo
                     </Link>
                     <Link
-                      href="https://github.com/Pablo-Cubides/modelos-difusion"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      href="/guia/parametros-decodificacion"
                       className="inline-flex items-center gap-2 px-6 py-3 bg-[#0095FF] text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors"
                     >
                       <DocIcon />
-                      Ver en GitHub
+                      Documentación
                     </Link>
                   </div>
                 </div>
@@ -294,13 +290,11 @@ export default function IAHerramientasPage() {
                       Abrir módulo
                     </Link>
                     <Link
-                      href="https://github.com/Pablo-Cubides/filtrado-ia"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      href="/guia/filtrado-ia"
                       className="inline-flex items-center gap-2 px-6 py-3 bg-[#0095FF] text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors"
                     >
                       <DocIcon />
-                      Ver en GitHub
+                      Documentación
                     </Link>
                   </div>
                 </div>
@@ -328,8 +322,10 @@ export default function IAHerramientasPage() {
                     className="w-full h-full object-cover tool-image"
                     src="/images/portal-ia/herramientas/diffusion-viewer-tool-v2.webp"
                   />
-                  <div className="absolute top-4 right-4 bg-[var(--accent-secondary)]/90 text-[var(--bg-primary)] px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border border-white/20">
-                    Próximamente
+                  <div className="absolute top-4 right-4">
+                    <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
+                      ✓ Disponible
+                    </span>
                   </div>
                 </div>
                 <div className="p-8 md:p-12 lg:p-16 flex flex-col">
@@ -373,13 +369,11 @@ export default function IAHerramientasPage() {
                       Abrir módulo
                     </Link>
                     <Link
-                      href="https://github.com/Pablo-Cubides/visor-difusion"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      href="/guia/visor-difusion"
                       className="inline-flex items-center gap-2 px-6 py-3 bg-[#0095FF] text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors"
                     >
                       <DocIcon />
-                      Ver en GitHub
+                      Documentación
                     </Link>
                   </div>
                 </div>
@@ -428,13 +422,11 @@ export default function IAHerramientasPage() {
                       Explorar recursos
                     </Link>
                     <Link
-                      href="https://github.com/Pablo-Cubides/papers-ia"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      href="/guia/papers-ia"
                       className="inline-flex items-center gap-2 px-6 py-3 bg-[#0095FF] text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors"
                     >
                       <DocIcon />
-                      Ver en GitHub
+                      Documentación
                     </Link>
                   </div>
                 </div>
@@ -504,13 +496,11 @@ export default function IAHerramientasPage() {
                       Abrir módulo
                     </Link>
                     <Link
-                      href="https://github.com/Pablo-Cubides/modelos-tendencia"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      href="/guia/modelos-tendencia"
                       className="inline-flex items-center gap-2 px-6 py-3 bg-[#0095FF] text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors"
                     >
                       <DocIcon />
-                      Ver en GitHub
+                      Documentación
                     </Link>
                   </div>
                 </div>
@@ -718,7 +708,7 @@ export default function IAHerramientasPage() {
           </div>
           <div className="border-t border-[rgba(0,239,255,0.1)] mt-8 pt-8 text-center">
             <p className="text-[#CCCCCC]">
-              © 2024 AquatechIA. Todos los derechos reservados.
+              © 2025 AquatechIA. Todos los derechos reservados.
             </p>
           </div>
         </div>

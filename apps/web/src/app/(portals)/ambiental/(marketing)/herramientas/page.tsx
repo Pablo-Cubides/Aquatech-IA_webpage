@@ -148,9 +148,7 @@ export default function AmbientalHerramientasPage() {
                       Abrir herramienta
                     </Link>
                     <Link
-                      href="https://github.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      href="/guia"
                       className="btn btn-secondary focus-ring"
                     >
                       <DocIcon />
@@ -217,9 +215,7 @@ export default function AmbientalHerramientasPage() {
                       Abrir herramienta
                     </Link>
                     <Link
-                      href="https://github.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      href="/guia/generador-matrices"
                       className="btn btn-secondary focus-ring"
                     >
                       <DocIcon />
@@ -266,9 +262,7 @@ export default function AmbientalHerramientasPage() {
                       Abrir herramienta
                     </Link>
                     <Link
-                      href="https://github.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      href="/guia/normas-ambientales"
                       className="btn btn-secondary focus-ring"
                     >
                       <DocIcon />
@@ -282,8 +276,10 @@ export default function AmbientalHerramientasPage() {
                     className="w-full h-full object-cover tool-image"
                     src="/images/portal-ambiental/herramientas/normas-ambientales-v2.webp"
                   />
-                  <div className="absolute top-4 left-4 bg-[var(--accent-secondary)]/90 text-[var(--bg-primary)] px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border border-white/20">
-                    Próximamente
+                  <div className="absolute top-4 right-4">
+                    <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
+                      ✓ Disponible
+                    </span>
                   </div>
                 </div>
               </div>
@@ -340,9 +336,7 @@ export default function AmbientalHerramientasPage() {
                       Abrir herramienta
                     </Link>
                     <Link
-                      href="https://github.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      href="/guia/ecostats"
                       className="btn btn-secondary focus-ring"
                     >
                       <DocIcon />
@@ -392,9 +386,7 @@ export default function AmbientalHerramientasPage() {
                       Abrir herramienta
                     </Link>
                     <Link
-                      href="https://github.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      href="/guia/indice-calidad-agua"
                       className="btn btn-secondary focus-ring"
                     >
                       <DocIcon />
@@ -408,8 +400,10 @@ export default function AmbientalHerramientasPage() {
                     className="w-full h-full object-cover tool-image"
                     src="/images/portal-ambiental/herramientas/indice-calidad-agua-v2.webp"
                   />
-                  <div className="absolute top-4 right-4 bg-[var(--accent-secondary)]/90 text-[var(--bg-primary)] px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border border-white/20">
-                    Próximamente
+                  <div className="absolute top-4 right-4">
+                    <span className="bg-green-500/20 text-green-700 px-3 py-1 rounded-full text-sm font-medium border border-green-500/30 backdrop-blur-sm">
+                      ✓ Disponible
+                    </span>
                   </div>
                 </div>
               </div>
@@ -466,9 +460,7 @@ export default function AmbientalHerramientasPage() {
                       Abrir herramienta
                     </Link>
                     <Link
-                      href="https://github.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      href="/guia/indice-calidad-aire"
                       className="btn btn-secondary focus-ring"
                     >
                       <DocIcon />

@@ -64,6 +64,15 @@ export function calculateIRCA(sample: WaterSample): IndexResult | null {
     const measuredParam = sample.parameters.find(
       (p) => {
         const normalizedParamName = normalizeParameterName(p.name);
+        
+        // Prevent mismatch between Nitratos and Nitritos
+        if (
+          (normalizedIrcaName.includes("nitrato") && normalizedParamName.includes("nitrito")) ||
+          (normalizedIrcaName.includes("nitrito") && normalizedParamName.includes("nitrato"))
+        ) {
+          return false;
+        }
+
         return normalizedParamName === normalizedIrcaName ||
                normalizedParamName.includes(normalizedIrcaName) ||
                normalizedIrcaName.includes(normalizedParamName);
@@ -81,11 +90,21 @@ export function calculateIRCA(sample: WaterSample): IndexResult | null {
         nonCompliantRiskScore += ircaParam.riskScore;
       }
 
+      const standardDisplay =
+        ircaParam.minValue !== undefined && ircaParam.maxValue !== undefined
+          ? `${ircaParam.minValue} - ${ircaParam.maxValue}`
+          : ircaParam.maxValue !== undefined
+            ? `≤ ${ircaParam.maxValue}`
+            : ircaParam.minValue !== undefined
+              ? `≥ ${ircaParam.minValue}`
+              : "—";
+
       details.push({
         parameter: ircaParam.name,
         measuredValue: measuredParam.value,
         unit: ircaParam.unit,
-        standard: ircaParam.maxValue || ircaParam.minValue,
+        standard: ircaParam.maxValue ?? ircaParam.minValue,
+        standardDisplay,
         complies,
         contribution: ircaParam.riskScore,
         value: complies ? "Cumple" : "No cumple",
@@ -175,7 +194,7 @@ export function explainIRCACalculation(
 
     const status = detail.complies ? "✓ CUMPLE" : "✗ NO CUMPLE";
     lines.push(
-      `  ${detail.parameter}: ${detail.measuredValue} ${detail.unit} (Norma: ${detail.standard} ${detail.unit}) - ${status} [${detail.contribution} puntos]`
+      `  ${detail.parameter}: ${detail.measuredValue} ${detail.unit} (Norma: ${detail.standardDisplay || detail.standard} ${detail.unit}) - ${status} [${detail.contribution} puntos]`
     );
   }
 

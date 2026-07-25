@@ -39,14 +39,65 @@ export default function ManualDataEntry({
     }))
   );
 
+  const [error, setError] = useState<string | null>(null);
+
   const handleParameterChange = (index: number, newValue: string) => {
+    // Basic formatting constraint: permit empty or valid positive numbers / decimals
     const updated = [...parameters];
     updated[index].value = newValue;
     setParameters(updated);
+    setError(null); // Clear errors on change
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
+
+    // Validate parameters individually
+    let validationError: string | null = null;
+    let coliformesValue: number | null = null;
+    let ecoliValue: number | null = null;
+
+    for (const p of parameters) {
+      if (p.value.trim() === "") continue;
+
+      const numVal = parseFloat(p.value);
+      if (isNaN(numVal)) {
+        validationError = `El valor para ${p.name} debe ser un número válido.`;
+        break;
+      }
+
+      // Check negative values
+      if (numVal < 0) {
+        validationError = `El valor para ${p.name} no puede ser negativo.`;
+        break;
+      }
+
+      // Check pH range (0 to 14)
+      if (p.name.toLowerCase() === "ph" && (numVal < 0 || numVal > 14)) {
+        validationError = "El pH debe estar en el rango de 0 a 14.";
+        break;
+      }
+
+      // Track microbiological parameters for cross-validation
+      if (p.name.toLowerCase().includes("coliformes totales")) {
+        coliformesValue = numVal;
+      }
+      if (p.name.toLowerCase().includes("escherichia coli")) {
+        ecoliValue = numVal;
+      }
+    }
+
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
+    // Cross-validation: E. coli cannot be greater than Coliformes totales
+    if (coliformesValue !== null && ecoliValue !== null && ecoliValue > coliformesValue) {
+      setError("El valor de Escherichia coli no puede ser mayor que el de Coliformes totales.");
+      return;
+    }
 
     // Filtrar solo parámetros con valores ingresados
     const filledParameters = parameters
@@ -58,7 +109,7 @@ export default function ManualDataEntry({
       }));
 
     if (filledParameters.length === 0) {
-      alert("Por favor ingrese al menos un parámetro");
+      setError("Por favor ingrese al menos un parámetro");
       return;
     }
 
@@ -80,6 +131,16 @@ export default function ManualDataEntry({
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-4xl mx-auto px-4">
         <form onSubmit={handleSubmit}>
+          {/* Error Message Display */}
+          {error && (
+            <div className="mb-6 p-4 bg-red-100 border border-red-300 text-red-700 rounded-lg flex items-center gap-3">
+              <svg className="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+              <span className="font-semibold text-sm">{error}</span>
+            </div>
+          )}
+
           {/* Header */}
           <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">
