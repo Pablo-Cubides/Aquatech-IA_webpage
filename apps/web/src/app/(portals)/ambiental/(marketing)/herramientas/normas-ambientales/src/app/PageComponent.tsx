@@ -197,7 +197,7 @@ export default function HomePage() {
               <img
                 src="/images/gota-aquatech.png"
                 alt="Aquatech IA"
-                className="object-contain w-auto h-40 drop-shadow-2xl"
+                className="object-contain w-auto h-48 drop-shadow-2xl"
               />
             </div>
             <h1 className="mb-6 text-5xl font-bold leading-tight md:text-6xl">
