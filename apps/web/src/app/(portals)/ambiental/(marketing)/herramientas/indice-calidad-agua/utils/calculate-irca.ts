@@ -64,7 +64,7 @@ export function calculateIRCA(sample: WaterSample): IndexResult | null {
     const measuredParam = sample.parameters.find(
       (p) => {
         const normalizedParamName = normalizeParameterName(p.name);
-        
+
         // Prevent mismatch between Nitratos and Nitritos
         if (
           (normalizedIrcaName.includes("nitrato") && normalizedParamName.includes("nitrito")) ||
@@ -73,9 +73,18 @@ export function calculateIRCA(sample: WaterSample): IndexResult | null {
           return false;
         }
 
-        return normalizedParamName === normalizedIrcaName ||
-               normalizedParamName.includes(normalizedIrcaName) ||
-               normalizedIrcaName.includes(normalizedParamName);
+        // Exact match first (most reliable)
+        if (normalizedParamName === normalizedIrcaName) {
+          return true;
+        }
+
+        // Substring: parameter name contains IRCA name (measured is more specific)
+        // E.g., "ecoli" matches "escherichia coli" → but NOT "coliformes totales" contains "ecoli"
+        if (normalizedParamName.includes(normalizedIrcaName)) {
+          return true;
+        }
+
+        return false;
       }
     );
 
