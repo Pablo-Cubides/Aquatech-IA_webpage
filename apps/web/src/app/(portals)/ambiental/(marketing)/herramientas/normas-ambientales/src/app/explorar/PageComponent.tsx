@@ -339,7 +339,24 @@ function ExplorarContent() {
                     onValueChange={handleCountryChange}
                   >
                     <SelectTrigger className="w-full px-4 py-6 text-base font-medium text-gray-900 transition-all bg-white border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                      <SelectValue placeholder="-- Selecciona un país --" />
+                      {countryInfo ? (
+                        <div className="flex items-center gap-2">
+                          {getCountryIsoCode(countryInfo.code) ? (
+                            <img 
+                              src={`https://flagcdn.com/w20/${getCountryIsoCode(countryInfo.code)!.toLowerCase()}.png`} 
+                              width={20} 
+                              height={15} 
+                              alt={countryInfo.code} 
+                              className="inline-block object-cover shadow-sm" 
+                            />
+                          ) : (
+                            <span>{countryInfo.flag}</span>
+                          )}
+                          <span>{countryInfo.name}</span>
+                        </div>
+                      ) : (
+                        <span className="text-gray-500">-- Selecciona un país --</span>
+                      )}
                     </SelectTrigger>
                     <SelectContent>
                       {availableCountries.map((country) => {
@@ -385,7 +402,11 @@ function ExplorarContent() {
                         onValueChange={handleSectorChange}
                       >
                         <SelectTrigger className="w-full px-4 py-6 text-base font-medium text-gray-900 transition-all bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                          <SelectValue placeholder="-- Seleccionar Sector --" />
+                          {selectedSector && availableSectors ? (
+                            <span>{availableSectors.find(s => s.id === selectedSector)?.label || selectedSector}</span>
+                          ) : (
+                            <span className="text-gray-500">-- Seleccionar Sector --</span>
+                          )}
                         </SelectTrigger>
                         <SelectContent>
                           {availableSectors.map((sector) => (
