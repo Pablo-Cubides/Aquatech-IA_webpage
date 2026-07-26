@@ -182,7 +182,7 @@ export default function HomePage() {
             {/* Logo */}
             <div className="flex justify-center mb-8">
               <img
-                src="\images\Gota Aquatech - IA 512 - sin fondo.png"
+                src="/images/gota-aquatech.png"
                 alt="Aquatech IA"
                 className="object-contain w-auto h-40 drop-shadow-2xl"
               />
