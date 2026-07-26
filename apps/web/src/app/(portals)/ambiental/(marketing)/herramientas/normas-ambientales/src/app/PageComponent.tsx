@@ -18,6 +18,19 @@ import { useState } from "react";
 import { DOMINIOS, getFlagEmoji } from "@/lib/constants";
 import { API_BASE } from "@/lib/api";
 
+// Convert country slug to ISO-2 code for flagcdn
+function slugToIso(slug: string): string | null {
+  const slugToIso: Record<string, string> = {
+    colombia: "co", mexico: "mx", peru: "pe", chile: "cl", argentina: "ar", brasil: "br",
+    "estados-unidos": "us", eeuu: "us", espana: "es", españa: "es", portugal: "pt",
+    ecuador: "ec", bolivia: "bo", uruguay: "uy", paraguay: "py", "el-salvador": "sv",
+    guatemala: "gt", honduras: "hn", nicaragua: "ni", "costa-rica": "cr", "republica-dominicana": "do",
+    venezuela: "ve", canada: "ca", australia: "au", japon: "jp", china: "cn", india: "in",
+    francia: "fr", alemania: "de", reino_unido: "gb", "united-kingdom": "gb"
+  };
+  return slugToIso[slug.toLowerCase()] || null;
+}
+
 // Data types
 interface ApiCountry {
   code: string;
@@ -283,17 +296,17 @@ export default function HomePage() {
                     </SelectTrigger>
                     <SelectContent>
                       {domainCountries.map((c) => {
-                        const isFlagcdn = /^[a-zA-Z]{2}$/.test(c.code);
+                        const iso2 = slugToIso(c.code);
                         return (
                           <SelectItem key={c.code} value={c.code} className="cursor-pointer">
                             <div className="flex items-center gap-2">
-                              {isFlagcdn ? (
-                                <img 
-                                  src={`https://flagcdn.com/w20/${c.code.toLowerCase()}.png`} 
-                                  width={20} 
-                                  height={15} 
-                                  alt={c.code} 
-                                  className="inline-block object-cover shadow-sm" 
+                              {iso2 ? (
+                                <img
+                                  src={`https://flagcdn.com/w20/${iso2}.png`}
+                                  width={20}
+                                  height={15}
+                                  alt={c.name}
+                                  className="inline-block object-cover shadow-sm"
                                 />
                               ) : (
                                 <span>{c.flag}</span>
