@@ -54,7 +54,7 @@ export default async function GuiaDinamicaPage({ params }: Props) {
             ? "bg-gradient-to-r from-gray-950 via-slate-900 to-gray-950 border-cyan-500/20 text-white" 
             : "bg-gradient-to-r from-cyan-600 to-blue-500 border-blue-200 text-white"
         }`}>
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2240%22 height=%2240%22><g fill-opacity=%220.05%22><path d=%22M0,0 l10,10 l-10,10 l-10,-10 Z%22 fill=%22%23000%22/><path d=%22M20,0 l10,10 l-10,10 l-10,-10 Z%22 fill=%22%23000%22/><path d=%22M0,20 l10,10 l-10,10 l-10,-10 Z%22 fill=%22%23000%22/><path d=%22M20,20 l10,10 l-10,10 l-10,-10 Z%22 fill=%22%23000%22/></g></svg>')] opacity-10"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-transparent via-black/5 to-transparent opacity-10"></div>
           <div className="max-w-6xl mx-auto relative z-10 flex flex-col items-center text-center">
             <span className={`text-xs font-bold uppercase tracking-wider mb-4 px-3 py-1 rounded-full ${
               isIA 
