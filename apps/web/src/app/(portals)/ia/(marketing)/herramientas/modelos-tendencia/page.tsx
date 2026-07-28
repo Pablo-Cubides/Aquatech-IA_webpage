@@ -162,7 +162,7 @@ export default function ModelosTendenciaPage() {
       </section>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20">
             <div className="w-16 h-16 border-4 border-[#00efff]/30 border-t-[#00efff] rounded-full animate-spin mb-4" />
@@ -203,7 +203,7 @@ export default function ModelosTendenciaPage() {
             </div>
           </>
         )}
-      </main>
+      </div>
 
       {/* Footer References */}
       <footer className="border-t border-[rgba(0,239,255,0.1)] bg-[#10111A]/50 py-8">

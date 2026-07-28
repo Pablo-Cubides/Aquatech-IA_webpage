@@ -91,7 +91,7 @@ export default function HeaderAmbiental() {
       <button
         className="lg:hidden rounded-lg p-2 text-gray-700 transition-colors duration-300 hover:bg-gray-100 hover:text-blue-600"
         onClick={() => setIsMenuOpen(!isMenuOpen)}
-        aria-label="Toggle menu"
+        aria-label="Abrir o cerrar menú de navegación ambiental"
       >
         <svg
           className="h-6 w-6"

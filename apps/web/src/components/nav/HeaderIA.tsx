@@ -86,7 +86,7 @@ export default function HeaderIA() {
         <button
           className="md:hidden rounded-lg p-2 text-[#CCCCCC] transition-colors duration-300 hover:bg-gray-800 hover:text-cyan-400"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          aria-label="Toggle menu"
+          aria-label="Abrir o cerrar menú de navegación de IA"
         >
           <svg
             className="h-6 w-6"

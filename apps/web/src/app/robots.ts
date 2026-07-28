@@ -18,6 +18,11 @@ export default function robots(): MetadataRoute.Robots {
           "/*?*", // Disallow URLs with query parameters by default
         ],
       },
+      {
+        userAgent: ["GPTBot", "ClaudeBot", "PerplexityBot", "Google-Extended", "CCBot", "anthropic-ai"],
+        allow: ["/", "/llms.txt", "/llms-full.txt"],
+        disallow: ["/api/", "/admin/", "/auth/", "/perfil"],
+      },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,
   };

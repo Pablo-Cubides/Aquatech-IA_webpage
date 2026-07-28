@@ -328,6 +328,7 @@ function AuthModalContent({ isOpen, onClose, theme = "dark" }: AuthModalProps) {
                       </div>
                       <button
                         onClick={() => setView("edit-profile")}
+                        aria-label="Editar perfil y avatar"
                         className="absolute bottom-0 right-0 p-1.5 bg-cyan-500 rounded-full text-black hover:bg-cyan-400 transition-colors shadow-lg"
                       >
                         <UserCog className="w-4 h-4" />
@@ -409,6 +410,7 @@ function AuthModalContent({ isOpen, onClose, theme = "dark" }: AuthModalProps) {
                     </h2>
                     <button
                       onClick={() => setView("default")}
+                      aria-label="Volver a la información de cuenta"
                       className="p-1 hover:bg-white/10 rounded-full transition-colors"
                     >
                       <X className="w-5 h-5 text-gray-400" />
@@ -425,6 +427,7 @@ function AuthModalContent({ isOpen, onClose, theme = "dark" }: AuthModalProps) {
                           <button
                             key={i}
                             onClick={() => setEditImage(avatar)}
+                            aria-label={`Seleccionar Avatar ${i + 1}`}
                             className={`relative rounded-lg overflow-hidden aspect-square border-2 transition-all bg-white/5 ${
                               editImage === avatar
                                 ? "border-cyan-500 ring-2 ring-cyan-500/20 scale-105"

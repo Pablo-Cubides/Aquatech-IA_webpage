@@ -109,7 +109,7 @@ export default function IAHerramientasPage() {
       </section>
 
       {/* Main Content */}
-      <main className="py-16 md:py-24">
+      <div className="py-16 md:py-24">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="space-y-16 md:space-y-20">
             {/* Herramienta 1: LLMs */}
@@ -615,7 +615,7 @@ export default function IAHerramientasPage() {
             </div>
           </section>
         </div>
-      </main>
+      </div>
 
       {/* Footer */}
       <footer className="bg-[#10111A] border-t border-[rgba(0,239,255,0.1)] mt-20">

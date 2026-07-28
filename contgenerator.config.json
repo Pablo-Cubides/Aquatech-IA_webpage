@@ -1,0 +1,28 @@
+{
+  "contentDir": "content/blog",
+  "outputFile": "apps/web/src/data/blog-articles.generated.ts",
+  "baseUrl": "https://aquatech-ia.vercel.app",
+  "categories": [
+    { "id": "normatividad-ambiental", "name": "Normatividad y legislación ambiental", "images": [] },
+    { "id": "gestion-ambiental-instrumentos", "name": "Gestión ambiental e instrumentos", "images": [] },
+    { "id": "control-tratamiento-contaminacion", "name": "Control y tratamiento de la contaminación", "images": [] },
+    { "id": "nuevas-tecnologias-ambientales", "name": "Nuevas tecnologías ambientales", "images": [] },
+    { "id": "gestion-comunitaria-casos-exito-ambientales", "name": "Gestión comunitaria y casos de éxito ambientales", "images": [] }
+  ],
+  "editorial": {
+    "language": "es",
+    "country": "CO",
+    "brand": "Aquatech IA",
+    "voice": "Técnico e institucional pero accesible: riguroso con datos, normativas y fuentes, con vocación pedagógica. Une gestión ambiental e inteligencia artificial con casos aplicados en América Latina. Nunca inventa cifras ni normas.",
+    "audience": "Ingenieros ambientales, gestores de acueductos, funcionarios públicos y estudiantes de posgrado en América Latina interesados en agua, medio ambiente e IA aplicada.",
+    "wordTarget": 1800,
+    "author": { "name": "Pablo Cubides" },
+    "flatContentDir": true,
+    "internalLinkPrefix": "/ambiental/blog",
+    "internalLinkIncludesCategory": false,
+    "frontmatterAliases": {
+      "date": "publishedAt",
+      "category": "__categoryId"
+    }
+  }
+}

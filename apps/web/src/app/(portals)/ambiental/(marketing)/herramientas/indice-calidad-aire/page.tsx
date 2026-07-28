@@ -230,7 +230,7 @@ export default function IndiceCalidadAirePage() {
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-4 pb-12">
+      <div className="max-w-6xl mx-auto px-4 pb-12">
         {/* Data Source Selector */}
         <section className="mb-8">
           <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
@@ -586,7 +586,7 @@ export default function IndiceCalidadAirePage() {
             </div>
           </div>
         </section>
-      </main>
+      </div>
 
       {/* Explanation Modal */}
       {showExplanation && (

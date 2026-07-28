@@ -80,7 +80,7 @@ export default function RootLayout({
 }) {
   const organizationSchema = {
     "@context": "https://schema.org",
-    "@type": "EducationalOrganization",
+    "@type": ["Organization", "EducationalOrganization"],
     name: "AquatechIA",
     url: baseUrl,
     logo: `${baseUrl}/images/logo.png`,

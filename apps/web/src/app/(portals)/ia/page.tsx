@@ -4,6 +4,8 @@ import Image from "next/image";
 import { getFeaturedIATools } from "@/lib/ia-tools";
 import { getLatestIAArticles } from "@/lib/new-blog-articles";
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: "IA Portal - Inteligencia Artificial aplicada al agua y al ambiente",
   description:

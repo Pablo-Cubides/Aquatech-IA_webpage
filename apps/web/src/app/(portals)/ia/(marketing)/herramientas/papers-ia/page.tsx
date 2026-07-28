@@ -270,7 +270,7 @@ export default function PapersIAPage() {
       </section>
 
       {/* Papers Grid */}
-      <main className="max-w-7xl mx-auto px-4 pb-12" id="papers-list">
+      <div className="max-w-7xl mx-auto px-4 pb-12" id="papers-list">
         {loading ? (
           <div className="flex items-center justify-center py-20" role="status" aria-label="Cargando papers">
             <Loader2 className="w-8 h-8 animate-spin text-blue-500" aria-hidden="true" />
@@ -406,7 +406,7 @@ export default function PapersIAPage() {
             )}
           </>
         )}
-      </main>
+      </div>
 
       {/* Paper Modal */}
       {selectedPaper && (

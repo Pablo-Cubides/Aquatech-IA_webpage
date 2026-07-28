@@ -3,6 +3,8 @@ import Link from "next/link";
 import { getFeaturedAmbientalTools } from "@/lib/ambiental-tools";
 import { getLatestArticles } from "@/lib/new-ambiental-articles";
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: "Portal Ambiental - Gestión Ambiental con tecnología sostenible",
   description:
