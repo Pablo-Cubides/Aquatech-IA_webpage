@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { usePortalTheme } from "@/lib/hooks/usePortalTheme";
 import FileInput from "./FileInput";
 import "./styles.css";
 
@@ -188,6 +189,7 @@ interface QuestionBank {
 
 export default function RuletaAcademicaPage() {
   const router = useRouter();
+  const theme = usePortalTheme();
   const [mode, setMode] = useState<Mode>("choose");
   const [questionBanks, setQuestionBanks] = useState<QuestionBank[]>(
     DEFAULT_QUESTION_BANKS,
@@ -276,11 +278,11 @@ export default function RuletaAcademicaPage() {
     if (loadedQuestions.length === 0) return;
     try {
       sessionStorage.setItem("tempQuestions", JSON.stringify(loadedQuestions));
-      router.push("/ia/autor/herramientas/ruleta-academica/juego?temp=1");
+      router.push(`${theme.portalBase}/autor/herramientas/ruleta-academica/juego?temp=1`);
     } catch {
       const encoded = encodeURIComponent(JSON.stringify(loadedQuestions));
       router.push(
-        `/ia/autor/herramientas/ruleta-academica/juego?questions=${encoded}`,
+        `${theme.portalBase}/autor/herramientas/ruleta-academica/juego?questions=${encoded}`,
       );
     }
   };
@@ -346,20 +348,20 @@ export default function RuletaAcademicaPage() {
       {/* STEP 2a: Select from banks */}
       {/* ─────────────────────────────────────────────────────────────────────── */}
       {mode === "select" && (
-        <div className="w-full max-w-xl bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-700">
+        <div className={`w-full max-w-xl ${theme.bgCard} rounded-2xl p-8`}>
           <button
             onClick={handleBack}
-            className="text-cyan-400 hover:text-cyan-300 mb-6 flex items-center gap-2 text-sm"
+            className={`${theme.textAccent} hover:opacity-80 mb-6 flex items-center gap-2 text-sm font-semibold`}
           >
             ← Volver
           </button>
 
-          <h2 className="text-xl font-bold text-white mb-4">
+          <h2 className={`text-xl font-bold ${theme.textPrimary} mb-4`}>
             Seleccionar Banco de Preguntas
           </h2>
 
           <select
-            className="w-full p-4 rounded-lg bg-gray-900 text-white text-lg border border-gray-600 focus:border-cyan-500 focus:outline-none transition-colors"
+            className={`w-full p-4 rounded-lg ${theme.bgInput} text-lg border focus:outline-none transition-colors`}
             value={selectedBankId ?? ""}
             onChange={(e) => {
               const value = e.target.value;
@@ -382,31 +384,31 @@ export default function RuletaAcademicaPage() {
           </select>
 
           {loading && (
-            <div className="text-cyan-400 mt-4 animate-pulse">
+            <div className={`${theme.textAccent} mt-4 animate-pulse`}>
               Cargando preguntas...
             </div>
           )}
 
           {bankError && !loading && (
-            <div className="text-red-400 mt-4">{bankError}</div>
+            <div className="text-red-500 mt-4 font-semibold">{bankError}</div>
           )}
 
           {loadedQuestions.length > 0 && !loading && (
             <>
-              <div className="mt-6 bg-gray-900/50 rounded-lg p-4 border border-gray-700">
+              <div className={`mt-6 ${theme.isAmbiental ? 'bg-slate-100 border-gray-300' : 'bg-gray-900/50 border-gray-700'} rounded-lg p-4 border`}>
                 <div className="flex justify-between items-center mb-3">
-                  <span className="text-cyan-400 font-semibold">
+                  <span className={`${theme.textAccent} font-semibold`}>
                     {loadedName}
                   </span>
-                  <span className="text-gray-400 text-sm">
+                  <span className={`${theme.textSecondary} text-sm`}>
                     {loadedQuestions.length} preguntas
                   </span>
                 </div>
-                <ul className="text-gray-300 text-sm space-y-2 max-h-48 overflow-y-auto">
+                <ul className={`${theme.textSecondary} text-sm space-y-2 max-h-48 overflow-y-auto`}>
                   {loadedQuestions.slice(0, 5).map((q, i) => (
                     <li key={i} className="flex gap-2">
-                      <span className="text-cyan-500">{i + 1}.</span>
-                      <span>{q}</span>
+                      <span className={`${theme.textAccent} font-bold`}>{i + 1}.</span>
+                      <span className={theme.textPrimary}>{q}</span>
                     </li>
                   ))}
                   {loadedQuestions.length > 5 && (
@@ -419,7 +421,7 @@ export default function RuletaAcademicaPage() {
 
               <button
                 onClick={handleStart}
-                className="mt-6 w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-4 px-6 rounded-xl text-xl transition-all shadow-lg hover:shadow-green-500/30"
+                className={`mt-6 w-full ${theme.btnPrimary} font-bold py-4 px-6 rounded-xl text-xl transition-all shadow-lg`}
               >
                 🎯 Comenzar
               </button>
@@ -432,15 +434,15 @@ export default function RuletaAcademicaPage() {
       {/* STEP 2b: Upload file */}
       {/* ─────────────────────────────────────────────────────────────────────── */}
       {mode === "upload" && (
-        <div className="w-full max-w-xl bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-700">
+        <div className={`w-full max-w-xl ${theme.bgCard} rounded-2xl p-8`}>
           <button
             onClick={handleBack}
-            className="text-green-400 hover:text-green-300 mb-6 flex items-center gap-2 text-sm"
+            className={`${theme.textAccent} hover:opacity-80 mb-6 flex items-center gap-2 text-sm font-semibold`}
           >
             ← Volver
           </button>
 
-          <h2 className="text-xl font-bold text-white mb-4">
+          <h2 className={`text-xl font-bold ${theme.textPrimary} mb-4`}>
             Cargar Archivo de Preguntas
           </h2>
 

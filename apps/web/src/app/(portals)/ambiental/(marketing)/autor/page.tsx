@@ -15,6 +15,7 @@ import {
   Database,
   FileText,
   RotateCcw,
+  BookOpen,
 } from "lucide-react";
 
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], weight: ["700"] });
@@ -562,7 +563,7 @@ export default function AmbientalAutorPage() {
                   </div>
                 </div>
                 <Link
-                  href="/ia/autor/herramientas/consulta-nota"
+                  href="/ambiental/autor/herramientas/consulta-nota"
                   className="inline-flex items-center gap-2 w-full justify-center bg-gradient-to-r from-[#0077B6] to-[#10B981] text-white font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-opacity"
                 >
                   <FileText className="w-4 h-4" />
@@ -599,7 +600,7 @@ export default function AmbientalAutorPage() {
                   </div>
                 </div>
                 <Link
-                  href="/ia/autor/herramientas/ruleta-academica"
+                  href="/ambiental/autor/herramientas/ruleta-academica"
                   className="inline-flex items-center gap-2 w-full justify-center bg-gradient-to-r from-[#10B981] to-[#0077B6] text-white font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-opacity"
                 >
                   <RotateCcw className="w-4 h-4" />
@@ -636,11 +637,47 @@ export default function AmbientalAutorPage() {
                   </div>
                 </div>
                 <Link
-                  href="/ia/autor/herramientas/aula-score"
+                  href="/ambiental/autor/herramientas/aula-score"
                   className="inline-flex items-center gap-2 w-full justify-center bg-gradient-to-r from-[#0077B6] to-[#10B981] text-white font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-opacity"
                 >
                   <TrendingUp className="w-4 h-4" />
                   Abrir Aula Score
+                </Link>
+              </article>
+
+              {/* Proyectos de Investigación */}
+              <article className="bg-white rounded-2xl p-6 border border-gray-200 hover:border-[#0077B6] transition-all duration-300 hover:shadow-lg group">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-[#10B981] to-[#0077B6] flex items-center justify-center">
+                    <BookOpen className="w-6 h-6 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold group-hover:text-[#0077B6] transition-colors text-[#0D161C]">
+                    Proyectos de Investigación
+                  </h3>
+                </div>
+                <p className="text-gray-600 mb-6 leading-relaxed">
+                  Explora cupos abiertos de trabajos de grado y genera borradores de correo para reunirte con Pablo.
+                </p>
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-center gap-2 text-sm">
+                    <div className="w-2 h-2 rounded-full bg-[#10B981]"></div>
+                    <span className="text-gray-700">Cupos actualizados</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <div className="w-2 h-2 rounded-full bg-[#0077B6]"></div>
+                    <span className="text-gray-700">Borrador Outlook automático</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <div className="w-2 h-2 rounded-full bg-[#10B981]"></div>
+                    <span className="text-gray-700">Líneas de agua & IA</span>
+                  </div>
+                </div>
+                <Link
+                  href="/ambiental/autor/herramientas/proyectos-investigacion"
+                  className="inline-flex items-center gap-2 w-full justify-center bg-gradient-to-r from-[#10B981] to-[#0077B6] text-white font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-opacity"
+                >
+                  <BookOpen className="w-4 h-4" />
+                  Ver Proyectos Abiertos
                 </Link>
               </article>
             </div>

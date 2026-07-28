@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
+import { usePortalTheme } from "@/lib/hooks/usePortalTheme";
 import { AddGroupModal } from "../components/AddGroupModal";
 import { CountdownModal } from "../components/CountdownModal";
 import { ScoreCard } from "../components/ScoreCard";
@@ -17,6 +18,7 @@ interface Group {
 
 export default function ClassificationPage() {
   const router = useRouter();
+  const theme = usePortalTheme();
   const [groups, setGroups] = useState<Group[]>([]);
   const [isStarted, setIsStarted] = useState(false);
   const [showCountdown, setShowCountdown] = useState(true);
@@ -28,14 +30,14 @@ export default function ClassificationPage() {
   useEffect(() => {
     const stored = sessionStorage.getItem("aula-score-groups");
     if (!stored) {
-      router.push("/ia/autor/herramientas/aula-score");
+      router.push(`${theme.portalBase}/autor/herramientas/aula-score`);
       return;
     }
 
     const parsedGroups = JSON.parse(stored) as Group[];
     setGroups(parsedGroups);
     setShowCountdown(true);
-  }, [router]);
+  }, [router, theme.portalBase]);
 
   // Cuando se completa el countdown
   const handleCountdownComplete = () => {

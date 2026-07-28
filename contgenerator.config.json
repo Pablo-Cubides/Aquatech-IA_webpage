@@ -1,7 +1,7 @@
 {
   "contentDir": "content/blog",
   "outputFile": "apps/web/src/data/blog-articles.generated.ts",
-  "baseUrl": "https://aquatech-ia.vercel.app",
+  "baseUrl": "https://aquatechia.com",
   "categories": [
     { "id": "normatividad-ambiental", "name": "Normatividad y legislación ambiental", "images": [] },
     { "id": "gestion-ambiental-instrumentos", "name": "Gestión ambiental e instrumentos", "images": [] },

@@ -2,11 +2,13 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { usePortalTheme } from "@/lib/hooks/usePortalTheme";
 import { validateGroupNames } from "./lib/utils";
 import { ThemeToggle } from "./components/ThemeToggle";
 
 export default function ConfigurationPage() {
   const router = useRouter();
+  const theme = usePortalTheme();
   const [numGroups, setNumGroups] = useState(3);
   const [groupNames, setGroupNames] = useState<string[]>([
     "Grupo 1",
@@ -44,7 +46,6 @@ export default function ConfigurationPage() {
       return;
     }
 
-    // Step 2: validar nombres
     const validation = validateGroupNames(groupNames);
     if (!validation.valid) {
       setError(validation.error || "Error en validación");
@@ -59,7 +60,7 @@ export default function ConfigurationPage() {
       ),
     );
 
-    router.push("/ia/autor/herramientas/aula-score/clasificacion");
+    router.push(`${theme.portalBase}/autor/herramientas/aula-score/clasificacion`);
   };
 
   const handleBack = () => {

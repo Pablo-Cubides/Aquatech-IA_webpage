@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     title: "ExploraModelo — Guía Académica de Parámetros de Decodificación LLM",
     description:
       "Aprende interactivamente cómo Temperature, Top-k y Top-p (Nucleus Sampling) influyen en la generación de texto por Large Language Models.",
-    url: "https://exploramodelo.vercel.app",
+    url: "https://aquatechia.com/ia/herramientas/parametros-decodificacion",
     siteName: "ExploraModelo",
     images: [
       {
@@ -92,7 +92,7 @@ export default async function RootLayout({
     applicationCategory: "EducationalApplication",
     description:
       "Aplicación educativa interactiva para comprender parámetros de decodificación en Large Language Models (LLM)",
-    url: "https://exploramodelo.vercel.app",
+    url: "https://aquatechia.com/ia/herramientas/parametros-decodificacion",
     author: {
       "@type": "Person",
       name: "Pablo Cubides",

@@ -40,7 +40,13 @@ const noto = Noto_Sans({
   variable: "--font-noto-sans",
 });
 
+import { usePortalTheme } from "@/lib/hooks/usePortalTheme";
+
+// Types for note search results
+// ... existing types ...
+
 export default function ConsultaNotaIAPage() {
+  const theme = usePortalTheme();
   const [universities, setUniversities] = React.useState<string[]>([]);
   const [courses, setCourses] = React.useState<string[]>([]);
   const [university, setUniversity] = React.useState<string>("");
@@ -140,33 +146,30 @@ export default function ConsultaNotaIAPage() {
 
   return (
     <div
-      className={`${space.variable} ${noto.variable} min-h-screen bg-[#000000] text-white`}
+      className={`${space.variable} ${noto.variable} min-h-screen ${theme.isAmbiental ? 'bg-gradient-to-br from-slate-50 to-blue-50 text-gray-800' : 'bg-[#000000] text-white'}`}
     >
       {/* Design System */}
       <style jsx global>{`
         :root {
-          --primary-cyan: #00efff;
-          --accent-purple: #8b5cf6;
+          --primary-cyan: ${theme.isAmbiental ? '#0077B6' : '#00efff'};
+          --accent-purple: ${theme.isAmbiental ? '#10B981' : '#8b5cf6'};
           --accent-pink: #ec4899;
-          --deep-blue: #000000;
-          --panel-bg: #10111a;
-          --text-primary: #ffffff;
-          --text-secondary: #cccccc;
-          --border-color: rgba(0, 239, 255, 0.1);
+          --deep-blue: ${theme.isAmbiental ? '#ffffff' : '#000000'};
+          --panel-bg: ${theme.isAmbiental ? '#ffffff' : '#10111a'};
+          --text-primary: ${theme.isAmbiental ? '#0D161C' : '#ffffff'};
+          --text-secondary: ${theme.isAmbiental ? '#4b5563' : '#cccccc'};
+          --border-color: ${theme.isAmbiental ? 'rgba(0, 119, 182, 0.2)' : 'rgba(0, 239, 255, 0.1)'};
         }
 
         .container-app {
-          background: linear-gradient(
-            145deg,
-            var(--panel-bg) 0%,
-            var(--deep-blue) 100%
-          );
+          background: ${theme.isAmbiental ? '#ffffff' : 'linear-gradient(145deg, var(--panel-bg) 0%, var(--deep-blue) 100%)'};
           border: 1px solid var(--border-color);
           border-radius: 16px;
           padding: 2rem;
           min-height: 600px;
           position: relative;
           overflow: hidden;
+          box-shadow: ${theme.isAmbiental ? '0 10px 25px -5px rgba(0,0,0,0.05)' : 'none'};
         }
 
         .container-app::before {
@@ -176,17 +179,9 @@ export default function ConsultaNotaIAPage() {
           left: 0;
           right: 0;
           bottom: 0;
-          background:
-            radial-gradient(
-              circle at 20% 20%,
-              rgba(139, 92, 246, 0.1) 0%,
-              transparent 50%
-            ),
-            radial-gradient(
-              circle at 80% 80%,
-              rgba(0, 239, 255, 0.1) 0%,
-              transparent 50%
-            );
+          background: ${theme.isAmbiental 
+            ? 'radial-gradient(circle at 20% 20%, rgba(0, 119, 182, 0.05) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.05) 0%, transparent 50%)'
+            : 'radial-gradient(circle at 20% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(0, 239, 255, 0.1) 0%, transparent 50%)'};
           pointer-events: none;
         }
 
@@ -203,16 +198,16 @@ export default function ConsultaNotaIAPage() {
             <ol className="flex items-center space-x-2 text-sm">
               <li>
                 <Link
-                  href="/ia"
+                  href={theme.portalBase}
                   className="text-[var(--text-secondary)] hover:text-[var(--primary-cyan)]"
                 >
-                  IA
+                  {theme.isAmbiental ? 'Portal Ambiental' : 'Portal IA'}
                 </Link>
               </li>
               <ChevronRight className="w-4 h-4 text-[var(--text-secondary)]" />
               <li>
                 <Link
-                  href="/ia/autor/pablo-cubides"
+                  href={`${theme.portalBase}/autor`}
                   className="text-[var(--text-secondary)] hover:text-[var(--primary-cyan)]"
                 >
                   Pablo Cubides

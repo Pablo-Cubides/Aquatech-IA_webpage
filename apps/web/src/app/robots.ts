@@ -15,7 +15,6 @@ export default function robots(): MetadataRoute.Robots {
           "/auth/",
           "/perfil",
           "/*.json$",
-          "/*?*", // Disallow URLs with query parameters by default
         ],
       },
       {

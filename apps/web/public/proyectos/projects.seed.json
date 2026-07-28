@@ -1,0 +1,692 @@
+[
+  {
+    "id": "coag-fecula-maiz",
+    "titulo": "Coagulante natural: fécula de maíz",
+    "linea": "Coagulantes naturales",
+    "familia": "A",
+    "resumen": "Evaluación de la fécula de maíz como coagulante natural para remover color y turbiedad. Trabajo ya realizado; se carga como histórico de la línea.",
+    "que_lograras": "Referencia histórica de la línea de coagulantes naturales.",
+    "por_que_importa": "Deja constancia del trabajo hecho y ancla los cupos que lo complementan.",
+    "objetivos": [
+      "Preparar el coagulante a partir de fécula de maíz.",
+      "Medir la remoción de color y turbiedad frente a un coagulante metálico.",
+      "Registrar los resultados en el formato estándar del estudio."
+    ],
+    "plan_trabajo": [
+      "Preparación del coagulante y de la matriz de ensayo.",
+      "Ensayos de jar-test a distintas dosis.",
+      "Medición de color y turbiedad.",
+      "Análisis y entrega de resultados."
+    ],
+    "entregable": "Trabajo de grado",
+    "nivel": "introductorio",
+    "prerrequisitos": "Ninguno",
+    "estado": "completado",
+    "fecha_apertura": null,
+    "fecha_estado": null,
+    "estudiante": null,
+    "desbloquea": [],
+    "complementa": [],
+    "notas_admin": "Trabajo YA REALIZADO. Histórico; no reabrir. Completar la fecha real si se quiere."
+  },
+  {
+    "id": "coag-moringa",
+    "titulo": "Coagulante natural: Moringa oleifera",
+    "linea": "Coagulantes naturales",
+    "familia": "A",
+    "resumen": "Evaluación de la Moringa oleifera como coagulante natural. Trabajo ya realizado; se carga como histórico de la línea.",
+    "que_lograras": "Referencia histórica de la línea de coagulantes naturales.",
+    "por_que_importa": "Deja constancia del trabajo hecho y ancla los cupos que lo complementan.",
+    "objetivos": [
+      "Preparar el coagulante a partir de semilla de Moringa.",
+      "Medir la remoción de color y turbiedad frente a un coagulante metálico.",
+      "Registrar los resultados en el formato estándar del estudio."
+    ],
+    "plan_trabajo": [
+      "Preparación del coagulante y de la matriz de ensayo.",
+      "Ensayos de jar-test a distintas dosis.",
+      "Medición de color y turbiedad.",
+      "Análisis y entrega de resultados."
+    ],
+    "entregable": "Trabajo de grado",
+    "nivel": "introductorio",
+    "prerrequisitos": "Ninguno",
+    "estado": "completado",
+    "fecha_apertura": null,
+    "fecha_estado": null,
+    "estudiante": null,
+    "desbloquea": [],
+    "complementa": [],
+    "notas_admin": "Trabajo YA REALIZADO. Histórico; no reabrir."
+  },
+  {
+    "id": "coag-nopal",
+    "titulo": "Coagulante natural: mucílago de nopal",
+    "linea": "Coagulantes naturales",
+    "familia": "A",
+    "resumen": "Evaluar un coagulante natural aún no probado en la línea, el mucílago de nopal, con el mismo protocolo, para ampliar el conjunto de coagulantes comparables sin repetir los ya hechos.",
+    "que_lograras": "Sumar un coagulante nuevo, no repetido, al conjunto de datos.",
+    "por_que_importa": "Amplía las alternativas naturales de bajo costo con un material distinto a los ya evaluados.",
+    "objetivos": [
+      "Preparar el coagulante a partir de mucílago de nopal.",
+      "Medir la remoción de color y turbiedad frente a un coagulante metálico.",
+      "Registrar los resultados en el formato estándar del estudio."
+    ],
+    "plan_trabajo": [
+      "Preparación del coagulante y de la matriz de ensayo.",
+      "Ensayos de jar-test a distintas dosis.",
+      "Medición de color y turbiedad.",
+      "Análisis y entrega de resultados."
+    ],
+    "entregable": "Trabajo de grado",
+    "nivel": "introductorio",
+    "prerrequisitos": "Ninguno",
+    "estado": "abierto",
+    "fecha_apertura": "2026-07-01",
+    "fecha_estado": "2026-07-01",
+    "estudiante": null,
+    "desbloquea": [],
+    "complementa": [],
+    "notas_admin": "Coagulante NUEVO para la línea. Confirmar que no se haya evaluado antes; se puede cambiar por otro no probado (quitosano, tamarindo, etc.)."
+  },
+  {
+    "id": "coag-validacion-matriz-real",
+    "titulo": "Coagulantes naturales: validación en matriz de agua real",
+    "linea": "Coagulantes naturales",
+    "familia": "A",
+    "resumen": "Los coagulantes ya evaluados se probaron en condiciones controladas. Este trabajo valida uno o dos de ellos en una matriz de agua real, completando el dato que falta para confiar en su desempeño.",
+    "que_lograras": "Cerrar la brecha entre el ensayo controlado y el agua real, fortaleciendo los trabajos previos.",
+    "por_que_importa": "Sin validación en matriz real, los resultados de coagulantes naturales quedan incompletos.",
+    "objetivos": [
+      "Seleccionar la matriz de agua real y los coagulantes a validar.",
+      "Repetir los ensayos en la matriz real con el protocolo estándar.",
+      "Comparar los resultados con los obtenidos en condiciones controladas."
+    ],
+    "plan_trabajo": [
+      "Caracterización de la matriz de agua real.",
+      "Ensayos de jar-test con los coagulantes seleccionados.",
+      "Comparación con los datos previos.",
+      "Análisis y entrega de resultados."
+    ],
+    "entregable": "Trabajo de grado",
+    "nivel": "intermedio",
+    "prerrequisitos": "Ninguno",
+    "estado": "abierto",
+    "fecha_apertura": "2026-07-01",
+    "fecha_estado": "2026-07-01",
+    "estudiante": null,
+    "desbloquea": [],
+    "complementa": ["coag-fecula-maiz", "coag-moringa"],
+    "notas_admin": "Gap-filler: fortalece los coagulantes ya realizados. Definir con Pablo cuáles validar y qué matriz."
+  },
+  {
+    "id": "biochar-borra-cafe",
+    "titulo": "Bio-sorción con residuos de café",
+    "linea": "Bio-sorción y biocarbón",
+    "familia": "A",
+    "resumen": "Remoción de un contaminante usando borra (cuncho) de café como adsorbente. Trabajo ya realizado; se carga como histórico de la línea.",
+    "que_lograras": "Referencia histórica de la línea de bio-sorción.",
+    "por_que_importa": "Deja constancia del trabajo hecho y ancla los cupos que lo complementan.",
+    "objetivos": [
+      "Preparar y caracterizar el adsorbente a partir de borra de café.",
+      "Determinar isotermas y cinética de adsorción del contaminante.",
+      "Registrar los resultados en el formato estándar del estudio."
+    ],
+    "plan_trabajo": [
+      "Preparación y caracterización del adsorbente.",
+      "Ensayos de adsorción a distintas concentraciones.",
+      "Ajuste de isotermas y cinética.",
+      "Análisis y entrega de resultados."
+    ],
+    "entregable": "Trabajo de grado",
+    "nivel": "introductorio",
+    "prerrequisitos": "Ninguno",
+    "estado": "completado",
+    "fecha_apertura": null,
+    "fecha_estado": null,
+    "estudiante": null,
+    "desbloquea": [],
+    "complementa": [],
+    "notas_admin": "Trabajo YA REALIZADO. Histórico; no reabrir."
+  },
+  {
+    "id": "biochar-cafe-nuevo-contaminante",
+    "titulo": "Bio-sorción con residuos de café: nuevo contaminante",
+    "linea": "Bio-sorción y biocarbón",
+    "familia": "A",
+    "resumen": "Evaluar la borra de café frente a un contaminante distinto al ya estudiado, para completar el perfil de adsorción del material sin repetir el trabajo existente.",
+    "que_lograras": "Ampliar lo que se sabe del adsorbente de café con un contaminante nuevo.",
+    "por_que_importa": "Completa el perfil del adsorbente y fortalece el trabajo previo.",
+    "objetivos": [
+      "Seleccionar un contaminante no evaluado antes con este adsorbente.",
+      "Determinar isotermas y cinética de adsorción del nuevo contaminante.",
+      "Comparar con lo ya conocido del material."
+    ],
+    "plan_trabajo": [
+      "Selección del contaminante y preparación del adsorbente.",
+      "Ensayos de adsorción a distintas concentraciones.",
+      "Ajuste de isotermas y cinética.",
+      "Análisis y entrega de resultados."
+    ],
+    "entregable": "Trabajo de grado",
+    "nivel": "introductorio",
+    "prerrequisitos": "Ninguno",
+    "estado": "abierto",
+    "fecha_apertura": "2026-07-01",
+    "fecha_estado": "2026-07-01",
+    "estudiante": null,
+    "desbloquea": [],
+    "complementa": ["biochar-borra-cafe"],
+    "notas_admin": "Gap-filler: nuevo contaminante sobre un adsorbente ya estudiado. Definir con Pablo el contaminante faltante."
+  },
+  {
+    "id": "biochar-cafe-efecto-filtrado",
+    "titulo": "Bio-sorción con residuos de café: efecto del filtrado en las mediciones",
+    "linea": "Bio-sorción y biocarbón",
+    "familia": "A",
+    "resumen": "Determinar si no filtrar el agua afecta las mediciones de adsorción con residuos de café, un dato que faltaba en el trabajo previo y que condiciona la validez de sus resultados.",
+    "que_lograras": "Cerrar un vacío metodológico que fortalece el trabajo ya realizado.",
+    "por_que_importa": "Si el filtrado altera las mediciones, cambia cómo se interpretan los resultados anteriores.",
+    "objetivos": [
+      "Diseñar un ensayo comparativo con y sin filtrado del agua.",
+      "Cuantificar el efecto del filtrado sobre las mediciones.",
+      "Recomendar el procedimiento correcto para la línea."
+    ],
+    "plan_trabajo": [
+      "Diseño del ensayo comparativo.",
+      "Mediciones con y sin filtrado.",
+      "Análisis del efecto observado.",
+      "Recomendaciones y entrega de resultados."
+    ],
+    "entregable": "Trabajo de grado",
+    "nivel": "introductorio",
+    "prerrequisitos": "Ninguno",
+    "estado": "abierto",
+    "fecha_apertura": "2026-07-01",
+    "fecha_estado": "2026-07-01",
+    "estudiante": null,
+    "desbloquea": [],
+    "complementa": ["biochar-borra-cafe"],
+    "notas_admin": "Gap-filler metodológico señalado por Pablo (filtrar vs. no filtrar)."
+  },
+  {
+    "id": "biochar-cascara-cacao",
+    "titulo": "Bio-sorción con cáscara de cacao",
+    "linea": "Bio-sorción y biocarbón",
+    "familia": "A",
+    "resumen": "Evaluar la cáscara de cacao como adsorbente nuevo (no repite el café) para un contaminante que aporte un dato faltante, determinando su capacidad de adsorción con el protocolo del estudio.",
+    "que_lograras": "Añadir un material adsorbente nuevo al conjunto de datos.",
+    "por_que_importa": "Amplía las materias primas evaluadas con un residuo abundante en el país.",
+    "objetivos": [
+      "Preparar y caracterizar el adsorbente a partir de cáscara de cacao.",
+      "Determinar isotermas y cinética de adsorción del contaminante objetivo.",
+      "Registrar los resultados en el formato estándar del estudio."
+    ],
+    "plan_trabajo": [
+      "Preparación y caracterización del adsorbente.",
+      "Ensayos de adsorción a distintas concentraciones.",
+      "Ajuste de isotermas y cinética.",
+      "Análisis y entrega de resultados."
+    ],
+    "entregable": "Trabajo de grado",
+    "nivel": "introductorio",
+    "prerrequisitos": "Ninguno",
+    "estado": "abierto",
+    "fecha_apertura": "2026-07-01",
+    "fecha_estado": "2026-07-01",
+    "estudiante": null,
+    "desbloquea": [],
+    "complementa": [],
+    "notas_admin": "Material NUEVO (no repite el café). Definir con Pablo el contaminante objetivo para que aporte un dato faltante."
+  },
+  {
+    "id": "bio-secundario-redes-neuronales",
+    "titulo": "Redes neuronales para predecir el tratamiento secundario",
+    "linea": "Procesos biológicos",
+    "familia": "A",
+    "resumen": "Predecir la eficiencia de un proceso biológico de tratamiento secundario en una PTAR usando redes neuronales, y comparar el desempeño del modelo contra las ecuaciones cinéticas tradicionales.",
+    "que_lograras": "Un modelo entrenado y una comparación clara frente al método clásico.",
+    "por_que_importa": "Es el primer paso hacia un modelo general de predicción de tratamientos.",
+    "objetivos": [
+      "Reunir y depurar datos de operación del proceso biológico.",
+      "Entrenar una red neuronal para predecir la eficiencia de remoción.",
+      "Comparar el modelo con las ecuaciones cinéticas tradicionales."
+    ],
+    "plan_trabajo": [
+      "Recolección y limpieza de datos.",
+      "Entrenamiento y validación del modelo.",
+      "Comparación contra el método tradicional.",
+      "Análisis y entrega de resultados."
+    ],
+    "entregable": "Trabajo de grado",
+    "nivel": "intermedio",
+    "prerrequisitos": "Bases de programación (deseable)",
+    "estado": "abierto",
+    "fecha_apertura": "2026-07-01",
+    "fecha_estado": "2026-07-01",
+    "estudiante": null,
+    "desbloquea": [],
+    "complementa": [],
+    "notas_admin": "Alimenta el predictor integrado. Crece por zonas y condiciones."
+  },
+  {
+    "id": "predictor-trenes-tratamiento",
+    "titulo": "Modelo integrado de predicción de trenes de tratamiento",
+    "linea": "Predicción con IA",
+    "familia": "A",
+    "resumen": "Construir un modelo que, a partir de los datos generados por las líneas de coagulantes, bio-sorción y procesos biológicos, prediga la eficiencia de tratamientos combinados según las características del agua de entrada.",
+    "que_lograras": "Un modelo generalista y la base de una herramienta web de predicción.",
+    "por_que_importa": "Permite estimar la remoción de un tren de tratamiento sin ensayar cada combinación.",
+    "objetivos": [
+      "Consolidar los conjuntos de datos de las líneas de tratamiento.",
+      "Entrenar un modelo que prediga la eficiencia de tratamientos combinados.",
+      "Evaluar el modelo y preparar su uso como herramienta."
+    ],
+    "plan_trabajo": [
+      "Consolidación y estandarización de los datos.",
+      "Entrenamiento del modelo integrado.",
+      "Validación y análisis de desempeño.",
+      "Documentación para su despliegue como herramienta."
+    ],
+    "entregable": "Trabajo de grado",
+    "nivel": "avanzado",
+    "prerrequisitos": "Programación y machine learning",
+    "estado": "bloqueado",
+    "fecha_apertura": null,
+    "fecha_estado": "2026-07-01",
+    "estudiante": null,
+    "desbloquea": [],
+    "complementa": [],
+    "notas_admin": "Abrir cuando haya suficientes datasets de coagulantes, bio-sorción y procesos biológicos."
+  },
+  {
+    "id": "humedal-caracterizacion",
+    "titulo": "Humedal para aguas grises: caracterización y eficiencia",
+    "linea": "Aguas grises",
+    "familia": "B",
+    "resumen": "Evaluar la eficiencia de remoción del prototipo actual de humedal modular que recircula las aguas grises de la lavadora, en el marco de la Res. 1256 de 2021.",
+    "que_lograras": "Datos sólidos de desempeño del prototipo, base para llevarlo hacia un producto.",
+    "por_que_importa": "Es el paso que separa el prototipo del humedal de una tecnología replicable y patentable.",
+    "objetivos": [
+      "Poner en operación el prototipo de humedal con agua gris de lavadora.",
+      "Medir la eficiencia de remoción de los parámetros de interés.",
+      "Documentar el desempeño en distintas condiciones de operación."
+    ],
+    "plan_trabajo": [
+      "Montaje y puesta en marcha del prototipo.",
+      "Monitoreo de calidad del agua de entrada y salida.",
+      "Cálculo de eficiencias de remoción.",
+      "Análisis y entrega de resultados."
+    ],
+    "entregable": "Trabajo de grado",
+    "nivel": "intermedio",
+    "prerrequisitos": "Ninguno",
+    "estado": "abierto",
+    "fecha_apertura": "2026-07-01",
+    "fecha_estado": "2026-07-01",
+    "estudiante": null,
+    "desbloquea": ["humedal-optimizacion-sustrato"],
+    "complementa": [],
+    "notas_admin": "Línea de aguas grises (patente). Al completar, se abre la optimización del sustrato."
+  },
+  {
+    "id": "humedal-optimizacion-sustrato",
+    "titulo": "Humedal para aguas grises: optimización del sustrato y las plantas",
+    "linea": "Aguas grises",
+    "familia": "B",
+    "resumen": "Optimizar el medio filtrante y las especies vegetales del humedal modular para mejorar su eficiencia de remoción, partiendo de los resultados de la caracterización previa.",
+    "que_lograras": "Una configuración de sustrato y plantas con mejor desempeño demostrado.",
+    "por_que_importa": "Mejora el rendimiento del sistema y acerca el diseño a un producto estandarizado.",
+    "objetivos": [
+      "Comparar distintos sustratos y especies vegetales.",
+      "Medir la eficiencia de remoción de cada configuración.",
+      "Recomendar la mejor combinación para el prototipo."
+    ],
+    "plan_trabajo": [
+      "Selección de sustratos y especies a comparar.",
+      "Montaje de las configuraciones y operación.",
+      "Monitoreo y cálculo de eficiencias.",
+      "Análisis y entrega de resultados."
+    ],
+    "entregable": "Trabajo de grado",
+    "nivel": "intermedio",
+    "prerrequisitos": "Ninguno",
+    "estado": "bloqueado",
+    "fecha_apertura": null,
+    "fecha_estado": "2026-07-01",
+    "estudiante": null,
+    "desbloquea": [],
+    "complementa": [],
+    "notas_admin": "Fase 2 de aguas grises. Se abre automáticamente al completar la caracterización."
+  },
+  {
+    "id": "filtro-ascendente-bajantes",
+    "titulo": "Filtro ascendente para bajantes",
+    "linea": "Diseño de sistemas",
+    "familia": "B",
+    "resumen": "Construir y evaluar un prototipo de filtro ascendente que se instala en la bajante: el agua lluvia baja, pasa a un tubo ascendente con el medio filtrante y llega al reservorio.",
+    "que_lograras": "Un prototipo funcional y un diseño documentado que otros puedan replicar.",
+    "por_que_importa": "Permite captar y filtrar agua lluvia in situ en vivienda, de forma sencilla y de bajo costo.",
+    "objetivos": [
+      "Construir el prototipo de filtro ascendente para la bajante.",
+      "Evaluar la eficiencia de filtración del agua lluvia captada.",
+      "Documentar el diseño para que sea replicable."
+    ],
+    "plan_trabajo": [
+      "Diseño y construcción del prototipo.",
+      "Montaje en una bajante de prueba.",
+      "Ensayos de calidad del agua filtrada.",
+      "Documentación del diseño y resultados."
+    ],
+    "entregable": "Trabajo de grado",
+    "nivel": "intermedio",
+    "prerrequisitos": "Ninguno",
+    "estado": "abierto",
+    "fecha_apertura": "2026-07-01",
+    "fecha_estado": "2026-07-01",
+    "estudiante": null,
+    "desbloquea": ["filtro-ascendente-medios"],
+    "complementa": [],
+    "notas_admin": "Línea de diseño de sistemas nuevos. Al completar, se abre la comparación de medios filtrantes."
+  },
+  {
+    "id": "filtro-ascendente-medios",
+    "titulo": "Filtro ascendente: comparación de medios filtrantes",
+    "linea": "Diseño de sistemas",
+    "familia": "B",
+    "resumen": "Comparar distintos medios filtrantes en el filtro ascendente ya construido, para determinar cuál ofrece mejor calidad de agua y mayor vida útil.",
+    "que_lograras": "Una recomendación de medio filtrante respaldada por datos.",
+    "por_que_importa": "Define la configuración óptima del sistema antes de proponerlo como diseño estándar.",
+    "objetivos": [
+      "Seleccionar los medios filtrantes a comparar.",
+      "Evaluar la calidad del agua filtrada con cada medio.",
+      "Recomendar el medio con mejor desempeño y durabilidad."
+    ],
+    "plan_trabajo": [
+      "Preparación de los medios filtrantes.",
+      "Ensayos comparativos en el prototipo.",
+      "Medición de calidad y colmatación.",
+      "Análisis y entrega de resultados."
+    ],
+    "entregable": "Trabajo de grado",
+    "nivel": "intermedio",
+    "prerrequisitos": "Ninguno",
+    "estado": "bloqueado",
+    "fecha_apertura": null,
+    "fecha_estado": "2026-07-01",
+    "estudiante": null,
+    "desbloquea": [],
+    "complementa": [],
+    "notas_admin": "Fase 2 del filtro ascendente. Se abre automáticamente al completar el prototipo."
+  },
+  {
+    "id": "smi-viabilidad",
+    "titulo": "Medición inteligente del agua: viabilidad para Colombia",
+    "linea": "Medición inteligente",
+    "familia": "B",
+    "resumen": "Evaluar la viabilidad técnica, regulatoria (Res. 69940 de 2025 SIC) y financiera (costo-beneficio y período de recuperación) de implementar telemetría y analítica de consumo de agua en Colombia.",
+    "que_lograras": "Un análisis de viabilidad claro, con enfoque de ingeniería civil.",
+    "por_que_importa": "Da la base para decidir dónde y cuándo conviene la medición inteligente.",
+    "objetivos": [
+      "Revisar el marco regulatorio aplicable a la medición inteligente.",
+      "Estimar costos, beneficios y período de recuperación.",
+      "Evaluar la viabilidad técnica en un caso de aplicación."
+    ],
+    "plan_trabajo": [
+      "Revisión regulatoria y del estado del arte.",
+      "Definición del caso de aplicación.",
+      "Análisis técnico y financiero.",
+      "Conclusiones y recomendaciones."
+    ],
+    "entregable": "Trabajo de grado",
+    "nivel": "intermedio",
+    "prerrequisitos": "Ninguno",
+    "estado": "abierto",
+    "fecha_apertura": "2026-07-01",
+    "fecha_estado": "2026-07-01",
+    "estudiante": null,
+    "desbloquea": [],
+    "complementa": [],
+    "notas_admin": "Fase 1 de medición inteligente. Fase siguiente: dashboard de consumo y detección de fugas."
+  },
+  {
+    "id": "alertas-calidad-agua-datos",
+    "titulo": "Alertas tempranas de calidad del agua: datos y línea base",
+    "linea": "IA y calidad del agua",
+    "familia": "C",
+    "resumen": "Consolidar datos abiertos de calidad del agua (IDEAM, SUI) y construir una línea base con análisis exploratorio, como primer paso hacia un sistema de alerta temprana.",
+    "que_lograras": "Un conjunto de datos ordenado y una línea base lista para modelar.",
+    "por_que_importa": "Sin datos consolidados no hay alerta temprana posible; este es el cimiento.",
+    "objetivos": [
+      "Reunir y depurar datos abiertos de calidad del agua.",
+      "Construir una línea base de los parámetros críticos.",
+      "Documentar el conjunto de datos para su reutilización."
+    ],
+    "plan_trabajo": [
+      "Descarga y limpieza de datos abiertos.",
+      "Análisis exploratorio de los parámetros críticos.",
+      "Construcción de la línea base.",
+      "Documentación y entrega del conjunto de datos."
+    ],
+    "entregable": "Trabajo de grado",
+    "nivel": "intermedio",
+    "prerrequisitos": "Bases de programación (deseable)",
+    "estado": "abierto",
+    "fecha_apertura": "2026-07-01",
+    "fecha_estado": "2026-07-01",
+    "estudiante": null,
+    "desbloquea": [],
+    "complementa": [],
+    "notas_admin": "Fase 1 de la línea doctoral de alertas tempranas. Fase siguiente: modelo predictivo y dashboard."
+  },
+  {
+    "id": "qual2k-sintetico",
+    "titulo": "Modelación con QUAL2K: datos sintéticos",
+    "linea": "Modelación de cuencas",
+    "familia": "C",
+    "resumen": "Dominar el modelo QUAL2K de calidad del agua en corrientes usando datos sintéticos, para preparar el terreno antes de aplicarlo a una cuenca real.",
+    "que_lograras": "Manejo del modelo y un caso sintético bien documentado.",
+    "por_que_importa": "Es la base para escalar después a microcuencas y macrocuencas reales.",
+    "objetivos": [
+      "Configurar el modelo QUAL2K con un caso sintético.",
+      "Analizar la respuesta del modelo ante distintos escenarios.",
+      "Documentar el procedimiento de modelación."
+    ],
+    "plan_trabajo": [
+      "Estudio del modelo y sus variables.",
+      "Montaje del caso sintético.",
+      "Simulación de escenarios.",
+      "Análisis y documentación."
+    ],
+    "entregable": "Trabajo de grado",
+    "nivel": "intermedio",
+    "prerrequisitos": "Ninguno",
+    "estado": "abierto",
+    "fecha_apertura": "2026-07-01",
+    "fecha_estado": "2026-07-01",
+    "estudiante": null,
+    "desbloquea": ["qual2k-microcuenca-real"],
+    "complementa": [],
+    "notas_admin": "Fase 1 de modelación de cuencas. Al completar, se abre la microcuenca real."
+  },
+  {
+    "id": "qual2k-microcuenca-real",
+    "titulo": "Modelación con QUAL2K: microcuenca real",
+    "linea": "Modelación de cuencas",
+    "familia": "C",
+    "resumen": "Aplicar el modelo QUAL2K a una microcuenca real con datos de campo, para evaluar la capacidad de asimilación de la corriente y apoyar decisiones de vertimiento.",
+    "que_lograras": "Un modelo calibrado de una microcuenca real y su interpretación.",
+    "por_que_importa": "Traduce el manejo del modelo en una herramienta de decisión sobre vertimientos.",
+    "objetivos": [
+      "Recolectar los datos de campo de la microcuenca.",
+      "Calibrar el modelo QUAL2K para la microcuenca.",
+      "Evaluar la capacidad de asimilación de la corriente."
+    ],
+    "plan_trabajo": [
+      "Levantamiento de datos de campo.",
+      "Calibración del modelo.",
+      "Simulación de escenarios de vertimiento.",
+      "Análisis y entrega de resultados."
+    ],
+    "entregable": "Trabajo de grado",
+    "nivel": "avanzado",
+    "prerrequisitos": "QUAL2K (fase anterior o equivalente)",
+    "estado": "bloqueado",
+    "fecha_apertura": null,
+    "fecha_estado": "2026-07-01",
+    "estudiante": null,
+    "desbloquea": [],
+    "complementa": [],
+    "notas_admin": "Fase 2 de modelación de cuencas. Se abre automáticamente al completar el caso sintético. Crece hacia macrocuencas."
+  },
+  {
+    "id": "ras-rural-zona-1",
+    "titulo": "Aplicación del RAS en acueductos rurales: zona 1",
+    "linea": "Acueductos rurales",
+    "familia": "C",
+    "resumen": "Aplicar el Reglamento del sector de agua potable y saneamiento (RAS) a un acueducto rural con características propias, documentando las dificultades y los ajustes necesarios frente al enfoque urbano.",
+    "que_lograras": "Un diagnóstico de la aplicación del RAS en tu zona y aportes para mejorarlo.",
+    "por_que_importa": "El RAS está pensado para lo urbano; el mundo rural necesita adaptaciones.",
+    "objetivos": [
+      "Caracterizar el acueducto rural de la zona asignada.",
+      "Evaluar la aplicación del RAS en ese contexto.",
+      "Documentar dificultades y propuestas de ajuste."
+    ],
+    "plan_trabajo": [
+      "Caracterización del acueducto y su contexto.",
+      "Contraste con los requisitos del RAS.",
+      "Identificación de brechas y ajustes.",
+      "Análisis y entrega de resultados."
+    ],
+    "entregable": "Trabajo de grado",
+    "nivel": "intermedio",
+    "prerrequisitos": "Ninguno",
+    "estado": "abierto",
+    "fecha_apertura": "2026-07-01",
+    "fecha_estado": "2026-07-01",
+    "estudiante": null,
+    "desbloquea": [],
+    "complementa": [],
+    "notas_admin": "Fase 1 (lote paralelo por zonas, cada zona con características distintas). La integración hacia una guía rural la hace Pablo."
+  },
+  {
+    "id": "ras-rural-zona-2",
+    "titulo": "Aplicación del RAS en acueductos rurales: zona 2",
+    "linea": "Acueductos rurales",
+    "familia": "C",
+    "resumen": "Aplicar el RAS a un acueducto rural de otra zona con características diferentes, con el mismo enfoque, para acumular experiencias comparables que alimenten una guía adaptada al contexto rural.",
+    "que_lograras": "Otro caso documentado que suma a la guía rural en construcción.",
+    "por_que_importa": "Comparar varias zonas es lo que permite proponer una adaptación sólida del RAS.",
+    "objetivos": [
+      "Caracterizar el acueducto rural de la zona asignada.",
+      "Evaluar la aplicación del RAS en ese contexto.",
+      "Documentar dificultades y propuestas de ajuste."
+    ],
+    "plan_trabajo": [
+      "Caracterización del acueducto y su contexto.",
+      "Contraste con los requisitos del RAS.",
+      "Identificación de brechas y ajustes.",
+      "Análisis y entrega de resultados."
+    ],
+    "entregable": "Trabajo de grado",
+    "nivel": "intermedio",
+    "prerrequisitos": "Ninguno",
+    "estado": "abierto",
+    "fecha_apertura": "2026-07-01",
+    "fecha_estado": "2026-07-01",
+    "estudiante": null,
+    "desbloquea": [],
+    "complementa": [],
+    "notas_admin": "Fase 1 (lote paralelo por zonas). La zona debe ser distinta a la zona 1 para no duplicar."
+  },
+  {
+    "id": "planes-gestion-metro-aire",
+    "titulo": "Evaluación de planes de gestión ambiental: Metro de Bogotá (aire)",
+    "linea": "Gestión ambiental",
+    "familia": "C",
+    "resumen": "Evaluar el plan de manejo ambiental del Metro de Bogotá con foco en calidad del aire, a partir de documentos públicos, usando una rúbrica común de auditoría.",
+    "que_lograras": "Una auditoría estructurada de un megaproyecto real.",
+    "por_que_importa": "Construye una base comparable de casos para mejorar cómo se evalúan estos planes.",
+    "objetivos": [
+      "Revisar el plan de manejo ambiental en el componente aire.",
+      "Aplicar la rúbrica de auditoría del estudio.",
+      "Documentar hallazgos y recomendaciones."
+    ],
+    "plan_trabajo": [
+      "Recopilación de documentos públicos.",
+      "Aplicación de la rúbrica de auditoría.",
+      "Registro de hallazgos.",
+      "Análisis y entrega de resultados."
+    ],
+    "entregable": "Trabajo de grado",
+    "nivel": "introductorio",
+    "prerrequisitos": "Ninguno",
+    "estado": "abierto",
+    "fecha_apertura": "2026-07-01",
+    "fecha_estado": "2026-07-01",
+    "estudiante": null,
+    "desbloquea": [],
+    "complementa": [],
+    "notas_admin": "Fase 1 (lote paralelo por sistema de transporte). Cada cupo = un sistema distinto para no duplicar."
+  },
+  {
+    "id": "planes-gestion-transmilenio",
+    "titulo": "Evaluación de planes de gestión ambiental: TransMilenio",
+    "linea": "Gestión ambiental",
+    "familia": "C",
+    "resumen": "Evaluar la gestión ambiental de TransMilenio con la misma rúbrica de auditoría, para sumar un caso comparable al banco de casos del estudio.",
+    "que_lograras": "Una auditoría de otro sistema de transporte, comparable con las demás.",
+    "por_que_importa": "Varios casos bajo la misma rúbrica permiten un análisis de conjunto más fuerte.",
+    "objetivos": [
+      "Revisar la gestión ambiental del sistema.",
+      "Aplicar la rúbrica de auditoría del estudio.",
+      "Documentar hallazgos y recomendaciones."
+    ],
+    "plan_trabajo": [
+      "Recopilación de documentos públicos.",
+      "Aplicación de la rúbrica de auditoría.",
+      "Registro de hallazgos.",
+      "Análisis y entrega de resultados."
+    ],
+    "entregable": "Trabajo de grado",
+    "nivel": "introductorio",
+    "prerrequisitos": "Ninguno",
+    "estado": "abierto",
+    "fecha_apertura": "2026-07-01",
+    "fecha_estado": "2026-07-01",
+    "estudiante": null,
+    "desbloquea": [],
+    "complementa": [],
+    "notas_admin": "Fase 1 (lote paralelo por sistema de transporte)."
+  },
+  {
+    "id": "humedales-bogota-kennedy",
+    "titulo": "Humedales de Bogotá: diagnóstico de la zona Kennedy",
+    "linea": "Humedales urbanos",
+    "familia": "C",
+    "resumen": "Levantar el estado actual y la gestión de los humedales de una zona de la ciudad, con un protocolo común para que los datos de varios estudiantes se puedan comparar y unir.",
+    "que_lograras": "Un diagnóstico riguroso de tu zona y ser parte de un estudio que crece hacia toda Bogotá.",
+    "por_que_importa": "Los humedales son clave para la regulación hídrica urbana y hoy falta información consolidada.",
+    "objetivos": [
+      "Caracterizar el estado físico y ambiental de los humedales de la zona.",
+      "Revisar los instrumentos de gestión existentes.",
+      "Registrar los datos en el formato estándar del estudio."
+    ],
+    "plan_trabajo": [
+      "Revisión de fuentes y visita de campo.",
+      "Levantamiento con la ficha estándar.",
+      "Organización de datos y evidencia fotográfica.",
+      "Entrega del diagnóstico y hallazgos."
+    ],
+    "entregable": "Trabajo de grado",
+    "nivel": "introductorio",
+    "prerrequisitos": "Ninguno",
+    "estado": "abierto",
+    "fecha_apertura": "2026-07-01",
+    "fecha_estado": "2026-07-01",
+    "estudiante": null,
+    "desbloquea": [],
+    "complementa": [],
+    "notas_admin": "Fase 1 (lote paralelo por zonas, cada zona distinta). La unión por ciudad la hace Pablo; luego otras ciudades/países."
+  }
+]

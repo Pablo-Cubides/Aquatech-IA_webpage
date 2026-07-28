@@ -1,11 +1,13 @@
 "use client";
 import React, { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { usePortalTheme } from "@/lib/hooks/usePortalTheme";
 import QuestionWheel from "../QuestionWheel";
 
 function JuegoContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const theme = usePortalTheme();
   const [questions, setQuestions] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
@@ -73,24 +75,15 @@ function JuegoContent() {
   }, [loadQuestions]);
 
   const handleBack = () => {
-    router.push("/ia/autor/herramientas/ruleta-academica");
+    router.push(`${theme.portalBase}/autor/herramientas/ruleta-academica`);
   };
 
   if (isLoading) {
     return (
-      <div
-        className="min-h-screen flex items-center justify-center"
-        style={{ backgroundColor: "var(--background-dark)" }}
-      >
+      <div className={`min-h-screen flex items-center justify-center ${theme.bgMain}`}>
         <div className="flex flex-col items-center gap-4">
-          <div
-            className="animate-spin rounded-full h-16 w-16 border-b-4"
-            style={{ borderColor: "var(--primary-cyan)" }}
-          ></div>
-          <span
-            className="text-xl font-semibold"
-            style={{ color: "var(--text-primary)" }}
-          >
+          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-[#0077B6]"></div>
+          <span className={`text-xl font-semibold ${theme.textPrimary}`}>
             Cargando preguntas...
           </span>
         </div>
@@ -100,34 +93,18 @@ function JuegoContent() {
 
   if (error || questions.length === 0) {
     return (
-      <div
-        className="min-h-screen flex items-center justify-center px-4"
-        style={{ backgroundColor: "var(--background-dark)" }}
-      >
-        <div
-          className="max-w-lg w-full p-8 rounded-xl border text-center"
-          style={{
-            backgroundColor: "var(--background-light)",
-            borderColor: "#ef4444",
-          }}
-        >
+      <div className={`min-h-screen flex items-center justify-center px-4 ${theme.bgMain}`}>
+        <div className={`max-w-lg w-full p-8 rounded-xl border text-center ${theme.bgCard} border-red-500`}>
           <div className="text-6xl mb-4">⚠️</div>
-          <h2 className="text-2xl font-bold mb-4" style={{ color: "#ef4444" }}>
+          <h2 className="text-2xl font-bold mb-4 text-red-500">
             Error al cargar preguntas
           </h2>
-          <p
-            className="mb-6 opacity-80"
-            style={{ color: "var(--text-primary)" }}
-          >
+          <p className={`mb-6 opacity-80 ${theme.textPrimary}`}>
             {error || "No se encontraron preguntas para este conjunto"}
           </p>
           <button
             onClick={handleBack}
-            className="px-6 py-3 rounded-lg font-bold text-lg"
-            style={{
-              backgroundColor: "var(--primary-cyan)",
-              color: "var(--background-dark)",
-            }}
+            className={`px-6 py-3 rounded-lg font-bold text-lg ${theme.btnPrimary}`}
           >
             ← Volver al inicio
           </button>
@@ -137,29 +114,19 @@ function JuegoContent() {
   }
 
   return (
-    <div
-      className="min-h-screen py-8 px-4"
-      style={{ backgroundColor: "var(--background-dark)" }}
-    >
+    <div className={`min-h-screen py-8 px-4 ${theme.bgMain} transition-colors duration-300`}>
       <div className="max-w-6xl mx-auto">
         <div className="mb-6 flex items-center justify-between">
           <button
             onClick={handleBack}
-            className="px-4 py-2 rounded-lg font-semibold transition-colors flex items-center gap-2"
-            style={{
-              backgroundColor: "var(--background-light)",
-              color: "var(--primary-cyan)",
-            }}
+            className={`px-4 py-2 rounded-lg font-semibold transition-colors flex items-center gap-2 ${theme.btnSecondary}`}
           >
             ← Volver
           </button>
-          <h1
-            className="text-3xl font-bold"
-            style={{ color: "var(--primary-cyan)" }}
-          >
+          <h1 className={`text-3xl font-bold ${theme.textAccent}`}>
             {setName}
           </h1>
-          <div className="w-24"></div> {/* Spacer for centering */}
+          <div className="w-24"></div>
         </div>
 
         <QuestionWheel questions={questions} />

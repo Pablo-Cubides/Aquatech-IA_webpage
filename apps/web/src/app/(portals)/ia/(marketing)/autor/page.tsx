@@ -870,6 +870,42 @@ export default function IAAutorPage() {
                   Abrir Aula Score
                 </Link>
               </article>
+
+              {/* Proyectos de Investigación */}
+              <article className="bg-[#10111A] rounded-2xl p-6 border border-[rgba(0,239,255,0.1)] hover:border-[#00efff] transition-all duration-300 hover:shadow-lg group">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-[#0095FF] to-[#00efff] flex items-center justify-center">
+                    <Brain className="w-6 h-6 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold group-hover:text-[#00efff] transition-colors">
+                    Proyectos de Investigación
+                  </h3>
+                </div>
+                <p className="text-[#CCCCCC] mb-6 leading-relaxed">
+                  Explora cupos abiertos de trabajos de grado y genera borradores de correo para reunirte con Pablo.
+                </p>
+                <div className="mb-6 space-y-3">
+                  <div className="flex items-center gap-2 text-sm">
+                    <div className="w-2 h-2 rounded-full bg-[#00efff]"></div>
+                    <span>Cupos actualizados</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <div className="w-2 h-2 rounded-full bg-[#0095FF]"></div>
+                    <span>Borrador Outlook automático</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <div className="w-2 h-2 rounded-full bg-[#00efff]"></div>
+                    <span>Líneas de agua & IA</span>
+                  </div>
+                </div>
+                <Link
+                  href="/ia/autor/herramientas/proyectos-investigacion"
+                  className="inline-flex items-center gap-2 w-full justify-center bg-gradient-to-r from-[#0095FF] to-[#00efff] text-white font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-opacity"
+                >
+                  <Brain className="w-4 h-4" />
+                  Ver Proyectos Abiertos
+                </Link>
+              </article>
             </div>
           </div>
         </section>

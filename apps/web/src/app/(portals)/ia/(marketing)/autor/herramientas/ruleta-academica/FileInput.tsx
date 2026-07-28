@@ -141,15 +141,16 @@ const FileInput = ({
       return;
     }
 
+    const portalBase = typeof window !== "undefined" && window.location.pathname.startsWith("/ambiental") ? "/ambiental" : "/ia";
     if (playAfterUpload) {
       try {
         const questions = await parseQuestionsFromFile(file);
         try {
           sessionStorage.setItem("tempQuestions", JSON.stringify(questions));
-          window.location.href = `/ia/autor/herramientas/ruleta-academica/juego?temp=1`;
+          window.location.href = `${portalBase}/autor/herramientas/ruleta-academica/juego?temp=1`;
         } catch (e) {
           const encoded = encodeURIComponent(JSON.stringify(questions));
-          window.location.href = `/ia/autor/herramientas/ruleta-academica/juego?questions=${encoded}`;
+          window.location.href = `${portalBase}/autor/herramientas/ruleta-academica/juego?questions=${encoded}`;
         }
       } catch (err) {
         const message =
@@ -178,16 +179,17 @@ const FileInput = ({
   };
 
   const handlePlayClick = async () => {
+    const portalBase = typeof window !== "undefined" && window.location.pathname.startsWith("/ambiental") ? "/ambiental" : "/ia";
     if (selectedSet) {
-      window.location.href = `/ia/autor/herramientas/ruleta-academica/juego?id=${selectedSet}`;
+      window.location.href = `${portalBase}/autor/herramientas/ruleta-academica/juego?id=${selectedSet}`;
     } else if (fileQuestions.length > 0) {
       const encoded = encodeURIComponent(JSON.stringify(fileQuestions));
-      window.location.href = `/ia/autor/herramientas/ruleta-academica/juego?questions=${encoded}`;
+      window.location.href = `${portalBase}/autor/herramientas/ruleta-academica/juego?questions=${encoded}`;
     } else if (file) {
       try {
         const questions = await parseQuestionsFromFile(file);
         sessionStorage.setItem("tempQuestions", JSON.stringify(questions));
-        window.location.href = `/ia/autor/herramientas/ruleta-academica/juego?temp=1`;
+        window.location.href = `${portalBase}/autor/herramientas/ruleta-academica/juego?temp=1`;
       } catch (err) {
         await handleUpload(true);
       }
