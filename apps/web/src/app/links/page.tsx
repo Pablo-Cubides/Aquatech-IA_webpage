@@ -18,13 +18,13 @@ export default function LinkHubPage() {
       <div className="w-full max-w-md mx-auto flex flex-col items-center">
         {/* Brand Header */}
         <div className="text-center mb-6">
-          <div className="relative w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-cyan-400 p-1 shadow-xl bg-slate-900 flex items-center justify-center">
+          <div className="relative w-28 h-28 mx-auto mb-4 rounded-full overflow-hidden border-2 border-cyan-400/80 shadow-2xl p-0.5 bg-slate-900 flex items-center justify-center">
             <Image
-              src="/logo.svg"
-              alt="Aquatech IA Logo"
-              width={80}
-              height={80}
-              className="object-contain"
+              src="/images/aquatech-ia-avatar.png"
+              alt="Aquatech IA Avatar"
+              width={112}
+              height={112}
+              className="object-cover rounded-full w-full h-full"
               priority
               onError={(e) => {
                 e.currentTarget.src = "/favicon.ico";
@@ -159,7 +159,7 @@ export default function LinkHubPage() {
             </span>
           </Link>
 
-          {/* Instagram con Logo Vectorial */}
+          {/* Instagram con Logo Oficial */}
           <a
             href="https://www.instagram.com/aquatech_ia/"
             target="_blank"
@@ -171,13 +171,14 @@ export default function LinkHubPage() {
             }`}
           >
             <div className="flex items-center gap-3.5">
-              <div className="p-2.5 rounded-xl bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-white flex items-center justify-center">
+              <div className="p-2.5 rounded-xl bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-white flex items-center justify-center shadow-md">
                 <svg
-                  className="w-5 h-5 fill-current"
-                  viewBox="0 0 256 256"
-                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-5 h-5 fill-none stroke-current stroke-[2]"
+                  viewBox="0 0 24 24"
                 >
-                  <path d="M172,36H84A48.05,48.05,0,0,0,36,84v88a48.05,48.05,0,0,0,48,48h88a48.05,48.05,0,0,0,48-48V84A48.05,48.05,0,0,0,172,36Zm32,136a32,32,0,0,1-32,32H84a32,32,0,0,1-32-32V84A32,32,0,0,1,84,52h88a32,32,0,0,1,32,32ZM128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm60-88a8,8,0,1,1-8-8A8,8,0,0,1,188,72Z" />
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
                 </svg>
               </div>
               <div className="text-left">
@@ -194,7 +195,7 @@ export default function LinkHubPage() {
             </span>
           </a>
 
-          {/* Facebook con Logo Vectorial */}
+          {/* Facebook con Logo Oficial "f" */}
           <a
             href="https://www.facebook.com/Aquatechia/"
             target="_blank"
@@ -206,13 +207,9 @@ export default function LinkHubPage() {
             }`}
           >
             <div className="flex items-center gap-3.5">
-              <div className="p-2.5 rounded-xl bg-[#1877F2] text-white flex items-center justify-center">
-                <svg
-                  className="w-5 h-5 fill-current"
-                  viewBox="0 0 256 256"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm8,184V136h24a8,8,0,0,0,0-16H136V104a16,16,0,0,1,16-16h8a8,8,0,0,0,0-16h-8a32,32,0,0,0-32,32v16H96a8,8,0,0,0,0,16h24v72a8,8,0,0,0,16,0Z" />
+              <div className="p-2.5 rounded-xl bg-[#1877F2] text-white flex items-center justify-center shadow-md">
+                <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                 </svg>
               </div>
               <div className="text-left">
@@ -229,7 +226,7 @@ export default function LinkHubPage() {
             </span>
           </a>
 
-          {/* X (Twitter) con Logo Vectorial */}
+          {/* X (Twitter) con Logo Oficial "X" */}
           <a
             href="https://x.com/Aquatech_ia"
             target="_blank"
@@ -241,11 +238,10 @@ export default function LinkHubPage() {
             }`}
           >
             <div className="flex items-center gap-3.5">
-              <div className="p-2.5 rounded-xl bg-black text-white border border-gray-700 flex items-center justify-center">
+              <div className="p-2.5 rounded-xl bg-black text-white border border-gray-700 flex items-center justify-center shadow-md">
                 <svg
-                  className="w-5 h-5 fill-current"
+                  className="w-4 h-4 fill-current"
                   viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                 </svg>
