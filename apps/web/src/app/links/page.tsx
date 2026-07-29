@@ -133,6 +133,33 @@ export default function LinkHubPage() {
             </span>
           </Link>
 
+          {/* Perfil del Autor (Pablo Cubides) */}
+          <Link
+            href="/ambiental/autor"
+            className={`group w-full p-4 rounded-2xl border transition-all duration-300 flex items-center justify-between shadow-lg hover:scale-[1.02] ${
+              isIA
+                ? "bg-gradient-to-r from-slate-900 to-purple-950/70 border-purple-500/40 hover:border-purple-400"
+                : "bg-white border-slate-200 hover:border-purple-500"
+            }`}
+          >
+            <div className="flex items-center gap-3.5">
+              <span className="text-2xl p-2 rounded-xl bg-purple-500/10 text-purple-400">
+                👤
+              </span>
+              <div className="text-left">
+                <h3 className="font-bold text-sm leading-tight">
+                  Perfil del Autor — Pablo Cubides
+                </h3>
+                <span className="text-[11px] opacity-75 font-normal">
+                  Trayectoria, proyectos y herramientas educativas
+                </span>
+              </div>
+            </div>
+            <span className="text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity text-purple-400">
+              Ver Perfil →
+            </span>
+          </Link>
+
           {/* Instagram */}
           <a
             href="https://www.instagram.com/aquatech_ia/"
@@ -219,62 +246,6 @@ export default function LinkHubPage() {
               Seguir ↗
             </span>
           </a>
-
-          {/* YouTube */}
-          <a
-            href="https://www.youtube.com/@AquatechIA"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`group w-full p-4 rounded-2xl border transition-all duration-300 flex items-center justify-between shadow-md hover:scale-[1.02] ${
-              isIA
-                ? "bg-slate-900/90 border-red-500/30 hover:border-red-500"
-                : "bg-white border-slate-200 hover:border-red-600"
-            }`}
-          >
-            <div className="flex items-center gap-3.5">
-              <span className="text-2xl p-2 rounded-xl bg-red-500/10 text-red-500">
-                ▶️
-              </span>
-              <div className="text-left">
-                <h3 className="font-bold text-sm leading-tight">
-                  YouTube Aquatech IA
-                </h3>
-                <span className="text-[11px] opacity-75 font-normal">
-                  @AquatechIA • Tutoriales, ponencias y clases grabadas
-                </span>
-              </div>
-            </div>
-            <span className="text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity text-red-500">
-              Suscribirse ↗
-            </span>
-          </a>
-
-          {/* Proyectos de Investigación */}
-          <Link
-            href="/ia/autor/herramientas/proyectos-investigacion"
-            className={`group w-full p-4 rounded-2xl border transition-all duration-300 flex items-center justify-between shadow-lg hover:scale-[1.02] ${
-              isIA
-                ? "bg-gradient-to-r from-slate-900 to-purple-950/70 border-purple-500/40 hover:border-purple-400"
-                : "bg-white border-slate-200 hover:border-purple-500"
-            }`}
-          >
-            <div className="flex items-center gap-3.5">
-              <span className="text-2xl p-2 rounded-xl bg-purple-500/10 text-purple-400">
-                🎓
-              </span>
-              <div className="text-left">
-                <h3 className="font-bold text-sm leading-tight">
-                  Proyectos de Investigación Abiertos
-                </h3>
-                <span className="text-[11px] opacity-75 font-normal">
-                  Cupos de trabajos de grado con Pablo Cubides
-                </span>
-              </div>
-            </div>
-            <span className="text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity text-purple-400">
-              Ver Cupos →
-            </span>
-          </Link>
         </div>
       </div>
 
