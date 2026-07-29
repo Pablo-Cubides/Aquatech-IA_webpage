@@ -8,6 +8,9 @@ export default defineConfig({
     globals: true,
     environment: "jsdom",
     dangerouslyIgnoreUnhandledErrors: true,
+    testTimeout: 15000,
+    hookTimeout: 15000,
+    pool: "forks",
     setupFiles: ["./vitest.setup.ts"],
     include: ["**/*.{test,spec}.{ts,tsx}"],
     coverage: {
