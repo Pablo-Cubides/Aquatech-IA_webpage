@@ -223,7 +223,7 @@ export function sampleWithTemperature(
     r -= a.score;
     if (r <= 0) return a.token;
   }
-  return adjusted[adjusted.length - 1].token;
+  return adjusted[adjusted.length - 1]?.token || probabilities[0]?.token || '';
 }
 
 export function sampleNextToken(
