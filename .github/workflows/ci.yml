@@ -156,7 +156,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run tests with coverage
-        run: pnpm test -- -- --coverage --reporter=json --reporter=default
+        run: pnpm --filter web run test -- --coverage --reporter=json --reporter=default
         env:
           NODE_ENV: test
 
