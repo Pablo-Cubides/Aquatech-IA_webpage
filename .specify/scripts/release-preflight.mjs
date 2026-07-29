@@ -44,7 +44,7 @@ console.log(`   Running before push to main. See: .specify/templates/release-spe
 console.log(`\x1b[1mCode Quality\x1b[0m`);
 run("TypeScript typecheck", "pnpm typecheck");
 run("ESLint lint", "pnpm lint");
-run("Tests", "pnpm test");
+run("Tests", "pnpm --filter web run test");
 run("Web smoke build", "pnpm run build --filter @ia-next/web");
 
 console.log(`\n\x1b[1mContent & Assets\x1b[0m`);
