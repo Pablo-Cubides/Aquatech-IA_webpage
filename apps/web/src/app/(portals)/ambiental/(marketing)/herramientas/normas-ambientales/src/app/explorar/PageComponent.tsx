@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
 import {
   ArrowLeft,
   Search,
@@ -343,7 +343,7 @@ function ExplorarContent() {
                         <div className="flex items-center gap-2">
                           {getCountryIsoCode(countryInfo.code) ? (
                             <img 
-                              src={`https://flagcdn.com/w20/${getCountryIsoCode(countryInfo.code)!.toLowerCase()}.png`} 
+                              src={`https://flagcdn.com/w20/${(getCountryIsoCode(countryInfo.code) || "").toLowerCase()}.png`} 
                               width={20} 
                               height={15} 
                               alt={countryInfo.code} 

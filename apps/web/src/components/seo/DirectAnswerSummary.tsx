@@ -6,7 +6,7 @@ interface DirectAnswerSummaryProps {
    */
   text: string;
   className?: string;
-  as?: keyof JSX.IntrinsicElements;
+  as?: React.ElementType;
 }
 
 /**
@@ -23,3 +23,4 @@ export function DirectAnswerSummary({ text, className = "", as: Component = "p" 
     </Component>
   );
 }
+

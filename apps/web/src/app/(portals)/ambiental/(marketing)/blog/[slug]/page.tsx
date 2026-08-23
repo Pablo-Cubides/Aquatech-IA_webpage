@@ -6,7 +6,6 @@ import { notFound } from "next/navigation";
 import { getArticle, getAllArticles } from "@/lib/blog-articles";
 import { generateArticleSchema } from "@/lib/blog-seo";
 import { renderSafeRichText } from "@/lib/security/safe-rich-text";
-import { DirectAnswerSummary } from "@/components/seo/DirectAnswerSummary";
 import { SITE_URL } from "@/lib/site-config";
 
 interface PageProps {

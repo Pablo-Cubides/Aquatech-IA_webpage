@@ -30,8 +30,8 @@ import { logger } from "@/lib/logger";
 import { getParameterLegendRanges } from "../lib/openaq";
 import { searchOccurrences, getTaxonColor } from "@/lib/gbif";
 import { searchStations, getSiteTypeColor, US_STATES } from "@/lib/wqp";
-import { getEarthquakes } from "@/lib/usgs";
-import { getActiveFires } from "@/lib/firms";
+import { getEarthquakes, type USGSEarthquakeParams } from "@/lib/usgs";
+import { getActiveFires, type FIRMSParams } from "@/lib/firms";
 import { getWeatherDescription } from "@/lib/openmeteo";
 
 // Dynamically import MapComponent to avoid SSR issues
@@ -72,15 +72,21 @@ export default function HomePage() {
   const [gbifData, setGbifData] = useState<GeoJSONFeature[]>([]);
   const [showGBIFLayer, setShowGBIFLayer] = useState(false);
   const [gbifFilters, setGbifFilters] = useState<GBIFFilters>({});
+interface WQPResultItem {
+  CharacteristicName?: string;
+  ResultMeasureValue?: string | number;
+  ResultMeasure_MeasureUnitCode?: string;
+  ActivityStartDate?: string;
+}
+
   const [wqpData, setWqpData] = useState<GeoJSONFeature[]>([]);
   const [showWQPLayer, setShowWQPLayer] = useState(false);
   const [wqpFilters, setWqpFilters] = useState<WQPFilters>({
     statecode: "US:06",
   }); // Default to California
-  const [wqpResults, setWqpResults] = useState<any[]>([]);
+  const [wqpResults, setWqpResults] = useState<WQPResultItem[]>([]);
   const [loadingWqpResults, setLoadingWqpResults] = useState(false);
   const [showOpenMeteoLayer, setShowOpenMeteoLayer] = useState(false);
-  const [openMeteoData, setOpenMeteoData] = useState<any>(null);
   const [loadingWeather, setLoadingWeather] = useState(false);
   const [usgsData, setUsgsData] = useState<GeoJSONFeature[]>([]);
   const [showUSGSLayer, setShowUSGSLayer] = useState(false);
@@ -697,8 +703,8 @@ export default function HomePage() {
       try {
         setLoading(true);
         const features = await getEarthquakes({
-          period: usgsFilters.period as any,
-          minMagnitude: usgsFilters.minMagnitude as any,
+          period: usgsFilters.period as USGSEarthquakeParams["period"],
+          minMagnitude: usgsFilters.minMagnitude as USGSEarthquakeParams["minMagnitude"],
         });
         setUsgsData(features);
       } catch (error) {
@@ -722,8 +728,8 @@ export default function HomePage() {
       try {
         setLoading(true);
         const features = await getActiveFires({
-          source: firmsFilters.source as any,
-          dayRange: firmsFilters.dayRange as any,
+          source: firmsFilters.source as FIRMSParams["source"],
+          dayRange: firmsFilters.dayRange as FIRMSParams["dayRange"],
         });
         setFirmsData(features);
       } catch (error) {
@@ -737,10 +743,10 @@ export default function HomePage() {
   }, [showFIRMSLayer, firmsFilters]);
 
   const handleUploadComplete = (data: {
-    metadata: any;
+    metadata: { name: string; description?: string };
     features: GeoJSONFeature[];
   }) => {
-    logger.info("Upload completed successfully", data.metadata.name);
+    logger.info("Upload completed successfully", { datasetName: data.metadata.name });
     setShowUploadWizard(false);
 
     // Create a new dataset metadata
@@ -751,7 +757,15 @@ export default function HomePage() {
       owner_id: user?.id || "anonymous",
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
-      column_mapping: {} as any, // Not strictly needed for display
+      column_mapping: {
+        lat: "lat",
+        lon: "lon",
+        fecha: "fecha",
+        pais: "pais",
+        departamento: "departamento",
+        ciudad: "ciudad",
+        parameters: {},
+      },
       available_dates: [new Date().toISOString().split("T")[0]],
       parameters: Object.keys(data.features[0]?.properties || {}).filter(
         (k) => !["id", "fecha", "pais", "departamento", "ciudad", "source"].includes(k)
@@ -1379,7 +1393,7 @@ export default function HomePage() {
                 {selectedFeature.properties._layerType === "openmeteo" ? (
                   /* Open-Meteo Weather Data */
                   (() => {
-                    const w = selectedFeature.properties.weather as any;
+                    const w = selectedFeature.properties.weather as { current?: { weather_code?: number; temperature_2m?: number; apparent_temperature?: number; relative_humidity_2m?: number; wind_speed_10m?: number; precipitation?: number; cloud_cover?: number }; elevation?: number } | undefined;
                     const current = w?.current;
                     let weatherDesc = { text: "Cargando...", icon: "⏳" };
                     if (current?.weather_code !== undefined) {
@@ -1448,7 +1462,7 @@ export default function HomePage() {
                         <p className="text-sm flex items-center gap-2">
                           <span className="font-medium">Fecha:</span>{" "}
                           {String(selectedFeature.properties._dateFormatted || "N/A")}
-                          {selectedFeature.properties._isRecent as any && (
+                          {Boolean(selectedFeature.properties._isRecent) && (
                             <span className="px-1.5 py-0.5 rounded-full bg-green-100 text-green-700 text-[10px] font-bold animate-pulse">
                               RECIENTE
                             </span>
@@ -1705,7 +1719,7 @@ export default function HomePage() {
                         </div>
                       ) : wqpResults.length > 0 ? (
                         <div className="mt-2 space-y-2 max-h-48 overflow-y-auto pr-1 custom-scrollbar">
-                          {wqpResults.map((res: any, idx: number) => (
+                          {wqpResults.map((res, idx: number) => (
                             <div key={idx} className="bg-gray-50 p-2 rounded-lg border border-gray-100 text-sm">
                               <div className="flex justify-between font-medium">
                                 <span className="text-gray-800">{res.CharacteristicName}</span>
@@ -1714,7 +1728,7 @@ export default function HomePage() {
                                 </span>
                               </div>
                               <div className="text-xs text-gray-500 mt-1">
-                                {new Date(res.ActivityStartDate).toLocaleDateString("es-ES")}
+                                {res.ActivityStartDate ? new Date(res.ActivityStartDate).toLocaleDateString("es-ES") : "Fecha no disponible"}
                               </div>
                             </div>
                           ))}
