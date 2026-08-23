@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
-
-const baseUrl = 'https://aquatechpro.co';
+import { SITE_URL } from '@/lib/site-config';
 
 export const metadata: Metadata = {
-  title: 'Calculadora de Índices de Calidad de Agua | IRCA, WQI, DWQI | AquatechIA',
+  title: 'Calculadora de Índices de Calidad de Agua | IRCA, WQI, DWQI',
   description:
     'Calcula índices de calidad de agua potable IRCA (Colombia), WQI (NSF) y DWQI a partir de datos de laboratorio. Resolución 2115/2007.',
   keywords: [
@@ -20,7 +19,7 @@ export const metadata: Metadata = {
     'potabilidad',
     'laboratorio de aguas',
   ],
-  authors: [{ name: 'AquatechIA', url: baseUrl }],
+  authors: [{ name: 'AquatechIA', url: SITE_URL }],
   creator: 'AquatechIA',
   publisher: 'AquatechIA',
   robots: {
@@ -35,14 +34,14 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: `${baseUrl}/ambiental/herramientas/indice-calidad-agua`,
+    canonical: `${SITE_URL}/ambiental/herramientas/indice-calidad-agua`,
   },
   openGraph: {
     title: 'Calculadora de Índices de Calidad de Agua | IRCA, WQI, DWQI',
     description:
       'Calcula índices de calidad de agua potable IRCA, WQI y DWQI a partir de datos de laboratorio.',
     type: 'website',
-    url: `${baseUrl}/ambiental/herramientas/indice-calidad-agua`,
+    url: `${SITE_URL}/ambiental/herramientas/indice-calidad-agua`,
     siteName: 'AquatechIA',
     locale: 'es_CO',
   },
@@ -51,7 +50,7 @@ export const metadata: Metadata = {
     title: 'Calculadora IRCA, WQI, DWQI',
     description:
       'Calcula índices de calidad de agua potable a partir de datos de laboratorio.',
-    creator: '@aquatechpro',
+    creator: '@aquatechia',
   },
   category: 'technology',
 };
@@ -62,7 +61,7 @@ const structuredData = {
   name: 'Calculadora de Índices de Calidad de Agua',
   description:
     'Herramienta para calcular índices de calidad de agua potable: IRCA (Resolución 2115/2007 Colombia), WQI (NSF) y DWQI',
-  url: `${baseUrl}/ambiental/herramientas/indice-calidad-agua`,
+  url: `${SITE_URL}/ambiental/herramientas/indice-calidad-agua`,
   applicationCategory: 'ScientificApplication',
   operatingSystem: 'Web Browser',
   offers: {
@@ -73,7 +72,7 @@ const structuredData = {
   provider: {
     '@type': 'Organization',
     name: 'AquatechIA',
-    url: baseUrl,
+    url: SITE_URL,
   },
   featureList: [
     'IRCA - Índice de Riesgo de Calidad del Agua (Colombia)',

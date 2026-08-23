@@ -3,9 +3,19 @@ import HeaderAmbiental from "@/components/nav/HeaderAmbiental";
 import FooterAmbiental from "@/components/nav/FooterAmbiental";
 
 export const metadata: Metadata = {
-  title: "Manual de ECOstats | AquatechIA",
+  title: "Manual de ECOstats - Análisis de Correlaciones Ambientales",
   description:
     "Guía de uso para ECOstats, la herramienta de análisis de correlaciones ambientales. Aprende sobre Pearson, Spearman y Kendall.",
+  alternates: {
+    canonical: "/guia/ecostats",
+  },
+  openGraph: {
+    title: "Manual de ECOstats - Análisis de Correlaciones Ambientales | AquatechIA",
+    description:
+      "Guía de uso para ECOstats, la herramienta de análisis de correlaciones ambientales.",
+    type: "article",
+    url: "/guia/ecostats",
+  },
 };
 
 const Section = ({
@@ -71,6 +81,9 @@ export default function GuiaECOstatsPage() {
               />
             </div>
             <div>
+              <h1 className="text-3xl md:text-4xl font-extrabold mb-4 tracking-tight">
+                Manual de ECOstats: Análisis de Correlaciones Ambientales
+              </h1>
               <p className="text-xl text-cyan-50 max-w-2xl leading-relaxed mx-auto">
                 Facilitando el análisis de datos para la investigación académica
                 y proyectos ambientales. Descubre patrones ocultos con rigor

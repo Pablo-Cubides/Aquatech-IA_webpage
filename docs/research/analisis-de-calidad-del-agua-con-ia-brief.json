@@ -1,0 +1,777 @@
+{
+  "keyword": "analisis de calidad del agua con ia",
+  "generatedAt": "2026-08-14T06:07:45.176Z",
+  "provider": "google-autocomplete-light",
+  "classifier": "local-rules",
+  "classifierNote": "Gemini no pudo clasificar; clasificacion local aplicada ({\"error\":{\"code\":503,\"message\":\"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\"status\":\"UNAVAILABLE\"}}).",
+  "country": "CO",
+  "language": "es",
+  "confidence": "high",
+  "counts": {
+    "suggestions": 37,
+    "serp": 0,
+    "clusters": 6
+  },
+  "suggestions": [
+    "analisis de calidad del agua con ia",
+    "que es analisis de calidad del agua con ia",
+    "como funciona analisis de calidad del agua con ia",
+    "como hacer analisis de calidad del agua con ia",
+    "por que analisis de calidad del agua con ia",
+    "cuando usar analisis de calidad del agua con ia",
+    "donde comprar analisis de calidad del agua con ia",
+    "cual es analisis de calidad del agua con ia",
+    "analisis de calidad del agua con ia mejor",
+    "analisis de calidad del agua con ia precio",
+    "analisis de calidad del agua con ia vs",
+    "analisis de calidad del agua con ia para",
+    "analisis de calidad del agua con ia cerca de",
+    "analisis de calidad del agua con ia en colombia",
+    "analisis de calidad del agua con ia guia",
+    "analisis de calidad del agua con ia ejemplos",
+    "analisis de calidad del agua con ia beneficios",
+    "analisis de calidad del agua con ia problemas",
+    "analisis de calidad del agua con ia errores",
+    "analisis de calidad del agua con ia alternativas",
+    "analisis de calidad del agua con ia paso a paso",
+    "analisis de calidad del agua con ia colombia",
+    "analisis de calidad del agua con ia para empresas",
+    "analisis de calidad del agua con ia para principiantes",
+    "analisis de calidad del agua con ia costos",
+    "analisis de calidad del agua con ia ventajas y desventajas",
+    "analisis de calidad del agua con ia a",
+    "analisis de calidad del agua con ia b",
+    "analisis de calidad del agua con ia c",
+    "analisis de calidad del agua con ia d",
+    "analisis de calidad del agua con ia e",
+    "analisis de calidad del agua con ia f",
+    "analisis de calidad del agua con ia g",
+    "analisis de calidad del agua con ia h",
+    "analisis de calidad del agua con ia i",
+    "analisis de calidad del agua con ia j",
+    "analisis de calidad del agua con ia k"
+  ],
+  "classifiedKeywords": [
+    {
+      "keyword": "analisis de calidad del agua con ia",
+      "intent": "informacional",
+      "stage": "descubrimiento",
+      "cluster": "tema principal",
+      "articleTitle": "Analisis de Calidad del Agua con ia: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "media"
+    },
+    {
+      "keyword": "que es analisis de calidad del agua con ia",
+      "intent": "informacional",
+      "stage": "descubrimiento",
+      "cluster": "preguntas frecuentes",
+      "articleTitle": "que es Analisis de Calidad del Agua con ia: Definicion, Usos Y Ejemplos",
+      "priority": "alta"
+    },
+    {
+      "keyword": "como funciona analisis de calidad del agua con ia",
+      "intent": "informacional",
+      "stage": "descubrimiento",
+      "cluster": "preguntas frecuentes",
+      "articleTitle": "Como Funciona Analisis de Calidad del Agua con ia: Guia Practica Paso A Paso",
+      "priority": "alta"
+    },
+    {
+      "keyword": "como hacer analisis de calidad del agua con ia",
+      "intent": "informacional",
+      "stage": "descubrimiento",
+      "cluster": "preguntas frecuentes",
+      "articleTitle": "Como Hacer Analisis de Calidad del Agua con ia: Guia Practica Paso A Paso",
+      "priority": "alta"
+    },
+    {
+      "keyword": "por que analisis de calidad del agua con ia",
+      "intent": "informacional",
+      "stage": "descubrimiento",
+      "cluster": "preguntas frecuentes",
+      "articleTitle": "por que Analisis de Calidad del Agua con ia: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "media"
+    },
+    {
+      "keyword": "cuando usar analisis de calidad del agua con ia",
+      "intent": "informacional",
+      "stage": "descubrimiento",
+      "cluster": "preguntas frecuentes",
+      "articleTitle": "Cuando Usar Analisis de Calidad del Agua con ia: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "media"
+    },
+    {
+      "keyword": "donde comprar analisis de calidad del agua con ia",
+      "intent": "transaccional",
+      "stage": "compra",
+      "cluster": "precio y compra",
+      "articleTitle": "Donde Comprar Analisis de Calidad del Agua con ia: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "alta"
+    },
+    {
+      "keyword": "cual es analisis de calidad del agua con ia",
+      "intent": "informacional",
+      "stage": "descubrimiento",
+      "cluster": "preguntas frecuentes",
+      "articleTitle": "Cual es Analisis de Calidad del Agua con ia: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "media"
+    },
+    {
+      "keyword": "analisis de calidad del agua con ia mejor",
+      "intent": "comercial",
+      "stage": "comparacion",
+      "cluster": "comparacion",
+      "articleTitle": "Analisis de Calidad del Agua con ia Mejor: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "alta"
+    },
+    {
+      "keyword": "analisis de calidad del agua con ia precio",
+      "intent": "transaccional",
+      "stage": "compra",
+      "cluster": "precio y compra",
+      "articleTitle": "Analisis de Calidad del Agua con ia Precio: Rangos, Factores Y Como Cotizar",
+      "priority": "alta"
+    },
+    {
+      "keyword": "analisis de calidad del agua con ia vs",
+      "intent": "comercial",
+      "stage": "comparacion",
+      "cluster": "comparacion",
+      "articleTitle": "Analisis de Calidad del Agua con ia vs: Diferencias Y Como Elegir",
+      "priority": "alta"
+    },
+    {
+      "keyword": "analisis de calidad del agua con ia para",
+      "intent": "informacional",
+      "stage": "descubrimiento",
+      "cluster": "casos de uso",
+      "articleTitle": "Analisis de Calidad del Agua con ia Para: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "media"
+    },
+    {
+      "keyword": "analisis de calidad del agua con ia cerca de",
+      "intent": "navegacion/local",
+      "stage": "descubrimiento",
+      "cluster": "casos de uso",
+      "articleTitle": "Analisis de Calidad del Agua con ia Cerca de: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "media"
+    },
+    {
+      "keyword": "analisis de calidad del agua con ia en colombia",
+      "intent": "informacional",
+      "stage": "descubrimiento",
+      "cluster": "casos de uso",
+      "articleTitle": "Analisis de Calidad del Agua con ia en Colombia: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "media"
+    },
+    {
+      "keyword": "analisis de calidad del agua con ia guia",
+      "intent": "informacional",
+      "stage": "descubrimiento",
+      "cluster": "tema principal",
+      "articleTitle": "Analisis de Calidad del Agua con ia Guia: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "media"
+    },
+    {
+      "keyword": "analisis de calidad del agua con ia ejemplos",
+      "intent": "informacional",
+      "stage": "descubrimiento",
+      "cluster": "tema principal",
+      "articleTitle": "Analisis de Calidad del Agua con ia Ejemplos: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "media"
+    },
+    {
+      "keyword": "analisis de calidad del agua con ia beneficios",
+      "intent": "informacional",
+      "stage": "descubrimiento",
+      "cluster": "decision y objeciones",
+      "articleTitle": "Analisis de Calidad del Agua con ia Beneficios: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "media"
+    },
+    {
+      "keyword": "analisis de calidad del agua con ia problemas",
+      "intent": "informacional",
+      "stage": "descubrimiento",
+      "cluster": "decision y objeciones",
+      "articleTitle": "Analisis de Calidad del Agua con ia Problemas: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "media"
+    },
+    {
+      "keyword": "analisis de calidad del agua con ia errores",
+      "intent": "informacional",
+      "stage": "problema urgente",
+      "cluster": "decision y objeciones",
+      "articleTitle": "Analisis de Calidad del Agua con ia Errores: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "media"
+    },
+    {
+      "keyword": "analisis de calidad del agua con ia alternativas",
+      "intent": "comercial",
+      "stage": "comparacion",
+      "cluster": "comparacion",
+      "articleTitle": "Analisis de Calidad del Agua con ia Alternativas: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "alta"
+    },
+    {
+      "keyword": "analisis de calidad del agua con ia paso a paso",
+      "intent": "informacional",
+      "stage": "descubrimiento",
+      "cluster": "tema principal",
+      "articleTitle": "Analisis de Calidad del Agua con ia Paso a Paso: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "media"
+    },
+    {
+      "keyword": "analisis de calidad del agua con ia colombia",
+      "intent": "informacional",
+      "stage": "descubrimiento",
+      "cluster": "casos de uso",
+      "articleTitle": "Analisis de Calidad del Agua con ia Colombia: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "media"
+    },
+    {
+      "keyword": "analisis de calidad del agua con ia para empresas",
+      "intent": "informacional",
+      "stage": "descubrimiento",
+      "cluster": "casos de uso",
+      "articleTitle": "Analisis de Calidad del Agua con ia Para Empresas: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "media"
+    },
+    {
+      "keyword": "analisis de calidad del agua con ia para principiantes",
+      "intent": "informacional",
+      "stage": "descubrimiento",
+      "cluster": "casos de uso",
+      "articleTitle": "Analisis de Calidad del Agua con ia Para Principiantes: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "media"
+    },
+    {
+      "keyword": "analisis de calidad del agua con ia costos",
+      "intent": "transaccional",
+      "stage": "descubrimiento",
+      "cluster": "precio y compra",
+      "articleTitle": "Analisis de Calidad del Agua con ia Costos: Rangos, Factores Y Como Cotizar",
+      "priority": "alta"
+    },
+    {
+      "keyword": "analisis de calidad del agua con ia ventajas y desventajas",
+      "intent": "informacional",
+      "stage": "descubrimiento",
+      "cluster": "decision y objeciones",
+      "articleTitle": "Analisis de Calidad del Agua con ia Ventajas y Desventajas: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "media"
+    },
+    {
+      "keyword": "analisis de calidad del agua con ia a",
+      "intent": "informacional",
+      "stage": "descubrimiento",
+      "cluster": "tema principal",
+      "articleTitle": "Analisis de Calidad del Agua con ia a: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "media"
+    },
+    {
+      "keyword": "analisis de calidad del agua con ia b",
+      "intent": "informacional",
+      "stage": "descubrimiento",
+      "cluster": "tema principal",
+      "articleTitle": "Analisis de Calidad del Agua con ia b: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "media"
+    },
+    {
+      "keyword": "analisis de calidad del agua con ia c",
+      "intent": "informacional",
+      "stage": "descubrimiento",
+      "cluster": "tema principal",
+      "articleTitle": "Analisis de Calidad del Agua con ia c: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "media"
+    },
+    {
+      "keyword": "analisis de calidad del agua con ia d",
+      "intent": "informacional",
+      "stage": "descubrimiento",
+      "cluster": "tema principal",
+      "articleTitle": "Analisis de Calidad del Agua con ia d: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "media"
+    },
+    {
+      "keyword": "analisis de calidad del agua con ia e",
+      "intent": "informacional",
+      "stage": "descubrimiento",
+      "cluster": "tema principal",
+      "articleTitle": "Analisis de Calidad del Agua con ia e: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "media"
+    },
+    {
+      "keyword": "analisis de calidad del agua con ia f",
+      "intent": "informacional",
+      "stage": "descubrimiento",
+      "cluster": "tema principal",
+      "articleTitle": "Analisis de Calidad del Agua con ia f: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "media"
+    },
+    {
+      "keyword": "analisis de calidad del agua con ia g",
+      "intent": "informacional",
+      "stage": "descubrimiento",
+      "cluster": "tema principal",
+      "articleTitle": "Analisis de Calidad del Agua con ia g: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "media"
+    },
+    {
+      "keyword": "analisis de calidad del agua con ia h",
+      "intent": "informacional",
+      "stage": "descubrimiento",
+      "cluster": "tema principal",
+      "articleTitle": "Analisis de Calidad del Agua con ia h: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "media"
+    },
+    {
+      "keyword": "analisis de calidad del agua con ia i",
+      "intent": "informacional",
+      "stage": "descubrimiento",
+      "cluster": "tema principal",
+      "articleTitle": "Analisis de Calidad del Agua con ia i: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "media"
+    },
+    {
+      "keyword": "analisis de calidad del agua con ia j",
+      "intent": "informacional",
+      "stage": "descubrimiento",
+      "cluster": "tema principal",
+      "articleTitle": "Analisis de Calidad del Agua con ia j: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "media"
+    },
+    {
+      "keyword": "analisis de calidad del agua con ia k",
+      "intent": "informacional",
+      "stage": "descubrimiento",
+      "cluster": "tema principal",
+      "articleTitle": "Analisis de Calidad del Agua con ia k: Guia Practica Para Tomar Mejores Decisiones",
+      "priority": "media"
+    }
+  ],
+  "clusters": [
+    {
+      "cluster": "preguntas frecuentes",
+      "priority": "alta",
+      "intents": [
+        "informacional"
+      ],
+      "keywords": [
+        {
+          "keyword": "como funciona analisis de calidad del agua con ia",
+          "intent": "informacional",
+          "stage": "descubrimiento",
+          "cluster": "preguntas frecuentes",
+          "articleTitle": "Como Funciona Analisis de Calidad del Agua con ia: Guia Practica Paso A Paso",
+          "priority": "alta"
+        },
+        {
+          "keyword": "como hacer analisis de calidad del agua con ia",
+          "intent": "informacional",
+          "stage": "descubrimiento",
+          "cluster": "preguntas frecuentes",
+          "articleTitle": "Como Hacer Analisis de Calidad del Agua con ia: Guia Practica Paso A Paso",
+          "priority": "alta"
+        },
+        {
+          "keyword": "que es analisis de calidad del agua con ia",
+          "intent": "informacional",
+          "stage": "descubrimiento",
+          "cluster": "preguntas frecuentes",
+          "articleTitle": "que es Analisis de Calidad del Agua con ia: Definicion, Usos Y Ejemplos",
+          "priority": "alta"
+        },
+        {
+          "keyword": "cual es analisis de calidad del agua con ia",
+          "intent": "informacional",
+          "stage": "descubrimiento",
+          "cluster": "preguntas frecuentes",
+          "articleTitle": "Cual es Analisis de Calidad del Agua con ia: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "media"
+        },
+        {
+          "keyword": "cuando usar analisis de calidad del agua con ia",
+          "intent": "informacional",
+          "stage": "descubrimiento",
+          "cluster": "preguntas frecuentes",
+          "articleTitle": "Cuando Usar Analisis de Calidad del Agua con ia: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "media"
+        },
+        {
+          "keyword": "por que analisis de calidad del agua con ia",
+          "intent": "informacional",
+          "stage": "descubrimiento",
+          "cluster": "preguntas frecuentes",
+          "articleTitle": "por que Analisis de Calidad del Agua con ia: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "media"
+        }
+      ],
+      "articles": [
+        "Como Funciona Analisis de Calidad del Agua con ia: Guia Practica Paso A Paso",
+        "Como Hacer Analisis de Calidad del Agua con ia: Guia Practica Paso A Paso",
+        "que es Analisis de Calidad del Agua con ia: Definicion, Usos Y Ejemplos",
+        "Cual es Analisis de Calidad del Agua con ia: Guia Practica Para Tomar Mejores Decisiones",
+        "Cuando Usar Analisis de Calidad del Agua con ia: Guia Practica Para Tomar Mejores Decisiones",
+        "por que Analisis de Calidad del Agua con ia: Guia Practica Para Tomar Mejores Decisiones"
+      ]
+    },
+    {
+      "cluster": "precio y compra",
+      "priority": "alta",
+      "intents": [
+        "transaccional"
+      ],
+      "keywords": [
+        {
+          "keyword": "analisis de calidad del agua con ia costos",
+          "intent": "transaccional",
+          "stage": "descubrimiento",
+          "cluster": "precio y compra",
+          "articleTitle": "Analisis de Calidad del Agua con ia Costos: Rangos, Factores Y Como Cotizar",
+          "priority": "alta"
+        },
+        {
+          "keyword": "analisis de calidad del agua con ia precio",
+          "intent": "transaccional",
+          "stage": "compra",
+          "cluster": "precio y compra",
+          "articleTitle": "Analisis de Calidad del Agua con ia Precio: Rangos, Factores Y Como Cotizar",
+          "priority": "alta"
+        },
+        {
+          "keyword": "donde comprar analisis de calidad del agua con ia",
+          "intent": "transaccional",
+          "stage": "compra",
+          "cluster": "precio y compra",
+          "articleTitle": "Donde Comprar Analisis de Calidad del Agua con ia: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "alta"
+        }
+      ],
+      "articles": [
+        "Analisis de Calidad del Agua con ia Costos: Rangos, Factores Y Como Cotizar",
+        "Analisis de Calidad del Agua con ia Precio: Rangos, Factores Y Como Cotizar",
+        "Donde Comprar Analisis de Calidad del Agua con ia: Guia Practica Para Tomar Mejores Decisiones"
+      ]
+    },
+    {
+      "cluster": "comparacion",
+      "priority": "alta",
+      "intents": [
+        "comercial"
+      ],
+      "keywords": [
+        {
+          "keyword": "analisis de calidad del agua con ia alternativas",
+          "intent": "comercial",
+          "stage": "comparacion",
+          "cluster": "comparacion",
+          "articleTitle": "Analisis de Calidad del Agua con ia Alternativas: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "alta"
+        },
+        {
+          "keyword": "analisis de calidad del agua con ia mejor",
+          "intent": "comercial",
+          "stage": "comparacion",
+          "cluster": "comparacion",
+          "articleTitle": "Analisis de Calidad del Agua con ia Mejor: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "alta"
+        },
+        {
+          "keyword": "analisis de calidad del agua con ia vs",
+          "intent": "comercial",
+          "stage": "comparacion",
+          "cluster": "comparacion",
+          "articleTitle": "Analisis de Calidad del Agua con ia vs: Diferencias Y Como Elegir",
+          "priority": "alta"
+        }
+      ],
+      "articles": [
+        "Analisis de Calidad del Agua con ia Alternativas: Guia Practica Para Tomar Mejores Decisiones",
+        "Analisis de Calidad del Agua con ia Mejor: Guia Practica Para Tomar Mejores Decisiones",
+        "Analisis de Calidad del Agua con ia vs: Diferencias Y Como Elegir"
+      ]
+    },
+    {
+      "cluster": "tema principal",
+      "priority": "media",
+      "intents": [
+        "informacional"
+      ],
+      "keywords": [
+        {
+          "keyword": "analisis de calidad del agua con ia",
+          "intent": "informacional",
+          "stage": "descubrimiento",
+          "cluster": "tema principal",
+          "articleTitle": "Analisis de Calidad del Agua con ia: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "media"
+        },
+        {
+          "keyword": "analisis de calidad del agua con ia a",
+          "intent": "informacional",
+          "stage": "descubrimiento",
+          "cluster": "tema principal",
+          "articleTitle": "Analisis de Calidad del Agua con ia a: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "media"
+        },
+        {
+          "keyword": "analisis de calidad del agua con ia b",
+          "intent": "informacional",
+          "stage": "descubrimiento",
+          "cluster": "tema principal",
+          "articleTitle": "Analisis de Calidad del Agua con ia b: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "media"
+        },
+        {
+          "keyword": "analisis de calidad del agua con ia c",
+          "intent": "informacional",
+          "stage": "descubrimiento",
+          "cluster": "tema principal",
+          "articleTitle": "Analisis de Calidad del Agua con ia c: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "media"
+        },
+        {
+          "keyword": "analisis de calidad del agua con ia d",
+          "intent": "informacional",
+          "stage": "descubrimiento",
+          "cluster": "tema principal",
+          "articleTitle": "Analisis de Calidad del Agua con ia d: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "media"
+        },
+        {
+          "keyword": "analisis de calidad del agua con ia e",
+          "intent": "informacional",
+          "stage": "descubrimiento",
+          "cluster": "tema principal",
+          "articleTitle": "Analisis de Calidad del Agua con ia e: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "media"
+        },
+        {
+          "keyword": "analisis de calidad del agua con ia ejemplos",
+          "intent": "informacional",
+          "stage": "descubrimiento",
+          "cluster": "tema principal",
+          "articleTitle": "Analisis de Calidad del Agua con ia Ejemplos: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "media"
+        },
+        {
+          "keyword": "analisis de calidad del agua con ia f",
+          "intent": "informacional",
+          "stage": "descubrimiento",
+          "cluster": "tema principal",
+          "articleTitle": "Analisis de Calidad del Agua con ia f: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "media"
+        },
+        {
+          "keyword": "analisis de calidad del agua con ia g",
+          "intent": "informacional",
+          "stage": "descubrimiento",
+          "cluster": "tema principal",
+          "articleTitle": "Analisis de Calidad del Agua con ia g: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "media"
+        },
+        {
+          "keyword": "analisis de calidad del agua con ia guia",
+          "intent": "informacional",
+          "stage": "descubrimiento",
+          "cluster": "tema principal",
+          "articleTitle": "Analisis de Calidad del Agua con ia Guia: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "media"
+        },
+        {
+          "keyword": "analisis de calidad del agua con ia h",
+          "intent": "informacional",
+          "stage": "descubrimiento",
+          "cluster": "tema principal",
+          "articleTitle": "Analisis de Calidad del Agua con ia h: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "media"
+        },
+        {
+          "keyword": "analisis de calidad del agua con ia i",
+          "intent": "informacional",
+          "stage": "descubrimiento",
+          "cluster": "tema principal",
+          "articleTitle": "Analisis de Calidad del Agua con ia i: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "media"
+        },
+        {
+          "keyword": "analisis de calidad del agua con ia j",
+          "intent": "informacional",
+          "stage": "descubrimiento",
+          "cluster": "tema principal",
+          "articleTitle": "Analisis de Calidad del Agua con ia j: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "media"
+        },
+        {
+          "keyword": "analisis de calidad del agua con ia k",
+          "intent": "informacional",
+          "stage": "descubrimiento",
+          "cluster": "tema principal",
+          "articleTitle": "Analisis de Calidad del Agua con ia k: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "media"
+        },
+        {
+          "keyword": "analisis de calidad del agua con ia paso a paso",
+          "intent": "informacional",
+          "stage": "descubrimiento",
+          "cluster": "tema principal",
+          "articleTitle": "Analisis de Calidad del Agua con ia Paso a Paso: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "media"
+        }
+      ],
+      "articles": [
+        "Analisis de Calidad del Agua con ia: Guia Practica Para Tomar Mejores Decisiones",
+        "Analisis de Calidad del Agua con ia a: Guia Practica Para Tomar Mejores Decisiones",
+        "Analisis de Calidad del Agua con ia b: Guia Practica Para Tomar Mejores Decisiones",
+        "Analisis de Calidad del Agua con ia c: Guia Practica Para Tomar Mejores Decisiones",
+        "Analisis de Calidad del Agua con ia d: Guia Practica Para Tomar Mejores Decisiones",
+        "Analisis de Calidad del Agua con ia e: Guia Practica Para Tomar Mejores Decisiones",
+        "Analisis de Calidad del Agua con ia Ejemplos: Guia Practica Para Tomar Mejores Decisiones",
+        "Analisis de Calidad del Agua con ia f: Guia Practica Para Tomar Mejores Decisiones"
+      ]
+    },
+    {
+      "cluster": "casos de uso",
+      "priority": "media",
+      "intents": [
+        "navegacion/local",
+        "informacional"
+      ],
+      "keywords": [
+        {
+          "keyword": "analisis de calidad del agua con ia cerca de",
+          "intent": "navegacion/local",
+          "stage": "descubrimiento",
+          "cluster": "casos de uso",
+          "articleTitle": "Analisis de Calidad del Agua con ia Cerca de: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "media"
+        },
+        {
+          "keyword": "analisis de calidad del agua con ia colombia",
+          "intent": "informacional",
+          "stage": "descubrimiento",
+          "cluster": "casos de uso",
+          "articleTitle": "Analisis de Calidad del Agua con ia Colombia: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "media"
+        },
+        {
+          "keyword": "analisis de calidad del agua con ia en colombia",
+          "intent": "informacional",
+          "stage": "descubrimiento",
+          "cluster": "casos de uso",
+          "articleTitle": "Analisis de Calidad del Agua con ia en Colombia: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "media"
+        },
+        {
+          "keyword": "analisis de calidad del agua con ia para",
+          "intent": "informacional",
+          "stage": "descubrimiento",
+          "cluster": "casos de uso",
+          "articleTitle": "Analisis de Calidad del Agua con ia Para: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "media"
+        },
+        {
+          "keyword": "analisis de calidad del agua con ia para empresas",
+          "intent": "informacional",
+          "stage": "descubrimiento",
+          "cluster": "casos de uso",
+          "articleTitle": "Analisis de Calidad del Agua con ia Para Empresas: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "media"
+        },
+        {
+          "keyword": "analisis de calidad del agua con ia para principiantes",
+          "intent": "informacional",
+          "stage": "descubrimiento",
+          "cluster": "casos de uso",
+          "articleTitle": "Analisis de Calidad del Agua con ia Para Principiantes: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "media"
+        }
+      ],
+      "articles": [
+        "Analisis de Calidad del Agua con ia Cerca de: Guia Practica Para Tomar Mejores Decisiones",
+        "Analisis de Calidad del Agua con ia Colombia: Guia Practica Para Tomar Mejores Decisiones",
+        "Analisis de Calidad del Agua con ia en Colombia: Guia Practica Para Tomar Mejores Decisiones",
+        "Analisis de Calidad del Agua con ia Para: Guia Practica Para Tomar Mejores Decisiones",
+        "Analisis de Calidad del Agua con ia Para Empresas: Guia Practica Para Tomar Mejores Decisiones",
+        "Analisis de Calidad del Agua con ia Para Principiantes: Guia Practica Para Tomar Mejores Decisiones"
+      ]
+    },
+    {
+      "cluster": "decision y objeciones",
+      "priority": "media",
+      "intents": [
+        "informacional"
+      ],
+      "keywords": [
+        {
+          "keyword": "analisis de calidad del agua con ia beneficios",
+          "intent": "informacional",
+          "stage": "descubrimiento",
+          "cluster": "decision y objeciones",
+          "articleTitle": "Analisis de Calidad del Agua con ia Beneficios: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "media"
+        },
+        {
+          "keyword": "analisis de calidad del agua con ia errores",
+          "intent": "informacional",
+          "stage": "problema urgente",
+          "cluster": "decision y objeciones",
+          "articleTitle": "Analisis de Calidad del Agua con ia Errores: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "media"
+        },
+        {
+          "keyword": "analisis de calidad del agua con ia problemas",
+          "intent": "informacional",
+          "stage": "descubrimiento",
+          "cluster": "decision y objeciones",
+          "articleTitle": "Analisis de Calidad del Agua con ia Problemas: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "media"
+        },
+        {
+          "keyword": "analisis de calidad del agua con ia ventajas y desventajas",
+          "intent": "informacional",
+          "stage": "descubrimiento",
+          "cluster": "decision y objeciones",
+          "articleTitle": "Analisis de Calidad del Agua con ia Ventajas y Desventajas: Guia Practica Para Tomar Mejores Decisiones",
+          "priority": "media"
+        }
+      ],
+      "articles": [
+        "Analisis de Calidad del Agua con ia Beneficios: Guia Practica Para Tomar Mejores Decisiones",
+        "Analisis de Calidad del Agua con ia Errores: Guia Practica Para Tomar Mejores Decisiones",
+        "Analisis de Calidad del Agua con ia Problemas: Guia Practica Para Tomar Mejores Decisiones",
+        "Analisis de Calidad del Agua con ia Ventajas y Desventajas: Guia Practica Para Tomar Mejores Decisiones"
+      ]
+    }
+  ],
+  "serp": [],
+  "analysis": {
+    "intent": "Informacional",
+    "difficulty": 10,
+    "dominantFormats": [
+      "articulo informacional"
+    ],
+    "recurringDomains": [],
+    "questions": [
+      "que es analisis de calidad del agua con ia",
+      "como funciona analisis de calidad del agua con ia",
+      "como hacer analisis de calidad del agua con ia",
+      "por que analisis de calidad del agua con ia",
+      "cuando usar analisis de calidad del agua con ia",
+      "donde comprar analisis de calidad del agua con ia",
+      "cual es analisis de calidad del agua con ia",
+      "Qué debe saber un lector antes de buscar analisis de calidad del agua con ia",
+      "Cómo comparar fuentes confiables sobre analisis de calidad del agua con ia"
+    ],
+    "opportunities": [
+      "Crear una sección de metodología y fuentes para superar contenidos sin trazabilidad.",
+      "Responder preguntas frecuentes con respuestas breves y enlazables.",
+      "Añadir ejemplos propios o criterios de decisión para diferenciarse de resúmenes genéricos."
+    ]
+  },
+  "nextUse": {
+    "plan": "Usar clusters y articleTitle como insumo inicial del plan SEO.",
+    "report": "Mostrar solo clusters y oportunidades con confidence medium/high.",
+    "trends": "Cruzar con Grok/X Search solo en modo profundo o sync de tendencias."
+  }
+}

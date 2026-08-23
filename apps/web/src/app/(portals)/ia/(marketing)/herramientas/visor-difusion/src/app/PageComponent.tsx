@@ -338,21 +338,22 @@ export default function Home() {
     <div className="min-h-screen bg-[#000106] text-[#FFFFFF] flex flex-col p-4 sm:p-6 lg:p-8 font-sans">
       <header className="text-center mb-8 pb-8 border-b-2 border-[#00D4FF]/20">
         {/* Logo and Title Container */}
-        <div className="flex flex-col items-center justify-center gap-4 mb-8 sm:flex-row sm:gap-6">
+        <div className="flex flex-col items-center justify-center gap-4 mb-4 sm:flex-row sm:gap-6">
           {/* PixelGen Logo */}
           <img
             src="/images/portal-ia/herramientas/pixelgen-logo.png"
-            alt="PixelGen"
+            alt="PixelGen - Visor de Difusión"
             className="flex-shrink-0 object-contain w-auto h-14 sm:h-36"
             onError={(e) => {
               (e.target as HTMLImageElement).style.display = "none";
             }}
           />
-          {/* Separator */}
-          <div className="hidden sm:block w-px h-12 bg-gradient-to-b from-transparent via-[#00D4FF]/50 to-transparent" />
         </div>
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#00D4FF] via-[#00FF88] to-[#FFFFFF] tracking-tight mb-4">
+          Visor de Modelos de Difusión
+        </h1>
         {/* Description */}
-        <p className="text-base sm:text-lg text-[#E8F0FF] mt-6 max-w-3xl mx-auto leading-relaxed">
+        <p className="text-base sm:text-lg text-[#E8F0FF] mt-2 max-w-3xl mx-auto leading-relaxed">
           Una herramienta educativa interactiva para visualizar cómo la IA
           genera imágenes mediante el proceso de difusión, transformando ruido
           en arte paso a paso.

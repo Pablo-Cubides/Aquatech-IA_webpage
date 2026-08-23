@@ -4,9 +4,19 @@ import HeaderAmbiental from "@/components/nav/HeaderAmbiental";
 import FooterAmbiental from "@/components/nav/FooterAmbiental";
 
 export const metadata: Metadata = {
-  title: "Preguntas Frecuentes | AquatechIA",
+  title: "Preguntas Frecuentes (FAQ)",
   description:
     "Encuentra respuestas a las preguntas más comunes sobre AquatechIA, nuestras herramientas de inteligencia artificial y gestión ambiental.",
+  alternates: {
+    canonical: "/faq",
+  },
+  openGraph: {
+    title: "Preguntas Frecuentes | AquatechIA",
+    description:
+      "Encuentra respuestas a las preguntas más comunes sobre AquatechIA, nuestras herramientas de inteligencia artificial y gestión ambiental.",
+    type: "website",
+    url: "/faq",
+  },
 };
 
 const faqs = [

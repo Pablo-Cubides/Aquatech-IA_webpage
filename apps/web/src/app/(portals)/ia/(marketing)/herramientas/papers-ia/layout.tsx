@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
-
-const baseUrl = 'https://aquatechpro.co';
+import { SITE_URL, DEFAULT_LOGO } from '@/lib/site-config';
 
 export const metadata: Metadata = {
-  title: 'Papers de IA | Investigación ArXiv | AquatechIA',
+  title: 'Papers de IA | Investigación ArXiv',
   description:
     'Explora los artículos científicos más recientes sobre inteligencia artificial desde ArXiv. Búsqueda por categoría, autor y tema. Machine Learning, NLP, Visión por Computadora y más.',
   keywords: [
@@ -19,7 +18,7 @@ export const metadata: Metadata = {
     'GPT papers',
     'transformer papers',
   ],
-  authors: [{ name: 'AquatechIA', url: baseUrl }],
+  authors: [{ name: 'AquatechIA', url: SITE_URL }],
   creator: 'AquatechIA',
   publisher: 'AquatechIA',
   robots: {
@@ -34,14 +33,14 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: `${baseUrl}/ia/herramientas/papers-ia`,
+    canonical: `${SITE_URL}/ia/herramientas/papers-ia`,
   },
   openGraph: {
     title: 'Papers de IA | Investigación ArXiv | AquatechIA',
     description:
       'Explora los artículos científicos más recientes sobre inteligencia artificial desde ArXiv.',
     type: 'website',
-    url: `${baseUrl}/ia/herramientas/papers-ia`,
+    url: `${SITE_URL}/ia/herramientas/papers-ia`,
     siteName: 'AquatechIA',
     locale: 'es_CO',
   },
@@ -50,7 +49,7 @@ export const metadata: Metadata = {
     title: 'Papers de IA | Investigación ArXiv',
     description:
       'Explora los artículos científicos más recientes sobre inteligencia artificial desde ArXiv.',
-    creator: '@aquatechpro',
+    creator: '@aquatechia',
   },
   category: 'technology',
 };
@@ -62,12 +61,12 @@ const structuredData = {
   name: 'Papers de IA - ArXiv Explorer',
   description:
     'Colección de artículos científicos de inteligencia artificial de ArXiv',
-  url: `${baseUrl}/ia/herramientas/papers-ia`,
+  url: `${SITE_URL}/ia/herramientas/papers-ia`,
   provider: {
     '@type': 'Organization',
     name: 'AquatechIA',
-    url: baseUrl,
-    logo: `${baseUrl}/logo.png`,
+    url: SITE_URL,
+    logo: DEFAULT_LOGO,
   },
   about: {
     '@type': 'Thing',
@@ -100,25 +99,25 @@ const structuredData = {
         '@type': 'ListItem',
         position: 1,
         name: 'Inicio',
-        item: baseUrl,
+        item: SITE_URL,
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'IA',
-        item: `${baseUrl}/ia`,
+        item: `${SITE_URL}/ia`,
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: 'Herramientas',
-        item: `${baseUrl}/ia/herramientas`,
+        item: `${SITE_URL}/ia/herramientas`,
       },
       {
         '@type': 'ListItem',
         position: 4,
         name: 'Papers de IA',
-        item: `${baseUrl}/ia/herramientas/papers-ia`,
+        item: `${SITE_URL}/ia/herramientas/papers-ia`,
       },
     ],
   },

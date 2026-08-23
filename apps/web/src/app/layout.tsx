@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "../components/auth/Providers";
-
-const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com").trim().replace(/\/+$/, "");
+import {
+  SITE_URL,
+  DEFAULT_LOCALE,
+  DEFAULT_OG_IMAGE,
+  DEFAULT_LOGO,
+} from "@/lib/site-config";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "AquatechIA - Inteligencia Artificial + Gestión Ambiental",
     template: "%s | AquatechIA",
@@ -22,21 +27,18 @@ export const metadata: Metadata = {
   authors: [{ name: "AquatechIA" }],
   creator: "AquatechIA",
   publisher: "AquatechIA",
-  metadataBase: new URL(baseUrl),
-  alternates: {
-    canonical: baseUrl,
-  },
   openGraph: {
     type: "website",
-    locale: "es_ES",
-    url: baseUrl,
+    locale: DEFAULT_LOCALE,
+    alternateLocale: ["es_ES", "es_MX", "es_419"],
+    url: SITE_URL,
     siteName: "AquatechIA",
     title: "AquatechIA - Inteligencia Artificial + Gestión Ambiental",
     description:
       "Plataforma de IA para gestión ambiental sostenible. Herramientas, cursos y recursos.",
     images: [
       {
-        url: `${baseUrl}/images/og-image.jpg`,
+        url: DEFAULT_OG_IMAGE,
         width: 1200,
         height: 630,
         alt: "AquatechIA - IA + Gestión Ambiental",
@@ -48,7 +50,7 @@ export const metadata: Metadata = {
     title: "AquatechIA - IA + Gestión Ambiental",
     description:
       "Plataforma de IA para gestión ambiental sostenible. Herramientas y cursos.",
-    images: [`${baseUrl}/images/og-image.jpg`],
+    images: [DEFAULT_OG_IMAGE],
     creator: "@aquatechia",
   },
   robots: {
@@ -82,8 +84,8 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": ["Organization", "EducationalOrganization"],
     name: "AquatechIA",
-    url: baseUrl,
-    logo: `${baseUrl}/images/logo.png`,
+    url: SITE_URL,
+    logo: DEFAULT_LOGO,
     description:
       "Plataforma educativa de Inteligencia Artificial para la gestión ambiental sostenible",
     sameAs: [
@@ -108,42 +110,9 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "AquatechIA",
-    url: baseUrl,
+    url: SITE_URL,
     description:
       "Plataforma de IA para gestión ambiental sostenible con herramientas y cursos",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: `${baseUrl}/buscar?q={search_term_string}`,
-      },
-      "query-input": "required name=search_term_string",
-    },
-  };
-
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Inicio",
-        item: baseUrl,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Portal IA",
-        item: `${baseUrl}/ia`,
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: "Portal Ambiental",
-        item: `${baseUrl}/ambiental`,
-      },
-    ],
   };
 
   return (
@@ -161,13 +130,6 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(websiteSchema),
-          }}
-        />
-        {/* Structured Data - Breadcrumb */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(breadcrumbSchema),
           }}
         />
         {/* DNS Prefetch for performance */}

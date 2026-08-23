@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
-
-const baseUrl = 'https://aquatechpro.co';
+import { SITE_URL } from '@/lib/site-config';
 
 export const metadata: Metadata = {
-  title: 'Calculadora de Índices de Calidad del Aire | AQI, ICA, IBOCA, EAQI | AquatechIA',
+  title: 'Calculadora de Índices de Calidad del Aire | AQI, ICA, IBOCA, EAQI',
   description:
     'Calcula índices de calidad del aire: US AQI (EPA), ICA Colombia (Res. 2254), IBOCA Bogotá, EAQI Europa e Índice OMS. Soporta PM2.5, PM10, O3, NO2, SO2 y CO.',
   keywords: [
@@ -23,7 +22,7 @@ export const metadata: Metadata = {
     'calculadora AQI',
     'monitoreo aire',
   ],
-  authors: [{ name: 'AquatechIA', url: baseUrl }],
+  authors: [{ name: 'AquatechIA', url: SITE_URL }],
   creator: 'AquatechIA',
   publisher: 'AquatechIA',
   robots: {
@@ -38,14 +37,14 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: `${baseUrl}/ambiental/herramientas/indice-calidad-aire`,
+    canonical: `${SITE_URL}/ambiental/herramientas/indice-calidad-aire`,
   },
   openGraph: {
     title: 'Calculadora de Índices de Calidad del Aire',
     description:
       'Calcula AQI US EPA, ICA Colombia, IBOCA, EAQI Europa e Índice OMS a partir de concentraciones de contaminantes.',
     type: 'website',
-    url: `${baseUrl}/ambiental/herramientas/indice-calidad-aire`,
+    url: `${SITE_URL}/ambiental/herramientas/indice-calidad-aire`,
     siteName: 'AquatechIA',
     locale: 'es_CO',
   },
@@ -54,7 +53,7 @@ export const metadata: Metadata = {
     title: 'Calculadora AQI - Calidad del Aire',
     description:
       'Calcula índices de calidad del aire para múltiples metodologías internacionales.',
-    creator: '@aquatechpro',
+    creator: '@aquatechia',
   },
   category: 'technology',
 };
@@ -65,7 +64,7 @@ const structuredData = {
   name: 'Calculadora de Índices de Calidad del Aire',
   description:
     'Herramienta para calcular índices de calidad del aire (AQI) usando metodologías US EPA, ICA Colombia, IBOCA Bogotá, EAQI Europa y OMS',
-  url: `${baseUrl}/ambiental/herramientas/indice-calidad-aire`,
+  url: `${SITE_URL}/ambiental/herramientas/indice-calidad-aire`,
   applicationCategory: 'EnvironmentalApplication',
   operatingSystem: 'Web Browser',
   offers: {
@@ -76,7 +75,7 @@ const structuredData = {
   provider: {
     '@type': 'Organization',
     name: 'AquatechIA',
-    url: baseUrl,
+    url: SITE_URL,
   },
   featureList: [
     'US AQI (EPA) - Índice oficial de Estados Unidos',

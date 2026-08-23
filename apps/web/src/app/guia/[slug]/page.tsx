@@ -22,13 +22,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const guide = guidesData[slug];
   if (!guide) {
     return {
-      title: "Guía no encontrada | AquatechIA",
+      title: "Guía no encontrada",
     };
   }
 
   return {
-    title: `${guide.title} | AquatechIA`,
+    title: guide.title,
     description: guide.description,
+    alternates: {
+      canonical: `/guia/${slug}`,
+    },
+    openGraph: {
+      title: guide.title,
+      description: guide.description,
+      type: "article",
+      url: `/guia/${slug}`,
+    },
   };
 }
 

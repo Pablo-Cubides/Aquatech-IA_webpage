@@ -6,6 +6,8 @@ import { notFound } from "next/navigation";
 import { getArticle, getAllArticles } from "@/lib/blog-articles";
 import { generateArticleSchema } from "@/lib/blog-seo";
 import { renderSafeRichText } from "@/lib/security/safe-rich-text";
+import { DirectAnswerSummary } from "@/components/seo/DirectAnswerSummary";
+import { SITE_URL } from "@/lib/site-config";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -24,8 +26,7 @@ export async function generateMetadata({
     };
   }
 
-  const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com").trim().replace(/\/+$/, "");
-  const articleUrl = `${baseUrl}/ambiental/blog/${slug}`;
+  const articleUrl = `${SITE_URL}/ambiental/blog/${slug}`;
 
   return {
     title: article.title,
@@ -109,8 +110,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
     notFound();
   }
 
-  const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com").trim().replace(/\/+$/, "");
-  const schema = generateArticleSchema(article, "ambiental", baseUrl);
+  const schema = generateArticleSchema(article, "ambiental", SITE_URL);
   const toc = generateTOC(article.content.sections);
 
   return (
@@ -276,9 +276,10 @@ export default async function BlogArticlePage({ params }: PageProps) {
 
             {/* Contenido principal */}
             <div className="prose prose-lg max-w-none ">
-              {/* Introducción */}
+              {/* Introducción con optimización GEO */}
               <div 
                 className="text-xl leading-relaxed text-gray-600 mb-8 font-medium"
+                data-geo-summary="true"
                 dangerouslySetInnerHTML={{ __html: renderSafeRichText(article.content.introduction, "text-[#0D161C]") }}
               />
 
@@ -504,7 +505,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
                 ].map((category) => (
                   <li key={category.name}>
                     <Link
-                      href={`/ia/blog?categoria=${category.name.toLowerCase().replace(/\s+/g, "-")}`}
+                      href={`/ambiental/blog?categoria=${category.name.toLowerCase().replace(/\s+/g, "-")}`}
                       className="flex justify-between items-center text-gray-600 hover:text-[#10B981] transition-colors py-1"
                     >
                       <span>{category.name}</span>

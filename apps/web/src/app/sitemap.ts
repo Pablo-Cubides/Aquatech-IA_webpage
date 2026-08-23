@@ -1,9 +1,11 @@
 import { MetadataRoute } from "next";
 import { getToolsByPortal } from "@/lib/services/tools-registry";
 import { getCategories, getAllArticleSlugs } from "@/lib/blog-seo";
+import { guidesData } from "@/lib/guides-data";
+import { SITE_URL } from "@/lib/site-config";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com").trim().replace(/\/+$/, "");
+  const baseUrl = SITE_URL;
   const currentDate = new Date();
 
   // Get tools for both portals
@@ -42,6 +44,28 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.8,
     },
+  ];
+
+  // Guides & Technical Manuals
+  const guidePages: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}/guia`,
+      lastModified: currentDate,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/guia/ecostats`,
+      lastModified: currentDate,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    ...Object.keys(guidesData).map((slug) => ({
+      url: `${baseUrl}/guia/${slug}`,
+      lastModified: currentDate,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
   ];
 
   // IA Portal pages
@@ -222,15 +246,45 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  // Environmental Tools pages
-  const ambientalToolsPages: MetadataRoute.Sitemap = ambientalTools.map(
-    (tool) => ({
+  // Environmental Tools pages (including matrix generator subroutes)
+  const ambientalToolsPages: MetadataRoute.Sitemap = [
+    ...ambientalTools.map((tool) => ({
       url: `${baseUrl}/ambiental/herramientas/${tool.slug}`,
       lastModified: currentDate,
       changeFrequency: "weekly" as const,
       priority: 0.7,
-    }),
-  );
+    })),
+    {
+      url: `${baseUrl}/ambiental/herramientas/generador-matrices`,
+      lastModified: currentDate,
+      changeFrequency: "weekly",
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/ambiental/herramientas/generador-matrices/matrices`,
+      lastModified: currentDate,
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/ambiental/herramientas/generador-matrices/selector`,
+      lastModified: currentDate,
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/ambiental/herramientas/generador-matrices/builder`,
+      lastModified: currentDate,
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/ambiental/herramientas/generador-matrices/faq`,
+      lastModified: currentDate,
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
+  ];
 
   // Ambiental Blog Category pages (excluding noindex categories)
   const ambientalCategoryPages: MetadataRoute.Sitemap = ambientalCategories
@@ -254,6 +308,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     ...mainPages,
+    ...guidePages,
     ...iaPages,
     ...iaToolsPages,
     ...iaCategoryPages,

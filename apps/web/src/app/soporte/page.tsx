@@ -4,9 +4,19 @@ import HeaderAmbiental from "@/components/nav/HeaderAmbiental";
 import FooterAmbiental from "@/components/nav/FooterAmbiental";
 
 export const metadata: Metadata = {
-  title: "Soporte | AquatechIA",
+  title: "Centro de Soporte y Ayuda",
   description:
     "¿Necesitas ayuda? Contacta con el equipo de soporte de AquatechIA. Estamos aquí para asistirte con cualquier consulta sobre nuestras herramientas.",
+  alternates: {
+    canonical: "/soporte",
+  },
+  openGraph: {
+    title: "Centro de Soporte y Ayuda | AquatechIA",
+    description:
+      "¿Necesitas ayuda? Contacta con el equipo de soporte de AquatechIA.",
+    type: "website",
+    url: "/soporte",
+  },
 };
 
 const supportOptions = [

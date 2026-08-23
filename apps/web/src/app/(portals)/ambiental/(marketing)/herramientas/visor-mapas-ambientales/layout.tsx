@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
-
-const baseUrl = 'https://aquatechpro.co';
+import { SITE_URL } from '@/lib/site-config';
 
 export const metadata: Metadata = {
-  title: 'Visor de Mapas Ambientales | GIS Interactivo | AquatechIA',
+  title: 'Visor de Mapas Ambientales | GIS Interactivo',
   description:
     'Visualiza datos ambientales en mapas interactivos con capas GIS personalizables. Integración con GBIF, Water Quality Portal y datasets propios.',
   keywords: [
@@ -18,7 +17,7 @@ export const metadata: Metadata = {
     'análisis territorial',
     'SIG ambiental',
   ],
-  authors: [{ name: 'AquatechIA', url: baseUrl }],
+  authors: [{ name: 'AquatechIA', url: SITE_URL }],
   creator: 'AquatechIA',
   publisher: 'AquatechIA',
   robots: {
@@ -33,14 +32,14 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: `${baseUrl}/ambiental/herramientas/visor-mapas-ambientales`,
+    canonical: `${SITE_URL}/ambiental/herramientas/visor-mapas-ambientales`,
   },
   openGraph: {
     title: 'Visor de Mapas Ambientales | GIS Interactivo',
     description:
       'Visualiza datos ambientales en mapas interactivos con capas GIS personalizables.',
     type: 'website',
-    url: `${baseUrl}/ambiental/herramientas/visor-mapas-ambientales`,
+    url: `${SITE_URL}/ambiental/herramientas/visor-mapas-ambientales`,
     siteName: 'AquatechIA',
     locale: 'es_CO',
   },
@@ -49,7 +48,7 @@ export const metadata: Metadata = {
     title: 'Visor de Mapas Ambientales | GIS Interactivo',
     description:
       'Visualiza datos ambientales en mapas interactivos con capas GIS personalizables.',
-    creator: '@aquatechpro',
+    creator: '@aquatechia',
   },
   category: 'technology',
 };
@@ -60,7 +59,7 @@ const structuredData = {
   name: 'Visor de Mapas Ambientales',
   description:
     'Herramienta de visualización de datos ambientales con mapas interactivos y capas GIS',
-  url: `${baseUrl}/ambiental/herramientas/visor-mapas-ambientales`,
+  url: `${SITE_URL}/ambiental/herramientas/visor-mapas-ambientales`,
   applicationCategory: 'EnvironmentalApplication',
   operatingSystem: 'Web Browser',
   offers: {
@@ -71,7 +70,7 @@ const structuredData = {
   provider: {
     '@type': 'Organization',
     name: 'AquatechIA',
-    url: baseUrl,
+    url: SITE_URL,
   },
   featureList: [
     'Capas GIS personalizables',

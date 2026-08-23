@@ -182,7 +182,7 @@ async function fetchWithRetry(
     const response = await fetch(url, {
       headers: {
         "User-Agent":
-          "AquatechIA/1.0 (https://aquatechpro.co; contact@aquatechpro.co)",
+          "AquatechIA/1.0 (https://aquatechia.com; contact@aquatechia.com)",
       },
       next: { revalidate: 3600 },
     });

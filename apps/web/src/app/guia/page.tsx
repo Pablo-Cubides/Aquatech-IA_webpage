@@ -4,8 +4,17 @@ import HeaderAmbiental from "@/components/nav/HeaderAmbiental";
 import FooterAmbiental from "@/components/nav/FooterAmbiental";
 
 export const metadata: Metadata = {
-  title: "Manual de GeoVisor | AquatechIA",
-  description: "Manual detallado para el uso de GeoVisor de AquatechIA. Integraciones con OpenAQ, NASA, GBIF y más.",
+  title: "Guías y Manuales Técnicos",
+  description: "Manuales detallados y guías técnicas para el uso de herramientas de inteligencia artificial y gestión ambiental de AquatechIA.",
+  alternates: {
+    canonical: "/guia",
+  },
+  openGraph: {
+    title: "Guías y Manuales Técnicos | AquatechIA",
+    description: "Manuales detallados y guías técnicas para el uso de herramientas de inteligencia artificial y gestión ambiental de AquatechIA.",
+    type: "website",
+    url: "/guia",
+  },
 };
 
 const Section = ({ title, children, icon }: { title: string; children: React.ReactNode; icon: string }) => (

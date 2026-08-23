@@ -4,6 +4,7 @@
  */
 
 import React from "react";
+import { SITE_URL, DEFAULT_LOGO, DEFAULT_OG_IMAGE } from "@/lib/site-config";
 
 interface ToolStructuredDataProps {
   name: string;
@@ -23,7 +24,7 @@ export function ToolStructuredData({
   description,
   url,
   datePublished = "2024-01-01",
-  dateModified = new Date().toISOString().split("T")[0],
+  dateModified,
   author = "AquatechIA",
   keywords = [],
 }: ToolStructuredDataProps) {
@@ -43,19 +44,19 @@ export function ToolStructuredData({
     author: {
       "@type": "Organization",
       name: author,
-      url: "https://aquatechia.com",
+      url: SITE_URL,
     },
     publisher: {
       "@type": "Organization",
       name: "AquatechIA",
-      url: "https://aquatechia.com",
+      url: SITE_URL,
       logo: {
         "@type": "ImageObject",
-        url: "https://aquatechia.com/logo.png",
+        url: DEFAULT_LOGO,
       },
     },
     datePublished,
-    dateModified,
+    ...(dateModified && { dateModified }),
     keywords: keywords.join(", "),
     inLanguage: "es",
     isAccessibleForFree: true,
@@ -87,9 +88,9 @@ export function ArticleStructuredData({
   description,
   url,
   datePublished = "2024-01-01",
-  dateModified = new Date().toISOString().split("T")[0],
+  dateModified,
   author = "AquatechIA",
-  image = "https://aquatechia.com/images/og/default.jpg",
+  image = DEFAULT_OG_IMAGE,
 }: ArticleStructuredDataProps) {
   const structuredData = {
     "@context": "https://schema.org",
@@ -101,19 +102,19 @@ export function ArticleStructuredData({
     author: {
       "@type": "Organization",
       name: author,
-      url: "https://aquatechia.com",
+      url: SITE_URL,
     },
     publisher: {
       "@type": "Organization",
       name: "AquatechIA",
-      url: "https://aquatechia.com",
+      url: SITE_URL,
       logo: {
         "@type": "ImageObject",
-        url: "https://aquatechia.com/logo.png",
+        url: DEFAULT_LOGO,
       },
     },
     datePublished,
-    dateModified,
+    ...(dateModified && { dateModified }),
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": url,
@@ -150,6 +151,69 @@ export function BreadcrumbStructuredData({
       position: index + 1,
       name: item.name,
       item: item.url,
+    })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+    />
+  );
+}
+
+export interface FAQStructuredDataProps {
+  faqs: Array<{
+    question: string;
+    answer: string;
+  }>;
+}
+
+export function FAQStructuredData({ faqs }: FAQStructuredDataProps) {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+    />
+  );
+}
+
+export interface HowToStructuredDataProps {
+  name: string;
+  description: string;
+  steps: Array<{
+    name: string;
+    text: string;
+    url?: string;
+    image?: string;
+  }>;
+}
+
+export function HowToStructuredData({ name, description, steps }: HowToStructuredDataProps) {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name,
+    description,
+    step: steps.map((step, index) => ({
+      "@type": "HowToStep",
+      name: step.name,
+      text: step.text,
+      url: step.url,
+      image: step.image,
     })),
   };
 

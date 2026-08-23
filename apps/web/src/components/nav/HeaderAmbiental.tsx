@@ -33,7 +33,7 @@ export default function HeaderAmbiental() {
         <div className="flex h-9 items-center justify-center rounded-full bg-gray-100 p-1 text-sm border border-gray-300">
           <Link
             href="/ia"
-            className="px-4 py-1 font-medium text-gray-600 transition-all duration-300 hover:text-blue-600"
+            className="px-4 py-1 font-medium text-gray-700 transition-all duration-300 hover:text-blue-600"
           >
             IA
           </Link>
@@ -51,31 +51,31 @@ export default function HeaderAmbiental() {
         <nav aria-label="Navegación principal de Ambiental" className="flex items-center gap-6 text-sm font-medium">
           <Link
             href="/ambiental/nosotros"
-            className="text-gray-600 transition-colors duration-300 hover:text-blue-600"
+            className="text-gray-700 transition-colors duration-300 hover:text-blue-600"
           >
             Nosotros
           </Link>
           <Link
             href="/ambiental/blog"
-            className="text-gray-600 transition-colors duration-300 hover:text-blue-600"
+            className="text-gray-700 transition-colors duration-300 hover:text-blue-600"
           >
             Blog
           </Link>
           <Link
             href="/ambiental/herramientas"
-            className="text-gray-600 transition-colors duration-300 hover:text-blue-600"
+            className="text-gray-700 transition-colors duration-300 hover:text-blue-600"
           >
             Herramientas
           </Link>
           <Link
             href="/ambiental/autor"
-            className="text-gray-600 transition-colors duration-300 hover:text-blue-600"
+            className="text-gray-700 transition-colors duration-300 hover:text-blue-600"
           >
             Autor
           </Link>
           {/* <Link
             href="/ambiental/productos"
-            className="text-gray-600 transition-colors duration-300 hover:text-blue-600"
+            className="text-gray-700 transition-colors duration-300 hover:text-blue-600"
           >
             Productos
           </Link> */}
@@ -123,28 +123,28 @@ export default function HeaderAmbiental() {
           <nav aria-label="Navegación móvil de Ambiental" className="flex flex-col p-4 space-y-3">
             <Link
               href="/ambiental/nosotros"
-              className="text-gray-600 transition-colors duration-300 hover:text-blue-600 py-2"
+              className="text-gray-700 transition-colors duration-300 hover:text-blue-600 py-2"
               onClick={() => setIsMenuOpen(false)}
             >
               Nosotros
             </Link>
             <Link
               href="/ambiental/blog"
-              className="text-gray-600 transition-colors duration-300 hover:text-blue-600 py-2"
+              className="text-gray-700 transition-colors duration-300 hover:text-blue-600 py-2"
               onClick={() => setIsMenuOpen(false)}
             >
               Blog
             </Link>
             <Link
               href="/ambiental/herramientas"
-              className="text-gray-600 transition-colors duration-300 hover:text-blue-600 py-2"
+              className="text-gray-700 transition-colors duration-300 hover:text-blue-600 py-2"
               onClick={() => setIsMenuOpen(false)}
             >
               Herramientas
             </Link>
             <Link
               href="/ambiental/autor"
-              className="text-gray-600 transition-colors duration-300 hover:text-blue-600 py-2"
+              className="text-gray-700 transition-colors duration-300 hover:text-blue-600 py-2"
               onClick={() => setIsMenuOpen(false)}
             >
               Autor

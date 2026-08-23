@@ -3,8 +3,7 @@ import { Metadata } from "next";
 import { Space_Grotesk, Noto_Sans } from "next/font/google";
 import HeaderAmbiental from "@/components/nav/HeaderAmbiental";
 import FooterAmbiental from "@/components/nav/FooterAmbiental";
-
-const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com").trim().replace(/\/+$/, "");
+import { SITE_URL, DEFAULT_LOCALE } from "@/lib/site-config";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -19,7 +18,7 @@ const notoSans = Noto_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Portal de Gestión Ambiental | Normas, Mapas y Herramientas | AquatechIA",
+  title: "Portal de Gestión Ambiental | Normas, Mapas y Herramientas",
   description:
     "Herramientas de gestión ambiental, normatividad ambiental internacional, mapas interactivos, análisis de impacto ambiental, monitoreo de agua, aire, residuos y vertimientos. Soluciones sostenibles para profesionales.",
   keywords: [
@@ -39,12 +38,12 @@ export const metadata: Metadata = {
     description:
       "Herramientas, normas y recursos para gestión ambiental sostenible. Mapas, análisis y soluciones.",
     type: "website",
-    locale: "es_ES",
-    url: `${baseUrl}/ambiental`,
+    locale: DEFAULT_LOCALE,
+    url: `${SITE_URL}/ambiental`,
     siteName: "AquatechIA",
     images: [
       {
-        url: `${baseUrl}/images/og-image-ambiental.jpg`,
+        url: `${SITE_URL}/images/og-image-ambiental.jpg`,
         width: 1200,
         height: 630,
         alt: "Portal Ambiental - Gestión Sostenible con AquatechIA",
@@ -55,11 +54,11 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Portal Ambiental | AquatechIA",
     description: "Gestión ambiental sostenible con herramientas innovadoras",
-    images: [`${baseUrl}/images/og-image-ambiental.jpg`],
+    images: [`${SITE_URL}/images/og-image-ambiental.jpg`],
     creator: "@aquatechia",
   },
   alternates: {
-    canonical: `${baseUrl}/ambiental`,
+    canonical: `${SITE_URL}/ambiental`,
   },
 };
 

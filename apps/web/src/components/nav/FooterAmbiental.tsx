@@ -36,13 +36,13 @@ export default function FooterAmbiental() {
   };
 
   return (
-    <footer className="bg-white py-16 text-gray-600 border-t border-blue-600/20">
+    <footer className="bg-white py-16 text-gray-700 border-t border-blue-600/20">
       <div className="mx-auto max-w-7xl px-4">
         <div className="grid grid-cols-1 gap-12 text-center md:grid-cols-4 md:text-left">
           {/* Marca */}
           <div>
             <h3 className="text-lg font-bold text-black">Aquatech IA</h3>
-            <p className="mt-2 text-sm text-gray-600">
+            <p className="mt-2 text-sm text-gray-700">
               Tecnología para un futuro sostenible.
             </p>
             <div className="mt-4 flex justify-center gap-4 md:justify-start">
@@ -51,7 +51,7 @@ export default function FooterAmbiental() {
                 href="https://www.facebook.com/Aquatechia/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-600 transition-colors duration-300 hover:text-blue-600"
+                className="text-gray-700 transition-colors duration-300 hover:text-blue-600"
               >
                 <svg
                   fill="currentColor"
@@ -68,7 +68,7 @@ export default function FooterAmbiental() {
                 href="https://www.instagram.com/aquatech_ia/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-600 transition-colors duration-300 hover:text-blue-600"
+                className="text-gray-700 transition-colors duration-300 hover:text-blue-600"
               >
                 <svg
                   fill="currentColor"
@@ -85,7 +85,7 @@ export default function FooterAmbiental() {
                 href="https://x.com/Aquatech_ia"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-600 transition-colors duration-300 hover:text-blue-600"
+                className="text-gray-700 transition-colors duration-300 hover:text-blue-600"
               >
                 <svg
                   fill="currentColor"
@@ -102,7 +102,7 @@ export default function FooterAmbiental() {
                 href="https://www.youtube.com/@AquatechIA"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-600 transition-colors duration-300 hover:text-blue-600"
+                className="text-gray-700 transition-colors duration-300 hover:text-blue-600"
               >
                 <svg
                   fill="currentColor"
@@ -125,31 +125,31 @@ export default function FooterAmbiental() {
             <nav aria-label="Navegación del mapa del sitio de Ambiental" className="mt-4 flex flex-col gap-2">
               <Link
                 href="/ambiental/nosotros"
-                className="text-sm text-gray-600 transition-colors duration-300 hover:text-blue-600"
+                className="text-sm text-gray-700 transition-colors duration-300 hover:text-blue-600"
               >
                 Nosotros
               </Link>
               <Link
                 href="/ambiental/blog"
-                className="text-sm text-gray-600 transition-colors duration-300 hover:text-blue-600"
+                className="text-sm text-gray-700 transition-colors duration-300 hover:text-blue-600"
               >
                 Blog
               </Link>
               <Link
                 href="/ambiental/herramientas"
-                className="text-sm text-gray-600 transition-colors duration-300 hover:text-blue-600"
+                className="text-sm text-gray-700 transition-colors duration-300 hover:text-blue-600"
               >
                 Herramientas
               </Link>
               <Link
                 href="/ambiental/autor"
-                className="text-sm text-gray-600 transition-colors duration-300 hover:text-blue-600"
+                className="text-sm text-gray-700 transition-colors duration-300 hover:text-blue-600"
               >
                 Autor
               </Link>
               <Link
                 href="/ambiental/productos"
-                className="text-sm text-gray-600 transition-colors duration-300 hover:text-blue-600"
+                className="text-sm text-gray-700 transition-colors duration-300 hover:text-blue-600"
               >
                 Productos
               </Link>
@@ -164,19 +164,19 @@ export default function FooterAmbiental() {
             <nav aria-label="Navegación de recursos de Ambiental" className="mt-4 flex flex-col gap-2">
               <Link
                 href="/soporte"
-                className="text-sm text-gray-600 transition-colors duration-300 hover:text-blue-600"
+                className="text-sm text-gray-700 transition-colors duration-300 hover:text-blue-600"
               >
                 Soporte
               </Link>
               <Link
                 href="/faq"
-                className="text-sm text-gray-600 transition-colors duration-300 hover:text-blue-600"
+                className="text-sm text-gray-700 transition-colors duration-300 hover:text-blue-600"
               >
                 FAQ
               </Link>
               <Link
                 href="/guia"
-                className="text-sm text-gray-600 transition-colors duration-300 hover:text-blue-600"
+                className="text-sm text-gray-700 transition-colors duration-300 hover:text-blue-600"
               >
                 Guía GeoVisor
               </Link>
@@ -188,7 +188,7 @@ export default function FooterAmbiental() {
             <h3 className="text-sm font-bold uppercase tracking-wider text-black">
               Newsletter
             </h3>
-            <p className="mt-4 text-sm text-gray-600">
+            <p className="mt-4 text-sm text-gray-700">
               Suscríbete para recibir las últimas noticias.
             </p>
             <form className="mt-4" onSubmit={handleSubmit}>
@@ -202,7 +202,7 @@ export default function FooterAmbiental() {
                   placeholder="Tu email"
                   disabled={status === "loading"}
                   className="w-full rounded-l-lg border border-blue-600/30 bg-white px-4 py-2 text-sm text-black
-                             placeholder:text-[#CCCCCC] focus:ring-1 focus:ring-blue-600 focus:border-blue-600 transition-all duration-300
+                             placeholder:text-gray-500 focus:ring-1 focus:ring-blue-600 focus:border-blue-600 transition-all duration-300
                              disabled:opacity-50 disabled:cursor-not-allowed"
                 />
                 <button
@@ -234,7 +234,7 @@ export default function FooterAmbiental() {
         </div>
 
         <div className="mt-16 border-t border-gray-200 pt-8 text-center text-sm">
-          <p className="text-gray-600">
+          <p className="text-gray-700">
             © {new Date().getFullYear()} Aquatech IA. Todos los derechos
             reservados.{" "}
             <Link

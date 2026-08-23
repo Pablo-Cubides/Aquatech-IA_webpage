@@ -37,6 +37,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { SITE_URL, DEFAULT_LOGO } from "@/lib/site-config";
+
 // JSON-LD Schema for Blog
 function generateBlogSchema() {
   return {
@@ -45,13 +47,13 @@ function generateBlogSchema() {
     name: "Blog de IA - AquatechIA",
     description:
       "Guías, tutoriales y análisis sobre inteligencia artificial, machine learning y tecnologías emergentes.",
-    url: "https://aquatechia.com/ia/blog",
+    url: `${SITE_URL}/ia/blog`,
     publisher: {
       "@type": "Organization",
       name: "AquatechIA",
       logo: {
         "@type": "ImageObject",
-        url: "https://aquatechia.com/images/logo.png",
+        url: DEFAULT_LOGO,
       },
     },
   };

@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
-
-const baseUrl = 'https://aquatechpro.co';
+import { SITE_URL } from '@/lib/site-config';
 
 export const metadata: Metadata = {
-  title: 'Normas Ambientales por País | Regulaciones y Legislación | AquatechIA',
+  title: 'Normas Ambientales por País | Regulaciones y Legislación',
   description:
     'Consulta normativas ambientales de agua, aire, residuos sólidos y vertimientos por país. Base de datos actualizada de legislación ambiental internacional.',
   keywords: [
@@ -18,7 +17,7 @@ export const metadata: Metadata = {
     'cumplimiento ambiental',
     'límites permisibles',
   ],
-  authors: [{ name: 'AquatechIA', url: baseUrl }],
+  authors: [{ name: 'AquatechIA', url: SITE_URL }],
   creator: 'AquatechIA',
   publisher: 'AquatechIA',
   robots: {
@@ -33,14 +32,14 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: `${baseUrl}/ambiental/herramientas/normas-ambientales`,
+    canonical: `${SITE_URL}/ambiental/herramientas/normas-ambientales`,
   },
   openGraph: {
     title: 'Normas Ambientales por País | Legislación Actualizada',
     description:
       'Consulta normativas ambientales de agua, aire, residuos y vertimientos por país.',
     type: 'website',
-    url: `${baseUrl}/ambiental/herramientas/normas-ambientales`,
+    url: `${SITE_URL}/ambiental/herramientas/normas-ambientales`,
     siteName: 'AquatechIA',
     locale: 'es_CO',
   },
@@ -49,7 +48,7 @@ export const metadata: Metadata = {
     title: 'Normas Ambientales por País',
     description:
       'Base de datos de normativas ambientales por país y sector.',
-    creator: '@aquatechpro',
+    creator: '@aquatechia',
   },
   category: 'technology',
 };
@@ -60,7 +59,7 @@ const structuredData = {
   name: 'Navegador de Normas Ambientales',
   description:
     'Base de datos de regulaciones ambientales internacionales organizadas por país, dominio y sector',
-  url: `${baseUrl}/ambiental/herramientas/normas-ambientales`,
+  url: `${SITE_URL}/ambiental/herramientas/normas-ambientales`,
   applicationCategory: 'ReferenceApplication',
   operatingSystem: 'Web Browser',
   offers: {
@@ -71,7 +70,7 @@ const structuredData = {
   provider: {
     '@type': 'Organization',
     name: 'AquatechIA',
-    url: baseUrl,
+    url: SITE_URL,
   },
   featureList: [
     'Normativas de agua potable',

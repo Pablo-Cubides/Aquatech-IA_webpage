@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
-
-const baseUrl = 'https://aquatechpro.co';
+import { SITE_URL } from '@/lib/site-config';
 
 export const metadata: Metadata = {
-  title: 'Análisis de Correlaciones Ambientales | Estadística | AquatechIA',
+  title: 'Análisis de Correlaciones Ambientales | Estadística',
   description:
     'Herramienta de análisis estadístico para datos ambientales. Calcula correlaciones Pearson, Spearman y Kendall con visualizaciones interactivas.',
   keywords: [
@@ -18,7 +17,7 @@ export const metadata: Metadata = {
     'World Bank data',
     'WHO GHO data',
   ],
-  authors: [{ name: 'AquatechIA', url: baseUrl }],
+  authors: [{ name: 'AquatechIA', url: SITE_URL }],
   creator: 'AquatechIA',
   publisher: 'AquatechIA',
   robots: {
@@ -33,14 +32,14 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: `${baseUrl}/ambiental/herramientas/analisis-correlaciones`,
+    canonical: `${SITE_URL}/ambiental/herramientas/analisis-correlaciones`,
   },
   openGraph: {
     title: 'Análisis de Correlaciones Ambientales | Estadística',
     description:
       'Calcula correlaciones Pearson, Spearman y Kendall en datos ambientales.',
     type: 'website',
-    url: `${baseUrl}/ambiental/herramientas/analisis-correlaciones`,
+    url: `${SITE_URL}/ambiental/herramientas/analisis-correlaciones`,
     siteName: 'AquatechIA',
     locale: 'es_CO',
   },
@@ -49,7 +48,7 @@ export const metadata: Metadata = {
     title: 'Análisis de Correlaciones Ambientales',
     description:
       'Herramienta estadística para análisis de correlaciones en datos ambientales.',
-    creator: '@aquatechpro',
+    creator: '@aquatechia',
   },
   category: 'technology',
 };
@@ -60,7 +59,7 @@ const structuredData = {
   name: 'Análisis de Correlaciones Ambientales',
   description:
     'Herramienta estadística para calcular correlaciones Pearson, Spearman y Kendall en datasets ambientales',
-  url: `${baseUrl}/ambiental/herramientas/analisis-correlaciones`,
+  url: `${SITE_URL}/ambiental/herramientas/analisis-correlaciones`,
   applicationCategory: 'ScientificApplication',
   operatingSystem: 'Web Browser',
   offers: {
@@ -71,7 +70,7 @@ const structuredData = {
   provider: {
     '@type': 'Organization',
     name: 'AquatechIA',
-    url: baseUrl,
+    url: SITE_URL,
   },
   featureList: [
     'Correlación de Pearson',

@@ -413,13 +413,13 @@ function AuthModalContent({ isOpen, onClose, theme = "dark" }: AuthModalProps) {
                       aria-label="Volver a la información de cuenta"
                       className="p-1 hover:bg-white/10 rounded-full transition-colors"
                     >
-                      <X className="w-5 h-5 text-gray-400" />
+                      <X className={`w-5 h-5 ${isDark ? "text-gray-400" : "text-gray-600"}`} />
                     </button>
                   </div>
 
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-400 mb-2">
+                      <label className="block text-sm font-medium ">
                         Elige tu Avatar
                       </label>
                       <div className="grid grid-cols-5 gap-2">
@@ -450,7 +450,7 @@ function AuthModalContent({ isOpen, onClose, theme = "dark" }: AuthModalProps) {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-400 mb-2">
+                      <label className="block text-sm font-medium ">
                         Nombre
                       </label>
                       <input

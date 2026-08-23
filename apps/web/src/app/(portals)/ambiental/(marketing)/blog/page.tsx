@@ -36,6 +36,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { SITE_URL, DEFAULT_LOGO } from "@/lib/site-config";
+
 // JSON-LD Schema for Blog
 function generateBlogSchema() {
   return {
@@ -44,13 +46,13 @@ function generateBlogSchema() {
     name: "Blog Ambiental - AquatechIA",
     description:
       "Artículos, análisis y soluciones innovadoras para los desafíos ambientales.",
-    url: "https://aquatechia.com/ambiental/blog",
+    url: `${SITE_URL}/ambiental/blog`,
     publisher: {
       "@type": "Organization",
       name: "AquatechIA",
       logo: {
         "@type": "ImageObject",
-        url: "https://aquatechia.com/images/logo.png",
+        url: DEFAULT_LOGO,
       },
     },
   };

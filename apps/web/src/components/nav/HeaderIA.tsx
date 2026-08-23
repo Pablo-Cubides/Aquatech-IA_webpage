@@ -40,7 +40,7 @@ export default function HeaderIA() {
           </Link>
           <Link
             href="/ambiental"
-            className="px-4 py-1 font-medium text-[#CCCCCC] transition-all duration-300 hover:text-cyan-400"
+            className="px-4 py-1 font-medium text-[#E5E5E5] transition-all duration-300 hover:text-cyan-400"
           >
             Ambiental
           </Link>
@@ -53,25 +53,25 @@ export default function HeaderIA() {
         <nav aria-label="Navegación principal de IA" className="hidden md:flex items-center gap-6 text-sm font-medium">
           <Link
             href="/ia/nosotros"
-            className="text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400"
+            className="text-[#E5E5E5] transition-colors duration-300 hover:text-cyan-400"
           >
             Nosotros
           </Link>
           <Link
             href="/ia/blog"
-            className="text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400"
+            className="text-[#E5E5E5] transition-colors duration-300 hover:text-cyan-400"
           >
             Blog
           </Link>
           <Link
             href="/ia/herramientas"
-            className="text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400"
+            className="text-[#E5E5E5] transition-colors duration-300 hover:text-cyan-400"
           >
             Herramientas
           </Link>
           <Link
             href="/ia/autor"
-            className="text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400"
+            className="text-[#E5E5E5] transition-colors duration-300 hover:text-cyan-400"
           >
             Autor
           </Link>
@@ -84,7 +84,7 @@ export default function HeaderIA() {
 
         {/* Botón menú móvil */}
         <button
-          className="md:hidden rounded-lg p-2 text-[#CCCCCC] transition-colors duration-300 hover:bg-gray-800 hover:text-cyan-400"
+          className="md:hidden rounded-lg p-2 text-[#E5E5E5] transition-colors duration-300 hover:bg-gray-800 hover:text-cyan-400"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Abrir o cerrar menú de navegación de IA"
         >
@@ -128,7 +128,7 @@ export default function HeaderIA() {
               </Link>
               <Link
                 href="/ambiental"
-                className="px-4 py-1 font-medium text-[#CCCCCC] transition-all duration-300 hover:text-cyan-400"
+                className="px-4 py-1 font-medium text-[#E5E5E5] transition-all duration-300 hover:text-cyan-400"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Ambiental
@@ -136,28 +136,28 @@ export default function HeaderIA() {
             </div>
             <Link
               href="/ia/nosotros"
-              className="text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400 py-2"
+              className="text-[#E5E5E5] transition-colors duration-300 hover:text-cyan-400 py-2"
               onClick={() => setIsMenuOpen(false)}
             >
               Nosotros
             </Link>
             <Link
               href="/ia/blog"
-              className="text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400 py-2"
+              className="text-[#E5E5E5] transition-colors duration-300 hover:text-cyan-400 py-2"
               onClick={() => setIsMenuOpen(false)}
             >
               Blog
             </Link>
             <Link
               href="/ia/herramientas"
-              className="text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400 py-2"
+              className="text-[#E5E5E5] transition-colors duration-300 hover:text-cyan-400 py-2"
               onClick={() => setIsMenuOpen(false)}
             >
               Herramientas
             </Link>
             <Link
               href="/ia/autor"
-              className="text-[#CCCCCC] transition-colors duration-300 hover:text-cyan-400 py-2"
+              className="text-[#E5E5E5] transition-colors duration-300 hover:text-cyan-400 py-2"
               onClick={() => setIsMenuOpen(false)}
             >
               Autor
@@ -165,7 +165,7 @@ export default function HeaderIA() {
             <div className="border-t border-cyan-500/20 mt-2 pt-4">
               <AuthButton
                 theme="dark"
-                className="text-left text-[#CCCCCC] hover:text-cyan-400 py-2 w-full text-sm"
+                className="text-left text-[#E5E5E5] hover:text-cyan-400 py-2 w-full text-sm"
               />
             </div>
           </nav>
