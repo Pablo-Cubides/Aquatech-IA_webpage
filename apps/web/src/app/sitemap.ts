@@ -142,6 +142,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.3,
     },
+    {
+      url: `${baseUrl}/ia/coach-salud`,
+      lastModified: currentDate,
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/ia/coach-salud/privacidad`,
+      lastModified: currentDate,
+      changeFrequency: "monthly",
+      priority: 0.4,
+    },
+    {
+      url: `${baseUrl}/ia/coach-salud/terminos`,
+      lastModified: currentDate,
+      changeFrequency: "monthly",
+      priority: 0.4,
+    },
   ];
 
   // IA Tools pages

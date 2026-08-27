@@ -146,6 +146,22 @@ const nextConfig = {
         destination: "/ia/autor/herramientas/visualizador-notas",
         permanent: true,
       },
+      // Coach Salud Personal (Integration in IA portal)
+      {
+        source: "/coach-salud",
+        destination: "/ia/coach-salud",
+        permanent: true,
+      },
+      {
+        source: "/coach-salud/privacidad",
+        destination: "/ia/coach-salud/privacidad",
+        permanent: true,
+      },
+      {
+        source: "/coach-salud/terminos",
+        destination: "/ia/coach-salud/terminos",
+        permanent: true,
+      },
     ];
   },
 };
