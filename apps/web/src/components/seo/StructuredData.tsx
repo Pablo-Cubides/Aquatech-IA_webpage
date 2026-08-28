@@ -56,7 +56,7 @@ export function ToolStructuredData({
       },
     },
     datePublished,
-    ...(dateModified && { dateModified }),
+    dateModified: dateModified || datePublished || "2026-08-27",
     keywords: keywords.join(", "),
     inLanguage: "es",
     isAccessibleForFree: true,
@@ -114,7 +114,7 @@ export function ArticleStructuredData({
       },
     },
     datePublished,
-    ...(dateModified && { dateModified }),
+    dateModified: dateModified || datePublished || "2026-08-27",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": url,

@@ -194,7 +194,7 @@ jobs:
         if: always()
         continue-on-error: true
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+          token: ${{ secrets.CODECOV_TOKEN || '' }}
           files: ./coverage/coverage-final.json
           flags: unittests
           fail_ci_if_error: false

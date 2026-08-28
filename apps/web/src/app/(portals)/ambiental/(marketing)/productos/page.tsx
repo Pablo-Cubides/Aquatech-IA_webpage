@@ -261,6 +261,7 @@ export default function ProductosAmbientalPage() {
             <input
               type="email"
               required
+              aria-label="Tu correo electrónico para recibir recomendaciones"
               placeholder="Tu correo"
               className="w-full rounded-lg border border-[var(--border)] bg-white px-4 py-3 outline-none focus:ring-2 focus:ring-[var(--accent)]"
             />

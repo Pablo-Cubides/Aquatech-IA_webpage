@@ -38,6 +38,8 @@ export default function AmbientalPage() {
     name: "Portal Ambiental - AquatechIA",
     url: "https://aquatechia.com/ambiental",
     description: "Mapas, normas y herramientas para proteger nuestros recursos naturales. Gestión ambiental con tecnología para un futuro sostenible.",
+    datePublished: "2024-01-01",
+    dateModified: "2026-08-27",
     publisher: {
       "@type": "Organization",
       name: "AquatechIA"
