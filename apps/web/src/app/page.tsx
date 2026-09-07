@@ -1,10 +1,44 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Space_Grotesk, Noto_Sans } from "next/font/google";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Cpu, Globe2, BookOpen } from "lucide-react";
 import type { Metadata } from "next";
+import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com").trim().replace(/\/+$/, "");
+
+const homeAuthoritativeSources = [
+  {
+    title: "Ministerio de Ambiente y Desarrollo Sostenible de Colombia",
+    url: "https://www.minambiente.gov.co/",
+    source: "MinAmbiente (.gov.co)",
+    description: "Normatividad, gobernanza y gestión integral del recurso hídrico en Colombia.",
+  },
+  {
+    title: "Instituto de Hidrología, Meteorología y Estudios Ambientales",
+    url: "http://www.ideam.gov.co/",
+    source: "IDEAM (.gov.co)",
+    description: "Datos científicos abiertos, calidad del agua y series temporales climáticas.",
+  },
+  {
+    title: "U.S. Geological Survey - Water Resources Mission Area",
+    url: "https://www.usgs.gov/",
+    source: "USGS (.gov)",
+    description: "Metodologías de análisis hidrográfico y monitoreo de cuencas en tiempo real.",
+  },
+  {
+    title: "Stanford Artificial Intelligence & NLP Group",
+    url: "https://nlp.stanford.edu/",
+    source: "Stanford University (.edu)",
+    description: "Investigación fundamental en modelos de lenguaje y arquitecturas de atención.",
+  },
+  {
+    title: "United Nations Environment Programme (UNEP)",
+    url: "https://www.unep.org/es",
+    source: "UNEP (ONU)",
+    description: "Directrices globales para la sostenibilidad hídrica y mitigación ambiental.",
+  },
+];
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -64,12 +98,36 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
+  const homeSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "AquatechIA",
+    url: baseUrl,
+    description:
+      "Plataforma educativa de inteligencia artificial y gestión ambiental sostenible.",
+    datePublished: "2024-01-01",
+    dateModified: "2026-09-06",
+    publisher: {
+      "@type": "Organization",
+      name: "AquatechIA",
+      url: baseUrl,
+      logo: {
+        "@type": "ImageObject",
+        url: `${baseUrl}/images/logo-aquatech.png`,
+      },
+    },
+  };
+
   return (
     <main
-      className={`${notoSans.variable} ${spaceGrotesk.variable} h-screen relative overflow-hidden`}
+      className={`${notoSans.variable} ${spaceGrotesk.variable} min-h-screen relative overflow-x-hidden bg-black text-white`}
     >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(homeSchema) }}
+      />
       {/* Fondo dividido con texturas - oculto en móvil */}
-      <div className="absolute inset-0 hidden lg:flex">
+      <div className="absolute inset-0 hidden lg:flex pointer-events-none">
         {/* Lado Negro (IA) */}
         <div className="w-1/2 bg-black relative overflow-hidden">
           {/* Textura grid */}
@@ -102,24 +160,33 @@ export default function Home() {
       </div>
 
       {/* Fondo móvil: gradiente unificado */}
-      <div className="absolute inset-0 lg:hidden bg-gradient-to-br from-black via-gray-900 to-white">
+      <div className="absolute inset-0 lg:hidden bg-gradient-to-br from-black via-gray-900 to-gray-950 pointer-events-none">
         {/* Efectos de luz sutiles para móvil */}
         <div className="absolute top-0 left-0 w-64 h-64 bg-cyan-500/10 rounded-full blur-2xl animate-pulse" />
         <div className="absolute bottom-0 right-0 w-64 h-64 bg-green-500/10 rounded-full blur-2xl animate-pulse delay-500" />
       </div>
 
       {/* Línea divisoria vertical central con efecto glow - oculta en móvil */}
-      <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-gray-400 to-transparent transform -translate-x-1/2 z-10 hidden lg:block">
+      <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-gray-400 to-transparent transform -translate-x-1/2 z-10 hidden lg:block pointer-events-none">
         <div className="absolute inset-0 w-2 -ml-[3px] bg-gradient-to-b from-transparent via-white/50 to-transparent blur-sm" />
       </div>
 
       {/* Contenido principal */}
-      <div className="relative z-20 h-full flex flex-col items-center justify-center px-4 py-8">
-        {/* Encabezado principal (H1 SEO) */}
-        <div className="text-center mb-2 animate-in fade-in slide-in-from-top-4 duration-1000">
-          <h1 className="text-xs md:text-sm text-gray-400/80 font-medium tracking-widest uppercase mb-4" style={{ fontFamily: "var(--font-space)" }}>
-            AquatechIA - Inteligencia Artificial y Gestión Ambiental Sostenible
+      <div className="relative z-20 flex flex-col items-center justify-center px-4 py-12 md:py-16">
+        {/* Encabezado principal (H1 SEO + GEO Direct Answer) */}
+        <div className="text-center mb-6 max-w-3xl mx-auto animate-in fade-in slide-in-from-top-4 duration-1000">
+          <h1
+            className="text-sm md:text-base text-gray-300 font-bold tracking-widest uppercase mb-3"
+            style={{ fontFamily: "var(--font-space)" }}
+          >
+            AquatechIA — Inteligencia Artificial y Gestión Ambiental Sostenible
           </h1>
+          <p
+            className="text-sm md:text-base text-gray-300 leading-relaxed font-normal"
+            data-geo-summary="true"
+          >
+            Plataforma integral y ecosistema tecnológico para la monitorización ambiental, recursos hídricos y modelos generativos de inteligencia artificial aplicados a la sostenibilidad global.
+          </p>
         </div>
 
         {/* Logo principal */}
@@ -250,8 +317,67 @@ export default function Home() {
           </Link>
         </div>
 
+        {/* Sección de Contenido Ecosistema Tecnológico (GEO + Content) */}
+        <section
+          aria-labelledby="ecosistema-heading"
+          className="w-full max-w-6xl mx-auto mt-16 pt-12 border-t border-gray-800 animate-in fade-in duration-1000 delay-300"
+        >
+          <div className="text-center mb-12 max-w-3xl mx-auto">
+            <h2
+              id="ecosistema-heading"
+              className="text-2xl md:text-3xl font-bold mb-4 bg-gradient-to-r from-cyan-400 via-white to-emerald-400 bg-clip-text text-transparent"
+              style={{ fontFamily: "var(--font-space)" }}
+            >
+              Convergencia entre Inteligencia Artificial y Gestión Hídrica Sostenible
+            </h2>
+            <p className="text-sm md:text-base text-gray-300 leading-relaxed">
+              AquatechIA nace como una iniciativa científico-tecnológica para cerrar la brecha entre la ciencia de datos avanzada y la toma de decisiones ambientales en el mundo real. Nuestro ecosistema articula herramientas de código abierto, visores cartográficos interactivos y módulos de machine learning aplicados a la modelación de cuencas, predicción de contaminantes y gobernanza de los recursos naturales.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div className="bg-gray-950/70 border border-cyan-500/20 rounded-xl p-6 backdrop-blur-sm hover:border-cyan-500/40 transition-colors">
+              <div className="w-10 h-10 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-4">
+                <Cpu className="w-5 h-5" />
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">Modelos de IA Educativos y Productivos</h3>
+              <p className="text-xs text-gray-400 leading-relaxed">
+                Visualizadores interactivos de mecanismos de atención en Transformers, exploración de hiperparámetros de muestreo (Temperatura, Top-k, Top-p) y arquitecturas de agentes autónomos que optimizan flujos técnicos y académicos.
+              </p>
+            </div>
+
+            <div className="bg-gray-950/70 border border-emerald-500/20 rounded-xl p-6 backdrop-blur-sm hover:border-emerald-500/40 transition-colors">
+              <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-4">
+                <Globe2 className="w-5 h-5" />
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">Geovisores y Analítica Ambiental Abierta</h3>
+              <p className="text-xs text-gray-400 leading-relaxed">
+                Integración de macro-datos satelitales y de sensores en tiempo real (NASA FIRMS, USGS Earthquake Hazards, OpenAQ, GBIF y Water Quality Portal) para el diagnóstico territorial, monitoreo de cuencas y alertas tempranas.
+              </p>
+            </div>
+
+            <div className="bg-gray-950/70 border border-blue-500/20 rounded-xl p-6 backdrop-blur-sm hover:border-blue-500/40 transition-colors">
+              <div className="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 mb-4">
+                <BookOpen className="w-5 h-5" />
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">Rigor Científico y Cumplimiento Normativo</h3>
+              <p className="text-xs text-gray-400 leading-relaxed">
+                Calculadoras especializadas de calidad del agua (IRCA, ICA), matrices de evaluación de impacto ambiental (Leopold y Conesa) y compendio estructurado de normativas ambientales bajo estándares colombianos e internacionales.
+              </p>
+            </div>
+          </div>
+
+          {/* Fuentes y Referencias Autoritativas (GEO) */}
+          <AuthoritativeReferences
+            sources={homeAuthoritativeSources}
+            title="Fuentes Científicas y Organismos Oficiales de Referencia"
+            subtitle="El ecosistema AquatechIA alinea sus metodologías con las siguientes entidades y bases de datos institucionales:"
+            theme="dark"
+          />
+        </section>
+
         {/* Footer minimalista */}
-        <div className="mt-8 text-center animate-in fade-in duration-1000 delay-500 w-full max-w-4xl">
+        <div className="mt-12 text-center animate-in fade-in duration-1000 delay-500 w-full max-w-4xl">
           <p className="text-xs text-gray-500 mb-3">
             © 2025 Aquatech IA · Innovación en cada gota
           </p>

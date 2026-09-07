@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getFeaturedAmbientalTools } from "@/lib/ambiental-tools";
 import { getLatestArticles } from "@/lib/new-ambiental-articles";
+import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 export const revalidate = 3600;
 
@@ -39,7 +40,7 @@ export default function AmbientalPage() {
     url: "https://aquatechia.com/ambiental",
     description: "Mapas, normas y herramientas para proteger nuestros recursos naturales. Gestión ambiental con tecnología para un futuro sostenible.",
     datePublished: "2024-01-01",
-    dateModified: "2026-08-27",
+    dateModified: "2026-09-06",
     publisher: {
       "@type": "Organization",
       name: "AquatechIA"
@@ -80,16 +81,18 @@ export default function AmbientalPage() {
             >
               Gestión Ambiental con tecnología para un futuro sostenible
             </h1>
-            <p className="mt-6 text-lg md:text-xl text-gray-700 font-medium animate-in fade-in slide-in-from-top-8 duration-700 delay-300">
-              Mapas, normas y herramientas para proteger nuestros recursos
-              naturales.
+            <p
+              className="mt-6 text-lg md:text-xl text-gray-800 font-medium animate-in fade-in slide-in-from-top-8 duration-700 delay-300"
+              data-geo-summary="true"
+            >
+              Plataforma tecnológica especializada en geovisores satelitales, índices de calidad del agua, matrices de impacto y normatividad legal para la toma de decisiones ambientales sostenibles.
             </p>
 
             <div className="mt-12 flex flex-wrap justify-center gap-4 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-500">
-              <Link href="/ambiental/herramientas" className="rounded-lg bg-green-600 px-8 py-3 text-base font-bold text-white transition-all duration-300 ease-out hover:bg-green-700 hover:shadow-xl hover:shadow-green-500/50 hover:-translate-y-1 hover:scale-105 active:translate-y-0">
+              <Link href="/ambiental/herramientas" className="rounded-lg bg-emerald-700 px-8 py-3 text-base font-bold text-white transition-all duration-300 ease-out hover:bg-emerald-800 hover:shadow-xl hover:shadow-emerald-700/50 hover:-translate-y-1 hover:scale-105 active:translate-y-0">
                 Explorar herramientas
               </Link>
-              <Link href="/ambiental/blog" className="rounded-lg border-2 border-blue-600 px-8 py-3 text-base font-bold text-blue-600 backdrop-blur-sm bg-white/60 transition-all duration-300 ease-out hover:bg-blue-600 hover:text-white hover:shadow-xl hover:shadow-blue-500/50 hover:-translate-y-1 hover:scale-105 active:translate-y-0">
+              <Link href="/ambiental/blog" className="rounded-lg border-2 border-blue-700 px-8 py-3 text-base font-bold text-blue-700 backdrop-blur-sm bg-white/80 transition-all duration-300 ease-out hover:bg-blue-700 hover:text-white hover:shadow-xl hover:shadow-blue-600/50 hover:-translate-y-1 hover:scale-105 active:translate-y-0">
                 Conocer más
               </Link>
             </div>
@@ -107,12 +110,12 @@ export default function AmbientalPage() {
             >
               Nosotros
             </h2>
-            <p className="mt-4 text-lg text-gray-600">
+            <p className="mt-4 text-lg text-gray-700">
               Nuestra misión es aprovechar la tecnología para mejorar la gestión
               ambiental, fomentando un futuro sostenible a través de soluciones
               innovadoras y una toma de decisiones informada.
             </p>
-            <Link href="/ambiental/nosotros" aria-label="Conocer más sobre nuestro equipo de gestión ambiental" className="mt-8 inline-block rounded-lg border border-blue-600 px-6 py-2 font-medium text-blue-600 transition-all duration-300 ease-out hover:bg-blue-600 hover:text-white hover:-translate-y-1">
+            <Link href="/ambiental/nosotros" aria-label="Conocer más sobre nuestro equipo de gestión ambiental" className="mt-8 inline-block rounded-lg border border-blue-700 px-6 py-2 font-semibold text-blue-700 transition-all duration-300 ease-out hover:bg-blue-700 hover:text-white hover:-translate-y-1">
               Conoce más sobre nuestro equipo
             </Link>
           </div>
@@ -171,7 +174,7 @@ export default function AmbientalPage() {
           <div className="mt-12 text-center">
             <a
               href="/ambiental/herramientas"
-              className="inline-flex items-center gap-2 rounded-lg bg-[#10B981]/15 px-8 py-3 font-semibold text-[#10B981] transition-all duration-300 hover:bg-[#10B981]/25 hover:shadow-lg hover:shadow-[#10B981]/30 hover:-translate-y-1"
+              className="inline-flex items-center gap-2 rounded-lg bg-emerald-50 border border-emerald-300 px-8 py-3 font-bold text-emerald-800 transition-all duration-300 hover:bg-emerald-700 hover:text-white hover:shadow-lg hover:shadow-emerald-700/30 hover:-translate-y-1"
             >
               Ver más herramientas
               <svg
@@ -215,9 +218,9 @@ export default function AmbientalPage() {
                     src={article.heroImage}
                   />
                   <div className="p-6 flex-grow flex flex-col">
-                    <div className="text-sm text-gray-500">
+                    <div className="text-sm text-gray-600">
                       {new Date(article.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })} ·{" "}
-                      <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-[#10B981]">
+                      <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-800 border border-emerald-200">
                         {article.category}
                       </span>
                     </div>
@@ -227,7 +230,7 @@ export default function AmbientalPage() {
                     <p className="mt-2 text-sm text-gray-700 flex-grow">
                       {article.excerpt}
                     </p>
-                    <div className="mt-4 font-semibold text-[#10B981] group-hover:text-[#0077B6]">
+                    <div className="mt-4 font-semibold text-emerald-700 group-hover:text-blue-700">
                       Leer <span aria-hidden="true">→</span>
                     </div>
                   </div>
@@ -240,7 +243,7 @@ export default function AmbientalPage() {
           <div className="mt-12 text-center">
             <a
               href="/ambiental/blog"
-              className="inline-flex items-center gap-2 rounded-lg bg-[#10B981]/15 px-8 py-3 font-semibold text-[#10B981] transition-all duration-300 hover:bg-[#10B981]/25 hover:shadow-lg hover:shadow-[#10B981]/30 hover:-translate-y-1"
+              className="inline-flex items-center gap-2 rounded-lg bg-emerald-50 border border-emerald-300 px-8 py-3 font-bold text-emerald-800 transition-all duration-300 hover:bg-emerald-700 hover:text-white hover:shadow-lg hover:shadow-emerald-700/30 hover:-translate-y-1"
             >
               Ver más artículos
               <svg
@@ -311,6 +314,13 @@ export default function AmbientalPage() {
               </Link>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* REFERENCIAS AUTORIZADAS GEO/SEO */}
+      <section className="py-12 bg-white border-t border-slate-200">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <AuthoritativeReferences theme="light" />
         </div>
       </section>
 

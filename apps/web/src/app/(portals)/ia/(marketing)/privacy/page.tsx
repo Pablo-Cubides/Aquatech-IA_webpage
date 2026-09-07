@@ -1,25 +1,39 @@
 import type { Metadata } from "next";
+import { WebPageStructuredData } from "@/components/seo/StructuredData";
+import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 export const metadata: Metadata = {
   title: "Política de Privacidad | AquatechIA",
   description:
-    "Política de privacidad y protección de datos personales en AquatechIA",
+    "Política de privacidad y protección de datos personales en AquatechIA conforme a normativas internacionales y nacionales de seguridad de información.",
   robots: "index, follow",
 };
 
 export default function PrivacyPage() {
   return (
-    <div className="bg-[#000000] text-white min-h-screen">
-      <div className="max-w-4xl mx-auto py-12 px-4 md:px-6 lg:px-8">
-        {/* Header */}
-        <div className="mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-[#00EFFF]">
-            Política de Privacidad
-          </h1>
-          <p className="text-[#CCCCCC] text-sm mt-4">
-            Última actualización: {new Date().toLocaleDateString("es-ES")}
-          </p>
-        </div>
+    <>
+      <WebPageStructuredData
+        title="Política de Privacidad | Aquatech IA"
+        description="Política de privacidad y protección de datos personales en AquatechIA conforme a normativas internacionales y nacionales de seguridad de información."
+        url="https://www.aquatechia.com/ia/privacy"
+        datePublished="2024-06-01"
+        dateModified="2026-09-06"
+      />
+      <div className="bg-[#000000] text-white min-h-screen">
+        <div className="max-w-4xl mx-auto py-12 px-4 md:px-6 lg:px-8">
+          {/* Header */}
+          <div className="mb-12">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-[#00EFFF]">
+              Política de Privacidad
+            </h1>
+            <p className="text-[#E2E8F0] text-base md:text-lg leading-relaxed mt-4 max-w-3xl">
+              La presente Política de Privacidad describe cómo Aquatech IA recopila, procesa, almacena y protege los datos personales de los usuarios en cumplimiento con el Reglamento General de Protección de Datos (RGPD) y la Ley 1581 de Protección de Datos Personales.
+            </p>
+            <div className="text-[#94A3B8] text-sm mt-3 flex items-center gap-2">
+              <span>Fecha de última actualización:</span>
+              <time dateTime="2026-09-06" className="font-medium text-slate-300">6 de septiembre de 2026</time>
+            </div>
+          </div>
 
         {/* Content */}
         <div className="space-y-8">
@@ -307,8 +321,14 @@ export default function PrivacyPage() {
               </p>
             </div>
           </section>
+
+          {/* Authoritative References GEO/SEO */}
+          <section className="mt-12 pt-8 border-t border-gray-800">
+            <AuthoritativeReferences theme="dark" />
+          </section>
         </div>
       </div>
     </div>
+    </>
   );
 }

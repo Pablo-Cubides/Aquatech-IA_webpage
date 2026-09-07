@@ -38,6 +38,13 @@ export type BlogArticle = {
     conclusion?: string;
   };
   tags: string[];
+  dateModified?: string;
+  references?: {
+    title: string;
+    url: string;
+    source: string;
+    description?: string;
+  }[];
   nextArticle?: {
     slug: string;
     title: string;

@@ -15,12 +15,29 @@ import FAQ from "@/components/recomendaciones/FAQ";
 import { filterItems, sortItems } from "@/lib/filters-env";
 import { buildAffiliateUrl, trackViewList } from "@/lib/track-env";
 import type { Resource } from "@/lib/types-env";
+import { FAQStructuredData, WebPageStructuredData } from "@/components/seo/StructuredData";
+import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 import data from "@/data/recommendations-ambiental.json";
 
 // Static metadata moved to layout or use dynamic title setting
 
 const PAGE_SIZE = 12;
+
+const productosFaqs = [
+  {
+    question: "¿Cómo seleccionan los recursos y productos recomendados?",
+    answer: "Evaluamos reseñas técnicas, reputación del fabricante o autor, vigencia normativa y aplicabilidad real en proyectos de ingeniería. Probamos o verificamos las herramientas cuando es posible.",
+  },
+  {
+    question: "¿Aquatech IA gana comisión por los productos recomendados?",
+    answer: "Sí, a través de enlaces de afiliado seleccionados. No afecta en ningún momento el precio que pagas y permite mantener la investigación abierta y el mantenimiento del portal.",
+  },
+  {
+    question: "¿Cómo puedo sugerir un nuevo recurso o herramienta técnica?",
+    answer: "Escríbenos por el formulario de contacto o soporte técnico. Nuestro equipo multidisciplinario revisa sugerencias en cada actualización periódica.",
+  },
+];
 
 export default function ProductosAmbientalPage() {
   const items = data as Resource[];
@@ -55,15 +72,23 @@ export default function ProductosAmbientalPage() {
 
   return (
     <>
+      <WebPageStructuredData
+        title="Productos y Recursos Recomendados en Gestión Ambiental e IA | Aquatech IA"
+        description="Catálogo curado de software técnico, equipamiento instrumental, literatura científica y cursos especializados seleccionados por expertos de Aquatech IA."
+        url="https://aquatechia.com/ambiental/productos"
+        datePublished="2024-06-01"
+        dateModified="2026-09-06"
+      />
+      <FAQStructuredData faqs={productosFaqs} />
       <style jsx global>{`
         :root {
           --bg: #f5f9f8;
           --panel: #ffffff;
           --ink: #0d161c;
-          --muted: #4b5563;
+          --muted: #374151;
           --border: #e5e7eb;
-          --accent: #22c55e;
-          --accent-2: #0ea5e9;
+          --accent: #047857;
+          --accent-2: #0369a1;
         }
         body {
           background: var(--bg);
@@ -85,9 +110,8 @@ export default function ProductosAmbientalPage() {
             Recursos recomendados para aprender, trabajar y equiparte en gestión
             ambiental & IA
           </h1>
-          <p className="mt-4 text-lg text-[var(--muted)] max-w-3xl mx-auto">
-            Solo recomendamos lo que usaríamos en nuestros proyectos académicos
-            y profesionales.
+          <p className="mt-4 text-base md:text-lg text-[var(--muted)] max-w-3xl mx-auto leading-relaxed">
+            Catálogo curado de software técnico, equipamiento instrumental, literatura científica y cursos especializados seleccionados por expertos de Aquatech IA para optimizar la práctica profesional en ingeniería y gestión ambiental.
           </p>
 
           {/* Tags rápidos */}
@@ -239,6 +263,13 @@ export default function ProductosAmbientalPage() {
       <section className="py-16">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <FAQ />
+        </div>
+      </section>
+
+      {/* REFERENCIAS AUTORIZADAS GEO */}
+      <section className="py-12 bg-white border-t border-[var(--border)]">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <AuthoritativeReferences theme="light" />
         </div>
       </section>
 

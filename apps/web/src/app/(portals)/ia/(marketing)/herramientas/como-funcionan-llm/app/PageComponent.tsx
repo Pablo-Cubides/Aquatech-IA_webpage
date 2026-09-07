@@ -9,6 +9,8 @@ import ProbabilityStep from "./components/ProbabilityStep";
 import AutoregressiveStep from "./components/AutoregressiveStep";
 import BibliographyStep from "./components/BibliographyStep";
 import { ProcessProvider, useProcess } from "../context/ProcessContext";
+import { WebPageStructuredData } from "@/components/seo/StructuredData";
+import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 const DEMO_TEXTS = [
   "Los pájaros vuelan porque tienen alas",
@@ -104,21 +106,32 @@ function ExploraModeloApp() {
   const currentStepData = steps[currentStep];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[var(--ia-bg)] via-[var(--ia-bg-2)] to-[var(--ia-bg)]">
-      {/* Header - Moderno y limpio */}
-      <header className="sticky top-0 z-50 border-b border-[var(--ia-border)] bg-[var(--ia-bg)]/95 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="text-3xl">🧠</div>
-            <div>
-              <h1 className="text-xl font-bold text-[var(--ia-accent)]">
-                ExploraModelo
-              </h1>
-              <p className="text-xs text-[var(--ia-text-secondary)]">
-                Cómo funcionan los LLMs
-              </p>
+    <>
+      <WebPageStructuredData
+        title="Cómo Funcionan los Grandes Modelos de Lenguaje (LLM) | Aquatech IA"
+        description="Aprende paso a paso cómo funcionan los Grandes Modelos de Lenguaje (LLM): tokenización, embeddings, atención, probabilidades y generación autorregresiva de texto."
+        url="https://aquatechia.com/ia/herramientas/como-funcionan-llm"
+        datePublished="2024-06-01"
+        dateModified="2026-09-06"
+      />
+      <div className="min-h-screen bg-gradient-to-b from-[var(--ia-bg)] via-[var(--ia-bg-2)] to-[var(--ia-bg)]">
+        {/* Header - Moderno y limpio */}
+        <header className="sticky top-0 z-50 border-b border-[var(--ia-border)] bg-[var(--ia-bg)]/95 backdrop-blur-md">
+          <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="text-3xl">🧠</div>
+              <div>
+                <span className="text-xs uppercase tracking-wider font-semibold text-[var(--ia-accent)] block">
+                  Simulador Arquitectónico
+                </span>
+                <h1 className="text-lg md:text-xl font-bold text-white leading-tight">
+                  Cómo Funcionan los Grandes Modelos de Lenguaje (LLM)
+                </h1>
+                <p className="text-xs md:text-sm text-[var(--ia-text-secondary)] mt-0.5 max-w-xl leading-normal">
+                  Guía visual interactiva que explica paso a paso la arquitectura interna de un modelo de lenguaje Transformer: desde la tokenización de texto y embeddings vectoriales hasta la autoatención y generación autorregresiva de tokens.
+                </p>
+              </div>
             </div>
-          </div>
 
           <div className="flex items-center gap-4">
             <label className="flex items-center gap-2 cursor-pointer">
@@ -255,7 +268,48 @@ function ExploraModeloApp() {
             Paso {currentStep + 1} de {steps.length}
           </p>
         </div>
+
+        {/* Fundamentación Teórica y Arquitectura de Transformers */}
+        <section className="mt-16 pt-12 border-t border-[var(--ia-border)]">
+          <div className="bg-[var(--ia-bg-2)] border border-[var(--ia-border)] rounded-2xl p-8 shadow-sm">
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+              Arquitectura de Transformers: Fundamentos Teóricos de los LLMs
+            </h2>
+            <p className="text-[var(--ia-text-secondary)] leading-relaxed mb-6">
+              Los Modelos de Lenguaje Grande (LLM) contemporáneos operan sobre el principio de atención propio de la arquitectura Transformer ("Attention Is All You Need", Vaswani et al., 2017). A través de múltiples capas de atención multicabezal (Multi-Head Self-Attention) y redes prealimentadas (Feed-Forward Networks), el modelo procesa secuencias de texto capturando dependencias semánticas globales de largo alcance.
+            </p>
+
+            <div className="grid md:grid-cols-3 gap-6 text-sm text-[var(--ia-text-secondary)]">
+              <div className="p-5 rounded-xl bg-[var(--ia-bg-3)] border border-[var(--ia-border)]">
+                <h3 className="font-bold text-[var(--ia-accent)] mb-2">1. Tokenización y Espacio Vectorial</h3>
+                <p className="leading-relaxed">
+                  El texto plano es segmentado en unidades mínimas o subpalabras mediante algoritmos de Byte-Pair Encoding (BPE) o WordPiece. Cada token se proyecta a un vector continuo en un espacio latente de alta dimensionalidad enriquecido con codificación posicional.
+                </p>
+              </div>
+
+              <div className="p-5 rounded-xl bg-[var(--ia-bg-3)] border border-[var(--ia-border)]">
+                <h3 className="font-bold text-[var(--ia-accent-secondary)] mb-2">2. Mecanismo de Autoatención</h3>
+                <p className="leading-relaxed">
+                  Cada token genera vectores de consulta (Query), clave (Key) y valor (Value). La puntuación de atención calcula la compatibilidad entre pares de tokens: Attention(Q, K, V) = softmax((Q K^T) / √d_k) V, permitiendo contextualizar palabras polisémicas dinámicamente.
+                </p>
+              </div>
+
+              <div className="p-5 rounded-xl bg-[var(--ia-bg-3)] border border-[var(--ia-border)]">
+                <h3 className="font-bold text-[var(--ia-success)] mb-2">3. Inferencia Autorregresiva</h3>
+                <p className="leading-relaxed">
+                  La cabeza lineal de salida proyecta los estados ocultos al vocabulario completo. Aplicando softmax, se obtiene una distribución de probabilidad condicional P(w_t | w_1...w_t-1), prediciendo y concatenando un token a la vez de forma continua.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Referencias Académicas Autorizadas GEO */}
+          <div className="mt-12">
+            <AuthoritativeReferences theme="dark" />
+          </div>
+        </section>
       </main>
     </div>
+    </>
   );
 }

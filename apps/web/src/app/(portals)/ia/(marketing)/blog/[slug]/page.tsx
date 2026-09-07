@@ -7,6 +7,7 @@ import { getArticle, getAllArticles } from "@/lib/blog-articles";
 import { generateArticleSchema } from "@/lib/blog-seo";
 import { renderSafeRichText } from "@/lib/security/safe-rich-text";
 import { SITE_URL } from "@/lib/site-config";
+import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -37,6 +38,7 @@ export async function generateMetadata({
       description: article.excerpt,
       type: "article",
       publishedTime: article.date,
+      modifiedTime: article.dateModified || "2026-09-06",
       authors: [article.author.name],
       images: [
         {
@@ -100,6 +102,33 @@ function formatDate(iso: string) {
     year: "numeric",
   });
 }
+
+const defaultIASources = [
+  {
+    title: "Attention Is All You Need (Transformer Architecture)",
+    url: "https://arxiv.org/abs/1706.03762",
+    source: "arXiv (.org)",
+    description: "Paper seminal sobre arquitecturas de atención y modelos de lenguaje.",
+  },
+  {
+    title: "Stanford Natural Language Processing Research",
+    url: "https://nlp.stanford.edu/",
+    source: "Stanford University (.edu)",
+    description: "Publicaciones y avances en procesamiento de lenguaje natural.",
+  },
+  {
+    title: "OpenAI Research & Technical Reports",
+    url: "https://openai.com/research",
+    source: "OpenAI Research",
+    description: "Estudios empíricos sobre escalado, alineación y modelos generativos.",
+  },
+  {
+    title: "W3C Artificial Intelligence Standards & Semantics",
+    url: "https://www.w3.org/",
+    source: "W3C (.org)",
+    description: "Estándares web, accesibilidad y datos estructurados.",
+  },
+];
 
 export default async function BlogArticlePage({ params }: PageProps) {
   const { slug } = await params;
@@ -418,6 +447,12 @@ export default async function BlogArticlePage({ params }: PageProps) {
                   </span>
                 ))}
               </div>
+
+              {/* Fuentes y Referencias Autoritativas (GEO) */}
+              <AuthoritativeReferences
+                sources={article.references && article.references.length > 0 ? article.references : defaultIASources}
+                theme="dark"
+              />
             </div>
           </article>
 
@@ -549,9 +584,9 @@ export default async function BlogArticlePage({ params }: PageProps) {
             >
               <div className="flex flex-col md:flex-row items-center justify-between">
                 <div className="text-center md:text-left mb-4 md:mb-0">
-                  <p className="text-sm text-gray-400 mb-2">
+                  <span className="block text-sm text-gray-400 mb-2 font-medium">
                     Siguiente artículo
-                  </p>
+                  </span>
                   <h3 className="text-2xl md:text-3xl font-bold text-white group-hover:text-[#00EFFF] transition-colors">
                     {article.nextArticle.title}
                   </h3>

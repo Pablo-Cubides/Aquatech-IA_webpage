@@ -56,7 +56,7 @@ export function ToolStructuredData({
       },
     },
     datePublished,
-    dateModified: dateModified || datePublished || "2026-08-27",
+    dateModified: dateModified || "2026-09-06",
     keywords: keywords.join(", "),
     inLanguage: "es",
     isAccessibleForFree: true,
@@ -114,7 +114,7 @@ export function ArticleStructuredData({
       },
     },
     datePublished,
-    dateModified: dateModified || datePublished || "2026-08-27",
+    dateModified: dateModified || "2026-09-06",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": url,
@@ -216,6 +216,66 @@ export function HowToStructuredData({ name, description, steps }: HowToStructure
       image: step.image,
     })),
   };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+    />
+  );
+}
+
+export interface WebPageStructuredDataProps {
+  name?: string;
+  title?: string;
+  description: string;
+  url: string;
+  datePublished?: string;
+  dateModified?: string;
+  breadcrumb?: Array<{ name: string; url: string }>;
+}
+
+export function WebPageStructuredData({
+  name,
+  title,
+  description,
+  url,
+  datePublished = "2024-01-01",
+  dateModified = "2026-09-06",
+  breadcrumb,
+}: WebPageStructuredDataProps) {
+  const pageName = name || title || "Aquatech IA";
+  const structuredData: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: pageName,
+    description,
+    url,
+    datePublished,
+    dateModified,
+    inLanguage: "es",
+    publisher: {
+      "@type": "Organization",
+      name: "AquatechIA",
+      url: SITE_URL,
+      logo: {
+        "@type": "ImageObject",
+        url: DEFAULT_LOGO,
+      },
+    },
+  };
+
+  if (breadcrumb && breadcrumb.length > 0) {
+    structuredData.breadcrumb = {
+      "@type": "BreadcrumbList",
+      itemListElement: breadcrumb.map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: item.name,
+        item: item.url,
+      })),
+    };
+  }
 
   return (
     <script

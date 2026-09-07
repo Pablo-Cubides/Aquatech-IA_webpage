@@ -86,7 +86,7 @@ export function generateArticleSchema(
     description: article.excerpt,
     image: article.heroImage,
     datePublished: article.date,
-    dateModified: article.date,
+    dateModified: (article as { dateModified?: string }).dateModified || "2026-09-06",
     author: {
       "@type": "Person",
       name: article.author.name,

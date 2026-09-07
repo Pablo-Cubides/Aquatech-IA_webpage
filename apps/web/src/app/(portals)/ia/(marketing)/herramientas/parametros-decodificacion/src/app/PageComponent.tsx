@@ -16,6 +16,8 @@ import Badge from "../components/Badge";
 import PatternRadarChart from "../components/PatternRadarChart";
 import PatternTimeline from "../components/PatternTimeline";
 import AcademicReferences from "../components/AcademicReferences";
+import { WebPageStructuredData } from "@/components/seo/StructuredData";
+import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 // Referencias académicas por parámetro para SEO y credibilidad
 const academicReferences = {
@@ -360,53 +362,53 @@ export default function Home() {
   );
 
   return (
-    <main className="max-w-7xl mx-auto p-8 text-white">
-      {/* Enhanced header with LLM Tune logo */}
-      <header className="mb-12 animate-slide-down relative">
-        <div className="flex flex-col md:flex-row items-start md:items-center gap-8 mb-8">
-          {/* Logo and title section */}
-          <div className="flex items-center gap-6 flex-shrink-0">
-            <img
-              src={logoSrc}
-              alt="LLM Tune"
-              className="w-20 h-20 md:w-24 md:h-24 object-contain drop-shadow-lg hover:drop-shadow-2xl transition-all duration-300"
-              onError={(e) => {
-                // Fallback if image not found
-                (e.target as HTMLImageElement).style.display = "none";
-              }}
-            />
-            <div>
-              <h1 className="text-3xl md:text-5xl font-black leading-tight mb-2">
-                <span className="bg-gradient-to-r from-[#00efff] via-[#0095ff] to-[#10b981] bg-clip-text text-transparent">
-                  LLM Tune
+    <>
+      <WebPageStructuredData
+        title="Parámetros de Decodificación (LLM Tune) | Aquatech IA"
+        description="Playground interactivo para experimentar con Temperatura, Top-k, Top-p y penalización por repetición en modelos de lenguaje grandes."
+        url="https://aquatechia.com/ia/herramientas/parametros-decodificacion"
+        datePublished="2024-06-01"
+        dateModified="2026-09-06"
+      />
+      <main className="max-w-7xl mx-auto p-8 text-white">
+        {/* Enhanced header with LLM Tune logo */}
+        <header className="mb-12 animate-slide-down relative">
+          <div className="flex flex-col md:flex-row items-start md:items-center gap-8 mb-8">
+            {/* Logo and title section */}
+            <div className="flex items-center gap-6 flex-shrink-0">
+              <img
+                src={logoSrc}
+                alt="LLM Tune"
+                className="w-20 h-20 md:w-24 md:h-24 object-contain drop-shadow-lg hover:drop-shadow-2xl transition-all duration-300"
+                onError={(e) => {
+                  // Fallback if image not found
+                  (e.target as HTMLImageElement).style.display = "none";
+                }}
+              />
+              <div>
+                <span className="block text-xs md:text-sm font-bold text-[#00efff] tracking-widest uppercase mb-1">
+                  Explorador de Parámetros de Decodificación
                 </span>
-              </h1>
-              <p className="text-sm md:text-base font-semibold text-[#00efff] tracking-wide">
-                Explorador de Parámetros de Decodificación
-              </p>
+                <h1 className="text-3xl md:text-5xl font-black leading-tight mb-2">
+                  <span className="bg-gradient-to-r from-[#00efff] via-[#0095ff] to-[#10b981] bg-clip-text text-transparent">
+                    LLM Tune
+                  </span>
+                </h1>
+                <p className="text-sm md:text-base text-[#E2E8F0] leading-relaxed max-w-xl">
+                  LLM Tune es un playground interactivo diseñado para experimentar con Temperatura, Top-k, Nucleus Sampling (Top-p) y penalización de repetición, visualizando en tiempo real cómo estos hiperparámetros transforman la distribución de tokens y la creatividad en modelos de lenguaje.
+                </p>
+              </div>
             </div>
-          </div>
 
-          {/* Description section */}
-          <div className="flex-1">
-            <div className="glass-strong rounded-xl p-6 border-l-4 border-[#00efff]">
-              <p className="text-sm md:text-base text-[#CCCCCC] leading-relaxed">
-                Plataforma educativa interactiva que demuestra cómo{" "}
-                <span className="text-[#00efff] font-semibold">
-                  Temperatura
-                </span>
-                ,<span className="text-[#0095ff] font-semibold"> Top-k</span>,
-                <span className="text-[#10b981] font-semibold"> Top-p</span> y
-                <span className="text-[#00efff] font-semibold">
-                  {" "}
-                  Penalización
-                </span>{" "}
-                influyen en la generación de texto de modelos de lenguaje
-                grandes.
-              </p>
+            {/* Description section */}
+            <div className="flex-1">
+              <div className="glass-strong rounded-xl p-6 border-l-4 border-[#00efff]">
+                <p className="text-sm md:text-base text-[#CCCCCC] leading-relaxed">
+                  Experimenta con variaciones de muestreo estocástico para calibrar el balance óptimo entre coherencia fáctica y diversidad lingüística según la tarea requerida.
+                </p>
+              </div>
             </div>
           </div>
-        </div>
 
         {/* Decorative gradient line */}
         <div className="h-1 bg-gradient-to-r from-[#00efff] via-[#0095ff] to-[#10b981] rounded-full opacity-60 mb-8" />
@@ -1049,6 +1051,53 @@ export default function Home() {
         </section>
       )}
 
+      {/* Fundamentación Teórica y Metodológica (GEO & Content Enrichment) */}
+      <section className="mt-20 pt-12 border-t border-white/10 text-[#CCCCCC] space-y-8">
+        <div className="glass-strong rounded-2xl p-8 border border-white/10">
+          <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 bg-gradient-to-r from-[#00efff] to-[#0095ff] bg-clip-text text-transparent">
+            Fundamentos de Decodificación y Estrategias de Muestreo en LLMs
+          </h2>
+          <p className="text-[#E2E8F0] leading-relaxed mb-6">
+            Los modelos de lenguaje basados en arquitecturas Transformer generan texto token por token de manera autoregresiva. En cada paso de inferencia, la red neuronal produce un vector de logits sobre la totalidad del vocabulario. La decodificación es el algoritmo matemático que convierte estos logits no normalizados en una distribución de probabilidad de tokens candidatos mediante una función softmax escalada.
+          </p>
+
+          <div className="grid md:grid-cols-2 gap-6 text-sm">
+            <div className="bg-white/5 p-6 rounded-xl border border-white/10">
+              <h3 className="text-lg font-bold text-[#00efff] mb-2">1. Temperatura (T) y Escalado de Logits</h3>
+              <p className="leading-relaxed">
+                El hiperparámetro de temperatura modula la entropía de la función softmax dividiendo cada logit z_i por T antes de la exponencial: P(w_i) = exp(z_i / T) / Σ exp(z_j / T). A temperaturas cercanas a 0 (T &lt; 0.2), la distribución se vuelve casi determinista (Greedy Search), seleccionando siempre el token más probable. Conforme T supera 1.0, la distribución se aplana, otorgando mayor probabilidad a tokens de baja frecuencia y posibilitando mayor creatividad léxica a expensas de la precisión fáctica.
+              </p>
+            </div>
+
+            <div className="bg-white/5 p-6 rounded-xl border border-white/10">
+              <h3 className="text-lg font-bold text-[#0095ff] mb-2">2. Top-k y Nucleus Sampling (Top-p)</h3>
+              <p className="leading-relaxed">
+                El truncamiento por Top-k restringe la selección a los k tokens con mayor probabilidad absoluta, descartando por completo la cola larga del vocabulario. Por su parte, el muestreo por núcleo (Top-p), introducido por Holtzman et al. (2019), selecciona el subconjunto dinámico de menor tamaño cuya masa de probabilidad acumulada alcance el umbral p. Esto ajusta el espacio de búsqueda según la certeza del modelo en cada contexto.
+              </p>
+            </div>
+
+            <div className="bg-white/5 p-6 rounded-xl border border-white/10">
+              <h3 className="text-lg font-bold text-[#10b981] mb-2">3. Penalización por Frecuencia y Repetición</h3>
+              <p className="leading-relaxed">
+                En modelos autorregresivos, los bucles de repetición son un artefacto común debido a la acumulación de probabilidad local. Los factores de penalización reducen el logit de aquellos tokens que ya han sido generados en la ventana de contexto previa, obligando al modelo a introducir variantes sintácticas y léxicas sin perder el hilo temático.
+              </p>
+            </div>
+
+            <div className="bg-white/5 p-6 rounded-xl border border-white/10">
+              <h3 className="text-lg font-bold text-[#00efff] mb-2">4. Aplicaciones Prácticas y Calibración</h3>
+              <p className="leading-relaxed">
+                Para tareas de extracción de datos, generación de código y respuestas técnicas, se recomienda calibrar T entre 0.0 y 0.2 con Top-p de 0.9. Para redacción creativa, lluvia de ideas y generación literaria, se sugiere calibrar T entre 0.7 y 0.95 con Top-p de 0.95 para permitir metáforas y giros lingüísticos inesperados.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Citas y Referencias Oficiales GEO */}
+        <div className="mt-8">
+          <AuthoritativeReferences theme="dark" />
+        </div>
+      </section>
+
       <footer className="text-center text-sm text-[#CCCCCC] mt-16 pb-8 border-t border-white/5 pt-8">
         <div className="flex items-center justify-center gap-2 mb-3">
           <div className="w-8 h-8 rounded-lg bg-gradient-cyber flex items-center justify-center">
@@ -1068,5 +1117,6 @@ export default function Home() {
         </p>
       </footer>
     </main>
+    </>
   );
 }

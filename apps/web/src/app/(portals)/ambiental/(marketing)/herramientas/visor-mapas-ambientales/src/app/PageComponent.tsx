@@ -19,6 +19,7 @@ import USGSLayerControl from "@/components/USGSLayerControl";
 import FIRMSLayerControl from "@/components/FIRMSLayerControl";
 import RangeFilter from "../components/RangeFilter";
 import ErrorBoundary from "../components/ErrorBoundary";
+import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 import type {
   DatasetMetadata,
   GeoJSONFeature,
@@ -790,14 +791,14 @@ interface WQPResultItem {
         Saltar al contenido principal
       </a>
 
-      <main id="main-content" className="flex flex-col h-screen">
+      <main id="main-content" className="flex flex-col min-h-screen">
         {/* Header */}
         <header
           className="bg-white border-b border-gray-200 shadow-sm"
           role="banner"
         >
           <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between py-4">
+            <div className="flex items-center justify-between py-3">
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setIsMobileFiltersOpen(!isMobileFiltersOpen)}
@@ -820,11 +821,7 @@ interface WQPResultItem {
               </button>
 
               <div className="flex items-center space-x-3 flex-1 lg:flex-initial">
-                {/* Logo */}
-                <h1 className="sr-only">
-                  Visor de Mapas Ambientales - AquatechIA
-                </h1>
-                <div className="relative w-auto h-20 sm:h-32 lg:h-40 hidden sm:block aspect-[2/1]">
+                <div className="relative w-28 h-12 hidden sm:block aspect-[2/1] flex-shrink-0">
                   <Image
                     src="/images/portal-ambiental/herramientas/geovisor.png"
                     alt="Geovisor AquatechIA"
@@ -833,8 +830,16 @@ interface WQPResultItem {
                     priority
                   />
                 </div>
+                <div>
+                  <h1 className="text-base sm:text-lg font-bold text-slate-900 leading-tight">
+                    Visor de Mapas Ambientales
+                  </h1>
+                  <p className="text-xs text-slate-600 leading-normal max-w-md hidden md:block">
+                    Plataforma de información geográfica para visualizar datos geoespaciales, calidad del aire OpenAQ, eventos de la NASA y registros de biodiversidad GBIF en tiempo real.
+                  </p>
+                </div>
                 <select
-                  className="w-full sm:w-64 input-field text-sm sm:text-base"
+                  className="w-full sm:w-60 input-field text-sm"
                   value={selectedDataset?.id || ""}
                   onChange={(e) => {
                     const dataset = datasets.find(
@@ -1900,6 +1905,48 @@ interface WQPResultItem {
             />
           )}
         </div>
+
+        {/* Metodología Cartográfica y Fuentes de Datos GEO/SEO */}
+        <section className="bg-slate-50 border-t border-slate-200 py-12 px-4 sm:px-6 lg:px-8 text-slate-800">
+          <div className="max-w-7xl mx-auto space-y-8">
+            <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">
+                Metodología y Fuentes de Información Geoespacial Ambiental
+              </h2>
+              <p className="text-slate-700 leading-relaxed mb-6">
+                El Visor de Mapas Ambientales de Aquatech IA integra flujos de datos georreferenciados provenientes de observatorios satelitales, estaciones meteorológicas de superficie y redes abiertas de biodiversidad para proporcionar una visión unificada de indicadores ecosistémicos y factores de riesgo ambiental.
+              </p>
+
+              <div className="grid md:grid-cols-3 gap-6 text-sm">
+                <div className="p-5 rounded-xl bg-slate-50 border border-slate-200">
+                  <h3 className="font-bold text-slate-900 mb-2">1. Calidad del Aire (OpenAQ)</h3>
+                  <p className="text-slate-600 leading-relaxed">
+                    Recopila en tiempo real mediciones horarias de material particulado (PM2.5, PM10), ozono (O3), dióxido de nitrógeno (NO2) y monóxido de carbono (CO) de redes oficiales gubernamentales, estandarizando unidades en microgramos por metro cúbico (µg/m³).
+                  </p>
+                </div>
+
+                <div className="p-5 rounded-xl bg-slate-50 border border-slate-200">
+                  <h3 className="font-bold text-slate-900 mb-2">2. Eventos Naturales (NASA EONET)</h3>
+                  <p className="text-slate-600 leading-relaxed">
+                    Sincroniza el Earth Observatory Natural Event Tracker (EONET) para georreferenciar incendios forestales activos, tormentas tropicales, erupciones volcánicas e inundaciones severas con marcas temporales precisas.
+                  </p>
+                </div>
+
+                <div className="p-5 rounded-xl bg-slate-50 border border-slate-200">
+                  <h3 className="font-bold text-slate-900 mb-2">3. Registros Biológicos (GBIF)</h3>
+                  <p className="text-slate-600 leading-relaxed">
+                    Consulta la Infraestructura Mundial de Información en Biodiversidad (GBIF), mapeando ocurrencias taxonómicas de especies nativas y amenazadas con coordenadas validadas por curadurías científicas internacionales.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Referencias Oficiales Autorizadas GEO */}
+            <div>
+              <AuthoritativeReferences theme="light" />
+            </div>
+          </div>
+        </section>
       </main>
 
       {/* Upload wizard modal */}

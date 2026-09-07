@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Noto_Sans, Space_Grotesk } from "next/font/google";
+import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 // TODO: Move metadata to layout.tsx file
 
@@ -21,9 +22,11 @@ export default function IAHerramientasPage() {
   const collectionSchema = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Herramientas de IA",
+    name: "Herramientas de IA | Aquatech IA",
     url: "https://aquatechia.com/ia/herramientas",
-    description: "Explore nuestros módulos de inteligencia artificial diseñados para potenciar la gestión y el análisis en el sector del agua.",
+    description: "Catálogo de simuladores y herramientas interactivas de inteligencia artificial para explorar arquitectura LLM, decodificación y moderación algorítmica.",
+    datePublished: "2024-01-01",
+    dateModified: "2026-09-06",
     publisher: {
       "@type": "Organization",
       name: "AquatechIA"
@@ -54,9 +57,8 @@ export default function IAHerramientasPage() {
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight bg-gradient-to-br from-white to-[#00efff] bg-clip-text text-transparent mb-6">
               Herramientas de IA
             </h1>
-            <p className="text-lg md:text-xl text-[#CCCCCC] mb-8 max-w-3xl mx-auto leading-relaxed">
-              Explore nuestros módulos de inteligencia artificial diseñados para
-              potenciar la gestión y el análisis en el sector del agua.
+            <p className="text-lg md:text-xl text-[#E2E8F0] mb-8 max-w-3xl mx-auto leading-relaxed">
+              Catálogo de herramientas interactivas y simuladores de inteligencia artificial diseñados por Aquatech IA para explorar la arquitectura de LLMs, decodificación de tokens, moderación algorítmica y aplicaciones en sostenibilidad.
             </p>
 
             {/* Breadcrumb */}
@@ -613,6 +615,11 @@ export default function IAHerramientasPage() {
                 </div>
               ))}
             </div>
+          </section>
+
+          {/* Authoritative References GEO/SEO */}
+          <section className="mt-16 pt-12 border-t border-[rgba(0,239,255,0.1)]">
+            <AuthoritativeReferences theme="dark" />
           </section>
         </div>
       </div>

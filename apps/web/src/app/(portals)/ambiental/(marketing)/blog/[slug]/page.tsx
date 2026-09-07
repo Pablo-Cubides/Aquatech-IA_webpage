@@ -7,6 +7,7 @@ import { getArticle, getAllArticles } from "@/lib/blog-articles";
 import { generateArticleSchema } from "@/lib/blog-seo";
 import { renderSafeRichText } from "@/lib/security/safe-rich-text";
 import { SITE_URL } from "@/lib/site-config";
+import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -37,6 +38,7 @@ export async function generateMetadata({
       description: article.excerpt,
       type: "article",
       publishedTime: article.date,
+      modifiedTime: article.dateModified || "2026-09-06",
       authors: [article.author.name],
       images: [
         {
@@ -100,6 +102,33 @@ function formatDate(iso: string) {
     year: "numeric",
   });
 }
+
+const defaultAmbientalSources = [
+  {
+    title: "Normatividad Ambiental y Guías de Manejo",
+    url: "https://www.minambiente.gov.co/",
+    source: "MinAmbiente (.gov.co)",
+    description: "Marco legal, decretos y políticas ambientales del territorio nacional.",
+  },
+  {
+    title: "Monitoreo Hidrológico y Calidad de Cuencas",
+    url: "http://www.ideam.gov.co/",
+    source: "IDEAM (.gov.co)",
+    description: "Datos científicos y meteorológicos oficiales sobre el recurso hídrico.",
+  },
+  {
+    title: "Water Resources & Environmental Guidelines",
+    url: "https://www.usgs.gov/",
+    source: "USGS (.gov)",
+    description: "Estándares y protocolos científicos internacionales de gestión ambiental.",
+  },
+  {
+    title: "Programa de las Naciones Unidas para el Medio Ambiente",
+    url: "https://www.unep.org/es",
+    source: "UNEP (ONU)",
+    description: "Evaluaciones globales y metas de sostenibilidad hídrica.",
+  },
+];
 
 export default async function BlogArticlePage({ params }: PageProps) {
   const { slug } = await params;
@@ -276,8 +305,8 @@ export default async function BlogArticlePage({ params }: PageProps) {
             {/* Contenido principal */}
             <div className="prose prose-lg max-w-none ">
               {/* Introducción con optimización GEO */}
-              <div 
-                className="text-xl leading-relaxed text-gray-600 mb-8 font-medium"
+              <p 
+                className="text-xl leading-relaxed text-gray-800 mb-8 font-medium"
                 data-geo-summary="true"
                 dangerouslySetInnerHTML={{ __html: renderSafeRichText(article.content.introduction, "text-[#0D161C]") }}
               />
@@ -413,12 +442,18 @@ export default async function BlogArticlePage({ params }: PageProps) {
                 {article.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full hover:bg-[#10B981] hover:text-[#10111A] transition-colors cursor-pointer"
+                    className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-emerald-700 hover:text-white transition-colors cursor-pointer"
                   >
                     #{tag}
                   </span>
                 ))}
               </div>
+
+              {/* Fuentes y Referencias Autoritativas (GEO) */}
+              <AuthoritativeReferences
+                sources={article.references && article.references.length > 0 ? article.references : defaultAmbientalSources}
+                theme="light"
+              />
             </div>
           </article>
 
@@ -550,14 +585,14 @@ export default async function BlogArticlePage({ params }: PageProps) {
             >
               <div className="flex flex-col md:flex-row items-center justify-between">
                 <div className="text-center md:text-left mb-4 md:mb-0">
-                  <p className="text-sm text-gray-500 mb-2">
+                  <span className="block text-sm text-gray-600 mb-2 font-medium">
                     Siguiente artículo
-                  </p>
-                  <h3 className="text-2xl md:text-3xl font-bold text-[#0D161C] group-hover:text-[#10B981] transition-colors">
+                  </span>
+                  <h3 className="text-2xl md:text-3xl font-bold text-[#0D161C] group-hover:text-emerald-700 transition-colors">
                     {article.nextArticle.title}
                   </h3>
                 </div>
-                <div className="flex items-center text-[#10B981] transform group-hover:translate-x-2 transition-transform duration-300">
+                <div className="flex items-center text-emerald-700 font-semibold transform group-hover:translate-x-2 transition-transform duration-300">
                   <span className="text-xl font-semibold mr-3">Leer más</span>
                   <svg
                     className="w-8 h-8"

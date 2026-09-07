@@ -62,6 +62,8 @@ const structuredData = {
   url: `${SITE_URL}/ambiental/herramientas/visor-mapas-ambientales`,
   applicationCategory: 'EnvironmentalApplication',
   operatingSystem: 'Web Browser',
+  datePublished: '2024-06-01',
+  dateModified: '2026-09-06',
   offers: {
     '@type': 'Offer',
     price: '0',

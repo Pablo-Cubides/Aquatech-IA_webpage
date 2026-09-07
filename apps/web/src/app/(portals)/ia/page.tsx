@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { getFeaturedIATools } from "@/lib/ia-tools";
 import { getLatestIAArticles } from "@/lib/new-blog-articles";
+import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 export const revalidate = 3600;
 
@@ -40,7 +41,7 @@ export default function IAPage() {
     url: "https://aquatechia.com/ia",
     description: "Explora modelos generativos, visualizaciones y herramientas prácticas de inteligencia artificial aplicadas al agua y medio ambiente.",
     datePublished: "2024-01-01",
-    dateModified: "2026-08-27",
+    dateModified: "2026-09-06",
     publisher: {
       "@type": "Organization",
       name: "AquatechIA"
@@ -81,9 +82,11 @@ export default function IAPage() {
             >
               Inteligencia Artificial aplicada al agua y al ambiente
             </h1>
-            <p className="mt-6 text-lg md:text-xl text-[#E0E0E0] animate-in fade-in slide-in-from-top-8 duration-700 delay-300">
-              Explora modelos generativos, visualizaciones y herramientas
-              prácticas.
+            <p
+              className="mt-6 text-lg md:text-xl text-[#E0E0E0] animate-in fade-in slide-in-from-top-8 duration-700 delay-300"
+              data-geo-summary="true"
+            >
+              Plataforma especializada en modelos generativos, visualizaciones interactivas y herramientas de deep learning diseñadas para optimizar la gestión hídrica, predecir variables críticas y acelerar la sostenibilidad ambiental.
             </p>
 
             <div className="mt-12 flex flex-wrap justify-center gap-4 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-500">
@@ -390,6 +393,39 @@ export default function IAPage() {
           </div>
         </div>
       </section> */}
+
+      {/* Fuentes y Referencias Autoritativas (GEO) */}
+      <section className="container mx-auto px-4 py-8">
+        <AuthoritativeReferences
+          sources={[
+            {
+              title: "Attention Is All You Need (Transformer Architecture)",
+              url: "https://arxiv.org/abs/1706.03762",
+              source: "arXiv (.org)",
+              description: "Paper seminal sobre arquitecturas de atención y modelos de lenguaje.",
+            },
+            {
+              title: "Stanford Artificial Intelligence & NLP Group",
+              url: "https://nlp.stanford.edu/",
+              source: "Stanford University (.edu)",
+              description: "Investigación fundamental sobre modelos de lenguaje y representación del conocimiento.",
+            },
+            {
+              title: "World Wide Web Consortium (W3C) - Standards & Data",
+              url: "https://www.w3.org/",
+              source: "W3C (.org)",
+              description: "Estándares web abiertos y esquemas semánticos para la interoperabilidad.",
+            },
+            {
+              title: "United Nations Environment Programme (UNEP) - Science & Data",
+              url: "https://www.unep.org/es",
+              source: "UNEP (ONU)",
+              description: "Metodologías globales de monitoreo de recursos hídricos e impacto ambiental.",
+            },
+          ]}
+          theme="dark"
+        />
+      </section>
     </div>
   );
 }

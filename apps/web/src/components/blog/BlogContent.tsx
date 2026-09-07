@@ -121,33 +121,33 @@ export function BlogContent({
         />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
           <h1
-            className={`text-4xl md:text-6xl font-bold tracking-tight bg-gradient-to-r ${isAmbiental ? "from-[#0077B6] via-[#10B981] to-[#10B981]" : "from-violet-600 via-purple-600 to-violet-600"} bg-clip-text text-transparent`}
+            className={`text-4xl md:text-6xl font-bold tracking-tight bg-gradient-to-r ${isAmbiental ? "from-teal-800 via-emerald-800 to-teal-900" : "from-violet-600 via-purple-600 to-violet-600"} bg-clip-text text-transparent`}
           >
             {isAmbiental ? "Blog Ambiental" : "Blog de IA"}
           </h1>
           <p
-            className={`text-lg md:text-xl ${textSecondary} max-w-3xl mx-auto mt-6`}
+            className={`text-lg md:text-xl ${textSecondary} max-w-3xl mx-auto mt-6 leading-relaxed`}
           >
             {isAmbiental
-              ? "Artículos, análisis y soluciones innovadoras para los desafíos ambientales del siglo XXI"
-              : "Guías, tutoriales y análisis sobre inteligencia artificial, machine learning y tecnologías emergentes"}
+              ? "Publicaciones técnicas, investigaciones aplicadas y análisis regulatorios sobre gestión del recurso hídrico, evaluación de impacto ambiental, normatividad y tecnologías sostenibles para profesionales y tomadores de decisiones."
+              : "Artículos especializados, análisis arquitectónicos y tutoriales prácticos sobre modelos de lenguaje grande (LLM), agentes autónomos, machine learning y automatización inteligente para desarrolladores y líderes tecnológicos."}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
             <Link
               href="#articulos"
-              className={`bg-${primaryColor}-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-${primaryColor}-700 transition-colors`}
+              className={`text-white px-8 py-3 rounded-full font-semibold transition-colors shadow-sm`}
               style={{
-                backgroundColor: isAmbiental ? "#16a34a" : "#7c3aed",
+                backgroundColor: isAmbiental ? "#065f46" : "#7c3aed",
               }}
             >
               Explorar Artículos
             </Link>
             <Link
               href={`/${portal}/nosotros`}
-              className={`border-2 border-${primaryColor}-600 text-${primaryColor}-600 px-8 py-3 rounded-full font-semibold hover:bg-${primaryColor}-600 hover:text-white transition-colors`}
+              className={`border-2 px-8 py-3 rounded-full font-semibold transition-colors`}
               style={{
-                borderColor: isAmbiental ? "#16a34a" : "#7c3aed",
-                color: isAmbiental ? "#16a34a" : "#7c3aed",
+                borderColor: isAmbiental ? "#065f46" : "#7c3aed",
+                color: isAmbiental ? "#065f46" : "#7c3aed",
               }}
             >
               Conoce Nuestro Equipo
@@ -194,14 +194,14 @@ export function BlogContent({
                 className={classNames(
                   "px-4 py-2 rounded-full text-sm font-medium border transition-all",
                   activeCategorySlug === null
-                    ? `bg-${primaryColor}-600 text-white border-${primaryColor}-600 shadow-lg`
-                    : `bg-white text-[#4B5563] border-gray-300 hover:bg-${primaryColor}-50 hover:border-${primaryColor}-300 hover:text-${primaryColor}-700`,
+                    ? `text-white shadow-md`
+                    : `bg-white text-[#4B5563] border-gray-300 hover:bg-slate-50`,
                 )}
                 style={
                   activeCategorySlug === null
                     ? {
-                        backgroundColor: isAmbiental ? "#16a34a" : "#7c3aed",
-                        borderColor: isAmbiental ? "#16a34a" : "#7c3aed",
+                        backgroundColor: isAmbiental ? "#065f46" : "#7c3aed",
+                        borderColor: isAmbiental ? "#065f46" : "#7c3aed",
                       }
                     : {}
                 }
@@ -215,9 +215,17 @@ export function BlogContent({
                   className={classNames(
                     "px-4 py-2 rounded-full text-sm font-medium border transition-all",
                     activeCategorySlug === cat.slug
-                      ? `bg-${primaryColor}-600 text-white border-${primaryColor}-600 shadow-lg`
-                      : `bg-white text-[#4B5563] border-gray-300 hover:bg-${primaryColor}-50 hover:border-${primaryColor}-300 hover:text-${primaryColor}-700`,
+                      ? `text-white shadow-md`
+                      : `bg-white text-slate-700 border-gray-300 hover:bg-slate-50`,
                   )}
+                  style={
+                    activeCategorySlug === cat.slug
+                      ? {
+                          backgroundColor: isAmbiental ? "#065f46" : "#7c3aed",
+                          borderColor: isAmbiental ? "#065f46" : "#7c3aed",
+                        }
+                      : {}
+                  }
                 >
                   {cat.displayName}
                 </Link>
@@ -248,12 +256,12 @@ export function BlogContent({
                   className={classNames(
                     "p-2 rounded-md transition-colors",
                     view === "grid"
-                      ? `bg-white text-${primaryColor}-600 shadow-sm`
+                      ? `bg-white shadow-sm`
                       : "text-gray-500 hover:text-gray-700",
                   )}
                   style={
                     view === "grid"
-                      ? { color: isAmbiental ? "#16a34a" : "#7c3aed" }
+                      ? { color: isAmbiental ? "#065f46" : "#7c3aed" }
                       : {}
                   }
                   title="Vista en cuadrícula"
@@ -271,12 +279,12 @@ export function BlogContent({
                   className={classNames(
                     "p-2 rounded-md transition-colors",
                     view === "list"
-                      ? `bg-white text-${primaryColor}-600 shadow-sm`
+                      ? `bg-white shadow-sm`
                       : "text-gray-500 hover:text-gray-700",
                   )}
                   style={
                     view === "list"
-                      ? { color: isAmbiental ? "#16a34a" : "#7c3aed" }
+                      ? { color: isAmbiental ? "#065f46" : "#7c3aed" }
                       : {}
                   }
                   title="Vista en lista"
@@ -338,9 +346,9 @@ export function BlogContent({
                     />
                     <div className="absolute top-4 left-4">
                       <span
-                        className={`bg-${primaryColor}-600 text-white px-3 py-1 rounded-full text-sm font-bold`}
+                        className={`text-white px-3 py-1 rounded-full text-sm font-bold shadow-sm`}
                         style={{
-                          backgroundColor: isAmbiental ? "#16a34a" : "#7c3aed",
+                          backgroundColor: isAmbiental ? "#065f46" : "#7c3aed",
                         }}
                       >
                         Destacado
@@ -350,16 +358,16 @@ export function BlogContent({
                   <div className="p-6 md:p-8 flex flex-col">
                     <div className="mb-3">
                       <span
-                        className={`text-sm font-semibold text-${primaryColor}-600 uppercase tracking-wide`}
+                        className={`text-sm font-semibold uppercase tracking-wide`}
                         style={{
-                          color: isAmbiental ? "#16a34a" : "#7c3aed",
+                          color: isAmbiental ? "#065f46" : "#7c3aed",
                         }}
                       >
                         {featured.category}
                       </span>
                     </div>
                     <h3
-                      className={`text-2xl lg:text-3xl font-bold mb-4 group-hover:text-${primaryColor}-600 transition-colors leading-tight`}
+                      className={`text-2xl lg:text-3xl font-bold mb-4 group-hover:text-emerald-800 transition-colors leading-tight`}
                     >
                       <Link href={`/${portal}/blog/${featured.slug}`}>
                         {featured.title}
@@ -442,9 +450,9 @@ export function BlogContent({
                     setActiveCategorySlug(null);
                     setSort("newest");
                   }}
-                  className={`bg-${primaryColor}-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-${primaryColor}-700 transition-colors`}
+                  className={`text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow-sm`}
                   style={{
-                    backgroundColor: isAmbiental ? "#16a34a" : "#7c3aed",
+                    backgroundColor: isAmbiental ? "#065f46" : "#7c3aed",
                   }}
                 >
                   Limpiar Filtros
@@ -526,9 +534,9 @@ export function BlogContent({
                 />
                 <button
                   type="submit"
-                  className={`w-full rounded-lg px-4 py-3 font-bold bg-white text-${primaryColor}-600 hover:bg-${primaryColor}-50 transition-colors`}
+                  className={`w-full rounded-lg px-4 py-3 font-bold bg-white transition-colors`}
                   style={{
-                    color: isAmbiental ? "#16a34a" : "#7c3aed",
+                    color: isAmbiental ? "#065f46" : "#7c3aed",
                   }}
                 >
                   Suscribirse
@@ -597,7 +605,7 @@ function CardGrid({ post, portal, isAmbiental }: CardProps) {
   const textMain = isAmbiental ? "text-[#1F2937]" : "text-white";
   const textSecondary = isAmbiental ? "text-[#4B5563]" : "text-gray-300";
   const hoverColor = isAmbiental
-    ? "group-hover:text-green-600"
+    ? "group-hover:text-emerald-800"
     : "group-hover:text-cyan-400";
 
   return (
@@ -617,9 +625,9 @@ function CardGrid({ post, portal, isAmbiental }: CardProps) {
         />
         <div className="absolute top-4 left-4">
           <span
-            className="text-white px-3 py-1 rounded-full text-xs font-bold"
+            className="text-white px-3 py-1 rounded-full text-xs font-bold shadow-sm"
             style={{
-              backgroundColor: isAmbiental ? "#16a34a" : "#00EFFF",
+              backgroundColor: isAmbiental ? "#065f46" : "#00EFFF",
               color: isAmbiental ? "white" : "#10111A",
             }}
           >
@@ -666,7 +674,7 @@ function CardList({ post, portal, isAmbiental }: CardProps) {
   const textMain = isAmbiental ? "text-[#1F2937]" : "text-white";
   const textSecondary = isAmbiental ? "text-[#4B5563]" : "text-gray-300";
   const hoverColor = isAmbiental
-    ? "group-hover:text-green-600"
+    ? "group-hover:text-emerald-800"
     : "group-hover:text-cyan-400";
 
   return (
@@ -687,9 +695,9 @@ function CardList({ post, portal, isAmbiental }: CardProps) {
           />
           <div className="absolute top-4 left-4">
             <span
-              className="text-white px-3 py-1 rounded-full text-xs font-bold"
+              className="text-white px-3 py-1 rounded-full text-xs font-bold shadow-sm"
               style={{
-                backgroundColor: isAmbiental ? "#16a34a" : "#00EFFF",
+                backgroundColor: isAmbiental ? "#065f46" : "#00EFFF",
                 color: isAmbiental ? "white" : "#10111A",
               }}
             >

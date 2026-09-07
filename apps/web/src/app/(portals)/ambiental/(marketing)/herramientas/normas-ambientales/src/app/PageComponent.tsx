@@ -17,6 +17,8 @@ import { getSectorEmoji } from "@/lib/sectorIcons";
 import { useState } from "react";
 import { DOMINIOS, getFlagEmoji } from "@/lib/constants";
 import { API_BASE } from "@/lib/api";
+import { WebPageStructuredData } from "@/components/seo/StructuredData";
+import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 // Convert country slug to ISO-2 code for flagcdn
 function slugToIso(slug: string): string | null {
@@ -191,6 +193,13 @@ export default function HomePage() {
           <div className="absolute bottom-0 left-0 rounded-full w-96 h-96 bg-emerald-400 mix-blend-multiply filter blur-3xl"></div>
         </div>
         <div className="container relative z-10 px-4 mx-auto">
+          <WebPageStructuredData
+            title="Normas Ambientales por País (NormaGlobal) | Aquatech IA"
+            description="Compendio de normativas y estándares ambientales internacionales para agua, aire, residuos y vertimientos clasificados por país y sector."
+            url="https://aquatechia.com/ambiental/herramientas/normas-ambientales"
+            datePublished="2024-06-01"
+            dateModified="2026-09-06"
+          />
           <div className="max-w-3xl mx-auto text-center">
             {/* Logo */}
             <div className="flex justify-center mb-8">
@@ -200,11 +209,11 @@ export default function HomePage() {
                 className="object-contain w-auto h-48 drop-shadow-2xl"
               />
             </div>
-            <h1 className="mb-6 text-5xl font-bold leading-tight md:text-6xl">
+            <h1 className="mb-4 text-4xl font-bold leading-tight md:text-6xl">
               NormaGlobal
             </h1>
-            <p className="mb-8 text-xl leading-relaxed text-blue-100 md:text-2xl">
-              Biblioteca de normatividad ambiental
+            <p className="mb-6 text-base leading-relaxed text-blue-100 md:text-xl max-w-2xl mx-auto">
+              NormaGlobal es el compendio interactivo de normatividad ambiental de Aquatech IA para consultar leyes, decretos y límites permisibles en agua, aire, residuos y vertimientos por país y sector productivo.
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               <Badge className="bg-blue-500 border-0">💧 Agua</Badge>
@@ -473,6 +482,35 @@ export default function HomePage() {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Fundamentación Jurídico-Ambiental y Jerarquía Normativa */}
+            <div className="mt-12 bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
+              <h2 className="text-2xl font-bold text-slate-900 mb-4">
+                Marco Conceptual y Jerarquía Normativa en Gestión Ambiental
+              </h2>
+              <p className="text-slate-700 leading-relaxed mb-6">
+                La legislación ambiental moderna se estructura bajo el principio de no regresión y la jerarquía piramidal de fuentes del derecho: tratados internacionales multilaterales (Convenio de Minamata, Convenio de Estocolmo, Acuerdo de París), leyes marco nacionales, decretos reglamentarios y resoluciones técnicas sectoriales.
+              </p>
+              <div className="grid md:grid-cols-2 gap-6 text-sm text-slate-600">
+                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                  <h3 className="font-bold text-slate-900 mb-2">Criterios de Calidad vs. Límites de Emisión</h3>
+                  <p className="leading-relaxed">
+                    Los estándares ambientales se diferencian entre normas de calidad ambiental (inmisión), que fijan las concentraciones máximas permisibles de contaminantes en cuerpos de agua o aire ambiente para proteger la salud humana y la biota, y normas de emisión/vertimiento, que regulan la carga puntual descargada por actividades industriales.
+                  </p>
+                </div>
+                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                  <h3 className="font-bold text-slate-900 mb-2">Armonización Internacional y Estandarización</h3>
+                  <p className="leading-relaxed">
+                    Las directrices de la Organización Mundial de la Salud (OMS), la Agencia de Protección Ambiental de los Estados Unidos (US EPA) y las Directivas de la Unión Europea proporcionan las bases toxicológicas y epidemiológicas adoptadas por las agencias ambientales latinoamericanas en sus respectivas regulaciones.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Referencias Autorizadas GEO */}
+            <div className="mt-12">
+              <AuthoritativeReferences theme="light" />
+            </div>
           </div>
         </div>
       </section>
