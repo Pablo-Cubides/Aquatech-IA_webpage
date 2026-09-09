@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { LayoutDashboard, Users, Calendar, ShieldAlert } from "lucide-react";
+import { LayoutDashboard, Users, Newspaper, ShieldAlert } from "lucide-react";
 
 export default async function AdminLayout({
   children,
@@ -48,8 +48,8 @@ export default async function AdminLayout({
             href="/admin/content"
             className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition-colors text-slate-300 hover:text-white"
           >
-            <Calendar className="w-5 h-5" />
-            Programar Posts
+            <Newspaper className="w-5 h-5 text-emerald-400" />
+            Artículos de Blog
           </Link>
         </nav>
 

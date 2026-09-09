@@ -1,0 +1,45 @@
+[
+  {
+    "id": "art_seed_demo_agente_ia",
+    "portal": "ia",
+    "slug": "introduccion-a-los-agentes-autonomos-en-ingenieria",
+    "title": "Introducción a los Agentes Autónomos en Ingeniería y Ciencia de Datos",
+    "category": "Agentes y Automatización",
+    "date": "2026-09-09",
+    "readTime": 6,
+    "excerpt": "Cómo los agentes basados en LLM ejecutan tareas complejas de código, análisis y supervisión técnica en entornos de producción.",
+    "heroImage": "/images/portal-ia/blog/llm-transformers-architecture.jpg",
+    "author": {
+      "name": "Agente IA (Orquestador)",
+      "avatar": "/images/portal-ia/autor/pablo-cubides.png",
+      "bio": "Generado y estructurado automáticamente por el sistema de agentes autónomos."
+    },
+    "content": {
+      "introduction": "Los agentes autónomos representan la evolución natural de los modelos de lenguaje: de simples generadores de texto a sistemas capaces de razonar, planificar y utilizar herramientas externas para resolver problemas complejos de ingeniería.",
+      "sections": [
+        {
+          "id": "que-es-un-agente",
+          "title": "¿Qué define a un Agente Autónomo?",
+          "content": "A diferencia de un chat tradicional, un agente opera en un bucle continuo de **Percepción, Razonamiento, Acción y Reflexión**. Dispone de herramientas (APIs, bases de datos, ejecución de código) y una memoria de trabajo que le permite corregir sus propios errores.",
+          "callout": {
+            "type": "info",
+            "title": "Bucle ReAct",
+            "content": "El paradigma ReAct (Reason + Act) permite al modelo descomponer metas ambiciosas en subtareas verificables antes de emitir una respuesta final."
+          }
+        },
+        {
+          "id": "aplicacion-en-aquatech",
+          "title": "Aplicación en Aquatech IA",
+          "content": "En entornos de ingeniería ambiental e hídrica, los agentes pueden consultar normativas vigentes, procesar datos de sensores de calidad de agua y redactar informes técnicos listos para la revisión humana."
+        }
+      ],
+      "conclusion": "La supervisión humana sigue siendo esencial: los agentes aceleran la producción y estructuración de contenido técnico, mientras que los especialistas validan y gestionan su publicación."
+    },
+    "tags": ["Agentes", "IA", "Automatización", "Ingeniería"],
+    "status": "PUBLISHED",
+    "source": "AGENT",
+    "publishedAt": "2026-09-09T12:00:00.000Z",
+    "createdAt": "2026-09-09T12:00:00.000Z",
+    "updatedAt": "2026-09-09T12:00:00.000Z"
+  }
+]
