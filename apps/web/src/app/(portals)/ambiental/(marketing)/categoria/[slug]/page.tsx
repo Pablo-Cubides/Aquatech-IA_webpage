@@ -71,7 +71,7 @@ export default async function CategoryPage({
     notFound();
   }
 
-  const articles = getArticlesByCategory("ambiental", slug);
+  const articles = await getArticlesByCategory("ambiental", slug);
   const breadcrumbs = getCategoryBreadcrumbs("ambiental", category);
   const categorySchema = generateCategorySchema(
     category,

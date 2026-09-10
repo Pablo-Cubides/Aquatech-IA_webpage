@@ -103,10 +103,13 @@ function generateBlogSchema() {
   };
 }
 
-export default function BlogAmbientalPage() {
-  const articles = getAllArticles("ambiental");
+export const revalidate = 60;
+
+export default async function BlogAmbientalPage() {
+  const articles = await getAllArticles("ambiental");
   const categories = getCategories("ambiental");
   const blogSchema = generateBlogSchema();
+
 
   return (
     <>

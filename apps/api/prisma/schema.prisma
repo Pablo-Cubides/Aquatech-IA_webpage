@@ -291,11 +291,47 @@ model ToolAnalytics {
   @@map("tool_analytics")
 }
 
+// Blog posts (managed dynamically by agents and admin)
+model BlogPost {
+  id           String         @id @default(cuid())
+  slug         String
+  portal       Portal
+  title        String
+  category     String
+  excerpt      String         @db.Text
+  content      Json           // Structured content: { introduction, sections, conclusion }
+  heroImage    String?        @map("hero_image")
+  authorName   String         @default("Pablo Cubides") @map("author_name")
+  authorAvatar String?        @map("author_avatar")
+  authorBio    String?        @map("author_bio")
+  readTime     Int            @default(5) @map("read_time")
+  tags         String[]       @default([])
+  status       BlogPostStatus @default(PUBLISHED)
+  source       String         @default("AGENT")
+  references   Json?
+  nextArticle  Json?          @map("next_article")
+  publishedAt  DateTime       @default(now()) @map("published_at")
+  createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime       @updatedAt @map("updated_at")
+
+  @@unique([portal, slug])
+  @@index([portal, status, publishedAt])
+  @@map("blog_posts")
+}
+
 // Enums
 enum UserRole {
   USER
   ADMIN
   MODERATOR
+}
+
+enum BlogPostStatus {
+  DRAFT
+  SCHEDULED
+  PUBLISHED
+  PAUSED
+  ARCHIVED
 }
 
 enum PaymentStatus {
@@ -342,3 +378,4 @@ enum Portal {
   IA
   AMBIENTAL
 }
+

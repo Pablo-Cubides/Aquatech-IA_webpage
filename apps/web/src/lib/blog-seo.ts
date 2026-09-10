@@ -1,4 +1,4 @@
-import { BlogArticle, AMBIENTAL_ARTICLES, IA_ARTICLES } from "./blog-articles";
+import { BlogArticle, getAllArticles } from "./blog-articles";
 import {
   BlogCategory,
   getCategoryBySlug,
@@ -48,18 +48,19 @@ export function mapArticleCategoryToSeoCategory(
 /**
  * Obtiene artículos por categoría SEO
  */
-export function getArticlesByCategory(
+export async function getArticlesByCategory(
   portal: "ia" | "ambiental",
   categorySlug: string,
-): BlogArticle[] {
-  const articles = portal === "ia" ? IA_ARTICLES : AMBIENTAL_ARTICLES;
+): Promise<BlogArticle[]> {
   const category = getCategoryBySlug(portal, categorySlug);
 
   if (!category) {
     return [];
   }
 
-  return Object.values(articles).filter((article) => {
+  const articles = await getAllArticles(portal);
+
+  return articles.filter((article) => {
     const articleCategory = mapArticleCategoryToSeoCategory(
       portal,
       article.category,
@@ -67,6 +68,7 @@ export function getArticlesByCategory(
     return articleCategory?.slug === categorySlug;
   });
 }
+
 
 /**
  * Genera JSON-LD Schema para artículo de blog
@@ -185,12 +187,13 @@ export function getAllCategorySlugs(
 }
 
 /**
- * Obtiene todos los slugs de artículos para generateStaticParams
+ * Obtiene todos los slugs de artículos para sitemap y generateStaticParams
  */
-export function getAllArticleSlugs(portal: "ia" | "ambiental"): string[] {
-  const articles = portal === "ia" ? IA_ARTICLES : AMBIENTAL_ARTICLES;
-  return Object.keys(articles);
+export async function getAllArticleSlugs(portal: "ia" | "ambiental"): Promise<string[]> {
+  const articles = await getAllArticles(portal);
+  return articles.map((a) => a.slug);
 }
+
 
 /**
  * Genera URL canónica para artículo

@@ -1,8 +1,10 @@
 import fs from "fs";
 import path from "path";
 import type { BlogArticle } from "@/lib/blog-articles";
+import { prisma } from "@/lib/db";
+import type { BlogPost, BlogPostStatus, Prisma } from "@prisma/client";
 
-export type BlogArticleStatus = "PUBLISHED" | "SCHEDULED" | "PAUSED" | "ARCHIVED";
+export type BlogArticleStatus = "PUBLISHED" | "SCHEDULED" | "PAUSED" | "ARCHIVED" | "DRAFT";
 export type BlogArticleSource = "AGENT" | "ADMIN" | "CODE";
 
 export interface StoredBlogArticle extends BlogArticle {
@@ -17,7 +19,7 @@ export interface StoredBlogArticle extends BlogArticle {
 
 let cachedArticlesPath: string | null = null;
 
-// Find repository content path deterministically without parent-directory globbing
+// Find repository content path deterministically for local cache/fallback
 function getArticlesFilePath(): string {
   if (cachedArticlesPath && fs.existsSync(cachedArticlesPath)) {
     return cachedArticlesPath;
@@ -51,8 +53,8 @@ function getArticlesFilePath(): string {
   return localPath;
 }
 
-// Read all stored dynamic articles
-export function getStoredArticles(): StoredBlogArticle[] {
+// Read stored articles from disk (fallback)
+export function getStoredArticlesFromDisk(): StoredBlogArticle[] {
   if (typeof window !== "undefined") {
     return [];
   }
@@ -65,24 +67,122 @@ export function getStoredArticles(): StoredBlogArticle[] {
     if (!data.trim()) return [];
     return JSON.parse(data) as StoredBlogArticle[];
   } catch (error) {
-    console.error("[BlogStore] Error reading articles:", error);
+    console.warn("[BlogStore] Warning reading articles from disk:", error);
     return [];
   }
 }
 
-// Save all articles to storage
-export function saveStoredArticles(articles: StoredBlogArticle[]): void {
-  const filePath = getArticlesFilePath();
+// Save articles to disk cache (best effort)
+export function saveStoredArticlesToDisk(articles: StoredBlogArticle[]): void {
   try {
+    const filePath = getArticlesFilePath();
     const dir = path.dirname(filePath);
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }
     fs.writeFileSync(filePath, JSON.stringify(articles, null, 2), "utf-8");
   } catch (error) {
-    console.error("[BlogStore] Error saving articles:", error);
-    throw new Error("No se pudo guardar los artículos en el almacenamiento.");
+    // Non-fatal on serverless read-only filesystem
+    console.warn("[BlogStore] Notice: Disk cache write skipped/failed:", error);
   }
+}
+
+// Convert a database BlogPost row to StoredBlogArticle
+export function mapDbPostToStoredArticle(post: BlogPost): StoredBlogArticle {
+  const portal = post.portal.toLowerCase() as "ia" | "ambiental";
+  const defaultHeroImage =
+    portal === "ia"
+      ? "/images/portal-ia/blog/llm-transformers-architecture.jpg"
+      : "/images/portal-ambiental/blog/irca-calidad-agua-potable.jpg";
+
+  const defaultAuthorAvatar =
+    portal === "ia"
+      ? "/images/portal-ia/autor/pablo-cubides.png"
+      : "/images/portal-ambiental/autor/pablo-cubides.jpg";
+
+  const defaultAuthorBio =
+    portal === "ia"
+      ? "Investigador en IA y Automatización"
+      : "Ingeniero Ambiental y Químico";
+
+  const parsedContent =
+    typeof post.content === "string" ? JSON.parse(post.content) : post.content;
+
+  const publishedIso =
+    post.publishedAt instanceof Date
+      ? post.publishedAt.toISOString()
+      : new Date(post.publishedAt).toISOString();
+
+  const createdIso =
+    post.createdAt instanceof Date
+      ? post.createdAt.toISOString()
+      : new Date(post.createdAt).toISOString();
+
+  const updatedIso =
+    post.updatedAt instanceof Date
+      ? post.updatedAt.toISOString()
+      : new Date(post.updatedAt).toISOString();
+
+  const parsedReferences = post.references
+    ? typeof post.references === "string"
+      ? JSON.parse(post.references)
+      : post.references
+    : undefined;
+
+  const parsedNextArticle = post.nextArticle
+    ? typeof post.nextArticle === "string"
+      ? JSON.parse(post.nextArticle)
+      : post.nextArticle
+    : undefined;
+
+  return {
+    id: post.id,
+    portal,
+    slug: post.slug,
+    title: post.title,
+    category: post.category,
+    date: publishedIso.split("T")[0],
+    readTime: post.readTime,
+    excerpt: post.excerpt,
+    heroImage: post.heroImage || defaultHeroImage,
+    author: {
+      name: post.authorName || "Pablo Cubides",
+      avatar: post.authorAvatar || defaultAuthorAvatar,
+      bio: post.authorBio || defaultAuthorBio,
+    },
+    content: parsedContent,
+    tags: Array.isArray(post.tags) ? post.tags : [post.category, portal.toUpperCase()],
+    status: post.status as BlogArticleStatus,
+    source: (post.source as BlogArticleSource) || "AGENT",
+    references: parsedReferences,
+    nextArticle: parsedNextArticle,
+    publishedAt: publishedIso,
+    createdAt: createdIso,
+    updatedAt: updatedIso,
+  };
+}
+
+// Read all stored dynamic articles (from PostgreSQL via Prisma, with fallback to disk)
+export async function getStoredArticles(): Promise<StoredBlogArticle[]> {
+  if (typeof window !== "undefined") {
+    return [];
+  }
+
+  try {
+    const posts = await prisma.blogPost.findMany({
+      orderBy: { publishedAt: "desc" },
+    });
+    const articles = posts.map(mapDbPostToStoredArticle);
+    return articles;
+  } catch (error) {
+    console.warn("[BlogStore] Prisma query failed, falling back to disk cache:", error);
+    return getStoredArticlesFromDisk();
+  }
+}
+
+// Synchronous helper for backwards compatibility or static rendering fallbacks
+export function getStoredArticlesSync(): StoredBlogArticle[] {
+  return getStoredArticlesFromDisk();
 }
 
 // Convert markdown text into structured sections if an agent sends raw markdown
@@ -158,7 +258,6 @@ export function parseMarkdownToSections(rawText: string): {
   const introduction = introLines.join("\n").trim() || "Introducción del artículo.";
 
   if (sections.length === 0) {
-    // If no ## headings were found, put whole body in a single section
     sections.push({
       id: "contenido-principal",
       title: "Contenido Principal",
@@ -209,23 +308,16 @@ export interface CreateArticleInput {
   source?: BlogArticleSource;
 }
 
-// Create or enqueue an article from Agent or Admin
-export function createStoredArticle(input: CreateArticleInput): StoredBlogArticle {
-  const articles = getStoredArticles();
+// Create or enqueue an article from Agent or Admin directly into PostgreSQL
+export async function createStoredArticle(input: CreateArticleInput): Promise<StoredBlogArticle> {
   const slug = input.slug?.trim() ? slugify(input.slug) : slugify(input.title);
-
-  // Check if slug exists in dynamic articles
-  const existingIndex = articles.findIndex(
-    (a) => a.slug === slug && a.portal === input.portal,
-  );
 
   const now = new Date();
   const publishedDate = input.publishedAt ? new Date(input.publishedAt) : now;
   const isFuture = publishedDate.getTime() > now.getTime();
 
-  // Status determination:
-  // Default to PUBLISHED unless explicitly provided or future date
-  const finalStatus: BlogArticleStatus = input.status || (isFuture ? "SCHEDULED" : "PUBLISHED");
+  const finalStatus: BlogArticleStatus =
+    input.status || (isFuture ? "SCHEDULED" : "PUBLISHED");
 
   const structuredContent =
     typeof input.content === "string"
@@ -242,76 +334,213 @@ export function createStoredArticle(input: CreateArticleInput): StoredBlogArticl
       ? "/images/portal-ia/autor/pablo-cubides.png"
       : "/images/portal-ambiental/autor/pablo-cubides.jpg";
 
-  const newArticle: StoredBlogArticle = {
-    id: `art_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
-    portal: input.portal,
-    slug,
-    title: input.title,
-    category: input.category,
-    date: publishedDate.toISOString().split("T")[0],
-    readTime: input.readTime || Math.max(3, Math.round((JSON.stringify(structuredContent).length / 1000) * 1.5)),
-    excerpt: input.excerpt,
-    heroImage: input.heroImage || defaultHeroImage,
-    author: {
-      name: input.authorName || "Pablo Cubides",
-      avatar: input.authorAvatar || defaultAuthorAvatar,
-      bio: input.authorBio || (input.portal === "ia" ? "Investigador en IA y Automatización" : "Ingeniero Ambiental y Químico"),
-    },
-    content: structuredContent,
-    tags: input.tags && input.tags.length > 0 ? input.tags : [input.category, input.portal.toUpperCase()],
-    status: finalStatus,
-    source: input.source || "AGENT",
-    publishedAt: publishedDate.toISOString(),
-    createdAt: now.toISOString(),
-    updatedAt: now.toISOString(),
-  };
+  const defaultAuthorBio =
+    input.portal === "ia"
+      ? "Investigador en IA y Automatización"
+      : "Ingeniero Ambiental y Químico";
 
-  if (existingIndex >= 0) {
-    // Overwrite existing with updated ID
-    newArticle.id = articles[existingIndex].id;
-    newArticle.createdAt = articles[existingIndex].createdAt;
-    articles[existingIndex] = newArticle;
-  } else {
-    articles.unshift(newArticle);
+  const calculatedReadTime =
+    input.readTime ||
+    Math.max(3, Math.round((JSON.stringify(structuredContent).length / 1000) * 1.5));
+
+  const portalEnum = input.portal.toUpperCase() as "IA" | "AMBIENTAL";
+  const tags = input.tags && input.tags.length > 0 ? input.tags : [input.category, input.portal.toUpperCase()];
+
+  try {
+    const post = await prisma.blogPost.upsert({
+      where: {
+        portal_slug: {
+          portal: portalEnum,
+          slug,
+        },
+      },
+      update: {
+        title: input.title,
+        category: input.category,
+        excerpt: input.excerpt,
+        content: structuredContent as unknown as Prisma.InputJsonValue,
+        heroImage: input.heroImage || defaultHeroImage,
+        authorName: input.authorName || "Pablo Cubides",
+        authorAvatar: input.authorAvatar || defaultAuthorAvatar,
+        authorBio: input.authorBio || defaultAuthorBio,
+        readTime: calculatedReadTime,
+        tags,
+        status: finalStatus as BlogPostStatus,
+        source: input.source || "AGENT",
+        publishedAt: publishedDate,
+      },
+      create: {
+        portal: portalEnum,
+        slug,
+        title: input.title,
+        category: input.category,
+        excerpt: input.excerpt,
+        content: structuredContent as unknown as Prisma.InputJsonValue,
+
+        heroImage: input.heroImage || defaultHeroImage,
+        authorName: input.authorName || "Pablo Cubides",
+        authorAvatar: input.authorAvatar || defaultAuthorAvatar,
+        authorBio: input.authorBio || defaultAuthorBio,
+        readTime: calculatedReadTime,
+        tags,
+        status: finalStatus as BlogPostStatus,
+        source: input.source || "AGENT",
+        publishedAt: publishedDate,
+      },
+    });
+
+    const storedArticle = mapDbPostToStoredArticle(post);
+
+    // Sync to disk cache best-effort
+    try {
+      const diskArticles = getStoredArticlesFromDisk();
+      const existingIdx = diskArticles.findIndex((a) => a.slug === slug && a.portal === input.portal);
+      if (existingIdx >= 0) {
+        diskArticles[existingIdx] = storedArticle;
+      } else {
+        diskArticles.unshift(storedArticle);
+      }
+      saveStoredArticlesToDisk(diskArticles);
+    } catch {
+      // Ignore disk sync error
+    }
+
+    return storedArticle;
+  } catch (error) {
+    console.error("[BlogStore] Database error creating article, using disk fallback:", error);
+    // Disk fallback if DB fails
+    const diskArticles = getStoredArticlesFromDisk();
+    const existingIndex = diskArticles.findIndex(
+      (a) => a.slug === slug && a.portal === input.portal
+    );
+
+    const newArticle: StoredBlogArticle = {
+      id: `art_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+      portal: input.portal,
+      slug,
+      title: input.title,
+      category: input.category,
+      date: publishedDate.toISOString().split("T")[0],
+      readTime: calculatedReadTime,
+      excerpt: input.excerpt,
+      heroImage: input.heroImage || defaultHeroImage,
+      author: {
+        name: input.authorName || "Pablo Cubides",
+        avatar: input.authorAvatar || defaultAuthorAvatar,
+        bio: input.authorBio || defaultAuthorBio,
+      },
+      content: structuredContent,
+      tags,
+      status: finalStatus,
+      source: input.source || "AGENT",
+      publishedAt: publishedDate.toISOString(),
+      createdAt: now.toISOString(),
+      updatedAt: now.toISOString(),
+    };
+
+    if (existingIndex >= 0) {
+      newArticle.id = diskArticles[existingIndex].id;
+      newArticle.createdAt = diskArticles[existingIndex].createdAt;
+      diskArticles[existingIndex] = newArticle;
+    } else {
+      diskArticles.unshift(newArticle);
+    }
+
+    saveStoredArticlesToDisk(diskArticles);
+    return newArticle;
   }
-
-  saveStoredArticles(articles);
-  return newArticle;
 }
 
 // Update article status (e.g. PAUSE, PUBLISH, SCHEDULE) or metadata
-export function updateStoredArticle(
+export async function updateStoredArticle(
   id: string,
   updates: Partial<Omit<StoredBlogArticle, "id" | "createdAt">>
-): StoredBlogArticle | null {
-  const articles = getStoredArticles();
-  const index = articles.findIndex((a) => a.id === id);
-  if (index === -1) {
-    return null;
+): Promise<StoredBlogArticle | null> {
+  try {
+    const data: Record<string, unknown> = { ...updates };
+    if (updates.portal) {
+
+      data.portal = updates.portal.toUpperCase();
+    }
+    if (updates.author) {
+      if (updates.author.name) data.authorName = updates.author.name;
+      if (updates.author.avatar) data.authorAvatar = updates.author.avatar;
+      if (updates.author.bio) data.authorBio = updates.author.bio;
+      delete data.author;
+    }
+    if (updates.publishedAt) {
+      data.publishedAt = new Date(updates.publishedAt);
+    }
+    if (updates.content) {
+      data.content = updates.content;
+    }
+    delete data.date;
+
+    const updated = await prisma.blogPost.update({
+      where: { id },
+      data,
+    });
+
+    const storedArticle = mapDbPostToStoredArticle(updated);
+
+    // Sync disk cache best-effort
+    try {
+      const diskArticles = getStoredArticlesFromDisk();
+      const idx = diskArticles.findIndex((a) => a.id === id);
+      if (idx !== -1) {
+        diskArticles[idx] = storedArticle;
+        saveStoredArticlesToDisk(diskArticles);
+      }
+    } catch {
+      // Ignore
+    }
+
+    return storedArticle;
+  } catch (error) {
+    console.warn("[BlogStore] DB update error, attempting disk update:", error);
+    const diskArticles = getStoredArticlesFromDisk();
+    const index = diskArticles.findIndex((a) => a.id === id);
+    if (index === -1) {
+      return null;
+    }
+
+    const existing = diskArticles[index];
+    const fallbackUpdated: StoredBlogArticle = {
+      ...existing,
+      ...updates,
+      updatedAt: new Date().toISOString(),
+    };
+
+    diskArticles[index] = fallbackUpdated;
+    saveStoredArticlesToDisk(diskArticles);
+    return fallbackUpdated;
   }
-
-  const existing = articles[index];
-  const updated: StoredBlogArticle = {
-    ...existing,
-    ...updates,
-    updatedAt: new Date().toISOString(),
-  };
-
-  articles[index] = updated;
-  saveStoredArticles(articles);
-  return updated;
 }
 
-// Delete an article
-export function deleteStoredArticle(id: string): boolean {
-  const articles = getStoredArticles();
-  const initialLength = articles.length;
-  const filtered = articles.filter((a) => a.id !== id);
-
-  if (filtered.length === initialLength) {
-    return false;
+// Delete an article from PostgreSQL
+export async function deleteStoredArticle(id: string): Promise<boolean> {
+  let dbSuccess = false;
+  try {
+    await prisma.blogPost.delete({
+      where: { id },
+    });
+    dbSuccess = true;
+  } catch (error) {
+    console.warn("[BlogStore] DB delete failed or not found, attempting disk delete:", error);
   }
 
-  saveStoredArticles(filtered);
-  return true;
+  // Also remove from disk cache
+  try {
+    const diskArticles = getStoredArticlesFromDisk();
+    const initialLength = diskArticles.length;
+    const filtered = diskArticles.filter((a) => a.id !== id);
+    if (filtered.length !== initialLength) {
+      saveStoredArticlesToDisk(filtered);
+      return true;
+    }
+  } catch {
+    // Ignore disk error
+  }
+
+  return dbSuccess;
 }

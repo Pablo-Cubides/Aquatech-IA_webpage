@@ -4,7 +4,7 @@ import { getCategories, getAllArticleSlugs } from "@/lib/blog-seo";
 import { guidesData } from "@/lib/guides-data";
 import { SITE_URL } from "@/lib/site-config";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = SITE_URL;
   const currentDate = new Date();
 
@@ -15,8 +15,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Get blog categories and articles
   const iaCategories = getCategories("ia");
   const ambientalCategories = getCategories("ambiental");
-  const iaArticleSlugs = getAllArticleSlugs("ia");
-  const ambientalArticleSlugs = getAllArticleSlugs("ambiental");
+  const iaArticleSlugs = await getAllArticleSlugs("ia");
+  const ambientalArticleSlugs = await getAllArticleSlugs("ambiental");
+
 
   // Main pages
   const mainPages: MetadataRoute.Sitemap = [

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import {
@@ -47,7 +48,7 @@ export async function GET(req: NextRequest) {
   const status = searchParams.get("status");
   const includeCode = searchParams.get("includeCode") === "true";
 
-  let dynamicArticles = getStoredArticles();
+  let dynamicArticles = await getStoredArticles();
 
   if (portal) {
     dynamicArticles = dynamicArticles.filter((a) => a.portal === portal);
@@ -62,7 +63,8 @@ export async function GET(req: NextRequest) {
   if (includeCode) {
     const portalsToFetch: ("ia" | "ambiental")[] = portal ? [portal] : ["ia", "ambiental"];
     for (const p of portalsToFetch) {
-      const staticList = getAllArticles(p, true)
+      const staticList = (await getAllArticles(p, true))
+
         .filter((a) => a.source === "CODE")
         .map((a) => ({
           ...a,
@@ -145,9 +147,19 @@ export async function POST(req: NextRequest) {
       source: body.source || (req.headers.get("authorization") ? "AGENT" : "ADMIN"),
     };
 
-    const created = createStoredArticle(input);
+    const created = await createStoredArticle(input);
+
+    // Instant cache invalidation
+    try {
+      revalidatePath(`/${created.portal}/blog`);
+      revalidatePath(`/${created.portal}/blog/${created.slug}`);
+      revalidatePath(`/admin/content`);
+    } catch (e) {
+      console.warn("[API Blog Articles] Notice: revalidatePath:", e);
+    }
 
     return NextResponse.json(
+
       {
         success: true,
         message: "Artículo recibido y guardado con éxito.",

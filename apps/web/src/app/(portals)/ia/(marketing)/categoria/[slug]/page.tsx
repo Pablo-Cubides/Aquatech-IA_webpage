@@ -71,7 +71,7 @@ export default async function CategoryPage({
     notFound();
   }
 
-  const articles = getArticlesByCategory("ia", slug);
+  const articles = await getArticlesByCategory("ia", slug);
   const breadcrumbs = getCategoryBreadcrumbs("ia", category);
   const categorySchema = generateCategorySchema(category, "ia", articles);
   const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbs);

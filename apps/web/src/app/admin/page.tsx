@@ -12,7 +12,7 @@ export default async function AdminDashboard() {
     // db fallback
   }
 
-  const storedArticles = getStoredArticles();
+  const storedArticles = await getStoredArticles();
   const totalPosts = storedArticles.length;
   const activeSessions = 0;
 

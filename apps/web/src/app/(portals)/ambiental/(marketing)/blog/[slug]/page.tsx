@@ -9,6 +9,9 @@ import { renderSafeRichText } from "@/lib/security/safe-rich-text";
 import { SITE_URL } from "@/lib/site-config";
 import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
+export const dynamicParams = true;
+export const revalidate = 60;
+
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
@@ -17,7 +20,7 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const article = getArticle("ambiental", slug);
+  const article = await getArticle("ambiental", slug);
 
   if (!article) {
     return {
@@ -64,11 +67,12 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams() {
-  const articles = getAllArticles("ambiental");
+  const articles = await getAllArticles("ambiental");
   return articles.map((article) => ({
     slug: article.slug,
   }));
 }
+
 
 interface TOCSubsection {
   id: string;
@@ -132,9 +136,10 @@ const defaultAmbientalSources = [
 
 export default async function BlogArticlePage({ params }: PageProps) {
   const { slug } = await params;
-  const article = getArticle("ambiental", slug);
+  const article = await getArticle("ambiental", slug);
 
   if (!article) {
+
     notFound();
   }
 

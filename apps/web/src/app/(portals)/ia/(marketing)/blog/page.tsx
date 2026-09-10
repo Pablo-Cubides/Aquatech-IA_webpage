@@ -104,10 +104,14 @@ function generateBlogSchema() {
   };
 }
 
-export default function BlogIAPage() {
-  const articles = getAllArticles("ia");
+export const revalidate = 60;
+
+export default async function BlogIAPage() {
+
+  const articles = await getAllArticles("ia");
   const categories = getCategories("ia");
   const blogSchema = generateBlogSchema();
+
 
   return (
     <>

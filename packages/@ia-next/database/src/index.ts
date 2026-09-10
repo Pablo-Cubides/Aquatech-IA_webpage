@@ -54,6 +54,10 @@ const isLocalDatabase =
 const rejectUnauthorized =
   process.env.DATABASE_SSL_REJECT_UNAUTHORIZED === "true";
 
+if (!isLocalDatabase && !rejectUnauthorized && typeof process !== "undefined" && process.env) {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+}
+
 // Debug connection (Safe Log)
 if (databaseUrl) {
   try {
@@ -123,7 +127,10 @@ export type {
   ToolUsage,
   Content,
   EditorSection,
+  BlogPost,
+  BlogPostStatus,
 } from "@prisma/client";
 
 // Re-export the Prisma client
 export { PrismaClient } from "@prisma/client";
+

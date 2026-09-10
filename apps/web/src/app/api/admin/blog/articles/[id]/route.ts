@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import {
+  getStoredArticles,
   updateStoredArticle,
   deleteStoredArticle,
 } from "@/lib/services/blog-store";
@@ -46,13 +48,22 @@ export async function PATCH(
 
   try {
     const body = await req.json();
-    const updated = updateStoredArticle(id, body);
+    const updated = await updateStoredArticle(id, body);
 
     if (!updated) {
       return NextResponse.json(
         { error: `No se encontró el artículo con ID ${id} o es un artículo fijo de código.` },
         { status: 404 }
       );
+    }
+
+    // Instant cache invalidation
+    try {
+      revalidatePath(`/${updated.portal}/blog`);
+      revalidatePath(`/${updated.portal}/blog/${updated.slug}`);
+      revalidatePath(`/admin/content`);
+    } catch (e) {
+      console.warn("[API Blog Articles] Notice: revalidatePath:", e);
     }
 
     return NextResponse.json({
@@ -85,13 +96,27 @@ export async function DELETE(
   const { id } = await params;
 
   try {
-    const deleted = deleteStoredArticle(id);
+    const articles = await getStoredArticles();
+    const target = articles.find((a) => a.id === id);
+
+    const deleted = await deleteStoredArticle(id);
 
     if (!deleted) {
       return NextResponse.json(
         { error: `No se encontró el artículo con ID ${id} o no se puede eliminar porque es estático.` },
         { status: 404 }
       );
+    }
+
+    // Instant cache invalidation
+    if (target) {
+      try {
+        revalidatePath(`/${target.portal}/blog`);
+        revalidatePath(`/${target.portal}/blog/${target.slug}`);
+        revalidatePath(`/admin/content`);
+      } catch (e) {
+        console.warn("[API Blog Articles] Notice: revalidatePath:", e);
+      }
     }
 
     return NextResponse.json({
@@ -107,3 +132,4 @@ export async function DELETE(
     );
   }
 }
+

@@ -3,7 +3,7 @@
 
 import { NEW_IA_ARTICLES } from "./new-blog-articles";
 import { NEW_AMBIENTAL_ARTICLES } from "./new-ambiental-articles";
-import { getStoredArticles } from "./services/blog-store";
+import { getStoredArticles, getStoredArticlesSync } from "./services/blog-store";
 
 export type BlogArticle = {
   slug: string;
@@ -50,7 +50,7 @@ export type BlogArticle = {
     slug: string;
     title: string;
   };
-  status?: "PUBLISHED" | "SCHEDULED" | "PAUSED" | "ARCHIVED";
+  status?: "PUBLISHED" | "SCHEDULED" | "PAUSED" | "ARCHIVED" | "DRAFT";
   portal?: "ia" | "ambiental";
   source?: "AGENT" | "ADMIN" | "CODE";
   id?: string;
@@ -779,13 +779,13 @@ export const IA_ARTICLES: Record<string, BlogArticle> = {
 };
 
 // Helper function to get article by slug and portal
-export function getArticle(
+export async function getArticle(
   portal: "ia" | "ambiental",
   slug: string,
   includeUnpublished = false
-): BlogArticle | null {
+): Promise<BlogArticle | null> {
   try {
-    const dynamicArticles = getStoredArticles();
+    const dynamicArticles = await getStoredArticles();
     const dynamicMatch = dynamicArticles.find(
       (a) => a.portal === portal && a.slug === slug
     );
@@ -810,11 +810,43 @@ export function getArticle(
   return allArticles[slug] || null;
 }
 
+// Synchronous version for fallback
+export function getArticleSync(
+  portal: "ia" | "ambiental",
+  slug: string,
+  includeUnpublished = false
+): BlogArticle | null {
+  try {
+    const dynamicArticles = getStoredArticlesSync();
+    const dynamicMatch = dynamicArticles.find(
+      (a) => a.portal === portal && a.slug === slug
+    );
+    if (dynamicMatch) {
+      if (includeUnpublished) return dynamicMatch;
+      const now = Date.now();
+      const isPublished =
+        dynamicMatch.status === "PUBLISHED" ||
+        (dynamicMatch.status === "SCHEDULED" &&
+          new Date(dynamicMatch.publishedAt).getTime() <= now);
+      if (isPublished) {
+        return dynamicMatch;
+      }
+    }
+  } catch (e) {
+    // Fallback
+  }
+
+  const existingArticles = portal === "ia" ? IA_ARTICLES : AMBIENTAL_ARTICLES;
+  const newArticles = portal === "ia" ? NEW_IA_ARTICLES : NEW_AMBIENTAL_ARTICLES;
+  const allArticles = { ...existingArticles, ...newArticles };
+  return allArticles[slug] || null;
+}
+
 // Helper function to get all articles from a portal
-export function getAllArticles(
+export async function getAllArticles(
   portal: "ia" | "ambiental",
   includeUnpublished = false
-): BlogArticle[] {
+): Promise<BlogArticle[]> {
   const existingArticles = portal === "ia" ? IA_ARTICLES : AMBIENTAL_ARTICLES;
   const newArticles = portal === "ia" ? NEW_IA_ARTICLES : NEW_AMBIENTAL_ARTICLES;
   const staticArticles = Object.values({ ...existingArticles, ...newArticles }).map((a) => ({
@@ -825,7 +857,7 @@ export function getAllArticles(
   }));
 
   try {
-    const dynamicArticles = getStoredArticles().filter((a) => a.portal === portal);
+    const dynamicArticles = (await getStoredArticles()).filter((a) => a.portal === portal);
     const now = Date.now();
 
     const filteredDynamic = includeUnpublished
@@ -850,6 +882,48 @@ export function getAllArticles(
     return staticArticles;
   }
 }
+
+// Synchronous version for fallback
+export function getAllArticlesSync(
+  portal: "ia" | "ambiental",
+  includeUnpublished = false
+): BlogArticle[] {
+  const existingArticles = portal === "ia" ? IA_ARTICLES : AMBIENTAL_ARTICLES;
+  const newArticles = portal === "ia" ? NEW_IA_ARTICLES : NEW_AMBIENTAL_ARTICLES;
+  const staticArticles = Object.values({ ...existingArticles, ...newArticles }).map((a) => ({
+    ...a,
+    portal,
+    status: "PUBLISHED" as const,
+    source: "CODE" as const,
+  }));
+
+  try {
+    const dynamicArticles = getStoredArticlesSync().filter((a) => a.portal === portal);
+    const now = Date.now();
+
+    const filteredDynamic = includeUnpublished
+      ? dynamicArticles
+      : dynamicArticles.filter((a) => {
+          if (a.status === "PAUSED" || a.status === "ARCHIVED") {
+            return false;
+          }
+          if (a.status === "PUBLISHED") return true;
+          if (a.status === "SCHEDULED") {
+            return new Date(a.publishedAt).getTime() <= now;
+          }
+          return false;
+        });
+
+    const dynamicSlugs = new Set(filteredDynamic.map((a) => a.slug));
+    const nonOverriddenStatic = staticArticles.filter((a) => !dynamicSlugs.has(a.slug));
+
+    const combined = [...filteredDynamic, ...nonOverriddenStatic];
+    return combined.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  } catch (e) {
+    return staticArticles;
+  }
+}
+
 
 // Helper function to generate table of contents
 export function generateTOC(sections: BlogArticle["content"]["sections"]) {
