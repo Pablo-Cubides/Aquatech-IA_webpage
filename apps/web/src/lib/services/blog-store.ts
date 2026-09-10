@@ -15,28 +15,40 @@ export interface StoredBlogArticle extends BlogArticle {
   updatedAt: string;
 }
 
-// Find repository content path
-function getArticlesFilePath(): string {
-  const possiblePaths = [
-    path.join(process.cwd(), "content", "blog", "articles.json"),
-    path.join(process.cwd(), "..", "..", "content", "blog", "articles.json"),
-    path.join(process.cwd(), "apps", "web", "content", "blog", "articles.json"),
-  ];
+let cachedArticlesPath: string | null = null;
 
-  for (const p of possiblePaths) {
-    const dir = path.dirname(p);
-    if (fs.existsSync(dir)) {
-      return p;
+// Find repository content path deterministically without parent-directory globbing
+function getArticlesFilePath(): string {
+  if (cachedArticlesPath && fs.existsSync(cachedArticlesPath)) {
+    return cachedArticlesPath;
+  }
+
+  // 1. Direct path inside current working directory
+  const localPath = path.resolve(process.cwd(), "content", "blog", "articles.json");
+  if (fs.existsSync(localPath)) {
+    cachedArticlesPath = localPath;
+    return localPath;
+  }
+
+  // 2. Monorepo root if running from apps/web
+  const rootPath = path.resolve(process.cwd(), "../../content", "blog", "articles.json");
+  if (fs.existsSync(rootPath)) {
+    cachedArticlesPath = rootPath;
+    return rootPath;
+  }
+
+  // Fallback to localPath
+  const dir = path.dirname(localPath);
+  if (!fs.existsSync(dir)) {
+    try {
+      fs.mkdirSync(dir, { recursive: true });
+    } catch {
+      // Ignore in read-only environments
     }
   }
 
-  // Default fallback
-  const defaultPath = path.join(process.cwd(), "content", "blog", "articles.json");
-  const dir = path.dirname(defaultPath);
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
-  return defaultPath;
+  cachedArticlesPath = localPath;
+  return localPath;
 }
 
 // Read all stored dynamic articles

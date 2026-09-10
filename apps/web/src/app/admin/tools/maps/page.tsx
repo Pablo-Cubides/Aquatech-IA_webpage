@@ -1,8 +1,24 @@
 "use client";
 
 import { useState } from "react";
-import UploadWizard from "@/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambientales/src/components/UploadWizard";
-import { Map, UploadCloud } from "lucide-react";
+import dynamic from "next/dynamic";
+import { Map, UploadCloud, RefreshCw } from "lucide-react";
+
+const UploadWizard = dynamic(
+  () =>
+    import(
+      "@/app/(portals)/ambiental/(marketing)/herramientas/visor-mapas-ambientales/src/components/UploadWizard"
+    ),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="p-8 text-center text-slate-400 flex items-center justify-center gap-2">
+        <RefreshCw className="w-5 h-5 animate-spin text-emerald-400" />
+        <span>Cargando asistente de mapas...</span>
+      </div>
+    ),
+  }
+);
 
 export default function MapsAdminPage() {
   const [showWizard, setShowWizard] = useState(false);

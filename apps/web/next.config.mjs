@@ -1,5 +1,34 @@
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Trace files from monorepo root
+  outputFileTracingRoot: path.join(__dirname, "../../"),
+
+  // Exclude large client assets, coverage, and heavy media files from serverless functions
+  outputFileTracingExcludes: {
+    "*": [
+      "./public/**",
+      "./coverage/**",
+      "**/.git/**",
+      "**/coverage/**",
+      "**/public/static/**",
+      "**/public/images/**",
+      "**/components/static/cases/**",
+      "**/visor-cases/**",
+      "**/*.gif",
+      "**/*.png",
+      "**/*.jpg",
+      "**/*.jpeg",
+      "**/*.mp3",
+      "node_modules/@prisma/engines/**",
+      "node_modules/prisma/**",
+    ],
+  },
+
   experimental: {
     // Disable server actions if not using them yet
     serverActions: {
