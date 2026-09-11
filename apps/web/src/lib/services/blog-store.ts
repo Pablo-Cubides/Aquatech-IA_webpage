@@ -25,22 +25,22 @@ function getArticlesFilePath(): string {
     return cachedArticlesPath;
   }
 
-  // 1. Direct path inside current working directory
-  const localPath = path.resolve(process.cwd(), "content", "blog", "articles.json");
-  if (fs.existsSync(localPath)) {
-    cachedArticlesPath = localPath;
-    return localPath;
-  }
-
-  // 2. Monorepo root if running from apps/web
-  const rootPath = path.resolve(process.cwd(), "../../content", "blog", "articles.json");
-  if (fs.existsSync(rootPath)) {
-    cachedArticlesPath = rootPath;
-    return rootPath;
+  // Check from current directory up to find content/blog/articles.json
+  let current = process.cwd();
+  for (let i = 0; i < 5; i++) {
+    const candidate = path.resolve(current, "content", "blog", "articles.json");
+    if (fs.existsSync(candidate)) {
+      cachedArticlesPath = candidate;
+      return candidate;
+    }
+    const parent = path.dirname(current);
+    if (parent === current) break;
+    current = parent;
   }
 
   // Fallback to localPath
-  const dir = path.dirname(localPath);
+  const fallback = path.resolve(process.cwd(), "content", "blog", "articles.json");
+  const dir = path.dirname(fallback);
   if (!fs.existsSync(dir)) {
     try {
       fs.mkdirSync(dir, { recursive: true });
@@ -49,15 +49,20 @@ function getArticlesFilePath(): string {
     }
   }
 
-  cachedArticlesPath = localPath;
-  return localPath;
+  cachedArticlesPath = fallback;
+  return fallback;
 }
+
 
 // Read stored articles from disk (fallback)
 export function getStoredArticlesFromDisk(): StoredBlogArticle[] {
-  if (typeof window !== "undefined") {
+  const isBrowser =
+    typeof window !== "undefined" &&
+    (typeof process === "undefined" || !process.versions?.node);
+  if (isBrowser) {
     return [];
   }
+
   const filePath = getArticlesFilePath();
   try {
     if (!fs.existsSync(filePath)) {
@@ -164,9 +169,13 @@ export function mapDbPostToStoredArticle(post: BlogPost): StoredBlogArticle {
 
 // Read all stored dynamic articles (from PostgreSQL via Prisma, with fallback to disk)
 export async function getStoredArticles(): Promise<StoredBlogArticle[]> {
-  if (typeof window !== "undefined") {
+  const isBrowser =
+    typeof window !== "undefined" &&
+    (typeof process === "undefined" || !process.versions?.node);
+  if (isBrowser) {
     return [];
   }
+
 
   try {
     const posts = await prisma.blogPost.findMany({
@@ -317,7 +326,10 @@ export async function createStoredArticle(input: CreateArticleInput): Promise<St
   const isFuture = publishedDate.getTime() > now.getTime();
 
   const finalStatus: BlogArticleStatus =
-    input.status || (isFuture ? "SCHEDULED" : "PUBLISHED");
+    isFuture && (!input.status || input.status === "PUBLISHED")
+      ? "SCHEDULED"
+      : (input.status || "PUBLISHED");
+
 
   const structuredContent =
     typeof input.content === "string"
@@ -343,8 +355,15 @@ export async function createStoredArticle(input: CreateArticleInput): Promise<St
     input.readTime ||
     Math.max(3, Math.round((JSON.stringify(structuredContent).length / 1000) * 1.5));
 
+  const defaultCategory =
+    input.portal === "ia" ? "Inteligencia Artificial" : "Gestión Ambiental";
+  const category = input.category?.trim() || defaultCategory;
+
   const portalEnum = input.portal.toUpperCase() as "IA" | "AMBIENTAL";
-  const tags = input.tags && input.tags.length > 0 ? input.tags : [input.category, input.portal.toUpperCase()];
+  const tags =
+    input.tags && input.tags.length > 0
+      ? input.tags.filter((t): t is string => typeof t === "string" && Boolean(t.trim()))
+      : [category, portalEnum];
 
   try {
     const post = await prisma.blogPost.upsert({
@@ -356,7 +375,7 @@ export async function createStoredArticle(input: CreateArticleInput): Promise<St
       },
       update: {
         title: input.title,
-        category: input.category,
+        category,
         excerpt: input.excerpt,
         content: structuredContent as unknown as Prisma.InputJsonValue,
         heroImage: input.heroImage || defaultHeroImage,
@@ -373,7 +392,8 @@ export async function createStoredArticle(input: CreateArticleInput): Promise<St
         portal: portalEnum,
         slug,
         title: input.title,
-        category: input.category,
+        category,
+
         excerpt: input.excerpt,
         content: structuredContent as unknown as Prisma.InputJsonValue,
 

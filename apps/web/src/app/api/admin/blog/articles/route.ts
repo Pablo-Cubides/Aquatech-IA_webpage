@@ -142,7 +142,7 @@ export async function POST(req: NextRequest) {
       authorBio: body.authorBio,
       readTime: body.readTime,
       tags: Array.isArray(body.tags) ? body.tags : undefined,
-      status: body.status || "PUBLISHED",
+      status: body.status,
       publishedAt: body.publishedAt,
       source: body.source || (req.headers.get("authorization") ? "AGENT" : "ADMIN"),
     };

@@ -792,13 +792,16 @@ export async function getArticle(
     if (dynamicMatch) {
       if (includeUnpublished) return dynamicMatch;
       const now = Date.now();
-      const isPublished =
-        dynamicMatch.status === "PUBLISHED" ||
-        (dynamicMatch.status === "SCHEDULED" &&
-          new Date(dynamicMatch.publishedAt).getTime() <= now);
-      if (isPublished) {
-        return dynamicMatch;
+      const isFuture = new Date(dynamicMatch.publishedAt).getTime() > now;
+      if (isFuture) return null;
+      if (
+        dynamicMatch.status === "PAUSED" ||
+        dynamicMatch.status === "ARCHIVED" ||
+        dynamicMatch.status === "DRAFT"
+      ) {
+        return null;
       }
+      return dynamicMatch;
     }
   } catch (e) {
     // Dynamic read fallback
@@ -824,13 +827,16 @@ export function getArticleSync(
     if (dynamicMatch) {
       if (includeUnpublished) return dynamicMatch;
       const now = Date.now();
-      const isPublished =
-        dynamicMatch.status === "PUBLISHED" ||
-        (dynamicMatch.status === "SCHEDULED" &&
-          new Date(dynamicMatch.publishedAt).getTime() <= now);
-      if (isPublished) {
-        return dynamicMatch;
+      const isFuture = new Date(dynamicMatch.publishedAt).getTime() > now;
+      if (isFuture) return null;
+      if (
+        dynamicMatch.status === "PAUSED" ||
+        dynamicMatch.status === "ARCHIVED" ||
+        dynamicMatch.status === "DRAFT"
+      ) {
+        return null;
       }
+      return dynamicMatch;
     }
   } catch (e) {
     // Fallback
@@ -841,6 +847,7 @@ export function getArticleSync(
   const allArticles = { ...existingArticles, ...newArticles };
   return allArticles[slug] || null;
 }
+
 
 // Helper function to get all articles from a portal
 export async function getAllArticles(
@@ -863,14 +870,17 @@ export async function getAllArticles(
     const filteredDynamic = includeUnpublished
       ? dynamicArticles
       : dynamicArticles.filter((a) => {
-          if (a.status === "PAUSED" || a.status === "ARCHIVED") {
+          if (
+            a.status === "PAUSED" ||
+            a.status === "ARCHIVED" ||
+            a.status === "DRAFT"
+          ) {
             return false;
           }
-          if (a.status === "PUBLISHED") return true;
-          if (a.status === "SCHEDULED") {
-            return new Date(a.publishedAt).getTime() <= now;
+          if (new Date(a.publishedAt).getTime() > now) {
+            return false;
           }
-          return false;
+          return a.status === "PUBLISHED" || a.status === "SCHEDULED";
         });
 
     const dynamicSlugs = new Set(filteredDynamic.map((a) => a.slug));
@@ -904,15 +914,19 @@ export function getAllArticlesSync(
     const filteredDynamic = includeUnpublished
       ? dynamicArticles
       : dynamicArticles.filter((a) => {
-          if (a.status === "PAUSED" || a.status === "ARCHIVED") {
+          if (
+            a.status === "PAUSED" ||
+            a.status === "ARCHIVED" ||
+            a.status === "DRAFT"
+          ) {
             return false;
           }
-          if (a.status === "PUBLISHED") return true;
-          if (a.status === "SCHEDULED") {
-            return new Date(a.publishedAt).getTime() <= now;
+          if (new Date(a.publishedAt).getTime() > now) {
+            return false;
           }
-          return false;
+          return a.status === "PUBLISHED" || a.status === "SCHEDULED";
         });
+
 
     const dynamicSlugs = new Set(filteredDynamic.map((a) => a.slug));
     const nonOverriddenStatic = staticArticles.filter((a) => !dynamicSlugs.has(a.slug));

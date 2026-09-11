@@ -35,7 +35,12 @@
       ],
       "conclusion": "La supervisión humana sigue siendo esencial: los agentes aceleran la producción y estructuración de contenido técnico, mientras que los especialistas validan y gestionan su publicación."
     },
-    "tags": ["Agentes", "IA", "Automatización", "Ingeniería"],
+    "tags": [
+      "Agentes",
+      "IA",
+      "Automatización",
+      "Ingeniería"
+    ],
     "status": "PUBLISHED",
     "source": "AGENT",
     "publishedAt": "2026-09-09T12:00:00.000Z",
