@@ -1,14 +1,19 @@
 import fs from "fs";
 import path from "path";
 import type { BlogArticle } from "@/lib/blog-articles";
-import { prisma } from "@/lib/db";
-import type { BlogPost, BlogPostStatus, Prisma } from "@prisma/client";
+import {
+  prisma,
+  type BlogPost,
+  type BlogPostStatus,
+  type Prisma,
+} from "@ia-next/database";
 
 export type BlogArticleStatus = "PUBLISHED" | "SCHEDULED" | "PAUSED" | "ARCHIVED" | "DRAFT";
 export type BlogArticleSource = "AGENT" | "ADMIN" | "CODE";
 
 export interface StoredBlogArticle extends BlogArticle {
   id: string;
+  slug: string;
   portal: "ia" | "ambiental";
   status: BlogArticleStatus;
   source: BlogArticleSource;
@@ -297,7 +302,7 @@ export interface CreateArticleInput {
   portal: "ia" | "ambiental";
   title: string;
   slug?: string;
-  category: string;
+  category?: string;
   excerpt: string;
   content:
     | string
@@ -439,7 +444,7 @@ export async function createStoredArticle(input: CreateArticleInput): Promise<St
       portal: input.portal,
       slug,
       title: input.title,
-      category: input.category,
+      category,
       date: publishedDate.toISOString().split("T")[0],
       readTime: calculatedReadTime,
       excerpt: input.excerpt,

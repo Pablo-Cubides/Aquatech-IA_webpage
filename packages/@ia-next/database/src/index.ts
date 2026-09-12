@@ -131,6 +131,6 @@ export type {
   BlogPostStatus,
 } from "@prisma/client";
 
-// Re-export the Prisma client
-export { PrismaClient } from "@prisma/client";
+// Re-export the Prisma client and namespace
+export { PrismaClient, Prisma } from "@prisma/client";
 

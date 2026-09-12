@@ -3,7 +3,7 @@
 // and Next/Turbopack can resolve the package at runtime without requiring
 // TypeScript compilation in node_modules.
 
-const { PrismaClient } = require("@prisma/client");
+const { PrismaClient, Prisma } = require("@prisma/client");
 const { PrismaPg } = require("@prisma/adapter-pg");
 const { Pool } = require("pg");
 
@@ -102,4 +102,5 @@ module.exports = {
   checkDbConnection,
   disconnectDb,
   PrismaClient,
+  Prisma,
 };
