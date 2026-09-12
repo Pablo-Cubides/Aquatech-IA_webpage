@@ -48,13 +48,16 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Generate Prisma Client
+        run: pnpm --filter @ia-next/database run build
+
       - name: Cache node_modules
         uses: actions/cache@v4
         with:
           path: |
             **/node_modules
             **/.turbo
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/pnpm-lock.yaml', '**/schema.prisma') }}
           restore-keys: |
             ${{ runner.os }}-node-modules-
 
@@ -86,7 +89,9 @@ jobs:
           path: |
             **/node_modules
             **/.turbo
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/pnpm-lock.yaml', '**/schema.prisma') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
 
       - name: Run ESLint
         run: pnpm lint
@@ -120,7 +125,12 @@ jobs:
           path: |
             **/node_modules
             **/.turbo
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/pnpm-lock.yaml', '**/schema.prisma') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
+
+      - name: Generate Prisma Client
+        run: pnpm --filter @ia-next/database run build
 
       - name: Run TypeScript
         run: pnpm typecheck
@@ -150,7 +160,9 @@ jobs:
           path: |
             **/node_modules
             **/.turbo
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/pnpm-lock.yaml', '**/schema.prisma') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
 
       - name: Install dependencies (test job safety)
         run: pnpm install --frozen-lockfile
@@ -224,7 +236,9 @@ jobs:
           path: |
             **/node_modules
             **/.turbo
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/pnpm-lock.yaml', '**/schema.prisma') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
 
       - name: Setup environment variables
         run: |

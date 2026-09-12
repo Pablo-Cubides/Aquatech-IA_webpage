@@ -31,7 +31,7 @@
       "cache": false
     },
     "typecheck": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "@ia-next/database#build"],
       "inputs": ["$TURBO_DEFAULT$", "tsconfig.json", "tsconfig.*.json"],
       "outputs": []
     },
