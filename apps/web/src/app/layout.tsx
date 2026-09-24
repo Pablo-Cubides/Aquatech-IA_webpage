@@ -7,6 +7,7 @@ import {
   DEFAULT_OG_IMAGE,
   DEFAULT_LOGO,
 } from "@/lib/site-config";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -149,6 +150,7 @@ export default function RootLayout({
       </head>
       <body>
         <Providers>{children}</Providers>
+        <Analytics />
       </body>
     </html>
   );
