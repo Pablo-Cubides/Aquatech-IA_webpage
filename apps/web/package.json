@@ -26,6 +26,7 @@
     "@types/bcryptjs": "^3.0.0",
     "@upstash/ratelimit": "^2.0.6",
     "@upstash/redis": "^1.35.6",
+    "@vercel/analytics": "^2.0.1",
     "bcryptjs": "^3.0.3",
     "csv-stringify": "^6.6.0",
     "date-fns": "^4.1.0",
