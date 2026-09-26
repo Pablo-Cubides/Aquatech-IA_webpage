@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { spaceGrotesk } from "@/lib/fonts";
 import {
   ChevronRight,
   ArrowLeft,

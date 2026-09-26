@@ -163,7 +163,7 @@ export default function ProductosIAPage() {
 
   return (
     <div
-      className={`${noto.variable} ${space.variable} min-h-screen bg-[#000000] text-white`}
+      className="min-h-screen bg-[#000000] text-white"
     >
       <script
         type="application/ld+json"

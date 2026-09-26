@@ -17,7 +17,7 @@ export default function AmbientalHerramientasPage() {
 
   return (
     <div
-      className={`${noto.variable} ${space.variable} min-h-screen bg-white text-black`}
+      className="min-h-screen bg-white text-black"
     >
       <script
         type="application/ld+json"

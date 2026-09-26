@@ -133,7 +133,7 @@ export default function ConsultaNotaIAPage() {
 
   return (
     <div
-      className={`${space.variable} ${noto.variable} min-h-screen ${theme.isAmbiental ? 'bg-gradient-to-br from-slate-50 to-blue-50 text-gray-800' : 'bg-[#000000] text-white'}`}
+      className={`min-h-screen ${theme.isAmbiental ? 'bg-gradient-to-br from-slate-50 to-blue-50 text-gray-800' : 'bg-[#000000] text-white'}`}
     >
       {/* Design System */}
       <style jsx global>{`
