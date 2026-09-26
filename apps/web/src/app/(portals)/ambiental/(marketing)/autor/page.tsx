@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Space_Grotesk } from "next/font/google";
 import {
   ChevronRight,
   ArrowLeft,
@@ -17,8 +16,6 @@ import {
   RotateCcw,
   BookOpen,
 } from "lucide-react";
-
-const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], weight: ["700"] });
 
 // Component interfaces
 interface ExpertiseCardProps {

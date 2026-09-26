@@ -40,9 +40,6 @@ const nextConfig = {
     ignoreBuildErrors: false,
   },
 
-  // Turbopack is default in Next.js 16, set empty config to silence warning
-  turbopack: {},
-
   // Transpile packages from the monorepo
   // Note: '@ia-next/database' is intentionally NOT transpiled here because
   // it provides a runtime JS entry in packages/@ia-next/database/dist which

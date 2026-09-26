@@ -1,20 +1,7 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Noto_Sans } from "next/font/google";
 import HeaderIA from "../../../components/nav/HeaderIA";
 import FooterIA from "../../../components/nav/FooterIA";
 import { SITE_URL, DEFAULT_LOCALE } from "@/lib/site-config";
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  variable: "--font-space",
-});
-
-const notoSans = Noto_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "700", "900"],
-  variable: "--font-noto",
-});
 
 export const metadata: Metadata = {
   title: "Portal de Inteligencia Artificial | Modelos, Herramientas y Cursos",
@@ -64,7 +51,7 @@ export const metadata: Metadata = {
 export default function IALayout({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className={`${notoSans.variable} ${spaceGrotesk.variable} min-h-screen flex flex-col bg-black text-white`}
+      className="min-h-screen flex flex-col bg-black text-white"
       style={
         {
           fontFamily: "var(--font-noto), 'Noto Sans', sans-serif",

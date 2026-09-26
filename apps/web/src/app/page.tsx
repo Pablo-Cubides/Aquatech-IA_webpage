@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Space_Grotesk, Noto_Sans } from "next/font/google";
 import { ChevronRight, Cpu, Globe2, BookOpen } from "lucide-react";
 import type { Metadata } from "next";
 import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
@@ -39,18 +38,6 @@ const homeAuthoritativeSources = [
     description: "Directrices globales para la sostenibilidad hídrica y mitigación ambiental.",
   },
 ];
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  weight: ["700"],
-  variable: "--font-space",
-});
-
-const notoSans = Noto_Sans({
-  subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-noto",
-});
 
 export const metadata: Metadata = {
   title: "AquatechIA - Inteligencia Artificial + Gestión Ambiental Sostenible",
@@ -120,7 +107,7 @@ export default function Home() {
 
   return (
     <main
-      className={`${notoSans.variable} ${spaceGrotesk.variable} min-h-screen relative overflow-x-hidden bg-black text-white`}
+      className="min-h-screen relative overflow-x-hidden bg-black text-white"
     >
       <script
         type="application/ld+json"

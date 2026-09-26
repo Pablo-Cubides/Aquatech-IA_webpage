@@ -1,21 +1,8 @@
 import React from "react";
 import { Metadata } from "next";
-import { Space_Grotesk, Noto_Sans } from "next/font/google";
 import HeaderAmbiental from "@/components/nav/HeaderAmbiental";
 import FooterAmbiental from "@/components/nav/FooterAmbiental";
 import { SITE_URL, DEFAULT_LOCALE } from "@/lib/site-config";
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  variable: "--font-space",
-});
-
-const notoSans = Noto_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "700", "900"],
-  variable: "--font-noto",
-});
 
 export const metadata: Metadata = {
   title: "Portal de Gestión Ambiental | Normas, Mapas y Herramientas",
@@ -69,7 +56,7 @@ export default function AmbientalLayout({
 }) {
   return (
     <div
-      className={`${notoSans.variable} ${spaceGrotesk.variable} min-h-screen flex flex-col bg-white text-black`}
+      className="min-h-screen flex flex-col bg-white text-black"
       style={
         {
           fontFamily: "var(--font-noto)",

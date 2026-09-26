@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { Space_Grotesk, Noto_Sans } from "next/font/google";
 import dynamic from "next/dynamic";
 import React from "react";
 
@@ -27,18 +26,6 @@ const UploadNotesComponent = dynamic(() => import("./UploadNotes"), {
 });
 
 // TODO: Move metadata to layout.tsx file
-
-const space = Space_Grotesk({
-  subsets: ["latin"],
-  weight: ["500", "700"],
-  variable: "--font-space-grotesk",
-});
-
-const noto = Noto_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-noto-sans",
-});
 
 import { usePortalTheme } from "@/lib/hooks/usePortalTheme";
 

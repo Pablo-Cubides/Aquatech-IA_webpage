@@ -8,6 +8,7 @@ import {
   DEFAULT_LOGO,
 } from "@/lib/site-config";
 import { Analytics } from "@vercel/analytics/next";
+import { spaceGrotesk, notoSans } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -117,7 +118,10 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="es">
+    <html
+      lang="es"
+      className={`${spaceGrotesk.variable} ${notoSans.variable}`}
+    >
       <head>
         {/* Structured Data - Organization */}
         <script
@@ -134,21 +138,9 @@ export default function RootLayout({
           }}
         />
         {/* DNS Prefetch for performance */}
-        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
-        {/* Preconnect for critical resources */}
-        <link
-          rel="preconnect"
-          href="https://fonts.googleapis.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
       </head>
-      <body>
+      <body className={notoSans.className}>
         <Providers>{children}</Providers>
         <Analytics />
       </body>

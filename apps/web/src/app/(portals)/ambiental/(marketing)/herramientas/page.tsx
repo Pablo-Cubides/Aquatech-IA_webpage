@@ -1,19 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { Noto_Sans, Space_Grotesk } from "next/font/google";
-
-const noto = Noto_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-noto-sans",
-});
-
-const space = Space_Grotesk({
-  subsets: ["latin"],
-  weight: ["500", "700"],
-  variable: "--font-space-grotesk",
-});
 
 export default function AmbientalHerramientasPage() {
   const collectionSchema = {
