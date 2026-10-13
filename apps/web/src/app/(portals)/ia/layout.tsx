@@ -43,9 +43,6 @@ export const metadata: Metadata = {
     images: [`${SITE_URL}/images/og-image-ia.jpg`],
     creator: "@aquatechia",
   },
-  alternates: {
-    canonical: `${SITE_URL}/ia`,
-  },
 };
 
 export default function IALayout({ children }: { children: React.ReactNode }) {

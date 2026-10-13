@@ -1,8 +1,12 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Cursos | IA Portal",
-  description: "Cursos y formación en inteligencia artificial.",
+  title: "Cursos de Inteligencia Artificial | AquatechIA",
+  description: "Formación especializada y rutas de aprendizaje en inteligencia artificial y machine learning aplicados.",
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 export default function IACursosPage() {

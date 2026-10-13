@@ -49,7 +49,7 @@ export default function NosotrosPage() {
             </div>
             <h1
               className="text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl"
-              style={{ fontFamily: "Space Grotesk, sans-serif" }}
+              style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
             >
               Sobre Aquatech IA
             </h1>
@@ -109,7 +109,7 @@ export default function NosotrosPage() {
             </div>
             <h2
               className="text-2xl font-bold"
-              style={{ fontFamily: "Space Grotesk, sans-serif" }}
+              style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
             >
               Misión
             </h2>
@@ -177,7 +177,7 @@ export default function NosotrosPage() {
             </div>
             <h2
               className="text-2xl font-bold"
-              style={{ fontFamily: "Space Grotesk, sans-serif" }}
+              style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
             >
               Visión
             </h2>
@@ -227,7 +227,7 @@ export default function NosotrosPage() {
         <div className="mx-auto max-w-screen-xl px-4 text-center sm:px-6 lg:px-8">
           <h2
             className="text-3xl font-bold sm:text-4xl"
-            style={{ fontFamily: "Space Grotesk, sans-serif" }}
+            style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
           >
             Nuestros Valores
           </h2>
@@ -266,7 +266,7 @@ export default function NosotrosPage() {
           <div className="text-center mb-12">
             <h2
               className="text-3xl font-bold"
-              style={{ fontFamily: "Space Grotesk, sans-serif" }}
+              style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
             >
               Nuestro Impacto
             </h2>
@@ -299,7 +299,7 @@ export default function NosotrosPage() {
           <div className="text-center">
             <h2
               className="text-3xl font-bold sm:text-4xl"
-              style={{ fontFamily: "Space Grotesk, sans-serif" }}
+              style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
             >
               Preguntas Frecuentes
             </h2>
@@ -341,7 +341,7 @@ export default function NosotrosPage() {
         <div className="mx-auto max-w-screen-xl px-4 text-center sm:px-6 lg:px-8">
           <h2
             className="mx-auto max-w-3xl text-3xl font-bold md:text-4xl"
-            style={{ fontFamily: "Space Grotesk, sans-serif" }}
+            style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
           >
             ¿Listo para explorar el futuro del agua y el medio ambiente?
           </h2>

@@ -475,7 +475,7 @@ export default function BlogSection({ portal }: BlogSectionProps) {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <h1
             className="text-4xl md:text-6xl font-bold mb-4 tracking-tight"
-            style={{ fontFamily: "Space Grotesk, sans-serif" }}
+            style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
           >
             Blog de Aquatech {currentPortal === "ia" ? "IA" : "Ambiental"}
           </h1>
@@ -580,7 +580,7 @@ export default function BlogSection({ portal }: BlogSectionProps) {
           <div className="mb-8">
             <h2
               className="text-2xl md:text-3xl font-bold tracking-tight"
-              style={{ fontFamily: "Space Grotesk, sans-serif" }}
+              style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
             >
               Más leídos
             </h2>
@@ -692,7 +692,7 @@ export default function BlogSection({ portal }: BlogSectionProps) {
           <div className="mb-8">
             <h2
               className="text-2xl md:text-3xl font-bold tracking-tight"
-              style={{ fontFamily: "Space Grotesk, sans-serif" }}
+              style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
             >
               Últimos posts
             </h2>

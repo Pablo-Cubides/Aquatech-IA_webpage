@@ -190,7 +190,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
               </span>
               <h1
                 className="text-4xl md:text-5xl font-bold mb-6 text-white leading-tight"
-                style={{ fontFamily: "Space Grotesk, sans-serif" }}
+                style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
               >
                 {article.title}
               </h1>
@@ -322,7 +322,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
                 <section key={section.id} id={section.id} className="mb-12">
                   <h2
                     className="text-3xl font-bold text-white mb-6"
-                    style={{ fontFamily: "Space Grotesk, sans-serif" }}
+                    style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
                   >
                     {section.title}
                   </h2>
@@ -431,7 +431,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
                 <section className="mb-12 p-6 bg-gray-900/50 rounded-xl border border-gray-800">
                   <h2
                     className="text-3xl font-bold text-white mb-6"
-                    style={{ fontFamily: "Space Grotesk, sans-serif" }}
+                    style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
                   >
                     Conclusión
                   </h2>
@@ -467,7 +467,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
             <div className="bg-gray-900/50 p-6 rounded-xl border border-gray-800">
               <h3
                 className="text-xl font-bold mb-4 text-white"
-                style={{ fontFamily: "Space Grotesk, sans-serif" }}
+                style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
               >
                 Tabla de contenidos
               </h3>
@@ -530,7 +530,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
             <div className="bg-gray-900/50 p-6 rounded-xl border border-gray-800">
               <h3
                 className="text-xl font-bold mb-4 text-white"
-                style={{ fontFamily: "Space Grotesk, sans-serif" }}
+                style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
               >
                 Categorías
               </h3>

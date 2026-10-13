@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import type { WaterSample, Country } from "../types";
 import { IRCA_PARAMETERS } from "../data/irca-parameters";
 
@@ -39,63 +39,128 @@ export default function ManualDataEntry({
     }))
   );
 
-  const [error, setError] = useState<string | null>(null);
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const handleParameterChange = (index: number, newValue: string) => {
-    // Basic formatting constraint: permit empty or valid positive numbers / decimals
     const updated = [...parameters];
     updated[index].value = newValue;
     setParameters(updated);
-    setError(null); // Clear errors on change
   };
+
+  // Validación científica y de plausibilidad en tiempo real
+  const validationResults = useMemo(() => {
+    const criticalErrors: { param?: string; message: string }[] = [];
+    const warnings: { param?: string; message: string }[] = [];
+    const fieldStatus: Record<string, { type: "error" | "warning"; message: string }> = {};
+
+    let coliformesValue: number | null = null;
+    let coliformesParamName = "";
+    let ecoliValue: number | null = null;
+    let ecoliParamName = "";
+
+    parameters.forEach((p) => {
+      if (p.value.trim() === "") return;
+
+      const numVal = parseFloat(p.value);
+      const lowerName = p.name.toLowerCase();
+
+      // Validación de número válido
+      if (isNaN(numVal)) {
+        const msg = `El valor para ${p.name} debe ser un número válido.`;
+        criticalErrors.push({ param: p.name, message: msg });
+        fieldStatus[p.name] = { type: "error", message: msg };
+        return;
+      }
+
+      // Restricción: valores negativos prohibidos en parámetros de calidad del agua
+      if (numVal < 0) {
+        const msg = `El valor de ${p.name} no puede ser negativo (${numVal} ${p.unit}).`;
+        criticalErrors.push({ param: p.name, message: msg });
+        fieldStatus[p.name] = { type: "error", message: msg };
+        return;
+      }
+
+      // Restricción estricta de pH: Escala física 0 a 14
+      if (lowerName === "ph") {
+        if (numVal < 0 || numVal > 14) {
+          const msg = `El pH debe estar estrictamente en el rango de 0 a 14 (valor ingresado: ${numVal}). Valores fuera de esta escala no existen en soluciones acuosas estándar.`;
+          criticalErrors.push({ param: p.name, message: msg });
+          fieldStatus[p.name] = { type: "error", message: msg };
+          return;
+        } else if (numVal < 3 || numVal > 11) {
+          const msg = `pH extremadamente ácido/básico (${numVal}). Representa un riesgo corrosivo severo para agua de consumo.`;
+          warnings.push({ param: p.name, message: msg });
+          fieldStatus[p.name] = { type: "warning", message: msg };
+        }
+      }
+
+      // Detección de parámetros microbiológicos
+      if (lowerName.includes("coliformes totales")) {
+        coliformesValue = numVal;
+        coliformesParamName = p.name;
+      }
+      if (lowerName.includes("escherichia coli") || lowerName.includes("e. coli")) {
+        ecoliValue = numVal;
+        ecoliParamName = p.name;
+      }
+
+      // Advertencias de límites extremos físicos para agua tratada/potable
+      if (lowerName.includes("turbiedad") || lowerName.includes("turbidez")) {
+        if (numVal > 2000) {
+          const msg = `Turbiedad inusualmente alta (${numVal} UNT). Verifica si hubo error en la unidad o si es agua cruda con alta sedimentación.`;
+          warnings.push({ param: p.name, message: msg });
+          if (!fieldStatus[p.name]) fieldStatus[p.name] = { type: "warning", message: msg };
+        }
+      }
+
+      if (lowerName.includes("cloro residual libre")) {
+        if (numVal > 10) {
+          const msg = `Cloro residual libre excesivo (${numVal} mg/L). Supera 5 veces el límite seguro para consumo (riesgo químico agudo).`;
+          warnings.push({ param: p.name, message: msg });
+          if (!fieldStatus[p.name]) fieldStatus[p.name] = { type: "warning", message: msg };
+        }
+      }
+
+      if (lowerName.includes("conductividad")) {
+        if (numVal > 50000) {
+          const msg = `Conductividad extrema (${numVal} µS/cm), similar a salmuera o agua de mar. No corresponde a agua dulce.`;
+          warnings.push({ param: p.name, message: msg });
+          if (!fieldStatus[p.name]) fieldStatus[p.name] = { type: "warning", message: msg };
+        }
+      }
+    });
+
+    // Control microbiológico cruzado: E. coli es subespecie de Coliformes Totales
+    if (coliformesValue !== null && ecoliValue !== null && ecoliValue > coliformesValue) {
+      const msg = `Inconsistencia biológica detectada: El recuento de Escherichia coli (${ecoliValue} UFC/100mL) no puede ser mayor que el de Coliformes totales (${coliformesValue} UFC/100mL). E. coli es un taxón incluido dentro del grupo de coliformes totales.`;
+      criticalErrors.push({ message: msg });
+      if (ecoliParamName) {
+        fieldStatus[ecoliParamName] = {
+          type: "error",
+          message: `E. coli (${ecoliValue}) excede Coliformes totales (${coliformesValue})`,
+        };
+      }
+      if (coliformesParamName) {
+        fieldStatus[coliformesParamName] = {
+          type: "error",
+          message: `Coliformes totales (${coliformesValue}) debe ser mayor o igual a E. coli (${ecoliValue})`,
+        };
+      }
+    }
+
+    return {
+      criticalErrors,
+      warnings,
+      fieldStatus,
+      hasErrors: criticalErrors.length > 0,
+    };
+  }, [parameters]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
+    setFormSubmitted(true);
 
-    // Validate parameters individually
-    let validationError: string | null = null;
-    let coliformesValue: number | null = null;
-    let ecoliValue: number | null = null;
-
-    for (const p of parameters) {
-      if (p.value.trim() === "") continue;
-
-      const numVal = parseFloat(p.value);
-      if (isNaN(numVal)) {
-        validationError = `El valor para ${p.name} debe ser un número válido.`;
-        break;
-      }
-
-      // Check negative values
-      if (numVal < 0) {
-        validationError = `El valor para ${p.name} no puede ser negativo.`;
-        break;
-      }
-
-      // Check pH range (0 to 14)
-      if (p.name.toLowerCase() === "ph" && (numVal < 0 || numVal > 14)) {
-        validationError = "El pH debe estar en el rango de 0 a 14.";
-        break;
-      }
-
-      // Track microbiological parameters for cross-validation
-      if (p.name.toLowerCase().includes("coliformes totales")) {
-        coliformesValue = numVal;
-      }
-      if (p.name.toLowerCase().includes("escherichia coli")) {
-        ecoliValue = numVal;
-      }
-    }
-
-    if (validationError) {
-      setError(validationError);
-      return;
-    }
-
-    // Cross-validation: E. coli cannot be greater than Coliformes totales
-    if (coliformesValue !== null && ecoliValue !== null && ecoliValue > coliformesValue) {
-      setError("El valor de Escherichia coli no puede ser mayor que el de Coliformes totales.");
+    if (validationResults.hasErrors) {
       return;
     }
 
@@ -109,7 +174,6 @@ export default function ManualDataEntry({
       }));
 
     if (filledParameters.length === 0) {
-      setError("Por favor ingrese al menos un parámetro");
       return;
     }
 
@@ -131,13 +195,56 @@ export default function ManualDataEntry({
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-4xl mx-auto px-4">
         <form onSubmit={handleSubmit}>
-          {/* Error Message Display */}
-          {error && (
-            <div className="mb-6 p-4 bg-red-100 border border-red-300 text-red-700 rounded-lg flex items-center gap-3">
-              <svg className="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-              </svg>
-              <span className="font-semibold text-sm">{error}</span>
+          {/* Alerta Destacada de Errores Críticos / Valores No Permitidos */}
+          {validationResults.criticalErrors.length > 0 && (
+            <div className="mb-6 p-5 bg-red-50 border-2 border-red-400 text-red-900 rounded-xl shadow-sm animate-in fade-in duration-300">
+              <div className="flex items-start gap-3">
+                <div className="p-1.5 bg-red-100 rounded-lg text-red-600 shrink-0">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                </div>
+                <div className="space-y-1">
+                  <h4 className="font-bold text-sm text-red-800">
+                    Restricciones de Calidad de Agua no cumplidas ({validationResults.criticalErrors.length}):
+                  </h4>
+                  <ul className="list-disc list-inside text-xs sm:text-sm text-red-700 space-y-1">
+                    {validationResults.criticalErrors.map((err, idx) => (
+                      <li key={idx} className="leading-snug">
+                        {err.message}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="text-xs text-red-600 font-medium pt-1">
+                    ⚠️ Debe corregir estos valores biológica o físicamente imposibles para habilitar el cálculo.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Alertas Informativas de Valores Atípicos / Extremos */}
+          {validationResults.warnings.length > 0 && validationResults.criticalErrors.length === 0 && (
+            <div className="mb-6 p-4 bg-amber-50 border border-amber-300 text-amber-900 rounded-xl shadow-sm animate-in fade-in duration-300">
+              <div className="flex items-start gap-3">
+                <span className="text-xl">⚠️</span>
+                <div className="space-y-1">
+                  <h4 className="font-bold text-xs sm:text-sm text-amber-800">
+                    Advertencia de valores atípicos detectados:
+                  </h4>
+                  <ul className="list-disc list-inside text-xs text-amber-700 space-y-0.5">
+                    {validationResults.warnings.map((warn, idx) => (
+                      <li key={idx}>{warn.message}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {formSubmitted && filledCount === 0 && (
+            <div className="mb-6 p-4 bg-orange-50 border border-orange-300 text-orange-800 rounded-lg text-sm font-medium">
+              Por favor ingrese al menos un parámetro antes de calcular los índices.
             </div>
           )}
 
@@ -242,19 +349,49 @@ export default function ManualDataEntry({
                       }
                     }
 
+                    const statusInfo = validationResults.fieldStatus[param.name];
+                    const hasCriticalError = statusInfo?.type === "error";
+                    const hasWarning = statusInfo?.type === "warning";
+
                     return (
                       <tr
                         key={param.name}
                         className={
-                          hasValue
-                            ? isOutOfRange
-                              ? "bg-red-50"
-                              : "bg-green-50"
-                            : ""
+                          hasCriticalError
+                            ? "bg-red-50/80"
+                            : hasWarning
+                              ? "bg-amber-50/60"
+                              : hasValue
+                                ? isOutOfRange
+                                  ? "bg-orange-50/50"
+                                  : "bg-green-50/40"
+                                : ""
                         }
                       >
                         <td className="px-4 py-3 text-sm font-medium text-gray-900">
-                          {param.name}
+                          <div className="flex items-center gap-1.5">
+                            {hasCriticalError && (
+                              <span className="text-red-600 font-bold" title={statusInfo.message}>
+                                ⛔
+                              </span>
+                            )}
+                            {hasWarning && !hasCriticalError && (
+                              <span className="text-amber-500 font-bold" title={statusInfo.message}>
+                                ⚠️
+                              </span>
+                            )}
+                            <span>{param.name}</span>
+                          </div>
+                          {hasCriticalError && (
+                            <p className="text-xs text-red-600 font-medium mt-0.5 animate-in fade-in">
+                              {statusInfo.message}
+                            </p>
+                          )}
+                          {hasWarning && !hasCriticalError && (
+                            <p className="text-xs text-amber-700 mt-0.5">
+                              {statusInfo.message}
+                            </p>
+                          )}
                         </td>
                         <td className="px-4 py-3">
                           <input
@@ -265,14 +402,18 @@ export default function ManualDataEntry({
                               handleParameterChange(index, e.target.value)
                             }
                             placeholder="—"
-                            className={`w-24 px-2 py-1 border rounded-md text-sm focus:ring-2 focus:ring-green-500 focus:border-transparent ${
-                              hasValue && isOutOfRange
-                                ? "border-red-400 bg-red-50"
-                                : "border-gray-300"
+                            className={`w-28 px-2.5 py-1.5 border rounded-md text-sm transition-all focus:ring-2 focus:border-transparent ${
+                              hasCriticalError
+                                ? "border-red-500 bg-red-100/50 text-red-900 focus:ring-red-400 font-semibold"
+                                : hasWarning
+                                  ? "border-amber-400 bg-amber-50 text-amber-900 focus:ring-amber-400"
+                                  : hasValue && isOutOfRange
+                                    ? "border-orange-300 bg-orange-50 text-orange-900 focus:ring-orange-400"
+                                    : "border-gray-300 focus:ring-green-500"
                             }`}
                           />
                         </td>
-                        <td className="px-4 py-3 text-sm text-gray-500">
+                        <td className="px-4 py-3 text-sm text-gray-500 font-mono text-xs">
                           {param.unit}
                         </td>
                         <td className="px-4 py-3 text-sm text-gray-500">
@@ -285,7 +426,7 @@ export default function ManualDataEntry({
                                 ? `≥ ${param.minValue}`
                                 : "—"}
                         </td>
-                        <td className="px-4 py-3 text-sm text-gray-500">
+                        <td className="px-4 py-3 text-sm text-gray-500 font-medium">
                           {param.riskScore}
                         </td>
                       </tr>
@@ -297,21 +438,28 @@ export default function ManualDataEntry({
           </div>
 
           {/* Botones */}
-          <div className="flex justify-between">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <button
               type="button"
               onClick={onBack}
-              className="px-4 py-2 text-gray-600 hover:text-gray-800 border border-gray-300 rounded-md"
+              className="w-full sm:w-auto px-4 py-2 text-gray-600 hover:text-gray-800 border border-gray-300 rounded-md transition-colors"
             >
               ← Volver
             </button>
-            <button
-              type="submit"
-              disabled={filledCount === 0}
-              className="px-6 py-3 bg-green-600 text-white rounded-md font-medium hover:bg-green-700 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed transition-colors"
-            >
-              Calcular Índices →
-            </button>
+            <div className="flex flex-col sm:flex-row items-center gap-3">
+              {validationResults.hasErrors && (
+                <span className="text-xs text-red-600 font-medium">
+                  ⛔ Hay valores no permitidos que impiden el cálculo
+                </span>
+              )}
+              <button
+                type="submit"
+                disabled={filledCount === 0 || validationResults.hasErrors}
+                className="w-full sm:w-auto px-6 py-3 bg-green-600 text-white rounded-md font-semibold hover:bg-green-700 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed transition-all shadow-sm"
+              >
+                Calcular Índices →
+              </button>
+            </div>
           </div>
         </form>
 

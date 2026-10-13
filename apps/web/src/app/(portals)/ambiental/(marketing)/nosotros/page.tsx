@@ -40,7 +40,7 @@ export default function AmbientalNosotrosPage() {
             </div>
             <h1
               className="tracking-tight text-4xl font-bold md:text-5xl lg:text-6xl"
-              style={{ fontFamily: "Space Grotesk, sans-serif" }}
+              style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
             >
               Sobre Aquatech Ambiental
             </h1>
@@ -100,7 +100,7 @@ export default function AmbientalNosotrosPage() {
             </div>
             <h2
               className="text-2xl font-bold"
-              style={{ fontFamily: "Space Grotesk, sans-serif" }}
+              style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
             >
               Misión
             </h2>
@@ -173,7 +173,7 @@ export default function AmbientalNosotrosPage() {
             </div>
             <h2
               className="text-2xl font-bold"
-              style={{ fontFamily: "Space Grotesk, sans-serif" }}
+              style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
             >
               Visión
             </h2>
@@ -230,7 +230,7 @@ export default function AmbientalNosotrosPage() {
           <div className="text-center">
             <h2
               className="text-3xl font-bold sm:text-4xl"
-              style={{ fontFamily: "Space Grotesk, sans-serif" }}
+              style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
             >
               Nuestros Valores
             </h2>
@@ -285,7 +285,7 @@ export default function AmbientalNosotrosPage() {
           <div className="text-center mb-12">
             <h2
               className="text-3xl font-bold"
-              style={{ fontFamily: "Space Grotesk, sans-serif" }}
+              style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
             >
               Nuestro Impacto
             </h2>
@@ -318,7 +318,7 @@ export default function AmbientalNosotrosPage() {
           <div className="text-center">
             <h2
               className="text-3xl font-bold sm:text-4xl"
-              style={{ fontFamily: "Space Grotesk, sans-serif" }}
+              style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
             >
               Preguntas Frecuentes
             </h2>
@@ -364,7 +364,7 @@ export default function AmbientalNosotrosPage() {
         <div className="mx-auto max-w-screen-xl px-4 text-center sm:px-6 lg:px-8">
           <h2
             className="mx-auto max-w-3xl text-3xl font-bold md:text-4xl"
-            style={{ fontFamily: "Space Grotesk, sans-serif" }}
+            style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
           >
             ¿Listo para transformar datos en acción ambiental?
           </h2>

@@ -32,24 +32,66 @@ export default function IndiceCalidadAguaPage() {
   const [selectedCountry, setSelectedCountry] = useState<Country>("Colombia");
   const [samples, setSamples] = useState<WaterSample[]>([]);
   const [currentSampleIndex, setCurrentSampleIndex] = useState(0);
+  const [csvError, setCsvError] = useState<string | null>(null);
 
   // Manejador de selección de fuente
   const handleSourceSelected = (source: DataSource, country: Country) => {
     setDataSource(source);
     setSelectedCountry(country);
+    setCsvError(null);
     setCurrentStep("input-data");
   };
 
-  // Manejador de archivo CSV
+  // Manejador de archivo CSV con validación de plausibilidad
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
+    setCsvError(null);
     const reader = new FileReader();
     reader.onload = (e) => {
       const text = e.target?.result as string;
       const rows = parseCSV(text);
       const waterSamples = csvToWaterSamples(rows);
+
+      if (waterSamples.length === 0) {
+        setCsvError("El archivo CSV no contiene registros válidos o las columnas requeridas (fecha, ubicacion, parametro, valor, unidad).");
+        return;
+      }
+
+      // Validar cada muestra
+      const validationErrors: string[] = [];
+      waterSamples.forEach((sample, sampleIdx) => {
+        let coliformes: number | null = null;
+        let ecoli: number | null = null;
+
+        sample.parameters.forEach((param) => {
+          const lowerName = param.name.toLowerCase();
+          // Negativos
+          if (param.value < 0) {
+            validationErrors.push(`Muestra "${sample.location}": ${param.name} tiene un valor negativo (${param.value} ${param.unit}).`);
+          }
+          // pH
+          if (lowerName === "ph" && (param.value < 0 || param.value > 14)) {
+            validationErrors.push(`Muestra "${sample.location}": pH fuera de rango físico (${param.value}). Debe estar entre 0 y 14.`);
+          }
+          if (lowerName.includes("coliformes totales")) {
+            coliformes = param.value;
+          }
+          if (lowerName.includes("escherichia coli") || lowerName.includes("e. coli")) {
+            ecoli = param.value;
+          }
+        });
+
+        if (coliformes !== null && ecoli !== null && ecoli > coliformes) {
+          validationErrors.push(`Muestra "${sample.location}": Inconsistencia microbiológica. E. coli (${ecoli}) no puede ser mayor que Coliformes totales (${coliformes}).`);
+        }
+      });
+
+      if (validationErrors.length > 0) {
+        setCsvError(`Se encontraron errores en los datos del archivo CSV:\n• ${validationErrors.slice(0, 3).join("\n• ")}${validationErrors.length > 3 ? `\n...y ${validationErrors.length - 3} errores más.` : ""}`);
+        return;
+      }
 
       // Calcular índices para cada muestra
       const samplesWithIndices = waterSamples.map((sample) => ({
@@ -97,6 +139,16 @@ export default function IndiceCalidadAguaPage() {
               <h2 className="text-2xl font-bold text-gray-900 mb-6">
                 Cargar Archivo CSV
               </h2>
+
+              {csvError && (
+                <div className="mb-6 p-4 bg-red-50 border-2 border-red-300 rounded-lg text-red-800 text-sm whitespace-pre-line flex items-start gap-3">
+                  <span className="text-lg">⛔</span>
+                  <div>
+                    <h4 className="font-bold mb-1">Archivo rechazado por inconsistencias en los datos:</h4>
+                    <p>{csvError}</p>
+                  </div>
+                </div>
+              )}
 
               <div className="mb-6">
                 <label className="block text-sm font-medium text-gray-700 mb-2">

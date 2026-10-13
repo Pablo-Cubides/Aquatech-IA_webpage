@@ -4,10 +4,12 @@ import { getFeaturedAmbientalTools } from "@/lib/ambiental-tools";
 import { getLatestArticles } from "@/lib/new-ambiental-articles";
 import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
+import { SITE_URL } from "@/lib/site-config";
+
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Portal Ambiental - Gestión Ambiental con tecnología sostenible",
+  title: "Portal Ambiental - Gestión Ambiental con tecnología sostenible | AquatechIA",
   description:
     "Mapas, normas y herramientas para proteger nuestros recursos naturales. Gestión ambiental con tecnología para un futuro sostenible.",
   keywords: [
@@ -18,15 +20,19 @@ export const metadata: Metadata = {
     "normas ambientales",
     "EIA",
   ],
+  alternates: {
+    canonical: `${SITE_URL}/ambiental`,
+  },
   openGraph: {
-    title: "Portal Ambiental - Gestión Ambiental con tecnología sostenible",
+    title: "Portal Ambiental - Gestión Ambiental con tecnología sostenible | AquatechIA",
     description:
       "Mapas, normas y herramientas para proteger nuestros recursos naturales. Gestión ambiental con tecnología para un futuro sostenible.",
     type: "website",
+    url: `${SITE_URL}/ambiental`,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Portal Ambiental - Gestión Ambiental con tecnología sostenible",
+    title: "Portal Ambiental - Gestión Ambiental con tecnología sostenible | AquatechIA",
     description:
       "Mapas, normas y herramientas para proteger nuestros recursos naturales. Gestión ambiental con tecnología para un futuro sostenible.",
   },
@@ -77,7 +83,7 @@ export default function AmbientalPage() {
 
             <h1
               className="text-5xl font-bold md:text-7xl text-gray-900 animate-in fade-in slide-in-from-top-6 duration-700 delay-150"
-              style={{ fontFamily: "Space Grotesk, sans-serif" }}
+              style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
             >
               Gestión Ambiental con tecnología para un futuro sostenible
             </h1>
@@ -106,7 +112,7 @@ export default function AmbientalPage() {
           <div>
             <h2
               className="text-4xl font-bold text-black"
-              style={{ fontFamily: "Space Grotesk, sans-serif" }}
+              style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
             >
               Nosotros
             </h2>
@@ -135,7 +141,7 @@ export default function AmbientalPage() {
         <div className="container mx-auto px-4">
           <h2
             className="text-center text-4xl font-bold"
-            style={{ fontFamily: "Space Grotesk, sans-serif" }}
+            style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
           >
             Herramientas Ambientales
           </h2>
@@ -200,7 +206,7 @@ export default function AmbientalPage() {
         <div className="container mx-auto px-4">
           <h2
             className="text-center text-4xl font-bold"
-            style={{ fontFamily: "Space Grotesk, sans-serif" }}
+            style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
           >
             Desde nuestro Blog
           </h2>
@@ -329,7 +335,7 @@ export default function AmbientalPage() {
         <div className="container mx-auto px-4">
           <h2
             className="text-center text-4xl font-bold"
-            style={{ fontFamily: "Space Grotesk, sans-serif" }}
+            style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
           >
             Productos y Formación
           </h2>

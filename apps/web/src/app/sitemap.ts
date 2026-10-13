@@ -96,12 +96,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/ia/cursos`,
-      lastModified: currentDate,
-      changeFrequency: "daily",
-      priority: 0.8,
-    },
-    {
       url: `${baseUrl}/ia/autor`,
       lastModified: currentDate,
       changeFrequency: "monthly",
@@ -216,19 +210,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/ambiental/cursos`,
+      url: `${baseUrl}/ambiental/productos`,
       lastModified: currentDate,
-      changeFrequency: "daily",
+      changeFrequency: "weekly",
       priority: 0.8,
     },
     {
       url: `${baseUrl}/ambiental/autor`,
-      lastModified: currentDate,
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/ambiental/autor/herramientas/ruleta-academica`,
       lastModified: currentDate,
       changeFrequency: "monthly",
       priority: 0.6,
@@ -265,7 +253,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  // Environmental Tools pages (including matrix generator subroutes)
+  // Environmental Tools pages (including matrix generator subroutes, excluding builder 404 and duplicate)
   const ambientalToolsPages: MetadataRoute.Sitemap = [
     ...ambientalTools.map((tool) => ({
       url: `${baseUrl}/ambiental/herramientas/${tool.slug}`,
@@ -274,12 +262,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     })),
     {
-      url: `${baseUrl}/ambiental/herramientas/generador-matrices`,
-      lastModified: currentDate,
-      changeFrequency: "weekly",
-      priority: 0.7,
-    },
-    {
       url: `${baseUrl}/ambiental/herramientas/generador-matrices/matrices`,
       lastModified: currentDate,
       changeFrequency: "monthly",
@@ -287,12 +269,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     {
       url: `${baseUrl}/ambiental/herramientas/generador-matrices/selector`,
-      lastModified: currentDate,
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/ambiental/herramientas/generador-matrices/builder`,
       lastModified: currentDate,
       changeFrequency: "monthly",
       priority: 0.6,

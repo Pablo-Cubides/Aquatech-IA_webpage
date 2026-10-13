@@ -16,9 +16,6 @@ export const metadata: Metadata = {
     "evaluación impacto ambiental",
     "AquatechIA",
   ],
-  alternates: {
-    canonical: "/ambiental/herramientas",
-  },
   openGraph: {
     title: "Herramientas de Gestión Ambiental | AquatechIA",
     description:

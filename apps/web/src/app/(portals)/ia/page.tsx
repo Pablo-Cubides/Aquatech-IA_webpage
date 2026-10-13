@@ -5,10 +5,12 @@ import { getFeaturedIATools } from "@/lib/ia-tools";
 import { getLatestIAArticles } from "@/lib/new-blog-articles";
 import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
+import { SITE_URL } from "@/lib/site-config";
+
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "IA Portal - Inteligencia Artificial aplicada al agua y al ambiente",
+  title: "Portal IA - Inteligencia Artificial aplicada al agua y al ambiente | AquatechIA",
   description:
     "Explora modelos generativos, visualizaciones y herramientas prácticas de inteligencia artificial aplicadas al agua y medio ambiente.",
   keywords: [
@@ -19,15 +21,19 @@ export const metadata: Metadata = {
     "visualizaciones",
     "herramientas IA",
   ],
+  alternates: {
+    canonical: `${SITE_URL}/ia`,
+  },
   openGraph: {
-    title: "IA Portal - Inteligencia Artificial aplicada al agua y al ambiente",
+    title: "Portal IA - Inteligencia Artificial aplicada al agua y al ambiente",
     description:
       "Explora modelos generativos, visualizaciones y herramientas prácticas de inteligencia artificial aplicadas al agua y medio ambiente.",
     type: "website",
+    url: `${SITE_URL}/ia`,
   },
   twitter: {
     card: "summary_large_image",
-    title: "IA Portal - Inteligencia Artificial aplicada al agua y al ambiente",
+    title: "Portal IA - Inteligencia Artificial aplicada al agua y al ambiente",
     description:
       "Explora modelos generativos, visualizaciones y herramientas prácticas de inteligencia artificial aplicadas al agua y medio ambiente.",
   },
@@ -78,7 +84,7 @@ export default function IAPage() {
 
             <h1
               className="text-5xl md:text-7xl font-bold text-white animate-in fade-in slide-in-from-top-6 duration-700 delay-150"
-              style={{ fontFamily: "Space Grotesk, sans-serif" }}
+              style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
             >
               Inteligencia Artificial aplicada al agua y al ambiente
             </h1>
@@ -107,7 +113,7 @@ export default function IAPage() {
           <div>
             <h2
               className="text-4xl font-bold text-white"
-              style={{ fontFamily: "Space Grotesk, sans-serif" }}
+              style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
             >
               Nosotros
             </h2>
@@ -138,7 +144,7 @@ export default function IAPage() {
         <div className="container mx-auto px-4">
           <h2
             className="text-center text-4xl font-bold text-white"
-            style={{ fontFamily: "Space Grotesk, sans-serif" }}
+            style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
           >
             Herramientas (IA)
           </h2>
@@ -201,7 +207,7 @@ export default function IAPage() {
         <div className="container mx-auto px-4">
           <h2
             className="text-center text-4xl font-bold text-white"
-            style={{ fontFamily: "Space Grotesk, sans-serif" }}
+            style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
           >
             Blog
           </h2>
@@ -278,7 +284,7 @@ export default function IAPage() {
               </span>
               <h2
                 className="text-3xl lg:text-4xl font-bold text-white mt-2 mb-4"
-                style={{ fontFamily: "Space Grotesk, sans-serif" }}
+                style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
               >
                 Pablo Cubides
               </h2>
@@ -319,7 +325,7 @@ export default function IAPage() {
         <div className="container mx-auto px-4">
           <h2
             className="text-center text-4xl font-bold text-[#F3F6FF]"
-            style={{ fontFamily: "Space Grotesk, sans-serif" }}
+            style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
           >
             Productos
           </h2>

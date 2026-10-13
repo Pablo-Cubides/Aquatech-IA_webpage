@@ -1,8 +1,12 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Cursos | Ambiental Portal",
-  description: "Cursos y formación en sostenibilidad y medio ambiente.",
+  title: "Cursos de Gestión Ambiental y Sostenibilidad | AquatechIA",
+  description: "Cursos y formación especializada en sostenibilidad, modelación hídrica y medio ambiente.",
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 export default function AmbientalCursosPage() {

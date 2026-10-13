@@ -168,7 +168,7 @@ export default function ProfileSection({ portal }: ProfileSectionProps) {
             <div className="text-center md:text-left">
               <h2
                 className={`text-3xl md:text-4xl font-bold ${isDark ? "text-white" : "text-[#0D161C]"}`}
-                style={{ fontFamily: "Space Grotesk, sans-serif" }}
+                style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
               >
                 {fullName || "Usuario"}
               </h2>

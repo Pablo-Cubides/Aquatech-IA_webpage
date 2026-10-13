@@ -44,9 +44,6 @@ export const metadata: Metadata = {
     images: [`${SITE_URL}/images/og-image-ambiental.jpg`],
     creator: "@aquatechia",
   },
-  alternates: {
-    canonical: `${SITE_URL}/ambiental`,
-  },
 };
 
 export default function AmbientalLayout({
