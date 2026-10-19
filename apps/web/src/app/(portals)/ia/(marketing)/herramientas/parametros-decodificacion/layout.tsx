@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import React from "react";
+import ToolSeoBlock from "@/components/seo/ToolSeoBlock";
 
 export const metadata: Metadata = {
   title:
@@ -56,5 +57,10 @@ export default function ParametrosDecodificacionLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <ToolSeoBlock slug="parametros-decodificacion" portal="ia" />
+    </>
+  );
 }

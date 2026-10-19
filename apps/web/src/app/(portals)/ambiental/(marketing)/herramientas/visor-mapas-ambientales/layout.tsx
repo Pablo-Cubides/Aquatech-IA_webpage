@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { SITE_URL } from '@/lib/site-config';
+import ToolSeoBlock from "@/components/seo/ToolSeoBlock";
 
 export const metadata: Metadata = {
   title: 'Visor de Mapas Ambientales | GIS Interactivo',
@@ -97,6 +98,7 @@ export default function VisorMapasLayout({
         }}
       />
       {children}
+      <ToolSeoBlock slug="visor-mapas-ambientales" portal="ambiental" />
     </>
   );
 }

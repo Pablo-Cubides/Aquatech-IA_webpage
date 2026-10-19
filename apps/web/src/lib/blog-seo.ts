@@ -88,11 +88,14 @@ export function generateArticleSchema(
     description: article.excerpt,
     image: article.heroImage,
     datePublished: article.date,
-    dateModified: (article as { dateModified?: string }).dateModified || "2026-09-06",
+    // dateModified nunca puede ser anterior a datePublished (antes caia a una fecha fija y 8 articulos quedaron invertidos)
+    dateModified: (article as { dateModified?: string }).dateModified || article.date,
+    inLanguage: "es",
     author: {
       "@type": "Person",
       name: article.author.name,
       description: article.author.bio,
+      url: `${baseUrl}/${portal}/autor`,
     },
     publisher: {
       "@type": "Organization",
@@ -109,6 +112,46 @@ export function generateArticleSchema(
     articleSection: article.category,
     keywords: article.tags.join(", "),
     wordCount: Math.round(article.readTime * 200), // Estimación basada en tiempo de lectura
+  };
+}
+
+/**
+ * Preguntas frecuentes de un articulo: la seccion "Preguntas frecuentes" con subtitulos "### pregunta?" y su respuesta.
+ * Se usa para el schema FAQPage (lo que Google muestra como desplegable y lo que citan los asistentes de IA).
+ */
+export function extractFaqs(article: BlogArticle): Array<{ question: string; answer: string }> {
+  const section = article.content.sections.find((item) => /preguntas\s+frecuentes|faq/i.test(item.title));
+  if (!section) return [];
+  const faqs: Array<{ question: string; answer: string }> = [];
+  const plain = (text: string) => text.replace(/[#*`_>]/g, "").replace(/\[([^\]]+)\]\([^)]*\)/g, "$1").replace(/\s+/g, " ").trim();
+  for (const sub of section.subsections || []) {
+    if (/\?\s*$/.test(sub.title) && plain(sub.content)) faqs.push({ question: plain(sub.title), answer: plain(sub.content) });
+  }
+  if (faqs.length) return faqs;
+  const lines = section.content.split("\n");
+  let question = "";
+  let answer: string[] = [];
+  const flush = () => {
+    if (question && plain(answer.join(" "))) faqs.push({ question, answer: plain(answer.join(" ")) });
+    question = "";
+    answer = [];
+  };
+  for (const line of lines) {
+    const heading = line.match(/^#{3,4}\s+(.+\?)\s*$/);
+    if (heading) {
+      flush();
+      question = plain(heading[1]);
+    } else if (question) answer.push(line);
+  }
+  flush();
+  return faqs;
+}
+
+export function generateFaqSchema(faqs: Array<{ question: string; answer: string }>) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({ "@type": "Question", name: faq.question, acceptedAnswer: { "@type": "Answer", text: faq.answer } })),
   };
 }
 

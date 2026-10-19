@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import React from "react";
+import ToolSeoBlock from "@/components/seo/ToolSeoBlock";
 
 export const metadata: Metadata = {
   title: "Cómo la IA Filtra Respuestas | Herramientas IA | AquatechIA",
@@ -54,5 +55,10 @@ export default function FiltradoIALayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <ToolSeoBlock slug="filtrado-ia" portal="ia" />
+    </>
+  );
 }

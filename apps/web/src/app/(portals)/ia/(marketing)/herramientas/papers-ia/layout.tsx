@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { SITE_URL, DEFAULT_LOGO } from '@/lib/site-config';
+import ToolSeoBlock from "@/components/seo/ToolSeoBlock";
 
 export const metadata: Metadata = {
   title: 'Papers de IA | Investigación ArXiv',
@@ -137,6 +138,7 @@ export default function PapersIALayout({
         }}
       />
       {children}
+      <ToolSeoBlock slug="papers-ia" portal="ia" />
     </>
   );
 }

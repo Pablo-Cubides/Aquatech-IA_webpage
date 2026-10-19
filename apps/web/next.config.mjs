@@ -141,6 +141,19 @@ const nextConfig = {
   // Redirects for SEO
   async redirects() {
     return [
+      // Las guias de /guia/* eran paginas delgadas (150-360 palabras) que duplicaban la herramienta: ahora su texto vive en la
+      // propia pagina de la herramienta y estas URL redirigen con 301 (2026-10-19).
+      { source: "/guia/normas-ambientales", destination: "/ambiental/herramientas/normas-ambientales", permanent: true },
+      { source: "/guia/indice-calidad-agua", destination: "/ambiental/herramientas/indice-calidad-agua", permanent: true },
+      { source: "/guia/indice-calidad-aire", destination: "/ambiental/herramientas/indice-calidad-aire", permanent: true },
+      { source: "/guia/generador-matrices", destination: "/ambiental/herramientas/generador-matrices", permanent: true },
+      { source: "/guia/como-funcionan-llm", destination: "/ia/herramientas/como-funcionan-llm", permanent: true },
+      { source: "/guia/parametros-decodificacion", destination: "/ia/herramientas/parametros-decodificacion", permanent: true },
+      { source: "/guia/filtrado-ia", destination: "/ia/herramientas/filtrado-ia", permanent: true },
+      { source: "/guia/visor-difusion", destination: "/ia/herramientas/visor-difusion", permanent: true },
+      { source: "/guia/papers-ia", destination: "/ia/herramientas/papers-ia", permanent: true },
+      { source: "/guia/modelos-tendencia", destination: "/ia/herramientas/modelos-tendencia", permanent: true },
+      { source: "/guia/ecostats", destination: "/ambiental/herramientas/analisis-correlaciones", permanent: true },
       {
         source: "/index",
         destination: "/",

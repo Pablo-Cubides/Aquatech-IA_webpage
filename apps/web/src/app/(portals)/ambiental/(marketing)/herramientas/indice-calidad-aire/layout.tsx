@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { SITE_URL } from '@/lib/site-config';
+import ToolSeoBlock from "@/components/seo/ToolSeoBlock";
 
 export const metadata: Metadata = {
   title: 'Calculadora de Índices de Calidad del Aire | AQI, ICA, IBOCA, EAQI',
@@ -103,6 +104,7 @@ export default function IndiceCalidadAireLayout({
         }}
       />
       {children}
+      <ToolSeoBlock slug="indice-calidad-aire" portal="ambiental" />
     </>
   );
 }

@@ -12,6 +12,8 @@ import { spaceGrotesk, notoSans } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
+  // Canonical por defecto (relativo a la URL de cada pagina); las que declaran el suyo lo sobreescriben.
+  alternates: { canonical: "./" },
   title: {
     default: "AquatechIA - Inteligencia Artificial + Gestión Ambiental",
     template: "%s | AquatechIA",

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { articlesSection } from "@/lib/seo-llms";
 
 export async function GET() {
   const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com").trim().replace(/\/+$/, "");
@@ -29,7 +30,7 @@ export async function GET() {
 - [Soporte Técnico](${baseUrl}/soporte): Información de contacto y centro de ayuda.
 `;
 
-  return new NextResponse(content, {
+  return new NextResponse(content + (await articlesSection(baseUrl, false)), {
     status: 200,
     headers: {
       "Content-Type": "text/plain; charset=utf-8",

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { SITE_URL } from '@/lib/site-config';
+import ToolSeoBlock from "@/components/seo/ToolSeoBlock";
 
 export const metadata: Metadata = {
   title: 'Calculadora de Índices de Calidad de Agua | IRCA, WQI, DWQI',
@@ -99,6 +100,7 @@ export default function IndiceCalidadAguaLayout({
         }}
       />
       {children}
+      <ToolSeoBlock slug="indice-calidad-agua" portal="ambiental" />
     </>
   );
 }

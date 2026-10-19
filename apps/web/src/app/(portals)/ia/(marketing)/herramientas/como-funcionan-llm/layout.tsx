@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import React from "react";
+import ToolSeoBlock from "@/components/seo/ToolSeoBlock";
 
 export const metadata: Metadata = {
   title: "Cómo Funcionan los LLMs | Herramientas IA | AquatechIA",
@@ -56,5 +57,10 @@ export default function ComoFuncionanLLMLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <ToolSeoBlock slug="como-funcionan-llm" portal="ia" />
+    </>
+  );
 }

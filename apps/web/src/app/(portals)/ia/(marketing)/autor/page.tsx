@@ -648,7 +648,7 @@ export default function IAAutorPage() {
                 title="Aquatech-IA: Portal Ambiental"
                 desc="Ecosistema monorepo avanzado (Turborepo) con ingesta de macro-datos OpenAQ/GBIF y soporte para Model Context Protocol (MCP)."
                 image="/images/portal-ia/blog/aquatech-ia-hero.png"
-                href="/ia/blog/aquatech-ia-portal-ambiental-digital"
+                href="/ambiental/blog/aquatech-ia-portal-ambiental-digital"
               />
             </div>
           </div>

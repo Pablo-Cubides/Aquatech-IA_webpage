@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import React from "react";
+import ToolSeoBlock from "@/components/seo/ToolSeoBlock";
 
 export const metadata: Metadata = {
   title: "Visor de Difusión (PixelGen) | Herramientas IA | AquatechIA",
@@ -54,5 +55,10 @@ export default function VisorDifusionLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <ToolSeoBlock slug="visor-difusion" portal="ia" />
+    </>
+  );
 }

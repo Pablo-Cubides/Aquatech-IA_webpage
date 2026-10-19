@@ -1,7 +1,6 @@
 import { MetadataRoute } from "next";
 import { getToolsByPortal } from "@/lib/services/tools-registry";
 import { getCategories, getAllArticleSlugs } from "@/lib/blog-seo";
-import { guidesData } from "@/lib/guides-data";
 import { SITE_URL } from "@/lib/site-config";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -55,18 +54,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly",
       priority: 0.8,
     },
-    {
-      url: `${baseUrl}/guia/ecostats`,
-      lastModified: currentDate,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    ...Object.keys(guidesData).map((slug) => ({
-      url: `${baseUrl}/guia/${slug}`,
-      lastModified: currentDate,
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    })),
   ];
 
   // IA Portal pages

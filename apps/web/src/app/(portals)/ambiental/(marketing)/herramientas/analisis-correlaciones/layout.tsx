@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { SITE_URL } from '@/lib/site-config';
+import ToolSeoBlock from "@/components/seo/ToolSeoBlock";
 
 export const metadata: Metadata = {
   title: 'Análisis de Correlaciones Ambientales | Estadística',
@@ -97,6 +98,7 @@ export default function AnalisisCorrelacionesLayout({
         }}
       />
       {children}
+      <ToolSeoBlock slug="analisis-correlaciones" portal="ambiental" />
     </>
   );
 }

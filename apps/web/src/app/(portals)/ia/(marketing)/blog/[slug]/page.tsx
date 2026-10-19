@@ -4,7 +4,8 @@ import Link from "next/link";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getArticle, getAllArticles } from "@/lib/blog-articles";
-import { generateArticleSchema } from "@/lib/blog-seo";
+import { extractFaqs, generateArticleSchema, generateBreadcrumbSchema, generateFaqSchema } from "@/lib/blog-seo";
+import { fitTitle } from "@/lib/seo-title";
 import { renderSafeRichText } from "@/lib/security/safe-rich-text";
 import { SITE_URL } from "@/lib/site-config";
 import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
@@ -32,7 +33,7 @@ export async function generateMetadata({
   const articleUrl = `${SITE_URL}/ia/blog/${slug}`;
 
   return {
-    title: article.title,
+    title: { absolute: fitTitle(article.title) },
     description: article.excerpt,
     keywords: article.tags,
     authors: [{ name: article.author.name }],
@@ -41,7 +42,7 @@ export async function generateMetadata({
       description: article.excerpt,
       type: "article",
       publishedTime: article.date,
-      modifiedTime: article.dateModified || "2026-09-06",
+      modifiedTime: article.dateModified || article.date,
       authors: [article.author.name],
       images: [
         {
@@ -144,6 +145,13 @@ export default async function BlogArticlePage({ params }: PageProps) {
   }
 
   const schema = generateArticleSchema(article, "ia", SITE_URL);
+  const faqs = extractFaqs(article);
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: "Inicio", url: SITE_URL },
+    { name: "Portal IA", url: `${SITE_URL}/ia` },
+    { name: "Blog", url: `${SITE_URL}/ia/blog` },
+    { name: article.title, url: `${SITE_URL}/ia/blog/${article.slug}` },
+  ]);
   const toc = generateTOC(article.content.sections);
 
   return (
@@ -153,6 +161,16 @@ export default async function BlogArticlePage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      {faqs.length >= 2 ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(generateFaqSchema(faqs)) }}
+        />
+      ) : null}
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">

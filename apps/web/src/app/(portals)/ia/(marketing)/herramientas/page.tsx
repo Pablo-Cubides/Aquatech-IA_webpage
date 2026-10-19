@@ -510,7 +510,7 @@ export default function IAHerramientasPage() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
-                  href="/ia/contacto"
+                  href="/soporte"
                   className="inline-flex items-center gap-2 px-6 py-3 bg-[#00efff] text-[#10111A] rounded-lg font-semibold hover:bg-white transition-colors"
                 >
                   <svg
@@ -654,7 +654,7 @@ export default function IAHerramientasPage() {
                 </li>
                 <li>
                   <Link
-                    href="/ia/contacto"
+                    href="/soporte"
                     className="hover:text-[#00efff] transition-colors"
                   >
                     Contacto

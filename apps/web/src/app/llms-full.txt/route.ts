@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { articlesSection } from "@/lib/seo-llms";
 
 export async function GET() {
   const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com").trim().replace(/\/+$/, "");
@@ -42,7 +43,7 @@ AquatechIA desarrolla software y contenido técnico en la intersección de dos �
 - Políticas de Privacidad: ${baseUrl}/ia/privacy y ${baseUrl}/ambiental/privacy
 `;
 
-  return new NextResponse(content, {
+  return new NextResponse(content + (await articlesSection(baseUrl, true)), {
     status: 200,
     headers: {
       "Content-Type": "text/plain; charset=utf-8",

@@ -4,6 +4,7 @@ import {
   ToolStructuredData,
   BreadcrumbStructuredData,
 } from "@/components/seo/StructuredData";
+import ToolSeoBlock from "@/components/seo/ToolSeoBlock";
 
 const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com").trim().replace(/\/+$/, "");
 const canonicalUrl = `${baseUrl}/ia/herramientas/modelos-tendencia`;
@@ -85,6 +86,7 @@ export default function ModelosTendenciaLayout({
         ]}
       />
       {children}
+      <ToolSeoBlock slug="modelos-tendencia" portal="ia" />
     </>
   );
 }
