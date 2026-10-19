@@ -97,6 +97,13 @@ const nextConfig = {
   // Security headers (additional to middleware)
   async headers() {
     return [
+      // Herramientas personales de clase (aula-score, consulta-nota, proyectos-investigacion, ruleta-academica): se usan por enlace
+      // directo y existen una vez por portal con distinto tema, asi que no deben competir en Google (2026-10-19). Siguen
+      // funcionando igual y sus visitas siguen contando en las estadisticas.
+      {
+        source: "/:portal(ia|ambiental)/autor/herramientas/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, follow" }],
+      },
       {
         source: "/(.*)",
         headers: [

@@ -89,30 +89,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.6,
     },
     {
-      url: `${baseUrl}/ia/autor/herramientas/ruleta-academica`,
-      lastModified: currentDate,
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/ia/autor/herramientas/aula-score`,
-      lastModified: currentDate,
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/ia/autor/herramientas/consulta-nota`,
-      lastModified: currentDate,
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/ia/autor/herramientas/proyectos-investigacion`,
-      lastModified: currentDate,
-      changeFrequency: "weekly",
-      priority: 0.7,
-    },
-    {
       url: `${baseUrl}/ia/terms`,
       lastModified: currentDate,
       changeFrequency: "monthly",
@@ -207,24 +183,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: currentDate,
       changeFrequency: "monthly",
       priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/ambiental/autor/herramientas/aula-score`,
-      lastModified: currentDate,
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/ambiental/autor/herramientas/consulta-nota`,
-      lastModified: currentDate,
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/ambiental/autor/herramientas/proyectos-investigacion`,
-      lastModified: currentDate,
-      changeFrequency: "weekly",
-      priority: 0.7,
     },
     {
       url: `${baseUrl}/ambiental/terms`,
