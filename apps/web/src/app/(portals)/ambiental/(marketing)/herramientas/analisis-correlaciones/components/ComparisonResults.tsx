@@ -92,7 +92,7 @@ export default function ComparisonResults({
                   <XAxis dataKey="year" />
                   <YAxis />
                   <Tooltip
-                    formatter={(value: number) => value.toLocaleString()}
+                    formatter={(value) => value?.toLocaleString() ?? ""}
                   />
                   <Legend />
                   {countries.map((c, idx) => (

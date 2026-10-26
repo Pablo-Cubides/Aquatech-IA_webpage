@@ -38,7 +38,7 @@ flowchart LR
 
 ## Desarrollo local
 
-Requiere Node.js 24 y pnpm 8.15.6 para el flujo de desarrollo actual.
+Usa Node.js 24 y pnpm 8.15.6 para desarrollo; el mínimo declarado es Node.js 20.19. La integración continua también comprueba Node.js 20.
 
 ```sh
 git clone https://github.com/Pablo-Cubides/Aquatech-IA_webpage.git
@@ -60,10 +60,14 @@ pnpm --filter @ia-next/web run test
 pnpm --filter @ia-next/api run test
 pnpm typecheck
 pnpm lint
+pnpm audit --audit-level moderate
+pnpm release:preflight
 pnpm build
 ```
 
 Las pruebas cubren cálculos de herramientas, utilidades y componentes, además de rutas de la API. Los tests que usan Prisma requieren el cliente generado; los flujos de autenticación y pagos necesitan sus propias pruebas de integración. El badge enlaza al resultado del workflow real.
+
+La auditoría de dependencias bloquea el preflight y la integración continua cuando encuentra avisos moderados o superiores. Las migraciones de seguridad y sus pruebas están documentadas en [SPEC-107](specs/107-dependency-security/spec.md) y [ADR-0012](docs/adr/0012-security-dependency-migrations.md). SheetJS se instala desde su distribución oficial en `cdn.sheetjs.com`, con URL e integridad SHA-512 fijadas en el lockfile; ese dominio debe ser accesible durante la instalación.
 
 ## Contexto del portafolio
 

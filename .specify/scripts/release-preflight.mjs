@@ -30,7 +30,9 @@ function run(label, cmd, { optional = false } = {}) {
       results.push({ label, status: "warn" });
     } else {
       console.log(`\x1b[31m✗ FAILED\x1b[0m`);
-      console.log(`\x1b[31m    ${e.stderr?.toString().slice(0, 300) || e.message}\x1b[0m`);
+      console.log(
+        `\x1b[31m    ${e.stderr?.toString().slice(0, 300) || e.message}\x1b[0m`,
+      );
       results.push({ label, status: "fail" });
       failures++;
     }
@@ -39,22 +41,28 @@ function run(label, cmd, { optional = false } = {}) {
 
 // ─── Preflight ────────────────────────────────────────────────────────────────
 console.log(`\n\x1b[36m🚀 Release Preflight — AquatechIA\x1b[0m`);
-console.log(`   Running before push to main. See: .specify/templates/release-spec.template.md\n`);
+console.log(
+  `   Running before push to main. See: .specify/templates/release-spec.template.md\n`,
+);
 
 console.log(`\x1b[1mCode Quality\x1b[0m`);
 run("TypeScript typecheck", "pnpm typecheck");
 run("ESLint lint", "pnpm lint");
-run("Tests", "pnpm --filter web run test");
+run("Web tests", "pnpm --filter @ia-next/web run test");
+run("API tests", "pnpm --filter @ia-next/api run test");
 run("Web smoke build", "pnpm run build --filter @ia-next/web");
 
 console.log(`\n\x1b[1mContent & Assets\x1b[0m`);
 run("Content lint (articles)", "node .specify/scripts/lint-content.mjs");
 run("Spec index lint", "node .specify/scripts/lint-specs.mjs");
 run("Contracts sync check", "node .specify/scripts/sync-contracts.mjs --check");
-run("Image budget (changed files)", "node .specify/scripts/image-budget.mjs --changed-only");
+run(
+  "Image budget (changed files)",
+  "node .specify/scripts/image-budget.mjs --changed-only",
+);
 
 console.log(`\n\x1b[1mSecurity\x1b[0m`);
-run("Dependency audit", "pnpm audit --audit-level moderate", { optional: true });
+run("Dependency audit", "pnpm audit --audit-level moderate");
 
 // ─── Summary ─────────────────────────────────────────────────────────────────
 console.log(`\n${"─".repeat(50)}`);
@@ -70,8 +78,12 @@ if (failures === 0) {
 } else {
   console.log(`\x1b[31m✗ Preflight FAILED — push blocked.\x1b[0m`);
   console.log(`  Fix the failing checks before pushing.`);
-  console.log(`  See: .specify/templates/release-spec.template.md for full checklist.`);
-  console.log(`\n  ⚠️  Do NOT use --no-verify unless this is a documented hotfix.\n`);
+  console.log(
+    `  See: .specify/templates/release-spec.template.md for full checklist.`,
+  );
+  console.log(
+    `\n  ⚠️  Do NOT use --no-verify unless this is a documented hotfix.\n`,
+  );
 }
 
 process.exit(failures > 0 ? 1 : 0);

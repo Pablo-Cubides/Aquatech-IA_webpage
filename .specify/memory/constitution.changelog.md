@@ -36,3 +36,9 @@ All modifications to `constitution.md` are recorded here with the corresponding 
 ---
 
 *To modify the constitution: open a `spec/constitution-vX.Y.Z` branch, write an ADR in `docs/adr/`, get it reviewed, then merge. Bump SemVer accordingly.*
+
+## 1.2.0 — 2026-10-26
+
+- ADR-0012 / SPEC-107: record patched Next.js 16, React 19, Vitest 4 and MapLibre 6 versions.
+- Remove unused Jimp/potrace declarations and retain Sharp for image processing.
+- Preserve the existing framework families, portal boundaries and release gates.

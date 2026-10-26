@@ -1,5 +1,5 @@
 # AquatechIA — Constitution / Constitución
-> **Version**: 1.1.0 | **Status**: Active | **Last modified**: 2026-05-14  
+> **Version**: 1.2.0 | **Status**: Active | **Last modified**: 2026-10-26
 > Changes to this document require an explicit ADR and a SemVer bump.  
 > Cambios a este documento requieren un ADR explícito y un bump de SemVer.
 
@@ -23,24 +23,28 @@
 
 | Layer | Technology | Locked Version |
 |---|---|---|
-| Framework | Next.js (App Router) | `^16.0.10` |
-| UI Runtime | React + React DOM | `^19.2.3` |
+| Framework | Next.js (App Router) | `16.4.3` |
+| UI Runtime | React + React DOM | `^19.3.1` |
 | Language | TypeScript | `^5.9.3` (strict mode) |
 | Styling | Tailwind CSS | per package |
-| Validation | **Zod** (único / sole validator) | `^4.1.5` |
-| ORM | Prisma | `^7.4.0` |
+| Validation | **Zod** (único / sole validator) | `^4.6.7` |
+| ORM | Prisma | `^7.10.1` |
 | Database | Supabase PostgreSQL | cloud |
-| Auth | Firebase Admin + NextAuth | `^13.5.0` / `^4.24.13` |
-| Payments | MercadoPago | `^2.9.0` |
-| Email | Brevo (`@getbrevo/brevo`) | `^3.0.1` |
-| Rate Limiting | Upstash Redis | `^2.0.6` / `^1.35.6` |
-| Monitoring | Sentry | `^10.x` |
-| Maps | MapLibre GL | `^5.10.0` |
-| Build | Turborepo | `^2.5.8` |
-| Package Manager | pnpm | `8.15.6` (Node ≥18.17) |
-| Testing | Vitest | `^4.0.5` |
-| Image processing | Sharp + Jimp | `^0.34.4` / `^1.6.0` |
+| Auth | Firebase Admin + NextAuth | `^13.10.0` / `^4.24.15` |
+| Payments | MercadoPago | `^2.13.0` |
+| Email | Brevo (`@getbrevo/brevo`) | `^3.0.4` |
+| Rate Limiting | Upstash Redis | `^2.2.0` / `^1.40.0` |
+| Monitoring | Sentry | `^10.76.2` |
+| Maps | MapLibre GL | `^6.16.0` |
+| Build | Turborepo | `^2.11.10` |
+| Package Manager | pnpm | `8.15.6` (Node ≥20.19) |
+| Testing | Vitest | `^4.1.12` |
+| PDF export | jsPDF + AutoTable | `^4.2.1` / `^5.0.9` |
+| Spreadsheets | SheetJS official CDN | `0.20.3` (integrity-pinned tarball) |
+| Image processing | Sharp | `^0.35.5` |
 | CDN (blog images) | Cloudinary | account: aquatechIA |
+
+> Security dependency migrations are recorded in ADR-0012 and SPEC-107; unused Jimp/potrace declarations were removed after import inspection.
 
 > **Rule**: Do NOT introduce alternative package managers, validation libraries, or ORMs. Any stack change requires an ADR.
 
