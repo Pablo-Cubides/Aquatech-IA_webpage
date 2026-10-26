@@ -51,6 +51,8 @@ La web utiliza el puerto 3000 y la API el 3001. Revisa `.env.example` y los ejem
 
 La instalación genera clientes de Prisma y requiere acceso a su distribución de motores. La compilación de fuentes de Google necesita acceso a sus servidores. Una página pública puede servir sin que estén habilitados todos los servicios de negocio.
 
+En una red con proxy, configura las variables estándar `HTTP_PROXY`/`HTTPS_PROXY` y, con Node.js 24, `NODE_USE_ENV_PROXY=1`. Turborepo las transmite a sus tareas de build sin incluir valores de credenciales en el repositorio. Mantén habilitada la verificación TLS y configura el certificado de confianza de tu entorno si lo requiere.
+
 ## Pruebas y calidad
 
 ```sh
