@@ -173,7 +173,10 @@ jobs:
           NODE_ENV: test
 
       - name: Run tests with coverage
-        run: pnpm --filter web run test -- --coverage --reporter=json --reporter=default
+        # Record versions as an annotation so CI-only transformer failures are diagnosable.
+        run: |
+          pnpm --filter web exec node -e "console.log('::notice title=Test toolchain::Node ' + process.version + '; Vitest ' + require('vitest/package.json').version + '; Vite ' + require('vite/package.json').version + '; React ' + require('react/package.json').version)"
+          pnpm --filter web run test -- --coverage --reporter=json --reporter=default
         env:
           NODE_ENV: test
 

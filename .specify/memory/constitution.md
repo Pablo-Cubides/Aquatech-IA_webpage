@@ -38,7 +38,7 @@
 | Maps | MapLibre GL | `^6.16.0` |
 | Build | Turborepo | `^2.11.10` |
 | Package Manager | pnpm | `8.15.6` (Node ≥20.19) |
-| Testing | Vitest | `^4.1.12` |
+| Testing | Vitest + Vite | `^4.1.12` / `8.3.5` |
 | PDF export | jsPDF + AutoTable | `^4.2.1` / `^5.0.9` |
 | Spreadsheets | SheetJS official CDN | `0.20.3` (integrity-pinned tarball) |
 | Image processing | Sharp | `^0.35.5` |

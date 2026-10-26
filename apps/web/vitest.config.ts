@@ -4,6 +4,8 @@ import path from "path";
 
 export default defineConfig({
   plugins: [react() as any],
+  // Test TSX files are excluded by Next's tsconfig; keep their runtime explicit.
+  oxc: { jsx: { runtime: "automatic", importSource: "react" } },
   test: {
     globals: true,
     environment: "jsdom",
