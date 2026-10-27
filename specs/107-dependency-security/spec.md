@@ -1,7 +1,7 @@
 ---
 id: SPEC-107
 title: "Dependency security remediation"
-status: implementing
+status: implemented
 owner: Pablo-Cubides
 created: 2026-10-26
 updated: 2026-10-26

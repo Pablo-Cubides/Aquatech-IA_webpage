@@ -1,6 +1,6 @@
 # ADR-0012 — Patched dependency migrations
 
-> **Status**: proposed | **Date**: 2026-10-26 | **Spec**: SPEC-107
+> **Status**: accepted | **Date**: 2026-10-26 | **Spec**: SPEC-107
 
 ## Context
 The dependency audit includes critical advisories affecting runtime and development packages. The owner approved a security-remediation scope. Remaining on jsPDF 3 and MapLibre 5 cannot satisfy the published patched ranges.
