@@ -51,7 +51,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     category: "Nuevas Tecnologías Ambientales",
     date: "2025-01-02",
     readTime: 15,
-    excerpt: "Descubre cómo KoboToolbox, Google Earth Engine y marcos ESG están revolucionando la consultoría ambiental. Del Excel estático a ecosistemas de datos inteligentes.",
+    excerpt: "Cómo KoboToolbox, Google Earth Engine y los marcos ESG cambian la consultoría ambiental: del Excel estático a ecosistemas de datos.",
     heroImage: "/images/portal-ambiental/blog/cerebro-digital-ia.png",
     author: {
       name: "Pablo Cubides",
@@ -115,7 +115,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2025-04-02",
     readTime: 10,
     excerpt:
-      "161 millones de personas carecen de agua potable segura en Latinoamérica. Analizamos las cifras de la CEPAL que revelan la magnitud de una crisis hídrica que golpea desproporcionadamente a las zonas rurales y a los hogares más pobres.",
+      "161 millones de personas no tienen agua potable segura en Latinoamérica. Las cifras de la CEPAL muestran cómo la crisis golpea más a las zonas rurales.",
     heroImage:
       "/images/portal-ambiental/blog/desafio-agua-rural-latam.jpg",
     author: {
@@ -207,7 +207,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2025-04-02",
     readTime: 12,
     excerpt:
-      "Las juntas de agua y cooperativas rurales son la columna vertebral del acceso hídrico en Latinoamérica. Descubre cómo el capital social, la vigilancia activa comunitaria y las herramientas de bajo costo están democratizando la gestión del agua en zonas rurales.",
+      "Las juntas de agua y cooperativas rurales sostienen el acceso al agua en Latinoamérica. Cómo la vigilancia comunitaria y las herramientas de bajo costo la mejoran.",
     heroImage:
       "/images/portal-ambiental/blog/poder-agua-comunidad.jpg",
     author: {
@@ -342,7 +342,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     category: "Nuevas Tecnologías Ambientales",
     date: "2026-04-07",
     readTime: 5,
-    excerpt: "¿Sabías que cada vez que preparas un café, estás desechando una de las herramientas más poderosas de la química ambiental? Descubre cómo la borra de café puede eliminar nitratos y cromo.",
+    excerpt: "La borra de café puede ayudar a eliminar nitratos y cromo del agua. Qué dice la química ambiental sobre este residuo cotidiano.",
     heroImage: "/images/portal-ambiental/blog/cafe-filtro.png",
     author: {
       name: "Pablo Cubides",
@@ -397,7 +397,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     category: "Investigación y Casos de Estudio",
     date: "2026-04-07",
     readTime: 12,
-    excerpt: "Análisis crítico de cómo la ingeniería choca con las barreras normativas en el reúso de aguas de producción en la industria de hidrocarburos. El caso del Proyecto MEGIA.",
+    excerpt: "Cómo la ingeniería choca con las barreras normativas en el reúso de aguas de producción de hidrocarburos: el caso del Proyecto MEGIA.",
     heroImage: "/images/portal-ambiental/blog/megia-planta.png",
     author: {
       name: "Pablo Cubides",
