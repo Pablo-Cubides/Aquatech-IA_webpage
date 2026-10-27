@@ -1,284 +1,86 @@
-# 🤖 IA-Next Platform
+# AquatechIA — IA aplicada, educación y herramientas ambientales
 
-Modern Next.js monorepo for AI-powered applications with dual-themed portals and comprehensive integrations.
+[![CI](https://github.com/Pablo-Cubides/Aquatech-IA_webpage/actions/workflows/ci.yml/badge.svg)](https://github.com/Pablo-Cubides/Aquatech-IA_webpage/actions/workflows/ci.yml)
 
-Full developer documentation: `docs/MASTER_DOCUMENTATION.md`
+[Sitio del proyecto](https://aquatechia.com) · [Documentación técnica](docs/MASTER_DOCUMENTATION.md) · [Decisiones de arquitectura](docs/adr/)
 
-## 🚀 Quick Start
+AquatechIA reúne herramientas educativas de inteligencia artificial y aplicaciones de análisis ambiental en dos portales de un mismo producto. Integra herramientas que antes se mantenían en repositorios independientes y comparte componentes, validaciones y acceso a datos dentro de un monorepo.
 
-```bash
-# Install dependencies
-pnpm install
+## Recorridos para explorar el producto
 
-# Start development servers
+| Recorrido | Qué permite comprobar | Código |
+|---|---|---|
+| Aprender cómo funcionan los LLM | Interacción por etapas con conceptos como tokenización, embeddings y generación | [Herramientas del portal IA](apps/web/src/app/(portals)/ia/(marketing)/herramientas/) |
+| Analizar datos ambientales | Carga y visualización de datos, cálculos de correlación y herramientas de calidad del agua | [Herramientas ambientales](apps/web/src/app/(portals)/ambiental/(marketing)/herramientas/) |
+| Consultar reglas de dominio | Normativa ambiental y matrices con criterios explícitos | [Portal ambiental](apps/web/src/app/(portals)/ambiental/) |
+| Revisar una integración de producto | Rutas de autenticación, pagos, créditos y webhooks | [API](apps/api/src/app/api/) |
+
+Las herramientas de aula y consulta de notas tienen reglas de acceso y visibilidad propias; no todas las rutas están pensadas como demos públicas. Las integraciones con cuentas, pagos o proveedores externos requieren su configuración correspondiente.
+
+## Arquitectura
+
+```mermaid
+flowchart LR
+    U[Portales IA y ambiental] --> W[apps/web: Next.js]
+    W --> A[apps/api: rutas e integraciones]
+    W --> P[Paquetes compartidos]
+    A --> P
+    A --> E[Servicios externos configurados]
+    P --> D[Prisma y PostgreSQL]
+```
+
+- `apps/web`: interfaz, herramientas interactivas y contenido de ambos portales.
+- `apps/api`: endpoints e integraciones de autenticación, pagos y correo.
+- `packages/@ia-next`: componentes, contratos, cliente de datos y configuración compartida.
+- `specs` y `docs/adr`: requisitos y decisiones, incluyendo separación de portales y organización del monorepo.
+
+**Stack actual:** Next.js 16, React 19, TypeScript, pnpm 8.15.6, Turborepo, Prisma 7/PostgreSQL, Zod y Vitest. Las integraciones incluyen Firebase/NextAuth, MercadoPago, Brevo y Redis/Upstash según la funcionalidad habilitada. Los manifests y el lockfile son la referencia de versiones exactas.
+
+## Desarrollo local
+
+Usa Node.js 24 y pnpm 8.15.6 para desarrollo; el mínimo declarado es Node.js 20.19. La integración continua también comprueba Node.js 20.
+
+```sh
+git clone https://github.com/Pablo-Cubides/Aquatech-IA_webpage.git
+cd Aquatech-IA_webpage
+pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-- **Web App**: http://localhost:3000
-- **API**: http://localhost:3001
+La web utiliza el puerto 3000 y la API el 3001. Revisa `.env.example` y los ejemplos de cada aplicación; guarda valores reales únicamente en configuración local ignorada o en el proveedor de despliegue. No ejecutes migraciones sobre una base de producción para preparar una demo.
 
-## 🏗️ Architecture
+La instalación genera clientes de Prisma y requiere acceso a su distribución de motores. La compilación de fuentes de Google necesita acceso a sus servidores. Una página pública puede servir sin que estén habilitados todos los servicios de negocio.
 
-- **Frontend**: Next.js 14 (App Router) + TypeScript + Tailwind CSS
-- **Backend**: Next.js API Routes (Node.js runtime)
-- **Database**: Supabase PostgreSQL + Prisma ORM
-- **Auth**: Firebase Authentication + Google OAuth
-- **Payments**: MercadoPago integration
-- **Email**: Brevo transactional emails
-- **Monitoring**: Sentry error tracking
-- **Rate Limiting**: Upstash Redis
+En una red con proxy, configura las variables estándar `HTTP_PROXY`/`HTTPS_PROXY` y, con Node.js 24, `NODE_USE_ENV_PROXY=1`. Turborepo las transmite a sus tareas de build sin incluir valores de credenciales en el repositorio. Mantén habilitada la verificación TLS y configura el certificado de confianza de tu entorno si lo requiere.
 
-## � Project Structure
+## Pruebas y calidad
 
-```
-apps/
-├── web/         # Frontend application
-└── api/         # Backend API routes
-packages/
-├── @ia-next/ui/                 # UI components
-├── @ia-next/database/           # Database client
-├── @ia-next/eslint-config/      # Linting rules
-├── @ia-next/prettier-config/    # Code formatting
-└── @ia-next/typescript-config/  # TypeScript configs
-```
-
-## 🎨 Features
-
-### **Dual Portal System**
-
-- **IA Portal**: Dark theme for AI tools and services
-- **Environmental Portal**: Light theme for environmental solutions
-
-### **Authentication**
-
-- Firebase Authentication
-- Google OAuth integration
-- Secure session management
-
-### **Payment Processing**
-
-- MercadoPago Checkout Pro
-- Webhook handling for payment status
-- Credit system integration
-
-### **Database**
-
-- PostgreSQL with Supabase
-- Prisma ORM for type-safe queries
-- Automated migrations
-
-## 🛠️ Development
-
-### **Available Scripts**
-
-```bash
-# Development
-pnpm dev          # Start all development servers
-pnpm dev:web      # Start only web app
-pnpm dev:api      # Start only API
-
-# Building
-pnpm build        # Build all applications
-pnpm build:web    # Build web app only
-pnpm build:api    # Build API only
-
-# Database (ejecutar desde apps/api o usar --filter)
-pnpm --filter @ia-next/api prisma:push      # Push schema changes to DB
-pnpm --filter @ia-next/api prisma:studio    # Open Prisma Studio (visual DB interface)
-pnpm --filter @ia-next/api prisma:migrate   # Create and apply migrations
-
-# Linting & Formatting
-pnpm lint         # Lint all packages
-pnpm format       # Format code
-```
-
-### **Environment Variables**
-
-Copy `.env.example` to `.env.local` and configure:
-
-```bash
-# Database
-DATABASE_URL="your-supabase-connection-string"
-
-# Authentication
-GOOGLE_CLIENT_ID="your-google-oauth-client-id"
-GOOGLE_CLIENT_SECRET="your-google-oauth-secret"
-
-# Payments
-MERCADOPAGO_ACCESS_TOKEN="your-mercadopago-token"
-
-# Email
-BREVO_API_KEY="your-brevo-api-key"
-
-# Monitoring
-SENTRY_DSN="your-sentry-dsn"
-```
-
-## 🚀 Deployment
-
-### **Production Checklist**
-
-1. Configure environment variables in your hosting platform
-2. Set up database in production environment
-3. Configure OAuth redirect URLs for production domain
-4. Update Brevo templates with production URLs
-5. Set up Sentry error tracking for production
-
-### **Build & Deploy**
-
-```bash
-# Build for production
-pnpm build
-
-# Test production build locally
-pnpm start
-```
-
-## 📐 Spec-Driven Development (SDD)
-
-This project follows Spec-Driven Development. Specifications are the source of truth — code serves the spec.
-
-### Quick commands
-
-```bash
-# Create a new feature spec
-pnpm spec:new <slug>
-# Example: pnpm spec:new user-notifications
-
-# Create a new blog article
-pnpm content:new <portal> <slug>
-# Example: pnpm content:new ia redes-neuronales-cnn
-
-# Optimize an image
-pnpm img:optimize <path> --context=<hero|inline|tool|author>
-# Example: pnpm img:optimize ./tmp/hero.jpg --context=hero --cloudinary
-
-# Validate content pipeline
-pnpm lint:content    # Validate all article files
-pnpm lint:specs      # Validate spec index integrity
-pnpm img:budget      # Check all images against size budgets
-
-# Full pre-push preflight
+```sh
+pnpm --filter @ia-next/web run test
+pnpm --filter @ia-next/api run test
+pnpm typecheck
+pnpm lint
+pnpm audit --audit-level moderate
 pnpm release:preflight
+pnpm build
 ```
 
-### SDD structure
+Las pruebas cubren cálculos de herramientas, utilidades y componentes, además de rutas de la API. Los tests que usan Prisma requieren el cliente generado; los flujos de autenticación y pagos necesitan sus propias pruebas de integración. El badge enlaza al resultado del workflow real.
 
-```
-.specify/
-├── memory/
-│   ├── constitution.md          # Immutable project principles
-│   └── three-strikes-log.md     # Log of automation triggers
-├── templates/                   # Spec, plan, tasks, ADR, content, image, release templates
-├── scripts/                     # Automation scripts (new-feature, new-content, optimize-image, etc.)
-└── instructions/                # AI agent operating rules
+La auditoría de dependencias bloquea el preflight y la integración continua cuando encuentra avisos moderados o superiores. Las migraciones de seguridad y sus pruebas están documentadas en [SPEC-107](specs/107-dependency-security/spec.md) y [ADR-0012](docs/adr/0012-security-dependency-migrations.md). SheetJS se instala desde su distribución oficial en `cdn.sheetjs.com`, con URL e integridad SHA-512 fijadas en el lockfile; ese dominio debe ser accesible durante la instalación.
 
-specs/                           # All feature specs (SPEC-NNN)
-docs/
-├── adr/                         # Architecture Decision Records
-├── contracts/                   # Zod schemas, OpenAPI spec, JSON Schemas
-└── domain/                      # Glossary, personas
-.github/
-├── prompts/                     # AI slash commands (/spec.new, /content.new, etc.)
-└── pull_request_template.md     # PR template enforcing spec reference
-```
+## Contexto del portafolio
 
-### AI agent slash commands
+Este proyecto muestra integración de herramientas de dominio en un producto, organización de un monorepo, componentes compartidos y decisiones técnicas documentadas. Los repositorios archivados de herramientas se conservan como referencias históricas; la implementación mantenida está aquí.
 
-| Command | Purpose |
-|---|---|
-| `/spec.new` | Bootstrap a new feature spec |
-| `/spec.clarify` | Resolve open questions before approval |
-| `/spec.plan` | Generate technical plan from approved spec |
-| `/spec.tasks` | Break plan into atomic tasks |
-| `/spec.analyze` | Validate implementation against spec |
-| `/content.new` | Generate a new blog article |
-| `/content.review` | Review article before publishing |
-| `/image.audit` | Audit all images for budget/format compliance |
-| `/release.preflight` | Run full preflight before push to main |
-| `/three-strikes` | Create artifact for a repeated pattern |
+Para evaluar una herramienta concreta, revisa su código, casos de prueba y limitaciones de entrada. Los servicios externos y los datos necesarios varían entre herramientas.
 
-**Full documentation**: [.specify/instructions/agent-sdd-workflow.md](.specify/instructions/agent-sdd-workflow.md)
+## Documentación y contribuciones
 
----
+- [Guía principal](docs/MASTER_DOCUMENTATION.md)
+- [Decisiones de arquitectura](docs/adr/)
+- [Contratos](docs/contracts/)
+- [Especificaciones](specs/README.md)
+- [Contribuciones](CONTRIBUTING.md)
 
-## 📝 License
-
-Private project - All rights reserved
-
----
-
-**Built with ❤️ using Next.js, Turborepo, and modern web technologies.**
-
-### Vercel Deployment
-
-Set environment variables in Vercel dashboard:
-
-- **Development**: `.env.development.local` values
-- **Preview**: `.env.preview.local` values
-- **Production**: `.env.production.local` values
-
-## 🤖 AI-First Development
-
-This project is optimized for AI-assisted development:
-
-- **Copilot Instructions**: `.github/copilot-instructions.md`
-- **Reusable Prompts**: `.github/prompts/*.prompt.md`
-- **MCP Integration**: `.vscode/mcp.json` for GitHub and Playwright
-- **VS Code Settings**: Optimized for Copilot Chat and Prompt Files
-
-### Quick AI Commands
-
-Use these in GitHub Copilot Chat:
-
-- `/bootstrap-dev-env` - Set up development environment
-- `/gen-readme` - Generate documentation from code
-- `/scaffold-tests` - Create test structure
-
-## 📁 Project Structure
-
-### Apps
-
-- **`apps/web/`**: Frontend Next.js application with dual portals
-- **`apps/api/`**: Backend API with authentication, payments, and database
-
-### Packages
-
-- **`@ia-next/ui`**: Shared UI components and Tailwind configuration
-- **`@ia-next/database`**: Prisma client and database utilities
-- **`@ia-next/eslint-config`**: Shared ESLint rules
-- **`@ia-next/prettier-config`**: Code formatting configuration
-- **`@ia-next/typescript-config`**: TypeScript base configurations
-
-## 🧪 Testing
-
-```bash
-# Run all tests
-pnpm test
-
-# Run tests for specific package
-pnpm --filter web test
-pnpm --filter api test
-```
-
-## 📝 Contributing
-
-1. Follow conventional commits
-2. Use TypeScript strictly
-3. Maintain consistency between IA and Environmental portals
-4. Write tests for new features
-5. Update documentation
-
-## 🔒 Security
-
-- Environment variables for secrets
-- Input validation on all API endpoints
-- Firebase authentication with proper token validation
-- Rate limiting on API endpoints
-- CORS configuration for production
-
-## 📄 License
-
-[Your License Here]
-
-Last updated: November 27, 2025
+Código público para inspección. Proyecto personal; todos los derechos reservados. Este repositorio no concede una licencia de código abierto.

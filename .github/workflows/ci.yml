@@ -28,7 +28,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8
+          version: 8.15.6
           run_install: false
 
       - name: Get pnpm store directory
@@ -45,21 +45,20 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            apps/*/node_modules
+            packages/@ia-next/*/node_modules
+          key: ${{ runner.os }}-node20-pnpm8.15.6-modules-v2-${{ hashFiles('**/pnpm-lock.yaml', '**/schema.prisma') }}
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Generate Prisma Client
         run: pnpm --filter @ia-next/database run build
-
-      - name: Cache node_modules
-        uses: actions/cache@v4
-        with:
-          path: |
-            **/node_modules
-            **/.turbo
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/pnpm-lock.yaml', '**/schema.prisma') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-
 
   # Linting
   lint:
@@ -78,20 +77,19 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8
-
-      - name: Ensure ESLint v8 is installed (workspace root)
-        run: pnpm -w add -D eslint@8.57.1
+          version: 8.15.6
 
       - name: Restore node_modules cache
         uses: actions/cache@v4
         with:
           path: |
-            **/node_modules
-            **/.turbo
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/pnpm-lock.yaml', '**/schema.prisma') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-
+            node_modules
+            apps/*/node_modules
+            packages/@ia-next/*/node_modules
+          key: ${{ runner.os }}-node20-pnpm8.15.6-modules-v2-${{ hashFiles('**/pnpm-lock.yaml', '**/schema.prisma') }}
+
+      - name: Verify frozen dependency installation
+        run: pnpm install --frozen-lockfile
 
       - name: Run ESLint
         run: pnpm lint
@@ -117,17 +115,19 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8
+          version: 8.15.6
 
       - name: Restore node_modules cache
         uses: actions/cache@v4
         with:
           path: |
-            **/node_modules
-            **/.turbo
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/pnpm-lock.yaml', '**/schema.prisma') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-
+            node_modules
+            apps/*/node_modules
+            packages/@ia-next/*/node_modules
+          key: ${{ runner.os }}-node20-pnpm8.15.6-modules-v2-${{ hashFiles('**/pnpm-lock.yaml', '**/schema.prisma') }}
+
+      - name: Verify frozen dependency installation
+        run: pnpm install --frozen-lockfile
 
       - name: Generate Prisma Client
         run: pnpm --filter @ia-next/database run build
@@ -152,23 +152,30 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8
+          version: 8.15.6
 
       - name: Restore node_modules cache
         uses: actions/cache@v4
         with:
           path: |
-            **/node_modules
-            **/.turbo
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/pnpm-lock.yaml', '**/schema.prisma') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-
+            node_modules
+            apps/*/node_modules
+            packages/@ia-next/*/node_modules
+          key: ${{ runner.os }}-node20-pnpm8.15.6-modules-v2-${{ hashFiles('**/pnpm-lock.yaml', '**/schema.prisma') }}
 
       - name: Install dependencies (test job safety)
         run: pnpm install --frozen-lockfile
 
+      - name: Run API security tests
+        run: pnpm --filter @ia-next/api test
+        env:
+          NODE_ENV: test
+
       - name: Run tests with coverage
-        run: pnpm --filter web run test -- --coverage --reporter=json --reporter=default
+        # Record versions as an annotation so CI-only transformer failures are diagnosable.
+        run: |
+          pnpm --filter web exec node -e "console.log('::notice title=Test toolchain::Node ' + process.version + '; Vitest ' + require('vitest/package.json').version + '; Vite ' + require('vite/package.json').version + '; React ' + require('react/package.json').version)"
+          pnpm --filter web run test -- --coverage --reporter=json --reporter=default
         env:
           NODE_ENV: test
 
@@ -228,17 +235,19 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8
+          version: 8.15.6
 
       - name: Restore node_modules cache
         uses: actions/cache@v4
         with:
           path: |
-            **/node_modules
-            **/.turbo
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/pnpm-lock.yaml', '**/schema.prisma') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-
+            node_modules
+            apps/*/node_modules
+            packages/@ia-next/*/node_modules
+          key: ${{ runner.os }}-node20-pnpm8.15.6-modules-v2-${{ hashFiles('**/pnpm-lock.yaml', '**/schema.prisma') }}
+
+      - name: Verify frozen dependency installation
+        run: pnpm install --frozen-lockfile
 
       - name: Setup environment variables
         run: |
@@ -264,7 +273,6 @@ jobs:
     name: Security Audit
     needs: setup
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -277,16 +285,15 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8
+          version: 8.15.6
 
       - name: Run pnpm audit
         run: pnpm audit --audit-level moderate
-        continue-on-error: true
 
   # Summary
   ci-success:
     name: CI Success
-    needs: [lint, typecheck, test, build]
+    needs: [lint, typecheck, test, build, security]
     runs-on: ubuntu-latest
     if: success()
     steps:

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type * as MapLibreGL from "maplibre-gl";
+import type { FeatureCollection } from "geojson";
 import type { GeoJSONFeature } from "../types";
 import { MAPBOX_CONFIG } from "../config/mapbox";
 import { getAQIColor } from "../lib/openaq";
@@ -90,12 +91,11 @@ export default function MapComponent({
 
       try {
         if (!maplibreRef.current) {
-          const [{ default: maplibregl }] = await Promise.all([
+          const [maplibregl] = await Promise.all([
             import("maplibre-gl"),
             import("maplibre-gl/dist/maplibre-gl.css"),
           ]);
-          maplibreRef.current =
-            maplibregl as unknown as typeof import("maplibre-gl");
+          maplibreRef.current = maplibregl;
         }
 
         const maplibregl = maplibreRef.current;
@@ -178,7 +178,7 @@ export default function MapComponent({
   useEffect(() => {
     if (!map.current || !mapLoaded) return;
 
-    const geojson: GeoJSON.FeatureCollection = {
+    const geojson: FeatureCollection = {
       type: "FeatureCollection",
       features: data.map((f) => {
         // Extract coordinates - handle both flat array [lon, lat] and nested arrays
