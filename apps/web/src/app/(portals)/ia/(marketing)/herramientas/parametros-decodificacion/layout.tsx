@@ -4,9 +4,9 @@ import ToolSeoBlock from "@/components/seo/ToolSeoBlock";
 
 export const metadata: Metadata = {
   title:
-    "Parámetros de Decodificación (LLM Tune) | Herramientas IA | AquatechIA",
+    "Parámetros de decodificación de LLM: playground",
   description:
-    "Playground educativo interactivo para experimentar con parámetros de LLM: Temperature, Top-k, Top-p y penalización por repetición. Visualiza cómo afectan la generación de texto.",
+    "Playground para experimentar con parámetros de LLM: temperature, top-k, top-p y penalización por repetición. Mira cómo cambian el texto.",
   keywords: [
     "temperatura LLM",
     "top-k sampling",

@@ -36,6 +36,7 @@ export const metadata: Metadata = {
     canonical: `${SITE_URL}/ambiental/herramientas/visor-mapas-ambientales`,
   },
   openGraph: {
+    images: [{ url: "https://aquatechia.com/images/og-image-ambiental.jpg", width: 1200, height: 630 }],
     title: 'Visor de Mapas Ambientales | GIS Interactivo',
     description:
       'Visualiza datos ambientales en mapas interactivos con capas GIS personalizables.',

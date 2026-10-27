@@ -5,7 +5,7 @@ import ToolSeoBlock from "@/components/seo/ToolSeoBlock";
 export const metadata: Metadata = {
   title: "Visor de Difusión (PixelGen) | Herramientas IA | AquatechIA",
   description:
-    "Visualiza paso a paso cómo los modelos de difusión generan imágenes desde ruido puro. Herramienta educativa interactiva para entender Stable Diffusion, DALL-E y similares.",
+    "Mira paso a paso cómo los modelos de difusión generan imágenes desde ruido puro. Herramienta educativa para entender Stable Diffusion y DALL-E.",
   keywords: [
     "difusión",
     "generación de imágenes",

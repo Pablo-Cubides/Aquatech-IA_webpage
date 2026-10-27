@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     "evaluación ambiental",
   ],
   openGraph: {
+    images: [{ url: "https://aquatechia.com/images/og-image-ambiental.jpg", width: 1200, height: 630 }],
     title: "Matrices de EIA - Leopold, Conesa y Battelle",
     description:
       "Conoce las tres metodologías principales de Evaluación de Impacto Ambiental",

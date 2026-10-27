@@ -19,7 +19,7 @@ import { SITE_URL } from "@/lib/site-config";
 export const metadata: Metadata = {
   title: "Coach Salud Personal | Integración Privada - AquatechIA",
   description:
-    "Página informativa sobre la integración privada de uso personal Coach Salud Personal. Declaración de alcance, arquitectura y políticas de privacidad conforme a requisitos de Google OAuth.",
+    "Página informativa de la integración privada Coach Salud Personal: alcance, arquitectura y políticas de privacidad según Google OAuth.",
   alternates: {
     canonical: `${SITE_URL}/ia/coach-salud`,
   },

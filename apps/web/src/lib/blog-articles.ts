@@ -1,6 +1,7 @@
 // Article configuration for both portals
 // This file can be easily edited to add new articles
 
+import { isRetiredArticle } from "./retired-articles.mjs";
 import { NEW_IA_ARTICLES } from "./new-blog-articles";
 import { NEW_AMBIENTAL_ARTICLES } from "./new-ambiental-articles";
 import { getStoredArticles, getStoredArticlesSync } from "./services/blog-store";
@@ -810,6 +811,7 @@ export async function getArticle(
   const existingArticles = portal === "ia" ? IA_ARTICLES : AMBIENTAL_ARTICLES;
   const newArticles = portal === "ia" ? NEW_IA_ARTICLES : NEW_AMBIENTAL_ARTICLES;
   const allArticles = { ...existingArticles, ...newArticles };
+  if (isRetiredArticle(portal, slug)) return null;
   return allArticles[slug] || null;
 }
 
@@ -845,6 +847,7 @@ export function getArticleSync(
   const existingArticles = portal === "ia" ? IA_ARTICLES : AMBIENTAL_ARTICLES;
   const newArticles = portal === "ia" ? NEW_IA_ARTICLES : NEW_AMBIENTAL_ARTICLES;
   const allArticles = { ...existingArticles, ...newArticles };
+  if (isRetiredArticle(portal, slug)) return null;
   return allArticles[slug] || null;
 }
 
@@ -856,7 +859,7 @@ export async function getAllArticles(
 ): Promise<BlogArticle[]> {
   const existingArticles = portal === "ia" ? IA_ARTICLES : AMBIENTAL_ARTICLES;
   const newArticles = portal === "ia" ? NEW_IA_ARTICLES : NEW_AMBIENTAL_ARTICLES;
-  const staticArticles = Object.values({ ...existingArticles, ...newArticles }).map((a) => ({
+  const staticArticles = Object.values({ ...existingArticles, ...newArticles }).filter((a) => !isRetiredArticle(portal, a.slug)).map((a) => ({
     ...a,
     portal,
     status: "PUBLISHED" as const,
@@ -900,7 +903,7 @@ export function getAllArticlesSync(
 ): BlogArticle[] {
   const existingArticles = portal === "ia" ? IA_ARTICLES : AMBIENTAL_ARTICLES;
   const newArticles = portal === "ia" ? NEW_IA_ARTICLES : NEW_AMBIENTAL_ARTICLES;
-  const staticArticles = Object.values({ ...existingArticles, ...newArticles }).map((a) => ({
+  const staticArticles = Object.values({ ...existingArticles, ...newArticles }).filter((a) => !isRetiredArticle(portal, a.slug)).map((a) => ({
     ...a,
     portal,
     status: "PUBLISHED" as const,

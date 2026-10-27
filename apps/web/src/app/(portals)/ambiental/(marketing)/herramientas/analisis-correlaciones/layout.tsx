@@ -36,6 +36,7 @@ export const metadata: Metadata = {
     canonical: `${SITE_URL}/ambiental/herramientas/analisis-correlaciones`,
   },
   openGraph: {
+    images: [{ url: "https://aquatechia.com/images/og-image-ambiental.jpg", width: 1200, height: 630 }],
     title: 'Análisis de Correlaciones Ambientales | Estadística',
     description:
       'Calcula correlaciones Pearson, Spearman y Kendall en datos ambientales.',

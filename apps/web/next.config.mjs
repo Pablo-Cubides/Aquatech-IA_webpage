@@ -1,5 +1,6 @@
 import path from "path";
 import { fileURLToPath } from "url";
+import { retiredArticleRedirects } from "./src/lib/retired-articles.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -148,6 +149,8 @@ const nextConfig = {
   // Redirects for SEO
   async redirects() {
     return [
+      // Articulos estaticos retirados (src/lib/retired-articles.mjs).
+      ...retiredArticleRedirects(),
       // Las guias de /guia/* eran paginas delgadas (150-360 palabras) que duplicaban la herramienta: ahora su texto vive en la
       // propia pagina de la herramienta y estas URL redirigen con 301 (2026-10-19).
       { source: "/guia/normas-ambientales", destination: "/ambiental/herramientas/normas-ambientales", permanent: true },

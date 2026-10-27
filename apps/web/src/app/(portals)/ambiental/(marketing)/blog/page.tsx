@@ -24,6 +24,7 @@ export const metadata: Metadata = {
     canonical: "https://aquatechia.com/ambiental/blog",
   },
   openGraph: {
+    images: [{ url: "https://aquatechia.com/images/og-image-ambiental.jpg", width: 1200, height: 630 }],
     title: "Blog Ambiental | AquatechIA",
     description:
       "Artículos, análisis y soluciones innovadoras para los desafíos ambientales del siglo XXI.",

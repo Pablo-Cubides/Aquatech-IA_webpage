@@ -25,6 +25,7 @@ export const metadata: Metadata = {
     canonical: "https://aquatechia.com/ia/blog",
   },
   openGraph: {
+    images: [{ url: "https://aquatechia.com/images/og-image-ia.jpg", width: 1200, height: 630 }],
     title: "Blog de IA | AquatechIA",
     description:
       "Guías, tutoriales y análisis sobre inteligencia artificial, machine learning y tecnologías emergentes.",

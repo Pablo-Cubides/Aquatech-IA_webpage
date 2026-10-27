@@ -10,7 +10,7 @@ import { SITE_URL } from "@/lib/site-config";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Portal IA - Inteligencia Artificial aplicada al agua y al ambiente | AquatechIA",
+  title: "Portal IA: inteligencia artificial y ambiente",
   description:
     "Explora modelos generativos, visualizaciones y herramientas prácticas de inteligencia artificial aplicadas al agua y medio ambiente.",
   keywords: [
@@ -25,6 +25,7 @@ export const metadata: Metadata = {
     canonical: `${SITE_URL}/ia`,
   },
   openGraph: {
+    images: [{ url: "https://aquatechia.com/images/og-image-ia.jpg", width: 1200, height: 630 }],
     title: "Portal IA - Inteligencia Artificial aplicada al agua y al ambiente",
     description:
       "Explora modelos generativos, visualizaciones y herramientas prácticas de inteligencia artificial aplicadas al agua y medio ambiente.",

@@ -9,6 +9,7 @@ export const metadata: Metadata = {
     canonical: "/links",
   },
   openGraph: {
+    images: [{ url: "https://aquatechia.com/images/og-image.jpg", width: 1200, height: 630 }],
     title: "Enlaces Oficiales y Recursos | AquatechIA",
     description:
       "Accede rápidamente a todos los portales y herramientas de AquatechIA.",

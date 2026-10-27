@@ -4,13 +4,14 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Selector de Matriz EIA - Encuentra la Metodología Ideal",
   description:
-    "¿No sabes qué matriz EIA usar? Responde 3 preguntas sobre tu proyecto y descubre si Leopold, Conesa o Battelle-Columbus es la mejor opción para tu evaluación ambiental.",
+    "¿Qué matriz EIA usar? Responde 3 preguntas y descubre si Leopold, Conesa o Battelle-Columbus es la mejor para tu evaluación ambiental.",
   keywords: [
     "selector matriz EIA",
     "elegir matriz ambiental",
     "comparar metodologías EIA",
   ],
   openGraph: {
+    images: [{ url: "https://aquatechia.com/images/og-image-ambiental.jpg", width: 1200, height: 630 }],
     title: "Selector de Matriz EIA - Encuentra la Metodología Ideal",
     description:
       "Encuentra la matriz EIA perfecta para tu proyecto en 3 preguntas",

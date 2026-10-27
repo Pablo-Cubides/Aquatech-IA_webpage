@@ -11,6 +11,7 @@ export const metadata: Metadata = {
     canonical: "/faq",
   },
   openGraph: {
+    images: [{ url: "https://aquatechia.com/images/og-image.jpg", width: 1200, height: 630 }],
     title: "Preguntas Frecuentes | AquatechIA",
     description:
       "Encuentra respuestas a las preguntas más comunes sobre AquatechIA, nuestras herramientas de inteligencia artificial y gestión ambiental.",

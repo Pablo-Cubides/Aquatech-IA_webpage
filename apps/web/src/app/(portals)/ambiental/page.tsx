@@ -9,7 +9,7 @@ import { SITE_URL } from "@/lib/site-config";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Portal Ambiental - Gestión Ambiental con tecnología sostenible | AquatechIA",
+  title: "Portal Ambiental: gestión ambiental con tecnología",
   description:
     "Mapas, normas y herramientas para proteger nuestros recursos naturales. Gestión ambiental con tecnología para un futuro sostenible.",
   keywords: [
@@ -24,7 +24,8 @@ export const metadata: Metadata = {
     canonical: `${SITE_URL}/ambiental`,
   },
   openGraph: {
-    title: "Portal Ambiental - Gestión Ambiental con tecnología sostenible | AquatechIA",
+    images: [{ url: "https://aquatechia.com/images/og-image-ambiental.jpg", width: 1200, height: 630 }],
+    title: "Portal Ambiental: gestión ambiental con tecnología",
     description:
       "Mapas, normas y herramientas para proteger nuestros recursos naturales. Gestión ambiental con tecnología para un futuro sostenible.",
     type: "website",
@@ -32,7 +33,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Portal Ambiental - Gestión Ambiental con tecnología sostenible | AquatechIA",
+    title: "Portal Ambiental: gestión ambiental con tecnología",
     description:
       "Mapas, normas y herramientas para proteger nuestros recursos naturales. Gestión ambiental con tecnología para un futuro sostenible.",
   },

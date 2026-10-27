@@ -12,7 +12,7 @@ const canonicalUrl = `${baseUrl}/ia/herramientas/modelos-tendencia`;
 export const metadata: Metadata = {
   title: "Modelos de IA en Tendencia | Hugging Face Explorer | AquatechIA",
   description:
-    "Descubre los modelos de inteligencia artificial más populares de Hugging Face. Explora tendencias semanales y mensuales en text-generation, image-generation, text-to-speech y más.",
+    "Descubre los modelos de IA más populares de Hugging Face: tendencias semanales y mensuales en texto, imagen y voz.",
   keywords: [
     "modelos de IA",
     "Hugging Face",

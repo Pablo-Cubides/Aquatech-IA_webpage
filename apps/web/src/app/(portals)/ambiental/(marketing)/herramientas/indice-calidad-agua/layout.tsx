@@ -38,6 +38,7 @@ export const metadata: Metadata = {
     canonical: `${SITE_URL}/ambiental/herramientas/indice-calidad-agua`,
   },
   openGraph: {
+    images: [{ url: "https://aquatechia.com/images/og-image-ambiental.jpg", width: 1200, height: 630 }],
     title: 'Calculadora de Índices de Calidad de Agua | IRCA, WQI, DWQI',
     description:
       'Calcula índices de calidad de agua potable IRCA, WQI y DWQI a partir de datos de laboratorio.',

@@ -10,6 +10,7 @@ export const metadata: Metadata = {
     canonical: "/guia",
   },
   openGraph: {
+    images: [{ url: "https://aquatechia.com/images/og-image.jpg", width: 1200, height: 630 }],
     title: "Guías y Manuales Técnicos | AquatechIA",
     description: "Manuales detallados y guías técnicas para el uso de herramientas de inteligencia artificial y gestión ambiental de AquatechIA.",
     type: "website",

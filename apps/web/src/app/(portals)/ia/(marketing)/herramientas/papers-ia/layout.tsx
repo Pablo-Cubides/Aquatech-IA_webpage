@@ -5,7 +5,7 @@ import ToolSeoBlock from "@/components/seo/ToolSeoBlock";
 export const metadata: Metadata = {
   title: 'Papers de IA | Investigación ArXiv',
   description:
-    'Explora los artículos científicos más recientes sobre inteligencia artificial desde ArXiv. Búsqueda por categoría, autor y tema. Machine Learning, NLP, Visión por Computadora y más.',
+    'Explora los artículos científicos más recientes sobre IA desde ArXiv: machine learning, NLP y visión por computadora.',
   keywords: [
     'papers IA',
     'ArXiv',
@@ -37,6 +37,7 @@ export const metadata: Metadata = {
     canonical: `${SITE_URL}/ia/herramientas/papers-ia`,
   },
   openGraph: {
+    images: [{ url: "https://aquatechia.com/images/og-image-ia.jpg", width: 1200, height: 630 }],
     title: 'Papers de IA | Investigación ArXiv | AquatechIA',
     description:
       'Explora los artículos científicos más recientes sobre inteligencia artificial desde ArXiv.',

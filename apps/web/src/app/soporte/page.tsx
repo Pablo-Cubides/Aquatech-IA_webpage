@@ -8,11 +8,12 @@ import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReference
 export const metadata: Metadata = {
   title: "Centro de Soporte y Ayuda Técnica",
   description:
-    "Centro de soporte técnico de Aquatech IA: asistencia técnica especializada, guías operativas y resolución de incidencias para herramientas ambientales e inteligencia artificial.",
+    "Soporte técnico de AquatechIA: asistencia especializada, guías operativas y resolución de incidencias para herramientas de IA y ambientales.",
   alternates: {
     canonical: "/soporte",
   },
   openGraph: {
+    images: [{ url: "https://aquatechia.com/images/og-image.jpg", width: 1200, height: 630 }],
     title: "Centro de Soporte y Ayuda Técnica | AquatechIA",
     description:
       "Asistencia técnica especializada y resolución de incidencias para herramientas ambientales e IA.",

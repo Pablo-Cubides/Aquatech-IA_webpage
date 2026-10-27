@@ -42,6 +42,7 @@ export async function generateMetadata({
       canonical: canonicalUrl,
     },
     openGraph: {
+      images: [{ url: "https://aquatechia.com/images/og-image-ia.jpg", width: 1200, height: 630 }],
       title: category.metaTitle,
       description: category.metaDescription,
       url: canonicalUrl,

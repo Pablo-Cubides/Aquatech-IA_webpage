@@ -3,7 +3,7 @@ import { SITE_URL } from '@/lib/site-config';
 import ToolSeoBlock from "@/components/seo/ToolSeoBlock";
 
 export const metadata: Metadata = {
-  title: 'Calculadora de Índices de Calidad del Aire | AQI, ICA, IBOCA, EAQI',
+  title: 'Calculadora de calidad del aire: AQI, ICA, IBOCA y EAQI',
   description:
     'Calcula índices de calidad del aire: US AQI (EPA), ICA Colombia (Res. 2254), IBOCA Bogotá, EAQI Europa e Índice OMS. Soporta PM2.5, PM10, O3, NO2, SO2 y CO.',
   keywords: [
@@ -41,6 +41,7 @@ export const metadata: Metadata = {
     canonical: `${SITE_URL}/ambiental/herramientas/indice-calidad-aire`,
   },
   openGraph: {
+    images: [{ url: "https://aquatechia.com/images/og-image-ambiental.jpg", width: 1200, height: 630 }],
     title: 'Calculadora de Índices de Calidad del Aire',
     description:
       'Calcula AQI US EPA, ICA Colombia, IBOCA, EAQI Europa e Índice OMS a partir de concentraciones de contaminantes.',

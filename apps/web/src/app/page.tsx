@@ -6,9 +6,9 @@ import type { Metadata } from "next";
 const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com").trim().replace(/\/+$/, "");
 
 export const metadata: Metadata = {
-  title: "AquatechIA - Inteligencia Artificial + Gestión Ambiental Sostenible",
+  title: "AquatechIA: Inteligencia Artificial y Gestión Ambiental",
   description:
-    "Plataforma educativa de inteligencia artificial y gestión ambiental. Herramientas, cursos y recursos especializados. Modelos generativos, análisis ambiental, sostenibilidad para profesionales.",
+    "Plataforma educativa de inteligencia artificial y gestión ambiental: herramientas, cursos y recursos para profesionales del agua y el ambiente.",
   keywords: [
     "inteligencia artificial",
     "gestión ambiental",

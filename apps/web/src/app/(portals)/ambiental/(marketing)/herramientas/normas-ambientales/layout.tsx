@@ -36,6 +36,7 @@ export const metadata: Metadata = {
     canonical: `${SITE_URL}/ambiental/herramientas/normas-ambientales`,
   },
   openGraph: {
+    images: [{ url: "https://aquatechia.com/images/og-image-ambiental.jpg", width: 1200, height: 630 }],
     title: 'Normas Ambientales por País | Legislación Actualizada',
     description:
       'Consulta normativas ambientales de agua, aire, residuos y vertimientos por país.',
