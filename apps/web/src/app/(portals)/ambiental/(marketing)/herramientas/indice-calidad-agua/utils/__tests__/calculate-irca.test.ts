@@ -2,6 +2,7 @@
 
 import { describe, it, expect } from "vitest";
 import { calculateIRCA } from "../calculate-irca";
+import { getIRCARiskCategory } from "../../data/irca-parameters";
 import type { WaterSample } from "../../types";
 
 describe("calculateIRCA", () => {
@@ -185,5 +186,22 @@ describe("calculateIRCA", () => {
     expect(result!.value).toBeGreaterThan(0);
     expect(result!.category).toBeDefined();
     expect(result!.details.every((d) => d.value === "No cumple")).toBe(true);
+  });
+});
+
+describe("getIRCARiskCategory", () => {
+  it("clasifica los bordes de la Resolución 2115 y los valores entre rangos", () => {
+    const category = (value: number) => getIRCARiskCategory(value).category;
+    expect(category(0)).toBe("Sin riesgo");
+    expect(category(5)).toBe("Sin riesgo");
+    expect(category(5.05)).toBe("Riesgo bajo"); // 5/99: antes caía en "Inviable sanitariamente"
+    expect(category(5.1)).toBe("Riesgo bajo");
+    expect(category(14)).toBe("Riesgo bajo");
+    expect(category(14.05)).toBe("Riesgo medio");
+    expect(category(35)).toBe("Riesgo medio");
+    expect(category(35.05)).toBe("Riesgo alto");
+    expect(category(80)).toBe("Riesgo alto");
+    expect(category(80.05)).toBe("Inviable sanitariamente");
+    expect(category(100)).toBe("Inviable sanitariamente");
   });
 });

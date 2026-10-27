@@ -66,7 +66,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     category: "Gestión Ambiental",
     date: "2024-12-09",
     readTime: 12,
-    excerpt: "Descubre cómo evaluar la calidad del agua potable con los índices IRCA, WQI y DWQI. Incluye herramienta gratuita, ejemplos prácticos y normatividad colombiana.",
+    excerpt: "Cómo se calcula el IRCA según la Resolución 2115: fórmula, los 22 parámetros con su puntaje, ejemplo resuelto y calculadora gratuita.",
     heroImage: "/images/portal-ambiental/blog/irca-calidad-agua-potable.jpg",
     author: {
       name: "Pablo Cubides",
@@ -79,7 +79,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
         {
           id: "que-es-irca",
           title: "¿Qué es el IRCA y por qué es importante?",
-          content: "El Índice de Riesgo de Calidad del Agua Potable (IRCA) es un indicador establecido por la Resolución 2115 de 2007 del Ministerio de la Protección Social de Colombia. Este índice evalúa 22 parámetros fisicoquímicos y microbiológicos para determinar el nivel de riesgo del agua que consumes. El resultado es un porcentaje de 0% a 100%: entre más bajo, mejor calidad tiene el agua. Un IRCA de 0% significa agua sin riesgo, mientras que 80% o más indica que el agua es inviable sanitariamente.",
+          content: "El Índice de Riesgo de Calidad del Agua Potable (IRCA) es un indicador establecido por la Resolución 2115 de 2007 del Ministerio de la Protección Social de Colombia. Este índice evalúa 22 parámetros fisicoquímicos y microbiológicos para determinar el nivel de riesgo del agua que consumes. Se calcula sumando los puntajes de las características que no cumplen la norma, dividiéndolos entre los puntajes de todas las características que se analizaron y multiplicando por 100. El resultado es un porcentaje de 0% a 100%: entre más bajo, mejor calidad tiene el agua. Un IRCA de 0% significa agua sin riesgo, mientras que 80% o más indica que el agua es inviable sanitariamente.",
           image: "/images/portal-ambiental/blog/irca-laboratorio-monitoreo.jpg",
           callout: {
             type: "info",
@@ -90,7 +90,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
             {
               id: "parametros-irca",
               title: "Los 22 parámetros que evalúa el IRCA",
-              content: "El IRCA evalúa tres grupos de parámetros:\n\n**Microbiológicos (25% del puntaje):**\n• Coliformes totales y E. coli (15 puntos cada uno)\n\n**Fisicoquímicos (75% del puntaje):**\n• pH, turbiedad, color, cloro residual\n• Alcalinidad, dureza, conductividad\n• Metales: aluminio, hierro, manganeso\n• Químicos: fluoruros, cloruros, nitratos, nitritos\n• Sustancias tóxicas: arsénico, plomo, mercurio, cadmio\n\nCada parámetro que no cumple con la norma suma puntos de penalización. El IRCA final es la suma de todos los puntos, expresado como porcentaje.",
+              content: "La Resolución 2115 de 2007 asigna un puntaje de riesgo a cada una de las 22 características del IRCA, y los puntajes suman 100:\n\n**Microbiológicas (40 puntos):**\n• Escherichia coli (25 puntos)\n• Coliformes totales (15 puntos)\n\n**Fisicoquímicas de mayor peso (36 puntos):**\n• Turbiedad (15 puntos) y cloro residual libre (15 puntos)\n• Color aparente (6 puntos)\n\n**Otras fisicoquímicas (24 puntos):**\n• Nitritos, aluminio y carbono orgánico total (3 puntos cada uno)\n• pH y hierro total (1.5 puntos cada uno)\n• Alcalinidad, calcio, cloruros, dureza total, fluoruros, fosfatos, magnesio, manganeso, molibdeno, nitratos, sulfatos y zinc (1 punto cada uno)\n\nEl puntaje de una característica solo cuenta en el IRCA cuando su resultado no cumple el valor aceptable. Si el laboratorio no analizó alguna, no entra ni en el numerador ni en el denominador.",
             },
           ],
         },
@@ -114,7 +114,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
         {
           id: "como-calcular",
           title: "Cómo calcular los índices paso a paso",
-          content: "Calcular estos índices manualmente puede ser complejo, pero con nuestra herramienta gratuita es instantáneo. Solo necesitas los datos de laboratorio de los parámetros básicos como turbidez (15 pts), cloro residual (15 pts) y coliformes (15 pts c/u).",
+          content: "Calcular estos índices manualmente puede ser complejo, pero con nuestra herramienta gratuita es instantáneo. Solo necesitas los datos de laboratorio de los parámetros básicos como turbiedad (15 pts), cloro residual (15 pts), coliformes totales (15 pts) y E. coli (25 pts).",
           callout: {
             type: "success",
             title: "Usa nuestra calculadora gratuita",
@@ -124,7 +124,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
             {
               id: "ejemplo-practico-irca",
               title: "Ejemplo práctico: Calculando el IRCA",
-              content: "Imagina que tienes los siguientes resultados de laboratorio:\n\n**Muestra de agua de acueducto municipal:**\n• pH: 7.2 (Cumple: rango 6.5-9.0)\n• Turbiedad: 8 UNT (No cumple: máx 2 UNT) → +15 puntos\n• Cloro residual: 0.3 mg/L (Cumple: 0.3-2.0 mg/L)\n• E. coli: 0 UFC/100mL (Cumple: 0 UFC/100mL)\n• Coliformes totales: 5 UFC/100mL (No cumple: máx 0) → +15 puntos\n• Color: 5 UPC (Cumple: máx 15 UPC)\n• Aluminio: 0.15 mg/L (Cumple: máx 0.2 mg/L)\n• Hierro: 0.35 mg/L (No cumple: máx 0.3 mg/L) → +1.5 puntos\n\n**Cálculo:**\nPuntos totales = 15 + 15 + 1.5 = 31.5 puntos\nIRCA = 31.5%\n\n**Interpretación:**\nEl agua tiene **riesgo medio** (14.1%-35%). Requiere acciones correctivas inmediatas, especialmente en el control de turbidez y desinfección para eliminar coliformes.",
+              content: "Imagina que tienes los siguientes resultados de laboratorio:\n\n**Muestra de agua de acueducto municipal:**\n• pH: 7.2 (Cumple: rango 6.5-9.0)\n• Turbiedad: 8 UNT (No cumple: máx 2 UNT) → +15 puntos\n• Cloro residual: 0.3 mg/L (Cumple: 0.3-2.0 mg/L)\n• E. coli: 0 UFC/100mL (Cumple: 0 UFC/100mL)\n• Coliformes totales: 5 UFC/100mL (No cumple: máx 0) → +15 puntos\n• Color: 5 UPC (Cumple: máx 15 UPC)\n• Aluminio: 0.15 mg/L (Cumple: máx 0.2 mg/L)\n• Hierro: 0.35 mg/L (No cumple: máx 0.3 mg/L) → +1.5 puntos\n\n**Cálculo:**\nPuntaje de las características analizadas = 1.5 (pH) + 15 (turbiedad) + 15 (cloro) + 25 (E. coli) + 15 (coliformes) + 6 (color) + 3 (aluminio) + 1.5 (hierro) = 82 puntos\nPuntaje de las que no cumplen = 15 + 15 + 1.5 = 31.5 puntos\nIRCA = 31.5 / 82 × 100 = 38.4%\n\n**Interpretación:**\nEl agua tiene **riesgo alto** (35.1%-80%): no es apta para consumo humano. Las prioridades son la turbiedad y la desinfección para eliminar los coliformes. Fíjate en que el denominador es 82 y no 100, porque solo se analizaron 8 de las 22 características.",
             },
           ],
         },
@@ -153,7 +153,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
           callout: {
             type: "warning",
             title: "¿Agua no apta? Actúa inmediatamente",
-            content: "Si tu IRCA es mayor a 35% o tu DWQI es mayor a 200, el agua NO es apta para consumo humano. Reporta a las autoridades sanitarias, busca fuentes alternativas y NO consumas el agua sin tratamiento.",
+            content: "Con un IRCA superior a 5% el agua deja de clasificarse como apta para consumo humano según la Resolución 2115, y con más de 35% (riesgo alto) o un DWQI mayor a 200 la situación es grave. Reporta a las autoridades sanitarias, busca fuentes alternativas y NO consumas el agua sin tratamiento.",
           },
           subsections: [
             {

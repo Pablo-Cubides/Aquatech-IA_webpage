@@ -215,9 +215,12 @@ export const IRCA_RISK_CATEGORIES: IRCARiskCategory[] = [
 ];
 
 export function getIRCARiskCategory(ircaValue: number): IRCARiskCategory {
+  // La Resolución 2115 publica los rangos con un decimal (0–5, 5.1–14, 14.1–35, 35.1–80, 80.1–100). Un valor como 5.05 o 14.05
+  // (frecuente cuando no se analizan todos los parámetros) caía entre dos rangos y se clasificaba como "Inviable sanitariamente".
+  // Se clasifica con el valor a un decimal: 5.05 → 5.1 (riesgo bajo).
+  const value = Math.min(100, Math.max(0, Math.round(ircaValue * 10) / 10));
   return (
-    IRCA_RISK_CATEGORIES.find(
-      (cat) => ircaValue >= cat.min && ircaValue <= cat.max
-    ) || IRCA_RISK_CATEGORIES[IRCA_RISK_CATEGORIES.length - 1]
+    IRCA_RISK_CATEGORIES.find((cat) => value >= cat.min && value <= cat.max) ||
+    IRCA_RISK_CATEGORIES[IRCA_RISK_CATEGORIES.length - 1]
   );
 }

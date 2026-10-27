@@ -101,7 +101,14 @@ export default function IndiceCalidadAguaLayout({
         }}
       />
       {children}
-      <ToolSeoBlock slug="indice-calidad-agua" portal="ambiental" />
+      <ToolSeoBlock
+        slug="indice-calidad-agua"
+        portal="ambiental"
+        related={[
+          { href: "/ambiental/blog/calculadora-irca-calidad-agua", label: "Calculadora IRCA: cómo evaluar la calidad del agua potable" },
+          { href: "/ambiental/blog/como-predecir-riesgos-de-calidad-del-agua-con-turbidez-ph-cloro-residual-e-irca", label: "Cómo predecir riesgos de calidad del agua con turbiedad, pH, cloro residual e IRCA" },
+        ]}
+      />
     </>
   );
 }

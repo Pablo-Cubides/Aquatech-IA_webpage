@@ -75,6 +75,37 @@ export const guidesData: Record<string, GuideContent> = {
         </ul>`
       },
       {
+        title: "Puntaje de cada característica y un ejemplo resuelto",
+        icon: "🧮",
+        content: `El IRCA considera 22 características y sus puntajes de riesgo suman 100. Un puntaje solo cuenta cuando el resultado <strong>no cumple</strong> el valor aceptable:
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li><strong>Escherichia coli:</strong> 25 puntos. Valor aceptable: 0 UFC/100 mL.</li>
+          <li><strong>Coliformes totales:</strong> 15 puntos. Valor aceptable: 0 UFC/100 mL.</li>
+          <li><strong>Turbiedad:</strong> 15 puntos. Valor aceptable: 2 UNT.</li>
+          <li><strong>Cloro residual libre:</strong> 15 puntos. Valor aceptable: 0.3 a 2.0 mg/L.</li>
+          <li><strong>Color aparente:</strong> 6 puntos. Valor aceptable: 15 UPC.</li>
+          <li><strong>Nitritos:</strong> 3 puntos. Valor aceptable: 0.1 mg/L.</li>
+          <li><strong>Aluminio:</strong> 3 puntos. Valor aceptable: 0.2 mg/L.</li>
+          <li><strong>Carbono orgánico total (COT):</strong> 3 puntos. Valor aceptable: 5 mg/L.</li>
+          <li><strong>pH:</strong> 1.5 puntos. Valor aceptable: 6.5 a 9.0.</li>
+          <li><strong>Hierro total:</strong> 1.5 puntos. Valor aceptable: 0.3 mg/L.</li>
+          <li><strong>Alcalinidad total:</strong> 1 punto. Valor aceptable: 200 mg/L CaCO₃.</li>
+          <li><strong>Calcio:</strong> 1 punto. Valor aceptable: 60 mg/L.</li>
+          <li><strong>Cloruros:</strong> 1 punto. Valor aceptable: 250 mg/L.</li>
+          <li><strong>Dureza total:</strong> 1 punto. Valor aceptable: 300 mg/L CaCO₃.</li>
+          <li><strong>Fluoruros:</strong> 1 punto. Valor aceptable: 1.0 mg/L.</li>
+          <li><strong>Fosfatos:</strong> 1 punto. Valor aceptable: 0.5 mg/L.</li>
+          <li><strong>Magnesio:</strong> 1 punto. Valor aceptable: 36 mg/L.</li>
+          <li><strong>Manganeso:</strong> 1 punto. Valor aceptable: 0.1 mg/L.</li>
+          <li><strong>Molibdeno:</strong> 1 punto. Valor aceptable: 0.07 mg/L.</li>
+          <li><strong>Nitratos:</strong> 1 punto. Valor aceptable: 10 mg/L.</li>
+          <li><strong>Sulfatos:</strong> 1 punto. Valor aceptable: 250 mg/L.</li>
+          <li><strong>Zinc:</strong> 1 punto. Valor aceptable: 3 mg/L.</li>
+        </ul>
+        <p class="mt-3"><strong>Ejemplo:</strong> una muestra con pH 7.2, turbiedad 8 UNT (no cumple), cloro residual 0.3 mg/L, E. coli 0, coliformes totales 5 UFC/100 mL (no cumple), color 5 UPC, aluminio 0.15 mg/L y hierro 0.35 mg/L (no cumple). Puntaje analizado: 1.5 + 15 + 15 + 25 + 15 + 6 + 3 + 1.5 = 82. Puntaje que no cumple: 15 + 15 + 1.5 = 31.5. IRCA = 31.5 / 82 × 100 = <strong>38.4%</strong>, riesgo alto.</p>
+        <p class="mt-3">Si el laboratorio no analizó una característica, no entra ni en el numerador ni en el denominador; por eso un mismo resultado pesa más cuando se analizan pocos parámetros.</p>`
+      },
+      {
         title: "Índice NSF WQI y DWQI",
         icon: "🌐",
         content: `Para análisis internacionales, la calculadora implementa:

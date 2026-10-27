@@ -26,7 +26,9 @@ const shorten = (text: string, max: number) => {
   return `${cut.slice(0, cut.lastIndexOf(" ")).replace(/[,;:.\s]+$/, "")}.`;
 };
 
-export default function ToolSeoBlock({ slug, portal }: { slug: string; portal: Portal }) {
+export type ToolRelatedLink = { href: string; label: string };
+
+export default function ToolSeoBlock({ slug, portal, related }: { slug: string; portal: Portal; related?: ToolRelatedLink[] }) {
   const tool = getToolBySlug(slug, portal);
   if (!tool) return null;
   const guide = guidesData[slug];
@@ -100,6 +102,21 @@ export default function ToolSeoBlock({ slug, portal }: { slug: string; portal: P
           </div>
         ))}
       </div>
+
+      {related?.length ? (
+        <>
+          <h2 className="mt-12 text-2xl font-bold text-white">Artículos relacionados</h2>
+          <ul className="mt-4 list-disc space-y-2 pl-5">
+            {related.map((link) => (
+              <li key={link.href}>
+                <a href={link.href} className="text-cyan-400 underline hover:text-cyan-300">
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : null}
     </section>
   );
 }
