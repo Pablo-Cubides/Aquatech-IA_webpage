@@ -16,6 +16,7 @@ import {
   Sparkles,
   FileText,
   RotateCcw,
+  Trophy,
 } from "lucide-react";
 
 // Component interfaces
@@ -133,34 +134,38 @@ const ProjectWide: React.FC<ProjectWideProps> = ({
               {badge}
             </span>
           </div>
-          
-          <h3 
-            className="text-2xl md:text-3xl font-bold text-white mb-3 group-hover:text-[var(--accent-primary)] transition-colors leading-tight" 
+
+          <h3
+            className="text-2xl md:text-3xl font-bold text-white mb-3 group-hover:text-[var(--accent-primary)] transition-colors leading-tight"
             itemProp="name"
           >
             {title}
           </h3>
-          
+
           <p className="text-[var(--accent-secondary)] font-medium mb-4 text-sm md:text-base leading-snug">
             {impact}
           </p>
-          
-          <p 
+
+          <p
             className="text-[var(--text-secondary)] mb-6 text-sm md:text-base leading-relaxed"
             itemProp="description"
           >
             {desc}
           </p>
-          
+
           {metrics && metrics.length > 0 && (
-             <div className="grid grid-cols-2 gap-4 mb-6 pb-6 border-b border-[var(--border-secondary)]/50">
-               {metrics.map(m => (
-                 <div key={m.label} className="group/metric">
-                   <div className="text-xl md:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-[var(--text-secondary)] group-hover/metric:text-[var(--accent-primary)] transition-colors duration-300">{m.value}</div>
-                   <div className="mt-1 text-xs font-semibold tracking-widest uppercase text-[var(--accent-tertiary)]">{m.label}</div>
-                 </div>
-               ))}
-             </div>
+            <div className="grid grid-cols-2 gap-4 mb-6 pb-6 border-b border-[var(--border-secondary)]/50">
+              {metrics.map((m) => (
+                <div key={m.label} className="group/metric">
+                  <div className="text-xl md:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-[var(--text-secondary)] group-hover/metric:text-[var(--accent-primary)] transition-colors duration-300">
+                    {m.value}
+                  </div>
+                  <div className="mt-1 text-xs font-semibold tracking-widest uppercase text-[var(--accent-tertiary)]">
+                    {m.label}
+                  </div>
+                </div>
+              ))}
+            </div>
           )}
 
           <div className="flex-grow" />
@@ -168,21 +173,24 @@ const ProjectWide: React.FC<ProjectWideProps> = ({
           <div className="flex flex-col gap-6 sm:flex-row sm:items-end w-full">
             {tags && tags.length > 0 && (
               <div className="flex flex-wrap gap-2 flex-grow">
-                {tags.map(tag => (
-                  <span key={tag} className="px-2.5 py-1 text-xs font-semibold bg-[var(--bg-secondary)] text-[var(--text-secondary)] border border-[var(--border-secondary)] rounded-md">
+                {tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-2.5 py-1 text-xs font-semibold bg-[var(--bg-secondary)] text-[var(--text-secondary)] border border-[var(--border-secondary)] rounded-md"
+                  >
                     {tag}
                   </span>
                 ))}
               </div>
             )}
-            
+
             <div className="flex items-center text-[var(--accent-primary)] font-bold text-sm tracking-wide uppercase mt-4 sm:mt-0 transition-transform group-hover:translate-x-2">
-               Explorar Arquitectura <ArrowRight className="w-5 h-5 ml-2" />
+              Explorar Arquitectura <ArrowRight className="w-5 h-5 ml-2" />
             </div>
           </div>
         </div>
       </div>
-      
+
       {/* Decorative Glow Elements */}
       <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-[var(--accent-primary)]/10 rounded-full blur-[100px] pointer-events-none group-hover:bg-[var(--accent-primary)]/20 transition-colors duration-700" />
       <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 bg-[var(--accent-secondary)]/10 rounded-full blur-[100px] pointer-events-none group-hover:bg-[var(--accent-secondary)]/20 transition-colors duration-700" />
@@ -623,10 +631,17 @@ export default function IAAutorPage() {
                 desc="Orquestación profesional con PowerShell 7+ y Python para la gestión soberana de información académica y empresarial bajo entornos herméticos."
                 image="/images/portal-ia/blog/cubides-bots-hero.png"
                 href="/ia/blog/ecosistema-bots-empresariales-cubides"
-                tags={["Python", "PowerShell Core", "Docker Compose", "SOPS", "LLMs Locales", "Node.js"]}
+                tags={[
+                  "Python",
+                  "PowerShell Core",
+                  "Docker Compose",
+                  "SOPS",
+                  "LLMs Locales",
+                  "Node.js",
+                ]}
                 metrics={[
                   { label: "Tiempo Orquestación", value: "-60%" },
-                  { label: "Seguridad", value: "Aislamiento Total" }
+                  { label: "Seguridad", value: "Aislamiento Total" },
                 ]}
               />
 
@@ -751,15 +766,52 @@ export default function IAAutorPage() {
           <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div className="mb-12 text-center">
               <h2 className="mb-4 text-3xl title-font md:text-4xl">
-                Herramientas para Estudiantes
+                Herramientas para el Aula y Estudiantes
               </h2>
               <p className="text-[#CCCCCC] max-w-2xl mx-auto">
-                Recursos interactivos diseñados para mejorar tu experiencia de
-                aprendizaje en IA y tecnología.
+                Recursos interactivos para enseñar, participar y mejorar tu
+                experiencia de aprendizaje en IA y tecnología.
               </p>
             </div>
 
             <div className="grid max-w-5xl grid-cols-1 gap-8 mx-auto md:grid-cols-2 lg:grid-cols-3">
+              {/* AquaQuiz */}
+              <article className="bg-[#10111A] rounded-2xl p-6 border border-[rgba(0,239,255,0.1)] hover:border-[#00efff] transition-all duration-300 hover:shadow-lg group">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-[#00efff] to-[#0095FF] flex items-center justify-center">
+                    <Trophy className="w-6 h-6 text-[#07111B]" />
+                  </div>
+                  <h3 className="text-xl font-bold group-hover:text-[#00efff] transition-colors">
+                    AquaQuiz
+                  </h3>
+                </div>
+                <p className="text-[#CCCCCC] mb-6 leading-relaxed">
+                  Convierte las preguntas de clase en una partida en vivo y
+                  registra la asistencia por código estudiantil.
+                </p>
+                <div className="mb-6 space-y-3">
+                  <div className="flex items-center gap-2 text-sm">
+                    <div className="w-2 h-2 rounded-full bg-[#00efff]"></div>
+                    <span>Cuenta Aquatech o invitado</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <div className="w-2 h-2 rounded-full bg-[#0095FF]"></div>
+                    <span>Código y apodo, sin nombre completo</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <div className="w-2 h-2 rounded-full bg-[#00efff]"></div>
+                    <span>PIN, marcador y reporte CSV</span>
+                  </div>
+                </div>
+                <Link
+                  href="/ia/autor/herramientas/aquaquiz"
+                  className="inline-flex items-center gap-2 w-full justify-center bg-gradient-to-r from-[#00efff] to-[#0095FF] text-[#07111B] font-bold py-3 px-4 rounded-lg hover:brightness-110 transition"
+                >
+                  <Trophy className="w-4 h-4" />
+                  Abrir AquaQuiz
+                </Link>
+              </article>
+
               {/* Consulta tu Nota */}
               <article className="bg-[#10111A] rounded-2xl p-6 border border-[rgba(0,239,255,0.1)] hover:border-[#00efff] transition-all duration-300 hover:shadow-lg group">
                 <div className="flex items-center gap-3 mb-4">
@@ -882,7 +934,8 @@ export default function IAAutorPage() {
                   </h3>
                 </div>
                 <p className="text-[#CCCCCC] mb-6 leading-relaxed">
-                  Explora cupos abiertos de trabajos de grado y genera borradores de correo para reunirte con Pablo.
+                  Explora cupos abiertos de trabajos de grado y genera
+                  borradores de correo para reunirte con Pablo.
                 </p>
                 <div className="mb-6 space-y-3">
                   <div className="flex items-center gap-2 text-sm">

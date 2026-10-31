@@ -23,6 +23,7 @@ interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
   theme?: "dark" | "light";
+  allowRegistration?: boolean;
 }
 
 type AuthMode = "login" | "register";
@@ -39,7 +40,12 @@ function reloadPageSafely() {
   window.location.reload();
 }
 
-function AuthModalContent({ isOpen, onClose, theme = "dark" }: AuthModalProps) {
+function AuthModalContent({
+  isOpen,
+  onClose,
+  theme = "dark",
+  allowRegistration = true,
+}: AuthModalProps) {
   const { data: session, update: updateSession } = useSession();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -313,17 +319,26 @@ function AuthModalContent({ isOpen, onClose, theme = "dark" }: AuthModalProps) {
                           className="w-24 h-24 rounded-full ring-4 ring-cyan-500/30 object-cover bg-white/5"
                           onError={(e) => {
                             // Hide the broken img and show initials div
-                            (e.target as HTMLImageElement).style.display = 'none';
-                            const parent = (e.target as HTMLImageElement).parentElement;
-                            const fallback = parent?.querySelector('.avatar-fallback') as HTMLElement;
-                            if (fallback) fallback.style.display = 'flex';
+                            (e.target as HTMLImageElement).style.display =
+                              "none";
+                            const parent = (e.target as HTMLImageElement)
+                              .parentElement;
+                            const fallback = parent?.querySelector(
+                              ".avatar-fallback",
+                            ) as HTMLElement;
+                            if (fallback) fallback.style.display = "flex";
                           }}
                         />
-                        <div 
+                        <div
                           className="avatar-fallback w-24 h-24 rounded-full ring-4 ring-cyan-500/30 bg-gradient-to-br from-purple-500 to-cyan-500 items-center justify-center text-white text-2xl font-bold"
-                          style={{ display: 'none' }}
+                          style={{ display: "none" }}
                         >
-                          {(session.user?.name || "U").split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase()}
+                          {(session.user?.name || "U")
+                            .split(" ")
+                            .map((n) => n[0])
+                            .join("")
+                            .slice(0, 2)
+                            .toUpperCase()}
                         </div>
                       </div>
                       <button
@@ -413,7 +428,9 @@ function AuthModalContent({ isOpen, onClose, theme = "dark" }: AuthModalProps) {
                       aria-label="Volver a la información de cuenta"
                       className="p-1 hover:bg-white/10 rounded-full transition-colors"
                     >
-                      <X className={`w-5 h-5 ${isDark ? "text-gray-400" : "text-gray-600"}`} />
+                      <X
+                        className={`w-5 h-5 ${isDark ? "text-gray-400" : "text-gray-600"}`}
+                      />
                     </button>
                   </div>
 
@@ -508,7 +525,8 @@ function AuthModalContent({ isOpen, onClose, theme = "dark" }: AuthModalProps) {
                     height={80}
                     className="drop-shadow-lg object-contain"
                     onError={(e) => {
-                      (e.target as HTMLImageElement).src = "/images/portal-ia/logo-ia.png";
+                      (e.target as HTMLImageElement).src =
+                        "/images/portal-ia/logo-ia.png";
                     }}
                   />
                 </div>
@@ -680,20 +698,22 @@ function AuthModalContent({ isOpen, onClose, theme = "dark" }: AuthModalProps) {
                   </form>
 
                   {/* Toggle mode */}
-                  <p
-                    className={`text-center text-sm ${isDark ? "text-gray-400" : "text-gray-600"}`}
-                  >
-                    {mode === "login"
-                      ? "¿No tienes cuenta? "
-                      : "¿Ya tienes cuenta? "}
-                    <button
-                      type="button"
-                      onClick={toggleMode}
-                      className={`font-semibold ${isDark ? "text-cyan-400 hover:text-cyan-300" : "text-blue-600 hover:text-blue-500"}`}
+                  {allowRegistration && (
+                    <p
+                      className={`text-center text-sm ${isDark ? "text-gray-400" : "text-gray-600"}`}
                     >
-                      {mode === "login" ? "Regístrate" : "Inicia sesión"}
-                    </button>
-                  </p>
+                      {mode === "login"
+                        ? "¿No tienes cuenta? "
+                        : "¿Ya tienes cuenta? "}
+                      <button
+                        type="button"
+                        onClick={toggleMode}
+                        className={`font-semibold ${isDark ? "text-cyan-400 hover:text-cyan-300" : "text-blue-600 hover:text-blue-500"}`}
+                      >
+                        {mode === "login" ? "Regístrate" : "Inicia sesión"}
+                      </button>
+                    </p>
+                  )}
                 </div>
               </div>
             </>

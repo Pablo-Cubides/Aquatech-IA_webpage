@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
+  provider = "postgresql"
 }
 
 // Authentication models (NextAuth.js compatible)
@@ -43,20 +43,23 @@ model User {
   email         String    @unique
   emailVerified DateTime? @map("email_verified")
   image         String?
-  password      String?   // For credentials login
+  password      String? // For credentials login
   role          UserRole  @default(USER)
   credits       Int       @default(0)
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @updatedAt @map("updated_at")
 
-  accounts      Account[]
-  sessions      Session[]
-  payments      Payment[]
-  emailEvents   EmailEvent[]
-  creditLogs    CreditLog[]
-  toolUsage     ToolUsage[]
-  content       Content[]
-  adminLogs     AdminLog[]
+  accounts            Account[]
+  sessions            Session[]
+  payments            Payment[]
+  emailEvents         EmailEvent[]
+  creditLogs          CreditLog[]
+  toolUsage           ToolUsage[]
+  quizCourses         QuizCourse[]
+  quizEnrollments     QuizEnrollment[]
+  quizAttendanceEdits QuizAttendanceAudit[]
+  content             Content[]
+  adminLogs           AdminLog[]
 
   @@map("users")
 }
@@ -74,12 +77,12 @@ model VerificationToken {
 model CreditLog {
   id        String   @id @default(cuid())
   userId    String   @map("user_id")
-  amount    Int      // Can be positive (earned) or negative (spent)
-  reason    String   // "purchase", "tool_usage", "bonus", etc.
+  amount    Int // Can be positive (earned) or negative (spent)
+  reason    String // "purchase", "tool_usage", "bonus", etc.
   metadata  Json?
   createdAt DateTime @default(now()) @map("created_at")
-  
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("credit_logs")
 }
@@ -94,8 +97,8 @@ model Tool {
   isActive    Boolean  @default(true) @map("is_active")
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
-  
-  usage       ToolUsage[]
+
+  usage ToolUsage[]
 
   @@map("tools")
 }
@@ -105,12 +108,12 @@ model ToolUsage {
   id        String   @id @default(cuid())
   userId    String   @map("user_id")
   toolId    String   @map("tool_id")
-  credits   Int      // Credits spent for this usage
-  metadata  Json?    // Tool-specific data
+  credits   Int // Credits spent for this usage
+  metadata  Json? // Tool-specific data
   createdAt DateTime @default(now()) @map("created_at")
-  
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  tool      Tool     @relation(fields: [toolId], references: [id], onDelete: Cascade)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tool Tool @relation(fields: [toolId], references: [id], onDelete: Cascade)
 
   @@map("tool_usage")
 }
@@ -167,36 +170,36 @@ model Content {
   id          String   @id @default(cuid())
   title       String
   slug        String   @unique
-  content     String   // Rich text/markdown content
-  portal      Portal   // "IA" or "AMBIENTAL"
+  content     String // Rich text/markdown content
+  portal      Portal // "IA" or "AMBIENTAL"
   category    String
   authorId    String   @map("author_id")
   isPublished Boolean  @default(false) @map("is_published")
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
-  
-  author      User             @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  sections    EditorSection[]
+
+  author   User            @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  sections EditorSection[]
 
   @@map("content")
 }
 
 // Notes table for student grade visualizer
 model Note {
-  id         String   @id @default(cuid())
-  university String
-  course     String
-  code       String
-  grade      Float
+  id          String   @id @default(cuid())
+  university  String
+  course      String
+  code        String
+  grade       Float
   studentName String?
-  metadata   Json?
-  uploadedBy String?  @map("uploaded_by")
-  createdAt  DateTime @default(now()) @map("created_at")
+  metadata    Json?
+  uploadedBy  String?  @map("uploaded_by")
+  createdAt   DateTime @default(now()) @map("created_at")
 
-  @@map("notes")
   @@index([university])
   @@index([course])
   @@index([code])
+  @@map("notes")
 }
 
 // Academic wheel question sets
@@ -212,27 +215,200 @@ model QuestionSet {
 }
 
 model Question {
-  id             Int         @id @default(autoincrement())
-  text           String
-  questionSet    QuestionSet @relation(fields: [questionSetId], references: [id], onDelete: Cascade)
-  questionSetId  Int         @map("question_set_id")
-  createdAt      DateTime    @default(now()) @map("created_at")
+  id            Int         @id @default(autoincrement())
+  text          String
+  questionSet   QuestionSet @relation(fields: [questionSetId], references: [id], onDelete: Cascade)
+  questionSetId Int         @map("question_set_id")
+  createdAt     DateTime    @default(now()) @map("created_at")
 
-  @@map("questions")
   @@index([questionSetId])
+  @@map("questions")
+}
+
+model QuizCourse {
+  id          String           @id @default(cuid())
+  ownerId     String           @map("owner_id")
+  title       String           @db.VarChar(120)
+  groupName   String           @default("General") @map("group_name") @db.VarChar(80)
+  createdAt   DateTime         @default(now()) @map("created_at")
+  owner       User             @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  enrollments QuizEnrollment[]
+  meetings    QuizMeeting[]
+  quizzes     QuizSet[]
+
+  @@index([ownerId, createdAt])
+  @@map("quiz_courses")
+}
+
+model QuizEnrollment {
+  id            String            @id @default(cuid())
+  courseId      String            @map("course_id")
+  accountUserId String?           @map("account_user_id")
+  studentCode   String            @map("student_code") @db.VarChar(32)
+  source        String            @default("GUEST") @db.VarChar(16)
+  createdAt     DateTime          @default(now()) @map("created_at")
+  course        QuizCourse        @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  accountUser   User?             @relation(fields: [accountUserId], references: [id], onDelete: SetNull)
+  participants  QuizParticipant[]
+  attendances   QuizAttendance[]
+
+  @@unique([courseId, studentCode])
+  @@unique([courseId, accountUserId])
+  @@index([accountUserId])
+  @@map("quiz_enrollments")
+}
+
+model QuizMeeting {
+  id                 String           @id @default(cuid())
+  courseId           String           @map("course_id")
+  classDate          DateTime         @map("class_date") @db.Date
+  classStartTime     String?          @map("class_start_time") @db.VarChar(5)
+  timeZone           String           @default("America/Bogota") @map("time_zone") @db.VarChar(48)
+  lateAfterMinutes   Int?             @map("late_after_minutes")
+  attendanceLockedAt DateTime?        @map("attendance_locked_at")
+  createdAt          DateTime         @default(now()) @map("created_at")
+  course             QuizCourse       @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  sessions           QuizSession[]
+  attendances        QuizAttendance[]
+
+  @@index([courseId, classDate])
+  @@map("quiz_meetings")
+}
+
+model QuizSet {
+  id        String         @id @default(cuid())
+  courseId  String         @map("course_id")
+  title     String         @db.VarChar(160)
+  createdAt DateTime       @default(now()) @map("created_at")
+  course    QuizCourse     @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  questions QuizQuestion[]
+  sessions  QuizSession[]
+
+  @@index([courseId, createdAt])
+  @@map("quiz_sets")
+}
+
+model QuizQuestion {
+  id                 String       @id @default(cuid())
+  quizSetId          String       @map("quiz_set_id")
+  order              Int
+  kind               String       @default("SINGLE_CHOICE") @db.VarChar(20)
+  topic              String       @default("") @db.VarChar(80)
+  difficulty         String       @default("INTERMEDIATE") @db.VarChar(16)
+  prompt             String       @db.VarChar(500)
+  options            Json
+  correctOptionIndex Int          @map("correct_option_index")
+  explanation        String       @default("") @db.VarChar(1000)
+  seconds            Int          @default(30)
+  quizSet            QuizSet      @relation(fields: [quizSetId], references: [id], onDelete: Cascade)
+  answers            QuizAnswer[]
+
+  @@unique([quizSetId, order])
+  @@map("quiz_questions")
+}
+
+model QuizSession {
+  id                  String            @id @default(cuid())
+  meetingId           String            @map("meeting_id")
+  quizSetId           String            @map("quiz_set_id")
+  joinCode            String            @unique @map("join_code") @db.VarChar(6)
+  status              String            @default("LOBBY") @db.VarChar(16)
+  questionIndex       Int               @default(-1) @map("question_index")
+  stateVersion        Int               @default(0) @map("state_version")
+  speedBonus          Boolean           @default(false) @map("speed_bonus")
+  projectionTokenHash String?           @map("projection_token_hash") @db.VarChar(64)
+  questionStartedAt   DateTime?         @map("question_started_at")
+  questionEndsAt      DateTime?         @map("question_ends_at")
+  startedAt           DateTime?         @map("started_at")
+  finishedAt          DateTime?         @map("finished_at")
+  createdAt           DateTime          @default(now()) @map("created_at")
+  meeting             QuizMeeting       @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  quizSet             QuizSet           @relation(fields: [quizSetId], references: [id], onDelete: Restrict)
+  participants        QuizParticipant[]
+
+  @@index([meetingId, createdAt])
+  @@map("quiz_sessions")
+}
+
+model QuizParticipant {
+  id              String         @id @default(cuid())
+  sessionId       String         @map("session_id")
+  enrollmentId    String         @map("enrollment_id")
+  nickname        String         @db.VarChar(24)
+  initialAccess   String         @map("initial_access") @db.VarChar(8)
+  resumeTokenHash String?        @map("resume_token_hash") @db.VarChar(64)
+  score           Int            @default(0)
+  joinedAt        DateTime       @default(now()) @map("joined_at")
+  session         QuizSession    @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  enrollment      QuizEnrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  answers         QuizAnswer[]
+
+  @@unique([sessionId, enrollmentId])
+  @@index([sessionId, score])
+  @@index([resumeTokenHash])
+  @@map("quiz_participants")
+}
+
+model QuizAnswer {
+  id            String          @id @default(cuid())
+  participantId String          @map("participant_id")
+  questionId    String          @map("question_id")
+  requestId     String          @unique @map("request_id") @db.Uuid
+  optionIndex   Int             @map("option_index")
+  correct       Boolean
+  points        Int
+  answeredAt    DateTime        @default(now()) @map("answered_at")
+  participant   QuizParticipant @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  question      QuizQuestion    @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([participantId, questionId])
+  @@map("quiz_answers")
+}
+
+model QuizAttendance {
+  id            String                @id @default(cuid())
+  meetingId     String                @map("meeting_id")
+  enrollmentId  String                @map("enrollment_id")
+  studentCode   String                @map("student_code") @db.VarChar(32)
+  nickname      String                @db.VarChar(24)
+  initialAccess String                @map("initial_access") @db.VarChar(8)
+  status        String                @default("PRESENT") @db.VarChar(16)
+  arrivedAt     DateTime              @default(now()) @map("arrived_at")
+  meeting       QuizMeeting           @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  enrollment    QuizEnrollment        @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  audit         QuizAttendanceAudit[]
+
+  @@unique([meetingId, enrollmentId])
+  @@index([meetingId, arrivedAt])
+  @@map("quiz_attendance")
+}
+
+model QuizAttendanceAudit {
+  id           String         @id @default(cuid())
+  attendanceId String         @map("attendance_id")
+  editorId     String         @map("editor_id")
+  reason       String         @db.VarChar(500)
+  before       Json
+  after        Json
+  createdAt    DateTime       @default(now()) @map("created_at")
+  attendance   QuizAttendance @relation(fields: [attendanceId], references: [id], onDelete: Cascade)
+  editor       User           @relation(fields: [editorId], references: [id], onDelete: Restrict)
+
+  @@index([attendanceId, createdAt])
+  @@map("quiz_attendance_audit")
 }
 
 // Content editor sections (for rich editing)
 model EditorSection {
   id        String   @id @default(cuid())
   contentId String   @map("content_id")
-  type      String   // "text", "image", "code", "embed"
-  data      Json     // Section-specific data
-  order     Int      // Display order
+  type      String // "text", "image", "code", "embed"
+  data      Json // Section-specific data
+  order     Int // Display order
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
-  
-  content   Content  @relation(fields: [contentId], references: [id], onDelete: Cascade)
+
+  content Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
 
   @@map("editor_sections")
 }
@@ -241,31 +417,31 @@ model EditorSection {
 model AdminLog {
   id        String   @id @default(cuid())
   adminId   String   @map("admin_id") // User ID of admin
-  action    String   // "credit_adjustment", "user_suspension", etc.
-  details   Json?    // Additional action details
+  action    String // "credit_adjustment", "user_suspension", etc.
+  details   Json? // Additional action details
   targetId  String?  @map("target_id") // ID of affected entity
   createdAt DateTime @default(now()) @map("created_at")
-  
-  admin     User     @relation(fields: [adminId], references: [id], onDelete: Cascade)
+
+  admin User @relation(fields: [adminId], references: [id], onDelete: Cascade)
 
   @@map("admin_logs")
 }
 
 // System models
 model SystemLog {
-  id          String      @id @default(cuid())
-  level       LogLevel
-  message     String
-  context     Json?
-  traceId     String?     @map("trace_id")
-  userId      String?     @map("user_id")
-  ipAddress   String?     @map("ip_address")
-  userAgent   String?     @map("user_agent")
-  endpoint    String?
-  method      String?
-  statusCode  Int?        @map("status_code")
-  duration    Int?        // in milliseconds
-  createdAt   DateTime    @default(now()) @map("created_at")
+  id         String   @id @default(cuid())
+  level      LogLevel
+  message    String
+  context    Json?
+  traceId    String?  @map("trace_id")
+  userId     String?  @map("user_id")
+  ipAddress  String?  @map("ip_address")
+  userAgent  String?  @map("user_agent")
+  endpoint   String?
+  method     String?
+  statusCode Int?     @map("status_code")
+  duration   Int? // in milliseconds
+  createdAt  DateTime @default(now()) @map("created_at")
 
   @@index([level])
   @@index([traceId])
@@ -299,7 +475,7 @@ model BlogPost {
   title        String
   category     String
   excerpt      String         @db.Text
-  content      Json           // Structured content: { introduction, sections, conclusion }
+  content      Json // Structured content: { introduction, sections, conclusion }
   heroImage    String?        @map("hero_image")
   authorName   String         @default("Pablo Cubides") @map("author_name")
   authorAvatar String?        @map("author_avatar")
@@ -378,4 +554,3 @@ enum Portal {
   IA
   AMBIENTAL
 }
-

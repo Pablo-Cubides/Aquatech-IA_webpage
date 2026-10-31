@@ -1,0 +1,9 @@
+body.aquaquiz-projection > div.min-h-screen > header,
+body.aquaquiz-projection > div.min-h-screen > footer {
+  display: none !important;
+}
+
+body.aquaquiz-projection > div.min-h-screen > main {
+  min-height: 100vh;
+  flex-grow: 1;
+}

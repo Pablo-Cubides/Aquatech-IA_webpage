@@ -1,0 +1,3 @@
+tema,tipo,dificultad,pregunta,opcion_a,opcion_b,opcion_c,opcion_d,correcta,explicacion,tiempo_segundos
+Hidráulica,SINGLE_CHOICE,Inicial,¿Qué representa el caudal?,Volumen por unidad de tiempo,La masa del agua,La presión atmosférica,El diámetro de una tubería,A,Se expresa como volumen que atraviesa una sección en un intervalo de tiempo.,30
+Calidad del agua,TRUE_FALSE,Inicial,La sedimentación ayuda a remover partículas suspendidas,Verdadero,Falso,,,A,Las partículas sedimentables se separan por acción de la gravedad.,20

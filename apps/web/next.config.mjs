@@ -3,6 +3,9 @@ import { fileURLToPath } from "url";
 import { retiredArticleRedirects } from "./src/lib/retired-articles.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const aquaQuizApiOrigin = (
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001"
+).replace(/\/$/, "");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -47,6 +50,17 @@ const nextConfig = {
   // Next should import directly. Transpiling the package forces Next to
   // resolve TypeScript source which can cause module resolution errors.
   transpilePackages: ["@ia-next/ui"],
+
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: "/api/aquaquiz/:path*",
+          destination: `${aquaQuizApiOrigin}/api/aquaquiz/:path*`,
+        },
+      ],
+    };
+  },
 
   // Environment variables to expose to client (only non-sensitive)
   env: {
@@ -153,17 +167,61 @@ const nextConfig = {
       ...retiredArticleRedirects(),
       // Las guias de /guia/* eran paginas delgadas (150-360 palabras) que duplicaban la herramienta: ahora su texto vive en la
       // propia pagina de la herramienta y estas URL redirigen con 301 (2026-10-19).
-      { source: "/guia/normas-ambientales", destination: "/ambiental/herramientas/normas-ambientales", permanent: true },
-      { source: "/guia/indice-calidad-agua", destination: "/ambiental/herramientas/indice-calidad-agua", permanent: true },
-      { source: "/guia/indice-calidad-aire", destination: "/ambiental/herramientas/indice-calidad-aire", permanent: true },
-      { source: "/guia/generador-matrices", destination: "/ambiental/herramientas/generador-matrices", permanent: true },
-      { source: "/guia/como-funcionan-llm", destination: "/ia/herramientas/como-funcionan-llm", permanent: true },
-      { source: "/guia/parametros-decodificacion", destination: "/ia/herramientas/parametros-decodificacion", permanent: true },
-      { source: "/guia/filtrado-ia", destination: "/ia/herramientas/filtrado-ia", permanent: true },
-      { source: "/guia/visor-difusion", destination: "/ia/herramientas/visor-difusion", permanent: true },
-      { source: "/guia/papers-ia", destination: "/ia/herramientas/papers-ia", permanent: true },
-      { source: "/guia/modelos-tendencia", destination: "/ia/herramientas/modelos-tendencia", permanent: true },
-      { source: "/guia/ecostats", destination: "/ambiental/herramientas/analisis-correlaciones", permanent: true },
+      {
+        source: "/guia/normas-ambientales",
+        destination: "/ambiental/herramientas/normas-ambientales",
+        permanent: true,
+      },
+      {
+        source: "/guia/indice-calidad-agua",
+        destination: "/ambiental/herramientas/indice-calidad-agua",
+        permanent: true,
+      },
+      {
+        source: "/guia/indice-calidad-aire",
+        destination: "/ambiental/herramientas/indice-calidad-aire",
+        permanent: true,
+      },
+      {
+        source: "/guia/generador-matrices",
+        destination: "/ambiental/herramientas/generador-matrices",
+        permanent: true,
+      },
+      {
+        source: "/guia/como-funcionan-llm",
+        destination: "/ia/herramientas/como-funcionan-llm",
+        permanent: true,
+      },
+      {
+        source: "/guia/parametros-decodificacion",
+        destination: "/ia/herramientas/parametros-decodificacion",
+        permanent: true,
+      },
+      {
+        source: "/guia/filtrado-ia",
+        destination: "/ia/herramientas/filtrado-ia",
+        permanent: true,
+      },
+      {
+        source: "/guia/visor-difusion",
+        destination: "/ia/herramientas/visor-difusion",
+        permanent: true,
+      },
+      {
+        source: "/guia/papers-ia",
+        destination: "/ia/herramientas/papers-ia",
+        permanent: true,
+      },
+      {
+        source: "/guia/modelos-tendencia",
+        destination: "/ia/herramientas/modelos-tendencia",
+        permanent: true,
+      },
+      {
+        source: "/guia/ecostats",
+        destination: "/ambiental/herramientas/analisis-correlaciones",
+        permanent: true,
+      },
       {
         source: "/index",
         destination: "/",
