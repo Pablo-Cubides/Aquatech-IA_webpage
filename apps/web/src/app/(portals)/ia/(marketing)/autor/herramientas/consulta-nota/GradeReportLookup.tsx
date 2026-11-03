@@ -14,6 +14,8 @@ const score = (v: number | null, decimals = 1) =>
 export default function GradeReportLookup() {
   const [code, setCode] = useState("");
   const [course, setCourse] = useState("");
+  const [group, setGroup] = useState("");
+  const [cut, setCut] = useState("");
   const [courses, setCourses] = useState<GradeCourse[]>([]);
   const [reports, setReports] = useState<StudentGradeReport[]>([]);
   const [busy, setBusy] = useState(false);
@@ -46,7 +48,7 @@ export default function GradeReportLookup() {
     setMessage("");
     try {
       const selected = courses.find(
-        (c) => `${c.period}:${c.courseId}` === course,
+        (c) => `${c.period}:${c.courseTitle}` === course,
       );
       const response = await fetch("/api/grade-reports/lookup", {
         method: "POST",
@@ -54,8 +56,10 @@ export default function GradeReportLookup() {
         body: JSON.stringify({
           code: code.trim(),
           ...(selected
-            ? { courseId: selected.courseId, period: selected.period }
+            ? { courseTitle: selected.courseTitle, period: selected.period }
             : {}),
+          ...(group ? { group } : {}),
+          ...(cut ? { cut: Number(cut) } : {}),
         }),
         cache: "no-store",
       });
@@ -64,7 +68,7 @@ export default function GradeReportLookup() {
       setReports(data.reports);
       if (!data.found)
         setMessage(
-          "No hay calificaciones publicadas para ese código en los cursos seleccionados.",
+          "No hay calificaciones publicadas para ese código con los filtros seleccionados.",
         );
     } catch (error) {
       setMessage(
@@ -78,7 +82,7 @@ export default function GradeReportLookup() {
     <section aria-label="Consulta de calificaciones" className="space-y-6">
       <form
         onSubmit={search}
-        className="grid gap-4 rounded-2xl border border-white/15 bg-white/[0.03] p-5 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)_auto]"
+        className="grid gap-4 rounded-2xl border border-white/15 bg-white/[0.03] p-5 sm:grid-cols-2 lg:grid-cols-[minmax(12rem,1.2fr)_minmax(10rem,1fr)_minmax(9rem,1fr)_minmax(8rem,0.7fr)_auto]"
       >
         <label className="text-sm text-slate-200">
           Código estudiantil
@@ -99,28 +103,75 @@ export default function GradeReportLookup() {
           />
         </label>
         <label className="text-sm text-slate-200">
-          Curso y grupo
+          Curso
           <select
+            data-testid="grade-course"
             className="mt-2 block min-h-12 w-full rounded-lg border border-white/20 bg-slate-950 px-3 text-white"
             value={course}
             onChange={(e) => {
               setCourse(e.target.value);
+              setGroup("");
               setReports([]);
             }}
           >
             <option value="">Todos mis cursos</option>
             {Array.from(
               new Map(
-                courses.map((c) => [`${c.period}:${c.courseId}`, c]),
+                courses.map((c) => [`${c.period}:${c.courseTitle}`, c]),
               ).values(),
             ).map((c) => (
               <option
-                value={`${c.period}:${c.courseId}`}
-                key={`${c.period}:${c.courseId}`}
+                value={`${c.period}:${c.courseTitle}`}
+                key={`${c.period}:${c.courseTitle}`}
               >
-                {c.courseTitle} · {c.groupLabel} · {c.period}
+                {c.courseTitle} · {c.period}
               </option>
             ))}
+          </select>
+        </label>
+        <label className="text-sm text-slate-200">
+          Grupo
+          <select
+            data-testid="grade-group"
+            className="mt-2 block min-h-12 w-full rounded-lg border border-white/20 bg-slate-950 px-3 text-white"
+            value={group}
+            onChange={(e) => {
+              setGroup(e.target.value);
+              setReports([]);
+            }}
+          >
+            <option value="">Todos los grupos</option>
+            {Array.from(
+              new Map(
+                courses
+                  .filter(
+                    (c) =>
+                      !course || `${c.period}:${c.courseTitle}` === course,
+                  )
+                  .map((c) => [c.groupLabel, c]),
+              ).values(),
+            ).map((c) => (
+              <option value={c.groupLabel} key={c.groupLabel}>
+                {c.groupLabel}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="text-sm text-slate-200">
+          Corte
+          <select
+            data-testid="grade-cut"
+            className="mt-2 block min-h-12 w-full rounded-lg border border-white/20 bg-slate-950 px-3 text-white"
+            value={cut}
+            onChange={(e) => {
+              setCut(e.target.value);
+              setReports([]);
+            }}
+          >
+            <option value="">Todos los cortes</option>
+            <option value="1">Corte 1</option>
+            <option value="2">Corte 2</option>
+            <option value="3">Corte 3</option>
           </select>
         </label>
         <button
@@ -209,3 +260,4 @@ export default function GradeReportLookup() {
     </section>
   );
 }
+
