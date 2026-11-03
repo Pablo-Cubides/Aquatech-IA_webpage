@@ -26,23 +26,57 @@ export {
 /**
  * Mapea categoría de artículo a nueva categoría SEO
  */
+const normalizeCategoryText = (value: string) =>
+  value
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+
+// Categorías sueltas (las de los artículos de código y las que llegan por la API) -> categoría SEO del portal.
+// El orden importa: la primera regla que coincide gana. Si nada coincide, el artículo cae en la categoría general.
+const CATEGORY_RULES: Record<"ia" | "ambiental", Array<{ test: RegExp; slug: string }>> = {
+  ia: [
+    { test: /llm|lenguaje|nlp|conversacional|chat|asistente/, slug: "modelos-lenguaje-asistentes-llm" },
+    { test: /vision|imagen|difusion|generativ|creativ/, slug: "generadores-imagenes-contenido-creativo-ia" },
+    { test: /agente|automatiz|productividad|desarrollo web|empresa/, slug: "productividad-automatizacion-ia" },
+  ],
+  ambiental: [
+    { test: /normativ|politica|legisla/, slug: "normatividad-ambiental" },
+    { test: /control|tratamiento|contaminacion|hidric|residual/, slug: "control-tratamiento-contaminacion" },
+    { test: /comunitari|rural|caso|investigacion/, slug: "gestion-comunitaria-casos-exito-ambientales" },
+    { test: /tecnolog|geotecn|software|soluciones|digital|sig|satelit/, slug: "nuevas-tecnologias-ambientales" },
+  ],
+};
+const DEFAULT_CATEGORY: Record<"ia" | "ambiental", string> = {
+  ia: "fundamentos-inteligencia-artificial",
+  ambiental: "gestion-ambiental-instrumentos",
+};
+
 export function mapArticleCategoryToSeoCategory(
   portal: "ia" | "ambiental",
   legacyCategory: string,
 ): BlogCategory | null {
   const mapping = LEGACY_CATEGORY_MAP[legacyCategory];
-  if (!mapping || mapping.portal !== portal) {
-    // Buscar categoría por nombre si no hay mapeo
-    const categories = getCategories(portal, true);
-    return (
-      categories.find(
-        (cat) =>
-          cat.name.toLowerCase() === legacyCategory.toLowerCase() ||
-          cat.displayName.toLowerCase() === legacyCategory.toLowerCase(),
-      ) || null
-    );
+  if (mapping && mapping.portal === portal) {
+    return getCategoryBySlug(portal, mapping.newSlug);
   }
-  return getCategoryBySlug(portal, mapping.newSlug);
+
+  const categories = getCategories(portal, true);
+  const wanted = normalizeCategoryText(legacyCategory);
+  // Slug de la categoría SEO (los artículos de la API ya llegan así), nombre o nombre corto.
+  const direct = categories.find(
+    (cat) =>
+      normalizeCategoryText(cat.slug) === wanted ||
+      normalizeCategoryText(cat.name) === wanted ||
+      normalizeCategoryText(cat.displayName) === wanted,
+  );
+  if (direct && !direct.noindex) return direct;
+
+  const rule = CATEGORY_RULES[portal].find((item) => item.test.test(wanted));
+  const target = rule ? categories.find((cat) => cat.slug === rule.slug && !cat.noindex) : undefined;
+  return target || categories.find((cat) => cat.slug === DEFAULT_CATEGORY[portal]) || null;
 }
 
 /**
