@@ -554,3 +554,37 @@ enum Portal {
   IA
   AMBIENTAL
 }
+
+
+// One official projection per student, course/group, period and cut.
+model GradeReport {
+  id            String   @id @default(cuid())
+  period        String
+  courseId      String
+  courseTitle   String
+  groupLabel    String
+  university    String
+  cut           Int
+  code          String
+  sourceVersion String
+  sourceSha256  String
+  reportHash    String
+  payload       Json
+  published     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([period, courseId, cut, code])
+  @@index([code, published])
+  @@map("grade_reports")
+}
+
+model GradeRequestWindow {
+  bucket String @id
+  windowStart DateTime @db.Timestamptz(6)
+  hits Int
+  expiresAt DateTime @db.Timestamptz(6)
+
+  @@index([expiresAt], map: "grade_request_windows_expiry_idx")
+  @@map("grade_request_windows")
+}
