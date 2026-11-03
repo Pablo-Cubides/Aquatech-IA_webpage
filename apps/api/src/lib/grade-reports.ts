@@ -130,14 +130,24 @@ export async function importGradeReports(
 
 export async function lookupGradeReports(
   db: Pick<PrismaClient, "gradeReport">,
-  input: { code: string; courseId?: string; period?: string },
+  input: {
+    code: string;
+    courseId?: string;
+    courseTitle?: string;
+    period?: string;
+    group?: string;
+    cut?: number;
+  },
 ) {
   const rows = await db.gradeReport.findMany({
     where: {
       code: input.code,
       published: true,
       ...(input.courseId ? { courseId: input.courseId } : {}),
+      ...(input.courseTitle ? { courseTitle: input.courseTitle } : {}),
       ...(input.period ? { period: input.period } : {}),
+      ...(input.group ? { groupLabel: input.group } : {}),
+      ...(input.cut !== undefined ? { cut: input.cut } : {}),
     },
     select: { payload: true },
     orderBy: [{ period: "desc" }, { courseId: "asc" }, { cut: "asc" }],
@@ -152,3 +162,4 @@ export async function lookupGradeReports(
     }),
   };
 }
+
