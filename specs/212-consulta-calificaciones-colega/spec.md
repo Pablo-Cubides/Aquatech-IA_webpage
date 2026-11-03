@@ -1,7 +1,7 @@
 ---
 id: SPEC-212
 title: Calificaciones y sincronización de Colega
-status: implementing
+status: implemented
 owner: Pablo Cubides
 created: 2026-11-02
 updated: 2026-11-02
