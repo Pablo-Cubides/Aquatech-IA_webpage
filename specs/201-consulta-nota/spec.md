@@ -19,7 +19,7 @@ La información publicada se alimenta desde Colega. La consulta pública identif
 
 ---
 
-## 2. Restricciones
+## 2. Constraints
 
 - **C-001**: No mostrar nombres, correos ni códigos de otros estudiantes.
 - **C-002**: La búsqueda solo puede devolver registros publicados que coincidan con el código ingresado.
@@ -29,7 +29,7 @@ La información publicada se alimenta desde Colega. La consulta pública identif
 
 ---
 
-## 3. Fuera de alcance
+## 3. Non-Goals
 
 - Modificar, registrar, redondear o publicar calificaciones.
 - Mostrar listados de estudiantes o datos de compañeros.
@@ -47,7 +47,7 @@ La información publicada se alimenta desde Colega. La consulta pública identif
 
 ---
 
-## 5. Historias de usuario
+## 5. User Stories
 
 ### US-001: Consultar notas por código y filtros
 ```gherkin
