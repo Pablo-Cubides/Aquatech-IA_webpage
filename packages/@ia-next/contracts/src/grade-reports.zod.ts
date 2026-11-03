@@ -139,8 +139,12 @@ export const gradeLookupSchema = z.object({
     .string()
     .regex(/^[\w-]{1,90}$/)
     .optional(),
+  courseTitle: z.string().min(1).max(200).optional(),
   period: z
     .string()
     .regex(/^\d{4}-\d+$/)
     .optional(),
+  group: z.string().min(1).max(80).optional(),
+  cut: z.number().int().min(1).max(3).optional(),
 });
+

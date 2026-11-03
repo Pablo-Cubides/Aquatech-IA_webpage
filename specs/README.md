@@ -33,7 +33,7 @@
 | Spec                                              | Tool                                     | Portal     | Status       | Updated    |
 | ------------------------------------------------- | ---------------------------------------- | ---------- | ------------ | ---------- |
 | [SPEC-200](200-aula-score/spec.md)                | Aula Score                               | IA / Autor | stub         | 2026-04-28 |
-| [SPEC-201](201-consulta-nota/spec.md)             | Consulta Nota                            | IA / Autor | stub         | 2026-04-28 |
+| [SPEC-201](201-consulta-nota/spec.md)             | Consulta Nota                            | IA / Autor | draft        | 2026-04-28 |
 | [SPEC-202](202-ruleta-academica/spec.md)          | Ruleta Académica                         | IA / Autor | stub         | 2026-04-28 |
 | [SPEC-203](203-visor-difusion/spec.md)            | Visor de Difusión                        | IA         | stub         | 2026-04-28 |
 | [SPEC-204](204-filtrado-ia/spec.md)               | Filtrado IA                              | IA         | stub         | 2026-04-28 |

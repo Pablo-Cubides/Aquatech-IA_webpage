@@ -24,7 +24,7 @@ export async function GET(request: Request) {
         university: true,
         cut: true,
       },
-      distinct: ["period", "courseId", "cut"],
+      distinct: ["period", "courseId", "groupLabel", "cut"],
       orderBy: [{ period: "desc" }, { courseTitle: "asc" }],
     });
     return NextResponse.json({ courses }, { headers });
@@ -35,3 +35,4 @@ export async function GET(request: Request) {
     );
   }
 }
+
