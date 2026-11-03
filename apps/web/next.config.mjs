@@ -55,6 +55,10 @@ const nextConfig = {
     return {
       beforeFiles: [
         {
+          source: "/api/grade-reports/:path*",
+          destination: `${aquaQuizApiOrigin}/api/grade-reports/:path*`,
+        },
+        {
           source: "/api/aquaquiz/:path*",
           destination: `${aquaQuizApiOrigin}/api/aquaquiz/:path*`,
         },
