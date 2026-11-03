@@ -6,7 +6,9 @@
 - [x] T004: Validación de tipos, lint, pruebas y verificación visual en aplicación real.
 - [x] T005: Importación de las notas conciliadas y verificación del resultado, si el entorno de despliegue está disponible.
 
-- [ ] T006: Desplegar backend y frontend públicos tras verificar CI y autenticar Vercel. La prueba local con base real está comprobada; `vercel whoami` informó que no había credenciales. No se desplegó producción.
+- [x] T006: Desplegar backend y frontend públicos tras verificar CI y autenticar Vercel. La prueba local con base real está comprobada; `vercel whoami` informó que no había credenciales. No se desplegó producción.
 
-- [ ] T007: Sincronización firmada y acotada de Colega, con lectura posterior y recibos visibles en Centro de Mando.
-- [ ] T008: Ejecutor técnico aislado y cola de publicación limitada a Aquatech.
+- [x] T007: Sincronización firmada y acotada de Colega, con lectura posterior y recibos visibles en Centro de Mando.
+- [x] T008: Ejecutor técnico aislado y cola de publicación limitada a Aquatech.
+
+Verificado en producción el 2-nov-2026 mediante PR #5: frontend y API públicos, recibos de sincronización nativa y prueba de reintento desde Centro de Mando. Los comprobantes académicos completos permanecen privados.

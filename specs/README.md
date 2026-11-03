@@ -45,7 +45,7 @@
 | [SPEC-210](210-analisis-correlaciones/spec.md)    | Análisis de Correlaciones                | Ambiental  | stub         | 2026-04-28 |
 | [SPEC-211](211-aquaquiz/spec.md)                  | AquaQuiz: preguntas en vivo y asistencia | IA / Autor | implementing | 2026-10-30 |
 
-| [SPEC-212](212-consulta-calificaciones-colega/spec.md) | Calificaciones y sincronización de Colega | implementing | 2026-11-02 |
+| [SPEC-212](212-consulta-calificaciones-colega/spec.md) | Calificaciones y sincronización de Colega | implemented | 2026-11-02 |
 
 <!-- NEW SPECS ABOVE THIS LINE -->
 
