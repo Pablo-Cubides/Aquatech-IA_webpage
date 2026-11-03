@@ -57,7 +57,7 @@ describe("code-only grade lookup", () => {
     await screen.findByText("Código 00001234");
     expect(screen.queryByText("NOMBRE PRIVADO")).not.toBeInTheDocument();
     expect(screen.getByText("/15")).toBeInTheDocument();
-    expect(screen.getByText("0")).toBeInTheDocument();
+    expect(screen.getByText("0,0")).toBeInTheDocument();
     expect(screen.getAllByText("Pendiente").length).toBeGreaterThan(0);
     expect(fetchMock.mock.calls[1][0]).toBe("/api/grade-reports/lookup");
     expect(fetchMock.mock.calls[1][1].body).toBe(

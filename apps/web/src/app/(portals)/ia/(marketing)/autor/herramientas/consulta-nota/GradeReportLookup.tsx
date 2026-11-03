@@ -4,10 +4,13 @@ import { useEffect, useState, type FormEvent } from "react";
 import { Search } from "lucide-react";
 import type { GradeCourse, StudentGradeReport } from "@ia-next/contracts";
 import GradeDetail from "./GradeDetail";
-const score = (v: number | null) =>
+const score = (v: number | null, decimals = 1) =>
   v === null
     ? "Pendiente"
-    : v.toLocaleString("es-CO", { maximumFractionDigits: 2 });
+    : v.toLocaleString("es-CO", {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals,
+      });
 export default function GradeReportLookup() {
   const [code, setCode] = useState("");
   const [course, setCourse] = useState("");
@@ -156,7 +159,7 @@ export default function GradeReportLookup() {
             <div className="text-right">
               <p className="text-xs text-slate-400">Total del corte</p>
               <p className="mt-1 text-xl font-semibold text-white">
-                {score(report.cutTotal)}
+                {score(report.cutTotal, 0)}
                 {report.cutTotal !== null ? (
                   <span className="text-sm font-normal text-slate-400">
                     {" "}
