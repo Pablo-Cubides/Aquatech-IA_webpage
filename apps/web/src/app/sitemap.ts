@@ -3,6 +3,9 @@ import { getToolsByPortal } from "@/lib/services/tools-registry";
 import { getCategories, getAllArticleSlugs } from "@/lib/blog-seo";
 import { SITE_URL } from "@/lib/site-config";
 
+// Los articulos del agente se publican por la API sin desplegar: sin esto el sitemap quedaba congelado hasta el siguiente deploy.
+export const revalidate = 3600;
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = SITE_URL;
   const currentDate = new Date();

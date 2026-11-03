@@ -358,10 +358,7 @@ export const guidesData: Record<string, GuideContent> = {
           Q = median((x_j - x_i) / (j - i)) para todo j > i
         </div>
         Esto proporciona una estimación de cambio anual robusta que no se ve sesgada por valores extremos o periodos de sequía/inundación atípicos.`
-      }
-    ]
-  }
-};,
+      },
       {
         title: "Cuándo usar Mann-Kendall y qué necesitas",
         icon: "✅",
@@ -382,3 +379,6 @@ export const guidesData: Record<string, GuideContent> = {
         icon: "💧",
         content: "Con 20 años de caudal medio anual de un río, la prueba puede indicar si el caudal disminuye de forma sostenida. Si el resultado es significativo y la pendiente de Sen es negativa, se obtiene una tasa de pérdida en m³/s por año que sirve para revisar concesiones de agua, planificar el abastecimiento o priorizar estudios de causas (cambio climático, uso del suelo, extracciones)."
       }
+    ]
+  }
+};
