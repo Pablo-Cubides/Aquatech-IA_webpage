@@ -39,7 +39,7 @@ function loadCases(): Record<string, CaseData> {
       title: "Spider-Man Dorado",
       step_files: Array.from(
         { length: 9 },
-        (_, i) => `${CASES_PUBLIC_PATH}/1/step_${i + 1}.png`,
+        (_, i) => `${CASES_PUBLIC_PATH}/1/step_${i + 1}.jpg`,
       ),
       total_steps: 9,
     },
@@ -50,7 +50,7 @@ function loadCases(): Record<string, CaseData> {
       title: "Superman y Avión",
       step_files: Array.from(
         { length: 8 },
-        (_, i) => `${CASES_PUBLIC_PATH}/2/step_${i + 1}.png`,
+        (_, i) => `${CASES_PUBLIC_PATH}/2/step_${i + 1}.jpg`,
       ),
       total_steps: 8,
     },
@@ -61,7 +61,7 @@ function loadCases(): Record<string, CaseData> {
       title: "Retrato de Mujer",
       step_files: Array.from(
         { length: 9 },
-        (_, i) => `${CASES_PUBLIC_PATH}/3/step_${i + 1}.png`,
+        (_, i) => `${CASES_PUBLIC_PATH}/3/step_${i + 1}.jpg`,
       ),
       total_steps: 9,
     },
@@ -72,7 +72,7 @@ function loadCases(): Record<string, CaseData> {
       title: "Cine de los 90s",
       step_files: Array.from(
         { length: 7 },
-        (_, i) => `${CASES_PUBLIC_PATH}/flux-1/step_${i + 1}.png`,
+        (_, i) => `${CASES_PUBLIC_PATH}/flux-1/step_${i + 1}.jpg`,
       ),
       total_steps: 7,
     },
@@ -83,7 +83,7 @@ function loadCases(): Record<string, CaseData> {
       title: "Caballera Medieval",
       step_files: Array.from(
         { length: 8 },
-        (_, i) => `${CASES_PUBLIC_PATH}/flux-1.1-2/step_${i + 1}.png`,
+        (_, i) => `${CASES_PUBLIC_PATH}/flux-1.1-2/step_${i + 1}.jpg`,
       ),
       total_steps: 8,
     },
@@ -94,7 +94,7 @@ function loadCases(): Record<string, CaseData> {
       title: "Ceramista Japonés",
       step_files: Array.from(
         { length: 9 },
-        (_, i) => `${CASES_PUBLIC_PATH}/gemini-2/step_${i + 1}.png`,
+        (_, i) => `${CASES_PUBLIC_PATH}/gemini-2/step_${i + 1}.jpg`,
       ),
       total_steps: 9,
     },
@@ -105,7 +105,7 @@ function loadCases(): Record<string, CaseData> {
       title: "Hombre con Caballo",
       step_files: Array.from(
         { length: 8 },
-        (_, i) => `${CASES_PUBLIC_PATH}/gemini-ai/step_${i + 1}.png`,
+        (_, i) => `${CASES_PUBLIC_PATH}/gemini-ai/step_${i + 1}.jpg`,
       ),
       total_steps: 8,
     },
@@ -116,7 +116,7 @@ function loadCases(): Record<string, CaseData> {
       title: "Polestar 4 Portada",
       step_files: Array.from(
         { length: 9 },
-        (_, i) => `${CASES_PUBLIC_PATH}/stable-diffusion/step_${i + 1}.png`,
+        (_, i) => `${CASES_PUBLIC_PATH}/stable-diffusion/step_${i + 1}.jpg`,
       ),
       total_steps: 9,
     },
@@ -127,7 +127,7 @@ function loadCases(): Record<string, CaseData> {
       title: "Sala de Interrogatorio",
       step_files: Array.from(
         { length: 8 },
-        (_, i) => `${CASES_PUBLIC_PATH}/stable-diffusion-2/step_${i + 1}.png`,
+        (_, i) => `${CASES_PUBLIC_PATH}/stable-diffusion-2/step_${i + 1}.jpg`,
       ),
       total_steps: 8,
     },
