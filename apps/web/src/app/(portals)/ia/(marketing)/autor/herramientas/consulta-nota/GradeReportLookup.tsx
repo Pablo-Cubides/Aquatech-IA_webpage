@@ -247,7 +247,11 @@ export default function GradeReportLookup() {
                     </span>
                   ) : null}
                 </p>
-                <GradeDetail title={row.title} comment={row.justification} />
+                {row.justification.trim() ? (
+                  <GradeDetail title={row.title} comment={row.justification} />
+                ) : (
+                  <span className="inline-flex min-h-11 min-w-11" aria-hidden="true" />
+                )}
               </li>
             ))}
           </ul>

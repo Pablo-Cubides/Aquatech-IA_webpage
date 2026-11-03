@@ -10,12 +10,17 @@ const gradeSchema = z
     max: z.number().finite().positive().max(100).nullable(),
     status: z.enum(["graded", "pending"]),
     explanationStatus: z.enum(["matched", "missing", "outdated", "pending"]),
-    justification: z.string().min(1).max(12000),
+    justification: z.string().max(12000),
     technicalGrade: z.number().finite().nullable().optional(),
     latePenalty: z.number().finite().nonnegative().nullable().optional(),
     countsTowardAggregate: z.boolean().optional(),
   })
   .superRefine((g, ctx) => {
+    if (!g.justification.trim() && g.activityId !== "C2-EXP")
+      ctx.addIssue({
+        code: "custom",
+        message: "La justificación es obligatoria para esta actividad.",
+      });
     if (
       g.grade !== null &&
       (g.explanationStatus !== "matched" || (g.max !== null && g.grade > g.max))
