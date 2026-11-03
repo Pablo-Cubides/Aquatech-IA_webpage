@@ -64,7 +64,7 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     dateModified: "2026-09-06",
     readTime: 15,
     excerpt: "Explorando la infraestructura avanzada de Spartan: Next.js 15, integración con Gemini 1.5 Flash para visión artificial y sistemas de pagos resilientes.",
-    heroImage: "/images/portal-ia/blog/spartan-webpage-hero.png",
+    heroImage: "https://res.cloudinary.com/lv3hwy1f/image/upload/v1793701248/articulos/aquatech-ia/spartan-webpage-hero.jpg",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ia/autor/pablo-cubides.png",

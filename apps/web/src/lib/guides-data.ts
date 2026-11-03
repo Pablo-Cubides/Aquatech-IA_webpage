@@ -308,6 +308,26 @@ export const guidesData: Record<string, GuideContent> = {
           <li><strong>"Improving Language Understanding by Generative Pre-Training" (Radford et al., OpenAI, 2018):</strong> Sentó las bases del modelo GPT y el pre-entrenamiento autoregresivo.</li>
           <li><strong>"Denoising Diffusion Probabilistic Models" (Ho et al., 2020):</strong> Abrió el camino moderno para la generación de imágenes hiperrealistas por difusión.</li>
         </ul>`
+      },
+      {
+        title: "Cómo usar el explorador de papers",
+        icon: "🧭",
+        content: "La herramienta consulta la API pública de arXiv y muestra los artículos más recientes de inteligencia artificial.\n        <ol class=\"list-decimal pl-5 mt-2 space-y-2\">\n          <li><strong>Busca por tema o autor:</strong> escribe palabras clave como \"diffusion\", \"retrieval augmented generation\" o el nombre de un investigador.</li>\n          <li><strong>Filtra por categoría:</strong> aprendizaje automático, procesamiento del lenguaje, visión por computadora, entre otras.</li>\n          <li><strong>Ordena por fecha o relevancia:</strong> la fecha sirve para ver lo último; la relevancia, para hallar trabajos de referencia sobre un tema.</li>\n          <li><strong>Abre el resumen y el PDF:</strong> cada resultado enlaza al abstract y al documento completo en arXiv.</li>\n        </ol>"
+      },
+      {
+        title: "Cómo leer un paper sin perderte",
+        icon: "📖",
+        content: "No hace falta leer todo de principio a fin. Un orden eficiente es:\n        <ul class=\"list-disc pl-5 mt-2 space-y-2\">\n          <li><strong>Título y resumen:</strong> definen el problema y el resultado principal.</li>\n          <li><strong>Figuras y tablas:</strong> suelen condensar la comparación con otros métodos.</li>\n          <li><strong>Introducción y conclusiones:</strong> explican qué aporta frente a lo anterior.</li>\n          <li><strong>Experimentos y limitaciones:</strong> aquí se ve si la afirmación está respaldada por datos.</li>\n          <li><strong>Método:</strong> léelo al final, cuando ya sepas si te interesa el detalle.</li>\n        </ul>"
+      },
+      {
+        title: "Qué es un preprint y cómo evaluarlo",
+        icon: "⚠️",
+        content: "arXiv es un repositorio de <strong>preprints</strong>: trabajos publicados antes, o sin pasar, por una revisión por pares formal. Eso permite acceder a los avances rápido, pero exige criterio:\n        <ul class=\"list-disc pl-5 mt-2 space-y-2\">\n          <li>Comprueba si el trabajo fue aceptado después en una conferencia o revista reconocida.</li>\n          <li>Busca si otros grupos reprodujeron los resultados o si el código está disponible.</li>\n          <li>Desconfía de comparaciones con pocos métodos de referencia o sin intervalos de incertidumbre.</li>\n          <li>Ten en cuenta que los resultados de rendimiento dependen del conjunto de datos y de la configuración usada.</li>\n        </ul>"
+      },
+      {
+        title: "Temas recomendados para empezar",
+        icon: "🎯",
+        content: "Si estás empezando, estos temas tienen mucha literatura accesible y se relacionan con los artículos de nuestro portal:\n        <ul class=\"list-disc pl-5 mt-2 space-y-2\">\n          <li><strong>Transformers y modelos de lenguaje:</strong> arquitectura, escalado y alineamiento de los LLM.</li>\n          <li><strong>Modelos de difusión:</strong> generación de imágenes, vídeo y audio.</li>\n          <li><strong>Recuperación aumentada (RAG) y agentes:</strong> cómo conectar modelos con fuentes de datos y herramientas.</li>\n          <li><strong>IA y medio ambiente:</strong> eficiencia energética, huella hídrica y aplicaciones en monitoreo ambiental.</li>\n        </ul>"
       }
     ]
   },
@@ -341,4 +361,24 @@ export const guidesData: Record<string, GuideContent> = {
       }
     ]
   }
-};
+};,
+      {
+        title: "Cuándo usar Mann-Kendall y qué necesitas",
+        icon: "✅",
+        content: "La prueba es adecuada para series de monitoreo de caudal, precipitación, temperatura o calidad del agua cuando quieres saber si hay un cambio sostenido en el tiempo:\n        <ul class=\"list-disc pl-5 mt-2 space-y-2\">\n          <li><strong>Datos ordenados en el tiempo</strong> con intervalos regulares (anuales, mensuales o estacionales).</li>\n          <li><strong>Longitud suficiente:</strong> como referencia práctica, al menos 8 a 10 observaciones; con series más largas la prueba gana potencia.</li>\n          <li><strong>Pocos vacíos:</strong> demasiados datos faltantes distorsionan la conclusión.</li>\n          <li><strong>Independencia razonable:</strong> si hay fuerte autocorrelación o estacionalidad, conviene aplicar una variante corregida o analizar por estación.</li>\n        </ul>"
+      },
+      {
+        title: "Cómo interpretar el resultado",
+        icon: "🔎",
+        content: "La herramienta entrega varios valores:\n        <ul class=\"list-disc pl-5 mt-2 space-y-2\">\n          <li><strong>S y Z:</strong> el signo indica la dirección (positivo, creciente; negativo, decreciente). Z normaliza S para compararlo con la distribución normal.</li>\n          <li><strong>Valor p:</strong> si es menor que el nivel de significancia elegido (comúnmente 0,05), se rechaza la hipótesis de ausencia de tendencia.</li>\n          <li><strong>Pendiente de Sen:</strong> estima cuánto cambia la variable por unidad de tiempo, en las unidades de tus datos.</li>\n        </ul>\n        Una tendencia estadísticamente significativa no implica por sí sola una causa; es una señal para investigar el fenómeno que la produce."
+      },
+      {
+        title: "Errores frecuentes",
+        icon: "🚫",
+        content: "<ul class=\"list-disc pl-5 mt-2 space-y-2\">\n          <li><strong>Ignorar la estacionalidad:</strong> mezclar meses secos y lluviosos sin ajustar puede ocultar o inventar tendencias.</li>\n          <li><strong>Leer \"no significativa\" como \"no hay cambio\":</strong> con pocos datos la prueba puede no detectar cambios reales.</li>\n          <li><strong>Extrapolar:</strong> la pendiente describe el periodo observado, no garantiza lo que ocurrirá después.</li>\n          <li><strong>Cambios de método de medición:</strong> un cambio de instrumento o de estación puede parecer una tendencia.</li>\n        </ul>"
+      },
+      {
+        title: "Ejemplo de aplicación ambiental",
+        icon: "💧",
+        content: "Con 20 años de caudal medio anual de un río, la prueba puede indicar si el caudal disminuye de forma sostenida. Si el resultado es significativo y la pendiente de Sen es negativa, se obtiene una tasa de pérdida en m³/s por año que sirve para revisar concesiones de agua, planificar el abastecimiento o priorizar estudios de causas (cambio climático, uso del suelo, extracciones)."
+      }

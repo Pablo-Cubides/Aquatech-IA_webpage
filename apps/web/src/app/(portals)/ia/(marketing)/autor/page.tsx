@@ -648,7 +648,7 @@ export default function IAAutorPage() {
               <ProjectCard
                 title="Spartan Club: Marketplace Multimodal"
                 desc="Infraestructura full-stack de alto rendimiento con Next.js 15, React 19 e integración de visión artificial vía Gemini 1.5 Flash."
-                image="/images/portal-ia/blog/spartan-webpage-hero.png"
+                image="https://res.cloudinary.com/lv3hwy1f/image/upload/v1793701248/articulos/aquatech-ia/spartan-webpage-hero.jpg"
                 href="/ia/blog/spartan-plataforma-gestion-inteligente"
               />
 
@@ -662,7 +662,7 @@ export default function IAAutorPage() {
               <ProjectCard
                 title="Aquatech-IA: Portal Ambiental"
                 desc="Ecosistema monorepo avanzado (Turborepo) con ingesta de macro-datos OpenAQ/GBIF y soporte para Model Context Protocol (MCP)."
-                image="/images/portal-ia/blog/aquatech-ia-hero.png"
+                image="https://res.cloudinary.com/lv3hwy1f/image/upload/v1793701249/articulos/aquatech-ia/aquatech-ia-hero.jpg"
                 href="/ambiental/blog/aquatech-ia-portal-ambiental-digital"
               />
             </div>

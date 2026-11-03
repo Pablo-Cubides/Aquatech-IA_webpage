@@ -494,7 +494,7 @@ export default function AmbientalAutorPage() {
                 title="Proyecto MEGIA: Gestión Integral del Agua"
                 desc="Evaluación de tecnologías híbridas (Electrocoagulación + MBR + Ósmosis) para el reúso de aguas de producción en el sector agrícola."
                 href="/ambiental/blog/paradoja-agua-valle-medio-magdalena-proyecto-megia"
-                imageSrc="/images/portal-ambiental/blog/megia-planta.png"
+                imageSrc="https://res.cloudinary.com/lv3hwy1f/image/upload/v1793701246/articulos/aquatech-ambiental/megia-planta.jpg"
                 imageAlt="Planta de tratamiento Proyecto MEGIA"
               />
 
@@ -502,7 +502,7 @@ export default function AmbientalAutorPage() {
                 title="Desafíos y Mecanismos de Tratamiento Avanzado para Aguas de Riego: Gestión de Contaminantes Emergentes"
                 desc="Gestión de contaminantes emergentes y fármacos mediante procesos de oxidación avanzada para asegurar la inocuidad en la Sabana de Bogotá."
                 href="/ambiental/blog/desafios-mecanismos-tratamiento-aguas-riego"
-                imageSrc="/images/portal-ambiental/blog/tratamiento-riego.png"
+                imageSrc="https://res.cloudinary.com/lv3hwy1f/image/upload/v1793701243/articulos/aquatech-ambiental/tratamiento-riego.jpg"
                 imageAlt="Sistema de tratamiento para aguas de riego"
               />
               <ProjectCard

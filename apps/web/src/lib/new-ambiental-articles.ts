@@ -10,7 +10,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-04-20",
     readTime: 15,
     excerpt: "Análisis del monorepo Aquatech-IA: Turborepo, pnpm workspaces y la integración de fuentes de datos ambientales masivas (OpenAQ, GBIF).",
-    heroImage: "/images/portal-ia/blog/aquatech-ia-hero.png",
+    heroImage: "https://res.cloudinary.com/lv3hwy1f/image/upload/v1793701249/articulos/aquatech-ia/aquatech-ia-hero.jpg",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ia/autor/pablo-cubides.png",
@@ -70,13 +70,13 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
           id: "geospatial-earth-engine",
           title: "2. Mapas de Precisión: QGIS y el poder de Google Earth Engine",
           content: "No se puede gestionar lo que no se puede mapear. Mientras QGIS sigue siendo el rey del escritorio, la nube ofrece capacidades sobrehumanas.\n\n**Google Earth Engine (GEE):** Permite procesar décadas de imágenes satelitales Sentinel y Landsat en segundos. Existe un [Manual en Español](https://github.com/google/earthengine-api) enfocado en ingenieros colombianos que facilita este aprendizaje.\n\n**Caso de uso:** Detectar cambios en el uso del suelo o estrés hídrico en una cuenca de 100,000 hectáreas sin descargar un solo gigabyte de información.",
-          image: "/images/portal-ambiental/blog/google-earth-engine-ia.png",
+          image: "https://res.cloudinary.com/lv3hwy1f/image/upload/v1793701247/articulos/aquatech-ambiental/google-earth-engine-ia.jpg",
         },
         {
           id: "grafana-realtime",
           title: "3. Dashboards Médicos para la Industria: Grafana",
           content: "Si gestionas una planta de tratamiento (PTAR/PTAP) o una red de sensores de aire, los reportes mensuales ya no son suficientes.\n\n**Grafana:** Es el estándar de oro para ver 'series temporales'.\n\n**Ventaja estratégica:** Conecta tus sensores IoT para ver en vivo el pH, la turbidez o el nivel de los tanques. Configura alertas a Telegram si un parámetro supera el límite legal de la Resolución 1207 o 0631.",
-          image: "/images/portal-ambiental/blog/grafana-ambiental-ia.png",
+          image: "https://res.cloudinary.com/lv3hwy1f/image/upload/v1793701247/articulos/aquatech-ambiental/grafana-ambiental-ia.jpg",
           callout: {
             type: "info",
             title: "Dato Clave",
@@ -293,7 +293,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2026-04-07",
     readTime: 8,
     excerpt: "El reúso de aguas residuales en esquemas agrícolas exige una transición urgente. Análisis sobre la gestión de contaminantes emergentes en la Sabana de Bogotá.",
-    heroImage: "/images/portal-ambiental/blog/tratamiento-riego.png",
+    heroImage: "https://res.cloudinary.com/lv3hwy1f/image/upload/v1793701243/articulos/aquatech-ambiental/tratamiento-riego.jpg",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ambiental/autor/pablo-cubides.jpg",
@@ -398,7 +398,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2026-04-07",
     readTime: 12,
     excerpt: "Cómo la ingeniería choca con las barreras normativas en el reúso de aguas de producción de hidrocarburos: el caso del Proyecto MEGIA.",
-    heroImage: "/images/portal-ambiental/blog/megia-planta.png",
+    heroImage: "https://res.cloudinary.com/lv3hwy1f/image/upload/v1793701246/articulos/aquatech-ambiental/megia-planta.jpg",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ambiental/autor/pablo-cubides.jpg",

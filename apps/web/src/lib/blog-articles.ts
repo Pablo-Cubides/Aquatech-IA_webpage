@@ -208,7 +208,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2024-12-09",
     readTime: 14,
     excerpt: "Aprende a leer e interpretar los índices de calidad del aire más utilizados en el mundo. Protege tu salud con información en tiempo real y herramientas gratuitas.",
-    heroImage: "/images/portal-ambiental/blog/escuelas-rurales-agua-hero.jpg",
+    heroImage: "https://res.cloudinary.com/lv3hwy1f/image/upload/v1793701245/articulos/aquatech-ambiental/escuelas-rurales-agua-hero.jpg",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ambiental/autor/pablo-cubides.jpg",
@@ -410,6 +410,21 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
           id: "battelle-columbus",
           title: "Battelle-Columbus: Cuantificación Pura",
           content: "Diseñado para proyectos hídricos, este sistema utiliza **Unidades de Impacto Ambiental (UIA)** y una estructura jerárquica de 4 niveles: 4 Categorías, 18 Componentes y 78 Parámetros ambientales. Se basa en funciones de transformación que convierten medidas físicas (ej. mg/L de DBO) en una escala de 0 a 1 de calidad ambiental. Incorpora un sistema de 'banderas rojas' para alertar sobre riesgos críticos que exceden los límites de absorción del medio.",
+        },
+        {
+          "id": "ejemplo-conesa",
+          "title": "Ejemplo práctico: valorar un impacto con Conesa",
+          "content": "Supón que evalúas el impacto de la apertura de una zanja para una tubería sobre la calidad del suelo. Asignas valores a los atributos de la fórmula:\n\n• Intensidad (IN) = 4 · Extensión (EX) = 2 · Momento (MO) = 4 · Persistencia (PE) = 2\n• Reversibilidad (RV) = 1 · Sinergia (SI) = 1 · Acumulación (AC) = 1 · Efecto (EF) = 4\n• Periodicidad (PR) = 1 · Recuperabilidad (MC) = 2\n\nAplicando I = ±[3·IN + 2·EX + MO + PE + RV + SI + AC + EF + PR + MC] se obtiene 12 + 4 + 4 + 2 + 1 + 1 + 1 + 4 + 1 + 2 = 32. En la escala habitual de Conesa, un valor entre 25 y 50 se considera impacto **moderado**: exige medidas de manejo, pero no impide la ejecución del proyecto."
+        },
+        {
+          "id": "como-elegir",
+          "title": "Cómo elegir la metodología según la fase del proyecto",
+          "content": "• **Diagnóstico de alternativas (DAA):** Leopold, por su rapidez para ver los puntos críticos de cada alternativa.\n• **Estudio de impacto ambiental (EIA):** Conesa, porque produce valores numéricos comparables y trazables para cada interacción.\n• **Proyectos hídricos con muchos parámetros medibles:** Battelle-Columbus, que cuantifica la calidad ambiental antes y después.\n\nEn la práctica es habitual combinarlos: Leopold para el cribado, Conesa para valorar lo que importa y Battelle para comparar escenarios. Antes de decidir, revisa los términos de referencia de la autoridad ambiental, porque a veces exigen una metodología concreta."
+        },
+        {
+          "id": "errores-eia",
+          "title": "Errores frecuentes al elaborar matrices de impacto",
+          "content": "• **Valorar sin línea base:** sin un diagnóstico del estado actual, la intensidad es subjetiva.\n• **Mezclar acciones y factores:** las filas deben ser actividades del proyecto y las columnas, componentes ambientales.\n• **Olvidar los impactos positivos:** empleo, mejoras de infraestructura o recuperación de áreas también deben quedar registrados.\n• **No justificar los valores:** cada puntuación necesita un argumento técnico que pueda defenderse ante la autoridad.\n• **Ignorar la sinergia y la acumulación:** varios impactos pequeños pueden sumar uno significativo."
         },
         {
           id: "herramienta-matrices",
@@ -737,7 +752,7 @@ export const IA_ARTICLES: Record<string, BlogArticle> = {
     excerpt:
       "Descubre los fundamentos matemáticos y conceptuales detrás de Stable Diffusion y otros modelos de generación de imágenes.",
     heroImage:
-      "/images/portal-ia/blog/stable-diffusion-art.jpg",
+      "https://res.cloudinary.com/lv3hwy1f/image/upload/v1793701249/articulos/aquatech-ia/stable-diffusion-art.jpg",
     author: {
       name: "Pablo Cubides",
       avatar: "/images/portal-ia/autor/pablo-cubides.png",
@@ -760,6 +775,46 @@ export const IA_ARTICLES: Record<string, BlogArticle> = {
             content:
               "Imagina un escultor que ve una estatua perfecta dentro de un bloque de mármol. Los modelos de difusión son como ese escultor: ven la imagen perfecta dentro del ruido y gradualmente la 'esculpen' removiendo el ruido paso a paso.",
           },
+        },
+        {
+          "id": "proceso-hacia-adelante",
+          "title": "El proceso hacia adelante: destruir una imagen con ruido",
+          "content": "En el entrenamiento, el modelo toma una imagen real y le añade ruido gaussiano en muchos pasos pequeños (típicamente cientos o un millar) hasta que no queda rastro de la imagen original. Cada paso sigue un calendario de ruido (noise schedule) que define cuánto se añade en cada momento.\n\nEste proceso no se aprende: es una fórmula fija. Lo valioso es que, al conocer exactamente el ruido que se añadió en cada paso, el sistema dispone de un ejercicio de entrenamiento con respuesta conocida: \"dada esta imagen ruidosa en el paso t, ¿qué ruido se le añadió?\"."
+        },
+        {
+          "id": "red-denoising",
+          "title": "La red que aprende a quitar ruido",
+          "content": "El corazón del modelo es una red neuronal (en Stable Diffusion, una U-Net) que recibe una imagen ruidosa y el número de paso, y predice el ruido que contiene. Al restarlo, obtiene una versión ligeramente más limpia.\n\nDurante millones de ejemplos, la red aprende regularidades visuales: que los ojos van por pares, que el cielo suele estar arriba o que una sombra sigue la forma del objeto. No memoriza imágenes: aprende una distribución de cómo se ven las imágenes plausibles."
+        },
+        {
+          "id": "espacio-latente",
+          "title": "Espacio latente: por qué Stable Diffusion cabe en una tarjeta gráfica",
+          "content": "Los primeros modelos de difusión trabajaban directamente sobre los píxeles, lo que exigía muchísimo cálculo. Los modelos de difusión latente (Rombach et al., 2022) comprimen primero la imagen con un autoencoder variacional (VAE): una imagen de 512 × 512 píxeles pasa a una representación de 64 × 64 con 4 canales.\n\nLa difusión ocurre en ese espacio comprimido y, al final, el decodificador del VAE reconstruye la imagen en píxeles. Trabajar con una representación unas 48 veces más pequeña es lo que permitió ejecutar estos modelos en equipos de consumo."
+        },
+        {
+          "id": "texto-a-imagen",
+          "title": "Cómo el texto guía la imagen",
+          "content": "Para que el modelo obedezca un prompt, el texto pasa primero por un codificador (en Stable Diffusion, CLIP) que lo convierte en vectores numéricos. La U-Net incorpora esos vectores mediante capas de **atención cruzada**: en cada paso consulta el texto para decidir qué rasgos reforzar.\n\nA eso se suma la **guía libre de clasificador** (classifier-free guidance): el modelo calcula una predicción con el prompt y otra sin él, y amplifica la diferencia. El parámetro CFG (frecuente entre 5 y 9) controla la fidelidad al texto: valores bajos dan imágenes más libres; valores altos, más literales pero a menudo saturadas."
+        },
+        {
+          "id": "muestreo",
+          "title": "El muestreo: de ruido puro a imagen en 20-50 pasos",
+          "content": "Para generar, se parte de ruido aleatorio en el espacio latente y se aplican pasos de eliminación de ruido, cada uno guiado por el texto. El **sampler** (DDIM, Euler, DPM++, entre otros) decide cómo se combina cada predicción en el siguiente estado.\n\n• **Pasos (steps):** entre 20 y 50 suelen bastar; más pasos aumentan el tiempo sin mejorar siempre el resultado.\n• **Semilla (seed):** determina el ruido inicial. Con la misma semilla, el mismo modelo y los mismos parámetros se obtiene la misma imagen.\n• **Resolución:** cada modelo funciona mejor cerca de la resolución con la que se entrenó."
+        },
+        {
+          "id": "usos-y-control",
+          "title": "Más allá del texto: imagen a imagen, relleno y control",
+          "content": "La misma maquinaria permite otras tareas:\n\n• **Imagen a imagen (img2img):** en lugar de partir de ruido puro, se parte de una imagen con algo de ruido añadido; el parámetro de intensidad decide cuánto se respeta el original.\n• **Inpainting:** se regenera solo una zona enmascarada de la imagen.\n• **ControlNet:** añade condiciones como bordes, poses o mapas de profundidad para controlar la composición.\n• **LoRA y ajuste fino:** permiten especializar un modelo en un estilo o sujeto con pocos ejemplos y poco cálculo."
+        },
+        {
+          "id": "limitaciones",
+          "title": "Limitaciones y riesgos que conviene conocer",
+          "content": "• **Detalles difíciles:** manos, texto legible y conteos exactos siguen siendo puntos débiles, aunque cada generación mejora.\n• **Sesgos:** el modelo refleja los datos de entrenamiento, con estereotipos sobre profesiones, géneros o lugares.\n• **Derechos de autor y consentimiento:** el entrenamiento con obras protegidas es un debate legal abierto en varios países.\n• **Desinformación:** las imágenes sintéticas realistas pueden usarse para engañar; conviene etiquetarlas y verificar el origen de las que recibimos.\n• **Costo energético:** entrenar y servir estos modelos consume electricidad y, de forma indirecta, agua; lo analizamos con cifras en nuestro artículo sobre el consumo de agua de la IA."
+        },
+        {
+          "id": "practica",
+          "title": "Buenas prácticas para obtener mejores resultados",
+          "content": "1. Describe sujeto, entorno, luz y estilo en ese orden, con frases concretas.\n2. Usa prompts negativos para excluir elementos no deseados.\n3. Fija la semilla mientras ajustas un solo parámetro cada vez.\n4. Genera varias variantes y selecciona; la primera rara vez es la mejor.\n5. Revisa siempre la licencia del modelo y de las imágenes antes de usarlas con fines comerciales."
         },
       ],
       conclusion:
