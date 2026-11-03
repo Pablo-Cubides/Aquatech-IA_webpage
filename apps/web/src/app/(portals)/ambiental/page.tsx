@@ -131,7 +131,7 @@ export default function AmbientalPage() {
             <img
               alt="Equipo de gestión ambiental"
               className="h-auto w-full max-w-md rounded-2xl object-cover shadow-lg transition-transform duration-300 hover:scale-105"
-              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80"
+              src="https://res.cloudinary.com/lv3hwy1f/image/upload/v1793669957/articulos/aquatech-ambiental/home-nosotros-ambiental.jpg"
             />
           </div>
         </div>
