@@ -98,6 +98,33 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
             content: "Empieza pequeño. Digitaliza un solo formulario de inspección con KoboToolbox hoy mismo. El ahorro de tiempo te convencerá de seguir con el resto del ecosistema.",
           },
         },
+        {
+          id: "preguntas-frecuentes",
+          title: "Preguntas frecuentes",
+          content: "Respuestas breves a las dudas más comunes sobre este tema.",
+          subsections: [
+            {
+              id: "faq-1",
+              title: "¿Qué herramientas gratuitas recomienda el artículo?",
+              content: "KoboToolbox para la recolección en campo (funciona sin conexión), QGIS y Google Earth Engine para mapas, Grafana para tableros en vivo, y OpenLCA y la calculadora del MITECO para análisis de ciclo de vida y huella de carbono.",
+            },
+            {
+              id: "faq-2",
+              title: "¿Cómo se conectan esas herramientas?",
+              content: "En un flujo de datos de cuatro pasos: captura (KoboToolbox y sensores IoT), almacenamiento (PostgreSQL o Google Sheets), procesamiento (Python o R) y entrega (Looker Studio para la gerencia y Grafana para la operación).",
+            },
+            {
+              id: "faq-3",
+              title: "¿Para qué sirve Grafana en una planta de tratamiento?",
+              content: "Para ver series temporales: conecta los sensores IoT y muestra en vivo variables como el pH, la turbidez o el nivel de los tanques, y permite configurar alertas.",
+            },
+            {
+              id: "faq-4",
+              title: "¿Qué calculadora sirve para la huella de carbono?",
+              content: "La calculadora del MITECO, basada en el Real Decreto 163/2014. El artículo también recomienda OpenLCA para análisis de ciclo de vida.",
+            },
+          ],
+        },
       ],
       conclusion: "Las herramientas digitales gratuitas han democratizado la ingeniería ambiental de alto nivel. Ya no dependemos de presupuestos millonarios en software; hoy dependemos de nuestra habilidad para orquestar estas tecnologías (KoboToolbox, GEE, Grafana, ESG Frameworks) en un sistema coherente que proteja el recurso hídrico y genere valor empresarial genuino.",
     },
@@ -178,6 +205,33 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
             content:
               "Invertir en agua no es un gasto social: es el motor de la recuperación económica. Cada peso invertido en agua segura retorna en productividad, salud pública y reducción del gasto sanitario.",
           },
+        },
+        {
+          id: "preguntas-frecuentes",
+          title: "Preguntas frecuentes",
+          content: "Respuestas breves a las dudas más comunes sobre este tema.",
+          subsections: [
+            {
+              id: "faq-1",
+              title: "¿Cuántas personas en América Latina y el Caribe carecen de agua y saneamiento seguros?",
+              content: "Según el artículo, 161 millones de personas (25 % de la población) no tienen agua potable gestionada de forma segura y 431 millones (66 %) no tienen saneamiento gestionado de forma segura. Además, 24 millones en el ámbito rural carecen de instalaciones básicas para lavarse las manos.",
+            },
+            {
+              id: "faq-2",
+              title: "¿Qué es la regresividad tarifaria?",
+              content: "Que los hogares de menores ingresos destinan una proporción mayor de su ingreso al agua. El quintil más pobre tiene 25 % menos de acceso a agua gestionada de forma segura y paga hasta dos veces más de su ingreso por el servicio.",
+            },
+            {
+              id: "faq-3",
+              title: "¿Cuánta agua se pierde y cuánta se trata?",
+              content: "Las redes deterioradas pierden cerca del 60 % del agua captada, y solo el 42 % de las aguas residuales domésticas se trata de manera segura.",
+            },
+            {
+              id: "faq-4",
+              title: "¿Cuánto costaría cerrar la brecha?",
+              content: "La CEPAL propone invertir el 1,3 % del PIB regional anual durante 10 años para universalizar el acceso al agua y al saneamiento gestionados de forma segura.",
+            },
+          ],
         },
       ],
       conclusion:
@@ -271,6 +325,33 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
               "¿Gestionas o colaboras con una junta de agua? Identifica los 3 puntos de tu sistema donde la turbidez varía más. Instalar incluso un turbidímetro básico en esos puntos te dará información para actuar antes de que llegue la crisis.",
           },
         },
+        {
+          id: "preguntas-frecuentes",
+          title: "Preguntas frecuentes",
+          content: "Respuestas breves a las dudas más comunes sobre este tema.",
+          subsections: [
+            {
+              id: "faq-1",
+              title: "¿Por qué funciona la gestión comunitaria del agua en zonas rurales?",
+              content: "Porque los prestadores comunitarios (juntas de agua, cooperativas y asociaciones de usuarios) operan con capital social, y la gobernanza democrática reduce la conflictividad. Las grandes empresas privadas suelen retirarse ante los altos costos de transacción y las barreras geográficas.",
+            },
+            {
+              id: "faq-2",
+              title: "¿Qué es la Vigilancia Activa Comunitaria (V.A.C.)?",
+              content: "Es un ciclo de cinco etapas para pasar del reporte reactivo al monitoreo activo de las fuentes de agua. La etapa 0 capacita a los líderes comunitarios en herramientas como la Red ROSA y la etapa 1 identifica las fuentes y los puntos críticos.",
+            },
+            {
+              id: "faq-3",
+              title: "¿Qué herramientas de bajo costo se pueden usar?",
+              content: "EnviroDIY y la plataforma Monitor My Watershed, que usan sensores de bajo costo y código abierto para obtener datos en tiempo real, por ejemplo de turbidez.",
+            },
+            {
+              id: "faq-4",
+              title: "¿Cuánta inversión propone la CEPAL?",
+              content: "El 1,3 % del PIB regional anual para universalizar el acceso al agua, una condición mínima para garantizar el derecho humano, según el artículo.",
+            },
+          ],
+        },
       ],
       conclusion:
         "La transición hídrica en América Latina no seguirá el camino del modelo urbano privado. Seguirá el camino de las comunidades organizadas, las juntas de agua empoderadas y los datos generados localmente. La Red ROSA, la metodología de Vigilancia Activa Comunitaria y las herramientas de bajo costo son las piezas de ese rompecabezas. El agua es asunto de todos, y la gestión del agua es el asunto de quienes viven junto a ella.",
@@ -326,7 +407,34 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
           id: "fotocatalisis-heterogenea",
           title: "3. Fotocatálisis Heterogénea: Procesos de Oxidación Avanzada (POA)",
           content: "El núcleo tecnológico para la degradación de moléculas recalcitrantes reside en los POA. Específicamente, mediante el uso de semiconductores minerales como la **ilmenita** (un óxido de hierro y titanio) acoplados a agentes oxidantes como el peróxido de hidrógeno (H2O2).\n\n**Mecanismo de Activación:** Al irradiar el catalizador con fotones que superan su energía de banda prohibida (*Band Gap*), se promueve un electrón desde la banda de valencia hacia la banda de conducción, generando un par electrón-hueco (e- / h+).\n\n**Ruta Radicalaria:** Estos pares interactúan con el agua y el peróxido de hidrógeno circundante para producir **radicales hidroxilo (HO•)**. Este radical es un oxidante no selectivo con un potencial de oxidación extremadamente alto (2.80 V), capaz de romper enlaces carbono-carbono y conducir a la completa mineralización de los fármacos (transformándolos en CO2, H2O y ácidos inorgánicos).\n\n**Transición Energética:** El diseño avanzado del reactor evalúa la cinética de reacción bajo iniciación con radiación UV-C (alta energía, menor longitud de onda), seguida de un sostenimiento mediante radiación solar, buscando la máxima viabilidad técnica y eficiencia energética a escala real."
-        }
+        },
+        {
+          id: "preguntas-frecuentes",
+          title: "Preguntas frecuentes",
+          content: "Respuestas breves a las dudas más comunes sobre este tema.",
+          subsections: [
+            {
+              id: "faq-1",
+              title: "¿Por qué las PTAR convencionales no bastan para aguas de riego?",
+              content: "Están diseñadas sobre todo para remover macronutrientes y demanda bioquímica de oxígeno (DBO), y no eliminan bien los contaminantes emergentes, como antibióticos, analgésicos y antihipertensivos, que tienen alta recalcitrancia, es decir, resistencia a la degradación.",
+            },
+            {
+              id: "faq-2",
+              title: "¿Qué tres procesos propone el artículo?",
+              content: "Coagulación y floculación (por ejemplo con cloruro férrico, para desestabilizar los coloides), adsorción con carbón activado como operación de afino y fotocatálisis heterogénea, un proceso de oxidación avanzada que usa ilmenita junto con peróxido de hidrógeno.",
+            },
+            {
+              id: "faq-3",
+              title: "¿Cómo se complementan los tres procesos?",
+              content: "La coagulación acondiciona la matriz y reduce los interferentes ópticos, la fotocatálisis oxida los fármacos y la carga microbiológica, y la adsorción actúa como barrera final.",
+            },
+            {
+              id: "faq-4",
+              title: "¿Qué caso de estudio se menciona?",
+              content: "El reúso de aguas residuales en esquemas agrícolas, en particular el sistema hidráulico de La Ramada, en la Sabana Occidental de Cundinamarca.",
+            },
+          ],
+        },
       ],
       conclusion: "La integración de estos tres sistemas busca crear un efecto sinérgico poderoso: la Coagulación acondiciona la matriz reduciendo interferentes ópticos, la Fotocatálisis oxida estructuralmente los fármacos y la microbiología, y la Adsorción actúa como barrera final.\n\nLa evaluación metodológica rigurosa de estas variables cinéticas e isotérmicas, transitando desde moléculas trazadoras modelo hasta matrices reales complejas, establece los parámetros de diseño necesarios para escalar estas infraestructuras de tratamiento. \n\nEl objetivo final es claro: **asegurar la viabilidad toxicológica del agua y proteger el futuro de la agroindustria colombiana.**"
     },
@@ -381,7 +489,34 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
           id: "datos-rapidos-eficiencia",
           title: "📊 Datos Rápidos: Café vs. El Mundo",
           content: "| Contaminante | Eficiencia con Café Modificado | Condición Óptima |\n| :--- | :--- | :--- |\n| **Nitratos (NO3-)** | 80.7% - 83.8% | pH ácido (3-4) |\n| **Cromo VI (Cr VI)** | > 95% | Tiempo de contacto 60 min |\n| **Plomo (Pb2+)** | 98% | Biochar optimizado |\n| **Colorantes (Azul Metileno)** | 100% | 6 ciclos de reutilización |"
-        }
+        },
+        {
+          id: "preguntas-frecuentes",
+          title: "Preguntas frecuentes",
+          content: "Respuestas breves a las dudas más comunes sobre este tema.",
+          subsections: [
+            {
+              id: "faq-1",
+              title: "¿Por qué la borra de café sirve para limpiar agua?",
+              content: "Es una estructura lignocelulósica muy porosa, rica en celulosa, lignina y grupos funcionales (hidroxilos, carboxilos y aminas) que actúan como imanes químicos y atrapan contaminantes.",
+            },
+            {
+              id: "faq-2",
+              title: "¿Qué contaminantes remueve y con qué eficiencia?",
+              content: "Según los datos del artículo: nitratos entre 80,7 % y 83,8 % (pH ácido de 3 a 4), cromo VI por encima de 95 % (con 60 minutos de contacto), plomo 98 % (con biochar optimizado) y azul de metileno 100 %.",
+            },
+            {
+              id: "faq-3",
+              title: "¿Cuánta borra de café se genera?",
+              content: "A escala mundial se producen más de 6 millones de toneladas al año de este residuo.",
+            },
+            {
+              id: "faq-4",
+              title: "¿Cómo ayuda la inteligencia artificial en esta investigación?",
+              content: "Se usan modelos de machine learning, como Random Forest y redes neuronales, para predecir cuánta borra de café se necesita según el pH y la temperatura del agua.",
+            },
+          ],
+        },
       ],
       conclusion: "🌍 **Sostenibilidad y Futuro**\nImplementar filtros de borra de café no solo limpia el agua; reduce la huella de carbono de la industria cafetalera y evita que los residuos orgánicos terminen en vertederos produciendo gases de efecto invernadero.\n\n¿El siguiente paso? Proyectos comunitarios y \"CoffeeBots\" (nanopartículas magnéticas de café) que ya están siendo probados para limpiar microplásticos y aceites en el mar.\n\n💡 **Conclusión**\nLa próxima vez que disfrutes tu café, mira esos restos negros con otros ojos. No son basura; son la tecnología de limpieza hídrica del futuro: barata, sostenible y ultra-eficiente.\n\n¿Te interesa la ciencia ambiental? ¡Comparte este post y ayudemos a que la economía circular llegue a cada taza!\n\n*Este artículo se basa en investigaciones académicas publicadas entre 2014 y 2025 en revistas como Revista Mutis, MDPI, SciELO y Frontiers in Chemical Engineering.*"
     },
@@ -426,7 +561,34 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
           id: "gestion-lodos",
           title: "4. Los Lodos: El Residuo del Residuo",
           content: "Ningún tratamiento de agua es \"limpio\"; todos transfieren la contaminación de la fase líquida a la sólida. El proyecto MEGIA abordó esto proponiendo una Ruta de Decisión para Lodos.\n\nCategorizamos los lodos en tres grupos (Base Aceite, Base Agua, Biolodos) y propusimos alternativas de valorización real:\n\n*   **Recuperación Energética:** Para lodos con alto contenido de hidrocarburos (>10%), la incineración o coprocesamiento no es disposición, es recuperación de energía.\n*   **Construcción:** Las cenizas de lodos inorgánicos (base agua) mostraron potencial para ser estabilizadas en matrices de cemento o ladrillos, inmovilizando metales pesados.\n*   **Biolodos:** Potencial generación de biogás, aunque limitada por la toxicidad de los hidrocarburos previos."
-        }
+        },
+        {
+          id: "preguntas-frecuentes",
+          title: "Preguntas frecuentes",
+          content: "Respuestas breves a las dudas más comunes sobre este tema.",
+          subsections: [
+            {
+              id: "faq-1",
+              title: "¿Qué es el Proyecto MEGIA?",
+              content: "Es el Modelo Multiescala de Gestión Integral del Agua. El artículo analiza los resultados de su Producto 15 sobre el agua de producción de la industria de hidrocarburos en el Valle Medio del Magdalena.",
+            },
+            {
+              id: "faq-2",
+              title: "¿Qué es la «trampa normativa» que describe el artículo?",
+              content: "Al revisar el Decreto 1076, la Resolución 631 de 2015 (vertimientos) y la Resolución 1207 de 2014 (reúso), el equipo encontró una incoherencia que desincentiva la economía circular, y por eso recomienda modernizar la Resolución 1207.",
+            },
+            {
+              id: "faq-3",
+              title: "¿Por qué es difícil tratar las aguas de producción de la región?",
+              content: "Son matrices complejas con tres problemas que inhabilitan por sí solas las tecnologías convencionales. Uno de ellos es la salinidad extrema, con cloruros tan altos que impiden el riego agrícola sin desalinización.",
+            },
+            {
+              id: "faq-4",
+              title: "¿Qué solución propone el proyecto?",
+              content: "Un tren de tratamiento híbrido y secuencial, probado a escala de laboratorio, que ataca cada contaminante con la tecnología adecuada, y una ruta de decisión para los lodos, que los clasifica en tres grupos: base aceite, base agua y biolodos.",
+            },
+          ],
+        },
       ],
       conclusion: "### Conclusiones y Recomendaciones Estratégicas\n\nEl Proyecto MEGIA, a través del Producto 15, deja tres mensajes claros para la industria y el regulador:\n\n1.  **Flexibilización Normativa:** Es urgente modernizar la Resolución 1207. Necesitamos rangos dinámicos y evaluación de riesgo caso a caso, no listas estáticas que bloquean la innovación.\n2.  **Tecnología en Tren:** Ninguna \"bala de plata\" (una sola tecnología) funcionará en el VMM. El futuro es la integración de procesos electroquímicos, biológicos y de membrana.\n3.  **El Costo de No Hacer Nada:** Seguir vertiendo agua tratada mientras la región sufre estrés hídrico es un error estratégico. El reúso tiene un costo operativo, sí, pero el costo social y ambiental de agotar las fuentes hídricas es infinitamente mayor.\n\n**La ingeniería ya hizo su parte. Ahora le toca a la regulación.**\n\n_Este artículo se basa en los resultados del Informe Final del Producto 15 del Proyecto MEGIA._"
     },

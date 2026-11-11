@@ -331,13 +331,6 @@ export default function AmbientalAutorPage() {
                   <Linkedin className="w-5 h-5 mr-2" />
                   LinkedIn
                 </a>
-                <a
-                  href="/cv/pablo-cubides.pdf"
-                  className="inline-flex items-center justify-center rounded-lg border border-gray-300 px-6 py-3 font-semibold hover:bg-gray-50 transition-colors text-[#0D161C]"
-                >
-                  <FileText className="w-5 h-5 mr-2" />
-                  Descargar CV
-                </a>
               </div>
 
               <div className="mt-8 grid grid-cols-3 gap-6 text-center">

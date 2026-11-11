@@ -132,6 +132,11 @@ export default async function CategoryPage({
           <p className="mt-4 max-w-3xl text-lg text-gray-600">
             {category.description}
           </p>
+          {category.intro && (
+            <p className="mt-4 max-w-3xl text-base leading-relaxed text-gray-600">
+              {category.intro}
+            </p>
+          )}
         </header>
 
         {/* Articles Grid */}

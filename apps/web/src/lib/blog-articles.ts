@@ -190,6 +190,38 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
             },
           ],
         },
+        {
+          id: "preguntas-frecuentes",
+          title: "Preguntas frecuentes",
+          content: "Respuestas breves a las dudas más comunes sobre este tema.",
+          subsections: [
+            {
+              id: "faq-1",
+              title: "¿Qué es el IRCA y quién lo definió?",
+              content: "El Índice de Riesgo de Calidad del Agua Potable (IRCA) es el indicador oficial de Colombia para evaluar el agua de consumo. Lo establece la Resolución 2115 de 2007 y evalúa 22 parámetros fisicoquímicos y microbiológicos cuyos puntajes suman 100. Las características microbiológicas pesan 40 puntos: E. coli 25 y coliformes totales 15.",
+            },
+            {
+              id: "faq-2",
+              title: "¿Qué significan los rangos de riesgo del IRCA?",
+              content: "Según el artículo, un IRCA de 5 % a 14 % es riesgo bajo (monitoreo preventivo y revisión del tratamiento), de 14 % a 35 % es riesgo medio (acciones correctivas inmediatas y monitoreo mensual) y de 35 % a 80 % es riesgo alto (prohibir el consumo directo, notificar a la población y habilitar suministro alternativo).",
+            },
+            {
+              id: "faq-3",
+              title: "¿En qué se diferencian el IRCA, el WQI y el DWQI?",
+              content: "El IRCA penaliza los incumplimientos de la norma colombiana. El WQI de la National Sanitation Foundation evalúa 9 parámetros con pesos ponderados y entrega un puntaje de 0 a 100 donde un valor alto indica mejor calidad. El DWQI compara las concentraciones medidas con los estándares de la OMS usando 18 parámetros.",
+            },
+            {
+              id: "faq-4",
+              title: "¿Qué archivo necesita la calculadora gratuita?",
+              content: "Un CSV con cinco columnas: fecha, ubicación, parámetro, valor y unidad. La herramienta calcula el IRCA, el WQI y el DWQI a la vez, valida los datos y permite exportar los resultados en CSV.",
+            },
+            {
+              id: "faq-5",
+              title: "¿Quién vigila que el agua cumpla la norma?",
+              content: "Las secretarías de salud municipales y departamentales hacen muestreos de vigilancia independientes, verifican el cumplimiento del IRCA y aplican medidas sanitarias cuando es necesario. El Decreto 1575 de 2007 regula el sistema de vigilancia de la calidad del agua.",
+            },
+          ],
+        },
       ],
       conclusion: "Los índices de calidad de agua son herramientas poderosas para proteger la salud pública. Ya sea que trabajes en un acueducto, laboratorio, autoridad sanitaria o simplemente quieras entender mejor la calidad del agua que consumes, conocer cómo calcular e interpretar estos índices es fundamental. Nuestra calculadora gratuita hace que este proceso sea rápido, preciso y accesible para todos. ¡No esperes más y comienza a evaluar la calidad de tu agua hoy mismo!",
     },
@@ -363,6 +395,38 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
             },
           ],
         },
+        {
+          id: "preguntas-frecuentes",
+          title: "Preguntas frecuentes",
+          content: "Respuestas breves a las dudas más comunes sobre este tema.",
+          subsections: [
+            {
+              id: "faq-1",
+              title: "¿Qué es un índice de calidad del aire y cómo se lee?",
+              content: "Convierte las concentraciones de contaminantes atmosféricos (en µg/m³ o mg/m³) en una escala numérica, generalmente de 0 a 500, dividida en categorías con color que indican el riesgo para la salud: del verde (bueno) al marrón (peligroso).",
+            },
+            {
+              id: "faq-2",
+              title: "¿En qué se diferencian el US AQI, el ICA de Colombia y el IBOCA?",
+              content: "El AQI de la EPA va de 0 a 500 en seis categorías. El ICA de Colombia (Resolución 2254 de 2017) es prácticamente idéntico en escala y categorías, con algunos puntos de corte ajustados a condiciones locales. El IBOCA (Resolución 2840 de 2023) es una versión mejorada para Bogotá que incorpora varios promedios temporales y condiciones meteorológicas de la capital.",
+            },
+            {
+              id: "faq-3",
+              title: "¿Qué hago si el índice marca «dañino» (151-200)?",
+              content: "Según el artículo, toda la población debe evitar los esfuerzos prolongados al aire libre, reducir de forma significativa el ejercicio exterior, usar mascarilla N95 al salir y mantener los espacios cerrados con purificadores.",
+            },
+            {
+              id: "faq-4",
+              title: "¿Dónde consulto la calidad del aire en tiempo real?",
+              content: "En Colombia: SISAIRE, la aplicación Aire Bogotá, SIATA en Medellín y los reportes diarios del DAGMA en Cali. A escala internacional: AirNow, WAQI, IQAir, Copernicus y OpenAQ.",
+            },
+            {
+              id: "faq-5",
+              title: "¿Cuáles son los valores guía de la OMS 2021 para PM₂.₅?",
+              content: "Las Guías de Calidad del Aire 2021 fijan un promedio anual de 5 µg/m³ (antes 10) y un promedio de 24 horas de 15 µg/m³ (antes 25).",
+            },
+          ],
+        },
       ],
       conclusion: "Los índices de calidad del aire son tu mejor aliado para proteger tu salud y la de tu familia. No esperes a sentir molestias respiratorias para tomar acción: consulta el índice diariamente, especialmente si perteneces a un grupo sensible. Usa nuestra calculadora gratuita para entender mejor los datos de tu ciudad y toma decisiones informadas sobre cuándo salir, hacer ejercicio o ventilar tu hogar. El aire limpio es un derecho, y el conocimiento es el primer paso para exigirlo.",
     },
@@ -435,6 +499,33 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
             title: "Herramienta Profesional",
             content: "Nuestro generador te permite calificar atributos, calcular la importancia automáticamente y exportar la matriz lista para incluir en tu EIA. \n\n [🚀 Ir al Generador de Matrices de Impacto](/ambiental/herramientas/generador-matrices)",
           },
+        },
+        {
+          id: "preguntas-frecuentes",
+          title: "Preguntas frecuentes",
+          content: "Respuestas breves a las dudas más comunes sobre este tema.",
+          subsections: [
+            {
+              id: "faq-1",
+              title: "¿Cuándo uso Leopold, Conesa o Battelle-Columbus?",
+              content: "Leopold sirve para el diagnóstico de alternativas por su rapidez para ver los puntos críticos. Conesa es la opción para el estudio de impacto ambiental porque produce valores numéricos comparables y trazables para cada interacción. Battelle-Columbus se usa en proyectos hídricos con muchos parámetros medibles.",
+            },
+            {
+              id: "faq-2",
+              title: "¿Cómo evalúa la matriz de Leopold cada celda?",
+              content: "La matriz, diseñada originalmente con 100 acciones y 88 factores, evalúa cada celda con dos valores: la magnitud, en una escala de −10 a +10 que representa la extensión de la alteración, y la importancia.",
+            },
+            {
+              id: "faq-3",
+              title: "¿Qué integra la fórmula de Conesa?",
+              content: "La fórmula de Importancia (I) integra 11 atributos técnicos, entre ellos intensidad, extensión, momento, persistencia, reversibilidad, sinergia y acumulación, para asignar un valor numérico a cada impacto.",
+            },
+            {
+              id: "faq-4",
+              title: "¿Cuáles son los errores más frecuentes al elaborar una matriz?",
+              content: "Valorar sin línea base (la intensidad queda subjetiva), mezclar acciones y factores (las filas deben ser actividades del proyecto y las columnas, componentes ambientales) y olvidar los impactos positivos, como el empleo o las mejoras de infraestructura.",
+            },
+          ],
         },
       ],
       conclusion: "Las matrices de impacto ambiental no son tablas estáticas; son modelos dinámicos de riesgo territorial. Al utilizar metodologías rigurosas como Conesa y herramientas de automatización, garantizamos que los Planes de Manejo Ambiental (PMA) sean sólidos frente a la revisión de la autoridad ambiental.",
@@ -587,6 +678,33 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
               id: "niveles-aire",
               title: "Material Particulado y Gases",
               content: "• **PM10:** 50 µg/m³ (Anual); 100 µg/m³ (24h).\n• **PM2.5:** 25 µg/m³ (Anual); 50 µg/m³ (24h).\n• **Gases:** NO₂ ≤ 60 µg/m³; SO₂ ≤ 50 µg/m³.\n• **Enfoque:** La superación de estos niveles activa los Protocolos para el Manejo de Episodios Críticos de Contaminación del Aire.",
+            },
+          ],
+        },
+        {
+          id: "preguntas-frecuentes",
+          title: "Preguntas frecuentes",
+          content: "Respuestas breves a las dudas más comunes sobre este tema.",
+          subsections: [
+            {
+              id: "faq-1",
+              title: "¿Qué norma regula el agua potable y cómo se mide su cumplimiento?",
+              content: "La Resolución 2115 de 2007, que define el sistema de control y vigilancia. El cumplimiento se mide con el IRCA. Entre los parámetros críticos están la ausencia de E. coli y coliformes totales (0 UFC/100 ml), una turbiedad de 2 UNT o menos y un pH entre 6,5 y 9,0.",
+            },
+            {
+              id: "faq-2",
+              title: "¿Qué regula la Resolución 631 de 2015?",
+              content: "Regula los vertimientos puntuales a cuerpos de agua superficiales y al alcantarillado, con límites por sector productivo (8 sectores y 73 actividades). Para aguas residuales domésticas fija DBO₅ ≤ 90 mg/L, DQO ≤ 180 mg/L y SST ≤ 90 mg/L.",
+            },
+            {
+              id: "faq-3",
+              title: "¿Cuáles son los límites de calidad del aire de la Resolución 2254 de 2017?",
+              content: "PM10: 50 µg/m³ anual y 100 µg/m³ en 24 horas. PM2.5: 25 µg/m³ anual y 50 µg/m³ en 24 horas. Gases: NO₂ hasta 60 µg/m³ y SO₂ hasta 50 µg/m³.",
+            },
+            {
+              id: "faq-4",
+              title: "¿Cuál es la norma marco de la gestión ambiental en Colombia?",
+              content: "El Decreto Único Reglamentario 1076 de 2015. Las resoluciones técnicas definen los límites de operación, y conocer la jerarquía normativa permite evitar sanciones que pueden superar los 5.000 SMMLV.",
             },
           ],
         },
@@ -815,6 +933,38 @@ export const IA_ARTICLES: Record<string, BlogArticle> = {
           "id": "practica",
           "title": "Buenas prácticas para obtener mejores resultados",
           "content": "1. Describe sujeto, entorno, luz y estilo en ese orden, con frases concretas.\n2. Usa prompts negativos para excluir elementos no deseados.\n3. Fija la semilla mientras ajustas un solo parámetro cada vez.\n4. Genera varias variantes y selecciona; la primera rara vez es la mejor.\n5. Revisa siempre la licencia del modelo y de las imágenes antes de usarlas con fines comerciales."
+        },
+        {
+          id: "preguntas-frecuentes",
+          title: "Preguntas frecuentes",
+          content: "Respuestas breves a las dudas más comunes sobre este tema.",
+          subsections: [
+            {
+              id: "faq-1",
+              title: "¿Cómo funciona un modelo de difusión?",
+              content: "Aprende dos cosas: a añadir ruido gradualmente a imágenes reales hasta convertirlas en ruido puro, y a revertir ese proceso. Para generar, parte de ruido aleatorio y aplica pasos sucesivos de eliminación de ruido guiados por el texto.",
+            },
+            {
+              id: "faq-2",
+              title: "¿Por qué Stable Diffusion cabe en una tarjeta gráfica?",
+              content: "Porque trabaja en un espacio latente: primero comprime la imagen con un autoencoder variacional (VAE), de modo que una imagen de 512 × 512 píxeles pasa a una representación de 64 × 64, y así exige mucho menos cálculo que trabajar sobre los píxeles.",
+            },
+            {
+              id: "faq-3",
+              title: "¿Cómo guía el texto a la imagen?",
+              content: "El prompt pasa por un codificador (CLIP en Stable Diffusion) que lo convierte en vectores. La U-Net los incorpora con capas de atención cruzada: en cada paso consulta el texto para decidir qué rasgos reforzar.",
+            },
+            {
+              id: "faq-4",
+              title: "¿Cuántos pasos de muestreo se necesitan?",
+              content: "Entre 20 y 50 suelen bastar. El sampler (DDIM, Euler, DPM++, entre otros) decide cómo se combina cada predicción en el siguiente estado.",
+            },
+            {
+              id: "faq-5",
+              title: "¿Qué limitaciones tienen estos modelos?",
+              content: "Las manos, el texto legible y los conteos exactos siguen siendo puntos débiles. Además reflejan los sesgos de sus datos de entrenamiento y plantean dudas de derechos de autor y consentimiento.",
+            },
+          ],
         },
       ],
       conclusion:
