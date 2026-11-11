@@ -407,7 +407,7 @@ export async function exportCorrelationsPDF(
       { align: "right" },
     );
     doc.text(
-      "Generado por Aquatech IA | www.aquatechia.com",
+      "Generado por Aquatech IA | aquatechia.com",
       margin,
       pageHeight - 8,
     );

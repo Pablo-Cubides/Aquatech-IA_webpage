@@ -202,7 +202,7 @@ export default function AmbientalHerramientasPage() {
                       Abrir herramienta
                     </Link>
                     <Link
-                      href="/guia/generador-matrices"
+                      href="/ambiental/herramientas/generador-matrices"
                       className="btn btn-secondary focus-ring"
                     >
                       <DocIcon />
@@ -249,7 +249,7 @@ export default function AmbientalHerramientasPage() {
                       Abrir herramienta
                     </Link>
                     <Link
-                      href="/guia/normas-ambientales"
+                      href="/ambiental/herramientas/normas-ambientales"
                       className="btn btn-secondary focus-ring"
                     >
                       <DocIcon />
@@ -323,7 +323,7 @@ export default function AmbientalHerramientasPage() {
                       Abrir herramienta
                     </Link>
                     <Link
-                      href="/guia/ecostats"
+                      href="/ambiental/herramientas/analisis-correlaciones"
                       className="btn btn-secondary focus-ring"
                     >
                       <DocIcon />
@@ -373,7 +373,7 @@ export default function AmbientalHerramientasPage() {
                       Abrir herramienta
                     </Link>
                     <Link
-                      href="/guia/indice-calidad-agua"
+                      href="/ambiental/herramientas/indice-calidad-agua"
                       className="btn btn-secondary focus-ring"
                     >
                       <DocIcon />
@@ -447,7 +447,7 @@ export default function AmbientalHerramientasPage() {
                       Abrir herramienta
                     </Link>
                     <Link
-                      href="/guia/indice-calidad-aire"
+                      href="/ambiental/herramientas/indice-calidad-aire"
                       className="btn btn-secondary focus-ring"
                     >
                       <DocIcon />
@@ -471,7 +471,7 @@ export default function AmbientalHerramientasPage() {
                 necesidades de análisis ambiental.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href="/ambiental/contacto" className="btn btn-primary">
+                <Link href="/soporte" className="btn btn-primary">
                   <svg
                     className="w-5 h-5"
                     fill="none"

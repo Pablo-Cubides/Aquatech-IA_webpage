@@ -207,7 +207,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     date: "2025-04-02",
     readTime: 12,
     excerpt:
-      "Las juntas de agua y cooperativas rurales sostienen el acceso al agua en Latinoamérica. Cómo la vigilancia comunitaria y las herramientas de bajo costo la mejoran.",
+      "Juntas de agua y cooperativas rurales sostienen el acceso al agua en Latinoamérica. Cómo la vigilancia comunitaria y herramientas baratas la mejoran.",
     heroImage:
       "/images/portal-ambiental/blog/poder-agua-comunidad.jpg",
     author: {

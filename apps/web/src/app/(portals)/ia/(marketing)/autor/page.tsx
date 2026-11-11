@@ -246,9 +246,9 @@ const Faq: React.FC<FaqProps> = ({ q, a }) => (
 
 export const metadata: Metadata = {
   title:
-    "Pablo Cubides — Autor en IA, redes neuronales y optimización | AquatechIA",
+    "Pablo Cubides: autor en IA y redes neuronales | AquatechIA",
   description:
-    "Perfil de autor en IA de Pablo Cubides en AquatechIA. Desarrollador full-stack (FastAPI + Next.js), LLMs, RAG, agentes, modelos generativos y visión por computador. Dirección técnica, docencia y transferencia en LATAM.",
+    "Pablo Cubides, autor en IA de AquatechIA: desarrollo full-stack, LLM, RAG, agentes y modelos generativos. Dirección técnica y docencia en LATAM.",
   alternates: { canonical: "/ia/autor" },
   openGraph: {
     title:
@@ -630,7 +630,7 @@ export default function IAAutorPage() {
                 impact="Ecosistema de Multi-Agentes Aislados con Hardening de Docker y Cifrado SOPS/AGE."
                 desc="Orquestación profesional con PowerShell 7+ y Python para la gestión soberana de información académica y empresarial bajo entornos herméticos."
                 image="/images/portal-ia/blog/cubides-bots-hero.png"
-                href="/ia/blog/ecosistema-bots-empresariales-cubides"
+                href="/ia/blog/guia-practica-implementacion-ia-empresas"
                 tags={[
                   "Python",
                   "PowerShell Core",
@@ -649,21 +649,21 @@ export default function IAAutorPage() {
                 title="Spartan Club: Marketplace Multimodal"
                 desc="Infraestructura full-stack de alto rendimiento con Next.js 15, React 19 e integración de visión artificial vía Gemini 1.5 Flash."
                 image="https://res.cloudinary.com/lv3hwy1f/image/upload/v1793701248/articulos/aquatech-ia/spartan-webpage-hero.jpg"
-                href="/ia/blog/spartan-plataforma-gestion-inteligente"
+                href="/ia/blog"
               />
 
               <ProjectCard
                 title="WhatsApp Enterprise AI Platform"
                 desc="Chatbots conversacionales robustos con automatización Playwright, arquitectura de workers distribuida (Celery) y persistencia SQL."
                 image="/images/portal-ia/blog/chatbot-whatsapp-hero.png"
-                href="/ia/blog/integracion-llm-whatsapp-chatbot"
+                href="/ia/blog/guia-practica-implementacion-ia-empresas"
               />
 
               <ProjectCard
                 title="Aquatech-IA: Portal Ambiental"
                 desc="Ecosistema monorepo avanzado (Turborepo) con ingesta de macro-datos OpenAQ/GBIF y soporte para Model Context Protocol (MCP)."
                 image="https://res.cloudinary.com/lv3hwy1f/image/upload/v1793701249/articulos/aquatech-ia/aquatech-ia-hero.jpg"
-                href="/ambiental/blog/aquatech-ia-portal-ambiental-digital"
+                href="/ambiental"
               />
             </div>
           </div>
@@ -708,21 +708,21 @@ export default function IAAutorPage() {
                 excerpt="Análisis profundo de la arquitectura Transformer, mecanismos de auto-atención y el viaje probabilístico de la generación de texto."
                 category="Arquitectura"
                 readTime="18 min"
-                href="/ia/blog/como-funcionan-los-llm-guia"
+                href="/ia/blog/que-es-un-modelo-de-lenguaje"
               />
               <ArticleCard
                 title="Seguridad en IA: Protegiendo el Diálogo"
                 excerpt="Cómo los modelos modernos detectan y filtran contenido mediante RLHF, Red Teaming y escudos de moderación activa."
                 category="Seguridad"
                 readTime="16 min"
-                href="/ia/blog/seguridad-y-filtrado-ia"
+                href="/ia/herramientas/filtrado-ia"
               />
               <ArticleCard
                 title="Modelos de Difusión Espacial"
                 excerpt="Descubre la matemática detrás de Midjourney y Stable Diffusion: convirtiendo el ruido semántico en realismo fotográfico."
                 category="Visión IA"
                 readTime="14 min"
-                href="/ia/blog/generacion-de-imagenes-difusion"
+                href="/ia/blog/difusion-stable-diffusion"
               />
             </div>
 

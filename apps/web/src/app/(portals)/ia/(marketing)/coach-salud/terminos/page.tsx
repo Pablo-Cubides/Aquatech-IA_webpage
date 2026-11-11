@@ -10,7 +10,7 @@ import { SITE_URL } from "@/lib/site-config";
 export const metadata: Metadata = {
   title: "Términos de Servicio | Coach Salud Personal - AquatechIA",
   description:
-    "Términos y condiciones de uso de la integración privada Coach Salud Personal.",
+    "Términos y condiciones de uso de la integración privada Coach Salud Personal de AquatechIA: alcance, responsabilidades y límites del servicio.",
   alternates: {
     canonical: `${SITE_URL}/ia/coach-salud/terminos`,
   },

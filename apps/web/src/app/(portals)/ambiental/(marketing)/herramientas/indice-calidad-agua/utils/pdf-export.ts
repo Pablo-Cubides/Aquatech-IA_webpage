@@ -163,7 +163,7 @@ function generateReportHTML(
       <!-- Footer -->
       <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #d1d5db; text-align: center; color: #9ca3af; font-size: 10px;">
         <p style="margin: 0;">
-          Reporte generado automáticamente por AquatechIA | www.aquatechia.com
+          Reporte generado automáticamente por AquatechIA | aquatechia.com
         </p>
         <p style="margin: 5px 0 0 0;">
           Este documento es informativo. Para fines legales, consulte con un laboratorio acreditado.

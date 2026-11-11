@@ -9,7 +9,7 @@ import { SITE_URL } from "@/lib/site-config";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Portal Ambiental: gestión ambiental con tecnología",
+  title: "Portal Ambiental: gestión y tecnología",
   description:
     "Mapas, normas y herramientas para proteger nuestros recursos naturales. Gestión ambiental con tecnología para un futuro sostenible.",
   keywords: [

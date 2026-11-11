@@ -5,7 +5,7 @@ import ToolSeoBlock from "@/components/seo/ToolSeoBlock";
 export const metadata: Metadata = {
   title: "Cómo Funcionan los LLMs | Herramientas IA | AquatechIA",
   description:
-    "Aprende paso a paso cómo funcionan los Grandes Modelos de Lenguaje (LLM): tokenización, embeddings, atención, probabilidades y generación autorregresiva de texto.",
+    "Cómo funcionan los modelos de lenguaje (LLM), paso a paso: tokenización, embeddings, atención, probabilidades y generación de texto.",
   keywords: [
     "LLM",
     "modelos de lenguaje",

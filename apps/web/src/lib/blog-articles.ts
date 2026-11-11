@@ -207,7 +207,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     category: "Control de Contaminación",
     date: "2024-12-09",
     readTime: 14,
-    excerpt: "Aprende a leer e interpretar los índices de calidad del aire más utilizados en el mundo. Protege tu salud con información en tiempo real y herramientas gratuitas.",
+    excerpt: "Aprende a leer los índices de calidad del aire más usados (AQI, ICA) y protege tu salud con información en tiempo real y herramientas gratuitas.",
     heroImage: "https://res.cloudinary.com/lv3hwy1f/image/upload/v1793701245/articulos/aquatech-ambiental/escuelas-rurales-agua-hero.jpg",
     author: {
       name: "Pablo Cubides",
@@ -441,7 +441,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     },
     tags: ["EIA", "Leopold", "Conesa", "Battelle", "licencia ambiental", "PMA", "impacto ambiental", "ANLA"],
     nextArticle: {
-      slug: "visualizacion-geoespacial-sig-monitoreo",
+      slug: "visor-mapas-sig-ambiental",
       title: "Visualización Geoespacial de Datos Ambientales con SIG",
     },
   },

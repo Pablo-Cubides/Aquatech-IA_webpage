@@ -5,9 +5,9 @@ import FooterAmbiental from "@/components/nav/FooterAmbiental";
 import { SITE_URL, DEFAULT_LOCALE } from "@/lib/site-config";
 
 export const metadata: Metadata = {
-  title: "Portal de Gestión Ambiental | Normas, Mapas y Herramientas",
+  title: "Gestión ambiental: normas, mapas y herramientas",
   description:
-    "Herramientas de gestión ambiental, normatividad ambiental internacional, mapas interactivos, análisis de impacto ambiental, monitoreo de agua, aire, residuos y vertimientos. Soluciones sostenibles para profesionales.",
+    "Herramientas de gestión ambiental: normas, mapas interactivos, análisis de impacto y monitoreo de agua, aire, residuos y vertimientos.",
   keywords: [
     "gestión ambiental",
     "normativa ambiental",

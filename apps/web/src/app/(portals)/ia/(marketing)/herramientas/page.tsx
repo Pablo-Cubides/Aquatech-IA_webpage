@@ -144,7 +144,7 @@ export default function IAHerramientasPage() {
                       Abrir módulo
                     </Link>
                     <Link
-                      href="/guia/como-funcionan-llm"
+                      href="/ia/herramientas/como-funcionan-llm"
                       className="inline-flex items-center gap-2 px-6 py-3 bg-[#0095FF] text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors"
                     >
                       <DocIcon />
@@ -224,7 +224,7 @@ export default function IAHerramientasPage() {
                       Abrir módulo
                     </Link>
                     <Link
-                      href="/guia/parametros-decodificacion"
+                      href="/ia/herramientas/parametros-decodificacion"
                       className="inline-flex items-center gap-2 px-6 py-3 bg-[#0095FF] text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors"
                     >
                       <DocIcon />
@@ -279,7 +279,7 @@ export default function IAHerramientasPage() {
                       Abrir módulo
                     </Link>
                     <Link
-                      href="/guia/filtrado-ia"
+                      href="/ia/herramientas/filtrado-ia"
                       className="inline-flex items-center gap-2 px-6 py-3 bg-[#0095FF] text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors"
                     >
                       <DocIcon />
@@ -358,7 +358,7 @@ export default function IAHerramientasPage() {
                       Abrir módulo
                     </Link>
                     <Link
-                      href="/guia/visor-difusion"
+                      href="/ia/herramientas/visor-difusion"
                       className="inline-flex items-center gap-2 px-6 py-3 bg-[#0095FF] text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors"
                     >
                       <DocIcon />
@@ -411,7 +411,7 @@ export default function IAHerramientasPage() {
                       Explorar recursos
                     </Link>
                     <Link
-                      href="/guia/papers-ia"
+                      href="/ia/herramientas/papers-ia"
                       className="inline-flex items-center gap-2 px-6 py-3 bg-[#0095FF] text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors"
                     >
                       <DocIcon />
@@ -485,7 +485,7 @@ export default function IAHerramientasPage() {
                       Abrir módulo
                     </Link>
                     <Link
-                      href="/guia/modelos-tendencia"
+                      href="/ia/herramientas/modelos-tendencia"
                       className="inline-flex items-center gap-2 px-6 py-3 bg-[#0095FF] text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors"
                     >
                       <DocIcon />
