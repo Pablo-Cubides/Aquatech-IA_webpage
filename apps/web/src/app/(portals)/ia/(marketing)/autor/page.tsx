@@ -456,6 +456,14 @@ export default function IAAutorPage() {
                   <Linkedin className="w-5 h-5 mr-2" />
                   LinkedIn
                 </a>
+                <a
+                  href="/cv/pablo-cubides-ia.pdf"
+                  download
+                  className="inline-flex items-center justify-center rounded-lg border border-[rgba(0,239,255,0.1)] px-6 py-3 font-semibold hover:bg-white/5 transition-colors text-white"
+                >
+                  <FileText className="w-5 h-5 mr-2" />
+                  Descargar CV
+                </a>
                 <Link
                   href="#articulos"
                   className="inline-flex items-center justify-center rounded-lg border border-[rgba(0,239,255,0.1)] px-6 py-3 font-semibold hover:bg-white/5 transition-colors text-white"
