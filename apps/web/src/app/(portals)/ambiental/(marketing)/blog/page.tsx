@@ -8,7 +8,7 @@ import { SITE_URL, DEFAULT_LOGO } from "@/lib/site-config";
 
 // SEO Metadata
 export const metadata: Metadata = {
-  title: "Blog Ambiental | Artículos sobre Medio Ambiente y Sostenibilidad",
+  title: "Blog Ambiental: medio ambiente y sostenibilidad",
   description:
     "Artículos, análisis y soluciones innovadoras para los desafíos ambientales. Normatividad, gestión ambiental, control de contaminación y tecnologías verdes.",
   keywords: [

@@ -134,7 +134,7 @@ export default function IAPage() {
             <img
               alt="Innovación en IA Ambiental"
               className="h-auto w-full max-w-md rounded-2xl object-cover shadow-lg transition-transform duration-300 hover:scale-105"
-              src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=500&h=400&fit=crop&crop=center"
+              src="https://res.cloudinary.com/lv3hwy1f/image/upload/v1793669955/articulos/aquatech-ia/home-nosotros-ia.jpg"
             />
           </div>
         </div>

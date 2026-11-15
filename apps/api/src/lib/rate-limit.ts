@@ -18,7 +18,9 @@ function getRedis(): Redis {
     const url = process.env.UPSTASH_REDIS_REST_URL;
     const token = process.env.UPSTASH_REDIS_REST_TOKEN;
     if (!url || !token) {
-      throw new Error("UPSTASH_REDIS_REST_URL or UPSTASH_REDIS_REST_TOKEN is not configured");
+      throw new Error(
+        "UPSTASH_REDIS_REST_URL or UPSTASH_REDIS_REST_TOKEN is not configured",
+      );
     }
     _redis = new Redis({ url, token });
   }
@@ -33,6 +35,13 @@ function createRatelimits(redis: Redis) {
       limiter: Ratelimit.slidingWindow(100, "1 m"),
       analytics: true,
       prefix: "ratelimit:api",
+    }),
+
+    grade: new Ratelimit({
+      redis,
+      limiter: Ratelimit.slidingWindow(10, "1 m"),
+      analytics: false,
+      prefix: "ratelimit:grade",
     }),
 
     // Payment creation: 5 requests per minute per user
@@ -78,7 +87,6 @@ function getRatelimits() {
   return _ratelimits;
 }
 
-
 export async function checkRateLimit(
   limitType: RatelimitType,
   identifier: string,
@@ -122,7 +130,9 @@ export async function checkRateLimit(
     ];
 
     return {
-      success: !failClosedLimitTypes.includes(limitType),
+      success:
+        !failClosedLimitTypes.includes(limitType) &&
+        !(limitType === "grade" && process.env.NODE_ENV === "production"),
       limit: 0,
       remaining: 0,
       reset: new Date(),

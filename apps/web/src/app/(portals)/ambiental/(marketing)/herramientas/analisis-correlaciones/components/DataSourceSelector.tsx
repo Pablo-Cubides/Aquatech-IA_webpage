@@ -226,7 +226,7 @@ export default function DataSourceSelector({
       {/* User Guide Button */}
       <div className="mt-6 flex justify-start">
         <a 
-          href="/guia/ecostats" 
+          href="/ambiental/herramientas/analisis-correlaciones" 
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-cyan-200 rounded-lg text-cyan-700 text-sm font-medium hover:bg-cyan-50 hover:border-cyan-300 transition-colors shadow-sm"

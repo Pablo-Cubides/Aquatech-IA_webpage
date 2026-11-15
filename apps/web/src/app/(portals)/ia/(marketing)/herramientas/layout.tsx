@@ -4,7 +4,7 @@ import React from "react";
 export const metadata: Metadata = {
   title: "Herramientas de IA | AquatechIA",
   description:
-    "Explora nuestros módulos educativos de inteligencia artificial: visualizadores de LLMs, difusión de imágenes, parámetros de decodificación y filtrado de respuestas.",
+    "Módulos educativos de IA: visualizador de LLM, difusión de imágenes, parámetros de decodificación y filtrado de respuestas.",
   keywords: [
     "herramientas IA",
     "inteligencia artificial",

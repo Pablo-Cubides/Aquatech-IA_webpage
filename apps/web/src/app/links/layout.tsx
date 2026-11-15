@@ -4,7 +4,7 @@ import React from "react";
 export const metadata: Metadata = {
   title: "Enlaces Oficiales y Recursos Directos",
   description:
-    "Accede rápidamente a todos los portales, herramientas de IA y recursos ambientales de AquatechIA.",
+    "Accede a los portales de AquatechIA: herramientas de inteligencia artificial, normas ambientales, mapas y recursos para agua y ambiente.",
   alternates: {
     canonical: "/links",
   },

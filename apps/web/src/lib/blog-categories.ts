@@ -6,6 +6,7 @@ export type BlogCategory = {
   name: string;
   displayName: string;
   description: string;
+  intro?: string; // texto de apoyo bajo el encabezado de la categoria (contexto para el lector y para buscadores)
   metaTitle: string; // máx ~60 caracteres
   metaDescription: string; // 120-160 caracteres
   h1: string;
@@ -25,6 +26,7 @@ export const AMBIENTAL_CATEGORIES: BlogCategory[] = [
     displayName: "Normatividad Ambiental",
     description:
       "Artículos sobre normativas, leyes y regulaciones ambientales en Colombia y Latinoamérica.",
+    intro: "La normatividad ambiental colombiana se reparte entre decretos y resoluciones técnicas que definen límites para el agua potable, los vertimientos, el aire y los residuos. Esta categoría resume qué exige cada norma y cómo se mide el cumplimiento. Para consultar los límites por sector y descargar los textos completos, usa el Navegador de Normas Ambientales del portal.",
     metaTitle: "Normatividad Ambiental | Legislación y Regulaciones",
     metaDescription:
       "Guías y análisis sobre normativas ambientales, decretos, resoluciones y legislación ambiental vigente en Colombia y Latinoamérica.",
@@ -64,6 +66,7 @@ export const AMBIENTAL_CATEGORIES: BlogCategory[] = [
     displayName: "Control de Contaminación",
     description:
       "Técnicas y tecnologías para el control, prevención y tratamiento de la contaminación ambiental.",
+    intro: "Técnicas para medir, prevenir y tratar la contaminación del agua y del aire. Aquí encontrarás desde cómo interpretar los índices de calidad del aire (AQI, ICA e IBOCA) hasta los procesos avanzados para tratar aguas con contaminantes emergentes. Cada artículo explica el mecanismo y cuándo conviene aplicarlo, y se complementa con calculadoras gratuitas del portal.",
     metaTitle: "Control de Contaminación | Tratamiento y Prevención",
     metaDescription:
       "Artículos sobre técnicas de control y tratamiento de contaminación del agua, aire y suelo. Tecnologías de remediación ambiental.",
@@ -129,6 +132,7 @@ export const IA_CATEGORIES: BlogCategory[] = [
     displayName: "Fundamentos de IA",
     description:
       "Conceptos básicos, historia y principios fundamentales de la inteligencia artificial.",
+    intro: "Aquí empiezas si quieres entender la inteligencia artificial sin tecnicismos: qué es, cómo aprende un modelo y qué límites tiene. Los artículos de esta categoría explican los conceptos con ejemplos concretos, incluido un tema que casi nunca se discute, el consumo de agua de la IA. Son lecturas para estudiantes, docentes y profesionales que quieren una base clara antes de pasar a los modelos de lenguaje o a las herramientas de automatización.",
     metaTitle: "Fundamentos de IA | Conceptos Básicos",
     metaDescription:
       "Aprende los fundamentos de la inteligencia artificial: machine learning, deep learning, redes neuronales y conceptos esenciales de IA.",
@@ -148,6 +152,7 @@ export const IA_CATEGORIES: BlogCategory[] = [
     displayName: "Modelos de Lenguaje",
     description:
       "Todo sobre Large Language Models, ChatGPT, Claude, y asistentes de IA conversacional.",
+    intro: "Los modelos de lenguaje (LLM) son la tecnología detrás de los asistentes conversacionales. Esta categoría explica cómo funcionan por dentro (tokens, atención y generación de texto) y cómo interpretar sus respuestas. Se complementa con las herramientas interactivas del portal, como el visualizador de LLM y el simulador de parámetros de decodificación, para ver el proceso paso a paso.",
     metaTitle: "Modelos de Lenguaje LLM | ChatGPT y Asistentes IA",
     metaDescription:
       "Guías sobre modelos de lenguaje LLM, ChatGPT, Claude, Gemini y asistentes de IA. Prompts, casos de uso y mejores prácticas.",
@@ -169,6 +174,7 @@ export const IA_CATEGORIES: BlogCategory[] = [
     displayName: "IA Generativa Creativa",
     description:
       "Stable Diffusion, DALL-E, Midjourney y herramientas de IA para creación de contenido visual.",
+    intro: "Los generadores de imágenes con IA parecen magia, pero siguen un proceso que se puede entender. Esta categoría explica cómo un modelo de difusión convierte ruido en una imagen guiada por texto, por qué Stable Diffusion puede ejecutarse en una tarjeta gráfica común y cuáles son sus límites y riesgos. Puedes ver el proceso en vivo con el visor de difusión del portal.",
     metaTitle: "IA Generativa | Generadores de Imágenes y Arte",
     metaDescription:
       "Tutoriales sobre generadores de imágenes con IA: Stable Diffusion, DALL-E, Midjourney. Crea arte, diseños y contenido visual con IA.",
@@ -189,6 +195,7 @@ export const IA_CATEGORIES: BlogCategory[] = [
     displayName: "Productividad con IA",
     description:
       "Herramientas y técnicas para aumentar la productividad personal y empresarial con IA.",
+    intro: "Guías para llevar la IA al trabajo diario de una empresa: por dónde empezar, qué procesos conviene automatizar primero y cómo introducir agentes autónomos sin perder el control. Los artículos van de lo general (un plan de implementación paso a paso) a lo específico (agentes aplicados a la ingeniería), y están pensados para equipos que quieren resultados medibles y no solo pruebas sueltas.",
     metaTitle: "Productividad con IA | Automatización Inteligente",
     metaDescription:
       "Mejora tu productividad con IA: automatización de tareas, herramientas de trabajo, flujos inteligentes y optimización de procesos.",

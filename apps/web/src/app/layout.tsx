@@ -9,6 +9,7 @@ import {
 } from "@/lib/site-config";
 import { Analytics } from "@vercel/analytics/next";
 import { spaceGrotesk, notoSans } from "@/lib/fonts";
+import { SectionBreadcrumbSchema } from "@/components/seo/SectionBreadcrumbSchema";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -143,6 +144,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
       </head>
       <body className={notoSans.className}>
+        <SectionBreadcrumbSchema />
         <Providers>{children}</Providers>
         <Analytics />
       </body>

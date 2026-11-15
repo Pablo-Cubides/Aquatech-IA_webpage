@@ -132,13 +132,13 @@ const Faq: React.FC<FaqProps> = ({ q, a }) => (
 
 export const metadata: Metadata = {
   title:
-    "Pablo Cubides — Científico ambiental y especialista en gestión y tratamientos del agua | AquatechIA",
+    "Pablo Cubides: científico ambiental y del agua | AquatechIA",
   description:
-    "Perfil de Pablo Cubides, autor en AquatechIA. Ingeniero Químico y M. Sc. en Ingeniería Ambiental. Docente e investigador en gestión integral del recurso hídrico, PTAP/PTAR, calidad del agua, aseguramiento de calidad ISO/IEC 17025 y optimización de procesos ambientales.",
+    "Pablo Cubides, ingeniero químico y M. Sc. en Ingeniería Ambiental. Docente e investigador en recurso hídrico, PTAP/PTAR y calidad del agua ISO/IEC 17025.",
   openGraph: {
     title: "Pablo Cubides — Científico ambiental y especialista en agua",
     description:
-      "Perfil de Pablo Cubides, autor en AquatechIA. Ingeniero Químico y M. Sc. en Ingeniería Ambiental. Docente e investigador en gestión integral del recurso hídrico, PTAP/PTAR, calidad del agua, aseguramiento de calidad ISO/IEC 17025 y optimización de procesos ambientales.",
+      "Pablo Cubides, ingeniero químico y M. Sc. en Ingeniería Ambiental. Docente e investigador en recurso hídrico, PTAP/PTAR y calidad del agua ISO/IEC 17025.",
     url: "https://aquatechia.com/ambiental/autor",
     siteName: "AquatechIA",
     images: [
@@ -332,7 +332,8 @@ export default function AmbientalAutorPage() {
                   LinkedIn
                 </a>
                 <a
-                  href="/cv/pablo-cubides.pdf"
+                  href="/cv/pablo-cubides-ambiental.pdf"
+                  download
                   className="inline-flex items-center justify-center rounded-lg border border-gray-300 px-6 py-3 font-semibold hover:bg-gray-50 transition-colors text-[#0D161C]"
                 >
                   <FileText className="w-5 h-5 mr-2" />
@@ -494,7 +495,7 @@ export default function AmbientalAutorPage() {
                 title="Proyecto MEGIA: Gestión Integral del Agua"
                 desc="Evaluación de tecnologías híbridas (Electrocoagulación + MBR + Ósmosis) para el reúso de aguas de producción en el sector agrícola."
                 href="/ambiental/blog/paradoja-agua-valle-medio-magdalena-proyecto-megia"
-                imageSrc="/images/portal-ambiental/blog/megia-planta.png"
+                imageSrc="https://res.cloudinary.com/lv3hwy1f/image/upload/v1793701246/articulos/aquatech-ambiental/megia-planta.jpg"
                 imageAlt="Planta de tratamiento Proyecto MEGIA"
               />
 
@@ -502,7 +503,7 @@ export default function AmbientalAutorPage() {
                 title="Desafíos y Mecanismos de Tratamiento Avanzado para Aguas de Riego: Gestión de Contaminantes Emergentes"
                 desc="Gestión de contaminantes emergentes y fármacos mediante procesos de oxidación avanzada para asegurar la inocuidad en la Sabana de Bogotá."
                 href="/ambiental/blog/desafios-mecanismos-tratamiento-aguas-riego"
-                imageSrc="/images/portal-ambiental/blog/tratamiento-riego.png"
+                imageSrc="https://res.cloudinary.com/lv3hwy1f/image/upload/v1793701243/articulos/aquatech-ambiental/tratamiento-riego.jpg"
                 imageAlt="Sistema de tratamiento para aguas de riego"
               />
               <ProjectCard
@@ -598,7 +599,7 @@ export default function AmbientalAutorPage() {
                   </div>
                 </div>
                 <Link
-                  href="/ambiental/autor/herramientas/ruleta-academica"
+                  href="/ia/autor/herramientas/ruleta-academica"
                   className="inline-flex items-center gap-2 w-full justify-center bg-gradient-to-r from-[#10B981] to-[#0077B6] text-white font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-opacity"
                 >
                   <RotateCcw className="w-4 h-4" />

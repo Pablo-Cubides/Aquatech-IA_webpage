@@ -117,7 +117,7 @@ export const iaTools: Tool[] = [
     status: "stable",
     portal: "ia",
     seo: {
-      title: "Modelos de IA en Tendencia | Hugging Face Explorer | AquatechIA",
+      title: "Modelos de IA en tendencia: Hugging Face | AquatechIA",
       description:
         "Descubre los modelos de inteligencia artificial más populares de Hugging Face con estadísticas en tiempo real.",
       keywords: [

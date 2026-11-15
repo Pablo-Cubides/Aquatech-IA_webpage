@@ -1,5 +1,5 @@
 # AquatechIA — Constitution / Constitución
-> **Version**: 1.2.0 | **Status**: Active | **Last modified**: 2026-10-26
+> **Version**: 1.3.0 | **Status**: Active | **Last modified**: 2026-11-02
 > Changes to this document require an explicit ADR and a SemVer bump.  
 > Cambios a este documento requieren un ADR explícito y un bump de SemVer.
 
@@ -201,7 +201,7 @@ packages/@ia-next/*  → Shared packages
 - Firebase tokens validated server-side on every protected route.
 - MercadoPago webhook signatures validated before processing.
 - CORS restricted to known origins in production.
-- Upstash rate limiting on all public-facing API endpoints.
+- Upstash rate limiting on all public-facing API endpoints. Exception ADR-0013: grade-report endpoints may use an atomic PostgreSQL counter in the existing Supabase database; unavailable counters fail closed.
 - Security audit (`pnpm audit`) runs in CI; `moderate` findings block merge.
 
 ---

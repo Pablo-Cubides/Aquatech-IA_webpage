@@ -21,6 +21,8 @@
 | [ADR-0010](0010-ai-articles-direct-publish.md) | AI-generated articles published without mandatory human review | accepted | 2026-04-28 |
 | [ADR-0011](0011-trunk-based-vercel-deploy.md) | Trunk-based development with Vercel auto-deploy | accepted | 2026-04-28 |
 
+| [ADR-0013](0013-grade-reports-agent-publication.md) | Agent publication and grade request limits | accepted | 2026-11-02 |
+
 ---
 
 ## How to Create a New ADR

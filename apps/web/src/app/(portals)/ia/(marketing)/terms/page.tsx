@@ -4,7 +4,7 @@ import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReference
 
 export const metadata: Metadata = {
   title: "Términos de Servicio | AquatechIA",
-  description: "Términos y condiciones de uso legal y licenciamiento de la plataforma y herramientas de AquatechIA",
+  description: "Términos y condiciones de uso, propiedad intelectual y licenciamiento de la plataforma y las herramientas de inteligencia artificial de AquatechIA.",
   robots: "index, follow",
 };
 
@@ -13,8 +13,8 @@ export default function TermsPage() {
     <>
       <WebPageStructuredData
         title="Términos de Servicio | Aquatech IA"
-        description="Términos y condiciones de uso legal y licenciamiento de la plataforma y herramientas de AquatechIA"
-        url="https://www.aquatechia.com/ia/terms"
+        description="Términos y condiciones de uso, propiedad intelectual y licenciamiento de la plataforma y las herramientas de inteligencia artificial de AquatechIA."
+        url="https://aquatechia.com/ia/terms"
         datePublished="2024-06-01"
         dateModified="2026-09-06"
       />

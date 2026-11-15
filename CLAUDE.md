@@ -22,7 +22,7 @@
 - **NUNCA** hagas `git push --force` a main
 - **NUNCA** accedas a la DB desde `apps/web` directamente — solo via `@ia-next/database`
 - **NUNCA** importes entre portales (ia ↔ ambiental)
-- **NUNCA** uses worktrees (ver memory/feedback_no_worktrees.md)
+- **Worktrees: solo si el árbol principal tiene cambios sin commit de otra sesión** (decisión de Andrés, 2026-11-11). En ese caso usa una ruta corta (`git worktree add -b rama /d/aqw origin/main`), `git config core.longpaths true`, `pnpm install --frozen-lockfile --ignore-scripts` y `pnpm --filter @ia-next/database exec prisma generate`; agrega archivos por nombre (no `git add -A`: cuela `tsconfig.tsbuildinfo`) y retira el worktree al terminar. Con el árbol limpio, trabaja directo en él (ver memory/feedback_no_worktrees.md)
 - **NUNCA** edites `.env*` sin confirmación explícita del usuario
 - **NUNCA** dupliques código — si ves un patrón 3 veces, revisa `.specify/instructions/three-strikes-rule.md`
 - **NUNCA** congeles un spec durante implementación — puede evolucionar con el código

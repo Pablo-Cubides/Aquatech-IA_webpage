@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Matrices de EIA - Leopold, Conesa y Battelle",
   description:
-    "Conoce las tres metodologías principales de Evaluación de Impacto Ambiental: Matriz Leopold, Matriz Conesa y Sistema Battelle-Columbus. Aprende cuándo usar cada una.",
+    "Las tres metodologías de Evaluación de Impacto Ambiental: matriz Leopold, matriz Conesa y sistema Battelle-Columbus, y cuándo usar cada una.",
   keywords: [
     "matriz leopold",
     "matriz conesa",

@@ -474,7 +474,7 @@ export default function HomePage() {
                       asChild
                       className="font-semibold border-2 border-blue-300 hover:bg-blue-50"
                     >
-                      <Link href="/ambiental/herramientas/normas-ambientales/fundamentos">
+                      <Link href="/ambiental/blog/navegador-normas-ambientales">
                         Ver Fundamentos
                       </Link>
                     </Button>
