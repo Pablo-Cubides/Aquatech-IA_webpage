@@ -192,6 +192,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.6,
     },
+    // Paginas de metodologia (formula, pasos, referencias): /matrices/[type] solo acepta estos tres ids.
+    ...["leopold", "conesa", "battelle"].map((type) => ({
+      url: `${baseUrl}/ambiental/herramientas/generador-matrices/matrices/${type}`,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    })),
     {
       url: `${baseUrl}/ambiental/herramientas/generador-matrices/selector`,
       changeFrequency: "monthly",

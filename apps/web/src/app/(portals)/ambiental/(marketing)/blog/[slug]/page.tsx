@@ -7,7 +7,7 @@ import { getArticle, getAllArticles } from "@/lib/blog-articles";
 import { extractFaqs, generateArticleSchema, generateBreadcrumbSchema, generateFaqSchema } from "@/lib/blog-seo";
 import { fitTitle } from "@/lib/seo-title";
 import { renderSafeRichText } from "@/lib/security/safe-rich-text";
-import { SITE_URL } from "@/lib/site-config";
+import { SITE_URL, TWITTER_HANDLE } from "@/lib/site-config";
 import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 export const dynamicParams = true;
@@ -59,7 +59,7 @@ export async function generateMetadata({
       title: article.title,
       description: article.excerpt,
       images: [article.heroImage],
-      creator: "@aquatechia",
+      creator: TWITTER_HANDLE,
     },
     alternates: {
       canonical: articleUrl,

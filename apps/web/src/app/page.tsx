@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ChevronRight } from "lucide-react";
 import type { Metadata } from "next";
+import { TWITTER_HANDLE } from "@/lib/site-config";
 
 const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com").trim().replace(/\/+$/, "");
 
@@ -43,7 +44,7 @@ export const metadata: Metadata = {
     description:
       "Inteligencia Artificial y Gestión Ambiental Sostenible. Herramientas y Cursos Educativos.",
     images: [`${baseUrl}/images/og-image.jpg`],
-    creator: "@aquatechia",
+    creator: TWITTER_HANDLE,
   },
   alternates: {
     canonical: baseUrl,

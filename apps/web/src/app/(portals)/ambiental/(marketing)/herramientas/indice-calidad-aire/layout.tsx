@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { SITE_URL } from '@/lib/site-config';
+import { SITE_URL, TWITTER_HANDLE } from '@/lib/site-config';
 import ToolSeoBlock from "@/components/seo/ToolSeoBlock";
 
 export const metadata: Metadata = {
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     title: 'Calculadora AQI - Calidad del Aire',
     description:
       'Calcula índices de calidad del aire para múltiples metodologías internacionales.',
-    creator: '@aquatechia',
+    creator: TWITTER_HANDLE,
   },
   category: 'technology',
 };

@@ -10,21 +10,10 @@ import React from "react";
 import { getToolBySlug } from "@/lib/services/tools-registry";
 import { guidesData } from "@/lib/guides-data";
 import { SITE_URL, DEFAULT_LOGO } from "@/lib/site-config";
+import { inlineMarkdownToHtml } from "@/lib/text/plain-text";
+import { buildToolFaqs } from "@/lib/seo/tool-faqs";
 
 type Portal = "ia" | "ambiental";
-
-const stripHtml = (html: string) =>
-  html
-    .replace(/<[^>]+>/g, " ")
-    .replace(/&nbsp;/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-
-const shorten = (text: string, max: number) => {
-  if (text.length <= max) return text;
-  const cut = text.slice(0, max);
-  return `${cut.slice(0, cut.lastIndexOf(" ")).replace(/[,;:.\s]+$/, "")}.`;
-};
 
 export type ToolRelatedLink = { href: string; label: string };
 
@@ -35,17 +24,7 @@ export default function ToolSeoBlock({ slug, portal, related }: { slug: string; 
   const url = `${SITE_URL}${tool.url}`;
   const portalName = portal === "ia" ? "Portal IA" : "Portal Ambiental";
 
-  const faqs: Array<{ question: string; answer: string }> = [
-    { question: `¿Qué es ${tool.name}?`, answer: tool.description },
-  ];
-  if (guide?.sections?.length) {
-    const how = stripHtml(guide.sections.map((section) => section.content).join(" "));
-    faqs.push({ question: `¿Cómo funciona ${tool.name}?`, answer: shorten(how, 420) });
-  }
-  faqs.push({
-    question: `¿Tiene costo usar ${tool.name}?`,
-    answer: `No. ${tool.name} es una herramienta de acceso libre del ${portalName} de AquatechIA y funciona directamente en el navegador.`,
-  });
+  const faqs = buildToolFaqs(tool, portal);
 
   const webApp = {
     "@context": "https://schema.org",
@@ -89,7 +68,7 @@ export default function ToolSeoBlock({ slug, portal, related }: { slug: string; 
       {guide?.sections?.map((section) => (
         <div key={section.title} className="mt-8">
           <h3 className="text-xl font-semibold text-white">{section.title}</h3>
-          <div className="mt-2 leading-relaxed" dangerouslySetInnerHTML={{ __html: section.content }} />
+          <div className="mt-2 leading-relaxed" dangerouslySetInnerHTML={{ __html: inlineMarkdownToHtml(section.content) }} />
         </div>
       ))}
 

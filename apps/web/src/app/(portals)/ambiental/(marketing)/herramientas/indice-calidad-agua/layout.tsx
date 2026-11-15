@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { SITE_URL } from '@/lib/site-config';
+import { SITE_URL, TWITTER_HANDLE } from '@/lib/site-config';
 import ToolSeoBlock from "@/components/seo/ToolSeoBlock";
 
 export const metadata: Metadata = {
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     title: 'Calculadora IRCA, WQI, DWQI',
     description:
       'Calcula índices de calidad de agua potable a partir de datos de laboratorio.',
-    creator: '@aquatechia',
+    creator: TWITTER_HANDLE,
   },
   category: 'technology',
 };
