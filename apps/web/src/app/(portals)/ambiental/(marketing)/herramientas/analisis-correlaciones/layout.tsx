@@ -55,26 +55,7 @@ export const metadata: Metadata = {
   category: 'technology',
 };
 
-const structuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'WebApplication',
-  name: 'Análisis de Correlaciones Ambientales',
-  description:
-    'Herramienta estadística para calcular correlaciones Pearson, Spearman y Kendall en datasets ambientales',
-  url: `${SITE_URL}/ambiental/herramientas/analisis-correlaciones`,
-  applicationCategory: 'ScientificApplication',
-  operatingSystem: 'Web Browser',
-  offers: {
-    '@type': 'Offer',
-    price: '0',
-    priceCurrency: 'USD',
-  },
-  provider: {
-    '@type': 'Organization',
-    name: 'AquatechIA',
-    url: SITE_URL,
-  },
-  featureList: [
+const FEATURE_LIST = [
     'Correlación de Pearson',
     'Correlación de Spearman',
     'Correlación de Kendall',
@@ -82,8 +63,7 @@ const structuredData = {
     'Integración World Bank',
     'Integración WHO GHO',
     'Exportación CSV/XLSX',
-  ],
-};
+  ];
 
 export default function AnalisisCorrelacionesLayout({
   children,
@@ -92,14 +72,8 @@ export default function AnalisisCorrelacionesLayout({
 }) {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData),
-        }}
-      />
       {children}
-      <ToolSeoBlock slug="analisis-correlaciones" portal="ambiental" />
+      <ToolSeoBlock featureList={FEATURE_LIST} slug="analisis-correlaciones" portal="ambiental" />
     </>
   );
 }

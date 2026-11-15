@@ -76,8 +76,6 @@ export default function ProductosAmbientalPage() {
         title="Productos y Recursos Recomendados en Gestión Ambiental e IA | Aquatech IA"
         description="Catálogo curado de software técnico, equipamiento instrumental, literatura científica y cursos especializados seleccionados por expertos de Aquatech IA."
         url="https://aquatechia.com/ambiental/productos"
-        datePublished="2024-06-01"
-        dateModified="2026-09-06"
       />
       <FAQStructuredData faqs={productosFaqs} />
       <style jsx global>{`

@@ -91,8 +91,6 @@ function generateBlogSchema() {
     description:
       "Artículos, análisis y soluciones innovadoras para los desafíos ambientales.",
     url: `${SITE_URL}/ambiental/blog`,
-    datePublished: "2024-01-01",
-    dateModified: "2026-09-06",
     publisher: {
       "@type": "Organization",
       name: "AquatechIA",

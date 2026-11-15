@@ -17,7 +17,18 @@ type Portal = "ia" | "ambiental";
 
 export type ToolRelatedLink = { href: string; label: string };
 
-export default function ToolSeoBlock({ slug, portal, related }: { slug: string; portal: Portal; related?: ToolRelatedLink[] }) {
+export default function ToolSeoBlock({
+  slug,
+  portal,
+  related,
+  featureList,
+}: {
+  slug: string;
+  portal: Portal;
+  related?: ToolRelatedLink[];
+  /** Funciones de la herramienta para el WebApplication (unico WebApplication de la pagina). */
+  featureList?: string[];
+}) {
   const tool = getToolBySlug(slug, portal);
   if (!tool) return null;
   const guide = guidesData[slug];
@@ -36,6 +47,7 @@ export default function ToolSeoBlock({ slug, portal, related }: { slug: string; 
     operatingSystem: "Web",
     inLanguage: "es",
     isAccessibleForFree: true,
+    ...(featureList?.length ? { featureList } : {}),
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     publisher: { "@type": "Organization", name: "AquatechIA", url: SITE_URL, logo: { "@type": "ImageObject", url: DEFAULT_LOGO } },
   };

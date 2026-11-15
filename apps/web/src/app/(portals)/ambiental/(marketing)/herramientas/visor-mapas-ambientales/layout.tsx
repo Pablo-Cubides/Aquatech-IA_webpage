@@ -55,35 +55,13 @@ export const metadata: Metadata = {
   category: 'technology',
 };
 
-const structuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'WebApplication',
-  name: 'Visor de Mapas Ambientales',
-  description:
-    'Herramienta de visualización de datos ambientales con mapas interactivos y capas GIS',
-  url: `${SITE_URL}/ambiental/herramientas/visor-mapas-ambientales`,
-  applicationCategory: 'EnvironmentalApplication',
-  operatingSystem: 'Web Browser',
-  datePublished: '2024-06-01',
-  dateModified: '2026-09-06',
-  offers: {
-    '@type': 'Offer',
-    price: '0',
-    priceCurrency: 'USD',
-  },
-  provider: {
-    '@type': 'Organization',
-    name: 'AquatechIA',
-    url: SITE_URL,
-  },
-  featureList: [
+const FEATURE_LIST = [
     'Capas GIS personalizables',
     'Integración con GBIF',
     'Water Quality Portal',
     'Carga de datasets propios',
     'Exportación de datos',
-  ],
-};
+  ];
 
 export default function VisorMapasLayout({
   children,
@@ -92,14 +70,8 @@ export default function VisorMapasLayout({
 }) {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData),
-        }}
-      />
       {children}
-      <ToolSeoBlock slug="visor-mapas-ambientales" portal="ambiental" />
+      <ToolSeoBlock featureList={FEATURE_LIST} slug="visor-mapas-ambientales" portal="ambiental" />
     </>
   );
 }

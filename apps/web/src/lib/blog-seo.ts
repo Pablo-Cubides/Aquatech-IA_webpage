@@ -1,3 +1,4 @@
+import { toPlainText } from "@/lib/text/plain-text";
 import { BlogArticle, getAllArticles } from "./blog-articles";
 import {
   BlogCategory,
@@ -120,7 +121,8 @@ export function generateArticleSchema(
     "@type": "Article",
     headline: article.title,
     description: article.excerpt,
-    image: article.heroImage,
+    // Google exige URL absoluta para la imagen del Article.
+    image: /^https?:\/\//.test(article.heroImage) ? article.heroImage : `${baseUrl}${article.heroImage.startsWith("/") ? "" : "/"}${article.heroImage}`,
     datePublished: article.date,
     // dateModified nunca puede ser anterior a datePublished (antes caia a una fecha fija y 8 articulos quedaron invertidos)
     dateModified: (article as { dateModified?: string }).dateModified || article.date,
@@ -157,7 +159,7 @@ export function extractFaqs(article: BlogArticle): Array<{ question: string; ans
   const section = article.content.sections.find((item) => /preguntas\s+frecuentes|faq/i.test(item.title));
   if (!section) return [];
   const faqs: Array<{ question: string; answer: string }> = [];
-  const plain = (text: string) => text.replace(/[#*`_>]/g, "").replace(/\[([^\]]+)\]\([^)]*\)/g, "$1").replace(/\s+/g, " ").trim();
+  const plain = (text: string) => toPlainText(text);
   for (const sub of section.subsections || []) {
     if (/\?\s*$/.test(sub.title) && plain(sub.content)) faqs.push({ question: plain(sub.title), answer: plain(sub.content) });
   }

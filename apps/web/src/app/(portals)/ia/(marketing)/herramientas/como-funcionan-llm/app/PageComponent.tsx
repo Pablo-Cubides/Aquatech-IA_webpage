@@ -111,8 +111,6 @@ function ExploraModeloApp() {
         title="Cómo Funcionan los Grandes Modelos de Lenguaje (LLM) | Aquatech IA"
         description="Cómo funcionan los modelos de lenguaje (LLM), paso a paso: tokenización, embeddings, atención, probabilidades y generación de texto."
         url="https://aquatechia.com/ia/herramientas/como-funcionan-llm"
-        datePublished="2024-06-01"
-        dateModified="2026-09-06"
       />
       <div className="min-h-screen bg-gradient-to-b from-[var(--ia-bg)] via-[var(--ia-bg-2)] to-[var(--ia-bg)]">
         {/* Header - Moderno y limpio */}

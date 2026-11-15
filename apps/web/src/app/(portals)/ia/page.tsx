@@ -47,8 +47,6 @@ export default function IAPage() {
     name: "IA Portal - AquatechIA",
     url: "https://aquatechia.com/ia",
     description: "Explora modelos generativos, visualizaciones y herramientas prácticas de inteligencia artificial aplicadas al agua y medio ambiente.",
-    datePublished: "2024-01-01",
-    dateModified: "2026-09-06",
     publisher: {
       "@type": "Organization",
       name: "AquatechIA"

@@ -197,8 +197,6 @@ export default function HomePage() {
             title="Normas Ambientales por País (NormaGlobal) | Aquatech IA"
             description="Compendio de normativas y estándares ambientales internacionales para agua, aire, residuos y vertimientos clasificados por país y sector."
             url="https://aquatechia.com/ambiental/herramientas/normas-ambientales"
-            datePublished="2024-06-01"
-            dateModified="2026-09-06"
           />
           <div className="max-w-3xl mx-auto text-center">
             {/* Logo */}

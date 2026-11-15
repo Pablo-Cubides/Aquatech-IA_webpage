@@ -367,8 +367,6 @@ export default function Home() {
         title="Parámetros de Decodificación (LLM Tune) | Aquatech IA"
         description="Playground interactivo para experimentar con Temperatura, Top-k, Top-p y penalización por repetición en modelos de lenguaje grandes."
         url="https://aquatechia.com/ia/herramientas/parametros-decodificacion"
-        datePublished="2024-06-01"
-        dateModified="2026-09-06"
       />
       <main className="max-w-7xl mx-auto p-8 text-white">
         {/* Enhanced header with LLM Tune logo */}

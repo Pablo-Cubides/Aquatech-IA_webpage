@@ -110,33 +110,17 @@ export default function RootLayout({
     },
   };
 
-  const websiteSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: "AquatechIA",
-    url: SITE_URL,
-    description:
-      "Plataforma de IA para gestión ambiental sostenible con herramientas y cursos",
-  };
-
   return (
     <html
       lang="es"
       className={`${spaceGrotesk.variable} ${notoSans.variable}`}
     >
       <head>
-        {/* Structured Data - Organization */}
+        {/* Structured Data - Organization (el WebSite solo se emite en la home: app/page.tsx) */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(organizationSchema),
-          }}
-        />
-        {/* Structured Data - Website */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(websiteSchema),
           }}
         />
         {/* DNS Prefetch for performance */}

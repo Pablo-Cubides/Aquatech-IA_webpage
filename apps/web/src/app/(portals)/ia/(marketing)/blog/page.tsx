@@ -92,8 +92,6 @@ function generateBlogSchema() {
     description:
       "Guías, tutoriales y análisis sobre inteligencia artificial, machine learning y tecnologías emergentes.",
     url: `${SITE_URL}/ia/blog`,
-    datePublished: "2024-01-01",
-    dateModified: "2026-09-06",
     publisher: {
       "@type": "Organization",
       name: "AquatechIA",

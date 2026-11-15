@@ -85,8 +85,6 @@ export default function SoportePage() {
         title="Centro de Soporte y Ayuda Técnica | Aquatech IA"
         description="Centro de soporte técnico de Aquatech IA: asistencia técnica especializada, guías operativas y resolución de incidencias para herramientas ambientales e inteligencia artificial."
         url="https://aquatechia.com/soporte"
-        datePublished="2024-06-01"
-        dateModified="2026-09-06"
       />
       <FAQStructuredData faqs={soporteFaqs} />
       <HeaderAmbiental />

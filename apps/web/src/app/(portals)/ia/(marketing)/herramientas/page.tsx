@@ -12,8 +12,6 @@ export default function IAHerramientasPage() {
     name: "Herramientas de IA | Aquatech IA",
     url: "https://aquatechia.com/ia/herramientas",
     description: "Catálogo de simuladores y herramientas interactivas de inteligencia artificial para explorar arquitectura LLM, decodificación y moderación algorítmica.",
-    datePublished: "2024-01-01",
-    dateModified: "2026-09-06",
     publisher: {
       "@type": "Organization",
       name: "AquatechIA"

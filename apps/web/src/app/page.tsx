@@ -61,8 +61,6 @@ export default function Home() {
     url: baseUrl,
     description:
       "Plataforma educativa de inteligencia artificial y gestión ambiental sostenible.",
-    datePublished: "2024-01-01",
-    dateModified: "2026-09-06",
     publisher: {
       "@type": "Organization",
       name: "AquatechIA",

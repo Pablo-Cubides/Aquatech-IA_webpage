@@ -55,35 +55,13 @@ export const metadata: Metadata = {
   category: 'technology',
 };
 
-const structuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'WebApplication',
-  name: 'Navegador de Normas Ambientales',
-  description:
-    'Base de datos de regulaciones ambientales internacionales organizadas por país, dominio y sector',
-  url: `${SITE_URL}/ambiental/herramientas/normas-ambientales`,
-  applicationCategory: 'ReferenceApplication',
-  operatingSystem: 'Web Browser',
-  datePublished: '2024-06-01',
-  dateModified: '2026-09-06',
-  offers: {
-    '@type': 'Offer',
-    price: '0',
-    priceCurrency: 'USD',
-  },
-  provider: {
-    '@type': 'Organization',
-    name: 'AquatechIA',
-    url: SITE_URL,
-  },
-  featureList: [
+const FEATURE_LIST = [
     'Normativas de agua potable',
     'Regulaciones de vertimientos',
     'Normativas de aire',
     'Gestión de residuos sólidos',
     'Búsqueda por país y sector',
-  ],
-};
+  ];
 
 export default function NormasAmbientalesLayout({
   children,
@@ -92,14 +70,8 @@ export default function NormasAmbientalesLayout({
 }) {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData),
-        }}
-      />
       {children}
-      <ToolSeoBlock slug="normas-ambientales" portal="ambiental" />
+      <ToolSeoBlock featureList={FEATURE_LIST} slug="normas-ambientales" portal="ambiental" />
     </>
   );
 }

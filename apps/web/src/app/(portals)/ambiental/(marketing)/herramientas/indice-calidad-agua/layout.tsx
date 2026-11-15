@@ -57,26 +57,7 @@ export const metadata: Metadata = {
   category: 'technology',
 };
 
-const structuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'WebApplication',
-  name: 'Calculadora de Índices de Calidad de Agua',
-  description:
-    'Herramienta para calcular índices de calidad de agua potable: IRCA (Resolución 2115/2007 Colombia), WQI (NSF) y DWQI',
-  url: `${SITE_URL}/ambiental/herramientas/indice-calidad-agua`,
-  applicationCategory: 'ScientificApplication',
-  operatingSystem: 'Web Browser',
-  offers: {
-    '@type': 'Offer',
-    price: '0',
-    priceCurrency: 'USD',
-  },
-  provider: {
-    '@type': 'Organization',
-    name: 'AquatechIA',
-    url: SITE_URL,
-  },
-  featureList: [
+const FEATURE_LIST = [
     'IRCA - Índice de Riesgo de Calidad del Agua (Colombia)',
     'WQI - NSF Water Quality Index',
     'DWQI - Drinking Water Quality Index',
@@ -84,8 +65,7 @@ const structuredData = {
     'Explicación detallada de cálculos',
     'Exportación de resultados',
     'Categorización por niveles de riesgo',
-  ],
-};
+  ];
 
 export default function IndiceCalidadAguaLayout({
   children,
@@ -94,14 +74,8 @@ export default function IndiceCalidadAguaLayout({
 }) {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData),
-        }}
-      />
       {children}
-      <ToolSeoBlock
+      <ToolSeoBlock featureList={FEATURE_LIST}
         slug="indice-calidad-agua"
         portal="ambiental"
         related={[

@@ -23,7 +23,7 @@ export function ToolStructuredData({
   name,
   description,
   url,
-  datePublished = "2024-01-01",
+  datePublished,
   dateModified,
   author = "AquatechIA",
   keywords = [],
@@ -55,8 +55,9 @@ export function ToolStructuredData({
         url: DEFAULT_LOGO,
       },
     },
-    datePublished,
-    dateModified: dateModified || "2026-09-06",
+    // Solo fechas reales: si no se pasan, el campo se omite (una fecha inventada en JSON-LD es peor que ninguna).
+    ...(datePublished ? { datePublished } : {}),
+    ...(dateModified ? { dateModified } : {}),
     keywords: keywords.join(", "),
     inLanguage: "es",
     isAccessibleForFree: true,
@@ -87,7 +88,7 @@ export function ArticleStructuredData({
   title,
   description,
   url,
-  datePublished = "2024-01-01",
+  datePublished,
   dateModified,
   author = "AquatechIA",
   image = DEFAULT_OG_IMAGE,
@@ -113,8 +114,9 @@ export function ArticleStructuredData({
         url: DEFAULT_LOGO,
       },
     },
-    datePublished,
-    dateModified: dateModified || "2026-09-06",
+    // Solo fechas reales: si no se pasan, el campo se omite (una fecha inventada en JSON-LD es peor que ninguna).
+    ...(datePublished ? { datePublished } : {}),
+    ...(dateModified ? { dateModified } : {}),
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": url,
@@ -240,8 +242,8 @@ export function WebPageStructuredData({
   title,
   description,
   url,
-  datePublished = "2024-01-01",
-  dateModified = "2026-09-06",
+  datePublished,
+  dateModified,
   breadcrumb,
 }: WebPageStructuredDataProps) {
   const pageName = name || title || "Aquatech IA";
@@ -251,8 +253,8 @@ export function WebPageStructuredData({
     name: pageName,
     description,
     url,
-    datePublished,
-    dateModified,
+    ...(datePublished ? { datePublished } : {}),
+    ...(dateModified ? { dateModified } : {}),
     inLanguage: "es",
     publisher: {
       "@type": "Organization",

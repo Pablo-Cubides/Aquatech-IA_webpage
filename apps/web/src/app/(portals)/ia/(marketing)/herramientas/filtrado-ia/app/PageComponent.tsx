@@ -13,8 +13,6 @@ export default function Home() {
         title="Cómo la IA Filtra Respuestas | Aquatech IA"
         description="Comprende los mecanismos de seguridad, moderación y filtrado que utilizan los modelos de IA para analizar y clasificar las respuestas generadas."
         url="https://aquatechia.com/ia/herramientas/filtrado-ia"
-        datePublished="2024-06-01"
-        dateModified="2026-09-06"
       />
       <CasosProvider>
         <main className="min-h-screen bg-slate-950 text-slate-100 py-8 px-4 sm:px-6 lg:px-8">
