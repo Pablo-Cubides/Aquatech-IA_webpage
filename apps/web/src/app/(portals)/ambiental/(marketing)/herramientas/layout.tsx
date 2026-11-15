@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import React from "react";
+import { ToolUsageTracker } from "@/components/analytics/ToolUsageTracker";
 
 export const metadata: Metadata = {
   title: "Herramientas de Gestión Ambiental",
@@ -44,5 +45,10 @@ export default function AmbientalHerramientasLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return (
+    <>
+      <ToolUsageTracker />
+      {children}
+    </>
+  );
 }

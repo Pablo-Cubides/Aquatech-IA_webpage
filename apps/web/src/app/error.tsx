@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
+import { reportClientError } from "@/lib/observability/sentry-client";
 
 export default function Error({
   error,
@@ -11,7 +12,8 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    // Log para diagnóstico — Sentry capturará esto cuando esté configurado
+    // Los errores de render que atrapa este límite no llegan solos a Sentry.
+    reportClientError(error);
     console.error("[root error boundary]", error);
   }, [error]);
 

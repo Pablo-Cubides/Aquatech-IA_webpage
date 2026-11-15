@@ -1,138 +1,46 @@
-import { NextResponse } from "next/server";
-import { prisma } from "@ia-next/database";
-import { Redis } from "@upstash/redis";
-
-function getRequiredEnv(name: string): string {
-  const value = process.env[name];
-  if (!value) {
-    throw new Error(`${name} is not configured`);
-  }
-  return value;
-}
+import { NextRequest, NextResponse } from "next/server";
+import { getHealthReport } from "@/lib/health";
+import { getDegradationSnapshot } from "@/lib/observability/degradation";
+import { getAdminSession } from "@/lib/security/admin-session";
+import { verifyAgentToken } from "@/lib/security/agent-token";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
-interface HealthStatus {
-  status: "healthy" | "degraded" | "unhealthy";
-  timestamp: string;
-  service: string;
-  checks: {
-    database: CheckResult;
-    redis: CheckResult;
-    uptime: CheckResult;
-  };
-  version?: string;
-}
+const NO_STORE = { "Cache-Control": "no-store" };
 
-interface CheckResult {
-  status: "pass" | "fail";
-  message?: string;
-  responseTime?: number;
-}
+/**
+ * GET /api/health
+ *
+ * - 200 `ok`: todo lo crítico responde.
+ * - 200 `degraded`: algo opcional falla (el sitio funciona).
+ * - 503 `down`: falla una dependencia crítica (la base de datos).
+ *
+ * Sin autenticación solo se devuelve `{ status, timestamp }`: nada de
+ * infraestructura. El detalle por dependencia (tiempos, qué falló) lo ve un
+ * ADMIN con sesión o quien presente `Authorization: Bearer <HEALTH_CHECK_TOKEN>`
+ * (para el monitor de disponibilidad).
+ */
+export async function GET(request: NextRequest) {
+  const report = await getHealthReport();
+  const httpStatus = report.status === "down" ? 503 : 200;
 
-async function checkDatabase(): Promise<CheckResult> {
-  const start = Date.now();
-  try {
-    await prisma.$queryRaw`SELECT 1`;
-    return {
-      status: "pass",
-      responseTime: Date.now() - start,
-    };
-  } catch (error) {
-    const message = error instanceof Error ? error.message : "Unknown error";
-    return {
-      status: "fail",
-      message,
-      responseTime: Date.now() - start,
-    };
-  }
-}
+  const bearer = request.headers.get("authorization");
+  const detailed =
+    (bearer !== null &&
+      verifyAgentToken(bearer, process.env.HEALTH_CHECK_TOKEN?.trim() || undefined) === "valid") ||
+    (await getAdminSession()) !== null;
 
-async function checkRedis(): Promise<CheckResult> {
-  const start = Date.now();
-  try {
-    const redis = new Redis({
-      url: getRequiredEnv("UPSTASH_REDIS_REST_URL"),
-      token: getRequiredEnv("UPSTASH_REDIS_REST_TOKEN"),
-    });
-
-    await redis.ping();
-    return {
-      status: "pass",
-      responseTime: Date.now() - start,
-    };
-  } catch (error) {
-    const message = error instanceof Error ? error.message : "Unknown error";
-    return {
-      status: "fail",
-      message,
-      responseTime: Date.now() - start,
-    };
-  }
-}
-
-function checkUptime(): CheckResult {
-  const uptime = process.uptime();
-  return {
-    status: "pass",
-    message: `${Math.floor(uptime / 60)} minutes`,
-    responseTime: Math.floor(uptime * 1000),
-  };
-}
-
-export async function GET() {
-  try {
-    const [dbCheck, redisCheck, uptimeCheck] = await Promise.all([
-      checkDatabase(),
-      checkRedis(),
-      Promise.resolve(checkUptime()),
-    ]);
-
-    const allPassed =
-      dbCheck.status === "pass" &&
-      redisCheck.status === "pass" &&
-      uptimeCheck.status === "pass";
-
-    const someFailed =
-      dbCheck.status === "fail" ||
-      redisCheck.status === "fail" ||
-      uptimeCheck.status === "fail";
-
-    const health: HealthStatus = {
-      status: allPassed ? "healthy" : someFailed ? "unhealthy" : "degraded",
-      timestamp: new Date().toISOString(),
-      service: "ia-next-web",
-      checks: {
-        database: dbCheck,
-        redis: redisCheck,
-        uptime: uptimeCheck,
-      },
-      version: process.env.npm_package_version,
-    };
-
-    const statusCode =
-      health.status === "healthy"
-        ? 200
-        : health.status === "degraded"
-          ? 200
-          : 503;
-
-    return NextResponse.json(health, {
-      status: statusCode,
-      headers: {
-        "Cache-Control": "no-cache, no-store, must-revalidate",
-      },
-    });
-  } catch (error) {
-    const message = error instanceof Error ? error.message : "Unknown error";
+  if (!detailed) {
     return NextResponse.json(
-      {
-        status: "unhealthy",
-        timestamp: new Date().toISOString(),
-        service: "ia-next-web",
-        error: message,
-      },
-      { status: 503 },
+      { status: report.status, timestamp: report.timestamp },
+      { status: httpStatus, headers: NO_STORE },
     );
   }
+
+  // `degradations`: qué fallbacks silenciosos ha visto ESTA instancia (p. ej. artículos solo del código).
+  return NextResponse.json(
+    { ...report, degradations: getDegradationSnapshot() },
+    { status: httpStatus, headers: NO_STORE },
+  );
 }

@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import type { BlogArticle } from "@/lib/blog-articles";
+import { reportDegradation } from "@/lib/observability/degradation";
 import {
   prisma,
   type BlogPost,
@@ -190,7 +191,11 @@ export async function getStoredArticles(): Promise<StoredBlogArticle[]> {
     return articles;
   } catch (error) {
     console.warn("[BlogStore] Prisma query failed, falling back to disk cache:", error);
-    return getStoredArticlesFromDisk();
+    const fromDisk = getStoredArticlesFromDisk();
+    // OPS-001: sin la base, listados, sitemap y llms.txt pierden los artículos que
+    // solo viven en PostgreSQL. Que no pase en silencio.
+    reportDegradation("blog-store-db-fallback", error, { articlesFromDisk: fromDisk.length });
+    return fromDisk;
   }
 }
 

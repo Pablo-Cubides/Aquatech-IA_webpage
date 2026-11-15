@@ -1,10 +1,16 @@
 /**
- * Rate limiting using Upstash Redis
- * Protects API routes from abuse
+ * Rate limiting: protege las rutas de la API contra abuso.
+ *
+ * Almacén (OPS-001): PostgreSQL por defecto (`rate-limit-postgres.ts`, sin
+ * dependencias externas). Upstash Redis se usa si `UPSTASH_REDIS_REST_URL` y
+ * `UPSTASH_REDIS_REST_TOKEN` están definidas. `RATE_LIMIT_BACKEND=postgres|upstash`
+ * fuerza uno. La POLÍTICA cuando el almacén falla (failureMode) no depende del
+ * almacén y es del cargo SEC.
  */
 
 import { Redis } from "@upstash/redis";
 import { logger } from "@/lib/logger";
+import { incrementWindow } from "./rate-limit-postgres";
 
 let redisClient: Redis | null = null;
 let redisDisabled = false;
@@ -18,8 +24,7 @@ function getRedisClient(): Redis | null {
     return null;
   }
 
-  const url = process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  const { url, token } = upstashCredentials();
 
   if (!url || !token) {
     redisDisabled = true;
@@ -69,6 +74,48 @@ export class RateLimitError extends Error {
   }
 }
 
+export type RateLimitBackend = "postgres" | "upstash";
+
+/** Lee una variable ignorando espacios; vacía o solo espacios cuenta como no definida. */
+function readEnv(name: string): string | undefined {
+  const value = process.env[name]?.trim();
+  return value ? value : undefined;
+}
+
+/** Credenciales de Upstash solo si están las DOS y no vacías (Vercel: se pegan a mano). */
+function upstashCredentials(): { url?: string; token?: string } {
+  const url = readEnv("UPSTASH_REDIS_REST_URL");
+  const token = readEnv("UPSTASH_REDIS_REST_TOKEN");
+  return url && token ? { url, token } : {};
+}
+
+let warnedPartialUpstash = false;
+
+/**
+ * Elige el almacén. Upstash solo si URL Y TOKEN están completos; con una sola de
+ * las dos (o ninguna) se usa PostgreSQL. `RATE_LIMIT_BACKEND=postgres` fuerza
+ * PostgreSQL; `=upstash` fuerza Upstash solo si las credenciales están completas.
+ */
+export function selectRateLimitBackend(): RateLimitBackend {
+  const forced = readEnv("RATE_LIMIT_BACKEND")?.toLowerCase();
+  const { url, token } = upstashCredentials();
+  const complete = Boolean(url && token);
+
+  if (!complete) {
+    const partial =
+      Boolean(readEnv("UPSTASH_REDIS_REST_URL")) !==
+      Boolean(readEnv("UPSTASH_REDIS_REST_TOKEN"));
+    if ((partial || forced === "upstash") && !warnedPartialUpstash) {
+      warnedPartialUpstash = true;
+      logger.warn(
+        "Rate limit: credenciales de Upstash incompletas, se usa PostgreSQL",
+      );
+    }
+    return "postgres";
+  }
+  return forced === "postgres" ? "postgres" : "upstash";
+}
+
 /** Resultado cuando no hay almacén: depende SOLO de failureMode. */
 function backendUnavailable(
   failureMode: RateLimitFailureMode,
@@ -100,6 +147,31 @@ export async function rateLimit(
   const window = config.interval;
   const limit = config.uniqueTokenPerInterval;
   const failureMode = config.failureMode ?? "closed";
+
+  if (selectRateLimitBackend() === "postgres") {
+    try {
+      const { hits, resetAt } = await incrementWindow(key, window, limit);
+      if (hits > limit) {
+        return {
+          success: false,
+          limit,
+          remaining: 0,
+          reset: resetAt,
+          reason: "limit-exceeded",
+        };
+      }
+      return {
+        success: true,
+        limit,
+        remaining: Math.max(limit - hits, 0),
+        reset: resetAt,
+      };
+    } catch (error: unknown) {
+      logger.error("Rate limiting error (postgres)", error);
+      return backendUnavailable(failureMode, limit, now + window);
+    }
+  }
+
   const redis = getRedisClient();
 
   if (!redis) {

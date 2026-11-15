@@ -1,5 +1,8 @@
 "use client"; // global-error must be a Client Component and render its own <html>/<body>
 
+import { useEffect } from "react";
+import { reportClientError } from "@/lib/observability/sentry-client";
+
 export default function GlobalError({
   error,
   reset,
@@ -7,6 +10,10 @@ export default function GlobalError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  useEffect(() => {
+    reportClientError(error);
+  }, [error]);
+
   return (
     <html lang="es">
       <body

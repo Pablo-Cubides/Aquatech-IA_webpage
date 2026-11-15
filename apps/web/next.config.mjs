@@ -1,4 +1,5 @@
 import path from "path";
+import { withSentryConfig } from "@sentry/nextjs/config";
 import { fileURLToPath } from "url";
 import { retiredArticleRedirects } from "./src/lib/retired-articles.mjs";
 
@@ -334,4 +335,22 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+// Sentry (OPS-001): solo se envuelve la configuración si hay DSN en el entorno de
+// build. Sin DSN el build es idéntico al de antes y el SDK queda inerte.
+// `tunnelRoute` manda los eventos del navegador por /monitoring (mismo origen): no
+// hace falta tocar la CSP (`connect-src`) ni sufren los bloqueadores de anuncios.
+const hasSentryDsn = Boolean(
+  (process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN)?.trim(),
+);
+
+export default hasSentryDsn
+  ? withSentryConfig(nextConfig, {
+      org: process.env.SENTRY_ORG,
+      project: process.env.SENTRY_PROJECT,
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+      silent: !process.env.CI,
+      telemetry: false,
+      tunnelRoute: "/monitoring",
+      webpack: { treeshake: { removeDebugLogging: true } },
+    })
+  : nextConfig;

@@ -1,214 +1,68 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import {
   logEvent,
   trackPageView,
   trackToolEvent,
   trackError,
 } from "../analytics";
-import * as Sentry from "@sentry/nextjs";
+import { reportClientError } from "@/lib/observability/sentry-client";
 
-import type { MockInstance } from "vitest";
+// Mock del reporte a Sentry (carga diferida) y del helper de envío de uso
+vi.mock("@/lib/observability/sentry-client", () => ({ reportClientError: vi.fn() }));
+const sendMock = vi.hoisted(() => vi.fn());
+vi.mock("@/lib/analytics/track", () => ({ sendToolEvent: sendMock }));
 
-// Mock Sentry
-vi.mock("@sentry/nextjs", () => ({
-  captureMessage: vi.fn(),
-  captureException: vi.fn(),
-}));
-
-describe("Análisis de Correlaciones - Analytics", () => {
-  let consoleLogSpy: MockInstance;
-  let consoleErrorSpy: MockInstance;
-
+describe("Análisis de Correlaciones - Analytics (OPS-001)", () => {
   beforeEach(() => {
-    consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     vi.clearAllMocks();
   });
 
-  afterEach(() => {
-    consoleLogSpy.mockRestore();
-    consoleErrorSpy.mockRestore();
-    vi.unstubAllEnvs();
+  it("el uso va a la tabla de eventos como tool_action y NUNCA a Sentry", () => {
+    logEvent("test_event", { param1: "value1" });
+
+    expect(sendMock).toHaveBeenCalledWith(
+      "analisis-correlaciones",
+      "tool_action",
+      expect.objectContaining({ action: "test_event", param1: "value1" }),
+    );
+    expect(reportClientError).not.toHaveBeenCalled();
   });
 
-  describe("logEvent", () => {
-    it("should log events in development", () => {
-      vi.stubEnv("NODE_ENV", "development");
+  it("ignora userId: el correo del usuario no sale en ningún evento", () => {
+    logEvent("user_event", { action: "upload" }, "ana@uni.edu.co");
 
-      logEvent("test_event", { param1: "value1" });
+    expect(JSON.stringify(sendMock.mock.calls)).not.toContain("ana@uni.edu.co");
+    expect(reportClientError).not.toHaveBeenCalled();
+  });
 
-      expect(consoleLogSpy).toHaveBeenCalled();
-      expect(Sentry.captureMessage).toHaveBeenCalledWith(
-        "Tool Event: test_event",
-        expect.objectContaining({
-          level: "info",
-          tags: expect.objectContaining({
-            tool: "analisis-correlaciones",
-            event: "test_event",
-          }),
-        }),
-      );
-    });
+  it("trackToolEvent antepone tool_ al nombre de la acción", () => {
+    trackToolEvent("file_upload", { format: "csv" });
 
-    it("should log events without params", () => {
-      logEvent("simple_event");
+    expect(sendMock).toHaveBeenCalledWith(
+      "analisis-correlaciones",
+      "tool_action",
+      expect.objectContaining({ action: "tool_file_upload", format: "csv" }),
+    );
+  });
 
-      expect(Sentry.captureMessage).toHaveBeenCalledWith(
-        "Tool Event: simple_event",
-        expect.objectContaining({
-          level: "info",
-        }),
-      );
-    });
+  it("trackPageView no duplica la visita que ya cuenta el layout", () => {
+    trackPageView("/correlaciones", "user456");
 
-    it("should include userId in tags when provided", () => {
-      logEvent("user_event", { action: "upload" }, "user123");
+    expect(sendMock).not.toHaveBeenCalled();
+  });
 
-      expect(Sentry.captureMessage).toHaveBeenCalledWith(
-        "Tool Event: user_event",
-        expect.objectContaining({
-          tags: expect.objectContaining({
-            userId: "user123",
-          }),
-        }),
-      );
-    });
+  it("trackError envía el error a Sentry con la etiqueta de herramienta, sin userId ni contexto", () => {
+    const error = new Error("Parsing failed");
 
-    it("should include params in extra field", () => {
-      const params = { fileSize: "2MB", columns: 5 };
-      logEvent("file_uploaded", params);
+    trackError(error, { file: "datos-de-estudiantes.csv" }, "user999");
 
-      expect(Sentry.captureMessage).toHaveBeenCalledWith(
-        "Tool Event: file_uploaded",
-        expect.objectContaining({
-          extra: params,
-        }),
-      );
-    });
-
-    it("should handle Sentry errors gracefully", () => {
-      vi.mocked(Sentry.captureMessage).mockImplementationOnce(() => {
-        throw new Error("Sentry error");
-      });
-
-      expect(() => logEvent("test")).not.toThrow();
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
-        "Failed to log event to Sentry:",
-        expect.any(Error),
-      );
+    expect(reportClientError).toHaveBeenCalledWith(error, { tool: "analisis-correlaciones" });
+    expect(sendMock).toHaveBeenCalledWith("analisis-correlaciones", "tool_error", {
+      kind: "handled",
+      name: "Error",
     });
   });
 
-  describe("trackPageView", () => {
-    it("should track page views", () => {
-      trackPageView("/correlaciones");
-
-      expect(Sentry.captureMessage).toHaveBeenCalledWith(
-        "Tool Event: page_view",
-        expect.objectContaining({
-          extra: { page_path: "/correlaciones" },
-        }),
-      );
-    });
-
-    it("should track page views with userId", () => {
-      trackPageView("/correlaciones/about", "user456");
-
-      expect(Sentry.captureMessage).toHaveBeenCalledWith(
-        "Tool Event: page_view",
-        expect.objectContaining({
-          tags: expect.objectContaining({
-            userId: "user456",
-          }),
-          extra: { page_path: "/correlaciones/about" },
-        }),
-      );
-    });
-  });
-
-  describe("trackToolEvent", () => {
-    it("should track tool events with prefixed name", () => {
-      trackToolEvent("file_upload", { format: "csv" });
-
-      expect(Sentry.captureMessage).toHaveBeenCalledWith(
-        "Tool Event: tool_file_upload",
-        expect.objectContaining({
-          extra: { format: "csv" },
-        }),
-      );
-    });
-
-    it("should track tool events with userId", () => {
-      trackToolEvent(
-        "correlation_calculated",
-        { method: "pearson" },
-        "user789",
-      );
-
-      expect(Sentry.captureMessage).toHaveBeenCalledWith(
-        "Tool Event: tool_correlation_calculated",
-        expect.objectContaining({
-          tags: expect.objectContaining({
-            userId: "user789",
-          }),
-          extra: { method: "pearson" },
-        }),
-      );
-    });
-
-    it("should track tool events without details", () => {
-      trackToolEvent("export_clicked");
-
-      expect(Sentry.captureMessage).toHaveBeenCalledWith(
-        "Tool Event: tool_export_clicked",
-        expect.any(Object),
-      );
-    });
-  });
-
-  describe("trackError", () => {
-    it("should capture exceptions in Sentry", () => {
-      const error = new Error("Test error");
-      trackError(error);
-
-      expect(Sentry.captureException).toHaveBeenCalledWith(
-        error,
-        expect.objectContaining({
-          tags: expect.objectContaining({
-            tool: "analisis-correlaciones",
-          }),
-        }),
-      );
-    });
-
-    it("should include context in error tracking", () => {
-      const error = new Error("Parsing failed");
-      const context = { file: "data.csv", line: 42 };
-
-      trackError(error, context);
-
-      expect(Sentry.captureException).toHaveBeenCalledWith(
-        error,
-        expect.objectContaining({
-          extra: context,
-        }),
-      );
-    });
-
-    it("should include userId in error tracking", () => {
-      const error = new Error("Upload failed");
-      trackError(error, { reason: "size" }, "user999");
-
-      expect(Sentry.captureException).toHaveBeenCalledWith(
-        error,
-        expect.objectContaining({
-          tags: expect.objectContaining({
-            userId: "user999",
-          }),
-        }),
-      );
-    });
-  });
 });
 
 describe("Correlación de Pearson", () => {

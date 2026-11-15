@@ -7,6 +7,9 @@ const redisMock = vi.hoisted(() => ({
   expire: vi.fn(),
 }));
 
+const pgMock = vi.hoisted(() => ({ incrementWindow: vi.fn() }));
+
+vi.mock("@/lib/security/rate-limit-postgres", () => pgMock);
 vi.mock("@upstash/redis", () => ({
   Redis: class {
     set = redisMock.set;
@@ -24,12 +27,15 @@ const config = { interval: 60_000, uniqueTokenPerInterval: 5 };
 async function load(withRedis: boolean) {
   vi.resetModules();
   vi.unstubAllEnvs();
+  pgMock.incrementWindow.mockReset();
+  // Sin Redis configurado el almacén es PostgreSQL; aquí simulamos que no responde.
+  pgMock.incrementWindow.mockRejectedValue(new Error("db down"));
   vi.stubEnv("UPSTASH_REDIS_REST_URL", withRedis ? "https://redis.example" : "");
   vi.stubEnv("UPSTASH_REDIS_REST_TOKEN", withRedis ? "test-token" : "");
   return import("@/lib/security/rate-limit");
 }
 
-describe("rateLimit sin almacén (Redis no configurado)", () => {
+describe("rateLimit sin almacén (PostgreSQL no responde)", () => {
   it("falla CERRADO por defecto, para cualquier identificador", async () => {
     const { rateLimit } = await load(false);
 
@@ -95,5 +101,56 @@ describe("rateLimit con Redis", () => {
     expect((await rateLimit("lectura", { ...config, failureMode: "open" })).success).toBe(true);
     // Un identificador con "auth" ya no cambia nada respecto al modo elegido:
     expect((await rateLimit("auth:x", { ...config, failureMode: "open" })).success).toBe(true);
+  });
+});
+
+describe("rateLimit con PostgreSQL (almacén por defecto, OPS-001)", () => {
+  it("sin variables de Upstash usa PostgreSQL y permite hasta el límite", async () => {
+    const { rateLimit, selectRateLimitBackend } = await load(false);
+    expect(selectRateLimitBackend()).toBe("postgres");
+
+    pgMock.incrementWindow.mockResolvedValueOnce({ hits: 1, resetAt: 123 });
+    expect(await rateLimit("a", config)).toMatchObject({ success: true, remaining: 4, reset: 123 });
+    expect(pgMock.incrementWindow).toHaveBeenCalledWith("rate-limit:a", 60_000, 5);
+  });
+
+  it("rechaza al superar el límite con reason limit-exceeded", async () => {
+    const { rateLimit } = await load(false);
+    pgMock.incrementWindow.mockResolvedValueOnce({ hits: 6, resetAt: 999 });
+    expect(await rateLimit("a", config)).toMatchObject({
+      success: false,
+      remaining: 0,
+      reason: "limit-exceeded",
+    });
+  });
+
+  it("RATE_LIMIT_BACKEND=postgres gana aunque Upstash esté configurado", async () => {
+    const { selectRateLimitBackend } = await load(true);
+    expect(selectRateLimitBackend()).toBe("upstash");
+    vi.stubEnv("RATE_LIMIT_BACKEND", "postgres");
+    expect(selectRateLimitBackend()).toBe("postgres");
+  });
+
+  it("variables vacías o con espacios cuentan como no definidas", async () => {
+    const { selectRateLimitBackend } = await load(false);
+    vi.stubEnv("UPSTASH_REDIS_REST_URL", "   ");
+    vi.stubEnv("UPSTASH_REDIS_REST_TOKEN", "  ");
+    expect(selectRateLimitBackend()).toBe("postgres");
+  });
+
+  it("con solo una de las dos credenciales de Upstash usa PostgreSQL", async () => {
+    const { selectRateLimitBackend } = await load(false);
+    vi.stubEnv("UPSTASH_REDIS_REST_URL", "https://redis.example");
+    vi.stubEnv("UPSTASH_REDIS_REST_TOKEN", "");
+    expect(selectRateLimitBackend()).toBe("postgres");
+    vi.stubEnv("UPSTASH_REDIS_REST_URL", "");
+    vi.stubEnv("UPSTASH_REDIS_REST_TOKEN", "tok");
+    expect(selectRateLimitBackend()).toBe("postgres");
+  });
+
+  it("RATE_LIMIT_BACKEND=upstash sin credenciales completas no deja sin almacén: usa PostgreSQL", async () => {
+    const { selectRateLimitBackend } = await load(false);
+    vi.stubEnv("RATE_LIMIT_BACKEND", " Upstash ");
+    expect(selectRateLimitBackend()).toBe("postgres");
   });
 });
