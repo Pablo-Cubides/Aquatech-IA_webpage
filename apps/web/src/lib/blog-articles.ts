@@ -5,6 +5,7 @@ import { isRetiredArticle } from "./retired-articles.mjs";
 import { NEW_IA_ARTICLES } from "./new-blog-articles";
 import { NEW_AMBIENTAL_ARTICLES } from "./new-ambiental-articles";
 import { getStoredArticles, getStoredArticlesSync } from "./services/blog-store";
+import { reportDegradation } from "./observability/degradation";
 
 export type BlogArticle = {
   slug: string;
@@ -1097,6 +1098,8 @@ export async function getAllArticles(
     const combined = [...filteredDynamic, ...nonOverriddenStatic];
     return combined.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   } catch (e) {
+    // OPS-001: solo los artículos del código; el resto (base de datos) desaparece del sitio.
+    reportDegradation("blog-articles-fallback", e, { portal, articlesFromCode: staticArticles.length });
     return staticArticles;
   }
 }

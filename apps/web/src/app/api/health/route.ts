@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getHealthReport } from "@/lib/health";
+import { getDegradationSnapshot } from "@/lib/observability/degradation";
 import { getAdminSession } from "@/lib/security/admin-session";
 import { verifyAgentToken } from "@/lib/security/agent-token";
 
@@ -37,5 +38,9 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  return NextResponse.json(report, { status: httpStatus, headers: NO_STORE });
+  // `degradations`: qué fallbacks silenciosos ha visto ESTA instancia (p. ej. artículos solo del código).
+  return NextResponse.json(
+    { ...report, degradations: getDegradationSnapshot() },
+    { status: httpStatus, headers: NO_STORE },
+  );
 }
