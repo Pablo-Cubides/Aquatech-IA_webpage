@@ -12,6 +12,7 @@ import { guidesData } from "@/lib/guides-data";
 import { SITE_URL, DEFAULT_LOGO } from "@/lib/site-config";
 import { inlineMarkdownToHtml } from "@/lib/text/plain-text";
 import { buildToolFaqs } from "@/lib/seo/tool-faqs";
+import { TOOL_PUBLISHED } from "@/lib/seo/tool-dates";
 
 type Portal = "ia" | "ambiental";
 
@@ -47,6 +48,7 @@ export default function ToolSeoBlock({
     operatingSystem: "Web",
     inLanguage: "es",
     isAccessibleForFree: true,
+    ...(TOOL_PUBLISHED[slug] ? { datePublished: TOOL_PUBLISHED[slug] } : {}),
     ...(featureList?.length ? { featureList } : {}),
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     publisher: { "@type": "Organization", name: "AquatechIA", url: SITE_URL, logo: { "@type": "ImageObject", url: DEFAULT_LOGO } },

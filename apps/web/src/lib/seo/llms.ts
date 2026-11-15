@@ -10,6 +10,7 @@ import { getAllArticles, type BlogArticle } from "@/lib/blog-articles";
 import { guidesData } from "@/lib/guides-data";
 import { getToolsByPortal } from "@/lib/services/tools-registry";
 import { GUIDE_MISMATCH_SLUGS, TOOL_SPECS } from "@/lib/seo/tool-specs";
+import { TOOL_PUBLISHED } from "@/lib/seo/tool-dates";
 import { toPlainText } from "@/lib/text/plain-text";
 import type { Tool } from "@/lib/types";
 
@@ -91,6 +92,7 @@ export function renderTool(tool: Tool, baseUrl: string): string {
     `- Portal: ${PORTAL_NAME[tool.portal]}`,
     `- Acceso: gratuito, en el navegador`,
   ];
+  if (TOOL_PUBLISHED[tool.slug]) out.push(`- Publicada: ${TOOL_PUBLISHED[tool.slug]}`);
   if (spec) {
     out.push(`- Qué calcula o hace: ${spec.does}`, `- Norma o metodología que implementa: ${spec.method}`, `- Datos que necesita: ${spec.inputs}`, `- Qué entrega: ${spec.outputs}`);
   } else {

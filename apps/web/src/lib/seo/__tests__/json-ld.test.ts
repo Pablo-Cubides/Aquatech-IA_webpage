@@ -39,3 +39,13 @@ describe("Article JSON-LD", () => {
     for (const faq of extractFaqs(article)) expect(faq.answer).not.toMatch(/\*\*|\]\(/);
   });
 });
+
+describe("fechas de herramientas", () => {
+  it("cada herramienta del registro tiene datePublished y ninguna tiene dateModified", async () => {
+    const { getToolsByPortal } = await import("@/lib/services/tools-registry");
+    const { TOOL_PUBLISHED } = await import("@/lib/seo/tool-dates");
+    for (const portal of ["ia", "ambiental"] as const) {
+      for (const tool of getToolsByPortal(portal)) expect(TOOL_PUBLISHED[tool.slug], tool.slug).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    }
+  });
+});
