@@ -10,6 +10,38 @@ type DbUserWithPassword = {
   role?: string | null;
 };
 
+/** Mensaje único para cualquier fallo de credenciales (no enumera usuarios). */
+export const INVALID_CREDENTIALS_MESSAGE = "Credenciales inválidas";
+
+/**
+ * Hash bcrypt de un valor aleatorio sin significado. Se compara cuando el
+ * usuario no existe para que el tiempo de respuesta no delate si el correo
+ * está registrado.
+ */
+const DUMMY_PASSWORD_HASH =
+  "$2b$10$QyLOe5FKWl3cDAqncLS5m.WMJoz5OSPh4/JvAlgtG3trywzlyDuZS";
+
+const MAX_PROFILE_NAME_LENGTH = 100;
+const MAX_PROFILE_IMAGE_LENGTH = 2048;
+
+function sanitizeProfileName(value: unknown): string | null {
+  if (typeof value !== "string") return null;
+  const name = value.trim();
+  return name && name.length <= MAX_PROFILE_NAME_LENGTH ? name : null;
+}
+
+function sanitizeProfileImage(value: unknown): string | null {
+  if (typeof value !== "string" || value.length > MAX_PROFILE_IMAGE_LENGTH) {
+    return null;
+  }
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" || url.protocol === "http:" ? value : null;
+  } catch {
+    return null;
+  }
+}
+
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
@@ -35,17 +67,13 @@ export const authOptions: NextAuthOptions = {
 
         const typedUser = user as (typeof user & DbUserWithPassword) | null;
 
-        if (!typedUser || !typedUser.password) {
-          throw new Error("Usuario no encontrado");
-        }
-
         const isPasswordValid = await bcrypt.compare(
           credentials.password,
-          typedUser.password,
+          typedUser?.password || DUMMY_PASSWORD_HASH,
         );
 
-        if (!isPasswordValid) {
-          throw new Error("Contraseña incorrecta");
+        if (!typedUser || !typedUser.password || !isPasswordValid) {
+          throw new Error(INVALID_CREDENTIALS_MESSAGE);
         }
 
         return {
@@ -72,11 +100,27 @@ export const authOptions: NextAuthOptions = {
         token.role = user.role;
       }
 
-      // Update token if session is updated manually
-      if (trigger === "update" && session) {
-        token.role = session.user.role;
-        if (session.user.name) token.name = session.user.name;
-        if (session.user.image) token.picture = session.user.image;
+      if (trigger === "update") {
+        // El payload de update() lo controla el cliente: solo se aceptan campos
+        // de presentación, saneados. El rol NUNCA se toma de ahí.
+        const name = sanitizeProfileName(session?.user?.name);
+        if (name) token.name = name;
+
+        const image = sanitizeProfileImage(session?.user?.image);
+        if (image) token.picture = image;
+
+        // El rol se refresca desde la base de datos por uid, no desde el cliente.
+        if (token.uid) {
+          try {
+            const fresh = await prisma.user.findUnique({
+              where: { id: token.uid },
+              select: { role: true },
+            });
+            if (fresh) token.role = fresh.role;
+          } catch (error) {
+            console.error("[auth] No se pudo refrescar el rol desde la base de datos", error);
+          }
+        }
       }
 
       return token;

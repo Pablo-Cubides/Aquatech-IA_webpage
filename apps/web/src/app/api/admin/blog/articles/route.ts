@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { authorizeBlogAdmin } from "@/lib/security/blog-admin-auth";
 import {
   createStoredArticle,
   getStoredArticles,
@@ -9,39 +8,10 @@ import {
 } from "@/lib/services/blog-store";
 import { getAllArticles } from "@/lib/blog-articles";
 
-const AGENT_API_KEY = process.env.BLOG_AGENT_API_KEY || "aquatech-agent-key-2026";
-
-async function isAuthorized(req: NextRequest): Promise<boolean> {
-  const authHeader = req.headers.get("authorization");
-  if (authHeader) {
-    const token = authHeader.replace(/^Bearer\s+/i, "").trim();
-    if (token === AGENT_API_KEY) {
-      return true;
-    }
-  }
-
-  // Check admin NextAuth session
-  try {
-    const session = await getServerSession(authOptions);
-    // @ts-ignore
-    if (session?.user?.role === "ADMIN") {
-      return true;
-    }
-  } catch (e) {
-    // Session check error
-  }
-
-  return false;
-}
-
 // GET /api/admin/blog/articles
 export async function GET(req: NextRequest) {
-  if (!(await isAuthorized(req))) {
-    return NextResponse.json(
-      { error: "No autorizado. Se requiere token Bearer de agente o sesión de Administrador." },
-      { status: 401 }
-    );
-  }
+  const auth = await authorizeBlogAdmin(req);
+  if (!auth.ok) return auth.response;
 
   const { searchParams } = new URL(req.url);
   const portal = searchParams.get("portal") as "ia" | "ambiental" | null;
@@ -92,15 +62,8 @@ export async function GET(req: NextRequest) {
 
 // POST /api/admin/blog/articles
 export async function POST(req: NextRequest) {
-  if (!(await isAuthorized(req))) {
-    return NextResponse.json(
-      {
-        error:
-          "No autorizado. Envía la cabecera 'Authorization: Bearer <BLOG_AGENT_API_KEY>' o inicia sesión como Administrador.",
-      },
-      { status: 401 }
-    );
-  }
+  const auth = await authorizeBlogAdmin(req);
+  if (!auth.ok) return auth.response;
 
   try {
     const body = await req.json();
@@ -144,7 +107,7 @@ export async function POST(req: NextRequest) {
       tags: Array.isArray(body.tags) ? body.tags : undefined,
       status: body.status,
       publishedAt: body.publishedAt,
-      source: body.source || (req.headers.get("authorization") ? "AGENT" : "ADMIN"),
+      source: body.source || (auth.via === "agent" ? "AGENT" : "ADMIN"),
     };
 
     const created = await createStoredArticle(input);

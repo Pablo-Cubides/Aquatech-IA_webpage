@@ -1,48 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { authorizeBlogAdmin } from "@/lib/security/blog-admin-auth";
 import {
   getStoredArticles,
   updateStoredArticle,
   deleteStoredArticle,
 } from "@/lib/services/blog-store";
 
-const AGENT_API_KEY = process.env.BLOG_AGENT_API_KEY || "aquatech-agent-key-2026";
-
-async function isAuthorized(req: NextRequest): Promise<boolean> {
-  const authHeader = req.headers.get("authorization");
-  if (authHeader) {
-    const token = authHeader.replace(/^Bearer\s+/i, "").trim();
-    if (token === AGENT_API_KEY) {
-      return true;
-    }
-  }
-
-  try {
-    const session = await getServerSession(authOptions);
-    // @ts-ignore
-    if (session?.user?.role === "ADMIN") {
-      return true;
-    }
-  } catch (e) {
-    // Session check error
-  }
-
-  return false;
-}
-
 // PATCH /api/admin/blog/articles/[id]
 export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  if (!(await isAuthorized(req))) {
-    return NextResponse.json(
-      { error: "No autorizado. Se requiere token de agente o sesión de Administrador." },
-      { status: 401 }
-    );
-  }
+  const auth = await authorizeBlogAdmin(req);
+  if (!auth.ok) return auth.response;
 
   const { id } = await params;
 
@@ -86,12 +57,8 @@ export async function DELETE(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  if (!(await isAuthorized(req))) {
-    return NextResponse.json(
-      { error: "No autorizado. Se requiere token de agente o sesión de Administrador." },
-      { status: 401 }
-    );
-  }
+  const auth = await authorizeBlogAdmin(req);
+  if (!auth.ok) return auth.response;
 
   const { id } = await params;
 
