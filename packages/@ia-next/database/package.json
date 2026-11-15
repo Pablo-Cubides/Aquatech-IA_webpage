@@ -8,6 +8,10 @@
     ".": {
       "import": "./dist/index.js",
       "require": "./dist/index.js"
+    },
+    "./ssl-config": {
+      "types": "./dist/ssl-config.d.ts",
+      "default": "./dist/ssl-config.js"
     }
   },
   "scripts": {

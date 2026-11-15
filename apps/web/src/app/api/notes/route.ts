@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
-import { Prisma } from "@prisma/client";
+import { prisma } from "@ia-next/database";
+import { Prisma } from "@ia-next/database";
 import { parsePagination, createPaginatedResponse } from "@/lib/pagination";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";

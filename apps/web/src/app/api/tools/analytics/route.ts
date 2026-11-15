@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import * as Sentry from "@sentry/nextjs";
-import { prisma } from "@/lib/db";
+import { prisma } from "@ia-next/database";
 import { getClientIP } from "@/lib/security/rate-limit";
 
 export const runtime = "nodejs";

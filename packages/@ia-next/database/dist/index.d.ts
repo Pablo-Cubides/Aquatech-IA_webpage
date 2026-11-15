@@ -7,6 +7,7 @@ export declare const disconnectDb: () => Promise<void>;
 export { PrismaClient, Prisma } from "@prisma/client";
 export type {
   User,
+  UserRole,
   CreditLog,
   Tool,
   Payment,

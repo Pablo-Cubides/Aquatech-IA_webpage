@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { z } from "zod";
 import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/db";
+import { prisma } from "@ia-next/database";
 import { NextResponse } from "next/server";
 
 const httpUrl = z

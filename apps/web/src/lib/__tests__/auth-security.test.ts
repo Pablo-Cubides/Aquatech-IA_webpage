@@ -5,7 +5,7 @@ const { prismaMock } = vi.hoisted(() => ({
   prismaMock: { user: { findUnique: vi.fn() } },
 }));
 
-vi.mock("@/lib/db", () => ({ prisma: prismaMock }));
+vi.mock("@ia-next/database", () => ({ prisma: prismaMock }));
 
 import { authOptions, INVALID_CREDENTIALS_MESSAGE } from "@/lib/auth";
 

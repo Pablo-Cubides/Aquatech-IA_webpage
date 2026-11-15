@@ -2,11 +2,17 @@
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Pool } from "pg";
+import { resolveDatabaseSsl } from "./ssl-config";
 
 // Global singleton to avoid multiple Prisma instances in development
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
+
+// Placeholder used when DATABASE_URL is not set (e.g. `next build` collecting
+// page data). The pool is lazy, so no connection is attempted.
+const BUILD_TIME_FALLBACK_URL =
+  "postgresql://postgres:postgres@localhost:5432/postgres";
 
 const setQueryParam = (url: string, key: string, value: string) => {
   const pattern = new RegExp(`([?&])${key}=[^&]*`);
@@ -17,17 +23,17 @@ const setQueryParam = (url: string, key: string, value: string) => {
   return `${url}${separator}${key}=${value}`;
 };
 
-// Helper to ensure we use Transaction Mode (Port 6543)
+// Helper to ensure we use Transaction Mode (Port 6543).
+// TLS is NOT decided here: see ./ssl-config (certificates are verified by default).
 const getDatabaseUrl = () => {
   let url = process.env.DATABASE_URL;
-  if (!url) return undefined;
-  const strictSsl = process.env.DATABASE_SSL_REJECT_UNAUTHORIZED === "true";
+  if (!url) return BUILD_TIME_FALLBACK_URL;
 
   // Fix: Vercel Integration often forces port 5432 (Session Mode) which hits limits.
   // We force port 6543 (Transaction Mode) for stability.
   if (url.includes("pooler.supabase.com") && url.includes(":5432")) {
     console.log(
-      "[DB-Init] 🔧 Auto-correcting DATABASE_URL: Switching 5432 -> 6543 (Transaction Mode)",
+      "[DB-Init] Auto-correcting DATABASE_URL: Switching 5432 -> 6543 (Transaction Mode)",
     );
     url = url.replace(":5432", ":6543");
   }
@@ -38,46 +44,36 @@ const getDatabaseUrl = () => {
     url = `${url}${separator}pgbouncer=true`;
   }
 
-  url = setQueryParam(url, "sslmode", strictSsl ? "require" : "no-verify");
   url = setQueryParam(url, "connect_timeout", "30");
   url = setQueryParam(url, "pool_timeout", "60");
 
   return url;
 };
 
-const databaseUrl = getDatabaseUrl();
-const isLocalDatabase =
-  !databaseUrl ||
-  databaseUrl.includes("localhost") ||
-  databaseUrl.includes("127.0.0.1") ||
-  databaseUrl.includes("@postgres:");
-const rejectUnauthorized =
-  process.env.DATABASE_SSL_REJECT_UNAUTHORIZED === "true";
+const { connectionString, ssl, mode, warnings } = resolveDatabaseSsl(
+  getDatabaseUrl(),
+  process.env,
+);
 
-if (!isLocalDatabase && !rejectUnauthorized && typeof process !== "undefined" && process.env) {
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+for (const warning of warnings) {
+  console.warn(`[DB-Init] ${warning}`);
 }
 
-// Debug connection (Safe Log)
-if (databaseUrl) {
+// Debug connection (Safe Log: never prints credentials)
+if (connectionString && mode !== "local") {
   try {
-    const url = new URL(databaseUrl);
+    const url = new URL(connectionString);
     console.log(
-      `[DB-Init] 🚀 Connecting to: ${url.hostname}:${url.port}${url.pathname}`,
+      `[DB-Init] Connecting to: ${url.hostname}:${url.port}${url.pathname} (tls: ${mode})`,
     );
-  } catch (e) {
+  } catch {
     console.log("[DB-Init] Failed to parse URL");
   }
 }
 
-const pool = new Pool({
-  connectionString: databaseUrl,
-  ssl: isLocalDatabase
-    ? undefined
-    : {
-        rejectUnauthorized,
-      },
-});
+// TLS is scoped to this pool only. Never set NODE_TLS_REJECT_UNAUTHORIZED:
+// it disables certificate verification for every outbound HTTPS call.
+const pool = new Pool({ connectionString, ssl });
 
 const adapter = new PrismaPg(pool);
 
@@ -120,6 +116,7 @@ export const disconnectDb = async (): Promise<void> => {
 // Re-export Prisma types for convenience
 export type {
   User,
+  UserRole,
   CreditLog,
   Tool,
   Payment,
@@ -133,4 +130,3 @@ export type {
 
 // Re-export the Prisma client and namespace
 export { PrismaClient, Prisma } from "@prisma/client";
-

@@ -7,7 +7,7 @@ const { getServerSessionMock, prismaMock } = vi.hoisted(() => ({
 
 vi.mock("next-auth", () => ({ getServerSession: getServerSessionMock }));
 vi.mock("@/lib/auth", () => ({ authOptions: {} }));
-vi.mock("@/lib/db", () => ({ prisma: prismaMock }));
+vi.mock("@ia-next/database", () => ({ prisma: prismaMock }));
 
 import { PATCH } from "./route";
 
