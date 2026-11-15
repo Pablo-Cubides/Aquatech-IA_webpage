@@ -19,6 +19,7 @@ export const RETIRED_ARTICLES = [
   { portal: "ambiental", slug: "visor-mapas-sig-ambiental", to: "/ambiental/herramientas/visor-mapas-ambientales" },
   { portal: "ambiental", slug: "analisis-correlaciones-estadistica-ambiental", to: "/ambiental/herramientas/analisis-correlaciones" },
   { portal: "ambiental", slug: "aquatech-ia-portal-ambiental-digital", to: "/ambiental" },
+  { portal: "ambiental", slug: "gestion-comunitaria-agua-rural-inclusiva-sostenible", to: "/ambiental/blog/desafio-agua-america-latina-rural-estadisticas" },
 ];
 
 /** @param {string} portal @param {string} slug */

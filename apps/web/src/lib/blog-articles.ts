@@ -239,7 +239,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     title: "Índices de Calidad del Aire: Cómo Interpretar el AQI, ICA e IBOCA para la Toma de Decisiones",
     category: "Control de Contaminación",
     date: "2024-12-09",
-    readTime: 14,
+    readTime: 10,
     excerpt: "Aprende a leer los índices de calidad del aire más usados (AQI, ICA) y protege tu salud con información en tiempo real y herramientas gratuitas.",
     heroImage: "https://res.cloudinary.com/lv3hwy1f/image/upload/v1793701245/articulos/aquatech-ambiental/escuelas-rurales-agua-hero.jpg",
     author: {
@@ -443,7 +443,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     title: "Matrices de Evaluación de Impacto Ambiental: Guía Práctica de Leopold, Conesa y Battelle",
     category: "Gestión Ambiental",
     date: "2024-12-09",
-    readTime: 16,
+    readTime: 6,
     excerpt: "Domina las metodologías de EIA para el licenciamiento ambiental. Análisis técnico de Leopold, Conesa y Battelle-Columbus con casos prácticos.",
     heroImage: "/images/portal-ambiental/blog/matrices-eia-metodologias.jpg",
     author: {
@@ -614,7 +614,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     title: "Guía de Normatividad Ambiental en Colombia: Agua, Aire, Vertimientos y Residuos Sólidos",
     category: "Normatividad Ambiental",
     date: "2024-12-09",
-    readTime: 12,
+    readTime: 4,
     excerpt: "Guía técnica sobre la legislación ambiental en Colombia. Parámetros clave de las resoluciones 2115, 631 y 2254 para cumplimiento legal y gestión técnica.",
     heroImage: "/images/portal-ambiental/blog/normatividad-ambiental-guia.jpg",
     author: {
@@ -867,7 +867,7 @@ export const IA_ARTICLES: Record<string, BlogArticle> = {
       "Cómo funciona el sistema de difusión en IA generativa: de ruido a arte",
     category: "Computer Vision",
     date: "2024-09-08",
-    readTime: 13,
+    readTime: 6,
     excerpt:
       "Descubre los fundamentos matemáticos y conceptuales detrás de Stable Diffusion y otros modelos de generación de imágenes.",
     heroImage:
