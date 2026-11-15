@@ -58,6 +58,37 @@ describe("/api/tools/analytics", () => {
       expect(JSON.stringify(data)).not.toContain("203.0.113.7");
     });
 
+    it("OPS-001: el país lo fija el servidor desde la cabecera de Vercel y no se puede falsear", async () => {
+      const request = new NextRequest("http://localhost/api/tools/analytics", {
+        method: "POST",
+        headers: { "content-type": "application/json", "x-vercel-ip-country": "co" },
+        body: JSON.stringify({ ...valid, eventData: { ...valid.eventData, country: "ZZ" } }),
+      });
+      await POST(request);
+
+      const { data } = prismaMock.toolAnalytics.create.mock.calls[0][0];
+      expect(data.eventData.country).toBe("CO");
+    });
+
+    it("OPS-001: sin cabecera de país guarda XX, y una cabecera inválida también", async () => {
+      await POST(post(valid));
+      expect(prismaMock.toolAnalytics.create.mock.calls[0][0].data.eventData.country).toBe("XX");
+
+      const bad = new NextRequest("http://localhost/api/tools/analytics", {
+        method: "POST",
+        headers: { "content-type": "application/json", "x-vercel-ip-country": "<script>" },
+        body: JSON.stringify(valid),
+      });
+      await POST(bad);
+      expect(prismaMock.toolAnalytics.create.mock.calls[1][0].data.eventData.country).toBe("XX");
+    });
+
+    it("OPS-001: no manda un mensaje a Sentry por cada evento de uso", async () => {
+      const Sentry = await import("@sentry/nextjs");
+      await POST(post(valid));
+      expect(Sentry.captureMessage).not.toHaveBeenCalled();
+    });
+
     it("con sesión guarda el id opaco del usuario, nunca el correo", async () => {
       getServerSessionMock.mockResolvedValue({ user: { id: "cuid_123", email: "ana@example.com" } });
 

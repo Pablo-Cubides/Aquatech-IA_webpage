@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import React from "react";
+import { ToolUsageTracker } from "@/components/analytics/ToolUsageTracker";
 
 export const metadata: Metadata = {
   title: "Herramientas de IA | AquatechIA",
@@ -53,5 +54,10 @@ export default function HerramientasIALayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return (
+    <>
+      <ToolUsageTracker />
+      {children}
+    </>
+  );
 }

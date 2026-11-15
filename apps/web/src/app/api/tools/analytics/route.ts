@@ -36,9 +36,10 @@ const eventSchema = z
 
 async function cleanupOldAnalytics() {
   try {
-    // Keep data for 90 days
+    // OPS-001: 400 días (13 meses) para poder comparar mes contra mes y medir quién
+    // repite. Los eventos no llevan datos personales (ver docs/medicion-uso-herramientas.md).
     const retentionPeriod = new Date();
-    retentionPeriod.setDate(retentionPeriod.getDate() - 90);
+    retentionPeriod.setDate(retentionPeriod.getDate() - 400);
 
     await prisma.toolAnalytics.deleteMany({
       where: {
@@ -102,22 +103,22 @@ export async function POST(request: NextRequest) {
 
     const { tool, eventName, eventData } = parsed.data;
     const session = await getServerSession(authOptions);
+    // País (ISO-3166 alfa-2) de la cabecera de Vercel; no es dato personal. Lo fija
+    // el servidor: sobrescribe cualquier `country` que mande el cliente.
+    const countryHeader = request.headers.get("x-vercel-ip-country");
+    const country = countryHeader && /^[A-Za-z]{2}$/.test(countryHeader)
+      ? countryHeader.toUpperCase()
+      : "XX";
 
     const analyticsRecord = await prisma.toolAnalytics.create({
       data: {
         eventName,
         tool,
-        eventData: eventData ?? {},
+        eventData: { ...(eventData ?? {}), country },
         userId: session?.user?.id ?? null,
         userAgent: request.headers.get("user-agent")?.slice(0, MAX_USER_AGENT_LENGTH) ?? null,
         ipAddress: null,
       },
-    });
-
-    // Sin datos personales hacia Sentry: solo herramienta y nombre del evento.
-    Sentry.captureMessage(`Tool Analytics: ${tool} - ${eventName}`, {
-      level: "info",
-      tags: { tool, event: eventName },
     });
 
     // Probabilistic cleanup (1% chance) to avoid running on every request
