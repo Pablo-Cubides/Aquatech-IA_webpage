@@ -11,7 +11,7 @@ import { SITE_URL } from "@/lib/site-config";
 import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 export const dynamicParams = true;
-export const revalidate = 60;
+export const revalidate = 21600; // 6h: antes 60s (CPU)
 
 interface PageProps {
   params: Promise<{ slug: string }>;

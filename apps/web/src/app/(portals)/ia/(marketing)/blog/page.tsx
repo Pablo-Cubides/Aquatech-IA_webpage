@@ -105,7 +105,7 @@ function generateBlogSchema() {
   };
 }
 
-export const revalidate = 60;
+export const revalidate = 3600; // 1h: antes 60s (CPU por regeneraciones constantes)
 
 export default async function BlogIAPage() {
 
