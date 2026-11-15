@@ -30,6 +30,7 @@ export async function POST(req: Request) {
   const limit = await rateLimitByIP(getClientIP(req.headers), {
     interval: 15 * 60 * 1000,
     uniqueTokenPerInterval: 10,
+    failureMode: "closed", // intentos de contraseña: sin almacén se deniega
   });
 
   if (!limit.success) {

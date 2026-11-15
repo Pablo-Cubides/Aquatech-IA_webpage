@@ -33,6 +33,9 @@ export async function POST(request: NextRequest) {
     const rateLimitResult = await rateLimitByIP(clientIP, {
       interval: 15 * 60 * 1000,
       uniqueTokenPerInterval: 10,
+      // failureMode "closed" (decisión SEC-001): alta de cuentas = ruta de
+      // autenticación; sin almacén de límites se deniega.
+      failureMode: "closed",
     });
 
     if (!rateLimitResult.success) {

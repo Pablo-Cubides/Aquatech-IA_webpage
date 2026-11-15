@@ -24,6 +24,9 @@ export async function authorizeBlogAdmin(req: NextRequest): Promise<BlogAuthResu
     const limit = await rateLimit(`admin:blog-agent:${getClientIP(req.headers)}`, {
       interval: 60 * 1000,
       uniqueTokenPerInterval: 60,
+      // failureMode "closed" (decisión SEC-001): intentos de autenticación con
+      // token de escritura sobre el blog; sin almacén de límites se deniega.
+      failureMode: "closed",
     });
 
     if (!limit.success) {
@@ -32,7 +35,7 @@ export async function authorizeBlogAdmin(req: NextRequest): Promise<BlogAuthResu
         response: NextResponse.json(
           { error: "Demasiadas solicitudes" },
           {
-            status: 429,
+            status: limit.reason === "backend-unavailable" ? 503 : 429,
             headers: { "Retry-After": "60" },
           },
         ),

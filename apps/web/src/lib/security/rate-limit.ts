@@ -33,9 +33,33 @@ function getRedisClient(): Redis | null {
   return redisClient;
 }
 
+/**
+ * Política cuando el almacén de límites no responde (sin Redis configurado o
+ * error de red):
+ *  - "closed" (por defecto): se DENIEGA la petición. Es lo correcto para
+ *    autenticación, escritura, coste o datos personales.
+ *  - "open": se PERMITE (sin límite efectivo). Solo para rutas públicas de
+ *    lectura sin efectos laterales, y debe elegirse de forma explícita y
+ *    justificada en el sitio de la llamada. Nunca se infiere del identificador.
+ */
+export type RateLimitFailureMode = "closed" | "open";
+
 export type RateLimitConfig = {
   interval: number; // Time window in milliseconds
   uniqueTokenPerInterval: number; // Max requests per interval
+  failureMode?: RateLimitFailureMode; // default: "closed"
+};
+
+export type RateLimitResult = {
+  success: boolean;
+  limit: number;
+  remaining: number;
+  reset: number;
+  /**
+   * Por qué se rechazó/permitió sin contar: "limit-exceeded" (límite superado) o
+   * "backend-unavailable" (el almacén no respondió; se aplicó failureMode).
+   */
+  reason?: "limit-exceeded" | "backend-unavailable";
 };
 
 export class RateLimitError extends Error {
@@ -43,6 +67,22 @@ export class RateLimitError extends Error {
     super(message);
     this.name = "RateLimitError";
   }
+}
+
+/** Resultado cuando no hay almacén: depende SOLO de failureMode. */
+function backendUnavailable(
+  failureMode: RateLimitFailureMode,
+  limit: number,
+  reset: number,
+): RateLimitResult {
+  const allow = failureMode === "open";
+  return {
+    success: allow,
+    limit,
+    remaining: allow ? limit : 0,
+    reset,
+    reason: "backend-unavailable",
+  };
 }
 
 /**
@@ -54,31 +94,16 @@ export async function rateLimit(
     interval: 60 * 1000, // 1 minute
     uniqueTokenPerInterval: 10, // 10 requests per minute
   },
-): Promise<{
-  success: boolean;
-  limit: number;
-  remaining: number;
-  reset: number;
-}> {
+): Promise<RateLimitResult> {
   const key = `rate-limit:${identifier}`;
   const now = Date.now();
   const window = config.interval;
   const limit = config.uniqueTokenPerInterval;
+  const failureMode = config.failureMode ?? "closed";
   const redis = getRedisClient();
 
   if (!redis) {
-    const isSensitive =
-      identifier.includes("payment") ||
-      identifier.includes("admin") ||
-      identifier.includes("auth") ||
-      identifier.includes("delete");
-
-    return {
-      success: !isSensitive,
-      limit,
-      remaining: isSensitive ? 0 : limit,
-      reset: now + window,
-    };
+    return backendUnavailable(failureMode, limit, now + window);
   }
 
   try {
@@ -109,6 +134,7 @@ export async function rateLimit(
         limit,
         remaining: 0,
         reset,
+        reason: "limit-exceeded",
       };
     }
 
@@ -120,30 +146,7 @@ export async function rateLimit(
     };
   } catch (error: unknown) {
     logger.error("Rate limiting error", error, { identifier });
-    // SECURITY: Fail closed for sensitive endpoints
-    // If identifier suggests sensitive operation, deny on error
-    const isSensitive =
-      identifier.includes("payment") ||
-      identifier.includes("admin") ||
-      identifier.includes("auth") ||
-      identifier.includes("delete");
-
-    if (isSensitive) {
-      return {
-        success: false,
-        limit,
-        remaining: 0,
-        reset: now + window,
-      };
-    }
-
-    // Fail open for read-only operations
-    return {
-      success: true,
-      limit,
-      remaining: limit,
-      reset: now + window,
-    };
+    return backendUnavailable(failureMode, limit, now + window);
   }
 }
 
@@ -153,12 +156,7 @@ export async function rateLimit(
 export async function rateLimitByIP(
   ip: string,
   config?: RateLimitConfig,
-): Promise<{
-  success: boolean;
-  limit: number;
-  remaining: number;
-  reset: number;
-}> {
+): Promise<RateLimitResult> {
   return rateLimit(`ip:${ip}`, config);
 }
 
@@ -168,12 +166,7 @@ export async function rateLimitByIP(
 export async function rateLimitByUser(
   userId: string,
   config?: RateLimitConfig,
-): Promise<{
-  success: boolean;
-  limit: number;
-  remaining: number;
-  reset: number;
-}> {
+): Promise<RateLimitResult> {
   return rateLimit(`user:${userId}`, config);
 }
 

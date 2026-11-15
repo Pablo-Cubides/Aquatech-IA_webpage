@@ -95,6 +95,10 @@ export async function GET(req: Request) {
       {
         interval: 60 * 1000,
         uniqueTokenPerInterval: 120,
+        // failureMode "open" (decisión SEC-001): ruta ya protegida por sesión ADMIN;
+        // el límite es un control secundario y no debe dejar sin servicio a
+        // la herramienta de administración si el almacén de límites cae.
+        failureMode: "open",
       },
     );
 
@@ -216,6 +220,10 @@ export async function POST(req: Request) {
       {
         interval: 60 * 1000,
         uniqueTokenPerInterval: 10,
+        // failureMode "open" (decisión SEC-001): ruta ya protegida por sesión ADMIN;
+        // el límite es un control secundario y no debe dejar sin servicio a
+        // la herramienta de administración si el almacén de límites cae.
+        failureMode: "open",
       },
     );
 
