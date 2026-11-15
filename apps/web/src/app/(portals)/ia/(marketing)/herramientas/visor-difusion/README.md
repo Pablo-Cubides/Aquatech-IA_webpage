@@ -98,8 +98,8 @@ pnpm test --filter=visor-difusion
 
 ## Contributing
 
-1. Add new cases under `src/components/static/cases/[case-id]/`
-2. Include 10 step images (step_0.png to step_10.png)
+1. Add new cases under `apps/web/public/static/visor-cases/[case-id]/`
+2. Include the step images as `step_N.jpg` (JPEG, see ARQ-002)
 3. Update `caseInfo` object in `src/app/page.tsx`
 4. Add case metadata to `/api/visor-prompts/route.ts`
 
