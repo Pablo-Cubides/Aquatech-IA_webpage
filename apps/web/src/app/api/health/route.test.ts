@@ -4,6 +4,10 @@ import { NextRequest } from "next/server";
 const prismaMock = vi.hoisted(() => ({ $queryRaw: vi.fn() }));
 const redisMock = vi.hoisted(() => ({ ping: vi.fn() }));
 const adminMock = vi.hoisted(() => ({ getAdminSession: vi.fn() }));
+const degradationMock = vi.hoisted(() => ({
+  hasRecentDegradation: vi.fn(() => false),
+  getDegradationSnapshot: vi.fn(() => ({ windowMinutes: 10, recent: {}, sinceInstanceStart: {} })),
+}));
 
 vi.mock("@ia-next/database", () => ({ prisma: prismaMock }));
 vi.mock("@upstash/redis", () => ({
@@ -12,6 +16,9 @@ vi.mock("@upstash/redis", () => ({
   },
 }));
 vi.mock("@/lib/security/admin-session", () => adminMock);
+// El estado de degradación es de módulo: se aísla aquí para que este archivo no dependa de
+// lo que otros hayan registrado y para fijar el comportamiento que se prueba.
+vi.mock("@/lib/observability/degradation", () => degradationMock);
 
 async function call(headers: Record<string, string> = {}) {
   vi.resetModules();
@@ -29,6 +36,7 @@ describe("GET /api/health", () => {
     vi.stubEnv("HEALTH_CHECK_TOKEN", "token-de-monitor");
     prismaMock.$queryRaw.mockResolvedValue([{ "?column?": 1 }]);
     adminMock.getAdminSession.mockResolvedValue(null);
+    degradationMock.hasRecentDegradation.mockReturnValue(false);
   });
 
   it("200 y ok en un entorno sano SIN Upstash (no estar configurado no es un fallo)", async () => {
@@ -82,5 +90,39 @@ describe("GET /api/health", () => {
     vi.stubEnv("HEALTH_CHECK_TOKEN", "");
     const { body } = await call({ authorization: "Bearer " });
     expect(body.checks).toBeUndefined();
+  });
+
+  it("una degradación RECIENTE (contenido reducido por caída de la base) baja ok a degraded, con 200", async () => {
+    degradationMock.hasRecentDegradation.mockReturnValue(true);
+    const { status, body } = await call();
+    expect(status).toBe(200);
+    expect(body.status).toBe("degraded");
+  });
+
+  it("sin degradación reciente vuelve a ok: el estado caduca, no queda pegado", async () => {
+    degradationMock.hasRecentDegradation.mockReturnValue(true);
+    expect((await call()).body.status).toBe("degraded");
+    degradationMock.hasRecentDegradation.mockReturnValue(false);
+    expect((await call()).body.status).toBe("ok");
+  });
+
+  it("la degradación nunca oculta un down: con la base caída sigue 503", async () => {
+    degradationMock.hasRecentDegradation.mockReturnValue(true);
+    prismaMock.$queryRaw.mockRejectedValue(new Error("db down"));
+    const { status, body } = await call();
+    expect(status).toBe(503);
+    expect(body.status).toBe("down");
+  });
+
+  it("el detalle autenticado separa lo reciente del acumulado", async () => {
+    degradationMock.getDegradationSnapshot.mockReturnValue({
+      windowMinutes: 10,
+      recent: {},
+      sinceInstanceStart: { "blog-store-db-fallback": { count: 4, firstAt: "a", lastAt: "b" } },
+    });
+    adminMock.getAdminSession.mockResolvedValue({ user: { role: "ADMIN" } });
+    const { body } = await call();
+    expect(body.degradations.recent).toEqual({});
+    expect(body.degradations.sinceInstanceStart["blog-store-db-fallback"].count).toBe(4);
   });
 });

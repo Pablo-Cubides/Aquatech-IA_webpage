@@ -6,7 +6,9 @@ vi.mock("@sentry/nextjs", () => sentry);
 vi.mock("@/lib/logger", () => ({ logger: log }));
 
 import {
+  DEGRADATION_WINDOW_MS,
   getDegradationSnapshot,
+  hasRecentDegradation,
   reportDegradation,
   resetDegradationForTests,
 } from "../degradation";
@@ -41,7 +43,37 @@ describe("reportDegradation", () => {
     reportDegradation("blog-store-db-fallback", new Error("x"), {}, 11 * 60_000);
 
     expect(sentry.captureMessage).toHaveBeenCalledTimes(3);
-    expect(getDegradationSnapshot()["blog-store-db-fallback"].count).toBe(3);
+    expect(getDegradationSnapshot(11 * 60_000).sinceInstanceStart["blog-store-db-fallback"].count).toBe(3);
+  });
+
+  describe("caducidad: un fallo pasado no deja la instancia degradada para siempre", () => {
+    it("durante la ventana cuenta como reciente; pasada la ventana ya no", () => {
+      reportDegradation("blog-store-db-fallback", new Error("x"), {}, 1_000_000);
+
+      expect(hasRecentDegradation(1_000_000 + 60_000)).toBe(true);
+      expect(hasRecentDegradation(1_000_000 + DEGRADATION_WINDOW_MS - 1)).toBe(true);
+      expect(hasRecentDegradation(1_000_000 + DEGRADATION_WINDOW_MS)).toBe(false);
+      expect(hasRecentDegradation(1_000_000 + 3 * 60 * 60_000)).toBe(false); // horas después
+    });
+
+    it("el acumulado se conserva pero NO figura como reciente", () => {
+      reportDegradation("blog-articles-fallback", new Error("x"), {}, 1_000_000);
+      const later = 1_000_000 + 2 * 60 * 60_000;
+
+      const snapshot = getDegradationSnapshot(later);
+      expect(snapshot.recent).toEqual({});
+      expect(snapshot.sinceInstanceStart["blog-articles-fallback"].count).toBe(1);
+      expect(snapshot.windowMinutes).toBe(10);
+    });
+
+    it("una recaída vuelve a marcarla como reciente", () => {
+      reportDegradation("blog-store-db-fallback", new Error("x"), {}, 1_000_000);
+      const later = 1_000_000 + 2 * 60 * 60_000;
+      reportDegradation("blog-store-db-fallback", new Error("x"), {}, later);
+
+      expect(hasRecentDegradation(later + 1)).toBe(true);
+      expect(getDegradationSnapshot(later + 1).recent["blog-store-db-fallback"].count).toBe(1);
+    });
   });
 
   it("no avisa durante next build (sin base es lo esperado)", () => {

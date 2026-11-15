@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getHealthReport } from "@/lib/health";
-import { getDegradationSnapshot } from "@/lib/observability/degradation";
+import {
+  getDegradationSnapshot,
+  hasRecentDegradation,
+} from "@/lib/observability/degradation";
 import { getAdminSession } from "@/lib/security/admin-session";
 import { verifyAgentToken } from "@/lib/security/agent-token";
 
@@ -13,7 +16,9 @@ const NO_STORE = { "Cache-Control": "no-store" };
  * GET /api/health
  *
  * - 200 `ok`: todo lo crítico responde.
- * - 200 `degraded`: algo opcional falla (el sitio funciona).
+ * - 200 `degraded`: algo opcional falla, o en los últimos 10 min el sitio sirvió
+ *   contenido reducido por una caída de la base (degradación silenciosa). Caduca solo:
+ *   refleja el estado reciente, no el histórico de la instancia.
  * - 503 `down`: falla una dependencia crítica (la base de datos).
  *
  * Sin autenticación solo se devuelve `{ status, timestamp }`: nada de
@@ -22,7 +27,10 @@ const NO_STORE = { "Cache-Control": "no-store" };
  * (para el monitor de disponibilidad).
  */
 export async function GET(request: NextRequest) {
-  const report = await getHealthReport();
+  const checked = await getHealthReport();
+  // Una degradación reciente baja "ok" a "degraded"; nunca sube un "down" ni lo oculta.
+  const report =
+    checked.status === "ok" && hasRecentDegradation() ? { ...checked, status: "degraded" as const } : checked;
   const httpStatus = report.status === "down" ? 503 : 200;
 
   const bearer = request.headers.get("authorization");
@@ -38,7 +46,7 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  // `degradations`: qué fallbacks silenciosos ha visto ESTA instancia (p. ej. artículos solo del código).
+  // `degradations`: `recent` (ventana, decide el estado) y `sinceInstanceStart` (acumulado, solo informativo).
   return NextResponse.json(
     { ...report, degradations: getDegradationSnapshot() },
     { status: httpStatus, headers: NO_STORE },
