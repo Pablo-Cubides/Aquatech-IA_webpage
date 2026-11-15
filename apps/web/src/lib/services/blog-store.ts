@@ -303,6 +303,23 @@ export function slugify(text: string): string {
     .replace(/-+/g, "-");
 }
 
+// Minutos de lectura = ceil(palabras / 200), la misma regla de .specify/scripts/lint-content.mjs.
+export function estimateReadTime(content: {
+  introduction?: string;
+  sections?: Array<{ title?: string; content?: string }>;
+  conclusion?: string;
+}): number {
+  const text = [
+    content.introduction,
+    ...(content.sections ?? []).flatMap((s) => [s.title, s.content]),
+    content.conclusion,
+  ]
+    .filter((t): t is string => typeof t === "string")
+    .join(" ");
+  const words = text.split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.ceil(words / 200));
+}
+
 export interface CreateArticleInput {
   portal: "ia" | "ambiental";
   title: string;
@@ -361,9 +378,7 @@ export async function createStoredArticle(input: CreateArticleInput): Promise<St
       ? "Investigador en IA y Automatización"
       : "Ingeniero Ambiental y Químico";
 
-  const calculatedReadTime =
-    input.readTime ||
-    Math.max(3, Math.round((JSON.stringify(structuredContent).length / 1000) * 1.5));
+  const calculatedReadTime = input.readTime || estimateReadTime(structuredContent);
 
   const defaultCategory =
     input.portal === "ia" ? "Inteligencia Artificial" : "Gestión Ambiental";
