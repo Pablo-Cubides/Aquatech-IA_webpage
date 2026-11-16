@@ -1,6 +1,5 @@
 // Nuevos artículos del blog - Portal IA
 // Artículos extendidos con investigación profunda
-import { isRetiredArticle } from "./retired-articles.mjs";
 import type { BlogArticle } from "./blog-articles";
 
 export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
@@ -454,10 +453,3 @@ export const NEW_IA_ARTICLES: Record<string, BlogArticle> = {
     tags: ["Open Source", "Hugging Face", "LLMs", "Llama", "Privacidad"],
   },
 };
-
-export function getLatestIAArticles(count: number = 3): BlogArticle[] {
-  return Object.values(NEW_IA_ARTICLES)
-    .filter((a) => !isRetiredArticle("ia", a.slug))
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, count);
-}

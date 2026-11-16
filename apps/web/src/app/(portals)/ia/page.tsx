@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { getFeaturedIATools } from "@/lib/ia-tools";
-import { getLatestIAArticles } from "@/lib/new-blog-articles";
+import { getLatestArticles } from "@/lib/blog-articles";
 import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 import { SITE_URL } from "@/lib/site-config";
@@ -41,7 +41,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function IAPage() {
+export default async function IAPage() {
+  // Artículos de TODAS las fuentes (antes solo new-*.ts: la portada IA salía vacía y se perdían los de la base de datos).
+  const latestArticles = await getLatestArticles("ia", 3);
   const portalSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -213,7 +215,7 @@ export default function IAPage() {
           </h2>
 
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {getLatestIAArticles(3).map((article) => (
+            {latestArticles.map((article) => (
               <Link key={article.slug} href={`/ia/blog/${article.slug}`}>
                 <article className="group overflow-hidden rounded-2xl border border-cyan-500/20 bg-gray-900/30 transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20 h-full flex flex-col">
                   <img
