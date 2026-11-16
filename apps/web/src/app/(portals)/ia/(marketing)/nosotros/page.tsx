@@ -2,6 +2,7 @@ import { safeJsonLd } from "@/lib/security/safe-json-ld";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { IA_TOOLS } from "@/lib/ia-tools";
+import { getPublishedArticleCount } from "@/lib/articles-for-indexing";
 
 export const metadata: Metadata = {
   title: "Nosotros — Aquatech IA",
@@ -9,7 +10,12 @@ export const metadata: Metadata = {
     "Conoce la misión, visión y valores de Aquatech IA: IA responsable aplicada al agua y al ambiente, con herramientas públicas, rigor científico y foco en impacto.",
 };
 
-export default function NosotrosPage() {
+// El contador de artículos viene de la base de datos: se regenera cada hora.
+export const revalidate = 3600;
+
+export default async function NosotrosPage() {
+  // null si la base de datos no responde: entonces la tarjeta no se pinta (nunca una cifra parcial).
+  const articleCount = await getPublishedArticleCount("ia");
   const aboutSchema = {
     "@context": "https://schema.org",
     "@type": "AboutPage",
@@ -277,12 +283,13 @@ export default function NosotrosPage() {
             </p>
           </div>
           {/* Solo cifras que el sitio deriva de su propio código: no se escriben a mano. */}
-          <div className="mx-auto grid max-w-xs grid-cols-1 gap-6">
+          <div className="mx-auto grid max-w-2xl grid-cols-1 sm:grid-cols-2 gap-6">
             {[
               [String(IA_TOOLS.filter((t) => t.status === "available").length), "Herramientas de IA públicas"],
+              ...(articleCount === null ? [] : [[String(articleCount), "Artículos técnicos publicados"]]),
             ].map(([kpi, label]) => (
               <div
-                key={kpi}
+                key={label}
                 className="rounded-lg border border-white/10 bg-[#10111A] p-6 text-center transition-all hover:-translate-y-1 hover:shadow-[0_0_15px_0_rgba(0,239,255,0.2)]"
               >
                 <div className="text-3xl font-bold text-[#00EFFF]">{kpi}</div>
