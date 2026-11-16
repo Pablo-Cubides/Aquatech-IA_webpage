@@ -36,7 +36,6 @@ const EXCLUDED: Record<string, string> = {
   "/ambiental/herramientas/generador-matrices/builder/[caseId]/[matriz]": "herramienta interactiva por caso de usuario; sin contenido propio",
   "/ia/autor/herramientas/aquaquiz/*": "noindex en su layout",
   "/ia/autor/herramientas/consulta-nota": "noindex: consulta privada de calificaciones",
-  "/ambiental/autor/herramientas/consulta-nota": "noindex: consulta privada de calificaciones",
   "/ia/autor/herramientas/proyectos-investigacion/admin": "noindex: panel de gestion",
   "/ambiental/autor/herramientas/proyectos-investigacion/admin": "noindex: panel de gestion",
   "/ia/autor/herramientas/aula-score": "pendiente: herramienta de aula sin metadata propia",
@@ -45,7 +44,7 @@ const EXCLUDED: Record<string, string> = {
   "/ia/autor/herramientas/ruleta-academica/juego": "pendiente: herramienta de aula",
   "/ia/autor/herramientas/proyectos-investigacion": "pendiente: herramienta del autor sin metadata propia",
   "/ia/autor/herramientas/proyectos-investigacion/[id]": "pendiente: herramienta del autor sin metadata propia",
-  "/ambiental/autor/herramientas/*": "espejo del Portal IA: la canonica apunta a /ia/autor/herramientas/*",
+  "/ambiental/autor/herramientas/*": "espejo del Portal IA: la canonica apunta a /ia/autor/herramientas/* (consulta-nota y ruleta-academica redirigen 301 a /ia)",
 };
 
 /** Rutas dinamicas y como las cubre el sitemap (por datos). */
