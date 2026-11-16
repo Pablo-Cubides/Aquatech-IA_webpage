@@ -26,25 +26,16 @@ const supportOptions = [
   {
     icon: "📧",
     title: "Correo Electrónico",
-    description: "Escríbenos y te responderemos en menos de 24 horas hábiles.",
+    description: "Escríbenos y te responderemos lo antes posible.",
     action: "soporte@aquatechia.com",
     href: "mailto:soporte@aquatechia.com",
     buttonText: "Enviar Email",
   },
   {
-    icon: "💬",
-    title: "Chat de Soporte",
-    description: "Chatea con nuestro equipo técnico especializado en horario laboral.",
-    action: "Lunes a Viernes, 9:00 - 18:00 COT",
-    href: "#",
-    buttonText: "Próximamente",
-    disabled: true,
-  },
-  {
     icon: "📚",
     title: "Documentación y Guías",
     description: "Explora manuales interactivos, tutoriales y normativas de nuestras herramientas.",
-    action: "Acceso permanente 24/7",
+    action: "Disponible en el sitio",
     href: "/faq",
     buttonText: "Ver FAQ",
   },
@@ -107,7 +98,7 @@ export default function SoportePage() {
           <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">
             ¿Cómo podemos ayudarte?
           </h2>
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
             {supportOptions.map((option, index) => (
               <div
                 key={index}
@@ -164,28 +155,14 @@ export default function SoportePage() {
           </div>
         </section>
 
-        {/* Technical Architecture & Protocols */}
+        {/* Cómo reportar un problema */}
         <section className="mb-16 bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
           <h2 className="text-2xl font-bold text-slate-900 mb-4">
-            Protocolos de Soporte y SLA Operativo
+            Cómo reportar un problema
           </h2>
-          <p className="text-slate-700 leading-relaxed mb-4">
-            Nuestro equipo de soporte técnico opera bajo estándares internacionales de disponibilidad de servicio (SLA) para asegurar la continuidad de proyectos ambientales críticos y despliegues de modelos de lenguaje en producción. Todas las incidencias reportadas son clasificadas según su criticidad operativa:
+          <p className="text-slate-700 leading-relaxed">
+            Atendemos las consultas que llegan a soporte@aquatechia.com. Para que podamos replicar el problema, indica la herramienta, la URL y el mensaje de error.
           </p>
-          <div className="grid sm:grid-cols-3 gap-4 text-sm mt-4">
-            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
-              <span className="font-bold text-slate-900 block mb-1">Nivel 1: Urgente</span>
-              <p className="text-slate-600">Caída total de servicios web o fallas en endpoints de inferencia de IA. Respuesta en menos de 2 horas.</p>
-            </div>
-            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
-              <span className="font-bold text-slate-900 block mb-1">Nivel 2: Alto</span>
-              <p className="text-slate-600">Degradación en capas de visualización cartográfica o latencias elevadas. Respuesta en 6 horas hábiles.</p>
-            </div>
-            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
-              <span className="font-bold text-slate-900 block mb-1">Nivel 3: Consultas</span>
-              <p className="text-slate-600">Dudas metodológicas, integración de APIs o sugerencias de producto. Respuesta en 24 horas hábiles.</p>
-            </div>
-          </div>
         </section>
 
         {/* Contact Form Placeholder */}
