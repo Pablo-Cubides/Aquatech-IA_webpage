@@ -22,12 +22,6 @@ const PORTALS = ["ia", "ambiental"] as const;
 
 /** slug → motivo. Medido el 2026-11-15 al crear esta prueba. */
 const KNOWN_VIOLATIONS: Record<string, string> = {
-  "calculadora-irca-calidad-agua": "más de 7 tags",
-  "indices-calidad-aire-aqi-ica": "más de 7 tags y ids de subsección que no son kebab-case",
-  "matrices-eia-leopold-conesa": "más de 7 tags",
-  "cerebro-digital-gestion-ambiental-esg": "más de 7 tags",
-  "desafios-mecanismos-tratamiento-aguas-riego": "más de 7 tags",
-  "paradoja-agua-valle-medio-magdalena-proyecto-megia": "más de 7 tags",
 };
 
 const all = PORTALS.flatMap((portal) => getStaticArticles(portal).map((article) => ({ portal, article })));

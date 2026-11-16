@@ -86,7 +86,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
       ],
       conclusion: "Las herramientas digitales gratuitas han democratizado la ingeniería ambiental de alto nivel. Ya no dependemos de presupuestos millonarios en software; hoy dependemos de nuestra habilidad para orquestar estas tecnologías (KoboToolbox, GEE, Grafana, ESG Frameworks) en un sistema coherente que proteja el recurso hídrico y genere valor empresarial genuino.",
     },
-    tags: ["KoboToolbox", "QGIS", "Google Earth Engine", "Grafana", "ESG", "datos ambientales", "IoT", "huella de carbono"],
+    tags: ["KoboToolbox", "QGIS", "Google Earth Engine", "Grafana", "ESG", "IoT", "huella de carbono"],
     nextArticle: {
       slug: "desafio-agua-america-latina-rural-estadisticas",
       title: "El Desafío del Agua en la América Latina Rural: Estadísticas de una Brecha Urgente",
@@ -321,7 +321,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
       ],
       conclusion: "La integración de estos tres sistemas busca crear un efecto sinérgico poderoso: la Coagulación acondiciona la matriz reduciendo interferentes ópticos, la Fotocatálisis oxida estructuralmente los fármacos y la microbiología, y la Adsorción actúa como barrera final.\n\nLa evaluación metodológica rigurosa de estas variables cinéticas e isotérmicas, transitando desde moléculas trazadoras modelo hasta matrices reales complejas, establece los parámetros de diseño necesarios para escalar estas infraestructuras de tratamiento. \n\nEl objetivo final es claro: **asegurar la viabilidad toxicológica del agua y proteger el futuro de la agroindustria colombiana.**"
     },
-    tags: ["contaminantes emergentes", "aguas residuales", "PTAR", "fotocatálisis", "POAs", "coagulación", "adsorción", "reúso", "Sabana de Bogotá"],
+    tags: ["contaminantes emergentes", "PTAR", "fotocatálisis", "coagulación", "adsorción", "reúso", "Sabana de Bogotá"],
     nextArticle: {
       slug: "superpoder-borra-cafe-limpiar-agua",
       title: "De tu taza al grifo: El 'superpoder' oculto de la borra de café para limpiar el agua"
@@ -475,7 +475,7 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
       ],
       conclusion: "### Conclusiones y Recomendaciones Estratégicas\n\nEl Proyecto MEGIA, a través del Producto 15, deja tres mensajes claros para la industria y el regulador:\n\n1.  **Flexibilización Normativa:** Es urgente modernizar la Resolución 1207. Necesitamos rangos dinámicos y evaluación de riesgo caso a caso, no listas estáticas que bloquean la innovación.\n2.  **Tecnología en Tren:** Ninguna \"bala de plata\" (una sola tecnología) funcionará en el VMM. El futuro es la integración de procesos electroquímicos, biológicos y de membrana.\n3.  **El Costo de No Hacer Nada:** Seguir vertiendo agua tratada mientras la región sufre estrés hídrico es un error estratégico. El reúso tiene un costo operativo, sí, pero el costo social y ambiental de agotar las fuentes hídricas es infinitamente mayor.\n\n**La ingeniería ya hizo su parte. Ahora le toca a la regulación.**\n\n_Este artículo se basa en los resultados del Informe Final del Producto 15 del Proyecto MEGIA._"
     },
-    tags: ["Proyecto MEGIA", "Valle Medio del Magdalena", "agua de producción", "reúso de agua", "electrocoagulación", "MBR", "ósmosis inversa", "Resolución 1207", "hidrocarburos", "economía circular"],
+    tags: ["Proyecto MEGIA", "Valle Medio del Magdalena", "agua de producción", "electrocoagulación", "MBR", "ósmosis inversa", "Resolución 1207"],
     nextArticle: {
       slug: "superpoder-borra-cafe-limpiar-agua",
       title: "De tu taza al grifo: El 'superpoder' oculto de la borra de café para limpiar el agua"

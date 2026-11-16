@@ -231,7 +231,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
       ],
       conclusion: "Los índices de calidad de agua son herramientas poderosas para proteger la salud pública. Ya sea que trabajes en un acueducto, laboratorio, autoridad sanitaria o simplemente quieras entender mejor la calidad del agua que consumes, conocer cómo calcular e interpretar estos índices es fundamental. Nuestra calculadora gratuita hace que este proceso sea rápido, preciso y accesible para todos. ¡No esperes más y comienza a evaluar la calidad de tu agua hoy mismo!",
     },
-    tags: ["IRCA", "WQI", "DWQI", "calidad agua", "potabilización", "Resolución 2115", "monitoreo agua", "herramienta gratuita"],
+    tags: ["IRCA", "WQI", "DWQI", "calidad agua", "potabilización", "Resolución 2115", "herramienta gratuita"],
     nextArticle: {
       slug: "indices-calidad-aire-aqi-ica",
       title: "Índices de Calidad del Aire: Cómo Interpretar el AQI, ICA e IBOCA",
@@ -368,17 +368,17 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
               content: "**Puedes:**\n• Realizar cualquier actividad al aire libre sin restricciones\n• Ejercitarte normalmente\n• Ventilar tu casa o espacio de trabajo\n\n**Grupos sensibles en nivel moderado:**\n• Considera reducir esfuerzos prolongados muy intensos\n• Monitorea síntomas si tienes condiciones preexistentes",
             },
             {
-              id: "acciones-dañino-sensibles",
+              id: "acciones-danino-sensibles",
               title: "🟠 Dañino para grupos sensibles (101-150)",
               content: "**Grupos sensibles deben:**\n• Reducir esfuerzos prolongados al aire libre\n• Evitar ejercicio intenso en exteriores\n• Usar mascarilla N95 si deben salir\n• Mantener ventanas cerradas\n• Usar purificadores de aire en interiores\n\n**Población general:**\n• Puede realizar actividades normales\n• Considera reducir ejercicio muy intenso",
             },
             {
-              id: "acciones-dañino",
+              id: "acciones-danino",
               title: "🔴 Dañino (151-200)",
               content: "**Toda la población debe:**\n• Evitar esfuerzos prolongados al aire libre\n• Reducir significativamente el ejercicio exterior\n• Usar mascarilla N95 al salir\n• Mantener espacios cerrados con purificadores\n\n**Grupos sensibles:**\n• Evitar completamente salir al exterior\n• Tener medicamentos de rescate a mano\n• Consultar médico si aparecen síntomas",
             },
             {
-              id: "acciones-muy-dañino-peligroso",
+              id: "acciones-muy-danino-peligroso",
               title: "🟣 Muy dañino (201-300) y 🟤 Peligroso (>300)",
               content: "**Alerta de salud pública - Todos deben:**\n• Permanecer en interiores con puertas y ventanas cerradas\n• Evitar completamente actividades al aire libre\n• Usar mascarillas N95 o superiores si es imprescindible salir\n• Usar purificadores de aire HEPA en interiores\n• Seguir comunicados oficiales de emergencia\n\n**Medidas institucionales:**\n• Suspensión de clases en colegios\n• Restricción vehicular ampliada\n• Teletrabajo recomendado\n• Cierre de parques y espacios recreativos\n• Activación de protocolos de emergencia sanitaria",
             },
@@ -436,7 +436,7 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
       ],
       conclusion: "Los índices de calidad del aire son tu mejor aliado para proteger tu salud y la de tu familia. No esperes a sentir molestias respiratorias para tomar acción: consulta el índice diariamente, especialmente si perteneces a un grupo sensible. Usa nuestra calculadora gratuita para entender mejor los datos de tu ciudad y toma decisiones informadas sobre cuándo salir, hacer ejercicio o ventilar tu hogar. El aire limpio es un derecho, y el conocimiento es el primer paso para exigirlo.",
     },
-    tags: ["AQI", "ICA Colombia", "IBOCA", "calidad del aire", "contaminación atmosférica", "PM2.5", "salud pública", "monitoreo ambiental"],
+    tags: ["AQI", "ICA Colombia", "IBOCA", "calidad del aire", "PM2.5", "salud pública", "monitoreo ambiental"],
     nextArticle: {
       slug: "matrices-eia-leopold-conesa",
       title: "Matrices de Evaluación de Impacto Ambiental: Guía Práctica",
@@ -536,10 +536,10 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
       ],
       conclusion: "Las matrices de impacto ambiental no son tablas estáticas; son modelos dinámicos de riesgo territorial. Al utilizar metodologías rigurosas como Conesa y herramientas de automatización, garantizamos que los Planes de Manejo Ambiental (PMA) sean sólidos frente a la revisión de la autoridad ambiental.",
     },
-    tags: ["EIA", "Leopold", "Conesa", "Battelle", "licencia ambiental", "PMA", "impacto ambiental", "ANLA"],
+    tags: ["EIA", "Leopold", "Conesa", "Battelle", "licencia ambiental", "impacto ambiental", "ANLA"],
     nextArticle: {
-      slug: "visor-mapas-sig-ambiental",
-      title: "Visualización Geoespacial de Datos Ambientales con SIG",
+      slug: "navegador-normas-ambientales",
+      title: "Guía de Normatividad Ambiental en Colombia: Agua, Aire, Vertimientos y Residuos Sólidos",
     },
   },
 
@@ -649,8 +649,8 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     },
     tags: ["normativa ambiental", "Resolución 2115", "Resolución 631", "Resolución 2254", "Decreto 1076", "IRCA", "gestión ambiental Colombia"],
     nextArticle: {
-      slug: "analisis-correlaciones-estadistica-ambiental",
-      title: "Análisis Estadístico de Datos Ambientales: Correlaciones",
+      slug: "tratamiento-de-aguas-residuales-industriales-en-colombia",
+      title: "Tratamiento de Aguas Residuales Industriales en Colombia: Normativa, Reúso y Claves de Eficiencia",
     },
   },
 };
@@ -776,8 +776,8 @@ export const IA_ARTICLES: Record<string, BlogArticle> = {
       "Image Generation",
     ],
     nextArticle: {
-      slug: "como-funciona-llm-transformers",
-      title: "Cómo funciona un LLM: desentrañando la arquitectura Transformer",
+      slug: "que-es-un-modelo-de-lenguaje",
+      title: "Qué es un modelo de lenguaje (LLM) y cómo funciona: guía",
     },
   },
 };
