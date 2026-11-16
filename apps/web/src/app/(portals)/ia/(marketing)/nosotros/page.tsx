@@ -1,6 +1,7 @@
 import { safeJsonLd } from "@/lib/security/safe-json-ld";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { IA_TOOLS } from "@/lib/ia-tools";
 
 export const metadata: Metadata = {
   title: "Nosotros — Aquatech IA",
@@ -131,7 +132,7 @@ export default function NosotrosPage() {
                 <span className="font-medium text-[#F3F6FF]">
                   Rigor científico continuo:
                 </span>{" "}
-                validación con expertos, trazabilidad de datos y evaluación de
+                fuentes citadas, trazabilidad de datos y evaluación de
                 sesgos.
               </li>
               <li>
@@ -242,7 +243,7 @@ export default function NosotrosPage() {
               ["Transparencia", "Modelos, supuestos y fuentes trazables."],
               [
                 "Rigor científico",
-                "Validación, reproducibilidad y pares expertos.",
+                "Fuentes citadas, método publicado y reproducibilidad.",
               ],
               ["Impacto", "Métricas claras ambientales y sociales."],
               ["Ética de IA", "Filtros responsables y revisión humana."],
@@ -269,18 +270,16 @@ export default function NosotrosPage() {
               className="text-3xl font-bold"
               style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
             >
-              Nuestro Impacto
+              El proyecto en cifras
             </h2>
             <p className="mt-3 text-lg text-[#B6C2DF]">
-              Números que reflejan nuestro compromiso con la excelencia.
+              Cifras que el propio sitio calcula.
             </p>
           </div>
-          <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
+          {/* Solo cifras que el sitio deriva de su propio código: no se escriben a mano. */}
+          <div className="mx-auto grid max-w-xs grid-cols-1 gap-6">
             {[
-              ["+120K", "Registros de calidad de agua analizados"],
-              ["6", "Herramientas publicadas (3 IA / 3 Ambientales)"],
-              ["12", "Alianzas y datasets integrados"],
-              ["97%", "Uptime promedio en herramientas públicas"],
+              [String(IA_TOOLS.filter((t) => t.status === "available").length), "Herramientas de IA públicas"],
             ].map(([kpi, label]) => (
               <div
                 key={kpi}
