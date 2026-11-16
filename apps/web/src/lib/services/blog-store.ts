@@ -531,7 +531,8 @@ export function pickUpdatableFields(
 
 export async function updateStoredArticle(
   id: string,
-  rawUpdates: Partial<Omit<StoredBlogArticle, "id" | "createdAt">>
+  // `object`: lo que llegue se filtra con la lista blanca; el tipo no es una garantía en runtime.
+  rawUpdates: object
 ): Promise<StoredBlogArticle | null> {
   const updates = pickUpdatableFields(rawUpdates as Record<string, unknown>);
   try {
