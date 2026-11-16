@@ -7,8 +7,8 @@
 
 | # | Fuente | Qué es | IA | Ambiental | Publicados (no retirados) |
 |---|---|---|---|---|---|
-| 1 | `lib/blog-articles.ts` (`IA_ARTICLES`, `AMBIENTAL_ARTICLES`) | Heredados: los primeros artículos, a mano | 2 | 6 | **IA 1 · Amb 4** |
-| 2 | `lib/new-blog-articles.ts`, `lib/new-ambiental-articles.ts` | Segunda tanda, a mano | 9 | 6 | **IA 0 · Amb 5** (los 9 de IA están retirados) |
+| 1 | `lib/blog-articles.ts` (`IA_ARTICLES`, `AMBIENTAL_ARTICLES`) | Heredados: los primeros artículos, a mano | 1 (1 retirado, borrado) | 4 (2 retirados, borrados) | **IA 1 · Amb 4** |
+| 2 | ~~`lib/new-blog-articles.ts`~~ (borrado en ARQ-006a), `lib/new-ambiental-articles.ts` | Segunda tanda, a mano | 0 (9 retirados, borrados) | 5 (1 retirado, borrado) | **IA 0 · Amb 5** |
 | 3 | `lib/articles/index.ts` + `lib/articles/<portal>/*.ts` | Registro "un archivo por artículo" (SPEC-100, ADR-0008, `pnpm content:new`). Conectado por CONT-004b | 1 | 0 | **IA 1 · Amb 0** |
 | 4 | PostgreSQL (`BlogPost`) | Artículos publicados por la API del agente y el admin, sin desplegar | ~12 (dato de CONT) | — | **no verificado desde aquí** (sin acceso a la base) |
 | 5 | Caché de disco `content/blog/articles.json` | Copia de respaldo que escribe `blog-store`; fallback si la BD falla | 1 | 0 | 1 (`introduccion-a-los-agentes-autonomos-en-ingenieria`, obsoleto respecto de la BD) |
@@ -68,3 +68,7 @@ Leyenda: ✔ la ve · ✘ no la ve · ◐ solo como respaldo si la BD falla.
 - `getStoredArticlesStrict()` y `getAllArticlesStrict()`: mismo filtrado, misma fusión y misma precedencia que las tolerantes (comparten `composeArticles` e `isPubliclyVisible`) pero **no capturan** el error de la BD. Con tests que fijan: BD sana ⇒ estricta = tolerante; BD caída ⇒ la estricta lanza y la tolerante degrada.
 - `getArticlesForIndexing(portal)` (sitemap, `llms.txt`, `llms-full.txt`): en producción de Vercel el fallo **se propaga** (rompe el build y el despliegue anterior sigue sirviendo; en una revalidación en caliente Next conserva la última versión buena). En otros entornos degrada con error en el log y señal de observabilidad (`indexable-articles-incomplete`). Salida de emergencia: `ALLOW_INCOMPLETE_CONTENT=1`.
 - `getPublishedArticleCount(portal)`: `null` si la BD falla. Los "Nosotros" no pintan la tarjeta en ese caso.
+
+## 7. Poda de ARQ-006a (2026-11-15)
+
+Se borraron los cuerpos de los **13 artículos retirados** que seguían empaquetándose (los 14 slugs de `retired-articles.mjs` menos `gestion-comunitaria-...`, que ya no tenía cuerpo en código): 9 de `new-blog-articles.ts` (el archivo entero, que se borra porque quedaba vacío), 3 de `blog-articles.ts` y 1 de `new-ambiental-articles.ts`. Las redirecciones 301 y el filtro `isRetiredArticle` no cambian. Quedan 3 artículos vivos con `nextArticle` apuntando a un slug retirado (funciona por la redirección 301; es contenido, de CONT).

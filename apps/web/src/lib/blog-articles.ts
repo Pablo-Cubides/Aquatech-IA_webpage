@@ -2,7 +2,6 @@
 // This file can be easily edited to add new articles
 
 import { isRetiredArticle } from "./retired-articles.mjs";
-import { NEW_IA_ARTICLES } from "./new-blog-articles";
 import { NEW_AMBIENTAL_ARTICLES } from "./new-ambiental-articles";
 import { NEW_IA_ARTICLES_V2, NEW_AMBIENTAL_ARTICLES_V2 } from "./articles";
 import {
@@ -544,76 +543,6 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
     },
   },
 
-  "visor-mapas-sig-ambiental": {
-    slug: "visor-mapas-sig-ambiental",
-    title: "Visualización Geoespacial de Datos Ambientales: Herramientas SIG para el Monitoreo Territorial",
-    category: "Geotecnología",
-    date: "2024-12-09",
-    readTime: 14,
-    excerpt: "Domina el análisis espacial para la gestión ambiental. Guía técnica sobre sensores Sentinel, índices NDVI/NDWI y el estándar MAGNA-SIRGAS para Colombia.",
-    heroImage: "/images/portal-ambiental/blog/gestion-ambiental-digital.jpg",
-    author: {
-      name: "Pablo Cubides",
-      avatar: "/images/portal-ambiental/autor/pablo-cubides.jpg",
-      bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
-    },
-    content: {
-      introduction: "Imagina poder ver en un mapa interactivo, en tiempo real, dónde hay deforestación, puntos de contaminación del agua, distribución de especies en peligro o calidad del aire en tu ciudad. Los Sistemas de Información Geográfica (SIG) hacen posible este superpoder ambiental. En la era del Big Data ambiental, la capacidad de ver datos en un mapa no es suficiente; necesitamos entender la dinámica del territorio a través de sensores remotos y modelos geoestadísticos.",
-      sections: [
-        {
-          id: "que-es-sig",
-          title: "¿Qué es un Sistema de Información Geográfica (SIG)?",
-          content: "Un SIG es una plataforma que integra hardware, software, datos y procedimientos para capturar, almacenar, manipular, analizar y visualizar información geográficamente referenciada. Es la herramienta definitiva para relacionar datos tabulares con ubicación espacial.",
-          image: "/images/portal-ambiental/blog/irca-analisis-datos.jpg",
-          callout: {
-            type: "info",
-            title: "Componentes de un SIG",
-            content: "• **Hardware:** Computadoras, servidores, sensores GPS/drones\n• **Software:** QGIS, ArcGIS, Google Earth Engine, MapLibre\n• **Datos:** Capas vectoriales y raster\n• **Personas:** Profesionales capacitados en análisis geoespacial",
-          },
-        },
-        {
-          id: "sensores-remotos",
-          title: "Monitoreo Satelital: Más allá de lo Visible",
-          content: "Los sensores remotos nos permiten 'ver' en bandas del espectro electromagnético que el ojo humano ignora. El programa Copernicus de la ESA con sus satélites **Sentinel-2** ha democratizado el acceso a imágenes de 10m de resolución, esenciales para el monitoreo ambiental continuo.",
-          subsections: [
-            {
-              id: "indices-espectrales",
-              title: "Índices NDVI y NDWI",
-              content: "• **NDVI (Vegetación):** Utiliza las bandas Roja e Infrarrojo Cercano para medir la salud fotosintética.\n• **NDWI (Agua):** Crucial para hidrología, permite diferenciar cuerpos de agua de vegetación y suelo desnudo.\n• **Impacto:** Con estos índices podemos detectar estrés hídrico en cultivos o retroceso de glaciares sin salir al campo.",
-            },
-          ],
-        },
-        {
-          id: "geodesia-colombia",
-          title: "Precisión en Colombia: MAGNA-SIRGAS",
-          content: "Todo análisis geoespacial en Colombia debe regirse por el sistema **MAGNA-SIRGAS**. El uso de proyecciones obsoletas como el Datum Bogotá puede generar desplazamientos de cientos de metros en la ubicación de límites ambientales.",
-          callout: {
-            type: "info",
-            title: "Dato Técnico",
-            content: "Desde 2020, Colombia implementó el **Origen Nacional**, una proyección única que elimina las zonas de origen (Este-Este, Oeste-Oeste) facilitando la interoperabilidad de datos.",
-          },
-        },
-        {
-          id: "proyectos-visor",
-          title: "Visualiza tus Proyectos con AquatechIA",
-          content: "Nuestra plataforma ambiental cuenta con un **Visor de Mapas** diseñado para gestores ambientales. Carga tus capas GeoJSON, visualiza datos de biodiversidad de GBIF y genera mapas profesionales en segundos.",
-          image: "/images/portal-ambiental/blog/matrices-eia-metodologias.jpg",
-          callout: {
-            type: "success",
-            title: "Explora el Visor SIG",
-            content: "Analiza capas satelitales, coberturas de tierra e índices de vegetación en una plataforma integrada. \n\n [🌍 Abrir Visor de Mapas Ambientales](/ambiental/herramientas/visor-mapas-ambientales)",
-          },
-        },
-      ],
-      conclusion: "Los Sistemas de Información Geográfica son el microscopio del siglo XXI para entender nuestro planeta. Usa nuestra herramienta gratuita para comenzar a visualizar datos ambientales y atrévete a hacer tus propios análisis.",
-    },
-    tags: ["SIG", "mapas ambientales", "QGIS", "GBIF", "análisis espacial", "geoespacial", "monitoreo ambiental"],
-    nextArticle: {
-      slug: "navegador-normas-ambientales",
-      title: "Guía de Normatividad Ambiental en Colombia",
-    },
-  },
-
 
   "navegador-normas-ambientales": {
     slug: "navegador-normas-ambientales",
@@ -724,148 +653,10 @@ export const AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
       title: "Análisis Estadístico de Datos Ambientales: Correlaciones",
     },
   },
-
-  "analisis-correlaciones-estadistica-ambiental": {
-    slug: "analisis-correlaciones-estadistica-ambiental",
-    title: "Análisis Estadístico de Datos Ambientales: Correlaciones de Pearson, Spearman y Kendall",
-    category: "Gestión Ambiental",
-    date: "2024-12-09",
-    readTime: 14,
-    excerpt: "Descubre relaciones ocultas en tus datos ambientales. Guía técnica sobre correlaciones para estudios científicos y gestión avanzada del recurso hídrico y aire.",
-    heroImage: "/images/portal-ambiental/blog/irca-analisis-datos.jpg",
-    author: {
-      name: "Pablo Cubides",
-      avatar: "/images/portal-ambiental/autor/pablo-cubides.jpg",
-      bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
-    },
-    content: {
-      introduction: "¿La temperatura del agua está relacionada con la concentración de oxígeno disuelto? ¿El PM2.5 aumenta cuando sube la humedad? Estas preguntas no pueden responderse por intuición; requieren un rigor estadístico que valide la significancia de las relaciones. En la gestión ambiental moderna, donde manejamos grandes volúmenes de datos provenientes de redes de sensores IoT, imágenes satelitales (GEE) o encuestas socio-ambientales (KoboToolbox), el análisis de correlaciones se vuelve la brújula para identificar impulsores de degradación o éxito en la restauración. En este artículo profundizamos en los coeficientes de Pearson, Spearman y Kendall, sus aplicaciones técnicas y cómo nuestra herramienta interna facilita estos cálculos complejos.",
-      sections: [
-        {
-          id: "importancia-monitoreo",
-          title: "La Correlación en el Monitoreo Ambiental",
-          content: "En ciencias ambientales, rara vez una variable actúa de forma aislada. La correlación nos permite entender la interdependencia entre contaminantes, factores climáticos y salud de ecosistemas. Medir la fuerza (magnitud) y la dirección (positiva o negativa) es el primer paso para construir modelos predictivos confiables.",
-          callout: {
-            type: "info",
-            title: "Dato Clave",
-            content: "Una correlación de r=0.8 entre dos contaminantes indica que probablemente comparten la misma fuente de emisión o proceso de transporte. Identificar esto ahorra miles de dólares en estudios de caracterización.",
-          },
-        },
-        {
-          id: "comparativa-coeficientes",
-          title: "Pearson vs Spearman vs Kendall: ¿Cuál elegir?",
-          content: "No todos los datos ambientales se comportan igual. Elegir el coeficiente incorrecto puede llevar a conclusiones erróneas sobre el impacto ambiental.",
-          subsections: [
-            {
-              id: "pearson-tecnico",
-              title: "1. Pearson (Paramétrico)",
-              content: "Ideal para relaciones lineales puras entre variables continuas (ej: pH vs Alcalinidad). Requiere que los datos sigan una distribución normal y que no existan valores atípicos significativos (outliers), los cuales son muy comunes en sensores ambientales defectuosos.",
-            },
-            {
-              id: "spearman-tecnico",
-              title: "2. Spearman (No paramétrico)",
-              content: "Basado en rangos. Es robusto ante valores atípicos y detecta relaciones no lineales pero monótonas (siempre crecientes o decrecientes). Es perfecto para variables de biodiversidad o percepción social donde los datos no son perfectamente normales.\n\n**Usa Spearman cuando:**\n• Datos ordinales (escalas de Likert, rangos)\n• Distribución no normal\n• Hay valores atípicos que distorsionarían Pearson\n\n**Ejemplo ambiental:**\nÍndice de biodiversidad vs Área protegida\n→ Relación monótona pero no lineal (logarítmica)\n→ Spearman capta mejor la tendencia que Pearson",
-            },
-          ],
-        },
-        {
-          id: "kendall",
-          title: "Tau de Kendall: Robustez con muestras pequeñas",
-          content: "El tau de Kendall (τ) es otra medida no paramétrica similar a Spearman pero más robusta con muestras pequeñas y mejor para detectar patrones en series temporales.",
-          subsections: [
-            {
-              id: "cuando-kendall",
-              title: "Cuándo usar Kendall",
-              content: "✅ **Usa Kendall cuando:**\n• Muestra pequeña (n < 30)\n• Muchos empates (valores repetidos)\n• Series temporales con tendencias\n• Necesitas mayor robustez estadística\n\n**Ventaja:**\nEl tau de Kendall es menos sensible a errores de medición que Spearman.",
-            },
-          ],
-        },
-        {
-          id: "herramienta-analisis",
-          title: "Herramienta de análisis de correlaciones",
-          content: "Nuestra calculadora gratuita te permite analizar correlaciones entre múltiples variables ambientales sin necesidad de instalar software estadístico complejo.",
-          callout: {
-            type: "success",
-            title: "Realiza tu análisis técnico",
-            content: "Calcula Pearson, Spearman y Kendall simultáneamente con interpretación de p-valor. \n\n [📊 Ir a la Herramienta de Correlaciones](/ambiental/herramientas/analisis-correlaciones)",
-          },
-        },
-      ],
-      conclusion: "El análisis de correlaciones es tu aliado para descubrir patrones ocultos en datos ambientales. Ya sea que estés escribiendo un paper científico, preparando un informe de monitoreo o explorando relaciones en tu tesis, entender Pearson, Spearman y Kendall te dará superpoderes analíticos. Usa nuestra herramienta gratuita para hacer análisis profesionales en minutos y dedica tu tiempo a lo que realmente importa: interpretar los resultados y tomar decisiones basadas en evidencia. Los datos están ahí, esperando revelar sus secretos. ¿Listo para descubrirlos?",
-    },
-    tags: ["estadística ambiental", "correlación Pearson", "Spearman", "Kendall", "análisis de datos", "monitoreo ambiental", "ciencia de datos"],
-    nextArticle: {
-      slug: "calculadora-irca-calidad-agua",
-      title: "Cómo Calcular el IRCA y Otros Índices de Calidad del Agua",
-    },
-  },
 };
 
 // Artículos del portal IA
 export const IA_ARTICLES: Record<string, BlogArticle> = {
-  "como-funciona-llm-transformers": {
-    slug: "como-funciona-llm-transformers",
-    title: "Cómo funciona un LLM: desentrañando la arquitectura Transformer",
-    category: "Machine Learning",
-    date: "2024-09-10",
-    readTime: 15,
-    excerpt:
-      "Una exploración técnica pero accesible de los mecanismos que hacen posible la inteligencia artificial generativa moderna.",
-    heroImage:
-      "/images/portal-ia/blog/llm-transformers-architecture.jpg",
-    author: {
-      name: "Pablo Cubides",
-      avatar: "/images/portal-ia/autor/pablo-cubides.png",
-      bio: "Ingeniero Químico · M. Sc. en Ingeniería Ambiental · Docente universitario · Desarrollador en IA, redes neuronales y optimización",
-    },
-    content: {
-      introduction:
-        "Los Large Language Models (LLMs) han revolucionado la inteligencia artificial, pero ¿cómo funcionan realmente? Detrás de ChatGPT, GPT-4 y otros modelos están los Transformers: una arquitectura elegante que cambió para siempre el procesamiento de lenguaje natural.",
-      sections: [
-        {
-          id: "que-es-transformer",
-          title: "¿Qué es un Transformer?",
-          content:
-            "Un Transformer es una arquitectura de red neuronal diseñada para procesar secuencias de datos, especialmente texto. A diferencia de las RNN que procesaban palabras una por una, los Transformers pueden analizar toda una oración simultáneamente.",
-          image:
-            "/images/portal-ia/blog/neural-network-concept.jpg",
-          subsections: [
-            {
-              id: "ventajas-clave",
-              title: "Ventajas clave de los Transformers",
-              content:
-                "• **Paralelización**: Procesa toda la secuencia simultáneamente\n• **Atención global**: Cada palabra puede 'atender' a cualquier otra palabra\n• **Escalabilidad**: Funciona mejor con más datos y parámetros\n• **Transferibilidad**: Se puede preentrenar y luego especializarse",
-            },
-          ],
-        },
-        {
-          id: "mecanismo-atencion",
-          title: "El mecanismo de atención: el corazón del Transformer",
-          content:
-            "La atención es lo que permite a un Transformer entender qué palabras son importantes para entender el significado de otras palabras. Es como un destacador inteligente que resalta automáticamente las palabras relevantes.",
-          callout: {
-            type: "info",
-            title: "Analogía: Atención como un destacador inteligente",
-            content:
-              "Imagina que tienes un texto y un destacador que cambia de color automáticamente. Para cada palabra, el destacador resalta en diferentes intensidades todas las palabras relevantes para entender esa palabra específica.",
-          },
-        },
-      ],
-      conclusion:
-        "Los Transformers representan uno de los avances más significativos en IA de las últimas décadas. Su elegancia radica en la simplicidad conceptual del mecanismo de atención, que permite capturar relaciones complejas en el lenguaje.",
-    },
-    tags: [
-      "LLM",
-      "Transformers",
-      "Deep Learning",
-      "NLP",
-      "Inteligencia Artificial",
-    ],
-    nextArticle: {
-      slug: "difusion-stable-diffusion",
-      title: "Cómo funciona el sistema de difusión en IA generativa",
-    },
-  },
 
   "difusion-stable-diffusion": {
     slug: "difusion-stable-diffusion",
@@ -996,7 +787,7 @@ export const IA_ARTICLES: Record<string, BlogArticle> = {
  *
  * ORDEN DE PRECEDENCIA, de menor a mayor (si un slug se repite, gana la última):
  *   1. blog-articles.ts            (IA_ARTICLES / AMBIENTAL_ARTICLES, heredados)
- *   2. new-blog-articles.ts / new-ambiental-articles.ts
+ *   2. new-ambiental-articles.ts   (el de IA, new-blog-articles.ts, se borró: todo retirado)
  *   3. articles/index.ts           (un archivo por artículo; flujo `pnpm content:new`)
  * PostgreSQL (BlogPost) queda fuera de este mapa y SIEMPRE tiene prioridad sobre él:
  * getArticle() y getAllArticles() lo consultan primero y sustituyen el estático con el mismo slug.
@@ -1012,7 +803,8 @@ export const IA_ARTICLES: Record<string, BlogArticle> = {
  */
 function getStaticArticleMap(portal: "ia" | "ambiental"): Record<string, BlogArticle> {
   const heredados = portal === "ia" ? IA_ARTICLES : AMBIENTAL_ARTICLES;
-  const nuevos = portal === "ia" ? NEW_IA_ARTICLES : NEW_AMBIENTAL_ARTICLES;
+  // new-blog-articles.ts (portal IA) se borró en ARQ-006a: sus 9 artículos estaban todos retirados.
+  const nuevos: Record<string, BlogArticle> = portal === "ia" ? {} : NEW_AMBIENTAL_ARTICLES;
   const registrados = portal === "ia" ? NEW_IA_ARTICLES_V2 : NEW_AMBIENTAL_ARTICLES_V2;
   return {
     ...heredados,
@@ -1025,7 +817,7 @@ function getStaticArticleMap(portal: "ia" | "ambiental"): Record<string, BlogArt
 export function findStaticSlugCollisions(portal: "ia" | "ambiental"): string[] {
   const listas = [
     Object.keys(portal === "ia" ? IA_ARTICLES : AMBIENTAL_ARTICLES),
-    Object.keys(portal === "ia" ? NEW_IA_ARTICLES : NEW_AMBIENTAL_ARTICLES),
+    Object.keys(portal === "ia" ? {} : NEW_AMBIENTAL_ARTICLES),
     (portal === "ia" ? NEW_IA_ARTICLES_V2 : NEW_AMBIENTAL_ARTICLES_V2).map((a) => a.slug),
   ];
   const vistos = new Set<string>();

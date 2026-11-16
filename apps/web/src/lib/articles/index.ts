@@ -7,7 +7,7 @@
  *
  * Fuentes de artículos, de MENOR a MAYOR precedencia (si un slug se repite, gana la última):
  *   1. blog-articles.ts            (IA_ARTICLES / AMBIENTAL_ARTICLES, heredados)
- *   2. new-blog-articles.ts y new-ambiental-articles.ts
+ *   2. new-ambiental-articles.ts
  *   3. este registro               (articles/ia/*.ts y articles/ambiental/*.ts)
  *   4. PostgreSQL (BlogPost)       sustituye a cualquiera de las anteriores con el mismo slug
  *
