@@ -1,13 +1,15 @@
 /**
  * Aislamiento entre portales (constitución §2.2, ADR-0014, ARQ-003/ARQ-005).
  *
- * Tres comprobaciones:
+ * Cuatro comprobaciones:
  *  1. Ningún archivo de `(portals)/ia` importa de `(portals)/ambiental`, ni al revés, ni por alias
  *     ni por ruta relativa ni por `export ... from`.
  *  2. tsconfig.json tiene UNA regla de alias (`@/*` → `./src/*`). Antes `@/components/*` y
  *     `@/lib/*` caían a los `src/` de 5 herramientas: un `@/lib/x` podía resolver a código de una
  *     herramienta de OTRO portal sin que ningún grep del cruce lo viera.
- *  3. El código compartido (`src/lib`, `src/components`, `src/app/api`) solo importa de un portal lo
+ *  3. Ninguna herramienta importa de otra herramienta (medido el 2026-11-15: 0 casos). Lo común va a
+ *     `src/components`, `src/lib` o `@ia-next/ui`.
+ *  4. El código compartido (`src/lib`, `src/components`, `src/app/api`) solo importa de un portal lo
  *     que ya importaba el 2026-11-15 (trinquete: la lista solo puede disminuir).
  */
 import fs from "node:fs";
@@ -68,6 +70,21 @@ describe("aislamiento entre portales", () => {
       if (!own) continue;
       for (const target of localImports(file)) {
         const other = portalOf(target);
+        if (other && other !== own) violations.push(`${rel(file)} → ${rel(target)}`);
+      }
+    }
+    expect(violations).toEqual([]);
+  });
+
+  it("ninguna herramienta importa de otra herramienta", () => {
+    const toolOf = (file: string) =>
+      file.match(/\/src\/app\/\(portals\)\/(ia|ambiental)\/\(marketing\)\/(?:autor\/)?herramientas\/([^/]+)/)?.slice(1, 3).join("/") ?? null;
+    const violations: string[] = [];
+    for (const file of files) {
+      const own = toolOf(file);
+      if (!own) continue;
+      for (const target of localImports(file)) {
+        const other = toolOf(target);
         if (other && other !== own) violations.push(`${rel(file)} → ${rel(target)}`);
       }
     }
