@@ -4,6 +4,7 @@
 import { isRetiredArticle } from "./retired-articles.mjs";
 import { NEW_IA_ARTICLES } from "./new-blog-articles";
 import { NEW_AMBIENTAL_ARTICLES } from "./new-ambiental-articles";
+import { NEW_IA_ARTICLES_V2, NEW_AMBIENTAL_ARTICLES_V2 } from "./articles";
 import { getStoredArticles, getStoredArticlesSync } from "./services/blog-store";
 import { reportDegradation } from "./observability/degradation";
 
@@ -985,6 +986,49 @@ export const IA_ARTICLES: Record<string, BlogArticle> = {
   },
 };
 
+/**
+ * Fuentes ESTATICAS (en código) de un portal, fusionadas en un único mapa slug -> artículo.
+ *
+ * ORDEN DE PRECEDENCIA, de menor a mayor (si un slug se repite, gana la última):
+ *   1. blog-articles.ts            (IA_ARTICLES / AMBIENTAL_ARTICLES, heredados)
+ *   2. new-blog-articles.ts / new-ambiental-articles.ts
+ *   3. articles/index.ts           (un archivo por artículo; flujo `pnpm content:new`)
+ * PostgreSQL (BlogPost) queda fuera de este mapa y SIEMPRE tiene prioridad sobre él:
+ * getArticle() y getAllArticles() lo consultan primero y sustituyen el estático con el mismo slug.
+ *
+ * Esta precedencia es una decisión provisional y explícita, no un accidente: en el momento de
+ * escribirla no había ningún slug repetido entre las fuentes (comprobado con un test que falla si
+ * aparece uno). Cuando exista el censo de fuentes de ARQ-004, esa decisión se reevalúa allí.
+ */
+function getStaticArticleMap(portal: "ia" | "ambiental"): Record<string, BlogArticle> {
+  const heredados = portal === "ia" ? IA_ARTICLES : AMBIENTAL_ARTICLES;
+  const nuevos = portal === "ia" ? NEW_IA_ARTICLES : NEW_AMBIENTAL_ARTICLES;
+  const registrados = portal === "ia" ? NEW_IA_ARTICLES_V2 : NEW_AMBIENTAL_ARTICLES_V2;
+  return {
+    ...heredados,
+    ...nuevos,
+    ...Object.fromEntries(registrados.map((article) => [article.slug, article as BlogArticle])),
+  };
+}
+
+/** Los slugs de las fuentes estáticas que se repiten entre sí, por portal (para el test de colisiones). */
+export function findStaticSlugCollisions(portal: "ia" | "ambiental"): string[] {
+  const listas = [
+    Object.keys(portal === "ia" ? IA_ARTICLES : AMBIENTAL_ARTICLES),
+    Object.keys(portal === "ia" ? NEW_IA_ARTICLES : NEW_AMBIENTAL_ARTICLES),
+    (portal === "ia" ? NEW_IA_ARTICLES_V2 : NEW_AMBIENTAL_ARTICLES_V2).map((a) => a.slug),
+  ];
+  const vistos = new Set<string>();
+  const repetidos = new Set<string>();
+  for (const lista of listas) {
+    for (const slug of new Set(lista)) {
+      if (vistos.has(slug)) repetidos.add(slug);
+      vistos.add(slug);
+    }
+  }
+  return [...repetidos];
+}
+
 // Helper function to get article by slug and portal
 export async function getArticle(
   portal: "ia" | "ambiental",
@@ -1014,9 +1058,7 @@ export async function getArticle(
     // Dynamic read fallback
   }
 
-  const existingArticles = portal === "ia" ? IA_ARTICLES : AMBIENTAL_ARTICLES;
-  const newArticles = portal === "ia" ? NEW_IA_ARTICLES : NEW_AMBIENTAL_ARTICLES;
-  const allArticles = { ...existingArticles, ...newArticles };
+  const allArticles = getStaticArticleMap(portal);
   if (isRetiredArticle(portal, slug)) return null;
   return allArticles[slug] || null;
 }
@@ -1050,9 +1092,7 @@ export function getArticleSync(
     // Fallback
   }
 
-  const existingArticles = portal === "ia" ? IA_ARTICLES : AMBIENTAL_ARTICLES;
-  const newArticles = portal === "ia" ? NEW_IA_ARTICLES : NEW_AMBIENTAL_ARTICLES;
-  const allArticles = { ...existingArticles, ...newArticles };
+  const allArticles = getStaticArticleMap(portal);
   if (isRetiredArticle(portal, slug)) return null;
   return allArticles[slug] || null;
 }
@@ -1063,9 +1103,7 @@ export async function getAllArticles(
   portal: "ia" | "ambiental",
   includeUnpublished = false
 ): Promise<BlogArticle[]> {
-  const existingArticles = portal === "ia" ? IA_ARTICLES : AMBIENTAL_ARTICLES;
-  const newArticles = portal === "ia" ? NEW_IA_ARTICLES : NEW_AMBIENTAL_ARTICLES;
-  const staticArticles = Object.values({ ...existingArticles, ...newArticles }).filter((a) => !isRetiredArticle(portal, a.slug)).map((a) => ({
+  const staticArticles = Object.values(getStaticArticleMap(portal)).filter((a) => !isRetiredArticle(portal, a.slug)).map((a) => ({
     ...a,
     portal,
     status: "PUBLISHED" as const,
@@ -1109,9 +1147,7 @@ export function getAllArticlesSync(
   portal: "ia" | "ambiental",
   includeUnpublished = false
 ): BlogArticle[] {
-  const existingArticles = portal === "ia" ? IA_ARTICLES : AMBIENTAL_ARTICLES;
-  const newArticles = portal === "ia" ? NEW_IA_ARTICLES : NEW_AMBIENTAL_ARTICLES;
-  const staticArticles = Object.values({ ...existingArticles, ...newArticles }).filter((a) => !isRetiredArticle(portal, a.slug)).map((a) => ({
+  const staticArticles = Object.values(getStaticArticleMap(portal)).filter((a) => !isRetiredArticle(portal, a.slug)).map((a) => ({
     ...a,
     portal,
     status: "PUBLISHED" as const,
