@@ -497,10 +497,43 @@ export async function createStoredArticle(input: CreateArticleInput): Promise<St
 }
 
 // Update article status (e.g. PAUSE, PUBLISH, SCHEDULE) or metadata
+// Lista blanca de campos que un update legítimo puede tocar (SEC-002). `id`, `createdAt`,
+// `updatedAt` y `source` los controla el servidor. Se aplica aquí además de en el Zod de la ruta:
+// el tipo `Omit<...>` solo existe en compilación y en runtime `updates` puede traer cualquier cosa.
+export const UPDATABLE_ARTICLE_FIELDS = [
+  "title",
+  "slug",
+  "excerpt",
+  "content",
+  "heroImage",
+  "category",
+  "tags",
+  "readTime",
+  "references",
+  "nextArticle",
+  "status",
+  "publishedAt",
+  "portal",
+  "author",
+] as const;
+
+export function pickUpdatableFields(
+  updates: Record<string, unknown>,
+): Partial<Omit<StoredBlogArticle, "id" | "createdAt">> {
+  const picked: Record<string, unknown> = {};
+  for (const key of UPDATABLE_ARTICLE_FIELDS) {
+    if (Object.prototype.hasOwnProperty.call(updates, key) && updates[key] !== undefined) {
+      picked[key] = updates[key];
+    }
+  }
+  return picked as Partial<Omit<StoredBlogArticle, "id" | "createdAt">>;
+}
+
 export async function updateStoredArticle(
   id: string,
-  updates: Partial<Omit<StoredBlogArticle, "id" | "createdAt">>
+  rawUpdates: Partial<Omit<StoredBlogArticle, "id" | "createdAt">>
 ): Promise<StoredBlogArticle | null> {
+  const updates = pickUpdatableFields(rawUpdates as Record<string, unknown>);
   try {
     const data: Record<string, unknown> = { ...updates };
     if (updates.portal) {

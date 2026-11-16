@@ -2,6 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { authorizeBlogAdmin } from "@/lib/security/blog-admin-auth";
 import {
+  articleIdSchema,
+  describeInvalidBody,
+  readBoundedJson,
+  updateArticleSchema,
+} from "@/lib/schemas/blog-article.zod";
+import {
   getStoredArticles,
   updateStoredArticle,
   deleteStoredArticle,
@@ -15,11 +21,28 @@ export async function PATCH(
   const auth = await authorizeBlogAdmin(req);
   if (!auth.ok) return auth.response;
 
-  const { id } = await params;
+  const parsedId = articleIdSchema.safeParse((await params).id);
+  if (!parsedId.success) {
+    return NextResponse.json({ error: "ID inválido" }, { status: 400 });
+  }
+  const id = parsedId.data;
 
   try {
-    const body = await req.json();
-    const updated = await updateStoredArticle(id, body);
+    const raw = await readBoundedJson(req);
+    if (!raw.ok) {
+      return NextResponse.json(
+        { error: raw.status === 413 ? "Cuerpo demasiado grande" : "JSON inválido" },
+        { status: raw.status },
+      );
+    }
+
+    // Esquema cerrado: id, createdAt, updatedAt y source no se aceptan (400 con las claves rechazadas).
+    const parsed = updateArticleSchema.safeParse(raw.value);
+    if (!parsed.success) {
+      return NextResponse.json(describeInvalidBody(parsed.error), { status: 400 });
+    }
+
+    const updated = await updateStoredArticle(id, parsed.data);
 
     if (!updated) {
       return NextResponse.json(

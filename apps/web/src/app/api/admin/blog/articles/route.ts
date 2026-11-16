@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { authorizeBlogAdmin } from "@/lib/security/blog-admin-auth";
 import {
+  createArticleSchema,
+  describeInvalidBody,
+  readBoundedJson,
+} from "@/lib/schemas/blog-article.zod";
+import {
   createStoredArticle,
   getStoredArticles,
   CreateArticleInput,
@@ -66,48 +71,40 @@ export async function POST(req: NextRequest) {
   if (!auth.ok) return auth.response;
 
   try {
-    const body = await req.json();
-
-    if (!body.portal || (body.portal !== "ia" && body.portal !== "ambiental")) {
+    const raw = await readBoundedJson(req);
+    if (!raw.ok) {
       return NextResponse.json(
-        { error: "El campo 'portal' es requerido y debe ser 'ia' o 'ambiental'." },
-        { status: 400 }
+        { error: raw.status === 413 ? "Cuerpo demasiado grande" : "JSON inválido" },
+        { status: raw.status },
       );
     }
 
-    if (!body.title || typeof body.title !== "string" || !body.title.trim()) {
-      return NextResponse.json(
-        { error: "El campo 'title' es requerido." },
-        { status: 400 }
-      );
+    const parsed = createArticleSchema.safeParse(raw.value);
+    if (!parsed.success) {
+      return NextResponse.json(describeInvalidBody(parsed.error), { status: 400 });
     }
-
-    if (!body.content) {
-      return NextResponse.json(
-        { error: "El campo 'content' (texto Markdown o secciones estructuradas) es requerido." },
-        { status: 400 }
-      );
-    }
+    const body = parsed.data;
 
     const defaultCategory =
       body.portal === "ia" ? "Inteligencia Artificial" : "Gestión Ambiental";
 
     const input: CreateArticleInput = {
       portal: body.portal,
-      title: body.title.trim(),
+      title: body.title,
       slug: body.slug,
       category: body.category?.trim() || defaultCategory,
-      excerpt: body.excerpt?.trim() || body.title.trim(),
+      excerpt: body.excerpt?.trim() || body.title,
       content: body.content,
       heroImage: body.heroImage,
       authorName: body.authorName,
       authorAvatar: body.authorAvatar,
       authorBio: body.authorBio,
       readTime: body.readTime,
-      tags: Array.isArray(body.tags) ? body.tags : undefined,
+      tags: body.tags,
       status: body.status,
       publishedAt: body.publishedAt,
-      source: body.source || (auth.via === "agent" ? "AGENT" : "ADMIN"),
+      // La procedencia la fija el servidor: un cliente no puede declararse "ADMIN" ni "AGENT".
+      source: auth.via === "agent" ? "AGENT" : "ADMIN",
     };
 
     const created = await createStoredArticle(input);
