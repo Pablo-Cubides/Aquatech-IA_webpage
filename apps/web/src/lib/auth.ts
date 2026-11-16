@@ -4,6 +4,7 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@ia-next/database";
 import bcrypt from "bcryptjs";
+import { getClientIP, rateLimit } from "@/lib/security/rate-limit";
 
 type DbUserWithPassword = {
   password?: string | null;
@@ -20,6 +21,17 @@ export const INVALID_CREDENTIALS_MESSAGE = "Credenciales inválidas";
  */
 const DUMMY_PASSWORD_HASH =
   "$2b$10$QyLOe5FKWl3cDAqncLS5m.WMJoz5OSPh4/JvAlgtG3trywzlyDuZS";
+
+/** Mensaje al superar el límite de intentos de inicio de sesión (no depende de si el correo existe). */
+export const TOO_MANY_ATTEMPTS_MESSAGE = "Demasiados intentos. Inténtalo de nuevo más tarde.";
+
+// Límites de inicio de sesión (SEC-002). La ventana es fija: en el borde de la ventana caben hasta
+// 2x el límite en ráfaga, por eso los límites son bajos. Se cuentan TODOS los intentos (existan o no
+// el usuario) para no revelar si un correo está registrado. failureMode "closed": sin almacén no se
+// permite probar contraseñas sin límite (el almacén es la propia base de datos de la que depende el login).
+const LOGIN_WINDOW_MS = 15 * 60 * 1000;
+const LOGIN_MAX_PER_ACCOUNT_AND_IP = 6;
+const LOGIN_MAX_PER_IP = 30;
 
 const MAX_PROFILE_NAME_LENGTH = 100;
 const MAX_PROFILE_IMAGE_LENGTH = 2048;
@@ -56,9 +68,27 @@ export const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials) {
+      async authorize(credentials, req) {
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Email y contraseña son requeridos");
+        }
+
+        const ip = getClientIP(new Headers((req?.headers ?? {}) as Record<string, string>));
+        const email = credentials.email.trim().toLowerCase();
+        const [perAccount, perIp] = await Promise.all([
+          rateLimit(`auth:login:acct:${ip}:${email}`, {
+            interval: LOGIN_WINDOW_MS,
+            uniqueTokenPerInterval: LOGIN_MAX_PER_ACCOUNT_AND_IP,
+            failureMode: "closed",
+          }),
+          rateLimit(`auth:login:ip:${ip}`, {
+            interval: LOGIN_WINDOW_MS,
+            uniqueTokenPerInterval: LOGIN_MAX_PER_IP,
+            failureMode: "closed",
+          }),
+        ]);
+        if (!perAccount.success || !perIp.success) {
+          throw new Error(TOO_MANY_ATTEMPTS_MESSAGE);
         }
 
         const user = await prisma.user.findUnique({

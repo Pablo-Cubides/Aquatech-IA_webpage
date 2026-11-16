@@ -80,6 +80,33 @@ function createRatelimits(redis: Redis) {
 
 type RatelimitType = keyof ReturnType<typeof createRatelimits>;
 
+/**
+ * Política cuando el almacén de límites falla (SEC-002). CRITERIO ÚNICO, el mismo que apps/web
+ * (`failureMode` en apps/web/src/lib/security/rate-limit.ts):
+ *  - "closed" (por defecto): se deniega. Autenticación, pagos, correo, escritura, coste.
+ *  - "open": solo declarado aquí, de forma explícita y justificada. Nunca se infiere del nombre
+ *    del identificador ni de listas implícitas. Al añadir un tipo nuevo el compilador obliga a
+ *    elegir (Record exhaustivo).
+ */
+type FailureMode = "closed" | "open";
+
+function failureModeFor(limitType: RatelimitType): FailureMode {
+  const modes: Record<RatelimitType, FailureMode> = {
+    // Tráfico general y aquaquiz (alta por PIN, sin cuenta): una caída del almacén no debe parar
+    // una clase en vivo. Riesgo aceptado y registrado: sin almacén no hay límite en esas rutas.
+    api: "open",
+    // ADR-0013: los contadores de calificaciones fallan cerrado. Solo en desarrollo/pruebas
+    // (sin Redis local) se permite abrir para poder trabajar.
+    grade: process.env.NODE_ENV === "production" ? "closed" : "open",
+    payment: "closed",
+    email: "closed",
+    auth: "closed",
+    // Sin llamadores hoy; cerrado por defecto hasta que alguien justifique otra cosa.
+    tool: "closed",
+  };
+  return modes[limitType];
+}
+
 function getRatelimits() {
   if (!_ratelimits) {
     _ratelimits = createRatelimits(getRedis());
@@ -115,7 +142,7 @@ export async function checkRateLimit(
 
     return { success, limit, remaining, reset: new Date(reset) };
   } catch (error: unknown) {
-    // If rate limiting fails, fail closed for sensitive operations
+    // Si el almacén falla se aplica la política declarada en failureModeFor (cerrado por defecto)
     await logger.error("Rate limit check failed", {
       limitType,
       identifier,
@@ -123,63 +150,12 @@ export async function checkRateLimit(
       ...context,
     });
 
-    const failClosedLimitTypes: readonly RatelimitType[] = [
-      "payment",
-      "email",
-      "auth",
-    ];
-
     return {
-      success:
-        !failClosedLimitTypes.includes(limitType) &&
-        !(limitType === "grade" && process.env.NODE_ENV === "production"),
+      success: failureModeFor(limitType) === "open",
       limit: 0,
       remaining: 0,
       reset: new Date(),
     };
-  }
-}
-
-export async function hasProcessedWebhookEvent(
-  source: string,
-  eventId: string,
-): Promise<boolean> {
-  try {
-    if (!eventId.trim()) {
-      return false;
-    }
-
-    const key = `webhook:event:${source}:${eventId}`;
-    const value = await getRedis().get<string>(key);
-    return value === "1";
-  } catch (error: unknown) {
-    await logger.warn("Webhook replay check failed", {
-      source,
-      eventId,
-      error: getErrorMessage(error),
-    });
-    return false;
-  }
-}
-
-export async function markWebhookEventProcessed(
-  source: string,
-  eventId: string,
-  ttlSeconds = 60 * 60,
-): Promise<void> {
-  try {
-    if (!eventId.trim()) {
-      return;
-    }
-
-    const key = `webhook:event:${source}:${eventId}`;
-    await getRedis().set(key, "1", { ex: ttlSeconds });
-  } catch (error: unknown) {
-    await logger.warn("Failed to persist webhook replay marker", {
-      source,
-      eventId,
-      error: getErrorMessage(error),
-    });
   }
 }
 

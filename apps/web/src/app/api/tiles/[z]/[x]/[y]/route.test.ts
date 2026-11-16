@@ -8,6 +8,8 @@ vi.mock("@/lib/security/rate-limit", () => ({
   getClientIP: () => "203.0.113.7",
 }));
 
+import { resetLocalRateLimitForTests } from "@/lib/security/local-rate-limit";
+
 import { GET } from "./route";
 
 const call = (z: string, x: string, y: string) =>
@@ -20,8 +22,8 @@ describe("GET /api/tiles/[z]/[x]/[y]", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    resetLocalRateLimitForTests();
     vi.stubGlobal("fetch", fetchMock);
-    rateLimitMock.mockResolvedValue({ success: true, limit: 1500, remaining: 1499, reset: Date.now() + 60_000 });
     fetchMock.mockImplementation(async () => new Response(new Uint8Array([137, 80, 78, 71]), { status: 200 }));
   });
 
@@ -63,17 +65,15 @@ describe("GET /api/tiles/[z]/[x]/[y]", () => {
     expect((await call("19", String(2 ** 19), "0")).status).toBe(400);
   });
 
-  it("aplica límite de tasa (429) y declara failureMode open de forma explícita", async () => {
-    rateLimitMock.mockResolvedValue({ success: false, limit: 1500, remaining: 0, reset: Date.now() + 60_000 });
+  it("NO usa el almacén compartido (ninguna escritura en base de datos por tesela)", async () => {
+    for (let i = 0; i < 25; i++) await call("5", String(i % 32), "12");
+    expect(rateLimitMock).not.toHaveBeenCalled();
+  });
 
-    const response = await call("1", "0", "0");
-
-    expect(response.status).toBe(429);
-    expect(fetchMock).not.toHaveBeenCalled();
-    expect(rateLimitMock).toHaveBeenCalledWith(
-      "tiles:203.0.113.7",
-      expect.objectContaining({ failureMode: "open" }),
-    );
+  it("aplica un límite grueso en memoria por IP (429)", async () => {
+    let last = 200;
+    for (let i = 0; i < 3001; i++) last = (await call("1", "0", "0")).status;
+    expect(last).toBe(429);
   });
 
   it("no filtra el estado de OSM: un fallo aguas arriba es 404/502", async () => {

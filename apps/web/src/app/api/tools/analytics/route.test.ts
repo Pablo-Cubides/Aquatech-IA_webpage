@@ -89,14 +89,32 @@ describe("/api/tools/analytics", () => {
       expect(Sentry.captureMessage).not.toHaveBeenCalled();
     });
 
-    it("con sesión guarda el id opaco del usuario, nunca el correo", async () => {
+    it("con sesión guarda un seudónimo estable (HMAC), nunca el id real ni el correo", async () => {
+      vi.stubEnv("NEXTAUTH_SECRET", "secreto-de-prueba");
       getServerSessionMock.mockResolvedValue({ user: { id: "cuid_123", email: "ana@example.com" } });
 
       await POST(post(valid));
+      await POST(post(valid));
 
-      const { data } = prismaMock.toolAnalytics.create.mock.calls[0][0];
-      expect(data.userId).toBe("cuid_123");
-      expect(JSON.stringify(data)).not.toContain("ana@example.com");
+      const first = prismaMock.toolAnalytics.create.mock.calls[0][0].data;
+      const second = prismaMock.toolAnalytics.create.mock.calls[1][0].data;
+      expect(first.userId).toMatch(/^[0-9a-f]{32}$/);
+      expect(first.userId).toBe(second.userId); // estable: permite contar quién repite
+      expect(JSON.stringify(first)).not.toContain("cuid_123");
+      expect(JSON.stringify(first)).not.toContain("ana@example.com");
+      vi.unstubAllEnvs();
+    });
+
+    it("sin NEXTAUTH_SECRET el evento se guarda sin identificador en lugar de fallar", async () => {
+      vi.stubEnv("NEXTAUTH_SECRET", "");
+      vi.stubEnv("AUTH_SECRET", "");
+      getServerSessionMock.mockResolvedValue({ user: { id: "cuid_123" } });
+
+      const response = await POST(post(valid));
+
+      expect(response.status).toBe(200);
+      expect(prismaMock.toolAnalytics.create.mock.calls[0][0].data.userId).toBeNull();
+      vi.unstubAllEnvs();
     });
 
     it("aplica límite de tasa y no escribe si no hay almacén (cerrado)", async () => {

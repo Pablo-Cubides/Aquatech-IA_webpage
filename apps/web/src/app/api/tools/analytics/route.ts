@@ -4,6 +4,7 @@ import { z } from "zod";
 import * as Sentry from "@sentry/nextjs";
 import { prisma } from "@ia-next/database";
 import { authOptions } from "@/lib/auth";
+import { pseudonymizeUserId } from "@/lib/security/pseudonymize";
 import { getClientIP, rateLimit } from "@/lib/security/rate-limit";
 
 export const runtime = "nodejs";
@@ -58,7 +59,7 @@ async function cleanupOldAnalytics() {
 
 /**
  * POST: acepta eventos de uso, incluso anónimos (la medición por herramienta es
- * el objetivo). Datos personales: NO se guarda el correo (solo el id opaco de
+ * el objetivo). Datos personales: NO se guarda el correo (solo un seudónimo HMAC del
  * usuario si hay sesión), NO se guarda la IP (solo se usa para el límite de tasa)
  * y el user-agent se trunca.
  */
@@ -115,7 +116,8 @@ export async function POST(request: NextRequest) {
         eventName,
         tool,
         eventData: { ...(eventData ?? {}), country },
-        userId: session?.user?.id ?? null,
+        // Seudónimo (HMAC), no el id real ni el correo: ver lib/security/pseudonymize.ts.
+        userId: session?.user?.id ? pseudonymizeUserId(session.user.id) : null,
         userAgent: request.headers.get("user-agent")?.slice(0, MAX_USER_AGENT_LENGTH) ?? null,
         ipAddress: null,
       },

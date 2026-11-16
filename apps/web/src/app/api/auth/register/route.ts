@@ -72,8 +72,10 @@ export async function POST(request: NextRequest) {
     });
 
     if (existingUser) {
+      // Sin el correo en el log (dato personal). Decisión SEC-002: se mantiene el 409 porque, sin
+      // flujo de confirmación por correo, una respuesta idéntica haría creer al usuario nuevo que
+      // su contraseña quedó registrada; la enumeración queda acotada por el límite de tasa (cerrado).
       await logger.warn("Registration attempt for existing email", {
-        email,
         ipAddress: clientIP,
       });
       return NextResponse.json(

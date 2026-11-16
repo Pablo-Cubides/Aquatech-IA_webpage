@@ -7,7 +7,13 @@ const { prismaMock } = vi.hoisted(() => ({
 
 vi.mock("@ia-next/database", () => ({ prisma: prismaMock }));
 
-import { authOptions, INVALID_CREDENTIALS_MESSAGE } from "@/lib/auth";
+const { rateLimitMock } = vi.hoisted(() => ({ rateLimitMock: vi.fn() }));
+vi.mock("@/lib/security/rate-limit", () => ({
+  rateLimit: rateLimitMock,
+  getClientIP: (headers: Headers) => headers.get("x-vercel-forwarded-for") ?? "unknown",
+}));
+
+import { authOptions, INVALID_CREDENTIALS_MESSAGE, TOO_MANY_ATTEMPTS_MESSAGE } from "@/lib/auth";
 
 type JwtArgs = Parameters<NonNullable<NonNullable<typeof authOptions.callbacks>["jwt"]>>[0];
 
@@ -19,7 +25,7 @@ const credentialsAuthorize = () => {
     (p) => (p as { type?: string }).type === "credentials",
   ) as unknown as {
     options: {
-      authorize: (credentials: Record<string, string>) => Promise<unknown>;
+      authorize: (credentials: Record<string, string>, req?: unknown) => Promise<unknown>;
     };
   };
   return provider.options.authorize;
@@ -110,7 +116,10 @@ describe("auth jwt callback: el rol nunca viene del cliente", () => {
 });
 
 describe("auth credentials: no enumera usuarios", () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => {
+    vi.clearAllMocks();
+    rateLimitMock.mockResolvedValue({ success: true, limit: 6, remaining: 5, reset: Date.now() + 1000 });
+  });
 
   it("usuario inexistente y contraseña incorrecta dan exactamente el mismo mensaje", async () => {
     const authorize = credentialsAuthorize();
@@ -162,5 +171,45 @@ describe("auth credentials: no enumera usuarios", () => {
     await expect(
       credentialsAuthorize()({ email: "real@example.com", password: "correcta" }),
     ).resolves.toMatchObject({ id: "u1", email: "real@example.com", role: "USER" });
+  });
+});
+
+describe("auth credentials: límite de intentos de inicio de sesión", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    rateLimitMock.mockResolvedValue({ success: true, limit: 6, remaining: 5, reset: Date.now() + 1000 });
+  });
+
+  it("limita por cuenta+IP y por IP, ambos en modo cerrado, antes de tocar la base de datos", async () => {
+    prismaMock.user.findUnique.mockResolvedValue(null);
+
+    await credentialsAuthorize()(
+      { email: " Ana@Example.com ", password: "x" },
+      { headers: { "x-vercel-forwarded-for": "203.0.113.9" } },
+    ).catch(() => undefined);
+
+    const calls = rateLimitMock.mock.calls;
+    expect(calls.map((c) => c[0])).toEqual([
+      "auth:login:acct:203.0.113.9:ana@example.com",
+      "auth:login:ip:203.0.113.9",
+    ]);
+    for (const [, config] of calls) expect(config.failureMode).toBe("closed");
+  });
+
+  it("al superar el límite rechaza sin consultar usuarios ni comparar contraseñas", async () => {
+    rateLimitMock.mockResolvedValue({ success: false, limit: 6, remaining: 0, reset: Date.now() + 1000 });
+
+    await expect(
+      credentialsAuthorize()({ email: "a@b.co", password: "x" }, { headers: {} }),
+    ).rejects.toThrow(TOO_MANY_ATTEMPTS_MESSAGE);
+    expect(prismaMock.user.findUnique).not.toHaveBeenCalled();
+  });
+
+  it("si el almacén de límites no está disponible (cerrado) tampoco se permite probar contraseñas", async () => {
+    rateLimitMock.mockResolvedValue({ success: false, limit: 6, remaining: 0, reset: Date.now(), reason: "backend-unavailable" });
+
+    await expect(
+      credentialsAuthorize()({ email: "a@b.co", password: "x" }, { headers: {} }),
+    ).rejects.toThrow(TOO_MANY_ATTEMPTS_MESSAGE);
   });
 });

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { getClientIP, rateLimit } from "@/lib/security/rate-limit";
+import { localRateLimit } from "@/lib/security/local-rate-limit";
+import { getClientIP } from "@/lib/security/rate-limit";
 
 const MAX_ZOOM = 19;
 
@@ -32,15 +33,11 @@ export async function GET(
   }
   const { z: zoom, x, y } = parsed.data;
 
-  // failureMode "open" (decisión SEC-001): ruta pública de solo lectura, sin
-  // datos de usuario ni base de datos; la respuesta es cacheable en el CDN. Con
-  // "closed", sin almacén de límites los dos visores de mapas se quedarían sin
-  // teselas. Un mapa pide muchas teselas por vista: límite holgado.
-  const limit = await rateLimit(`tiles:${getClientIP(request.headers)}`, {
-    interval: 60 * 1000,
-    uniqueTokenPerInterval: 1500,
-    failureMode: "open",
-  });
+  // Sin escritura en base de datos por tesela (decisión SEC-002): una vista de mapa pide ~20
+  // teselas y el almacén compartido es el mismo pooler que usa el login. El control principal
+  // es la validación estricta de z/x/y + la caché del CDN (s-maxage); este límite en memoria,
+  // por instancia, es solo un freno grueso. Un mapa pide muchas teselas por vista: holgado.
+  const limit = localRateLimit(`tiles:${getClientIP(request.headers)}`, 3000, 60 * 1000);
 
   if (!limit.success) {
     return new NextResponse("Too many requests", {
