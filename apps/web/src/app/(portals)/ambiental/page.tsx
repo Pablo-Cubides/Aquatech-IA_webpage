@@ -1,3 +1,4 @@
+import { safeJsonLd } from "@/lib/security/safe-json-ld";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getFeaturedAmbientalTools } from "@/lib/ambiental-tools";
@@ -56,7 +57,7 @@ export default function AmbientalPage() {
     <div className="bg-white text-black">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(portalSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(portalSchema) }}
       />
       {/* HERO */}
       <section className="relative overflow-hidden min-h-screen lg:h-screen flex items-center text-center">

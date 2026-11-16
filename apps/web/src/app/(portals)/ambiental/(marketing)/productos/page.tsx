@@ -1,5 +1,6 @@
 "use client";
 
+import { safeJsonLd } from "@/lib/security/safe-json-ld";
 import Image from "next/image";
 import { useMemo, useState, useEffect } from "react";
 import Filters, {
@@ -311,7 +312,7 @@ export default function ProductosAmbientalPage() {
       {/* JSON-LD */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(itemListJsonLd) }}
       />
     </>
   );

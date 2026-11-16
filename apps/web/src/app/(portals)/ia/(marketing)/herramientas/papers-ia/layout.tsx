@@ -1,3 +1,4 @@
+import { safeJsonLd } from "@/lib/security/safe-json-ld";
 import type { Metadata } from 'next';
 import { SITE_URL, DEFAULT_LOGO, TWITTER_HANDLE } from '@/lib/site-config';
 import ToolSeoBlock from "@/components/seo/ToolSeoBlock";
@@ -135,7 +136,7 @@ export default function PapersIALayout({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData),
+          __html: safeJsonLd(structuredData),
         }}
       />
       {children}

@@ -1,3 +1,4 @@
+import { safeJsonLd } from "@/lib/security/safe-json-ld";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
@@ -57,7 +58,7 @@ export default function IAPage() {
     <div className="bg-black text-white">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(portalSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(portalSchema) }}
       />
       {/* Hero */}
       <section className="relative overflow-hidden min-h-screen lg:h-screen flex items-center text-center">

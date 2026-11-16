@@ -1,3 +1,4 @@
+import { safeJsonLd } from "@/lib/security/safe-json-ld";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -24,7 +25,7 @@ export default function AmbientalNosotrosPage() {
     <div className="bg-[#F5F9F8] text-[#0D161C]">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(aboutSchema) }}
       />
       {/* HERO */}
       <section className="relative overflow-hidden py-20 sm:py-28 lg:py-32 bg-white">

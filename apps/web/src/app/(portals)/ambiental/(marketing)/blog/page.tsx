@@ -1,3 +1,4 @@
+import { safeJsonLd } from "@/lib/security/safe-json-ld";
 import { Metadata } from "next";
 import { getAllArticles } from "@/lib/blog-articles";
 import { getCategories } from "@/lib/blog-categories";
@@ -115,7 +116,7 @@ export default async function BlogAmbientalPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(blogSchema),
+          __html: safeJsonLd(blogSchema),
         }}
       />
       <FAQStructuredData faqs={blogAmbientalFaqs} />

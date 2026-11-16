@@ -1,3 +1,4 @@
+import { safeJsonLd } from "@/lib/security/safe-json-ld";
 import Link from "next/link";
 import Image from "next/image";
 import { ChevronRight } from "lucide-react";
@@ -76,7 +77,7 @@ export default function Home() {
     <main className="min-h-screen relative overflow-x-hidden bg-black text-white flex flex-col justify-between">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(homeSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(homeSchema) }}
       />
       {/* Fondo dividido con texturas - oculto en móvil */}
       <div className="absolute inset-0 hidden lg:flex pointer-events-none">

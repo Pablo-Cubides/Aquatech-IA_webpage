@@ -6,6 +6,7 @@
  * una explicacion de que es y como funciona, preguntas frecuentes, y el schema WebApplication + FAQPage + BreadcrumbList.
  */
 
+import { safeJsonLd } from "@/lib/security/safe-json-ld";
 import React from "react";
 import { getToolBySlug } from "@/lib/services/tools-registry";
 import { guidesData } from "@/lib/guides-data";
@@ -71,9 +72,9 @@ export default function ToolSeoBlock({
 
   return (
     <section aria-labelledby={`sobre-${slug}`} className="mx-auto max-w-4xl px-4 py-12 text-gray-300">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(webApp) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(faqSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumb) }} />
       <h2 id={`sobre-${slug}`} className="text-2xl font-bold text-white">
         Sobre {tool.name}
       </h2>
