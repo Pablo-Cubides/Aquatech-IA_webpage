@@ -35,6 +35,11 @@ export function articleUrl(baseUrl: string, portal: Portal, slug: string) {
   return `${baseUrl}/${portal}/blog/${slug}`;
 }
 
+/** URL de la version Markdown de un articulo (VIS-004). Para citar se usa la URL canonica HTML, sin .md. */
+export function articleMarkdownUrl(baseUrl: string, portal: Portal, slug: string) {
+  return `${articleUrl(baseUrl, portal, slug)}.md`;
+}
+
 export function renderArticle(article: BlogArticle, portal: Portal, baseUrl: string): string {
   const published = article.date;
   const updated = article.dateModified || article.date;
@@ -42,6 +47,7 @@ export function renderArticle(article: BlogArticle, portal: Portal, baseUrl: str
     `### ${toPlainText(article.title)}`,
     "",
     `- URL canónica: ${articleUrl(baseUrl, portal, article.slug)}`,
+    `- Versión Markdown: ${articleMarkdownUrl(baseUrl, portal, article.slug)}`,
     `- Portal: ${PORTAL_NAME[portal]}`,
     `- Categoría: ${toPlainText(article.category)}`,
     `- Autor: ${toPlainText(article.author.name)}`,
@@ -138,9 +144,9 @@ export async function buildLlmsTxt(baseUrl: string): Promise<string> {
     }
   }
   for (const portal of PORTALS) {
-    lines.push("", `## Artículos — ${PORTAL_NAME[portal]}`, "");
+    lines.push("", `## Artículos — ${PORTAL_NAME[portal]}`, "", "Cada enlace es la versión Markdown del artículo. Para citar, usa la URL canónica sin `.md`.", "");
     for (const article of articles[portal]) {
-      lines.push(`- [${oneLine(article.title, 140)}](${articleUrl(baseUrl, portal, article.slug)})`);
+      lines.push(`- [${oneLine(article.title, 140)}](${articleMarkdownUrl(baseUrl, portal, article.slug)})`);
     }
   }
   lines.push(

@@ -1,14 +1,15 @@
+import { SITE_URL } from "@/lib/site-config";
 import { WebPageStructuredData } from "@/components/seo/StructuredData";
 import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 
-export default function TermsContent() {
+export default function TermsContent({ portal = "ia" }: { portal?: "ia" | "ambiental" }) {
   return (
     <>
       <WebPageStructuredData
         title="Términos de Servicio | Aquatech IA"
         description="Términos y condiciones de uso, propiedad intelectual y licenciamiento de la plataforma y las herramientas de inteligencia artificial de AquatechIA."
-        url="https://aquatechia.com/ia/terms"
+        url={`${SITE_URL}/${portal}/terms`}
       />
       <div className="bg-[#000000] text-white min-h-screen">
         <div className="max-w-4xl mx-auto py-12 px-4 md:px-6 lg:px-8">

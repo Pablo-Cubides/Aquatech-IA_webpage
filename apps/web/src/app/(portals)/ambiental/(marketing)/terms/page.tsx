@@ -7,5 +7,7 @@ export const metadata: Metadata = {
   robots: "index, follow",
 };
 
-// Mismo contenido legal que el portal IA, compartido desde components/legal
-export default TermsContent;
+// Mismo contenido legal que el portal IA, compartido desde components/legal (la URL del JSON-LD sale del portal)
+export default function Page() {
+  return <TermsContent portal="ambiental" />;
+}

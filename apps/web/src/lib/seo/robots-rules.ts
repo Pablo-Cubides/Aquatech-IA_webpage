@@ -11,6 +11,8 @@ export const PRIVATE_PATHS = [
   "/ia/perfil",
   "/ambiental/perfil",
   "/*.json$",
+  // Ruta interna del handler de Markdown (VIS-004): solo deben rastrearse las URLs publicas /<portal>/blog/<slug>.md.
+  "/md/",
 ];
 
 export const AI_CRAWLERS = ["GPTBot", "ClaudeBot", "PerplexityBot", "Google-Extended", "CCBot", "anthropic-ai"];

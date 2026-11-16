@@ -7,4 +7,6 @@ export const metadata: Metadata = {
   robots: "index, follow",
 };
 
-export default TermsContent;
+export default function Page() {
+  return <TermsContent portal="ia" />;
+}

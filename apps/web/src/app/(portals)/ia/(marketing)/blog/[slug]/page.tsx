@@ -64,6 +64,8 @@ export async function generateMetadata({
     },
     alternates: {
       canonical: articleUrl,
+      // VIS-004: version Markdown del articulo (se descubre desde el HTML; para citar se usa la canonica).
+      types: { "text/markdown": `${articleUrl}.md` },
     },
   };
 }

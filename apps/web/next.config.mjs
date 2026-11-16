@@ -115,6 +115,12 @@ const nextConfig = {
           source: "/api/aquaquiz/:path*",
           destination: `${aquaQuizApiOrigin}/api/aquaquiz/:path*`,
         },
+        {
+          // VIS-004: version Markdown de cada articulo. beforeFiles para que blog/[slug] no capture "x.md" como slug.
+          // El handler vive en app/md/[portal]/[slug]/route.ts.
+          source: "/:portal(ia|ambiental)/blog/:slug.md",
+          destination: "/md/:portal/:slug",
+        },
       ],
     };
   },

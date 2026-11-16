@@ -8,4 +8,6 @@ export const metadata: Metadata = {
   robots: "index, follow",
 };
 
-export default PrivacyContent;
+export default function Page() {
+  return <PrivacyContent portal="ia" />;
+}

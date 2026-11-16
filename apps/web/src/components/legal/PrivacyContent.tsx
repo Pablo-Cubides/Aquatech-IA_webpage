@@ -1,14 +1,15 @@
+import { SITE_URL } from "@/lib/site-config";
 import { WebPageStructuredData } from "@/components/seo/StructuredData";
 import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 
-export default function PrivacyContent() {
+export default function PrivacyContent({ portal = "ia" }: { portal?: "ia" | "ambiental" }) {
   return (
     <>
       <WebPageStructuredData
         title="Política de Privacidad | Aquatech IA"
         description="Política de privacidad y protección de datos personales de AquatechIA: qué datos tratamos, para qué, por cuánto tiempo y cómo ejercer tus derechos. conforme a normativas internacionales y nacionales de seguridad de información."
-        url="https://aquatechia.com/ia/privacy"
+        url={`${SITE_URL}/${portal}/privacy`}
       />
       <div className="bg-[#000000] text-white min-h-screen">
         <div className="max-w-4xl mx-auto py-12 px-4 md:px-6 lg:px-8">

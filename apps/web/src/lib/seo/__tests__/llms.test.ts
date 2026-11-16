@@ -77,6 +77,16 @@ describe("llms.txt y llms-full.txt", () => {
     expect(full).toContain("- Datos que necesita:");
   });
 
+  it("descubrimiento: llms.txt enlaza al .md de cada articulo y llms-full lo declara en cada ficha", async () => {
+    for (const portal of ["ia", "ambiental"] as const) {
+      for (const article of await getAllArticles(portal)) {
+        expect(index, article.slug).toContain(`(${BASE}/${portal}/blog/${article.slug}.md)`);
+        expect(full, article.slug).toContain(`- Versión Markdown: ${BASE}/${portal}/blog/${article.slug}.md`);
+      }
+    }
+    expect(index).toContain("Para citar, usa la URL canónica sin `.md`");
+  });
+
   it("llms.txt es un indice breve que apunta a llms-full.txt", () => {
     expect(index).toContain(`${BASE}/llms-full.txt`);
     expect(Buffer.byteLength(index)).toBeLessThan(12_000);
