@@ -29,14 +29,13 @@ Tech stack
 - React 19
 - Tailwind CSS
 
-Folder structure
+Folder structure (code shared by both portals; each portal has thin `page.tsx` files that re-export these pages)
 
 ```
-apps/web/src/app/(portals)/ia/(marketing)/autor/herramientas/aula-score/
-├── layout.tsx                 # Tool layout and theme
-├── page.tsx                   # Config page (root)
-├── clasificacion/
-│   └── page.tsx               # Scoreboard and ranking
+apps/web/src/components/autor-tools/aula-score/
+├── ConfigurationPage.tsx      # Config page (root)
+├── ClasificacionPage.tsx      # Scoreboard and ranking
+├── theme.css                  # Imported by the IA portal layout
 ├── components/
 │   ├── Modal.tsx              # Accessible modal base
 │   ├── CountdownModal.tsx     # 3-second animated countdown
@@ -51,7 +50,7 @@ apps/web/src/app/(portals)/ia/(marketing)/autor/herramientas/aula-score/
 
 Routes
 - `/ia/autor/herramientas/aula-score` — configuration
-- `/ia/autor/herramientas/aula-score/clasificacion` — active scoreboard
+- `/ia/autor/herramientas/aula-score/clasificacion` (and the `/ambiental/...` mirror) — active scoreboard
 
 Usage flow
 

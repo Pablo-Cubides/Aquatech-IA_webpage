@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import "./theme.css";
+import "@/components/autor-tools/aula-score/theme.css";
 
 export default function AulaScoreLayout({ children }: { children: ReactNode }) {
   return (
