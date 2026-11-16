@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import TermsPageContent from "../../../ia/(marketing)/terms/page";
+import TermsContent from "@/components/legal/TermsContent";
 
 export const metadata: Metadata = {
   title: "Términos de Servicio | AquatechIA Ambiental",
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
   robots: "index, follow",
 };
 
-// Reutilizar el contenido del portal IA (mismos términos)
-export default TermsPageContent;
+// Mismo contenido legal que el portal IA, compartido desde components/legal
+export default TermsContent;
