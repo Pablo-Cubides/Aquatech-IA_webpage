@@ -1,5 +1,5 @@
 # AquatechIA — Constitution / Constitución
-> **Version**: 1.3.0 | **Status**: Active | **Last modified**: 2026-11-02
+> **Version**: 1.4.0 | **Status**: Active | **Last modified**: 2026-11-15
 > Changes to this document require an explicit ADR and a SemVer bump.  
 > Cambios a este documento requieren un ADR explícito y un bump de SemVer.
 
@@ -65,7 +65,7 @@ packages/@ia-next/*  → Shared packages
 - `(portals)/ia/*` — AI portal, dark theme.
 - `(portals)/ambiental/*` — Environmental portal, light theme.
 - **Never cross-import** portal-specific logic between portals.
-- Shared UI → `packages/@ia-next/ui` only.
+- Shared code between portals → `packages/@ia-next/ui` when it is generic (no dependency on `apps/web`); when it needs app code (portal theme hook, services, `next/link`) → `apps/web/src/components/<area>/`, with the per-portal difference passed as configuration (ADR-0014). Never keep a copy per portal and never re-export one portal's page from the other.
 
 ### 2.3 Rendering Strategy
 - **Server Components by default.** Add `"use client"` only when:

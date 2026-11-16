@@ -40,7 +40,7 @@ Ningún archivo bajo `(portals)/ia` importa de `(portals)/ambiental` ni al revé
 - Una sola implementación de `ProcessProvider`, de las herramientas temáticas, del contenido legal y del pie de página.
 
 ### Negative / Negativas
-- La regla literal "Shared UI → ui only" de §2.2 no se cumple para el punto 3: se matiza aquí y queda pendiente reflejarlo en la constitución (requiere bump de SemVer).
+- La regla literal "Shared UI → ui only" de §2.2 no se cumple para el punto 3. **Actualización 2026-11-15 (ARQ-004)**: la constitución se enmendó a la versión 1.4.0 para recogerlo (§2.2), con entrada en `constitution.changelog.md`.
 
 ### Neutral
 - `utils/analytics.ts` por herramienta se queda: ya son 1 línea de configuración (`createToolAnalytics("<id>")`) sobre la implementación única de `lib/analytics/tool-analytics.ts`.

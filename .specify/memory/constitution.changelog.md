@@ -42,3 +42,12 @@ All modifications to `constitution.md` are recorded here with the corresponding 
 - ADR-0012 / SPEC-107: record patched Next.js 16, React 19, Vitest 4 and MapLibre 6 versions.
 - Remove unused Jimp/potrace declarations and retain Sharp for image processing.
 - Preserve the existing framework families, portal boundaries and release gates.
+
+## 1.3.0 — 2026-11-02 (registrado retroactivamente)
+
+- ADR-0013: excepción al limitador de tasa de §6 para los endpoints de calificaciones (contador atómico en PostgreSQL, falla cerrado). La versión 1.3.0 figuraba en `constitution.md` sin entrada aquí.
+
+## 1.4.0 — 2026-11-15
+
+- ADR-0014 (enmienda a §2.2): "Shared UI → ui only" pasa a una regla con dos destinos. Lo genérico va a `@ia-next/ui`; lo que necesita código de la app va a `apps/web/src/components/<area>/` con la diferencia entre portales como configuración. Sigue prohibido importar entre portales y mantener una copia por portal.
+- Sin otros cambios.
