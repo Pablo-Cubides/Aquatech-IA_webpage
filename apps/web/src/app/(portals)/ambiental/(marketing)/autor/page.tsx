@@ -748,13 +748,6 @@ export default function AmbientalAutorPage() {
                 href="/ambiental/blog/cerebro-digital-gestion-ambiental-esg"
               />
               <ArticleCard
-                title="Gestión Comunitaria del Agua Rural"
-                excerpt="Modelos sostenibles e inclusivos para la gobernanza del agua en comunidades vulnerables."
-                category="Social"
-                readTime="10 min"
-                href="/ambiental/blog/gestion-comunitaria-agua-rural-inclusiva-sostenible"
-              />
-              <ArticleCard
                 title="El Desafío del Agua en América Latina Rural"
                 excerpt="Análisis de las brechas de acceso y calidad del agua en sectores rurales colombianos."
                 category="Investigación"

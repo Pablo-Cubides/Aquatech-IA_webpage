@@ -4,6 +4,7 @@ import {
   slugify,
   createStoredArticle,
   deleteStoredArticle,
+  estimateReadTime,
 } from "../blog-store";
 import { getArticle, getAllArticles } from "../../blog-articles";
 
@@ -12,6 +13,20 @@ describe("Blog Store & Scheduling Logic", () => {
     expect(slugify("¿Cómo funciona la Inteligencia Artificial?")).toBe(
       "como-funciona-la-inteligencia-artificial"
     );
+  });
+
+  it("estimateReadTime usa ceil(palabras / 200), no la longitud del JSON", () => {
+    const words = (n: number) => Array.from({ length: n }, () => "palabra").join(" ");
+    expect(estimateReadTime({ introduction: words(200) })).toBe(1);
+    expect(estimateReadTime({ introduction: words(201) })).toBe(2);
+    expect(
+      estimateReadTime({
+        introduction: words(100),
+        sections: [{ title: "Titulo", content: words(499) }],
+        conclusion: words(100),
+      }),
+    ).toBe(4); // 100 + 1 + 499 + 100 = 700 palabras
+    expect(estimateReadTime({ introduction: "" })).toBe(1);
   });
 
   it("parseMarkdownToSections extracts introduction, headings, and conclusion", () => {

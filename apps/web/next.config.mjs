@@ -75,7 +75,6 @@ const nextConfig = {
       "**/coverage/**",
       "**/public/static/**",
       "**/public/images/**",
-      "**/components/static/cases/**",
       "**/visor-cases/**",
       "**/*.gif",
       "**/*.png",

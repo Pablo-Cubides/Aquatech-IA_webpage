@@ -137,3 +137,6 @@ content/blog/raw_studio_response.txt
 
 # ContGenerator social media packs (generated)
 media-pack/
+
+# Generado por Next en dev/build (varia entre ambos); no se versiona
+next-env.d.ts
