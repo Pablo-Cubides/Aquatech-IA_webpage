@@ -18,9 +18,10 @@ import type { BlogArticle } from "../blog-articles";
 
 // ─── New articles (one file per article) ─────────────────────────────────────
 // Import new IA articles here as they are created:
-// import iaArticleExample from "./ia/example-slug";
+import iaTokensEnEspanol from "./ia/tokens-en-espanol-medicion-reproducible";
 
 const NEW_IA_ARTICLES_V2: BlogArticle[] = [
+  iaTokensEnEspanol,
   // Add new IA articles here after generating with: pnpm content:new ia <slug>
 ];
 
