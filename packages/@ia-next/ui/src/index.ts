@@ -19,3 +19,6 @@ export const Placeholder: React.FC<PlaceholderProps> = ({
 
 // Export placeholder component (no other components yet)
 export default Placeholder;
+
+export { ProcessProvider, useProcess } from "./process-context";
+export type { ProcessContextType } from "./process-context";

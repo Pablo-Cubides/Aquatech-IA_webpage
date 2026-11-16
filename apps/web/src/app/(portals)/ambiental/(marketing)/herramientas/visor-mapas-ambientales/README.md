@@ -51,7 +51,7 @@ visor-mapas-ambientales/
     │   ├── SearchBar.tsx          # Barra de búsqueda
     │   └── MapLegend.tsx          # Leyenda
     ├── context/
-    │   └── ProcessContext.tsx     # Estado global
+    │   └── (sin ProcessContext local: ProcessProvider viene de @ia-next/ui)
     └── lib/
         ├── __tests__/
         │   └── logger.test.ts     # Tests unitarios

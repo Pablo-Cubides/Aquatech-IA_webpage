@@ -1,7 +1,7 @@
 "use client"
 import React from "react"
 import Page from "./src/app/PageComponent"
-import { ProcessProvider } from "./src/context/ProcessContext"
+import { ProcessProvider } from "@ia-next/ui"
 
 export default function NormasAmbientalesWrapper() {
   return (
