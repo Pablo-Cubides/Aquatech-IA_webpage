@@ -112,18 +112,12 @@ export default function SoportePage() {
                   {option.description}
                 </p>
                 <p className="text-sm text-gray-500 mb-4">{option.action}</p>
-                {option.disabled ? (
-                  <span className="inline-block bg-gray-100 text-gray-500 px-4 py-2 rounded-lg text-sm cursor-not-allowed">
-                    {option.buttonText}
-                  </span>
-                ) : (
-                  <Link
-                    href={option.href}
-                    className="inline-block bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-emerald-800 transition-colors shadow-sm"
-                  >
-                    {option.buttonText}
-                  </Link>
-                )}
+                <Link
+                  href={option.href}
+                  className="inline-block bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-emerald-800 transition-colors shadow-sm"
+                >
+                  {option.buttonText}
+                </Link>
               </div>
             ))}
           </div>
