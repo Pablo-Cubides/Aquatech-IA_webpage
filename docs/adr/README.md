@@ -22,6 +22,7 @@
 | [ADR-0011](0011-trunk-based-vercel-deploy.md) | Trunk-based development with Vercel auto-deploy | accepted | 2026-04-28 |
 
 | [ADR-0013](0013-grade-reports-agent-publication.md) | Agent publication and grade request limits | accepted | 2026-11-02 |
+| [ADR-0014](0014-shared-code-between-portals.md) | Shared code between portals | accepted | 2026-11-15 |
 
 ---
 

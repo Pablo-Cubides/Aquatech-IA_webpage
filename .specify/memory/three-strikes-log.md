@@ -23,6 +23,16 @@
 - **Artifact created**: `.specify/scripts/optimize-image.mjs`, `.github/workflows/image-budget.yml`
 - **Result**: `pnpm img:optimize <path>` enforces budget + generates variants
 
+## [2026-11-15] — Copias por herramienta de ProcessContext, analytics y pie de pagina
+
+- **Detected by**: Claude Code (cargo ARQ, ARQ-003)
+- **Pattern**: Codigo copiado entre herramientas y portales al migrar apps: `ProcessContext.tsx` x7, `utils/analytics.ts` x7, `FooterIA`/`FooterAmbiental`, paginas de ambiental que re-exportaban las de ia
+- **Instances**: 7 + 7 + 2 + 10 cruces entre portales (ver ADR-0014)
+- **Artifact created**: `@ia-next/ui` `ProcessProvider`; `components/nav/SiteFooter.tsx`; `components/autor-tools/`; `components/legal/`; `docs/adr/0014-shared-code-between-portals.md`
+- **Result**: una sola implementacion de cada pieza; analytics ya estaba unificado en `lib/analytics/tool-analytics.ts` (OPS-002)
+
+---
+
 ---
 
 *Add new entries above this line when a new three-strikes trigger occurs.*
