@@ -7,9 +7,9 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "./ui/select";
 import { useRouter } from "next/navigation";
-import { ROUTE_BASE } from "@/lib/api";
+import { ROUTE_BASE } from "../lib/api";
 
 const AVAILABLE_COUNTRIES = [
   { code: "argentina", name: "Argentina", flag: "🇦🇷" },

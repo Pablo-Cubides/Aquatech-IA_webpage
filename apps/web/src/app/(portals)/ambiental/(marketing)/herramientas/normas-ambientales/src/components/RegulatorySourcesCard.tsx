@@ -1,9 +1,9 @@
 'use client';
 
 import { ExternalLink, BookOpen, CheckCircle2, AlertCircle } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import type { RegulatorySource } from '@/lib/constants';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
+import { Badge } from './ui/badge';
+import type { RegulatorySource } from '../lib/constants';
 
 interface RegulatorySourcesCardProps {
   sources: RegulatorySource[];

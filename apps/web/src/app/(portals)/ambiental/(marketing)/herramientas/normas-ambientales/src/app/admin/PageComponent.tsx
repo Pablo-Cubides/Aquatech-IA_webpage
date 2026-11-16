@@ -1,8 +1,8 @@
 'use client';
 
-import { RegulatorySourcesAdmin } from '@/components/RegulatorySourcesAdmin';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { RegulatorySourcesAdmin } from '../../components/RegulatorySourcesAdmin';
+import { Button } from '../../components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
 import Link from 'next/link';
 import { ArrowLeft, BookOpen, Lock } from 'lucide-react';
 
