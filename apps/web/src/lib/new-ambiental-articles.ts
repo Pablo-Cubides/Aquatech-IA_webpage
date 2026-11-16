@@ -162,12 +162,6 @@ export const NEW_AMBIENTAL_ARTICLES: Record<string, BlogArticle> = {
             "Las cifras de esta sección provienen de la División de Recursos Naturales de la CEPAL, que a su vez usa datos del Programa Conjunto de Monitoreo OMS/UNICEF (JMP) (Fuente: CEPAL, presentación «Avance en el cumplimiento del ODS 6 para América Latina y el Caribe», 22 de febrero de 2023).\n\n**161 millones de personas** (2,5 de cada 10) en América Latina y el Caribe no tienen acceso a agua potable gestionada de forma segura. Es el total regional, urbano y rural.\n\n**431 millones de personas** (7 de cada 10) no cuentan con saneamiento gestionado de forma segura. También es un total regional.\n\n**23,8 millones de personas** en el ámbito rural no tienen instalaciones para el lavado de manos, una carencia crítica para la salud pública.\n\nLa brecha entre el campo y la ciudad es sistemática: en la serie 2000-2020 que presenta la CEPAL, la cobertura de agua potable gestionada de forma segura es menor en el ámbito rural que en el urbano.",
           image:
             "/images/portal-ambiental/blog/agua-rural-contaminacion.jpg",
-          callout: {
-            type: "warning",
-            title: "Off-track en el ODS 6",
-            content:
-              "Al ritmo actual de avance, la región no logrará universalizar el acceso al agua segura antes de 2030.",
-          },
         },
         {
           id: "inequidad-regresividad",
