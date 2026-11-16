@@ -27,6 +27,11 @@ let cachedArticlesPath: string | null = null;
 
 // Find repository content path deterministically for local cache/fallback
 function getArticlesFilePath(): string {
+  // Override explícito (los tests lo apuntan a un temporal: el archivo versionado es el
+  // fallback real de producción y nunca debe reescribirse desde una suite).
+  const override = process.env.BLOG_ARTICLES_FILE?.trim();
+  if (override) return path.resolve(override);
+
   if (cachedArticlesPath && fs.existsSync(cachedArticlesPath)) {
     return cachedArticlesPath;
   }

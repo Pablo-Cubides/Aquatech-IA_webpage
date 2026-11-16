@@ -52,9 +52,6 @@ export function reportDegradation(
   context: Record<string, string | number | boolean> = {},
   now = Date.now(),
 ): void {
-  // En `next build` sin base el fallback a disco es lo esperado; su vigilancia es de ARQ-004.
-  if (process.env.NEXT_PHASE === "phase-production-build") return;
-
   const previous = states.get(kind);
   const state: State = previous
     ? {

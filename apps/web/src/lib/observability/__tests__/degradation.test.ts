@@ -76,9 +76,11 @@ describe("reportDegradation", () => {
     });
   });
 
-  it("no avisa durante next build (sin base es lo esperado)", () => {
+  it("SÍ avisa durante next build: ahí ocurre la degradación de los índices (sitemap, llms.txt)", () => {
     vi.stubEnv("NEXT_PHASE", "phase-production-build");
-    reportDegradation("blog-store-db-fallback", new Error("x"));
-    expect(sentry.captureMessage).not.toHaveBeenCalled();
+    reportDegradation("indexable-articles-incomplete", new Error("x"), { portal: "ia" });
+    expect(log.error).toHaveBeenCalledTimes(1);
+    expect(sentry.captureMessage).toHaveBeenCalledTimes(1);
+    expect(getDegradationSnapshot().sinceInstanceStart["indexable-articles-incomplete"].count).toBe(1);
   });
 });
