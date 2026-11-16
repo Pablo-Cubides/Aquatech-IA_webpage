@@ -300,8 +300,13 @@ const nextConfig = {
       },
       // Author tools - consolidate to IA portal (301 redirects)
       {
-        source: "/ambiental/autor/herramientas/ruleta-academica",
-        destination: "/ia/autor/herramientas/ruleta-academica",
+        source: "/ambiental/autor/herramientas/ruleta-academica/:path*",
+        destination: "/ia/autor/herramientas/ruleta-academica/:path*",
+        permanent: true,
+      },
+      {
+        source: "/ambiental/autor/herramientas/consulta-nota",
+        destination: "/ia/autor/herramientas/consulta-nota",
         permanent: true,
       },
       {
