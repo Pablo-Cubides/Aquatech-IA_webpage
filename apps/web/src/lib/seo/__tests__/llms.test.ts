@@ -3,6 +3,7 @@ import { beforeAll, describe, expect, it, vi } from "vitest";
 // Sin base de datos en pruebas: solo los articulos publicados en codigo.
 vi.mock("@/lib/services/blog-store", () => ({
   getStoredArticles: async () => [],
+  getStoredArticlesStrict: async () => [],
   getStoredArticlesSync: () => [],
 }));
 

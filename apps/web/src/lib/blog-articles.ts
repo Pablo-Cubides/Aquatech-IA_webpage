@@ -5,7 +5,12 @@ import { isRetiredArticle } from "./retired-articles.mjs";
 import { NEW_IA_ARTICLES } from "./new-blog-articles";
 import { NEW_AMBIENTAL_ARTICLES } from "./new-ambiental-articles";
 import { NEW_IA_ARTICLES_V2, NEW_AMBIENTAL_ARTICLES_V2 } from "./articles";
-import { getStoredArticles, getStoredArticlesSync } from "./services/blog-store";
+import {
+  getStoredArticles,
+  getStoredArticlesStrict,
+  getStoredArticlesSync,
+  type StoredBlogArticle,
+} from "./services/blog-store";
 import { reportDegradation } from "./observability/degradation";
 
 export type BlogArticle = {
@@ -996,9 +1001,14 @@ export const IA_ARTICLES: Record<string, BlogArticle> = {
  * PostgreSQL (BlogPost) queda fuera de este mapa y SIEMPRE tiene prioridad sobre él:
  * getArticle() y getAllArticles() lo consultan primero y sustituyen el estático con el mismo slug.
  *
- * Esta precedencia es una decisión provisional y explícita, no un accidente: en el momento de
- * escribirla no había ningún slug repetido entre las fuentes (comprobado con un test que falla si
- * aparece uno). Cuando exista el censo de fuentes de ARQ-004, esa decisión se reevalúa allí.
+ * Decisión de ARQ-004 (censo en docs/domain/article-sources-census.md), ya no provisional:
+ *  - La base de datos manda sobre el código porque es donde se edita en caliente (admin y API del
+ *    agente); un artículo editado allí debe sustituir a su versión en código.
+ *  - Entre fuentes de código gana la más reciente en el flujo de trabajo: el registro
+ *    `articles/index.ts` (el que escribe `pnpm content:new`) > new-*.ts > heredados.
+ *  - Hoy no hay ningún slug repetido entre fuentes de código; un test falla si aparece uno
+ *    (findStaticSlugCollisions). Si falla, NO cambies este orden a ojo: borra o renombra el
+ *    duplicado.
  */
 function getStaticArticleMap(portal: "ia" | "ambiental"): Record<string, BlogArticle> {
   const heredados = portal === "ia" ? IA_ARTICLES : AMBIENTAL_ARTICLES;
@@ -1029,160 +1039,143 @@ export function findStaticSlugCollisions(portal: "ia" | "ambiental"): string[] {
   return [...repetidos];
 }
 
+type Portal = "ia" | "ambiental";
+
+/** Visible para el publico: ya publicado (no futuro) y con estado PUBLISHED o SCHEDULED vencido. */
+function isPubliclyVisible(article: { status?: string; publishedAt: string }, now = Date.now()): boolean {
+  if (new Date(article.publishedAt).getTime() > now) return false;
+  return article.status === "PUBLISHED" || article.status === "SCHEDULED";
+}
+
+/** Artículos de las fuentes estáticas (código) de un portal, sin retirados, listos para listar. */
+function staticArticlesFor(portal: Portal): BlogArticle[] {
+  return Object.values(getStaticArticleMap(portal))
+    .filter((a) => !isRetiredArticle(portal, a.slug))
+    .map((a) => ({
+      ...a,
+      portal,
+      status: "PUBLISHED" as const,
+      source: "CODE" as const,
+    }));
+}
+
+/** Artículos de las fuentes de CÓDIGO de un portal (sin retirados, sin base de datos): para pruebas y lint. */
+export function getStaticArticles(portal: Portal): BlogArticle[] {
+  return staticArticlesFor(portal);
+}
+
+/**
+ * Fusiona los artículos de PostgreSQL (o del caché de disco) con los de código, con la regla de
+ * visibilidad y de precedencia en UN solo sitio: lo usan las variantes tolerante, estricta y
+ * síncrona, para que no puedan divergir.
+ */
+function composeArticles(portal: Portal, stored: StoredBlogArticle[], includeUnpublished: boolean): BlogArticle[] {
+  const dynamicArticles = stored.filter((a) => a.portal === portal);
+  const filteredDynamic = includeUnpublished
+    ? dynamicArticles
+    : dynamicArticles.filter((a) => isPubliclyVisible(a));
+  const dynamicSlugs = new Set(filteredDynamic.map((a) => a.slug));
+  const nonOverriddenStatic = staticArticlesFor(portal).filter((a) => !dynamicSlugs.has(a.slug));
+  return [...filteredDynamic, ...nonOverriddenStatic].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+  );
+}
+
+function pickStored(
+  stored: StoredBlogArticle[],
+  portal: Portal,
+  slug: string,
+  includeUnpublished: boolean,
+): StoredBlogArticle | null {
+  const match = stored.find((a) => a.portal === portal && a.slug === slug);
+  if (!match) return null;
+  if (includeUnpublished) return match;
+  return isPubliclyVisible(match) ? match : null;
+}
+
 // Helper function to get article by slug and portal
 export async function getArticle(
-  portal: "ia" | "ambiental",
+  portal: Portal,
   slug: string,
   includeUnpublished = false
 ): Promise<BlogArticle | null> {
   try {
-    const dynamicArticles = await getStoredArticles();
-    const dynamicMatch = dynamicArticles.find(
-      (a) => a.portal === portal && a.slug === slug
-    );
-    if (dynamicMatch) {
-      if (includeUnpublished) return dynamicMatch;
-      const now = Date.now();
-      const isFuture = new Date(dynamicMatch.publishedAt).getTime() > now;
-      if (isFuture) return null;
-      if (
-        dynamicMatch.status === "PAUSED" ||
-        dynamicMatch.status === "ARCHIVED" ||
-        dynamicMatch.status === "DRAFT"
-      ) {
-        return null;
-      }
-      return dynamicMatch;
+    const stored = await getStoredArticles();
+    if (stored.some((a) => a.portal === portal && a.slug === slug)) {
+      return pickStored(stored, portal, slug, includeUnpublished);
     }
   } catch (e) {
     // Dynamic read fallback
   }
 
-  const allArticles = getStaticArticleMap(portal);
   if (isRetiredArticle(portal, slug)) return null;
-  return allArticles[slug] || null;
+  return getStaticArticleMap(portal)[slug] || null;
 }
 
 // Synchronous version for fallback
 export function getArticleSync(
-  portal: "ia" | "ambiental",
+  portal: Portal,
   slug: string,
   includeUnpublished = false
 ): BlogArticle | null {
   try {
-    const dynamicArticles = getStoredArticlesSync();
-    const dynamicMatch = dynamicArticles.find(
-      (a) => a.portal === portal && a.slug === slug
-    );
-    if (dynamicMatch) {
-      if (includeUnpublished) return dynamicMatch;
-      const now = Date.now();
-      const isFuture = new Date(dynamicMatch.publishedAt).getTime() > now;
-      if (isFuture) return null;
-      if (
-        dynamicMatch.status === "PAUSED" ||
-        dynamicMatch.status === "ARCHIVED" ||
-        dynamicMatch.status === "DRAFT"
-      ) {
-        return null;
-      }
-      return dynamicMatch;
+    const stored = getStoredArticlesSync();
+    if (stored.some((a) => a.portal === portal && a.slug === slug)) {
+      return pickStored(stored, portal, slug, includeUnpublished);
     }
   } catch (e) {
     // Fallback
   }
 
-  const allArticles = getStaticArticleMap(portal);
   if (isRetiredArticle(portal, slug)) return null;
-  return allArticles[slug] || null;
+  return getStaticArticleMap(portal)[slug] || null;
 }
 
-
-// Helper function to get all articles from a portal
+// Helper function to get all articles from a portal. TOLERANTE: si la base falla degrada a
+// código/disco y deja señal (OPS-001). Para saber si el resultado está COMPLETO usa
+// getAllArticlesStrict.
 export async function getAllArticles(
-  portal: "ia" | "ambiental",
+  portal: Portal,
   includeUnpublished = false
 ): Promise<BlogArticle[]> {
-  const staticArticles = Object.values(getStaticArticleMap(portal)).filter((a) => !isRetiredArticle(portal, a.slug)).map((a) => ({
-    ...a,
-    portal,
-    status: "PUBLISHED" as const,
-    source: "CODE" as const,
-  }));
-
   try {
-    const dynamicArticles = (await getStoredArticles()).filter((a) => a.portal === portal);
-    const now = Date.now();
-
-    const filteredDynamic = includeUnpublished
-      ? dynamicArticles
-      : dynamicArticles.filter((a) => {
-          if (
-            a.status === "PAUSED" ||
-            a.status === "ARCHIVED" ||
-            a.status === "DRAFT"
-          ) {
-            return false;
-          }
-          if (new Date(a.publishedAt).getTime() > now) {
-            return false;
-          }
-          return a.status === "PUBLISHED" || a.status === "SCHEDULED";
-        });
-
-    const dynamicSlugs = new Set(filteredDynamic.map((a) => a.slug));
-    const nonOverriddenStatic = staticArticles.filter((a) => !dynamicSlugs.has(a.slug));
-
-    const combined = [...filteredDynamic, ...nonOverriddenStatic];
-    return combined.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    return composeArticles(portal, await getStoredArticles(), includeUnpublished);
   } catch (e) {
     // OPS-001: solo los artículos del código; el resto (base de datos) desaparece del sitio.
-    reportDegradation("blog-articles-fallback", e, { portal, articlesFromCode: staticArticles.length });
-    return staticArticles;
+    const fromCode = staticArticlesFor(portal);
+    reportDegradation("blog-articles-fallback", e, { portal, articlesFromCode: fromCode.length });
+    return fromCode;
   }
+}
+
+/**
+ * Igual que getAllArticles, mismo filtrado, misma fusión y misma precedencia, pero si la base
+ * de datos falla LANZA: nunca devuelve un subconjunto sin avisar. Es lo que deben usar los
+ * consumidores que necesitan el conjunto completo (sitemap, llms.txt, contadores).
+ * No le pongas un try/catch: el comentario de getStoredArticlesStrict explica por qué.
+ */
+export async function getAllArticlesStrict(
+  portal: Portal,
+  includeUnpublished = false
+): Promise<BlogArticle[]> {
+  return composeArticles(portal, await getStoredArticlesStrict(), includeUnpublished);
 }
 
 // Synchronous version for fallback
 export function getAllArticlesSync(
-  portal: "ia" | "ambiental",
+  portal: Portal,
   includeUnpublished = false
 ): BlogArticle[] {
-  const staticArticles = Object.values(getStaticArticleMap(portal)).filter((a) => !isRetiredArticle(portal, a.slug)).map((a) => ({
-    ...a,
-    portal,
-    status: "PUBLISHED" as const,
-    source: "CODE" as const,
-  }));
-
   try {
-    const dynamicArticles = getStoredArticlesSync().filter((a) => a.portal === portal);
-    const now = Date.now();
-
-    const filteredDynamic = includeUnpublished
-      ? dynamicArticles
-      : dynamicArticles.filter((a) => {
-          if (
-            a.status === "PAUSED" ||
-            a.status === "ARCHIVED" ||
-            a.status === "DRAFT"
-          ) {
-            return false;
-          }
-          if (new Date(a.publishedAt).getTime() > now) {
-            return false;
-          }
-          return a.status === "PUBLISHED" || a.status === "SCHEDULED";
-        });
-
-
-    const dynamicSlugs = new Set(filteredDynamic.map((a) => a.slug));
-    const nonOverriddenStatic = staticArticles.filter((a) => !dynamicSlugs.has(a.slug));
-
-    const combined = [...filteredDynamic, ...nonOverriddenStatic];
-    return combined.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    return composeArticles(portal, getStoredArticlesSync(), includeUnpublished);
   } catch (e) {
-    return staticArticles;
+    return staticArticlesFor(portal);
   }
+}
+
+/** Los últimos `count` artículos publicados del portal, de TODAS las fuentes (portadas). */
+export async function getLatestArticles(portal: Portal, count: number): Promise<BlogArticle[]> {
+  return (await getAllArticles(portal)).slice(0, count);
 }
 
 

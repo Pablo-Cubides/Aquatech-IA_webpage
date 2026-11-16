@@ -6,7 +6,8 @@
  * generan de forma estatica con revalidacion (no en cada peticion).
  */
 
-import { getAllArticles, type BlogArticle } from "@/lib/blog-articles";
+import { type BlogArticle } from "@/lib/blog-articles";
+import { getArticlesForIndexing } from "@/lib/articles-for-indexing";
 import { guidesData } from "@/lib/guides-data";
 import { getToolsByPortal } from "@/lib/services/tools-registry";
 import { GUIDE_MISMATCH_SLUGS, TOOL_SPECS } from "@/lib/seo/tool-specs";
@@ -109,7 +110,7 @@ export function renderTool(tool: Tool, baseUrl: string): string {
 }
 
 async function loadArticles(): Promise<Record<Portal, BlogArticle[]>> {
-  const [ia, ambiental] = await Promise.all(PORTALS.map((portal) => getAllArticles(portal)));
+  const [ia, ambiental] = await Promise.all(PORTALS.map((portal) => getArticlesForIndexing(portal)));
   return { ia, ambiental };
 }
 

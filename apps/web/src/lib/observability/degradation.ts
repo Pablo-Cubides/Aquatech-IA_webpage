@@ -21,7 +21,10 @@
 import * as Sentry from "@sentry/nextjs";
 import { logger } from "@/lib/logger";
 
-export type DegradationKind = "blog-store-db-fallback" | "blog-articles-fallback";
+export type DegradationKind =
+  | "blog-store-db-fallback"
+  | "blog-articles-fallback"
+  | "indexable-articles-incomplete";
 
 const THROTTLE_MS = 10 * 60 * 1000;
 /** Cuánto tiempo una degradación cuenta como "actual". */

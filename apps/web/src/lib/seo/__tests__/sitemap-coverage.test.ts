@@ -11,7 +11,10 @@ vi.mock("@/lib/blog-seo", () => ({
     { slug: `${portal}-cat-a`, noindex: false },
     { slug: `${portal}-cat-oculta`, noindex: true },
   ],
-  getAllArticles: async (portal: string) => [{ slug: `${portal}-articulo`, date: "2026-01-02" }],
+}));
+
+vi.mock("@/lib/articles-for-indexing", () => ({
+  getArticlesForIndexing: async (portal: string) => [{ slug: `${portal}-articulo`, date: "2026-01-02" }],
 }));
 
 import sitemap from "@/app/sitemap";

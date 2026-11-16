@@ -173,8 +173,13 @@ export function mapDbPostToStoredArticle(post: BlogPost): StoredBlogArticle {
   };
 }
 
-// Read all stored dynamic articles (from PostgreSQL via Prisma, with fallback to disk)
-export async function getStoredArticles(): Promise<StoredBlogArticle[]> {
+// Lectura ESTRICTA de PostgreSQL: si la base falla, lanza. No hay fallback a disco.
+// Es el unico camino que debe usar quien necesite saber si el contenido esta COMPLETO
+// (contadores, sitemap, llms.txt). Hay dos capas que tragan el error de la base
+// (getStoredArticles aqui y getAllArticles en ../blog-articles); desde fuera de ellas un
+// `length < N` nunca ve nada raro. NO "arregles" este camino con un try/catch: para eso
+// existen getStoredArticles / getAllArticles, que degradan a proposito.
+export async function getStoredArticlesStrict(): Promise<StoredBlogArticle[]> {
   const isBrowser =
     typeof window !== "undefined" &&
     (typeof process === "undefined" || !process.versions?.node);
@@ -182,13 +187,16 @@ export async function getStoredArticles(): Promise<StoredBlogArticle[]> {
     return [];
   }
 
+  const posts = await prisma.blogPost.findMany({
+    orderBy: { publishedAt: "desc" },
+  });
+  return posts.map(mapDbPostToStoredArticle);
+}
 
+// Read all stored dynamic articles (from PostgreSQL via Prisma, with fallback to disk)
+export async function getStoredArticles(): Promise<StoredBlogArticle[]> {
   try {
-    const posts = await prisma.blogPost.findMany({
-      orderBy: { publishedAt: "desc" },
-    });
-    const articles = posts.map(mapDbPostToStoredArticle);
-    return articles;
+    return await getStoredArticlesStrict();
   } catch (error) {
     console.warn("[BlogStore] Prisma query failed, falling back to disk cache:", error);
     const fromDisk = getStoredArticlesFromDisk();
