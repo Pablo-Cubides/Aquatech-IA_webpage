@@ -22,7 +22,7 @@ Review the article at `apps/web/src/lib/articles/[portal]/[slug].ts` on these di
 - [ ] `readTime`: within 20% of `ceil(wordCount / 200)`.
 - [ ] `excerpt`: ≤280 chars.
 - [ ] `heroImage`: non-empty URL (Cloudinary or valid path).
-- [ ] `tags`: 3-7 items from approved taxonomy.
+- [ ] `tags`: 3-7 items (glossary taxonomy recommended; specific technical tags allowed, no generic synonyms).
 - [ ] `nextArticle.slug` (if set): exists in articles library.
 - [ ] Section IDs: unique within article.
 

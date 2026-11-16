@@ -51,3 +51,14 @@ All modifications to `constitution.md` are recorded here with the corresponding 
 
 - ADR-0014 (enmienda a §2.2): "Shared UI → ui only" pasa a una regla con dos destinos. Lo genérico va a `@ia-next/ui`; lo que necesita código de la app va a `apps/web/src/components/<area>/` con la diferencia entre portales como configuración. Sigue prohibido importar entre portales y mantener una copia por portal.
 - Sin otros cambios.
+
+## [1.5.0] — 2026-11-16
+
+**Enmienda a §7.1 (etiquetas).** La taxonomía del glosario pasa de lista cerrada a conjunto canónico recomendado; el límite de 3–7 se mantiene.
+
+- Authored by: Claude Code (cargo CONT, encargo CONT-005)
+- Decided by: Coordinación AquatechIA
+- ADR: ADR-0015
+
+### Sections changed
+- §7.1 `tags`: ya no exige que todas las etiquetas salgan del glosario; admite etiquetas con especificidad técnica fuera de él y excluye sinónimos genéricos.

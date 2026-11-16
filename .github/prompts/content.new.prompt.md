@@ -8,7 +8,7 @@ description: Generate a complete blog article following SDD content pipeline
 ## Pre-conditions (read in this order)
 1. Read `.specify/memory/constitution.md` §7.1–7.2.
 2. Read `.specify/instructions/content-generation.md` fully — this is your operating manual.
-3. Read `docs/domain/glossary.md` — for approved tag taxonomy and domain terms.
+3. Read `docs/domain/glossary.md` — for the recommended tag taxonomy and domain terms.
 4. Read `docs/domain/personas.md` — for audience targeting.
 5. Check slug uniqueness: list files in `apps/web/src/lib/articles/ia/` and `apps/web/src/lib/articles/ambiental/`.
 
@@ -37,7 +37,7 @@ Specifically:
 - `sections[]`: minimum 3 sections. Each `content` field ≥200 words. Use Markdown formatting.
 - `readTime`: calculate `Math.ceil(totalWordCount / 200)`.
 - `excerpt`: ≤280 chars, SEO-optimized, written for humans who see it on Google.
-- `tags`: 3-7 from `docs/domain/glossary.md` approved taxonomy.
+- `tags`: 3-7; `docs/domain/glossary.md` taxonomy recommended, specific technical tags allowed (no generic synonyms).
 - `heroImage`: leave as `""` for now — flag to upload to Cloudinary separately.
 
 ### Step 3: Add a CTA section (if tool provided)

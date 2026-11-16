@@ -35,4 +35,14 @@
 
 ---
 
+## [2026-11-16] — Politica editorial de etiquetas copiada en nueve documentos
+
+- **Detected by**: Claude Code (cargo CONT, CONT-005)
+- **Pattern**: Una politica viva (reglas de las etiquetas de los articulos) escrita por separado en varios documentos; al cambiarla, cada copia se actualiza o no por su cuenta y nadie sabe cual manda. Es el patron de duplicacion que esta regla aplica al codigo, nunca aplicado a la documentacion.
+- **Instances**: constitucion §7.1; SPEC-100 BR-005; SPEC-101 (2 sitios); content-generation.md (3 sitios); prompts content.new y content.review; plantilla content-spec; comentario de new-content.mjs; glosario (2 sitios)
+- **Artifact created**: ADR-0015 (decision y registro del patron). **Solucion durable NO aplicada**: que esos documentos citen la constitucion §7.1 en lugar de reescribir la regla
+- **Result**: pendiente; hoy los nueve se alinean a mano con la misma frase
+
+---
+
 *Add new entries above this line when a new three-strikes trigger occurs.*

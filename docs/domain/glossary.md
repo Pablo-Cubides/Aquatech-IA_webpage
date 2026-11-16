@@ -32,7 +32,7 @@
 | **Hero image** | Hero image | Imagen principal de un artículo. Presupuesto ≤200KB. Almacenada en Cloudinary (artículos nuevos). |
 | **Sección** | Section | Subsección de contenido dentro de un artículo. Tiene `id`, `title`, `content`, y opcionalmente `image`, `callout`, `subsections`. |
 | **Callout** | Callout | Bloque de énfasis dentro de una sección. Tipos: `info`, `warning`, `success`. |
-| **Taxonomía de tags** | Tag taxonomy | Lista de tags aprobados para clasificar artículos. Ver sección de Tags más abajo. |
+| **Taxonomía de tags** | Tag taxonomy | Lista de tags canónicos recomendados para clasificar artículos. Ver sección de Tags más abajo. |
 | **readTime** | Read time | Tiempo estimado de lectura en minutos. Calculado: `ceil(palabras / 200)`. |
 | **nextArticle** | Next article | Artículo relacionado sugerido al final de la lectura. Debe ser un slug existente y publicado. |
 
@@ -88,9 +88,9 @@
 
 ---
 
-## Approved Tag Taxonomy / Taxonomía de tags aprobada
+## Recommended Tag Taxonomy / Taxonomía de tags recomendada
 
-Tags usados en artículos del blog. Nuevos tags deben agregarse aquí antes de usarse.
+Tags canónicos recomendados para artículos del blog (3–7 por artículo). Se admiten etiquetas fuera de esta lista cuando aportan especificidad técnica que el glosario no cubre (un número de resolución, un método, un índice concreto); no se admiten sinónimos genéricos de las que ya existen (ADR-0015).
 
 ### Portal IA
 `LLMs`, `Transformer`, `Tokenización`, `IA`, `Machine Learning`, `Herramientas IA`, `Tutoriales IA`, `Redes Neuronales`, `Generación de Imágenes`, `Difusión`, `Parámetros LLM`, `Claude`, `GPT`, `Filtrado de Contenido`, `Atención`, `Agentes IA`, `Productividad IA`
