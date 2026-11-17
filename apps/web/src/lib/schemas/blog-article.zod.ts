@@ -147,9 +147,12 @@ export function describeInvalidBody(error: z.ZodError) {
 export const MAX_BLOG_BODY_BYTES = 300 * 1024;
 
 /** Lee y parsea el cuerpo JSON con tope de tamaño. Devuelve null si no es JSON válido o es demasiado grande. */
-export async function readBoundedJson(req: Request): Promise<{ ok: true; value: unknown } | { ok: false; status: 400 | 413 }> {
+export async function readBoundedJson(
+  req: Request,
+  maxBytes: number = MAX_BLOG_BODY_BYTES,
+): Promise<{ ok: true; value: unknown } | { ok: false; status: 400 | 413 }> {
   const text = await req.text();
-  if (new TextEncoder().encode(text).length > MAX_BLOG_BODY_BYTES) return { ok: false, status: 413 };
+  if (new TextEncoder().encode(text).length > maxBytes) return { ok: false, status: 413 };
   try {
     return { ok: true, value: JSON.parse(text) };
   } catch {

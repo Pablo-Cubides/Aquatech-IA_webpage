@@ -11,7 +11,7 @@ import { fetchUpstreamJson, guardPublicProxy, proxyJson } from "@/lib/security/p
 const coord = (max: number) =>
   z
     .string()
-    .regex(/^-?\d{1,3}(\.\d{1,15})?$/, "número decimal")
+    .regex(/^-?\d{1,3}(\.\d{1,17})?$/, "número decimal")
     .transform(Number)
     .refine((n) => Math.abs(n) <= max, `fuera de rango (±${max})`)
     .transform((n) => Math.round(n * 100) / 100);

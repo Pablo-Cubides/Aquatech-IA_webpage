@@ -311,7 +311,7 @@ export function queryInt(min: number, max: number) {
     .refine((n) => n >= min && n <= max, `debe estar entre ${min} y ${max}`);
 }
 
-const DECIMAL = "-?\\d{1,3}(?:\\.\\d{1,6})?";
+const DECIMAL = "-?\\d{1,3}(?:\\.\\d{1,17})?";
 
 /** "lat,lon" con rangos válidos. */
 export const latLonString = z

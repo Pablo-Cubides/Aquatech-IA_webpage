@@ -17,7 +17,11 @@ import { getIndexProfile } from '@/app/(portals)/ambiental/(marketing)/herramien
 import { readBoundedJson } from '@/lib/schemas/blog-article.zod';
 import { guardPublicProxy, proxyError } from '@/lib/security/public-proxy';
 
-const MAX_MEASUREMENTS = 500;
+// SEC-005a: el cuerpo es el CSV COMPLETO que sube la persona. Una serie horaria de un año son 8 760
+// filas y, con 6 contaminantes, ~3,3 MB de JSON (ver la prueba): 500 filas / 300 KB rechazaba el uso
+// real. Cálculo local barato => 20 000 filas y 5 MB solo en esta ruta (Vercel corta en 4,5 MB).
+const MAX_MEASUREMENTS = 20_000;
+const MAX_BODY_BYTES = 5 * 1024 * 1024;
 
 const measurementSchema = z.object({
   stationId: z.string().max(100).optional(),
@@ -51,7 +55,7 @@ export async function POST(request: NextRequest) {
   });
   if (!guard.ok) return guard.response;
 
-  const raw = await readBoundedJson(request);
+  const raw = await readBoundedJson(request, MAX_BODY_BYTES);
   if (!raw.ok) {
     return proxyError(raw.status, raw.status === 413 ? 'payload_too_large' : 'invalid_json', 'Cuerpo inválido.');
   }

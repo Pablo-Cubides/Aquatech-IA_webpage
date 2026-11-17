@@ -70,7 +70,7 @@ export interface TaxonSuggestion {
   family?: string;
 }
 
-const BASE_URL = 'https://api.gbif.org/v1';
+// SEC-005a: el navegador NO llama a api.gbif.org: todo pasa por /api/gbif/* (connect-src queda en 'self').
 
 /**
  * Search for species occurrences with geographic coordinates
@@ -133,7 +133,7 @@ export async function searchTaxonSuggestions(
 ): Promise<TaxonSuggestion[]> {
   try {
     const response = await fetch(
-      `${BASE_URL}/species/suggest?q=${encodeURIComponent(query)}&limit=${limit}`
+      `/api/gbif/species/suggest?q=${encodeURIComponent(query)}&limit=${limit}`
     );
     
     if (!response.ok) {
@@ -152,7 +152,7 @@ export async function searchTaxonSuggestions(
  */
 export async function getTaxonDetails(taxonKey: number): Promise<TaxonSuggestion> {
   try {
-    const response = await fetch(`${BASE_URL}/species/${taxonKey}`);
+    const response = await fetch(`/api/gbif/species/${taxonKey}`);
     
     if (!response.ok) {
       throw new Error(`GBIF API error: ${response.status}`);

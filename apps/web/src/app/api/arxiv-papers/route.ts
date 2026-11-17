@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { guardPublicProxy, queryInt, queryIntClamped, queryToken } from "@/lib/security/public-proxy";
+import { guardPublicProxy, queryInt, queryIntClamped, queryText, queryToken } from "@/lib/security/public-proxy";
 import {
   ArxivPaper,
   ArxivApiResponse,
@@ -211,18 +211,15 @@ async function fetchWithRetry(
   }
 }
 
-// SEC-003: parámetros validados. `search` entra en la consulta de arXiv (`all:...`): solo letras,
-// dígitos y puntuación simple. arXiv pide como máximo 1 petición cada 3 s y bloquea IP; la cola
+// SEC-003: parámetros validados. `search` es el texto LIBRE del buscador (SEC-005a: antes una lista
+// blanca de caracteres rechazaba comillas, apóstrofos y paréntesis, es decir, búsquedas legítimas):
+// cualquier carácter imprimible (sin control), 1-100. Solo viaja a arXiv, que lo interpreta como
+// consulta propia; URLSearchParams lo codifica y nunca ejecuta nada nuestro. arXiv pide como máximo 1 petición cada 3 s y bloquea IP; la cola
 // serializa a 4 s por petición, así que se acota cuánto puede esperar (MAX_QUEUED) y se limita
 // por IP. Sin clave propia => límite en memoria.
 const querySchema = z.strictObject({
   category: queryToken(40).optional(),
-  search: z
-    .string()
-    .min(1)
-    .max(100)
-    .regex(/^[\p{L}\p{N} .,_:+-]+$/u, "caracteres no permitidos")
-    .optional(),
+  search: queryText(100).optional(),
   limit: queryIntClamped(1, 50).optional(),
   start: queryInt(0, 10000).optional(),
   sortBy: z.enum(["relevance", "submittedDate"]).optional(),
