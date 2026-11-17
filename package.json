@@ -17,7 +17,7 @@
     "test:watch": "turbo run test:watch",
     "test:ui": "turbo run test:ui",
     "clean": "turbo clean && rm -rf node_modules",
-    "postinstall": "turbo run postinstall --parallel",
+    "postinstall": "turbo run postinstall",
     "prepare": "lefthook install",
     "spec:new": "node .specify/scripts/new-feature.mjs",
     "content:new": "node .specify/scripts/new-content.mjs",

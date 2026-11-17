@@ -64,6 +64,11 @@
       "inputs": ["package.json", "prisma/schema.prisma"],
       "outputs": [],
       "cache": false
+    },
+    "@ia-next/api#postinstall": {
+      "dependsOn": ["@ia-next/database#postinstall"],
+      "outputs": [],
+      "cache": false
     }
   }
 }
