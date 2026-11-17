@@ -9,6 +9,7 @@ const article: BlogArticle = blogArticleSchema.parse({
     "Cómo funciona el sistema de difusión en IA generativa: de ruido a arte",
   category: "Computer Vision",
   date: "2024-09-08",
+  dateModified: "2026-11-03",
   readTime: 6,
   excerpt:
     "Descubre los fundamentos matemáticos y conceptuales detrás de Stable Diffusion y otros modelos de generación de imágenes.",
@@ -119,6 +120,14 @@ const article: BlogArticle = blogArticleSchema.parse({
     "Computer Vision",
     "Generative AI",
     "Image Generation",
+  ],
+  references: [
+    {
+      title: "High-Resolution Image Synthesis with Latent Diffusion Models",
+      url: "https://arxiv.org/abs/2112.10752",
+      source: "arXiv:2112.10752 (Rombach, Blattmann, Lorenz, Esser, Ommer; versión de 2022)",
+      description: "Modelos de difusión latente, la base de Stable Diffusion; es el trabajo que el texto cita como «Rombach et al., 2022».",
+    },
   ],
   nextArticle: {
     slug: "que-es-un-modelo-de-lenguaje",

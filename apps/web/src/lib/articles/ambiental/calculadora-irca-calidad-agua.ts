@@ -8,7 +8,8 @@ const article: BlogArticle = blogArticleSchema.parse({
   title: "Cómo Calcular el IRCA y Otros Índices de Calidad del Agua: Guía Completa con Herramienta Gratuita",
   category: "Gestión Ambiental",
   date: "2024-12-09",
-  readTime: 12,
+  dateModified: "2026-10-26",
+  readTime: 9,
   excerpt: "Cómo se calcula el IRCA según la Resolución 2115: fórmula, los 22 parámetros con su puntaje, ejemplo resuelto y calculadora gratuita.",
   heroImage: "/images/portal-ambiental/blog/irca-calidad-agua-potable.jpg",
   author: {
@@ -169,6 +170,20 @@ const article: BlogArticle = blogArticleSchema.parse({
     conclusion: "Los índices de calidad de agua son herramientas poderosas para proteger la salud pública. Ya sea que trabajes en un acueducto, laboratorio, autoridad sanitaria o simplemente quieras entender mejor la calidad del agua que consumes, conocer cómo calcular e interpretar estos índices es fundamental. Nuestra calculadora gratuita hace que este proceso sea rápido, preciso y accesible para todos. ¡No esperes más y comienza a evaluar la calidad de tu agua hoy mismo!",
   },
   tags: ["IRCA", "WQI", "DWQI", "calidad agua", "potabilización", "Resolución 2115", "herramienta gratuita"],
+  references: [
+    {
+      title: "Resolución 2115 de 2007: características, instrumentos básicos y frecuencias del sistema de control y vigilancia de la calidad del agua para consumo humano",
+      url: "https://cancilleria.gov.co/normograma/compilacion/docs/resolucion_minproteccion_2115_2007.htm",
+      source: "Ministerio de la Protección Social y MAVDT, reproducida en el Normograma de la Cancillería",
+      description: "Art. 13 (puntaje de riesgo de cada característica, Cuadro 6; suma 100), art. 14 (fórmulas del IRCA por muestra y mensual) y art. 15 (clasificación del nivel de riesgo, Cuadro 7). Texto consultado el 17 de noviembre de 2026; esa copia no incluye notas de vigencia.",
+    },
+    {
+      title: "Decreto 1575 de 2007: Sistema para la Protección y Control de la Calidad del Agua para Consumo Humano",
+      url: "https://normas.cra.gov.co/gestor/docs/decreto_1575_2007.htm",
+      source: "Ministerio de la Protección Social, reproducido en el Gestor Normativo de la CRA",
+      description: "Art. 12: define el IRCA como el grado de riesgo de ocurrencia de enfermedades por el incumplimiento de las características físicas, químicas y microbiológicas del agua. Texto consultado el 17 de noviembre de 2026.",
+    },
+  ],
   nextArticle: {
     slug: "indices-calidad-aire-aqi-ica",
     title: "Índices de Calidad del Aire: Cómo Interpretar el AQI, ICA e IBOCA",

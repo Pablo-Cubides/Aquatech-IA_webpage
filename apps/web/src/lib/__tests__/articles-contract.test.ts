@@ -28,10 +28,7 @@ const KNOWN_VIOLATIONS: Record<string, string> = {
  * tolerancia del 20 %). Es contenido (cargo CONT), no arquitectura: ARQ-007 migró el texto verbatim y no lo toca.
  * Solo puede disminuir.
  */
-const KNOWN_READTIME_MISMATCHES: Record<string, string> = {
-  "calculadora-irca-calidad-agua":
-    "declara 12 min y por longitud salen 9 (1715 palabras); el artículo se migró tal cual desde blog-articles.ts (ARQ-007)",
-};
+const KNOWN_READTIME_MISMATCHES: Record<string, string> = {};
 
 function readTimeGap(article: (typeof NEW_IA_ARTICLES_V2)[number]) {
   const text = [

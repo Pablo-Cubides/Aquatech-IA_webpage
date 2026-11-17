@@ -8,6 +8,7 @@ const article: BlogArticle = blogArticleSchema.parse({
   title: "Matrices de Evaluación de Impacto Ambiental: Guía Práctica de Leopold, Conesa y Battelle",
   category: "Gestión Ambiental",
   date: "2024-12-09",
+  dateModified: "2026-11-03",
   readTime: 6,
   excerpt: "Domina las metodologías de EIA para el licenciamiento ambiental. Análisis técnico de Leopold, Conesa y Battelle-Columbus con casos prácticos.",
   heroImage: "/images/portal-ambiental/blog/matrices-eia-metodologias.jpg",

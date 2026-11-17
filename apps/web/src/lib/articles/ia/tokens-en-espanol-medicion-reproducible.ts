@@ -93,6 +93,38 @@ const article: BlogArticle = blogArticleSchema.parse({
     conclusion: "Con el mismo contenido, el español necesitó más tokens que el inglés en los dos documentos: entre un 46 % y un 76 % más con cl100k_base y entre un 22 % y un 48 % más con o200k_base. Esa horquilla describe estos textos y sus traducciones, no una constante del idioma; lo más estable fue el número de caracteres por token (alrededor de 4 con cl100k_base y de 4,8 con o200k_base en español). La codificación más reciente redujo la diferencia, pero no la eliminó. Si trabajas con modelos en español, mide tu propio texto con el tokenizador del modelo que uses: con el método de arriba, es cuestión de minutos.",
   },
   tags: ["Tokenización", "LLMs", "IA", "Tutoriales IA"],
+  references: [
+    {
+      title: "Declaración Universal de Derechos Humanos (versión en español, PDF)",
+      url: "https://www.ohchr.org/sites/default/files/UDHR/Documents/UDHR_Translations/spn.pdf",
+      source: "Naciones Unidas, Oficina del Alto Comisionado para los Derechos Humanos (ACNUDH)",
+      description: "Texto del corpus A en español; se convierte con pdftotext 4.00.",
+    },
+    {
+      title: "Universal Declaration of Human Rights (English version, PDF)",
+      url: "https://www.ohchr.org/sites/default/files/UDHR/Documents/UDHR_Translations/eng.pdf",
+      source: "United Nations, Office of the High Commissioner for Human Rights (OHCHR)",
+      description: "Texto del corpus A en inglés.",
+    },
+    {
+      title: "Agua para consumo humano (nota descriptiva)",
+      url: "https://www.who.int/es/news-room/fact-sheets/detail/drinking-water",
+      source: "Organización Mundial de la Salud",
+      description: "Texto del corpus B en español; versión actualizada el 13 de septiembre de 2023, que es la medida.",
+    },
+    {
+      title: "Drinking-water (fact sheet)",
+      url: "https://www.who.int/news-room/fact-sheets/detail/drinking-water",
+      source: "World Health Organization",
+      description: "Texto del corpus B en inglés; misma fecha de actualización (13 de septiembre de 2023).",
+    },
+    {
+      title: "tiktoken: tabla de modelos y codificaciones (model.py)",
+      url: "https://github.com/openai/tiktoken/blob/main/tiktoken/model.py",
+      source: "OpenAI, repositorio tiktoken (GitHub)",
+      description: "Tabla que asigna cl100k_base y o200k_base a cada modelo; consultada el 15 de noviembre de 2026.",
+    },
+  ],
   // Sin nextArticle: lint-content solo ve los archivos de articles/, y el articulo relacionado
   // ("que-es-un-modelo-de-lenguaje") vive en PostgreSQL; el enlace va en el cuerpo del texto.
 });
