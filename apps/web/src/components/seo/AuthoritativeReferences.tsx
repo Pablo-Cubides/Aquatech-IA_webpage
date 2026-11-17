@@ -10,63 +10,9 @@ export interface AuthoritativeSource {
   description?: string;
 }
 
-const DEFAULT_AMBIENTAL_SOURCES: AuthoritativeSource[] = [
-  {
-    title: "Ministerio de Ambiente y Desarrollo Sostenible de Colombia",
-    url: "https://www.minambiente.gov.co/",
-    source: "MinAmbiente (.gov.co)",
-    description: "Normatividad, resoluciones hídricas y lineamientos ambientales nacionales.",
-  },
-  {
-    title: "Instituto de Hidrología, Meteorología y Estudios Ambientales (IDEAM)",
-    url: "http://www.ideam.gov.co/",
-    source: "IDEAM (.gov.co)",
-    description: "Monitoreo científico, calidad de agua y modelos hidrometeorológicos.",
-  },
-  {
-    title: "Programa de las Naciones Unidas para el Medio Ambiente (PNUMA)",
-    url: "https://www.unep.org/es",
-    source: "UNEP (.org)",
-    description: "Evaluaciones ambientales globales y metas de desarrollo sostenible.",
-  },
-  {
-    title: "USGS Water Resources Mission Area",
-    url: "https://www.usgs.gov/mission-areas/water-resources",
-    source: "USGS (.gov)",
-    description: "Estudios hidrológicos, caudales y estándares de investigación geológica.",
-  },
-];
-
-const DEFAULT_IA_SOURCES: AuthoritativeSource[] = [
-  {
-    title: "NIST Artificial Intelligence Risk Management Framework (AI RMF 1.0)",
-    url: "https://www.nist.gov/itl/ai-risk-management-framework",
-    source: "NIST (.gov)",
-    description: "Estándares federales para gobernanza, seguridad y confiabilidad en IA.",
-  },
-  {
-    title: "arXiv Computer Science: Artificial Intelligence Repository",
-    url: "https://arxiv.org/corr/cs.AI",
-    source: "arXiv (Cornell University .edu)",
-    description: "Publicaciones pre-print revisadas sobre arquitecturas de aprendizaje profundo.",
-  },
-  {
-    title: "IEEE Transactions on Pattern Analysis and Machine Intelligence",
-    url: "https://doi.org/10.1109/TPAMI.2023.3276856",
-    source: "IEEE Xplore (doi.org)",
-    description: "Investigaciones científicas indexadas sobre visión computacional y modelos fundacionales.",
-  },
-  {
-    title: "Stanford Center for Research on Foundation Models (CRFM)",
-    url: "https://crfm.stanford.edu/",
-    source: "Stanford University (.edu)",
-    description: "Evaluación holística, alineamiento ético y capacidades de LLMs.",
-  },
-];
-
 interface AuthoritativeReferencesProps {
-  sources?: AuthoritativeSource[];
-  customSources?: AuthoritativeSource[];
+  /** Obligatorio: este componente no inventa fuentes. Con lista vacía no pinta nada. */
+  sources: AuthoritativeSource[];
   title?: string;
   subtitle?: string;
   theme?: "dark" | "light";
@@ -74,23 +20,18 @@ interface AuthoritativeReferencesProps {
 }
 
 /**
- * Renders authoritative sources (.gov, .edu, DOI, standard bodies)
- * to satisfy Generative Engine Optimization (GEO) trust and verification criteria.
+ * Pinta exactamente las fuentes que recibe. No hay lista por defecto (VIS-005): en un artículo
+ * van sus `references` reales; en portadas e índices, una lista explícita verificada
+ * (ver `official-resources.ts`).
  */
 export function AuthoritativeReferences({
   sources,
-  customSources,
-  title = "Fuentes y Referencias Científico-Normativas",
-  subtitle = "Recursos oficiales y literatura académica para verificación y profundización técnica:",
+  title = "Fuentes y referencias",
+  subtitle = "Documentos y fuentes consultados para este artículo:",
   theme = "light",
   className = "",
 }: AuthoritativeReferencesProps) {
-  const activeSources =
-    sources ||
-    customSources ||
-    (theme === "dark" ? DEFAULT_IA_SOURCES : DEFAULT_AMBIENTAL_SOURCES);
-
-  if (!activeSources || activeSources.length === 0) return null;
+  if (!sources || sources.length === 0) return null;
 
   const isDark = theme === "dark";
 
@@ -123,7 +64,7 @@ export function AuthoritativeReferences({
         </p>
       )}
       <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 list-none p-0 m-0">
-        {activeSources.map((item, idx) => {
+        {sources.map((item, idx) => {
           const sourceLabel = item.source || item.organization || item.domain || "Fuente autorizada";
           return (
             <li

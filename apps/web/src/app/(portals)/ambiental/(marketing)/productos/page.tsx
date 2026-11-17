@@ -17,7 +17,6 @@ import { filterItems, sortItems } from "@/lib/filters-env";
 import { buildAffiliateUrl, trackViewList } from "@/lib/track-env";
 import type { Resource } from "@/lib/types-env";
 import { FAQStructuredData, WebPageStructuredData } from "@/components/seo/StructuredData";
-import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 import data from "@/data/recommendations-ambiental.json";
 
@@ -265,12 +264,6 @@ export default function ProductosAmbientalPage() {
         </div>
       </section>
 
-      {/* REFERENCIAS AUTORIZADAS GEO */}
-      <section className="py-12 bg-white border-t border-[var(--border)]">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <AuthoritativeReferences theme="light" />
-        </div>
-      </section>
 
       {/* CTA FINAL */}
       <section className="border-t border-[var(--border)] bg-[var(--panel)]">

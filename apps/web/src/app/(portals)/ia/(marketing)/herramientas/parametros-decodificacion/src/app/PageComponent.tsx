@@ -17,7 +17,6 @@ import PatternRadarChart from "../components/PatternRadarChart";
 import PatternTimeline from "../components/PatternTimeline";
 import AcademicReferences from "../components/AcademicReferences";
 import { WebPageStructuredData } from "@/components/seo/StructuredData";
-import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 // Referencias académicas por parámetro para SEO y credibilidad
 const academicReferences = {
@@ -1090,10 +1089,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Citas y Referencias Oficiales GEO */}
-        <div className="mt-8">
-          <AuthoritativeReferences theme="dark" />
-        </div>
       </section>
 
       <footer className="text-center text-sm text-[#CCCCCC] mt-16 pb-8 border-t border-white/5 pt-8">

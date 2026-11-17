@@ -1,6 +1,5 @@
 import { SITE_URL } from "@/lib/site-config";
 import { WebPageStructuredData } from "@/components/seo/StructuredData";
-import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 
 export default function TermsContent({ portal = "ia" }: { portal?: "ia" | "ambiental" }) {
@@ -229,10 +228,6 @@ export default function TermsContent({ portal = "ia" }: { portal?: "ia" | "ambie
             </div>
           </section>
 
-          {/* Authoritative References GEO/SEO */}
-          <section className="mt-12 pt-8 border-t border-gray-800">
-            <AuthoritativeReferences theme="dark" />
-          </section>
         </div>
       </div>
     </div>

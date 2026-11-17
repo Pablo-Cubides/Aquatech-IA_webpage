@@ -5,6 +5,7 @@ import Image from "next/image";
 import { getFeaturedIATools } from "@/lib/ia-tools";
 import { getLatestArticles } from "@/lib/blog-articles";
 import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
+import { IA_OFFICIAL_RESOURCES, OFFICIAL_RESOURCES_SUBTITLE, OFFICIAL_RESOURCES_TITLE } from "@/components/seo/official-resources";
 
 import { SITE_URL } from "@/lib/site-config";
 
@@ -405,32 +406,9 @@ export default async function IAPage() {
       {/* Fuentes y Referencias Autoritativas (GEO) */}
       <section className="container mx-auto px-4 py-8">
         <AuthoritativeReferences
-          sources={[
-            {
-              title: "Attention Is All You Need (Transformer Architecture)",
-              url: "https://arxiv.org/abs/1706.03762",
-              source: "arXiv (.org)",
-              description: "Paper seminal sobre arquitecturas de atención y modelos de lenguaje.",
-            },
-            {
-              title: "Stanford Artificial Intelligence & NLP Group",
-              url: "https://nlp.stanford.edu/",
-              source: "Stanford University (.edu)",
-              description: "Investigación fundamental sobre modelos de lenguaje y representación del conocimiento.",
-            },
-            {
-              title: "World Wide Web Consortium (W3C) - Standards & Data",
-              url: "https://www.w3.org/",
-              source: "W3C (.org)",
-              description: "Estándares web abiertos y esquemas semánticos para la interoperabilidad.",
-            },
-            {
-              title: "United Nations Environment Programme (UNEP) - Science & Data",
-              url: "https://www.unep.org/es",
-              source: "UNEP (ONU)",
-              description: "Metodologías globales de monitoreo de recursos hídricos e impacto ambiental.",
-            },
-          ]}
+          sources={IA_OFFICIAL_RESOURCES}
+          title={OFFICIAL_RESOURCES_TITLE}
+          subtitle={OFFICIAL_RESOURCES_SUBTITLE}
           theme="dark"
         />
       </section>

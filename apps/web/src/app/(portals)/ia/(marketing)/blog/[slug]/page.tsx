@@ -111,33 +111,6 @@ function formatDate(iso: string) {
   });
 }
 
-const defaultIASources = [
-  {
-    title: "Attention Is All You Need (Transformer Architecture)",
-    url: "https://arxiv.org/abs/1706.03762",
-    source: "arXiv (.org)",
-    description: "Paper seminal sobre arquitecturas de atención y modelos de lenguaje.",
-  },
-  {
-    title: "Stanford Natural Language Processing Research",
-    url: "https://nlp.stanford.edu/",
-    source: "Stanford University (.edu)",
-    description: "Publicaciones y avances en procesamiento de lenguaje natural.",
-  },
-  {
-    title: "OpenAI Research & Technical Reports",
-    url: "https://openai.com/research",
-    source: "OpenAI Research",
-    description: "Estudios empíricos sobre escalado, alineación y modelos generativos.",
-  },
-  {
-    title: "W3C Artificial Intelligence Standards & Semantics",
-    url: "https://www.w3.org/",
-    source: "W3C (.org)",
-    description: "Estándares web, accesibilidad y datos estructurados.",
-  },
-];
-
 export default async function BlogArticlePage({ params }: PageProps) {
   const { slug } = await params;
   const article = await getArticle("ia", slug);
@@ -474,11 +447,10 @@ export default async function BlogArticlePage({ params }: PageProps) {
                 ))}
               </div>
 
-              {/* Fuentes y Referencias Autoritativas (GEO) */}
-              <AuthoritativeReferences
-                sources={article.references && article.references.length > 0 ? article.references : defaultIASources}
-                theme="dark"
-              />
+              {/* Fuentes: solo las `references` reales del artículo; sin ellas no se pinta nada (VIS-005) */}
+              {article.references && article.references.length > 0 && (
+                <AuthoritativeReferences sources={article.references} theme="dark" />
+              )}
             </div>
           </article>
 

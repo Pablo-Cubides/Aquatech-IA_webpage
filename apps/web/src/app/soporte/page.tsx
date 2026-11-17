@@ -3,7 +3,6 @@ import Link from "next/link";
 import HeaderAmbiental from "@/components/nav/HeaderAmbiental";
 import FooterAmbiental from "@/components/nav/FooterAmbiental";
 import { FAQStructuredData, WebPageStructuredData } from "@/components/seo/StructuredData";
-import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 export const metadata: Metadata = {
   title: "Centro de Soporte y Ayuda Técnica",
@@ -198,10 +197,6 @@ export default function SoportePage() {
           </div>
         </section>
 
-        {/* Authoritative References GEO/SEO */}
-        <section className="mt-12">
-          <AuthoritativeReferences theme="light" />
-        </section>
 
         {/* Back to Home */}
         <div className="mt-12 text-center">

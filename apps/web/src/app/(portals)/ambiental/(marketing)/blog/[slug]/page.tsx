@@ -111,33 +111,6 @@ function formatDate(iso: string) {
   });
 }
 
-const defaultAmbientalSources = [
-  {
-    title: "Normatividad Ambiental y Guías de Manejo",
-    url: "https://www.minambiente.gov.co/",
-    source: "MinAmbiente (.gov.co)",
-    description: "Marco legal, decretos y políticas ambientales del territorio nacional.",
-  },
-  {
-    title: "Monitoreo Hidrológico y Calidad de Cuencas",
-    url: "http://www.ideam.gov.co/",
-    source: "IDEAM (.gov.co)",
-    description: "Datos científicos y meteorológicos oficiales sobre el recurso hídrico.",
-  },
-  {
-    title: "Water Resources & Environmental Guidelines",
-    url: "https://www.usgs.gov/",
-    source: "USGS (.gov)",
-    description: "Estándares y protocolos científicos internacionales de gestión ambiental.",
-  },
-  {
-    title: "Programa de las Naciones Unidas para el Medio Ambiente",
-    url: "https://www.unep.org/es",
-    source: "UNEP (ONU)",
-    description: "Evaluaciones globales y metas de sostenibilidad hídrica.",
-  },
-];
-
 export default async function BlogArticlePage({ params }: PageProps) {
   const { slug } = await params;
   const article = await getArticle("ambiental", slug);
@@ -475,11 +448,10 @@ export default async function BlogArticlePage({ params }: PageProps) {
                 ))}
               </div>
 
-              {/* Fuentes y Referencias Autoritativas (GEO) */}
-              <AuthoritativeReferences
-                sources={article.references && article.references.length > 0 ? article.references : defaultAmbientalSources}
-                theme="light"
-              />
+              {/* Fuentes: solo las `references` reales del artículo; sin ellas no se pinta nada (VIS-005) */}
+              {article.references && article.references.length > 0 && (
+                <AuthoritativeReferences sources={article.references} theme="light" />
+              )}
             </div>
           </article>
 

@@ -10,7 +10,6 @@ import AutoregressiveStep from "./components/AutoregressiveStep";
 import BibliographyStep from "./components/BibliographyStep";
 import { ProcessProvider, useProcess } from "../context/ProcessContext";
 import { WebPageStructuredData } from "@/components/seo/StructuredData";
-import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 const DEMO_TEXTS = [
   "Los pájaros vuelan porque tienen alas",
@@ -301,10 +300,6 @@ function ExploraModeloApp() {
             </div>
           </div>
 
-          {/* Referencias Académicas Autorizadas GEO */}
-          <div className="mt-12">
-            <AuthoritativeReferences theme="dark" />
-          </div>
         </section>
       </main>
     </div>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getFeaturedAmbientalTools } from "@/lib/ambiental-tools";
 import { getLatestArticles } from "@/lib/blog-articles";
 import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
+import { AMBIENTAL_OFFICIAL_RESOURCES, OFFICIAL_RESOURCES_SUBTITLE, OFFICIAL_RESOURCES_TITLE } from "@/components/seo/official-resources";
 
 import { SITE_URL } from "@/lib/site-config";
 
@@ -325,10 +326,15 @@ export default async function AmbientalPage() {
         </div>
       </section>
 
-      {/* REFERENCIAS AUTORIZADAS GEO/SEO */}
+      {/* Recursos oficiales: lista explícita y verificada (VIS-005) */}
       <section className="py-12 bg-white border-t border-slate-200">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <AuthoritativeReferences theme="light" />
+          <AuthoritativeReferences
+            sources={AMBIENTAL_OFFICIAL_RESOURCES}
+            title={OFFICIAL_RESOURCES_TITLE}
+            subtitle={OFFICIAL_RESOURCES_SUBTITLE}
+            theme="light"
+          />
         </div>
       </section>
 

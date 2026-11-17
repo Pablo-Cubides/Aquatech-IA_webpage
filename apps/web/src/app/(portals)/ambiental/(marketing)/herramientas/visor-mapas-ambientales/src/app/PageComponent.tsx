@@ -19,7 +19,6 @@ import USGSLayerControl from "@/components/USGSLayerControl";
 import FIRMSLayerControl from "@/components/FIRMSLayerControl";
 import RangeFilter from "../components/RangeFilter";
 import ErrorBoundary from "../components/ErrorBoundary";
-import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 import type {
   DatasetMetadata,
   GeoJSONFeature,
@@ -1939,11 +1938,6 @@ interface WQPResultItem {
                   </p>
                 </div>
               </div>
-            </div>
-
-            {/* Referencias Oficiales Autorizadas GEO */}
-            <div>
-              <AuthoritativeReferences theme="light" />
             </div>
           </div>
         </section>

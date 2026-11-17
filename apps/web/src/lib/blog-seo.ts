@@ -148,6 +148,16 @@ export function generateArticleSchema(
     articleSection: article.category,
     keywords: article.tags.join(", "),
     wordCount: Math.round(article.readTime * 200), // Estimación basada en tiempo de lectura
+    // VIS-005: `citation` solo desde las referencias reales del artículo; sin ellas no se emite.
+    ...(article.references?.length
+      ? {
+          citation: article.references.map((reference) => ({
+            "@type": "CreativeWork",
+            name: reference.title,
+            url: reference.url,
+          })),
+        }
+      : {}),
   };
 }
 

@@ -18,7 +18,6 @@ import { useState } from "react";
 import { DOMINIOS, getFlagEmoji } from "../lib/constants";
 import { API_BASE } from "../lib/api";
 import { WebPageStructuredData } from "@/components/seo/StructuredData";
-import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 // Convert country slug to ISO-2 code for flagcdn
 function slugToIso(slug: string): string | null {
@@ -503,11 +502,6 @@ export default function HomePage() {
                   </p>
                 </div>
               </div>
-            </div>
-
-            {/* Referencias Autorizadas GEO */}
-            <div className="mt-12">
-              <AuthoritativeReferences theme="light" />
             </div>
           </div>
         </div>

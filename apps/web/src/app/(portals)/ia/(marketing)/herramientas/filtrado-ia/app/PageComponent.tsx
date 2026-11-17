@@ -4,7 +4,6 @@ import MenuCasos from "../components/MenuCasos";
 import VisualizadorCaso from "../components/VisualizadorCaso";
 import { CasosProvider } from "../context/CasosContext";
 import { WebPageStructuredData } from "@/components/seo/StructuredData";
-import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 export default function Home() {
   return (
@@ -73,10 +72,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Referencias Oficiales Autorizadas GEO */}
-            <div className="mt-12">
-              <AuthoritativeReferences theme="dark" />
-            </div>
           </section>
         </main>
       </CasosProvider>
