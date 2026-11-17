@@ -158,6 +158,10 @@ export const authOptions: NextAuthOptions = {
   },
   session: {
     strategy: "jwt",
+    // SEC-004: 7 dias (antes 30, el valor por defecto de NextAuth). Las acciones de administrador
+    // ya no dependen del rol del token (ver lib/security/admin-session.ts); esto acota ademas cuanto
+    // vive un token robado y cuanto tarda la interfaz en reflejar un cambio de rol.
+    maxAge: 7 * 24 * 60 * 60,
   },
   pages: {
     signIn: "/",

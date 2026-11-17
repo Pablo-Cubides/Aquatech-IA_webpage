@@ -4,6 +4,7 @@ import { NextRequest } from "next/server";
 const { getServerSessionMock, prismaMock, rateLimitMock } = vi.hoisted(() => ({
   getServerSessionMock: vi.fn(),
   prismaMock: {
+    user: { findUnique: vi.fn() },
     toolAnalytics: {
       create: vi.fn(),
       count: vi.fn(),
@@ -171,12 +172,27 @@ describe("/api/tools/analytics", () => {
 
     it("un usuario sin rol ADMIN recibe 404", async () => {
       getServerSessionMock.mockResolvedValue({ user: { id: "u1", role: "USER" } });
+      prismaMock.user.findUnique.mockResolvedValue({ role: "USER" });
       expect((await GET()).status).toBe(404);
       expect(prismaMock.toolAnalytics.count).not.toHaveBeenCalled();
     });
 
+    it("SEC-004: un token que dice ADMIN pero cuyo rol en la base ya no lo es recibe 404", async () => {
+      getServerSessionMock.mockResolvedValue({ user: { id: "a1", role: "ADMIN" } });
+      prismaMock.user.findUnique.mockResolvedValue({ role: "USER" }); // degradado tras emitirse el JWT
+      expect((await GET()).status).toBe(404);
+      expect(prismaMock.toolAnalytics.count).not.toHaveBeenCalled();
+    });
+
+    it("SEC-004: si la base no responde, no se concede el privilegio (404)", async () => {
+      getServerSessionMock.mockResolvedValue({ user: { id: "a1", role: "ADMIN" } });
+      prismaMock.user.findUnique.mockRejectedValue(new Error("db down"));
+      expect((await GET()).status).toBe(404);
+    });
+
     it("un ADMIN recibe las estadísticas agregadas", async () => {
       getServerSessionMock.mockResolvedValue({ user: { id: "a1", role: "ADMIN" } });
+      prismaMock.user.findUnique.mockResolvedValue({ role: "ADMIN" });
       prismaMock.toolAnalytics.count.mockResolvedValue(42);
       prismaMock.toolAnalytics.groupBy.mockResolvedValue([{ userId: "a" }, { userId: "b" }]);
 

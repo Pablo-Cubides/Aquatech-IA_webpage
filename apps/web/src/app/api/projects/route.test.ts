@@ -1,19 +1,26 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const { getServerSessionMock } = vi.hoisted(() => ({
+const { getServerSessionMock, findUniqueMock } = vi.hoisted(() => ({
   getServerSessionMock: vi.fn(),
+  findUniqueMock: vi.fn(),
 }));
 
 vi.mock("next-auth", () => ({ getServerSession: getServerSessionMock }));
 vi.mock("@/lib/auth", () => ({ authOptions: {} }));
+// SEC-004: el rol de administrador se lee de la base de datos, no del token.
+vi.mock("@ia-next/database", () => ({ prisma: { user: { findUnique: findUniqueMock } } }));
 
 import { DELETE, PUT, GET as GET_ONE } from "./[id]/route";
 import { GET, POST } from "./route";
 
-const asAdmin = () =>
+const asAdmin = () => {
   getServerSessionMock.mockResolvedValue({ user: { id: "a1", role: "ADMIN" } });
-const asUser = () =>
+  findUniqueMock.mockResolvedValue({ role: "ADMIN" });
+};
+const asUser = () => {
   getServerSessionMock.mockResolvedValue({ user: { id: "u1", role: "USER" } });
+  findUniqueMock.mockResolvedValue({ role: "USER" });
+};
 const anonymous = () => getServerSessionMock.mockResolvedValue(null);
 
 const json = (method: string, body: unknown) =>

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
+import { isAdminInDatabase } from "@/lib/security/admin-session";
 import { z } from "zod";
 import * as Sentry from "@sentry/nextjs";
 import { prisma } from "@ia-next/database";
@@ -153,7 +154,8 @@ export async function GET() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    if (session.user.role !== "ADMIN") {
+    // SEC-004: rol leido de la base de datos, no del JWT.
+    if (!(await isAdminInDatabase(session.user.id))) {
       // No confirmar que la ruta existe para usuarios sin rol de administrador.
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }

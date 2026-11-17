@@ -1,13 +1,15 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { NextRequest } from "next/server";
 
-const { getServerSessionMock, rateLimitMock } = vi.hoisted(() => ({
+const { getServerSessionMock, findUniqueMock, rateLimitMock } = vi.hoisted(() => ({
   getServerSessionMock: vi.fn(),
+  findUniqueMock: vi.fn(),
   rateLimitMock: vi.fn(),
 }));
 
 vi.mock("next-auth", () => ({ getServerSession: getServerSessionMock }));
 vi.mock("@/lib/auth", () => ({ authOptions: {} }));
+vi.mock("@ia-next/database", () => ({ prisma: { user: { findUnique: findUniqueMock } } }));
 vi.mock("@/lib/logger", () => ({
   logger: { error: vi.fn(), warn: vi.fn(), info: vi.fn(), debug: vi.fn() },
 }));
@@ -84,11 +86,13 @@ describe("authorizeBlogAdmin", () => {
   it("sin cabecera: solo una sesión ADMIN autoriza", async () => {
     vi.stubEnv("BLOG_AGENT_API_KEY", SECRET);
 
-    getServerSessionMock.mockResolvedValue({ user: { role: "USER" } });
+    getServerSessionMock.mockResolvedValue({ user: { id: "u1", role: "USER" } });
+    findUniqueMock.mockResolvedValue({ role: "USER" });
     const user = await authorizeBlogAdmin(request());
     expect(user.ok).toBe(false);
 
-    getServerSessionMock.mockResolvedValue({ user: { role: "ADMIN" } });
+    getServerSessionMock.mockResolvedValue({ user: { id: "a1", role: "ADMIN" } });
+    findUniqueMock.mockResolvedValue({ role: "ADMIN" });
     const admin = await authorizeBlogAdmin(request());
     expect(admin).toEqual({ ok: true, via: "session" });
   });

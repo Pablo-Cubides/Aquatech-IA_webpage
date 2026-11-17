@@ -6,6 +6,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { getClientIP, rateLimit } from "@/lib/security/rate-limit";
 import { logger } from "@/lib/logger";
+import { isAdminInDatabase } from "@/lib/security/admin-session";
 
 // Type for note input data
 interface NoteInput {
@@ -86,7 +87,8 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "No autorizado" }, { status: 401 });
     }
 
-    if (session.user.role !== "ADMIN") {
+    // SEC-004: rol leido de la base de datos, no del JWT.
+    if (!(await isAdminInDatabase(session.user.id))) {
       return NextResponse.json({ error: "Prohibido" }, { status: 403 });
     }
 
@@ -211,7 +213,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "No autorizado" }, { status: 401 });
     }
 
-    if (session.user.role !== "ADMIN") {
+    // SEC-004: rol leido de la base de datos, no del JWT.
+    if (!(await isAdminInDatabase(session.user.id))) {
       return NextResponse.json({ error: "Prohibido" }, { status: 403 });
     }
 
