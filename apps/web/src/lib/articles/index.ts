@@ -22,9 +22,11 @@
 import type { BlogArticle } from "@ia-next/contracts";
 
 // ─── Artículos nuevos del portal IA ──────────────────────────────────────────
+import iaDifusionStableDiffusion from "./ia/difusion-stable-diffusion";
 import iaTokensEnEspanol from "./ia/tokens-en-espanol-medicion-reproducible";
 
 export const NEW_IA_ARTICLES_V2: BlogArticle[] = [
+  iaDifusionStableDiffusion,
   iaTokensEnEspanol,
   // Añade aquí los nuevos artículos IA generados con: pnpm content:new ia <slug>
 ];
