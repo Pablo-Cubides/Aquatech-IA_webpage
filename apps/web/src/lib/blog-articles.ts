@@ -1,6 +1,7 @@
 // Article configuration for both portals
 // This file can be easily edited to add new articles
 
+import type { BlogArticle as ContractBlogArticle } from "@ia-next/contracts";
 import { isRetiredArticle } from "./retired-articles.mjs";
 import { NEW_AMBIENTAL_ARTICLES } from "./new-ambiental-articles";
 import { NEW_IA_ARTICLES_V2, NEW_AMBIENTAL_ARTICLES_V2 } from "./articles";
@@ -12,51 +13,12 @@ import {
 } from "./services/blog-store";
 import { reportDegradation } from "./observability/degradation";
 
-export type BlogArticle = {
-  slug: string;
-  title: string;
-  category: string;
-  date: string;
-  readTime: number;
-  excerpt: string;
-  heroImage: string;
-  author: {
-    name: string;
-    avatar: string;
-    bio?: string;
-  };
-  content: {
-    introduction: string;
-    sections: {
-      id: string;
-      title: string;
-      content: string;
-      subsections?: {
-        id: string;
-        title: string;
-        content: string;
-      }[];
-      image?: string;
-      callout?: {
-        type: "info" | "warning" | "success";
-        title: string;
-        content: string;
-      };
-    }[];
-    conclusion?: string;
-  };
-  tags: string[];
-  dateModified?: string;
-  references?: {
-    title: string;
-    url: string;
-    source: string;
-    description?: string;
-  }[];
-  nextArticle?: {
-    slug: string;
-    title: string;
-  };
+/**
+ * El artículo MAQUETADO que se publica es el del contrato (`@ia-next/contracts`, fuente única de
+ * verdad: ADR-0016). Aquí solo se le añade lo que pone el sitio al servirlo: estado, portal, origen,
+ * id y fecha de publicación de la base de datos. No vuelvas a copiar a mano los campos del contrato.
+ */
+export type BlogArticle = ContractBlogArticle & {
   status?: "PUBLISHED" | "SCHEDULED" | "PAUSED" | "ARCHIVED" | "DRAFT";
   portal?: "ia" | "ambiental";
   source?: "AGENT" | "ADMIN" | "CODE";
