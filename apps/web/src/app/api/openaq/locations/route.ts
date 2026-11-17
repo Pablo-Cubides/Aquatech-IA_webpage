@@ -1,88 +1,51 @@
 /**
  * API Route: GET /api/openaq/locations
- * Proxy para OpenAQ API locations endpoint
+ * Proxy de OpenAQ v3 /locations (SEC-003): parámetros validados, límite con clave propia
+ * (almacén compartido, cerrado) y presupuesto global bajo la cuota documentada de la clave.
+ * Se reenvían los mismos parámetros que antes (`country`, `city`, `parameter`, `location_id`…);
+ * que la v3 los reconozca o no es del cliente del visor (ver bitácora SEC), no de este proxy.
  */
+import { NextRequest } from "next/server";
+import { z } from "zod";
+import {
+  guardPublicProxy,
+  latLonString,
+  proxyJson,
+  queryIntClamped,
+  queryText,
+  queryToken,
+  toUpstreamQuery,
+} from "@/lib/security/public-proxy";
+import { fetchOpenAq, OPENAQ_BUDGET } from "@/lib/security/openaq-upstream";
 
-export async function GET(request: Request) {
-  try {
-    const url = new URL(request.url);
-    const queryParams = new URLSearchParams();
-    const country = url.searchParams.get("country");
-    const countriesId = url.searchParams.get("countries_id");
-    const city = url.searchParams.get("city");
-    const coordinates = url.searchParams.get("coordinates");
-    const parameter = url.searchParams.get("parameter");
-    const locationId = url.searchParams.get("location_id");
+const idList = z.string().regex(/^\d{1,9}(,\d{1,9}){0,19}$/, "lista de ids");
 
-    // Forward query parameters with validation
-    if (country) queryParams.append("country", country);
-    if (countriesId) queryParams.append("countries_id", countriesId);
-    if (city) queryParams.append("city", city);
-    if (coordinates) queryParams.append("coordinates", coordinates);
+const querySchema = z.strictObject({
+  country: queryText(60).optional(),
+  countries_id: idList.optional(),
+  city: queryText(100).optional(),
+  coordinates: latLonString.optional(),
+  parameter: queryToken(30).optional(),
+  location_id: z.string().regex(/^\d{1,12}$/).optional(),
+  radius: queryIntClamped(0, 25000).optional(), // máximo de la API: 25 km
+  limit: queryIntClamped(1, 10000).optional(),
+  // El cliente los manda; nunca se reenviaron (la v3 solo admite order_by=id).
+  order_by: queryToken(30).optional(),
+  sort: queryToken(10).optional(),
+});
 
-    // Validate and cap radius to 25000 meters (API maximum)
-    const radiusStr = url.searchParams.get("radius");
-    if (radiusStr) {
-      const radius = parseInt(radiusStr, 10);
-      if (!isNaN(radius)) {
-        const cappedRadius = Math.min(Math.max(radius, 0), 25000);
-        queryParams.append("radius", cappedRadius.toString());
-      }
-    }
+export async function GET(request: NextRequest) {
+  const guard = await guardPublicProxy(request, {
+    name: "openaq:locations",
+    schema: querySchema,
+    perMinutePerIp: 30,
+    limiter: "shared",
+    upstreamBudget: OPENAQ_BUDGET,
+  });
+  if (!guard.ok) return guard.response;
+  const { order_by: _orderBy, sort: _sort, ...forward } = guard.query;
 
-    if (parameter) queryParams.append("parameter", parameter);
-
-    // Validate and cap limit to 10000 (API maximum)
-    const limitStr = url.searchParams.get("limit");
-    if (limitStr) {
-      const limit = parseInt(limitStr, 10);
-      if (!isNaN(limit)) {
-        const cappedLimit = Math.min(Math.max(limit, 1), 10000);
-        queryParams.append("limit", cappedLimit.toString());
-      }
-    }
-
-    // Note: order_by only accepts 'id' for /locations, don't pass other values
-    if (locationId) queryParams.append("location_id", locationId);
-
-    const openaqUrl = `https://api.openaq.org/v3/locations?${queryParams.toString()}`;
-    console.log("OpenAQ locations request:", openaqUrl);
-
-    const apiKey = process.env.OPENAQ_API_KEY;
-    const headers: HeadersInit = {
-      Accept: "application/json",
-    };
-
-    if (apiKey) {
-      headers["X-API-Key"] = apiKey;
-    }
-
-    const response = await fetch(openaqUrl, {
-      headers,
-    });
-
-    console.log("OpenAQ locations response status:", response.status);
-
-    if (!response.ok) {
-      const error = await response.text();
-      console.error("OpenAQ API error:", response.status, error);
-      return Response.json(
-        { error: `OpenAQ API error: ${response.status}`, details: error },
-        { status: response.status },
-      );
-    }
-
-    const data = await response.json();
-    return Response.json(data, {
-      headers: {
-        "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=7200",
-      },
-    });
-  } catch (error) {
-    console.error("Error fetching OpenAQ locations:", error);
-    return Response.json(
-      { error: "Failed to fetch OpenAQ locations" },
-      { status: 500 },
-    );
-  }
+  const result = await fetchOpenAq("openaq:locations", "/locations", toUpstreamQuery(forward));
+  if (!result.ok) return result.response;
+  return proxyJson(result.data, { sMaxAge: 3600, swr: 7200 });
 }

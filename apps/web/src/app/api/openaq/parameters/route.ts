@@ -1,45 +1,23 @@
 /**
  * API Route: GET /api/openaq/parameters
- * Proxy para OpenAQ API para evitar problemas de CORS
+ * Proxy de OpenAQ v3 /parameters (SEC-003). Sin parámetros: cualquiera se rechaza.
  */
+import { NextRequest } from "next/server";
+import { z } from "zod";
+import { guardPublicProxy, proxyJson } from "@/lib/security/public-proxy";
+import { fetchOpenAq, OPENAQ_BUDGET } from "@/lib/security/openaq-upstream";
 
-export async function GET() {
-  try {
-    const apiKey = process.env.OPENAQ_API_KEY;
-    
-    const headers: HeadersInit = {
-      'Accept': 'application/json',
-    };
-    
-    // Agregar API key si está disponible
-    if (apiKey) {
-      headers['X-API-Key'] = apiKey;
-    }
+export async function GET(request: NextRequest) {
+  const guard = await guardPublicProxy(request, {
+    name: "openaq:parameters",
+    schema: z.strictObject({}),
+    perMinutePerIp: 30,
+    limiter: "shared",
+    upstreamBudget: OPENAQ_BUDGET,
+  });
+  if (!guard.ok) return guard.response;
 
-    const response = await fetch('https://api.openaq.org/v3/parameters', {
-      headers,
-    });
-
-    if (!response.ok) {
-      const error = await response.text();
-      console.error('OpenAQ API error:', response.status, error);
-      return Response.json(
-        { error: `OpenAQ API error: ${response.status}` },
-        { status: response.status }
-      );
-    }
-
-    const data = await response.json();
-    return Response.json(data, {
-      headers: {
-        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
-      },
-    });
-  } catch (error) {
-    console.error('Error fetching OpenAQ parameters:', error);
-    return Response.json(
-      { error: 'Failed to fetch OpenAQ parameters' },
-      { status: 500 }
-    );
-  }
+  const result = await fetchOpenAq("openaq:parameters", "/parameters", "");
+  if (!result.ok) return result.response;
+  return proxyJson(result.data, { sMaxAge: 3600, swr: 7200 });
 }

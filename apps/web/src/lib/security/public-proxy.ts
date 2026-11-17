@@ -43,7 +43,7 @@ export type ProxyGuardOptions<S extends z.ZodType> = {
    * Solo con limiter "shared": máximo de llamadas al upstream por ventana, sumando
    * todas las IP. Protege la cuota de la clave propia.
    */
-  upstreamBudget?: { max: number; intervalMs: number };
+  upstreamBudget?: { max: number; intervalMs: number; /** Clave compartida entre rutas del mismo proveedor (por defecto, `name`). */ key?: string };
 };
 
 export type GuardResult<S extends z.ZodType> =
@@ -151,7 +151,7 @@ export async function guardPublicProxy<S extends z.ZodType>(
     }
 
     if (options.upstreamBudget) {
-      const budget = await rateLimit(`proxy-budget:${options.name}`, {
+      const budget = await rateLimit(`proxy-budget:${options.upstreamBudget.key ?? options.name}`, {
         interval: options.upstreamBudget.intervalMs,
         uniqueTokenPerInterval: options.upstreamBudget.max,
         failureMode: "closed",
@@ -319,6 +319,14 @@ export const bboxString = z
     const [w, s, e, n] = value.split(",").map(Number);
     return Math.abs(w) <= 180 && Math.abs(e) <= 180 && Math.abs(s) <= 90 && Math.abs(n) <= 90 && w < e && s < n;
   }, "bbox fuera de rango o desordenada");
+
+/** Entero decimal que se ACOTA al rango (comportamiento histórico de varias rutas: no rechaza, recorta). */
+export function queryIntClamped(min: number, max: number) {
+  return z
+    .string()
+    .regex(/^\d{1,9}$/, "debe ser un entero")
+    .transform((value) => Math.min(Math.max(Number(value), min), max));
+}
 
 /** Código corto alfanumérico (p. ej. país ISO, nombre de parámetro). */
 export function queryToken(maxLength: number) {
