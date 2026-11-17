@@ -28,7 +28,7 @@ Esta "Skill" define el proceso que debe seguir el asistente inteligente (Antigra
 3.  **Avatares de Autor**: Respetar rígidamente las rutas definidas en `media-and-assets-guide.md` según el portal.
 
 ## Fase 4: Integración Técnica (TypeScript)
-1.  **Mapeo de Datos**: Convertir el borrador al objeto `BlogArticle` para `new-ambiental-articles.ts`.
+1.  **Mapeo de Datos**: Convertir el borrador al objeto `BlogArticle` para un archivo nuevo en `apps/web/src/lib/articles/<portal>/<slug>.ts`, registrado en `articles/index.ts`.
 2.  **Slug Genuino**: Crear un slug descriptivo y único.
 3.  **Formateo Seguro**: Usar `**bold**` y `*italic*` compatibles con el renderizador local.
 4.  **Codificación**: Asegurar estrictamente la codificación **UTF-8**.

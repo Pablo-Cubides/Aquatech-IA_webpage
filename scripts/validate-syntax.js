@@ -13,8 +13,7 @@ const { execSync } = require('child_process');
 
 // Files that are highly sensitive to brace imbalance
 const CRITICAL_FILES = [
-  'apps/web/src/lib/blog-articles.ts',
-  'apps/web/src/lib/new-ambiental-articles.ts'
+  'apps/web/src/lib/blog-articles.ts'
 ];
 
 function checkBraces(filePath) {

@@ -6,8 +6,6 @@ on:
     paths:
       - "apps/web/src/lib/articles/**"
       - "apps/web/src/lib/blog-articles.ts"
-      - "apps/web/src/lib/new-blog-articles.ts"
-      - "apps/web/src/lib/new-ambiental-articles.ts"
       - "content/blog/**"
       - ".specify/scripts/lint-content.mjs"
   push:

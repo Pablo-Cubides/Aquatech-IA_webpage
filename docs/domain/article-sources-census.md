@@ -7,9 +7,9 @@
 
 | # | Fuente | Qué es | IA | Ambiental | Publicados (no retirados) |
 |---|---|---|---|---|---|
-| 1 | `lib/blog-articles.ts` (`IA_ARTICLES`, `AMBIENTAL_ARTICLES`) | Heredados: los primeros artículos, a mano | 1 (1 retirado, borrado) | 4 (2 retirados, borrados) | **IA 1 · Amb 4** |
-| 2 | ~~`lib/new-blog-articles.ts`~~ (borrado en ARQ-006a), `lib/new-ambiental-articles.ts` | Segunda tanda, a mano | 0 (9 retirados, borrados) | 5 (1 retirado, borrado) | **IA 0 · Amb 5** |
-| 3 | `lib/articles/index.ts` + `lib/articles/<portal>/*.ts` | Registro "un archivo por artículo" (SPEC-100, ADR-0008, `pnpm content:new`). Conectado por CONT-004b | 1 | 0 | **IA 1 · Amb 0** |
+| 1 | ~~`lib/blog-articles.ts` (`IA_ARTICLES`, `AMBIENTAL_ARTICLES`)~~ | Heredados: los primeros artículos, a mano. **Migrados a la fuente 3 en ARQ-007** (2026-11-17); `blog-articles.ts` ya no contiene artículos, solo la lógica de composición | 0 | 0 | — |
+| 2 | ~~`lib/new-blog-articles.ts`~~ (borrado en ARQ-006a), ~~`lib/new-ambiental-articles.ts`~~ (borrado en ARQ-007) | Segunda tanda, a mano. Sus 5 artículos vivos pasaron a la fuente 3 | 0 | 0 | — |
+| 3 | `lib/articles/index.ts` + `lib/articles/<portal>/*.ts` | Registro "un archivo por artículo" (SPEC-100, ADR-0008, `pnpm content:new`). Desde ARQ-007 es la **única** fuente estática: cada archivo valida su artículo con `blogArticleSchema` al cargarse | 2 | 9 | **IA 2 · Amb 9** |
 | 4 | PostgreSQL (`BlogPost`) | Artículos publicados por la API del agente y el admin, sin desplegar | ~12 (dato de CONT) | — | **no verificado desde aquí** (sin acceso a la base) |
 | 5 | Caché de disco `content/blog/articles.json` | Copia de respaldo que escribe `blog-store`; fallback si la BD falla | 1 | 0 | 1 (`introduccion-a-los-agentes-autonomos-en-ingenieria`, obsoleto respecto de la BD) |
 | — | `lib/retired-articles.mjs` | No es una fuente: lista de 14 slugs retirados y su redirección | | | |

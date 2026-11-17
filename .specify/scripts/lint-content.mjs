@@ -9,7 +9,7 @@
  * (ARQ-004): este script la intentaba con `node --experimental-strip-types`, y nunca se ejecutó
  * (rutas absolutas de Windows sin file://, y el índice del paquete importa sin extensión, que Node
  * no resuelve). La hace la prueba apps/web/src/lib/__tests__/articles-contract.test.ts, que ve
- * TODAS las fuentes de código (no solo este directorio) y corre en `pnpm test`.
+ * todo el registro y corre en `pnpm test`. Desde ARQ-007 el registro es la única fuente de artículos en código.
  *
  * Usage: node .specify/scripts/lint-content.mjs [--self-test]
  * Exit code: 0 = all pass, 1 = errors found
@@ -18,6 +18,7 @@
 import { existsSync, readdirSync, readFileSync } from "fs";
 import { dirname, join, relative } from "path";
 import { fileURLToPath } from "url";
+import { RETIRED_ARTICLES } from "../../apps/web/src/lib/retired-articles.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..", "..");
@@ -26,6 +27,7 @@ const ARTICLES_ROOT =
   process.env.LINT_CONTENT_ARTICLES_ROOT ||
   join(ROOT, "apps", "web", "src", "lib", "articles");
 const PORTALS = ["ia", "ambiental"];
+const RETIRED_SLUGS = new Set(RETIRED_ARTICLES.map((entry) => entry.slug));
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 let errors = 0;
@@ -166,7 +168,13 @@ for (const { portal, path, slug } of articleFiles) {
       existsSync(join(ARTICLES_ROOT, p, `${nextSlug}.ts`))
     );
     if (!exists) {
-      err(path, `nextArticle.slug "${nextSlug}" does not exist in any portal`);
+      // Un artículo puede vivir solo en PostgreSQL (ARQ-007: 12 de 23), y eso no se ve desde aquí.
+      // Por eso "no está en el registro" es AVISO, no error. Sí es error apuntar a uno retirado (301).
+      if (RETIRED_SLUGS.has(nextSlug)) {
+        err(path, `nextArticle.slug "${nextSlug}" apunta a un artículo retirado (retired-articles.mjs)`);
+      } else {
+        warn(path, `nextArticle.slug "${nextSlug}" no está en el registro (si vive solo en PostgreSQL no se puede comprobar aquí)`);
+      }
     }
   }
 
@@ -197,9 +205,9 @@ for (const { portal, path, slug } of articleFiles) {
 
 // ─── Summary ─────────────────────────────────────────────────────────────────
 console.log(`\n${"─".repeat(50)}`);
-console.log(`Articles scanned: ${articleFiles.length} (solo el registro lib/articles/<portal>/*.ts)`);
+console.log(`Articles scanned: ${articleFiles.length} (todo el código: el registro lib/articles/<portal>/*.ts es la única fuente estática)`);
 console.log(
-  "No cubre: blog-articles.ts ni new-*.ts (contrato Zod en apps/web/src/lib/__tests__/articles-contract.test.ts) " +
+  "No cubre: el contrato Zod (se valida al cargar cada artículo y en apps/web/src/lib/__tests__/articles-contract.test.ts) " +
     "ni los artículos que viven solo en PostgreSQL (se validan al escribirlos por la API de admin/agente).",
 );
 if (errors === 0 && warnings === 0) {

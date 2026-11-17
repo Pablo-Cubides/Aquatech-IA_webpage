@@ -1,14 +1,13 @@
 /**
- * Lint de contenido de TODAS las fuentes de código (ARQ-004).
+ * Contrato y coherencia de los artículos en código (ARQ-004, ampliada en ARQ-007).
  *
- * `.specify/scripts/lint-content.mjs` solo lee `lib/articles/<portal>/*.ts` (hoy 1 archivo): los
- * artículos de blog-articles.ts y new-*.ts nunca pasaban por el contrato Zod. Esta prueba valida
- * cada artículo publicado de cualquier fuente de código contra `blogArticleSchema`.
+ * Desde ARQ-007 el registro `lib/articles/index.ts` es la única fuente de artículos en código y cada
+ * archivo se valida con `blogArticleSchema` al cargarse (un incumplimiento rompe el build). Esta prueba
+ * lo comprueba también sobre lo que sirve `getStaticArticles` y añade lo que el esquema no mira:
+ * que el readTime declarado cuadre con la longitud del artículo.
  *
- * Es un trinquete: las violaciones que ya existían se listan en KNOWN_VIOLATIONS con su motivo,
- * y solo pueden DISMINUIR (si arreglas un artículo, la prueba te obliga a quitarlo de la lista).
- * Cualquier artículo nuevo, o un artículo conocido que empeore, rompe la prueba. Arreglar los
- * artículos es contenido (cargo CONT); aquí solo se deja de ignorarlos.
+ * Son trinquetes: KNOWN_VIOLATIONS (contrato, hoy vacío) y KNOWN_READTIME_MISMATCHES solo pueden
+ * DISMINUIR. Arreglar el contenido de un artículo es cargo CONT; aquí solo se deja de ignorarlo.
  *
  * Los artículos que viven SOLO en PostgreSQL no se pueden leer sin base de datos: se validan
  * en la escritura (API de admin/agente), no aquí.
