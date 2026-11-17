@@ -357,45 +357,56 @@ export interface CreateArticleInput {
   source?: BlogArticleSource;
 }
 
+export const DEFAULT_AUTHOR_NAME = "Pablo Cubides";
+
+/** Valores por defecto que el servidor aplica a un artículo de un portal (los usa la creación y la validación de publicación). */
+export function articleDefaultsFor(portal: "ia" | "ambiental") {
+  return {
+    category: portal === "ia" ? "Inteligencia Artificial" : "Gestión Ambiental",
+    heroImage:
+      portal === "ia"
+        ? "/images/portal-ia/blog/llm-transformers-architecture.jpg"
+        : "/images/portal-ambiental/blog/irca-calidad-agua-potable.jpg",
+    authorAvatar:
+      portal === "ia"
+        ? "/images/portal-ia/autor/pablo-cubides.png"
+        : "/images/portal-ambiental/autor/pablo-cubides.jpg",
+    authorBio:
+      portal === "ia" ? "Investigador en IA y Automatización" : "Ingeniero Ambiental y Químico",
+  };
+}
+
+/** Estado final de un artículo nuevo: una fecha futura con estado PUBLISHED (o sin estado) queda SCHEDULED. */
+export function resolveFinalStatus(
+  status: BlogArticleStatus | undefined,
+  publishedDate: Date,
+  now: Date = new Date(),
+): BlogArticleStatus {
+  const isFuture = publishedDate.getTime() > now.getTime();
+  return isFuture && (!status || status === "PUBLISHED") ? "SCHEDULED" : status || "PUBLISHED";
+}
+
 // Create or enqueue an article from Agent or Admin directly into PostgreSQL
 export async function createStoredArticle(input: CreateArticleInput): Promise<StoredBlogArticle> {
   const slug = input.slug?.trim() ? slugify(input.slug) : slugify(input.title);
 
   const now = new Date();
   const publishedDate = input.publishedAt ? new Date(input.publishedAt) : now;
-  const isFuture = publishedDate.getTime() > now.getTime();
-
-  const finalStatus: BlogArticleStatus =
-    isFuture && (!input.status || input.status === "PUBLISHED")
-      ? "SCHEDULED"
-      : (input.status || "PUBLISHED");
-
+  const finalStatus: BlogArticleStatus = resolveFinalStatus(input.status, publishedDate, now);
 
   const structuredContent =
     typeof input.content === "string"
       ? parseMarkdownToSections(input.content)
       : input.content;
 
-  const defaultHeroImage =
-    input.portal === "ia"
-      ? "/images/portal-ia/blog/llm-transformers-architecture.jpg"
-      : "/images/portal-ambiental/blog/irca-calidad-agua-potable.jpg";
-
-  const defaultAuthorAvatar =
-    input.portal === "ia"
-      ? "/images/portal-ia/autor/pablo-cubides.png"
-      : "/images/portal-ambiental/autor/pablo-cubides.jpg";
-
-  const defaultAuthorBio =
-    input.portal === "ia"
-      ? "Investigador en IA y Automatización"
-      : "Ingeniero Ambiental y Químico";
+  const defaults = articleDefaultsFor(input.portal);
+  const defaultHeroImage = defaults.heroImage;
+  const defaultAuthorAvatar = defaults.authorAvatar;
+  const defaultAuthorBio = defaults.authorBio;
 
   const calculatedReadTime = input.readTime || estimateReadTime(structuredContent);
 
-  const defaultCategory =
-    input.portal === "ia" ? "Inteligencia Artificial" : "Gestión Ambiental";
-  const category = input.category?.trim() || defaultCategory;
+  const category = input.category?.trim() || defaults.category;
 
   const portalEnum = input.portal.toUpperCase() as "IA" | "AMBIENTAL";
   const tags =

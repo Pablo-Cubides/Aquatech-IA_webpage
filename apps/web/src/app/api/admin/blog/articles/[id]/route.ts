@@ -12,6 +12,7 @@ import {
   updateStoredArticle,
   deleteStoredArticle,
 } from "@/lib/services/blog-store";
+import { checkPatchForPublication, describePublicationFailure } from "@/lib/services/blog-publication";
 
 // PATCH /api/admin/blog/articles/[id]
 export async function PATCH(
@@ -40,6 +41,15 @@ export async function PATCH(
     const parsed = updateArticleSchema.safeParse(raw.value);
     if (!parsed.success) {
       return NextResponse.json(describeInvalidBody(parsed.error), { status: 400 });
+    }
+
+    // SEC-004b: el resultado de un PATCH que deja el artículo visible cumple el contrato canónico.
+    const existing = (await getStoredArticles()).find((article) => article.id === id);
+    if (existing) {
+      const publication = checkPatchForPublication(existing, parsed.data);
+      if (!publication.ok) {
+        return NextResponse.json(describePublicationFailure(publication.issues), { status: 400 });
+      }
     }
 
     const updated = await updateStoredArticle(id, parsed.data);

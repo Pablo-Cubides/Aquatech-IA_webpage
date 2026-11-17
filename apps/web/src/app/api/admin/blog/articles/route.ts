@@ -12,6 +12,7 @@ import {
   CreateArticleInput,
 } from "@/lib/services/blog-store";
 import { getAllArticles } from "@/lib/blog-articles";
+import { checkCreateForPublication, describePublicationFailure } from "@/lib/services/blog-publication";
 
 // GET /api/admin/blog/articles
 export async function GET(req: NextRequest) {
@@ -106,6 +107,13 @@ export async function POST(req: NextRequest) {
       // La procedencia la fija el servidor: un cliente no puede declararse "ADMIN" ni "AGENT".
       source: auth.via === "agent" ? "AGENT" : "ADMIN",
     };
+
+    // SEC-004b: un artículo que va a quedar visible (PUBLISHED/SCHEDULED) cumple el mismo contrato
+    // que los de código; los borradores siguen siendo laxos.
+    const publication = checkCreateForPublication(input);
+    if (!publication.ok) {
+      return NextResponse.json(describePublicationFailure(publication.issues), { status: 400 });
+    }
 
     const created = await createStoredArticle(input);
 

@@ -10,7 +10,11 @@ const { authorizeMock, createMock, updateMock } = vi.hoisted(() => ({
 vi.mock("next/cache", () => ({ revalidatePath: vi.fn() }));
 vi.mock("@/lib/security/blog-admin-auth", () => ({ authorizeBlogAdmin: authorizeMock }));
 vi.mock("@/lib/blog-articles", () => ({ getAllArticles: vi.fn() }));
-vi.mock("@/lib/services/blog-store", () => ({
+vi.mock("@ia-next/database", () => ({ prisma: {} }));
+// Las funciones puras del store (valores por defecto, markdown, estado) son las reales: la validación
+// de publicación (SEC-004b) las usa. Solo se sustituyen las que tocan la base de datos.
+vi.mock("@/lib/services/blog-store", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@/lib/services/blog-store")>()),
   createStoredArticle: createMock,
   getStoredArticles: vi.fn().mockResolvedValue([]),
   updateStoredArticle: updateMock,
@@ -29,10 +33,18 @@ const req = (method: string, body: unknown, raw = false) =>
 
 const ctx = (id: string) => ({ params: Promise.resolve({ id }) });
 
+// Cumple blogArticleSchema una vez aplicados los valores por defecto del servidor (SEC-004b):
+// publicar exige el mismo contrato que los artículos de código.
 const validPost = {
   portal: "ia",
-  title: "Un artículo de prueba",
-  content: "## Introducción\ntexto",
+  title: "Un artículo de prueba para la API de administración",
+  excerpt: "Extracto de prueba con la longitud mínima que exige el contrato.",
+  content: {
+    introduction: "Introducción de prueba suficientemente larga para cumplir el mínimo de cien caracteres del contrato canónico de artículos.",
+    sections: [
+      { id: "primera", title: "Primera sección", content: "Contenido de la primera sección con más de cincuenta caracteres de texto." },
+    ],
+  },
   tags: ["a", "b", "c"],
 };
 
