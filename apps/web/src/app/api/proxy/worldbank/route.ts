@@ -1,97 +1,77 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getClientIP, rateLimit } from "@/lib/security/rate-limit";
+/**
+ * Proxy de la API del Banco Mundial (v2): GET /api/proxy/worldbank?path=...
+ *
+ * SEC-005a: el patrón de SEC-001 (`/^[a-zA-Z0-9/_-]+$/`) no admitía el punto, y TODOS los indicadores
+ * del Banco Mundial lo llevan (`AG.LND.FRST.ZS`, `EN.ATM.CO2E.PC`, `NY.GDP.MKTP.CD`…): la fuente nunca
+ * devolvía datos. Ahora el `path` se valida POR SEGMENTOS: cada segmento es un identificador
+ * (letras, dígitos, `_`, `-` y puntos INTERNOS); un segmento `.` o `..`, vacío, con `:`, `;`, `\`,
+ * `%` o un esquema se rechaza. Sin clave propia => límite en memoria (lectura pública cacheable).
+ *
+ * Parámetros de consulta: solo los que envía el cliente de `analisis-correlaciones` (format,
+ * per_page, page, date, q); cualquier otro, o repetido, es un 400.
+ *
+ * Latencia real medida (2026-11-17): la primera consulta de un indicador tarda hasta ~45 s en el
+ * Banco Mundial y las siguientes ~0,3 s (su caché); el cliente reintenta.
+ */
+
+import { NextRequest } from "next/server";
+import { z } from "zod";
+import {
+  fetchUpstreamJson,
+  guardPublicProxy,
+  proxyJson,
+  queryInt,
+  queryText,
+} from "@/lib/security/public-proxy";
 
 const WB_API_BASE = "https://api.worldbank.org/v2";
-const WORLD_BANK_PATH_PATTERN = /^[a-zA-Z0-9/_-]+$/;
+
+/** Un segmento: identificador con puntos solo entre caracteres (nunca `.`/`..`, nunca vacío). */
+const SEGMENT = /^[A-Za-z0-9_-]+(?:\.[A-Za-z0-9_-]+)*$/;
+const MAX_SEGMENTS = 6;
+
+function isValidWorldBankPath(path: string): boolean {
+  if (path.length === 0 || path.length > 200) return false;
+  const segments = path.split("/");
+  return segments.length <= MAX_SEGMENTS && segments.every((segment) => SEGMENT.test(segment));
+}
+
+const querySchema = z.strictObject({
+  path: z
+    .string()
+    .transform((raw) => raw.trim())
+    .refine(isValidWorldBankPath, "path inválido"),
+  format: z.literal("json").optional(),
+  per_page: queryInt(1, 1000).optional(),
+  page: queryInt(1, 100000).optional(),
+  // `2000:2020` o `2020`
+  date: z.string().regex(/^\d{4}(:\d{4})?$/, "date inválido").optional(),
+  q: queryText(100).optional(),
+});
 
 export async function GET(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams;
-  const rawPath = searchParams.get("path") || "";
-  const path = rawPath.trim().replace(/^\/+/, "");
-
-  const clientIP = getClientIP(request.headers);
-
-  const limit = await rateLimit(`proxy:worldbank:${clientIP}`, {
-    interval: 60 * 1000,
-    uniqueTokenPerInterval: 60,
-    // failureMode "open" (decisión SEC-001): proxy público de solo lectura de datos
-    // abiertos de el Banco Mundial; sin datos de usuario ni base de datos. Con "closed", sin
-    // almacén de límites las herramientas que lo usan quedarían sin datos.
-    failureMode: "open",
+  const guard = await guardPublicProxy(request, {
+    name: "worldbank",
+    schema: querySchema,
+    perMinutePerIp: 60,
+    limiter: "memory",
   });
+  if (!guard.ok) return guard.response;
+  const { path, ...rest } = guard.query;
 
-  if (!limit.success) {
-    return NextResponse.json(
-      { error: "Demasiadas solicitudes" },
-      {
-        status: 429,
-        headers: {
-          "X-RateLimit-Limit": limit.limit.toString(),
-          "X-RateLimit-Remaining": limit.remaining.toString(),
-          "X-RateLimit-Reset": new Date(limit.reset).toISOString(),
-        },
-      },
-    );
+  const search = new URLSearchParams();
+  for (const key of Object.keys(rest).sort()) {
+    const value = (rest as Record<string, string | number | undefined>)[key];
+    if (value !== undefined) search.set(key, String(value));
   }
+  const query = search.toString();
 
-  if (!path) {
-    return NextResponse.json(
-      { error: "Path parameter is required" },
-      { status: 400 },
-    );
-  }
-
-  if (
-    !WORLD_BANK_PATH_PATTERN.test(path) ||
-    path.includes("..") ||
-    path.includes("//") ||
-    path.includes(":")
-  ) {
-    return NextResponse.json(
-      { error: "Invalid path parameter" },
-      { status: 400 },
-    );
-  }
-
-  // Reconstruir la URL de destino
-  // Eliminamos 'path' de los parámetros para enviarlos a la API externa
-  const queryParams = new URLSearchParams();
-  searchParams.forEach((value, key) => {
-    if (key !== "path") {
-      queryParams.append(key, value);
-    }
+  const result = await fetchUpstreamJson("worldbank", `${WB_API_BASE}/${path}${query ? `?${query}` : ""}`, {
+    headers: { Accept: "application/json" },
+    // Cold start del Banco Mundial: hasta ~45 s la primera vez (ver cabecera del archivo).
+    timeoutMs: 25_000,
+    maxBytes: 8 * 1024 * 1024,
   });
-
-  const targetUrl = `${WB_API_BASE}/${path}?${queryParams.toString()}`;
-
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 20000);
-
-  try {
-    const response = await fetch(targetUrl, {
-      next: { revalidate: 3600 },
-      headers: {
-        Accept: "application/json",
-      },
-      signal: controller.signal,
-    });
-
-    if (!response.ok) {
-      return NextResponse.json(
-        { error: `WorldBank API error: ${response.status}` },
-        { status: response.status },
-      );
-    }
-
-    const data = await response.json();
-    return NextResponse.json(data);
-  } catch (error) {
-    console.error("Proxy WorldBank Error:", error);
-    return NextResponse.json(
-      { error: "Internal Server Error fetching from WorldBank" },
-      { status: 500 },
-    );
-  } finally {
-    clearTimeout(timeout);
-  }
+  if (!result.ok) return result.response;
+  return proxyJson(result.data, { sMaxAge: 3600, swr: 86400 });
 }
