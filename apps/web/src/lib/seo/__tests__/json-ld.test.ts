@@ -3,7 +3,7 @@ import React from "react";
 import { describe, expect, it } from "vitest";
 import { ToolStructuredData, WebPageStructuredData } from "@/components/seo/StructuredData";
 import { generateArticleSchema, extractFaqs } from "@/lib/blog-seo";
-import { AMBIENTAL_ARTICLES } from "@/lib/blog-articles";
+import { getStaticArticles } from "@/lib/blog-articles";
 
 const jsonLd = (element: React.ReactElement) => {
   const html = renderToStaticMarkup(element);
@@ -28,7 +28,7 @@ describe("JSON-LD sin fechas inventadas", () => {
 });
 
 describe("Article JSON-LD", () => {
-  const article = Object.values(AMBIENTAL_ARTICLES)[0];
+  const article = getStaticArticles("ambiental")[0];
 
   it("la imagen es URL absoluta", () => {
     const schema = generateArticleSchema(article, "ambiental", "https://aquatechia.com");

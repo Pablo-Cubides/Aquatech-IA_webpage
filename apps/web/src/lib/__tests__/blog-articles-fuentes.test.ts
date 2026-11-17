@@ -27,8 +27,8 @@ describe("fuentes estáticas de artículos: articles/index.ts está conectado", 
 });
 
 describe("fuentes estáticas de artículos: colisiones de slug", () => {
-  // Si este test falla, hay un slug repetido entre blog-articles.ts, new-*-articles.ts y articles/index.ts.
-  // No se resuelve cambiando el orden de fusión a ojo: es una decisión de arquitectura (ARQ-004).
+  // Si este test falla, hay un slug repetido dentro del registro articles/index.ts de un portal.
+  // Borra o renombra el duplicado: no se resuelve con el orden de la lista.
   it("ningún slug se repite entre las fuentes estáticas de un mismo portal", () => {
     expect(findStaticSlugCollisions("ia")).toEqual([]);
     expect(findStaticSlugCollisions("ambiental")).toEqual([]);
@@ -39,5 +39,34 @@ describe("fuentes estáticas de artículos: colisiones de slug", () => {
     for (const a of NEW_AMBIENTAL_ARTICLES_V2) expect(ia.has(a.slug)).toBe(false);
     const ambiental = new Set(getAllArticlesSync("ambiental").map((a) => a.slug));
     for (const a of NEW_IA_ARTICLES_V2) expect(ambiental.has(a.slug)).toBe(false);
+  });
+});
+
+describe("orden del listado: fecha descendente y, a igual fecha, el orden del registro (ARQ-007)", () => {
+  const cases = [
+    ["ia", NEW_IA_ARTICLES_V2],
+    ["ambiental", NEW_AMBIENTAL_ARTICLES_V2],
+  ] as const;
+
+  it.each(cases)("en %s, los artículos del registro salen por fecha descendente", (portal, registry) => {
+    const registered = new Set(registry.map((a) => a.slug));
+    const dates = getAllArticlesSync(portal)
+      .filter((a) => registered.has(a.slug))
+      .map((a) => a.date);
+    expect(dates).toEqual([...dates].sort().reverse());
+  });
+
+  it.each(cases)("en %s, con la misma fecha manda el orden de articles/index.ts", (portal, registry) => {
+    const listed = getAllArticlesSync(portal).map((a) => a.slug);
+    const byDate = new Map<string, string[]>();
+    for (const a of registry) byDate.set(a.date, [...(byDate.get(a.date) ?? []), a.slug]);
+    for (const slugs of byDate.values()) {
+      expect(listed.filter((slug) => slugs.includes(slug))).toEqual(slugs);
+    }
+  });
+
+  it("hoy hay empates reales que este orden resuelve (si deja de haberlos, el test no protege nada)", () => {
+    const tied = [...NEW_AMBIENTAL_ARTICLES_V2.reduce((m, a) => m.set(a.date, (m.get(a.date) ?? 0) + 1), new Map<string, number>()).values()];
+    expect(Math.max(...tied)).toBeGreaterThan(1);
   });
 });
