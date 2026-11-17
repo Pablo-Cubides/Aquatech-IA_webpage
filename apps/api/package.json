@@ -10,12 +10,6 @@
     "typecheck": "tsc --noEmit",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "prisma:generate": "pnpm --filter @ia-next/database run build",
-    "prisma:format": "prisma format",
-    "prisma:studio": "prisma studio",
-    "prisma:push": "dotenv -e .env -- prisma db push",
-    "prisma:migrate": "dotenv -e .env -- prisma migrate dev",
-    "db:push": "pnpm prisma:push",
-    "db:studio": "pnpm prisma:studio",
     "test": "vitest run",
     "test:watch": "vitest",
     "postinstall": "pnpm --filter @ia-next/database run build"
@@ -48,10 +42,8 @@
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
     "cross-env": "^10.1.0",
-    "dotenv-cli": "^11.0.0",
     "eslint": "^8.57.1",
     "prettier": "^3.9.10",
-    "prisma": "^7.10.1",
     "typescript": "^5.9.3",
     "vitest": "^4.1.12"
   }
