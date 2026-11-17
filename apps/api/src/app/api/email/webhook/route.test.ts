@@ -80,7 +80,12 @@ describe("/api/email/webhook", () => {
 
   it("RECHAZA el esquema anterior: HMAC del cuerpo en x-brevo-signature / x-mailin-signature", async () => {
     const hmac = crypto.createHmac("sha256", SECRET).update(JSON.stringify(payload)).digest("hex");
-    for (const headers of [{ "x-brevo-signature": hmac }, { "x-mailin-signature": hmac }, { "x-brevo-signature": `sha256=${hmac}` }]) {
+    const variants: Record<string, string>[] = [
+      { "x-brevo-signature": hmac },
+      { "x-mailin-signature": hmac },
+      { "x-brevo-signature": `sha256=${hmac}` },
+    ];
+    for (const headers of variants) {
       const response = await post(makeRequest(headers));
       expect(response.status).toBe(401);
     }
