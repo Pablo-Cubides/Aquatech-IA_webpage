@@ -190,8 +190,8 @@ describe("OpenAQ (clave propia)", () => {
 });
 
 describe("arXiv", () => {
-  it("rechaza search con operadores/caracteres no permitidos y parámetros desconocidos", async () => {
-    for (const q of ["?search=a%22%20OR%20all:b%28", "?foo=1", "?limit=abc", "?sortBy=evil"]) {
+  it("rechaza search con caracteres de control y parámetros desconocidos (SEC-005a: las comillas y paréntesis ya se admiten)", async () => {
+    for (const q of ["?search=a%00b", "?foo=1", "?limit=abc", "?sortBy=evil"]) {
       expect((await arxivGET(req(`/api/arxiv-papers${q}`))).status, q).toBe(400);
     }
     expect(fetchMock).not.toHaveBeenCalled();
@@ -269,7 +269,7 @@ describe("aqi-calculator", () => {
     ["sin mediciones", { measurements: [], profileId: "us-aqi" }],
     ["valor no numérico", { measurements: [{ ...measurement, pollutants: [{ pollutantId: "pm25", value: "x", unit: "µg/m³" }] }], profileId: "us-aqi" }],
     ["contaminante desconocido", { measurements: [{ ...measurement, pollutants: [{ pollutantId: "xx", value: 1, unit: "ppm" }] }], profileId: "us-aqi" }],
-    ["demasiadas mediciones", { measurements: Array.from({ length: 501 }, () => measurement), profileId: "us-aqi" }],
+    ["demasiadas mediciones", { measurements: Array.from({ length: 20_001 }, () => measurement), profileId: "us-aqi" }],
   ])("400: %s", async (_label, body) => {
     expect((await post(body)).status).toBe(400);
   });
