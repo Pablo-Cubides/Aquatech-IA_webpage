@@ -14,8 +14,8 @@ import AnalysisTypeSelector, {
   type AnalysisType,
 } from "../components/AnalysisTypeSelector";
 import AggregationOptions from "../components/AggregationOptions";
-import { sampleCorrelation } from "simple-statistics";
 import { getMultipleIndicators } from "../src/utils/worldbank";
+import { pearson, spearman, kendallTauB } from "../src/utils/correlations";
 import { getMultipleWHOIndicators } from "@/utils/who";
 import {
   aggregateByYear,
@@ -45,39 +45,6 @@ const ResultsSection = dynamic(() => import("./ResultsSection"), {
     </div>
   ),
 });
-
-// Function to calculate Pearson correlation
-function pearsonCorrelation(x: number[], y: number[]): number {
-  return sampleCorrelation(x, y);
-}
-
-// Function to calculate Spearman correlation (basic implementation)
-function spearmanCorrelation(x: number[], y: number[]): number {
-  const rankX = x
-    .map((val, idx) => ({ val, idx }))
-    .sort((a, b) => a.val - b.val)
-    .map((_item, rank) => rank + 1);
-  const rankY = y
-    .map((val, idx) => ({ val, idx }))
-    .sort((a, b) => a.val - b.val)
-    .map((item, rank) => rank + 1);
-  return sampleCorrelation(rankX, rankY);
-}
-
-// Function to calculate Kendall correlation (basic implementation)
-function kendallCorrelation(x: number[], y: number[]): number {
-  let concordant = 0;
-  let discordant = 0;
-  for (let i = 0; i < x.length; i++) {
-    for (let j = i + 1; j < x.length; j++) {
-      const signX = Math.sign(x[j] - x[i]);
-      const signY = Math.sign(y[j] - y[i]);
-      if (signX === signY) concordant++;
-      else if (signX !== signY) discordant++;
-    }
-  }
-  return (concordant - discordant) / (concordant + discordant);
-}
 
 // Type definitions
 import { type AnalysisResult, type DataRow } from "../types/analysis";
@@ -200,28 +167,17 @@ function calculateCorrelations(data: DataRow[]): {
       const xVals = pairs.map((p) => p.x);
       const yVals = pairs.map((p) => p.y);
 
-      let pearson = null;
-      let spearman = null;
-      let kendall = null;
-
-      try {
-        pearson = pearsonCorrelation(xVals, yVals);
-      } catch {}
-
-      try {
-        spearman = spearmanCorrelation(xVals, yVals);
-      } catch {}
-
-      try {
-        kendall = kendallCorrelation(xVals, yVals);
-      } catch {}
+      // Los coeficientes no definidos (serie constante, etc.) llegan como null y la tabla los pinta "N/A".
+      const pearsonValue = pearson(xVals, yVals);
+      const spearmanValue = spearman(xVals, yVals);
+      const kendallValue = kendallTauB(xVals, yVals);
 
       results.push({
         column_a: col1,
         column_b: col2,
-        pearson: pearson !== null ? parseFloat(pearson.toFixed(4)) : null,
-        spearman: spearman !== null ? parseFloat(spearman.toFixed(4)) : null,
-        kendall: kendall !== null ? parseFloat(kendall.toFixed(4)) : null,
+        pearson: pearsonValue !== null ? parseFloat(pearsonValue.toFixed(4)) : null,
+        spearman: spearmanValue !== null ? parseFloat(spearmanValue.toFixed(4)) : null,
+        kendall: kendallValue !== null ? parseFloat(kendallValue.toFixed(4)) : null,
       });
     }
   }
