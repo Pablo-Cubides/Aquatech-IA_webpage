@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
+import { logger } from "@/lib/logger";
+import { readBoundedJson } from "@/lib/schemas/blog-article.zod";
+import { guardPublicProxy, proxyError } from "@/lib/security/public-proxy";
 
 const CASES_PUBLIC_PATH = "/static/visor-cases";
 
@@ -11,10 +15,12 @@ interface CaseData {
   total_steps: number;
 }
 
-interface StepRequest {
-  prompt_id: string;
-  step: number;
-}
+// SEC-003: cuerpo validado. `prompt_id` es una clave de la tabla de casos (se busca con hasOwn:
+// "constructor" o "__proto__" no son casos). `step` entero acotado.
+const stepRequestSchema = z.strictObject({
+  prompt_id: z.string().regex(/^[A-Za-z0-9.-]{1,40}$/),
+  step: z.number().int().min(0).max(100),
+});
 
 const EDUCATIONAL_TEXTS: Record<number, string> = {
   0: "🎯 Inicializamos con ruido aleatorio puro. Este es el punto de partida donde no hay información visual coherente.",
@@ -137,32 +143,34 @@ function loadCases(): Record<string, CaseData> {
 }
 
 export async function POST(request: NextRequest) {
+  // Cálculo local sin coste de terceros: límite en memoria, por instancia.
+  const guard = await guardPublicProxy(request, {
+    name: "visor:step",
+    schema: z.strictObject({}),
+    perMinutePerIp: 120,
+    limiter: "memory",
+  });
+  if (!guard.ok) return guard.response;
+
+  const raw = await readBoundedJson(request);
+  if (!raw.ok) {
+    return proxyError(raw.status, raw.status === 413 ? "payload_too_large" : "invalid_json", "Cuerpo inválido.");
+  }
+  const parsed = stepRequestSchema.safeParse(raw.value);
+  if (!parsed.success) {
+    return proxyError(400, "invalid_body", "Cuerpo inválido: se espera { prompt_id, step }.");
+  }
+  const { prompt_id, step } = parsed.data;
+
   try {
-    const body: StepRequest = await request.json();
-    const { prompt_id, step } = body;
-
-    console.log(
-      `[visor-step] POST request for case: ${prompt_id}, step: ${step}`,
-    );
-
     const cases = loadCases();
 
-    if (Object.keys(cases).length === 0) {
-      return NextResponse.json(
-        { error: "No cases available" },
-        { status: 500 },
-      );
-    }
-
-    if (!cases[prompt_id]) {
-      return NextResponse.json(
-        { error: `Case not found: ${prompt_id}` },
-        { status: 404 },
-      );
+    if (!Object.prototype.hasOwnProperty.call(cases, prompt_id)) {
+      return NextResponse.json({ error: "Case not found" }, { status: 404 });
     }
 
     const caseData = cases[prompt_id];
-    let normalizedStep = Math.max(0, step);
+    let normalizedStep = step;
     if (caseData.total_steps > 0 && normalizedStep > caseData.total_steps) {
       normalizedStep = caseData.total_steps;
     }
@@ -186,10 +194,6 @@ export async function POST(request: NextRequest) {
     const isFinished =
       caseData.total_steps > 0 && normalizedStep >= caseData.total_steps;
 
-    console.log(
-      `[visor-step] Returning step ${normalizedStep}, image_url: ${stepFilePath}, finished: ${isFinished}`,
-    );
-
     return NextResponse.json({
       step: normalizedStep,
       intermediate_image: stepFilePath,
@@ -198,12 +202,7 @@ export async function POST(request: NextRequest) {
       total_steps: caseData.total_steps,
     });
   } catch (error) {
-    console.error("[visor-step] Error in POST:", error);
-    return NextResponse.json(
-      {
-        error: `Internal server error: ${error instanceof Error ? error.message : "Unknown"}`,
-      },
-      { status: 500 },
-    );
+    logger.error("[visor-step] Error in POST", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
+import { guardPublicProxy, queryInt, queryIntClamped, queryToken } from "@/lib/security/public-proxy";
 import {
   ArxivPaper,
   ArxivApiResponse,
@@ -175,7 +177,7 @@ function buildArxivUrl(params: {
 
 async function fetchWithRetry(
   url: string,
-  retries = 3,
+  retries = 1,
   backoff = 5000,
 ): Promise<Response> {
   try {
@@ -185,6 +187,7 @@ async function fetchWithRetry(
           "AquatechIA/1.0 (https://aquatechia.com; contact@aquatechia.com)",
       },
       next: { revalidate: 3600 },
+      signal: AbortSignal.timeout(12_000),
     });
 
     if (response.status === 429 && retries > 0) {
@@ -208,15 +211,41 @@ async function fetchWithRetry(
   }
 }
 
-export async function GET(request: NextRequest) {
-  try {
-    const { searchParams } = new URL(request.url);
+// SEC-003: parámetros validados. `search` entra en la consulta de arXiv (`all:...`): solo letras,
+// dígitos y puntuación simple. arXiv pide como máximo 1 petición cada 3 s y bloquea IP; la cola
+// serializa a 4 s por petición, así que se acota cuánto puede esperar (MAX_QUEUED) y se limita
+// por IP. Sin clave propia => límite en memoria.
+const querySchema = z.strictObject({
+  category: queryToken(40).optional(),
+  search: z
+    .string()
+    .min(1)
+    .max(100)
+    .regex(/^[\p{L}\p{N} .,_:+-]+$/u, "caracteres no permitidos")
+    .optional(),
+  limit: queryIntClamped(1, 50).optional(),
+  start: queryInt(0, 10000).optional(),
+  sortBy: z.enum(["relevance", "submittedDate"]).optional(),
+});
 
-    const blogCategory = searchParams.get("category") || "";
-    const search = searchParams.get("search") || "";
-    const limit = Math.min(parseInt(searchParams.get("limit") || "20", 10), 50);
-    const start = parseInt(searchParams.get("start") || "0", 10);
-    const sortBy = searchParams.get("sortBy") || "submittedDate";
+const MAX_QUEUED = 5;
+let queued = 0;
+
+export async function GET(request: NextRequest) {
+  const guard = await guardPublicProxy(request, {
+    name: "arxiv:papers",
+    schema: querySchema,
+    perMinutePerIp: 20,
+    limiter: "memory",
+  });
+  if (!guard.ok) return guard.response;
+
+  try {
+    const blogCategory = guard.query.category || "";
+    const search = guard.query.search || "";
+    const limit = guard.query.limit ?? 20;
+    const start = guard.query.start ?? 0;
+    const sortBy = guard.query.sortBy || "submittedDate";
 
     // Get ArXiv categories from blog category
     let arxivCategories: string[] = [];
@@ -240,6 +269,14 @@ export async function GET(request: NextRequest) {
     if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
       return NextResponse.json(cached.data);
     }
+
+    if (queued >= MAX_QUEUED) {
+      return NextResponse.json(
+        { error: "busy", message: "Demasiadas consultas en curso. Reintenta en unos segundos." },
+        { status: 503, headers: { "Retry-After": "10", "Cache-Control": "no-store" } },
+      );
+    }
+    queued += 1;
 
     // Process request in a serialized queue
     const result = await new Promise<ArxivApiResponse>((resolve, reject) => {
@@ -266,8 +303,6 @@ export async function GET(request: NextRequest) {
               sortBy,
             });
 
-            console.log(`Fetching ArXiv: ${arxivUrl}`);
-
             // Perform fetch with retry logic
             const response = await fetchWithRetry(arxivUrl);
             const xmlText = await response.text();
@@ -288,6 +323,8 @@ export async function GET(request: NextRequest) {
             resolve(apiResponse);
           } catch (error) {
             reject(error);
+          } finally {
+            queued -= 1;
           }
         })
         .catch((err) => {
@@ -295,12 +332,14 @@ export async function GET(request: NextRequest) {
         });
     });
 
-    return NextResponse.json(result);
+    return NextResponse.json(result, {
+      headers: { "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=7200" },
+    });
   } catch (error: unknown) {
-    console.error("ArXiv API error:", error);
+    console.error("ArXiv API error:", getErrorMessage(error));
     return NextResponse.json(
-      { error: getErrorMessage(error) },
-      { status: 500 },
+      { error: "upstream_error", message: "No se pudieron obtener los artículos de arXiv." },
+      { status: 502, headers: { "Cache-Control": "public, s-maxage=15" } },
     );
   }
 }

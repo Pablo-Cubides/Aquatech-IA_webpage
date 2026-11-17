@@ -1,55 +1,33 @@
-import { NextResponse } from 'next/server';
+/**
+ * API Route: GET /api/wqp/results
+ * Proxy de Water Quality Portal (resultados por estación). SEC-003: `siteid` validado.
+ */
+import { NextRequest } from "next/server";
+import { z } from "zod";
+import { fetchUpstreamJson, guardPublicProxy, proxyJson } from "@/lib/security/public-proxy";
 
-export async function GET(request: Request) {
-  try {
-    const url = new URL(request.url);
-    const siteid = url.searchParams.get('siteid');
-    
-    if (!siteid) {
-      return NextResponse.json({ error: 'Missing siteid parameter' }, { status: 400 });
-    }
+const querySchema = z.strictObject({
+  siteid: z.string().regex(/^[A-Za-z0-9._:-]{1,60}$/, "siteid inválido"),
+  // El cliente los envía siempre; el proxy fija sus propios valores.
+  mimeType: z.literal("json").optional(),
+  zip: z.literal("no").optional(),
+});
 
-    const queryParams = new URLSearchParams();
-    queryParams.append('siteid', siteid);
-    queryParams.append('mimeType', 'json');
-    queryParams.append('zip', 'no');
+export async function GET(request: NextRequest) {
+  const guard = await guardPublicProxy(request, {
+    name: "wqp:results",
+    schema: querySchema,
+    perMinutePerIp: 30,
+    limiter: "memory",
+  });
+  if (!guard.ok) return guard.response;
 
-    const wqpUrl = `https://www.waterqualitydata.us/data/Result/search?${queryParams.toString()}`;
-    
-    // WQP API can be slow, set a longer timeout
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
-    
-    const response = await fetch(wqpUrl, {
-      headers: {
-        'Accept': 'application/json',
-      },
-      signal: controller.signal,
-    });
-    
-    clearTimeout(timeoutId);
-
-    if (!response.ok) {
-      const error = await response.text();
-      return NextResponse.json(
-        { error: `WQP API error: ${response.status}`, details: error },
-        { status: response.status }
-      );
-    }
-
-    const data = await response.json();
-    
-    return NextResponse.json(data, {
-      headers: {
-        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
-      },
-    });
-  } catch (error) {
-    console.error('Error fetching WQP results:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    return NextResponse.json(
-      { error: 'Failed to fetch WQP results', details: errorMessage },
-      { status: 500 }
-    );
-  }
+  const search = new URLSearchParams({ siteid: guard.query.siteid, mimeType: "json", zip: "no" });
+  const result = await fetchUpstreamJson(
+    "wqp:results",
+    `https://www.waterqualitydata.us/data/Result/search?${search}`,
+    { headers: { Accept: "application/json" }, timeoutMs: 25_000, maxBytes: 10 * 1024 * 1024 },
+  );
+  if (!result.ok) return result.response;
+  return proxyJson(result.data, { sMaxAge: 3600, swr: 7200 });
 }

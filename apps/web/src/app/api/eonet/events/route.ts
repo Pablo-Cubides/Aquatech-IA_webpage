@@ -1,61 +1,49 @@
 /**
  * API Route: GET /api/eonet/events
- * Proxy para NASA EONET API
+ * Proxy de NASA EONET (SEC-003). `category` se interpola en la RUTA del upstream
+ * (/categories/{id}): solo un identificador corto, sin barras ni puntos.
  */
+import { NextRequest } from "next/server";
+import { z } from "zod";
+import {
+  fetchUpstreamJson,
+  guardPublicProxy,
+  proxyJson,
+  queryIntClamped,
+  toUpstreamQuery,
+} from "@/lib/security/public-proxy";
 
-export async function GET(request: Request) {
-  try {
-    const url = new URL(request.url);
-    const queryParams = new URLSearchParams();
+const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "fecha AAAA-MM-DD");
 
-    // Forward query parameters
-    const forwardParams = ['status', 'limit', 'days', 'start', 'end'];
-    const category = url.searchParams.get('category');
+const querySchema = z.strictObject({
+  status: z.enum(["open", "closed", "all"]).optional(),
+  limit: queryIntClamped(1, 500).optional(),
+  days: queryIntClamped(1, 365).optional(),
+  start: isoDate.optional(),
+  end: isoDate.optional(),
+  category: z.string().regex(/^[A-Za-z0-9_-]{1,40}$/, "categoría inválida").optional(),
+});
 
-    forwardParams.forEach(param => {
-      const value = url.searchParams.get(param);
-      if (value) {
-        queryParams.append(param, value);
-      }
-    });
+export async function GET(request: NextRequest) {
+  const guard = await guardPublicProxy(request, {
+    name: "eonet:events",
+    schema: querySchema,
+    perMinutePerIp: 60,
+    limiter: "memory",
+  });
+  if (!guard.ok) return guard.response;
+  const { category, ...forward } = guard.query;
 
-    // Build EONET URL based on category
-    let eonetUrl = 'https://eonet.gsfc.nasa.gov/api/v3/events';
-    if (category) {
-      eonetUrl = `https://eonet.gsfc.nasa.gov/api/v3/categories/${category}`;
-    }
+  const base = category
+    ? `https://eonet.gsfc.nasa.gov/api/v3/categories/${category}`
+    : "https://eonet.gsfc.nasa.gov/api/v3/events";
+  const query = toUpstreamQuery(forward);
 
-    // Append query parameters
-    if (queryParams.toString()) {
-      eonetUrl += `?${queryParams.toString()}`;
-    }
-
-    const response = await fetch(eonetUrl, {
-      headers: {
-        'Accept': 'application/json',
-      },
-    });
-
-    if (!response.ok) {
-      const error = await response.text();
-      console.error('EONET API error:', response.status, error);
-      return Response.json(
-        { error: `EONET API error: ${response.status}` },
-        { status: response.status }
-      );
-    }
-
-    const data = await response.json();
-    return Response.json(data, {
-      headers: {
-        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
-      },
-    });
-  } catch (error) {
-    console.error('Error fetching EONET data:', error);
-    return Response.json(
-      { error: 'Failed to fetch EONET data' },
-      { status: 500 }
-    );
-  }
+  const result = await fetchUpstreamJson("eonet:events", query ? `${base}?${query}` : base, {
+    headers: { Accept: "application/json" },
+    timeoutMs: 15_000,
+    maxBytes: 8 * 1024 * 1024,
+  });
+  if (!result.ok) return result.response;
+  return proxyJson(result.data, { sMaxAge: 3600, swr: 7200 });
 }

@@ -35,6 +35,8 @@ export type ProxyGuardOptions<S extends z.ZodType> = {
   name: string;
   /** Debe ser `z.strictObject({...})` sobre los parámetros de la query. */
   schema: S;
+  /** Claves que pueden repetirse en la query (llegan al esquema como string[]). */
+  repeatable?: readonly string[];
   /** Peticiones por minuto y por IP. */
   perMinutePerIp: number;
   /** "memory" = sin clave propia (lectura pública); "shared" = con clave propia (cerrado). */
@@ -83,9 +85,18 @@ export function proxyJson(
 }
 
 /** Query -> objeto plano. Una clave repetida es ambigua: se rechaza (devuelve null). */
-function searchParamsToObject(params: URLSearchParams): Record<string, string> | null {
-  const out: Record<string, string> = {};
+function searchParamsToObject(
+  params: URLSearchParams,
+  repeatable: readonly string[] = [],
+): Record<string, string | string[]> | null {
+  const out: Record<string, string | string[]> = {};
   for (const [key, value] of params) {
+    if (repeatable.includes(key)) {
+      const list = (out[key] as string[] | undefined) ?? [];
+      list.push(value);
+      out[key] = list;
+      continue;
+    }
     if (Object.prototype.hasOwnProperty.call(out, key)) return null;
     out[key] = value;
   }
@@ -101,7 +112,7 @@ export async function guardPublicProxy<S extends z.ZodType>(
   extraInput: Record<string, string> = {},
 ): Promise<GuardResult<S>> {
   const url = new URL(request.url);
-  const flat = searchParamsToObject(url.searchParams);
+  const flat = searchParamsToObject(url.searchParams, options.repeatable);
   if (!flat) {
     return {
       ok: false,

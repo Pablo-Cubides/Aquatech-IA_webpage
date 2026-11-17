@@ -1,4 +1,6 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
+import { guardPublicProxy } from "@/lib/security/public-proxy";
 
 const shortTitles: Record<string, string> = {
   "1": "Spider-Man Dorado",
@@ -36,7 +38,16 @@ const caseDescriptions: Record<string, string> = {
   "stable-diffusion-2": "Interrogation room",
 };
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  // SEC-003: datos estáticos; sin parámetros y con límite en memoria.
+  const guard = await guardPublicProxy(request, {
+    name: "visor:prompts",
+    schema: z.strictObject({}),
+    perMinutePerIp: 120,
+    limiter: "memory",
+  });
+  if (!guard.ok) return guard.response;
+
   try {
     const caseIds = Object.keys(shortTitles);
 
@@ -47,7 +58,9 @@ export async function GET() {
       description: caseDescriptions[caseId] || "",
     }));
 
-    return NextResponse.json(promptsList);
+    return NextResponse.json(promptsList, {
+      headers: { "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=7200" },
+    });
   } catch (error) {
     console.error("[visor-prompts] Error:", error);
     return NextResponse.json([], { status: 200 });

@@ -1,88 +1,71 @@
 /**
  * API Route: GET /api/wqp/search
- * Proxy para Water Quality Portal API
+ * Proxy de Water Quality Portal (estaciones, GeoJSON). SEC-003: parámetros validados, límite en
+ * memoria, timeout, y sin reenviar el cuerpo de error del proveedor ni registrar la URL.
  */
+import { NextRequest } from "next/server";
+import { z } from "zod";
+import {
+  bboxString,
+  fetchUpstreamJson,
+  guardPublicProxy,
+  proxyJson,
+  queryIntClamped,
+  queryText,
+} from "@/lib/security/public-proxy";
 
-export async function GET(request: Request) {
-  try {
-    const url = new URL(request.url);
-    const queryParams = new URLSearchParams();
+const DEFAULT_RESULT_LIMIT = 5000;
+const wqpDate = z.string().regex(/^(\d{4}-\d{2}-\d{2}|\d{2}-\d{2}-\d{4})$/, "fecha inválida");
+const code = z.string().regex(/^[A-Za-z0-9:]{1,20}$/, "código inválido");
 
-    // Forward all query parameters
-    const forwardParams = [
-      'bBox', 'countrycode', 'statecode', 'countycode', 'characteristicName',
-      'characteristicType', 'siteType', 'startDateLo', 'startDateHi', 'providers'
-    ];
-    
-    // Default result limit to prevent overwhelming responses
-    const DEFAULT_RESULT_LIMIT = 5000;
+const querySchema = z.strictObject({
+  bBox: bboxString.optional(),
+  countrycode: code.optional(),
+  statecode: code.optional(),
+  countycode: code.optional(),
+  characteristicName: queryText(100).optional(),
+  characteristicType: queryText(100).optional(),
+  siteType: queryText(100).optional(),
+  startDateLo: wqpDate.optional(),
+  startDateHi: wqpDate.optional(),
+  providers: z.array(z.enum(["NWIS", "STEWARDS", "STORET"])).max(3).optional(),
+  resultLimit: queryIntClamped(1, 10000).optional(),
+  // El cliente los envía siempre; el proxy fija sus propios valores.
+  mimeType: z.literal("geojson").optional(),
+  zip: z.literal("no").optional(),
+});
 
-    forwardParams.forEach(param => {
-      const value = url.searchParams.get(param);
-      if (value) {
-        // Handle array parameters like providers
-        if (param === 'providers') {
-          url.searchParams.getAll(param).forEach(v => queryParams.append(param, v));
-        } else {
-          queryParams.append(param, value);
-        }
-      }
-    });
+export async function GET(request: NextRequest) {
+  const guard = await guardPublicProxy(request, {
+    name: "wqp:search",
+    schema: querySchema,
+    repeatable: ["providers"],
+    perMinutePerIp: 20,
+    limiter: "memory",
+  });
+  if (!guard.ok) return guard.response;
+  const { providers, resultLimit, mimeType: _mimeType, zip: _zip, ...rest } = guard.query;
 
-    // Always return GeoJSON
-    queryParams.append('mimeType', 'geojson');
-    queryParams.append('zip', 'no');
-
-    const wqpUrl = `https://www.waterqualitydata.us/data/Station/search?${queryParams.toString()}`;
-    console.log('WQP request URL:', wqpUrl);
-    
-    // WQP API can be slow, set a longer timeout
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout
-    
-    const response = await fetch(wqpUrl, {
-      headers: {
-        'Accept': 'application/json',
-      },
-      signal: controller.signal,
-    });
-    
-    clearTimeout(timeoutId);
-
-    console.log('WQP response status:', response.status);
-    console.log('WQP response headers:', Object.fromEntries(response.headers.entries()));
-
-    if (!response.ok) {
-      const error = await response.text();
-      console.error('WQP API error:', response.status, error);
-      return Response.json(
-        { error: `WQP API error: ${response.status}`, details: error },
-        { status: response.status }
-      );
-    }
-
-    const data = await response.json();
-    
-    // Apply result limit to prevent overwhelming the client
-    const resultLimit = parseInt(url.searchParams.get('resultLimit') || DEFAULT_RESULT_LIMIT.toString());
-    if (data.features && data.features.length > resultLimit) {
-      console.log(`WQP returned ${data.features.length} features, limiting to ${resultLimit}`);
-      data.features = data.features.slice(0, resultLimit);
-    }
-    
-    console.log('WQP returned features:', data.features?.length || 0);
-    
-    return Response.json(data, {
-      headers: {
-        'Cache-Control': 'public, s-maxage=1800, stale-while-revalidate=3600',
-      },
-    });
-  } catch (error) {
-    console.error('Error fetching WQP data:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    return Response.json(
-      { error: 'Failed to fetch WQP data', details: errorMessage },
-      { status: 500 }
-    );
+  const search = new URLSearchParams();
+  for (const key of Object.keys(rest).sort()) {
+    const value = (rest as Record<string, string | undefined>)[key];
+    if (value !== undefined) search.set(key, value);
   }
+  for (const provider of providers ?? []) search.append("providers", provider);
+  search.set("mimeType", "geojson");
+  search.set("zip", "no");
+
+  const result = await fetchUpstreamJson(
+    "wqp:search",
+    `https://www.waterqualitydata.us/data/Station/search?${search}`,
+    { headers: { Accept: "application/json" }, timeoutMs: 30_000, maxBytes: 10 * 1024 * 1024 },
+  );
+  if (!result.ok) return result.response;
+
+  const data = result.data as { features?: unknown[] };
+  const limit = resultLimit ?? DEFAULT_RESULT_LIMIT;
+  if (Array.isArray(data?.features) && data.features.length > limit) {
+    data.features = data.features.slice(0, limit);
+  }
+  return proxyJson(data, { sMaxAge: 1800, swr: 3600 });
 }
