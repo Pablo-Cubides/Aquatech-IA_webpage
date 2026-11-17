@@ -1,17 +1,127 @@
 {
   "pais": "Colombia",
   "dominio": "calidad-aire",
-  "normativeReference_es": "Resolución 2254/2017",
+  "normativeReference_es": "Resolución 2254 de 2017 (Diario Oficial 50.415, 12-nov-2017): Tabla 1 (vigente desde 2018) y Tabla 2 (vigente desde 1-ene-2030)",
   "registros": [
-    { "parametro": "PM10", "limite": "30 µg/m³", "notas": ["Límite a partir de 2030 (Anual)"] },
-    { "parametro": "PM10", "limite": "50 µg/m³", "notas": ["Límite a partir de 2030 (24 horas)"] },
-    { "parametro": "PM2.5", "limite": "15 µg/m³", "notas": ["Límite a partir de 2030 (Anual)"] },
-    { "parametro": "PM2.5", "limite": "25 µg/m³", "notas": ["Límite a partir de 2030 (24 horas)"] },
-    { "parametro": "SO2", "limite": "50 µg/m³", "notas": ["Límite a partir de 2030 (24 horas)"] },
-    { "parametro": "SO2", "limite": "100 µg/m³", "notas": ["Límite a partir de 2030 (1 hora)"] },
-    { "parametro": "NO2", "limite": "40 µg/m³", "notas": ["Límite a partir de 2030 (Anual)"] },
-    { "parametro": "NO2", "limite": "100 µg/m³", "notas": ["Límite a partir de 2030 (1 hora)"] },
-    { "parametro": "O3", "limite": "100 µg/m³", "notas": ["Límite a partir de 2030 (8 horas)"] },
-    { "parametro": "CO", "limite": "5,000 µg/m³", "notas": ["Límite a partir de 2030 (8 horas)"] }
+    {
+      "parametro": "PM10",
+      "limite": "50 µg/m³",
+      "notas": [
+        "VIGENTE desde 1-ene-2018 (anual)",
+        "Res. 2254/2017, art. 2, Tabla 1. A 2030 baja a 30 µg/m³"
+      ]
+    },
+    {
+      "parametro": "PM10",
+      "limite": "75 µg/m³",
+      "notas": [
+        "VIGENTE desde 1-jul-2018 (24 horas)",
+        "Res. 2254/2017, art. 2, parágrafo 1 (la Tabla 1 traía 100 µg/m³ hasta el 30-jun-2018)"
+      ]
+    },
+    {
+      "parametro": "PM2.5",
+      "limite": "25 µg/m³",
+      "notas": [
+        "VIGENTE desde 1-ene-2018 (anual)",
+        "Res. 2254/2017, art. 2, Tabla 1. A 2030 baja a 15 µg/m³"
+      ]
+    },
+    {
+      "parametro": "PM2.5",
+      "limite": "37 µg/m³",
+      "notas": [
+        "VIGENTE desde 1-jul-2018 (24 horas)",
+        "Res. 2254/2017, art. 2, parágrafo 1 (la Tabla 1 traía 50 µg/m³ hasta el 30-jun-2018)"
+      ]
+    },
+    {
+      "parametro": "SO2",
+      "limite": "50 µg/m³",
+      "notas": [
+        "VIGENTE desde 1-ene-2018 (24 horas)",
+        "Res. 2254/2017, art. 2, Tabla 1. A 2030 baja a 20 µg/m³"
+      ]
+    },
+    {
+      "parametro": "SO2",
+      "limite": "100 µg/m³",
+      "notas": [
+        "VIGENTE desde 1-ene-2018 (1 hora)",
+        "Res. 2254/2017, art. 2, Tabla 1"
+      ]
+    },
+    {
+      "parametro": "NO2",
+      "limite": "60 µg/m³",
+      "notas": [
+        "VIGENTE desde 1-ene-2018 (anual)",
+        "Res. 2254/2017, art. 2, Tabla 1. A 2030 baja a 40 µg/m³"
+      ]
+    },
+    {
+      "parametro": "NO2",
+      "limite": "200 µg/m³",
+      "notas": [
+        "VIGENTE desde 1-ene-2018 (1 hora)",
+        "Res. 2254/2017, art. 2, Tabla 1"
+      ]
+    },
+    {
+      "parametro": "O3",
+      "limite": "100 µg/m³",
+      "notas": [
+        "VIGENTE desde 1-ene-2018 (8 horas)",
+        "Res. 2254/2017, art. 2, Tabla 1"
+      ]
+    },
+    {
+      "parametro": "CO",
+      "limite": "5.000 µg/m³",
+      "notas": [
+        "VIGENTE desde 1-ene-2018 (8 horas)",
+        "Res. 2254/2017, art. 2, Tabla 1"
+      ]
+    },
+    {
+      "parametro": "CO",
+      "limite": "35.000 µg/m³",
+      "notas": [
+        "VIGENTE desde 1-ene-2018 (1 hora)",
+        "Res. 2254/2017, art. 2, Tabla 1"
+      ]
+    },
+    {
+      "parametro": "PM10",
+      "limite": "30 µg/m³",
+      "notas": [
+        "FUTURO: rige a partir del 1-ene-2030 (anual)",
+        "Res. 2254/2017, art. 3, Tabla 2"
+      ]
+    },
+    {
+      "parametro": "PM2.5",
+      "limite": "15 µg/m³",
+      "notas": [
+        "FUTURO: rige a partir del 1-ene-2030 (anual)",
+        "Res. 2254/2017, art. 3, Tabla 2"
+      ]
+    },
+    {
+      "parametro": "SO2",
+      "limite": "20 µg/m³",
+      "notas": [
+        "FUTURO: rige a partir del 1-ene-2030 (24 horas)",
+        "Res. 2254/2017, art. 3, Tabla 2"
+      ]
+    },
+    {
+      "parametro": "NO2",
+      "limite": "40 µg/m³",
+      "notas": [
+        "FUTURO: rige a partir del 1-ene-2030 (anual)",
+        "Res. 2254/2017, art. 3, Tabla 2"
+      ]
+    }
   ]
 }

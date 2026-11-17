@@ -1,7 +1,7 @@
 {
   "pais": "Colombia",
   "dominio": "agua",
-  "normativeReference_es": "Resolución 2115 de 2007, Decreto 1594 de 1984, Resolución 1256 de 2021",
+  "normativeReference_es": "Resolución 2115 de 2007, Decreto 1076 de 2015 (criterios transitorios por uso, de origen Decreto 1594 de 1984, derogado por el Decreto 3930 de 2010), Resolución 1256 de 2021",
   "sectors": {
     "agua_potable": {
       "name": "Agua para Consumo Humano (Resolución 2115 de 2007)",
@@ -34,8 +34,8 @@
       ]
     },
     "uso_agricola": {
-      "name": "Criterios de Calidad para Uso Agrícola (Decreto 1594 de 1984, Art. 41)",
-      "normativeReference": "Decreto 1594 de 1984",
+      "name": "Criterios de Calidad para Uso Agrícola (Decreto 1076 de 2015, art. 2.2.3.3.9.5, transitorio; origen Decreto 1594 de 1984 derogado, Art. 41)",
+      "normativeReference": "Decreto 1594 de 1984 (derogado por el Decreto 3930 de 2010; compilado como transitorio en el Decreto 1076 de 2015, arts. 2.2.3.3.9.5 a 2.2.3.3.9.7)",
       "normativeReference_url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=18617",
       "parameters": [
         {
@@ -59,8 +59,8 @@
       ]
     },
     "uso_pecuario": {
-      "name": "Criterios de Calidad para Uso Pecuario (Decreto 1594 de 1984, Art. 42)",
-      "normativeReference": "Decreto 1594 de 1984",
+      "name": "Criterios de Calidad para Uso Pecuario (Decreto 1076 de 2015, art. 2.2.3.3.9.6, transitorio; origen Decreto 1594 de 1984 derogado, Art. 42)",
+      "normativeReference": "Decreto 1594 de 1984 (derogado por el Decreto 3930 de 2010; compilado como transitorio en el Decreto 1076 de 2015, arts. 2.2.3.3.9.5 a 2.2.3.3.9.7)",
       "normativeReference_url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=18617",
       "parameters": [
         { "parametro": "Coliformes totales", "limite": "5.000 NMP/100 ml" },
@@ -74,8 +74,8 @@
       ]
     },
     "recreacion": {
-      "name": "Criterios de Calidad para Fines Recreativos (Contacto Primario) (Decreto 1594 de 1984, Art. 43)",
-      "normativeReference": "Decreto 1594 de 1984",
+      "name": "Criterios de Calidad para Fines Recreativos (Contacto Primario) (Decreto 1076 de 2015, art. 2.2.3.3.9.7, transitorio; origen Decreto 1594 de 1984 derogado, Art. 43)",
+      "normativeReference": "Decreto 1594 de 1984 (derogado por el Decreto 3930 de 2010; compilado como transitorio en el Decreto 1076 de 2015, arts. 2.2.3.3.9.5 a 2.2.3.3.9.7)",
       "normativeReference_url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=18617",
       "parameters": [
         { "parametro": "Coliformes totales", "limite": "NMP/100 ml" },

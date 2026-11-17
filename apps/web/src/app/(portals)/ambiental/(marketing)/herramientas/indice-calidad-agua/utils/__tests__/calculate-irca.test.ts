@@ -137,7 +137,7 @@ describe("calculateIRCA", () => {
     const result = calculateIRCA(sample);
 
     expect(result).not.toBeNull();
-    expect(result!.details).toHaveLength(2); // pH y Turbiedad encontrados
+    expect(result!.details).toHaveLength(3); // pH, Turbiedad y "E. coli" (sinónimo de Escherichia coli; DOM-001 B3)
     expect(result!.details.every((d) => d.value === "Cumple")).toBe(true);
   });
 

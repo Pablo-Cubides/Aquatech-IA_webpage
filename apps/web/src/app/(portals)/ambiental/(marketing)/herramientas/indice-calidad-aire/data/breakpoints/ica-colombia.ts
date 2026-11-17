@@ -1,10 +1,12 @@
 /**
  * ICA Colombia Breakpoints - Índice de Calidad del Aire Nacional
- * Source: Resolución 2254 de 2017, IDEAM/Minambiente
- * Based on EPA 454/B-12-001 methodology
+ * FUENTE CANÓNICA: @/lib/normativa (Res. 2254/2017, art. 20, Tabla 6). Este archivo solo
+ * adapta esos cortes a la forma que usa el motor; no define valores propios.
+ * Metodología de cálculo: art. 21 (interpolación lineal, como EPA 454/B-12-001).
  */
 
-import type { PollutantBreakpoints, Category } from '../../types';
+import type { PollutantBreakpoints, Category, Breakpoint } from '../../types';
+import { TABLA_6_CORTES_ICA, type CorteICA } from '@/lib/normativa';
 
 /**
  * ICA Colombia Categories (0-500)
@@ -73,101 +75,68 @@ export const ICA_COLOMBIA_CATEGORIES: Category[] = [
   },
 ];
 
-/**
- * PM2.5 Breakpoints for ICA Colombia (24-hour average, µg/m³)
- * Based on Resolución 2254 de 2017
- */
+type Col = 'pm10_24h' | 'pm25_24h' | 'co_8h' | 'so2_1h' | 'no2_1h' | 'o3_8h';
+
+/** Convierte una columna de la Tabla 6 a puntos de corte. `scale` pasa µg/m³ → unidad de la herramienta. */
+function fromTabla6(col: Col, scale = 1): Breakpoint[] {
+  return TABLA_6_CORTES_ICA.map((row: CorteICA) => ({
+    bpLo: Math.round(row[col][0] * scale * 1e6) / 1e6,
+    bpHi: Math.round(row[col][1] * scale * 1e6) / 1e6,
+    iLo: row.ica[0],
+    iHi: row.ica[1],
+  }));
+}
+
+/** PM2.5, 24 h, µg/m³ (Tabla 6). Cortes enteros: 0-12, 13-37, 38-55, 56-150, 151-250, 251-500. */
 export const ICA_COLOMBIA_PM25: PollutantBreakpoints = {
   pollutantId: 'pm25',
   averagingPeriod: 24,
-  breakpoints: [
-    { bpLo: 0.0, bpHi: 12.0, iLo: 0, iHi: 50 },
-    { bpLo: 12.1, bpHi: 37.0, iLo: 51, iHi: 100 },
-    { bpLo: 37.1, bpHi: 55.0, iLo: 101, iHi: 150 },
-    { bpLo: 55.1, bpHi: 150.0, iLo: 151, iHi: 200 },
-    { bpLo: 150.1, bpHi: 250.0, iLo: 201, iHi: 300 },
-    { bpLo: 250.1, bpHi: 500.0, iLo: 301, iHi: 500 },
-  ],
+  breakpoints: fromTabla6('pm25_24h'),
+  truncateDecimals: 0,
 };
 
-/**
- * PM10 Breakpoints for ICA Colombia (24-hour average, µg/m³)
- */
+/** PM10, 24 h, µg/m³ (Tabla 6). */
 export const ICA_COLOMBIA_PM10: PollutantBreakpoints = {
   pollutantId: 'pm10',
   averagingPeriod: 24,
-  breakpoints: [
-    { bpLo: 0, bpHi: 54, iLo: 0, iHi: 50 },
-    { bpLo: 55, bpHi: 154, iLo: 51, iHi: 100 },
-    { bpLo: 155, bpHi: 254, iLo: 101, iHi: 150 },
-    { bpLo: 255, bpHi: 354, iLo: 151, iHi: 200 },
-    { bpLo: 355, bpHi: 424, iLo: 201, iHi: 300 },
-    { bpLo: 425, bpHi: 604, iLo: 301, iHi: 500 },
-  ],
+  breakpoints: fromTabla6('pm10_24h'),
+  truncateDecimals: 0,
 };
 
 /**
- * O3 Breakpoints for ICA Colombia (8-hour average, µg/m³)
+ * O3, 8 h, µg/m³ (Tabla 6). El ICA de O3 de 8 h no se calcula para concentraciones
+ * superiores a 394 µg/m³ (nota 2 de la Tabla 6): ahí la norma exige el ICA de O3 de 1 h,
+ * que esta herramienta aún no admite (ver bitácora DOM, pendiente).
  */
 export const ICA_COLOMBIA_O3: PollutantBreakpoints = {
   pollutantId: 'o3',
   averagingPeriod: 8,
-  breakpoints: [
-    { bpLo: 0, bpHi: 106, iLo: 0, iHi: 50 },
-    { bpLo: 107, bpHi: 138, iLo: 51, iHi: 100 },
-    { bpLo: 139, bpHi: 167, iLo: 101, iHi: 150 },
-    { bpLo: 168, bpHi: 206, iLo: 151, iHi: 200 },
-    { bpLo: 207, bpHi: 392, iLo: 201, iHi: 300 },
-    { bpLo: 393, bpHi: 588, iLo: 301, iHi: 500 },
-  ],
+  breakpoints: fromTabla6('o3_8h'),
+  truncateDecimals: 0,
 };
 
-/**
- * NO2 Breakpoints for ICA Colombia (1-hour average, µg/m³)
- */
+/** NO2, 1 h, µg/m³ (Tabla 6). */
 export const ICA_COLOMBIA_NO2: PollutantBreakpoints = {
   pollutantId: 'no2',
   averagingPeriod: 1,
-  breakpoints: [
-    { bpLo: 0, bpHi: 100, iLo: 0, iHi: 50 },
-    { bpLo: 101, bpHi: 188, iLo: 51, iHi: 100 },
-    { bpLo: 189, bpHi: 676, iLo: 101, iHi: 150 },
-    { bpLo: 677, bpHi: 1220, iLo: 151, iHi: 200 },
-    { bpLo: 1221, bpHi: 2348, iLo: 201, iHi: 300 },
-    { bpLo: 2349, bpHi: 3852, iLo: 301, iHi: 500 },
-  ],
+  breakpoints: fromTabla6('no2_1h'),
+  truncateDecimals: 0,
 };
 
-/**
- * SO2 Breakpoints for ICA Colombia (24-hour average, µg/m³)
- */
+/** SO2, 1 h (no 24 h), µg/m³ (Tabla 6). */
 export const ICA_COLOMBIA_SO2: PollutantBreakpoints = {
   pollutantId: 'so2',
-  averagingPeriod: 24,
-  breakpoints: [
-    { bpLo: 0, bpHi: 93, iLo: 0, iHi: 50 },
-    { bpLo: 94, bpHi: 197, iLo: 51, iHi: 100 },
-    { bpLo: 198, bpHi: 486, iLo: 101, iHi: 150 },
-    { bpLo: 487, bpHi: 797, iLo: 151, iHi: 200 },
-    { bpLo: 798, bpHi: 1583, iLo: 201, iHi: 300 },
-    { bpLo: 1584, bpHi: 2620, iLo: 301, iHi: 500 },
-  ],
+  averagingPeriod: 1,
+  breakpoints: fromTabla6('so2_1h'),
+  truncateDecimals: 0,
 };
 
-/**
- * CO Breakpoints for ICA Colombia (8-hour average, mg/m³)
- */
+/** CO, 8 h. La Tabla 6 está en µg/m³; la herramienta usa mg/m³ (÷1000, sin redondear: 5,094 mg/m³ = 5094 µg/m³). */
 export const ICA_COLOMBIA_CO: PollutantBreakpoints = {
   pollutantId: 'co',
   averagingPeriod: 8,
-  breakpoints: [
-    { bpLo: 0, bpHi: 5.0, iLo: 0, iHi: 50 },
-    { bpLo: 5.1, bpHi: 10.0, iLo: 51, iHi: 100 },
-    { bpLo: 10.1, bpHi: 14.0, iLo: 101, iHi: 150 },
-    { bpLo: 14.1, bpHi: 17.0, iLo: 151, iHi: 200 },
-    { bpLo: 17.1, bpHi: 34.0, iLo: 201, iHi: 300 },
-    { bpLo: 34.1, bpHi: 57.0, iLo: 301, iHi: 500 },
-  ],
+  breakpoints: fromTabla6('co_8h', 1 / 1000),
+  truncateDecimals: 3,
 };
 
 /**
