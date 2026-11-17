@@ -12,7 +12,7 @@ function withoutStore(env: string) {
 }
 
 describe("política de fallo del limitador de apps/api (SEC-002, criterio único con apps/web)", () => {
-  it.each(["payment", "email", "auth", "tool"] as const)(
+  it.each(["email", "auth", "tool"] as const)(
     "%s falla CERRADO cuando el almacén no está disponible (también en desarrollo)",
     async (type) => {
       withoutStore("development");
@@ -29,8 +29,8 @@ describe("política de fallo del limitador de apps/api (SEC-002, criterio único
 
   it("el modo no depende del texto del identificador", async () => {
     withoutStore("production");
-    expect((await checkRateLimit("payment", "lectura-publica")).success).toBe(false);
-    expect((await checkRateLimit("api", "payment:auth:admin:delete")).success).toBe(true);
+    expect((await checkRateLimit("email", "lectura-publica")).success).toBe(false);
+    expect((await checkRateLimit("api", "email:auth:admin:delete")).success).toBe(true);
   });
 
   it("las funciones de replay que fallaban abiertas y nadie usaba ya no existen", () => {

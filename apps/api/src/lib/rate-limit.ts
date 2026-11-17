@@ -44,14 +44,6 @@ function createRatelimits(redis: Redis) {
       prefix: "ratelimit:grade",
     }),
 
-    // Payment creation: 5 requests per minute per user
-    payment: new Ratelimit({
-      redis,
-      limiter: Ratelimit.slidingWindow(5, "1 m"),
-      analytics: true,
-      prefix: "ratelimit:payment",
-    }),
-
     // Email sending: 10 emails per hour per user
     email: new Ratelimit({
       redis,
@@ -83,7 +75,7 @@ type RatelimitType = keyof ReturnType<typeof createRatelimits>;
 /**
  * Política cuando el almacén de límites falla (SEC-002). CRITERIO ÚNICO, el mismo que apps/web
  * (`failureMode` en apps/web/src/lib/security/rate-limit.ts):
- *  - "closed" (por defecto): se deniega. Autenticación, pagos, correo, escritura, coste.
+ *  - "closed" (por defecto): se deniega. Autenticación, correo, escritura, coste.
  *  - "open": solo declarado aquí, de forma explícita y justificada. Nunca se infiere del nombre
  *    del identificador ni de listas implícitas. Al añadir un tipo nuevo el compilador obliga a
  *    elegir (Record exhaustivo).
@@ -98,7 +90,6 @@ function failureModeFor(limitType: RatelimitType): FailureMode {
     // ADR-0013: los contadores de calificaciones fallan cerrado. Solo en desarrollo/pruebas
     // (sin Redis local) se permite abrir para poder trabajar.
     grade: process.env.NODE_ENV === "production" ? "closed" : "open",
-    payment: "closed",
     email: "closed",
     auth: "closed",
     // Sin llamadores hoy; cerrado por defecto hasta que alguien justifique otra cosa.
