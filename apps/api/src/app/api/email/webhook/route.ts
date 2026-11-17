@@ -17,33 +17,34 @@ function getErrorMessage(error: unknown): string {
   return "Unknown error";
 }
 
-function validateBrevoWebhookSignature(
-  body: string,
-  signature: string,
-): boolean {
-  const secret = process.env.BREVO_WEBHOOK_SECRET;
+/**
+ * Autentica la llamada de Brevo (SEC-004).
+ *
+ * Brevo NO firma sus webhooks: segun su documentacion oficial ("Secure webhook calls") no existe
+ * ninguna cabecera de firma ni HMAC (ni `x-brevo-signature` ni `x-mailin-signature`). Los
+ * mecanismos documentados son: usuario:clave en la URL, un token Bearer (objeto `auth` con
+ * type "bearer" al crear el webhook), cabeceras personalizadas y lista blanca de IP. El codigo
+ * anterior esperaba un HMAC del cuerpo en una cabecera que Brevo nunca envia: rechazaba todo
+ * evento real.
+ *
+ * Aqui se exige `Authorization: Bearer <BREVO_WEBHOOK_SECRET>`; el webhook debe registrarse en
+ * Brevo con auth {type:"bearer", token:<mismo valor>}. Comparacion en tiempo constante sobre
+ * digests SHA-256 (sin filtrar la longitud). Sin secreto configurado: se deniega.
+ */
+function validateBrevoWebhookAuth(authorization: string | null): boolean {
+  const secret = process.env.BREVO_WEBHOOK_SECRET?.trim();
 
-  if (!secret || !signature) {
+  if (!secret || !authorization) {
     return false;
   }
 
-  const normalizedSignature = signature.startsWith("sha256=")
-    ? signature.slice(7)
-    : signature;
-
-  const expectedSignature = crypto
-    .createHmac("sha256", secret)
-    .update(body)
-    .digest("hex");
-
-  if (normalizedSignature.length !== expectedSignature.length) {
+  const match = /^Bearer\s+(\S+)$/i.exec(authorization.trim());
+  if (!match) {
     return false;
   }
 
-  return crypto.timingSafeEqual(
-    Buffer.from(normalizedSignature, "utf8"),
-    Buffer.from(expectedSignature, "utf8"),
-  );
+  const digest = (value: string) => crypto.createHash("sha256").update(value).digest();
+  return crypto.timingSafeEqual(digest(match[1]), digest(secret));
 }
 
 export async function POST(request: NextRequest) {
@@ -81,17 +82,13 @@ export async function POST(request: NextRequest) {
     }
 
     const rawBody = await request.text();
-    const signature =
-      request.headers.get("x-brevo-signature") ||
-      request.headers.get("x-mailin-signature") ||
-      "";
 
-    if (!validateBrevoWebhookSignature(rawBody, signature)) {
-      await logger.warn("Invalid Brevo webhook signature", {
+    if (!validateBrevoWebhookAuth(request.headers.get("authorization"))) {
+      await logger.warn("Invalid Brevo webhook authorization", {
         endpoint: "/api/email/webhook",
       });
       return NextResponse.json(
-        { success: false, error: "Invalid signature" },
+        { success: false, error: "Unauthorized" },
         { status: 401 },
       );
     }
