@@ -108,9 +108,9 @@ export function getPopularIndicators(): WBIndicator[] {
     // EN.ATM.GHGT.KT.CE, retirados por el Banco Mundial (ver RETIRED_WORLD_BANK_INDICATORS).
     {
       id: "EN.GHG.CO2.PC.CE.AR5",
-      name: "Carbon dioxide (CO2) emissions excluding LULUCF per capita (t CO2e/capita)",
+      name: "Emisiones de dióxido de carbono (CO2) per cápita, excluye LULUCF (uso de la tierra, cambio de uso de la tierra y silvicultura) (t CO2e/cápita)",
       sourceNote:
-        "Total annual emissions of carbon dioxide (CO2), one of the six Kyoto greenhouse gases (GHG), from the agriculture, energy, waste, and industrial sectors, excluding LULUCF, standardized to carbon dioxide equivalent values divided by the economy's population. This measure excludes GHG fluxes caused by Land Use, Land-Use Change and Forestry (LULUCF), as these fluxes have larger uncertainties.",
+        "Código EN.GHG.CO2.PC.CE.AR5. Total annual emissions of carbon dioxide (CO2), one of the six Kyoto greenhouse gases (GHG), from the agriculture, energy, waste, and industrial sectors, excluding LULUCF, standardized to carbon dioxide equivalent values divided by the economy's population. This measure excludes GHG fluxes caused by Land Use, Land-Use Change and Forestry (LULUCF), as these fluxes have larger uncertainties.",
       sourceOrganization:
         "EDGAR (Emissions Database for Global Atmospheric Research) Community GHG Database, Joint Research Centre (JRC) - European Commission",
     },
@@ -140,9 +140,9 @@ export function getPopularIndicators(): WBIndicator[] {
     {
       id: "EN.GHG.ALL.MT.CE.AR5",
       // OJO: la unidad pasó de kt (indicador retirado) a Mt de CO2e.
-      name: "Total greenhouse gas emissions excluding LULUCF (Mt CO2e)",
+      name: "Emisiones totales de gases de efecto invernadero (GEI), excluye LULUCF (uso de la tierra, cambio de uso de la tierra y silvicultura) (Mt CO2e)",
       sourceNote:
-        "A measure of annual emissions of the six greenhouse gases (GHG) covered by the Kyoto Protocol (carbon dioxide (CO2), methane (CH4), nitrous oxide (N2O), hydrofluorocarbons (HFCs), perfluorocarbons (PFCs), and sulphurhexafluoride (SF6)) from the energy, industry, waste, and agriculture sectors, standardized to carbon dioxide equivalent values. This measure excludes GHG fluxes caused by Land Use Land Use Change and Forestry (LULUCF), as these fluxes have larger uncertainties. The measure is standardized to carbon dioxide equivalent values using the Global Warming Potential (GWP) factors of IPCC's 5th Assessment Report (AR5).",
+        "Código EN.GHG.ALL.MT.CE.AR5. A measure of annual emissions of the six greenhouse gases (GHG) covered by the Kyoto Protocol (carbon dioxide (CO2), methane (CH4), nitrous oxide (N2O), hydrofluorocarbons (HFCs), perfluorocarbons (PFCs), and sulphurhexafluoride (SF6)) from the energy, industry, waste, and agriculture sectors, standardized to carbon dioxide equivalent values. This measure excludes GHG fluxes caused by Land Use Land Use Change and Forestry (LULUCF), as these fluxes have larger uncertainties. The measure is standardized to carbon dioxide equivalent values using the Global Warming Potential (GWP) factors of IPCC's 5th Assessment Report (AR5).",
       sourceOrganization:
         "EDGAR (Emissions Database for Global Atmospheric Research) Community GHG Database, Joint Research Centre (JRC) - European Commission",
     },

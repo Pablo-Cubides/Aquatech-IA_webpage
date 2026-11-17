@@ -174,13 +174,13 @@ export default function ResultsSection({ result }: { result: AnalysisResult }) {
                 <h4 className="mb-2 font-semibold text-gray-900">📈 Correlación de Spearman</h4>
                 <p className="mb-2">
                   Evalúa la <strong>relación monotónica</strong> entre variables, es decir, si cuando una aumenta la otra también tiende a aumentar (o disminuir), 
-                  pero no necesariamente de forma lineal. Utiliza el orden o ranking de los datos en lugar de sus valores exactos. 
-                  Es más robusta ante valores atípicos (outliers) y es ideal cuando los datos no siguen una distribución normal.
+                  pero no necesariamente de forma lineal. Utiliza el orden o ranking de los datos en lugar de sus valores exactos; los valores repetidos comparten el rango promedio. 
+                  Es menos sensible a valores atípicos (outliers) que Pearson y no exige que los datos sigan una distribución normal.
                 </p>
                 <div className="mt-2 p-3 bg-white rounded border text-xs">
                   <strong>¿Cuándo usar Spearman?</strong><br/>
                   • Cuando los datos tienen valores extremos o atípicos<br/>
-                  • Cuando la relación no es perfectamente lineal<br/>
+                  • Cuando la relación sube o baja de forma constante, aunque no sea lineal (relación monótona)<br/>
                   • Para datos ordinales (rankings, escalas de satisfacción)
                 </div>
              </div>
@@ -189,14 +189,14 @@ export default function ResultsSection({ result }: { result: AnalysisResult }) {
                 <h4 className="mb-2 font-semibold text-gray-900">🔄 Correlación de Kendall Tau</h4>
                 <p className="mb-2">
                   Mide la <strong>concordancia entre pares</strong> de observaciones. Compara cuántos pares de puntos están ordenados de la misma manera 
-                  en ambas variables versus cuántos están ordenados de forma opuesta. Es la más conservadora de las tres y funciona bien con 
-                  muestras pequeñas o cuando hay muchos empates en los datos.
+                  en ambas variables versus cuántos están ordenados de forma opuesta. Para los mismos datos suele dar valores de menor magnitud que Pearson y Spearman. 
+                  Usa la variante tau-b, que tiene en cuenta los empates.
                 </p>
                 <div className="mt-2 p-3 bg-white rounded border text-xs">
                   <strong>Ventajas de Kendall:</strong><br/>
-                  • Mejor para muestras pequeñas (n &lt; 30)<br/>
-                  • Más estable estadísticamente<br/>
-                  • Maneja bien datos con empates
+                  • Adecuado para muestras pequeñas<br/>
+                  • Se interpreta contando pares concordantes y discordantes<br/>
+                  • Trata los empates con la corrección tau-b
                 </div>
              </div>
              

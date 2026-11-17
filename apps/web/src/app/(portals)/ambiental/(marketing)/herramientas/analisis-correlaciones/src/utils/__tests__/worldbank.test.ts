@@ -81,12 +81,14 @@ describe("indicadores populares del Banco Mundial", () => {
     for (const replacement of Object.values(RETIRED_WORLD_BANK_INDICATORS)) expect(ids).toContain(replacement);
   });
 
-  it("los sustitutos llevan el nombre del Banco Mundial (excluyen LULUCF, CO2e) y la unidad nueva en Mt", () => {
+  it("los sustitutos llevan la etiqueta en español (excluyen LULUCF, CO2e) y la unidad nueva en Mt", () => {
     const byId = new Map(indicators.map((i) => [i.id, i]));
     expect(byId.get("EN.GHG.CO2.PC.CE.AR5")?.name).toBe(
-      "Carbon dioxide (CO2) emissions excluding LULUCF per capita (t CO2e/capita)",
+      "Emisiones de dióxido de carbono (CO2) per cápita, excluye LULUCF (uso de la tierra, cambio de uso de la tierra y silvicultura) (t CO2e/cápita)",
     );
-    expect(byId.get("EN.GHG.ALL.MT.CE.AR5")?.name).toBe("Total greenhouse gas emissions excluding LULUCF (Mt CO2e)");
+    expect(byId.get("EN.GHG.ALL.MT.CE.AR5")?.name).toBe(
+      "Emisiones totales de gases de efecto invernadero (GEI), excluye LULUCF (uso de la tierra, cambio de uso de la tierra y silvicultura) (Mt CO2e)",
+    );
   });
 
   it("los ids son únicos y tienen la forma de un código del Banco Mundial", () => {
