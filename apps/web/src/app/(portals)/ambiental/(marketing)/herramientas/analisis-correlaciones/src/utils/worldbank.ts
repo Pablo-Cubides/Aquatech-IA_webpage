@@ -44,6 +44,34 @@ const WB_API_BASE = "/api/proxy/worldbank";
 const DEFAULT_PER_PAGE = 500;
 
 /**
+ * Indicadores que el Banco Mundial retiró: su API responde HTTP 200 con `[{"message":[{"id":"175",
+ * "value":"The indicator was not found. It may have been deleted or archived."}]}]`. Verificado con
+ * una consulta directa a api.worldbank.org el 2026-11-17. Una prueba comprueba que ninguno de los de
+ * getPopularIndicators() esté aquí; si el Banco Mundial retira otro, añádelo con su sustituto.
+ */
+export const RETIRED_WORLD_BANK_INDICATORS: Readonly<Record<string, string>> = {
+  "EN.ATM.CO2E.PC": "EN.GHG.CO2.PC.CE.AR5",
+  "EN.ATM.GHGT.KT.CE": "EN.GHG.ALL.MT.CE.AR5",
+};
+
+/**
+ * La API del Banco Mundial responde HTTP 200 también cuando falla: el cuerpo es `[{"message":[{id,key,value}]}]`
+ * en lugar de `[{page,pages,...}, [datos]]`. Devuelve el texto del error, o null si el cuerpo no es un error.
+ * Un 200 así NO es un éxito: la herramienta debe tratarlo como "sin datos".
+ */
+export function worldBankErrorMessage(body: unknown): string | null {
+  if (!Array.isArray(body) || body.length === 0) return null;
+  const first: unknown = body[0];
+  if (!first || typeof first !== "object" || !("message" in first)) return null;
+  const message = (first as { message: unknown }).message;
+  if (!Array.isArray(message)) return "respuesta de error sin detalle";
+  const texts = message
+    .map((item) => (item && typeof item === "object" && "value" in item ? String((item as { value: unknown }).value) : ""))
+    .filter(Boolean);
+  return texts.join("; ") || "respuesta de error sin detalle";
+}
+
+/**
  * Get list of available countries
  */
 export async function getCountries(): Promise<WBCountry[]> {
@@ -53,6 +81,8 @@ export async function getCountries(): Promise<WBCountry[]> {
       `${WB_API_BASE}?path=country&format=json&per_page=300`,
     );
     const data = await response.json();
+    const apiError = worldBankErrorMessage(data);
+    if (apiError) throw new Error(`World Bank API: ${apiError}`);
 
     if (Array.isArray(data) && data.length > 1) {
       return data[1].filter(
@@ -73,12 +103,16 @@ export async function getCountries(): Promise<WBCountry[]> {
 export function getPopularIndicators(): WBIndicator[] {
   return [
     // Environmental Indicators
+    // Nombre, nota y fuente de EN.GHG.* tal como los publica el Banco Mundial (API v2, consultada el
+    // 2026-11-17; el Banco Mundial no ofrece estos textos en español). Sustituyen a EN.ATM.CO2E.PC y
+    // EN.ATM.GHGT.KT.CE, retirados por el Banco Mundial (ver RETIRED_WORLD_BANK_INDICATORS).
     {
-      id: "EN.ATM.CO2E.PC",
-      name: "Emisiones de CO2 (toneladas métricas per cápita)",
+      id: "EN.GHG.CO2.PC.CE.AR5",
+      name: "Carbon dioxide (CO2) emissions excluding LULUCF per capita (t CO2e/capita)",
       sourceNote:
-        "Emisiones de dióxido de carbono son las que provienen de la quema de combustibles fósiles",
-      sourceOrganization: "Carbon Dioxide Information Analysis Center, ORNL",
+        "Total annual emissions of carbon dioxide (CO2), one of the six Kyoto greenhouse gases (GHG), from the agriculture, energy, waste, and industrial sectors, excluding LULUCF, standardized to carbon dioxide equivalent values divided by the economy's population. This measure excludes GHG fluxes caused by Land Use, Land-Use Change and Forestry (LULUCF), as these fluxes have larger uncertainties.",
+      sourceOrganization:
+        "EDGAR (Emissions Database for Global Atmospheric Research) Community GHG Database, Joint Research Centre (JRC) - European Commission",
     },
     {
       id: "EN.ATM.PM25.MC.M3",
@@ -104,11 +138,13 @@ export function getPopularIndicators(): WBIndicator[] {
       sourceOrganization: "Food and Agriculture Organization, AQUASTAT data",
     },
     {
-      id: "EN.ATM.GHGT.KT.CE",
-      name: "Emisiones de GEI (kt de equivalente de CO2)",
+      id: "EN.GHG.ALL.MT.CE.AR5",
+      // OJO: la unidad pasó de kt (indicador retirado) a Mt de CO2e.
+      name: "Total greenhouse gas emissions excluding LULUCF (Mt CO2e)",
       sourceNote:
-        "Emisiones totales de gases de efecto invernadero en equivalentes de CO2",
-      sourceOrganization: "Climate Watch",
+        "A measure of annual emissions of the six greenhouse gases (GHG) covered by the Kyoto Protocol (carbon dioxide (CO2), methane (CH4), nitrous oxide (N2O), hydrofluorocarbons (HFCs), perfluorocarbons (PFCs), and sulphurhexafluoride (SF6)) from the energy, industry, waste, and agriculture sectors, standardized to carbon dioxide equivalent values. This measure excludes GHG fluxes caused by Land Use Land Use Change and Forestry (LULUCF), as these fluxes have larger uncertainties. The measure is standardized to carbon dioxide equivalent values using the Global Warming Potential (GWP) factors of IPCC's 5th Assessment Report (AR5).",
+      sourceOrganization:
+        "EDGAR (Emissions Database for Global Atmospheric Research) Community GHG Database, Joint Research Centre (JRC) - European Commission",
     },
     {
       id: "EG.USE.ELEC.KH.PC",
@@ -207,6 +243,8 @@ export async function searchIndicators(
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data = await response.json();
+    const apiError = worldBankErrorMessage(data);
+    if (apiError) throw new Error(`World Bank API: ${apiError}`);
 
     if (Array.isArray(data) && data.length > 1) {
       const allIndicators = data[1] as WBIndicator[];
@@ -276,10 +314,17 @@ export async function getIndicatorData(
     
     const data = await response.json();
 
-    if (Array.isArray(data) && data.length > 1) {
-      const rawData = data[1] as WBDataPoint[];
+    // HTTP 200 con `[{"message":...}]` (indicador retirado, parámetro inválido...) NO es un éxito.
+    const apiError = worldBankErrorMessage(data);
+    if (apiError) {
+      console.warn(`[WorldBank API] ${indicatorId} en ${countryCode}: ${apiError}`);
+      return null;
+    }
 
-      if (rawData.length === 0) return null;
+    if (Array.isArray(data) && data.length > 1) {
+      const rawData = data[1] as WBDataPoint[] | null;
+
+      if (!rawData || rawData.length === 0) return null;
 
       const timeSeriesData: WBTimeSeriesData = {
         indicatorId: indicatorId,

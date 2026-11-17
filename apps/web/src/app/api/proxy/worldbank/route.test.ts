@@ -35,7 +35,7 @@ describe("/api/proxy/worldbank", () => {
 
   it("control: la extracción encuentra los indicadores reales de la herramienta (con punto)", () => {
     expect(REAL_INDICATORS.length).toBeGreaterThanOrEqual(10);
-    expect(REAL_INDICATORS).toEqual(expect.arrayContaining(["AG.LND.FRST.ZS", "EN.ATM.CO2E.PC", "NY.GDP.MKTP.CD", "SP.POP.TOTL"]));
+    expect(REAL_INDICATORS).toEqual(expect.arrayContaining(["AG.LND.FRST.ZS", "EN.GHG.CO2.PC.CE.AR5", "NY.GDP.MKTP.CD", "SP.POP.TOTL"]));
   });
 
   it("TODOS los indicadores reales de la herramienta pasan con la forma exacta de getIndicatorData", async () => {
