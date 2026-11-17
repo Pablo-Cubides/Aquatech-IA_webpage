@@ -6,7 +6,7 @@ import {
   getClientIP,
   acquireWebhookReplayLock,
 } from "../../../../lib/rate-limit";
-import crypto from "crypto";
+import { InvalidWebhookSignatureError, WebhookSignatureValidator } from "mercadopago";
 
 // Force Node.js runtime
 export const runtime = "nodejs";
@@ -18,33 +18,51 @@ function getErrorMessage(error: unknown): string {
   return "Unknown error";
 }
 
-// Validate MercadoPago webhook signature
-function validateWebhookSignature(body: string, signature: string): boolean {
-  if (!process.env.MP_WEBHOOK_SECRET) {
-    throw new Error("MP_WEBHOOK_SECRET not configured");
+// Tolerancia del `ts` firmado: protege de la repeticion de una notificacion capturada aunque
+// el almacen anti-repeticion (Redis) no este disponible. 5 minutos cubre el desfase de reloj.
+const SIGNATURE_TOLERANCE_SECONDS = 300;
+
+type SignatureCheck =
+  | { ok: true; signedDataId: string | null }
+  | { ok: false; status: 401 | 503; reason: string; requestId?: string };
+
+/**
+ * Valida `x-signature` con el protocolo REAL de MercadoPago (SEC-004).
+ *
+ * MercadoPago no firma el cuerpo: firma el manifiesto
+ *   id:{data.id de la QUERY, en minusculas};request-id:{x-request-id};ts:{ts};
+ * (el par cuyo valor falta se omite) con HMAC-SHA256 hexadecimal y la clave secreta de la
+ * integracion, y envia `x-signature: ts=...,v1=...`. La version anterior de esta funcion hacia
+ * el HMAC del cuerpo y esperaba un prefijo `sha256=` (convencion de GitHub): rechazaba toda
+ * notificacion real y solo aceptaba firmas fabricadas por nuestras propias pruebas.
+ *
+ * Se usa el validador del SDK oficial (`mercadopago`, WebhookSignatureValidator): comparacion en
+ * tiempo constante, parseo de `ts`/`vN` y ventana de tolerancia del `ts`.
+ */
+function checkSignature(request: NextRequest): SignatureCheck {
+  const secret = process.env.MP_WEBHOOK_SECRET?.trim();
+  if (!secret) {
+    return { ok: false, status: 503, reason: "MP_WEBHOOK_SECRET not configured" };
   }
 
-  if (!signature) {
-    return false;
+  const signedDataId = request.nextUrl.searchParams.get("data.id");
+  const requestId = request.headers.get("x-request-id") ?? undefined;
+
+  try {
+    WebhookSignatureValidator.validate({
+      xSignature: request.headers.get("x-signature"),
+      xRequestId: requestId,
+      dataId: signedDataId,
+      secret,
+      toleranceSeconds: SIGNATURE_TOLERANCE_SECONDS,
+    });
+    return { ok: true, signedDataId: signedDataId?.trim() || null };
+  } catch (error) {
+    if (error instanceof InvalidWebhookSignatureError) {
+      return { ok: false, status: 401, reason: error.reason, requestId };
+    }
+    throw error;
   }
-
-  const normalizedSignature = signature.startsWith("sha256=")
-    ? signature.slice(7)
-    : signature;
-
-  const expectedSignature = crypto
-    .createHmac("sha256", process.env.MP_WEBHOOK_SECRET)
-    .update(body)
-    .digest("hex");
-
-  if (normalizedSignature.length !== expectedSignature.length) {
-    return false;
-  }
-
-  return crypto.timingSafeEqual(
-    Buffer.from(normalizedSignature, "utf8"),
-    Buffer.from(expectedSignature),
-  );
 }
 
 export async function POST(request: NextRequest) {
@@ -81,13 +99,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Get raw body for signature validation
+    // Firma: ver checkSignature. La firma NO cubre el cuerpo, solo data.id (query), x-request-id y ts.
     const rawBody = await request.text();
-    const signature = request.headers.get("x-signature") || "";
-
-    // Validate webhook signature
-    if (!validateWebhookSignature(rawBody, signature)) {
-      await logger.error("Invalid MercadoPago webhook signature");
+    const signature = checkSignature(request);
+    if (!signature.ok) {
+      if (signature.status === 503) {
+        await logger.error("MercadoPago webhook: secreto de firma no configurado");
+        return NextResponse.json({ error: "Webhook unavailable" }, { status: 503 });
+      }
+      // Solo el motivo y el request-id: nunca la firma ni el secreto.
+      await logger.error("Invalid MercadoPago webhook signature", {
+        reason: signature.reason,
+        requestId: signature.requestId,
+      });
       return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
     }
 
@@ -114,6 +138,19 @@ export async function POST(request: NextRequest) {
         { error: "Invalid webhook payload" },
         { status: 400 },
       );
+    }
+
+    // La firma autentica el data.id de la QUERY, no el del cuerpo: sin esta comprobacion, una
+    // notificacion legitima capturada (valida durante la ventana del ts) podria reenviarse con
+    // otro payment id en el cuerpo, que es el que se consulta a MercadoPago.
+    if (
+      !signature.signedDataId ||
+      signature.signedDataId.toLowerCase() !== String(eventDataId).toLowerCase()
+    ) {
+      await logger.warn("MercadoPago webhook: data.id de la query no coincide con el cuerpo", {
+        endpoint: "/api/mp/webhook",
+      });
+      return NextResponse.json({ error: "Invalid webhook payload" }, { status: 400 });
     }
 
     const webhookEventId = `${eventType}:${String(eventDataId)}`;
