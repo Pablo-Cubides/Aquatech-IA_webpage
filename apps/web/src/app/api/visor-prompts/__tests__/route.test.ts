@@ -1,9 +1,10 @@
 import { describe, it, expect } from "vitest";
+import { NextRequest } from "next/server";
 import { GET } from "../route";
 
 describe("visor-prompts API", () => {
   it("should return an array of prompts", async () => {
-    const response = await GET();
+    const response = await GET(new NextRequest("http://localhost/api/visor-prompts"));
     const data = await response.json();
 
     expect(Array.isArray(data)).toBe(true);
@@ -11,7 +12,7 @@ describe("visor-prompts API", () => {
   });
 
   it("should return prompts with required fields", async () => {
-    const response = await GET();
+    const response = await GET(new NextRequest("http://localhost/api/visor-prompts"));
     const data = await response.json();
 
     data.forEach((prompt: { id: string; title: string; prompt: string }) => {
@@ -25,7 +26,7 @@ describe("visor-prompts API", () => {
   });
 
   it("should include known cases", async () => {
-    const response = await GET();
+    const response = await GET(new NextRequest("http://localhost/api/visor-prompts"));
     const data = await response.json();
 
     const ids = data.map((p: { id: string }) => p.id);
@@ -36,13 +37,13 @@ describe("visor-prompts API", () => {
   });
 
   it("should return 200 status code", async () => {
-    const response = await GET();
+    const response = await GET(new NextRequest("http://localhost/api/visor-prompts"));
 
     expect(response.status).toBe(200);
   });
 
   it("should return valid JSON", async () => {
-    const response = await GET();
+    const response = await GET(new NextRequest("http://localhost/api/visor-prompts"));
     const contentType = response.headers.get("content-type");
 
     expect(contentType).toContain("application/json");

@@ -39,14 +39,10 @@ const contentSecurityPolicy = [
     "connect-src 'self'",
     "https://www.google-analytics.com",
     "https://vitals.vercel-insights.com",
-    "https://*.supabase.co",
-    "https://*.vercel.app",
-    "https://api.openaq.org",
-    "https://api.gbif.org",
-    "https://www.waterqualitydata.us",
-    "https://eonet.gsfc.nasa.gov",
-    "https://huggingface.co",
-    "https://arxiv.org",
+    // SEC-003: el navegador ya no llama directo a ningun proveedor (OpenAQ, GBIF, WQP, EONET,
+    // Hugging Face, arXiv, Supabase) ni a *.vercel.app: todo pasa por /api/* del mismo origen
+    // (las rutas de apps/api llegan por rewrites). Una lista de destinos de red mas corta limita
+    // a donde puede exfiltrar datos un script inyectado.
     isDev ? "ws://localhost:*" : "",
     isDev ? "wss://localhost:*" : "",
   ]
