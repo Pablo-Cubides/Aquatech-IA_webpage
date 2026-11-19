@@ -1,4 +1,5 @@
 import React from "react";
+import { classifyStrength, STRENGTH_LEGEND } from "../src/utils/correlations";
 
 const methodInfo = {
   pearson: {
@@ -21,15 +22,17 @@ const methodInfo = {
   },
 };
 
-function getStrengthColor(value: number): string {
-  if (Math.abs(value) > 0.75) return "text-blue-600";
-  if (Math.abs(value) >= 0.4) return "text-yellow-600";
+export function getStrengthColor(value: number): string {
+  const strength = classifyStrength(value);
+  if (strength === "strong") return "text-blue-600";
+  if (strength === "moderate") return "text-yellow-600";
   return "text-red-600";
 }
 
 function getStrengthEmoji(value: number): string {
-  if (Math.abs(value) > 0.75) return "🔵";
-  if (Math.abs(value) >= 0.4) return "🟡";
+  const strength = classifyStrength(value);
+  if (strength === "strong") return "🔵";
+  if (strength === "moderate") return "🟡";
   return "🔴";
 }
 
@@ -150,9 +153,9 @@ export default function CorrelationTable({
 
       {/* Leyenda de colores */}
       <div className="mt-4 text-xs text-gray-500">
-        <span className="text-blue-600">🔵 Fuerte (&gt; 0.75)</span>,
-        <span className="text-yellow-600 ml-2">🟡 Moderada (0.4–0.75)</span>,
-        <span className="text-red-600 ml-2">🔴 Débil (&lt; 0.4)</span>
+        <span className="text-blue-600">🔵 {STRENGTH_LEGEND.strong}</span>,
+        <span className="text-yellow-600 ml-2">🟡 {STRENGTH_LEGEND.moderate}</span>,
+        <span className="text-red-600 ml-2">🔴 {STRENGTH_LEGEND.weak}</span>
       </div>
 
       {/* Leyenda de variables */}

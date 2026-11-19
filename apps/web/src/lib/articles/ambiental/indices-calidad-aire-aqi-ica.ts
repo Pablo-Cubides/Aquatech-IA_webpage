@@ -8,6 +8,7 @@ const article: BlogArticle = blogArticleSchema.parse({
   title: "Índices de Calidad del Aire: Cómo Interpretar el AQI, ICA e IBOCA para la Toma de Decisiones",
   category: "Control de Contaminación",
   date: "2024-12-09",
+  dateModified: "2026-11-19",
   readTime: 10,
   excerpt: "Aprende a leer los índices de calidad del aire más usados (AQI, ICA) y protege tu salud con información en tiempo real y herramientas gratuitas.",
   heroImage: "https://res.cloudinary.com/lv3hwy1f/image/upload/v1793701245/articulos/aquatech-ambiental/escuelas-rurales-agua-hero.jpg",
@@ -43,7 +44,7 @@ const article: BlogArticle = blogArticleSchema.parse({
           {
             id: "formula-aqi",
             title: "Cómo se calcula el AQI",
-            content: "El AQI usa interpolación lineal entre breakpoints definidos por la EPA:\n\n**Fórmula:**\n```\nAQI = [(Ihi - Ilo) / (BPhi - BPlo)] × (Cp - BPlo) + Ilo\n```\n\nDonde:\n• Cp = concentración medida del contaminante\n• BPhi = breakpoint superior de la concentración\n• BPlo = breakpoint inferior de la concentración\n• Ihi = índice correspondiente al BPhi\n• Ilo = índice correspondiente al BPlo\n\n**Ejemplo práctico:**\nSi mides PM₂.₅ = 35.5 µg/m³ (promedio 24h):\n• Cae en el rango 35.5-55.4 µg/m³ (Moderado)\n• Breakpoints: BPlo=35.5, BPhi=55.4, Ilo=101, Ihi=150\n• AQI = [(150-101)/(55.4-35.5)] × (35.5-35.5) + 101 = **101**\n• Categoría: 🟠 Dañino para grupos sensibles",
+            content: "El AQI usa interpolación lineal entre breakpoints definidos por la EPA:\n\n**Fórmula:**\n```\nAQI = [(Ihi - Ilo) / (BPhi - BPlo)] × (Cp - BPlo) + Ilo\n```\n\nDonde:\n• Cp = concentración medida del contaminante\n• BPhi = breakpoint superior de la concentración\n• BPlo = breakpoint inferior de la concentración\n• Ihi = índice correspondiente al BPhi\n• Ilo = índice correspondiente al BPlo\n\n**Ejemplo práctico:**\nSi mides PM₂.₅ = 35.5 µg/m³ (promedio 24h):\n• Cae en el rango 35.5-55.4 µg/m³ (Dañino para grupos sensibles)\n• Breakpoints: BPlo=35.5, BPhi=55.4, Ilo=101, Ihi=150\n• AQI = [(150-101)/(55.4-35.5)] × (35.5-35.5) + 101 = **101**\n• Categoría: 🟠 Dañino para grupos sensibles",
           },
         ],
       },
@@ -55,18 +56,18 @@ const article: BlogArticle = blogArticleSchema.parse({
           {
             id: "red-monitoreo-colombia",
             title: "Red de monitoreo en Colombia",
-            content: "Colombia cuenta con más de 200 estaciones de monitoreo de calidad del aire distribuidas en las principales ciudades:\n\n• **Bogotá:** Red RMCAB con 19 estaciones\n• **Medellín:** Sistema SIATA con 30+ estaciones\n• **Cali:** Red DAGMA\n• **Barranquilla:** Red de la CRA\n• **Cartagena:** Red EPA Cartagena\n\nPuedes consultar el ICA en tiempo real en:\n• www.sisaire.gov.co (sistema nacional)\n• Aplicaciones móviles de las CAR locales\n• Nuestra herramienta con datos integrados",
+            content: "Colombia cuenta con sistemas de vigilancia de la calidad del aire en las principales ciudades, y el IDEAM administra el sistema nacional de información (SISAIRE):\n\n• **Bogotá:** Red de Monitoreo de Calidad del Aire de Bogotá (RMCAB)\n• **Medellín:** Sistema SIATA\n• **Cali:** Red DAGMA\n• **Barranquilla:** Red de la CRA\n• **Cartagena:** Red EPA Cartagena\n\nPuedes consultar el ICA en tiempo real en:\n• SISAIRE (sistema nacional): sisaire.ideam.gov.co/ideam-sisaire-web\n• Aplicaciones móviles de las CAR locales\n• Nuestra herramienta con datos integrados",
           },
         ],
       },
       {
         id: "iboca-bogota",
         title: "IBOCA: El índice de Bogotá",
-        content: "El Índice Bogotano de Calidad del Aire (IBOCA), creado por la Resolución 2840 de 2023, es una versión mejorada del ICA tradicional que incorpora múltiples promedios temporales y condiciones meteorológicas específicas de la capital colombiana.",
+        content: "El Índice Bogotano de Calidad del Aire y Riesgo en Salud (IBOCA) es el índice con el que Bogotá gestiona de forma conjunta el riesgo para el ambiente y la salud según la calidad del aire. Su versión vigente la establece la Resolución Conjunta 2840 de 2023 de las Secretarías Distritales de Ambiente y de Salud, que rige desde el 16 de diciembre de 2023 y sustituyó a la Resolución Conjunta 868 de 2021.",
         callout: {
           type: "success",
-          title: "Mejoras del IBOCA",
-          content: "El IBOCA considera:\n• Promedios móviles de 1h, 8h y 24h según el contaminante\n• Factores meteorológicos (inversión térmica, vientos)\n• Períodos de episodios de alta contaminación\n• Alertas tempranas específicas para Bogotá\n• Recomendaciones personalizadas por localidad",
+          title: "Cómo funciona el IBOCA",
+          content: "Según la Resolución 2840 de 2023:\n• Se calcula cada hora, para cada contaminante criterio (PM₂.₅, PM₁₀, O₃, NO₂, SO₂ y CO) en cada estación de la RMCAB\n• Se comunica el «IBOCA condicionante»: el del contaminante con las peores condiciones en cada estación\n• PM₂.₅ y PM₁₀ usan una media móvil ponderada (NowCast); O₃ y CO, una media móvil de 8 horas; NO₂ y SO₂, de 1 hora\n• Cinco niveles de riesgo (bajo, moderado, regular, alto y peligroso), con los colores verde, amarillo, naranja, rojo y morado\n• Cuatro niveles de actuación: Prevención, Alerta Fase 1, Alerta Fase 2 y Emergencia",
         },
       },
       {
@@ -77,7 +78,7 @@ const article: BlogArticle = blogArticleSchema.parse({
           {
             id: "categorias-eaqi",
             title: "Escala del EAQI",
-            content: "**1 - Muy bueno:**\nÓptimo para todas las actividades\n\n**2 - Bueno:**\nSin restricciones\n\n**3 - Moderado:**\nPersonas muy sensibles deben considerar reducir actividades intensas\n\n**4 - Deficiente:**\nGrupos sensibles deben reducir esfuerzos prolongados\n\n**5 - Muy deficiente:**\nToda la población debe reducir actividades al aire libre\n\n**6 - Extremadamente deficiente:**\nEvitar todas las actividades al aire libre",
+            content: "**1 - Buena (Good):**\nLa calidad del aire es buena. Disfruta tus actividades habituales al aire libre.\n\n**2 - Aceptable (Fair):**\nDisfruta tus actividades habituales al aire libre.\n\n**3 - Moderada (Moderate):**\nPoblación general: actividades habituales. Poblaciones sensibles: considera reducir las actividades intensas al aire libre si tienes síntomas.\n\n**4 - Mala (Poor):**\nPoblación general: considera reducir las actividades intensas al aire libre si tienes síntomas como ojos irritados, tos o dolor de garganta. Poblaciones sensibles: considera reducir la actividad física, sobre todo al aire libre, especialmente si tienes síntomas.\n\n**5 - Muy mala (Very poor):**\nPoblación general: considera reducir las actividades intensas al aire libre si tienes síntomas. Poblaciones sensibles: reduce la actividad física, sobre todo al aire libre, especialmente si tienes síntomas.\n\n**6 - Extremadamente mala (Extremely poor):**\nPoblación general: reduce la actividad física al aire libre. Poblaciones sensibles: evita la actividad física al aire libre.\n\n*Los nombres entre paréntesis son los de la Agencia Europea de Medio Ambiente; la traducción de los niveles y de sus mensajes es nuestra.*",
           },
         ],
       },
@@ -156,7 +157,7 @@ const article: BlogArticle = blogArticleSchema.parse({
           {
             id: "plataformas-colombia",
             title: "Plataformas en Colombia",
-            content: "• **SISAIRE:** Sistema de Información sobre Calidad del Aire (www.sisaire.gov.co)\n• **Aplicación Aire Bogotá:** Para iOS y Android\n• **SIATA Medellín:** www.siata.gov.co\n• **DAGMA Cali:** Reportes diarios\n• **Twitter:** @IDIGERBogota, @SIATAMedellin",
+            content: "• **SISAIRE:** Sistema de Información sobre Calidad del Aire (sisaire.ideam.gov.co/ideam-sisaire-web)\n• **Aplicación Aire Bogotá:** Para iOS y Android\n• **SIATA Medellín:** www.siata.gov.co\n• **DAGMA Cali:** Reportes diarios\n• **Twitter:** @IDIGERBogota, @SIATAMedellin",
           },
           {
             id: "plataformas-internacionales",
@@ -178,7 +179,7 @@ const article: BlogArticle = blogArticleSchema.parse({
           {
             id: "faq-2",
             title: "¿En qué se diferencian el US AQI, el ICA de Colombia y el IBOCA?",
-            content: "El AQI de la EPA va de 0 a 500 en seis categorías. El ICA de Colombia (Resolución 2254 de 2017) es prácticamente idéntico en escala y categorías, con algunos puntos de corte ajustados a condiciones locales. El IBOCA (Resolución 2840 de 2023) es una versión mejorada para Bogotá que incorpora varios promedios temporales y condiciones meteorológicas de la capital.",
+            content: "El AQI de la EPA va de 0 a 500 en seis categorías. El ICA de Colombia (Resolución 2254 de 2017) es prácticamente idéntico en escala y categorías, con algunos puntos de corte ajustados a condiciones locales. El IBOCA (Resolución Conjunta 2840 de 2023) es el índice de Bogotá: se calcula cada hora por contaminante y estación, y a cada nivel de riesgo le asocia un nivel de actuación (Prevención, Alerta Fase 1, Alerta Fase 2 o Emergencia).",
           },
           {
             id: "faq-3",
@@ -201,6 +202,44 @@ const article: BlogArticle = blogArticleSchema.parse({
     conclusion: "Los índices de calidad del aire son tu mejor aliado para proteger tu salud y la de tu familia. No esperes a sentir molestias respiratorias para tomar acción: consulta el índice diariamente, especialmente si perteneces a un grupo sensible. Usa nuestra calculadora gratuita para entender mejor los datos de tu ciudad y toma decisiones informadas sobre cuándo salir, hacer ejercicio o ventilar tu hogar. El aire limpio es un derecho, y el conocimiento es el primer paso para exigirlo.",
   },
   tags: ["AQI", "ICA Colombia", "IBOCA", "calidad del aire", "PM2.5", "salud pública", "monitoreo ambiental"],
+  references: [
+    {
+      title: "WHO global air quality guidelines: particulate matter (PM2.5 and PM10), ozone, nitrogen dioxide, sulfur dioxide and carbon monoxide",
+      url: "https://www.who.int/publications/i/item/9789240034228",
+      source: "Organización Mundial de la Salud, 22 de septiembre de 2021",
+      description: "Valores guía de 2021 frente a los de 2005 para PM2.5, PM10, O3, NO2, SO2 y CO (tabla de la OMS «What are the WHO Air quality guidelines?»).",
+    },
+    {
+      title: "40 CFR Parte 58, Apéndice G: Índice de Calidad del Aire (AQI) uniforme y reporte diario, Tabla 2 (breakpoints del AQI)",
+      url: "https://www.ecfr.gov/current/title-40/chapter-I/subchapter-C/part-58/appendix-Appendix%20G%20to%20Part%2058",
+      source: "EPA de Estados Unidos, Código de Regulaciones Federales (eCFR)",
+      description: "Intervalos y categorías del AQI, breakpoints por contaminante, ecuación de interpolación y tiempos de promedio. Texto consultado el 19 de noviembre de 2026.",
+    },
+    {
+      title: "European Air Quality Index",
+      url: "https://airindex.eea.europa.eu/AQI/index.html",
+      source: "Agencia Europea de Medio Ambiente (EEA)",
+      description: "Los seis niveles del EAQI (Good a Extremely poor) y sus mensajes de salud. Consultado el 19 de noviembre de 2026; las bandas de concentración se revisaron en 2024 (ETC HE Report 2024/17).",
+    },
+    {
+      title: "Resolución 2254 de 2017: norma de calidad del aire o nivel de inmisión",
+      url: "https://normas.cra.gov.co/gestor/docs/resolucion_minambienteds_2254_2017.htm",
+      source: "Ministerio de Ambiente y Desarrollo Sostenible, reproducida en el Gestor Normativo de la CRA",
+      description: "Arts. 19 y 20 (Tablas 5 y 6: descripción general y puntos de corte del ICA). Texto consultado el 19 de noviembre de 2026; esa copia no incluye notas de vigencia.",
+    },
+    {
+      title: "Resolución Conjunta 2840 de 2023: Índice Bogotano de Calidad del Aire y Riesgo en Salud (IBOCA)",
+      url: "https://www.alcaldiabogota.gov.co/sisjur/normas/Norma1.jsp?i=152203",
+      source: "Secretarías Distritales de Ambiente y de Salud de Bogotá, texto en SISJUR (Alcaldía de Bogotá)",
+      description: "Expedida el 15 de diciembre de 2023, rige desde el 16 de diciembre de 2023 y deroga la Resolución Conjunta 868 de 2021. Texto consultado el 19 de noviembre de 2026; la página no indica el estado de vigencia.",
+    },
+    {
+      title: "SISAIRE: Subsistema de Información sobre Calidad del Aire",
+      url: "https://sisaire.ideam.gov.co/ideam-sisaire-web/",
+      source: "IDEAM",
+      description: "Sistema nacional de información sobre calidad del aire. Consultado el 19 de noviembre de 2026.",
+    },
+  ],
   nextArticle: {
     slug: "matrices-eia-leopold-conesa",
     title: "Matrices de Evaluación de Impacto Ambiental: Guía Práctica",

@@ -104,13 +104,15 @@ export function getPopularIndicators(): WBIndicator[] {
   return [
     // Environmental Indicators
     // Nombre, nota y fuente de EN.GHG.* tal como los publica el Banco Mundial (API v2, consultada el
-    // 2026-11-17; el Banco Mundial no ofrece estos textos en español). Sustituyen a EN.ATM.CO2E.PC y
+    // 2026-11-17; el Banco Mundial no ofrece estos textos en español). El nombre y la nota de abajo son
+    // traducción fiel de CONT (2026-11-19) de ese texto en inglés; la fuente (organización) se deja en el
+    // original. Sustituyen a EN.ATM.CO2E.PC y
     // EN.ATM.GHGT.KT.CE, retirados por el Banco Mundial (ver RETIRED_WORLD_BANK_INDICATORS).
     {
       id: "EN.GHG.CO2.PC.CE.AR5",
       name: "Emisiones de dióxido de carbono (CO2) per cápita, excluye LULUCF (uso de la tierra, cambio de uso de la tierra y silvicultura) (t CO2e/cápita)",
       sourceNote:
-        "Código EN.GHG.CO2.PC.CE.AR5. Total annual emissions of carbon dioxide (CO2), one of the six Kyoto greenhouse gases (GHG), from the agriculture, energy, waste, and industrial sectors, excluding LULUCF, standardized to carbon dioxide equivalent values divided by the economy's population. This measure excludes GHG fluxes caused by Land Use, Land-Use Change and Forestry (LULUCF), as these fluxes have larger uncertainties.",
+        "Código EN.GHG.CO2.PC.CE.AR5. Emisiones anuales totales de dióxido de carbono (CO2), uno de los seis gases de efecto invernadero (GEI) de Kioto, de los sectores agrícola, energético, de residuos e industrial, excluido LULUCF, expresadas en valores equivalentes de dióxido de carbono y divididas por la población de la economía. Esta medida excluye los flujos de GEI causados por el uso de la tierra, el cambio de uso de la tierra y la silvicultura (LULUCF), porque esos flujos tienen mayores incertidumbres.",
       sourceOrganization:
         "EDGAR (Emissions Database for Global Atmospheric Research) Community GHG Database, Joint Research Centre (JRC) - European Commission",
     },
@@ -142,7 +144,7 @@ export function getPopularIndicators(): WBIndicator[] {
       // OJO: la unidad pasó de kt (indicador retirado) a Mt de CO2e.
       name: "Emisiones totales de gases de efecto invernadero (GEI), excluye LULUCF (uso de la tierra, cambio de uso de la tierra y silvicultura) (Mt CO2e)",
       sourceNote:
-        "Código EN.GHG.ALL.MT.CE.AR5. A measure of annual emissions of the six greenhouse gases (GHG) covered by the Kyoto Protocol (carbon dioxide (CO2), methane (CH4), nitrous oxide (N2O), hydrofluorocarbons (HFCs), perfluorocarbons (PFCs), and sulphurhexafluoride (SF6)) from the energy, industry, waste, and agriculture sectors, standardized to carbon dioxide equivalent values. This measure excludes GHG fluxes caused by Land Use Land Use Change and Forestry (LULUCF), as these fluxes have larger uncertainties. The measure is standardized to carbon dioxide equivalent values using the Global Warming Potential (GWP) factors of IPCC's 5th Assessment Report (AR5).",
+        "Código EN.GHG.ALL.MT.CE.AR5. Medida de las emisiones anuales de los seis gases de efecto invernadero (GEI) cubiertos por el Protocolo de Kioto (dióxido de carbono (CO2), metano (CH4), óxido nitroso (N2O), hidrofluorocarbonos (HFC), perfluorocarbonos (PFC) y hexafluoruro de azufre (SF6)) de los sectores de energía, industria, residuos y agricultura, expresadas en valores equivalentes de dióxido de carbono. Esta medida excluye los flujos de GEI causados por el uso de la tierra, el cambio de uso de la tierra y la silvicultura (LULUCF), porque esos flujos tienen mayores incertidumbres. La equivalencia se calcula con los factores de potencial de calentamiento global (GWP) del Quinto Informe de Evaluación (AR5) del IPCC.",
       sourceOrganization:
         "EDGAR (Emissions Database for Global Atmospheric Research) Community GHG Database, Joint Research Centre (JRC) - European Commission",
     },
@@ -294,6 +296,15 @@ async function fetchWithRetry(url: string, retries = 3, delay = 1000): Promise<R
 }
 
 /**
+ * Nombre en español de un indicador de la lista de la herramienta (getPopularIndicators), o undefined si el
+ * ID no está en la lista. La serie usa este nombre para que lo que se elige y lo que se grafica coincidan;
+ * si no hay entrada, se conserva el nombre del Banco Mundial tal cual (CONT-008).
+ */
+export function localizedIndicatorName(indicatorId: string): string | undefined {
+  return getPopularIndicators().find((indicator) => indicator.id === indicatorId)?.name;
+}
+
+/**
  * Get time series data for a specific indicator and country
  */
 export async function getIndicatorData(
@@ -328,7 +339,7 @@ export async function getIndicatorData(
 
       const timeSeriesData: WBTimeSeriesData = {
         indicatorId: indicatorId,
-        indicatorName: rawData[0].indicator.value,
+        indicatorName: localizedIndicatorName(indicatorId) ?? rawData[0].indicator.value,
         countryId: countryCode,
         countryName: rawData[0].country.value,
         data: rawData

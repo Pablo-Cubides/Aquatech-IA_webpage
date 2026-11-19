@@ -89,3 +89,28 @@ function tiedPairs(values: number[]): number {
   for (const count of counts.values()) pairs += (count * (count - 1)) / 2;
   return pairs;
 }
+
+/**
+ * Escala de fuerza de una correlación, DEFINIDA UNA SOLA VEZ (CONT-008). La usan la tabla, el mapa de calor,
+ * los colores del resumen, el PDF y la página "acerca de". Se aplica al valor absoluto y es una convención de
+ * esta herramienta, no un umbral universal. No cambies los números en otro archivo: cámbialos aquí.
+ */
+export const STRENGTH_THRESHOLDS = { strong: 0.75, moderate: 0.4 } as const;
+
+export type CorrelationStrength = "strong" | "moderate" | "weak";
+
+/** Fuerte si |v| > 0.75; moderada si |v| >= 0.4; débil (incluida la ausencia de correlación) en otro caso. */
+export function classifyStrength(value: number | null | undefined): CorrelationStrength {
+  const magnitude = Math.abs(value ?? 0);
+  if (!Number.isFinite(magnitude)) return "weak";
+  if (magnitude > STRENGTH_THRESHOLDS.strong) return "strong";
+  if (magnitude >= STRENGTH_THRESHOLDS.moderate) return "moderate";
+  return "weak";
+}
+
+/** Textos de leyenda generados desde STRENGTH_THRESHOLDS (los números nunca se escriben a mano en la interfaz). */
+export const STRENGTH_LEGEND: Record<CorrelationStrength, string> = {
+  strong: `Fuerte (> ${STRENGTH_THRESHOLDS.strong})`,
+  moderate: `Moderada (${STRENGTH_THRESHOLDS.moderate}–${STRENGTH_THRESHOLDS.strong})`,
+  weak: `Débil (< ${STRENGTH_THRESHOLDS.moderate})`,
+};

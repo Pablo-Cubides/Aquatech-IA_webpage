@@ -16,7 +16,7 @@ Herramienta estadística avanzada para analizar correlaciones entre variables am
 |-------------|---------------|-----------------|
 | **Pearson** | Cuantitativos continuos | Relaciones lineales |
 | **Spearman** | Ordinales/no lineales | Relaciones monótonas |
-| **Kendall** | Ordinales/pequeñas muestras | Robustez a outliers |
+| **Kendall** | Ordinales/pequeñas muestras | Concordancia entre pares; tau-b (corrige empates) |
 
 ### 📁 Fuentes de Datos
 - **Archivo CSV/XLSX**: Carga de datos propios

@@ -1,4 +1,5 @@
 import React from "react"
+import { STRENGTH_LEGEND } from "../../src/utils/correlations"
 
 export default function AboutPage() {
   return (
@@ -17,16 +18,16 @@ export default function AboutPage() {
             <strong>Spearman:</strong> Evalúa la relación monótona (no necesariamente lineal) entre dos variables, usando los rangos de los datos (los valores repetidos comparten el rango promedio).
           </li>
           <li>
-            <strong>Kendall Tau:</strong> Mide la concordancia en el orden de los valores entre dos variables (pares concordantes y discordantes). Usa la variante tau-b, que tiene en cuenta los empates. Es robusto ante valores atípicos y sirve para relaciones monótonas aunque no sean lineales.
+            <strong>Kendall Tau:</strong> Mide la concordancia en el orden de los valores entre dos variables (pares concordantes y discordantes). Usa la variante tau-b, que tiene en cuenta los empates. Es menos sensible a valores atípicos que Pearson y sirve para relaciones monótonas aunque no sean lineales.
           </li>
         </ul>
       </div>
       <div>
         <h2 className="text-lg font-semibold mb-1">¿Cómo interpretar los colores?</h2>
         <ul className="list-disc ml-6">
-          <li><span className="text-blue-600">🔵 Fuerte (&gt; 0.75)</span></li>
-          <li><span className="text-yellow-600">🟡 Moderada (0.4–0.75)</span></li>
-          <li><span className="text-red-600">🔴 Débil (&lt; 0.4)</span></li>
+          <li><span className="text-blue-600">🔵 {STRENGTH_LEGEND.strong}</span></li>
+          <li><span className="text-yellow-600">🟡 {STRENGTH_LEGEND.moderate}</span></li>
+          <li><span className="text-red-600">🔴 {STRENGTH_LEGEND.weak}</span></li>
         </ul>
       </div>
       <div>

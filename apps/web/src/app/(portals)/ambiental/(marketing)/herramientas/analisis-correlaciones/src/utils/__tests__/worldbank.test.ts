@@ -4,6 +4,7 @@ import {
   getIndicatorData,
   getMultipleIndicators,
   getPopularIndicators,
+  localizedIndicatorName,
   worldBankErrorMessage,
 } from "../worldbank";
 
@@ -131,7 +132,27 @@ describe("cliente del Banco Mundial (fetch sustituido, sin red)", () => {
       { year: 2019, value: 1.9 },
       { year: 2020, value: 1.665 },
     ]);
-    expect(series?.indicatorName).toContain("excluding LULUCF");
+    // La serie se nombra con el texto en español de la lista, no con el nombre en inglés de la API.
+    expect(series?.indicatorName).toContain("excluye LULUCF");
+    expect(series?.indicatorName).not.toContain("excluding");
+  });
+
+  it("un ID que no está en la lista de la herramienta conserva el nombre que da el Banco Mundial", async () => {
+    stubFetch(() => DATA_BODY);
+    const series = await getIndicatorData("CO", "XX.NOT.IN.LIST", 2018, 2020);
+    expect(localizedIndicatorName("XX.NOT.IN.LIST")).toBeUndefined();
+    expect(series?.indicatorName).toBe((DATA_BODY[1] as Array<{ indicator: { value: string } }>)[0].indicator.value);
+  });
+
+  it("ningún nombre ni nota de los indicadores EN.GHG queda en inglés", () => {
+    for (const id of ["EN.GHG.CO2.PC.CE.AR5", "EN.GHG.ALL.MT.CE.AR5"]) {
+      const indicator = getPopularIndicators().find((i) => i.id === id);
+      expect(indicator, id).toBeDefined();
+      for (const text of [indicator!.name, indicator!.sourceNote]) {
+        expect(text, id).not.toMatch(/(excluding|greenhouse|emissions|per capita)/i);
+      }
+      expect(indicator!.name, id).toContain("excluye LULUCF");
+    }
   });
 
   it("getMultipleIndicators descarta los retirados y conserva los vigentes", async () => {

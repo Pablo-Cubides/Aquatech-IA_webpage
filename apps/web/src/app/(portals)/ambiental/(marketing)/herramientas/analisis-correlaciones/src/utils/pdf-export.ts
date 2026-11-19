@@ -2,6 +2,7 @@
 import { jsPDF } from "jspdf";
 import { toPng } from "html-to-image";
 import type { AnalysisResult } from "../../types/analysis";
+import { classifyStrength, STRENGTH_LEGEND } from "./correlations";
 
 interface CorrelationResult {
   column_a: string;
@@ -293,8 +294,9 @@ export async function exportCorrelationsPDF(
       cx += colWidths[1];
 
       const pVal = row.pearson ?? 0;
-      if (Math.abs(pVal) > 0.7) doc.setTextColor(22, 163, 74);
-      else if (Math.abs(pVal) < 0.3) doc.setTextColor(156, 163, 175);
+      const pStrength = classifyStrength(pVal);
+      if (pStrength === "strong") doc.setTextColor(22, 163, 74);
+      else if (pStrength === "weak") doc.setTextColor(156, 163, 175);
       else doc.setTextColor(55, 65, 81);
 
       doc.text(pVal.toFixed(3), cx, yPosition);
@@ -340,12 +342,12 @@ export async function exportCorrelationsPDF(
 
     // Interpretación
     doc.setFont("helvetica", "italic");
-    doc.text(
-      "Interpretación: 0.75-1.00 = Muy fuerte | 0.50-0.74 = Moderada | 0.25-0.49 = Débil | 0.00-0.24 = Sin correlación",
-      margin,
-      yPosition,
+    const interpretationLines = doc.splitTextToSize(
+      `Interpretación en valor absoluto (convención de esta herramienta, no un umbral universal): ${STRENGTH_LEGEND.strong} | ${STRENGTH_LEGEND.moderate} | ${STRENGTH_LEGEND.weak}, incluida la ausencia de correlación.`,
+      pageWidth - margin * 2,
     );
-    yPosition += 6;
+    doc.text(interpretationLines, margin, yPosition);
+    yPosition += interpretationLines.length * 4 + 2;
     doc.setFont("helvetica", "normal");
 
     // Spearman

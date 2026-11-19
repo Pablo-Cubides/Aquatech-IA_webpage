@@ -8,7 +8,7 @@ const article: BlogArticle = blogArticleSchema.parse({
   title: "Matrices de Evaluación de Impacto Ambiental: Guía Práctica de Leopold, Conesa y Battelle",
   category: "Gestión Ambiental",
   date: "2024-12-09",
-  dateModified: "2026-11-03",
+  dateModified: "2026-11-19",
   readTime: 6,
   excerpt: "Domina las metodologías de EIA para el licenciamiento ambiental. Análisis técnico de Leopold, Conesa y Battelle-Columbus con casos prácticos.",
   heroImage: "/images/portal-ambiental/blog/matrices-eia-metodologias.jpg",
@@ -18,7 +18,7 @@ const article: BlogArticle = blogArticleSchema.parse({
     bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
   },
   content: {
-    introduction: "La Evaluación de Impacto Ambiental (EIA) es el núcleo técnico de cualquier trámite de licenciamiento. No se trata solo de cumplir un requisito legal; es un ejercicio de predicción científica sobre cómo un proyecto alterará su entorno. En este artículo profundizamos en las metodologías más aceptadas por autoridades como la ANLA en Colombia, desde la clásica matriz de **Leopold** hasta el sofisticado método de **Conesa** y el enfoque cuantitativo de **Battelle-Columbus**.",
+    introduction: "La Evaluación de Impacto Ambiental (EIA) es el núcleo técnico de cualquier trámite de licenciamiento. No se trata solo de cumplir un requisito legal; es un ejercicio de predicción científica sobre cómo un proyecto alterará su entorno. En este artículo profundizamos en tres metodologías de uso habitual en los estudios de impacto ambiental: la clásica matriz de **Leopold** (Leopold et al., 1971), el método de **Conesa** (Conesa Fernández-Vítora) y el enfoque cuantitativo de **Battelle-Columbus** (Dee et al., 1973).",
     sections: [
       {
         id: "metodologia-comparada",
@@ -28,19 +28,19 @@ const article: BlogArticle = blogArticleSchema.parse({
           {
             id: "leopold-tecnico",
             title: "1. Matriz de Leopold: El cribado inicial",
-            content: "Diseñada originalmente con 100 acciones y 88 factores, esta matriz causa-efecto evalúa cada celda con:\n• **Magnitud (M):** Escala de -10 a +10. Representa la extensión o escala de la alteración.\n• **Importancia (I):** Escala de 1 a 10. Representa el peso relativo del factor afectado en el ecosistema local.\n• **Uso:** Ideal para diagnósticos ambientales de alternativas (DAA) donde se requiere una visión rápida de los puntos críticos.",
+            content: "Diseñada originalmente (Leopold et al., 1971, USGS Circular 645) con 100 acciones y 88 características ambientales, es decir, 8.800 interacciones posibles, esta matriz causa-efecto evalúa cada celda significativa con:\n• **Magnitud (M):** Escala de 1 a 10 (los impactos beneficiosos se marcan con +). Representa la extensión o escala de la alteración.\n• **Importancia (I):** Escala de 1 a 10. Representa el peso relativo del factor afectado en el ecosistema local.\n• **Uso:** Ideal para diagnósticos ambientales de alternativas (DAA) donde se requiere una visión rápida de los puntos críticos.",
           },
           {
             id: "conesa-tecnico",
             title: "2. Método de Conesa: Valoración Integral",
-            content: "Es el estándar en Estudios de Impacto Ambiental debido a su fórmula de **Importancia (I)** que integra 11 atributos técnicos para asignar un valor numérico preciso:\n\n**I = ± [3IN + 2EX + MO + PE + RV + SI + AC + EF + PR + MC]**\n\n• **IN (Intensidad):** Grado de incidencia.\n• **EX (Extensión):** Área de influencia física.\n• **MO (Momento):** Tiempo entre la acción y la aparición del efecto.\n• **PE (Persistencia):** Tiempo que permanecería el efecto.\n• **RV (Reversibilidad):** Capacidad del medio de retornar a su estado inicial.\n• **Otros:** Sinergia, Acumulación, Efecto, Periodicidad y Recuperabilidad.\n\n**Interpretación:** I < 25 (Irrelevante), 25-50 (Moderado), 50-75 (Severo), > 75 (Crítico).",
+            content: "Es de uso habitual en Estudios de Impacto Ambiental por su fórmula de **Importancia (I)**, que integra 10 atributos técnicos para asignar un valor numérico a cada impacto (método de Conesa Fernández-Vítora):\n\n**I = ± [3IN + 2EX + MO + PE + RV + SI + AC + EF + PR + MC]**\n\n• **IN (Intensidad):** Grado de incidencia.\n• **EX (Extensión):** Área de influencia física.\n• **MO (Momento):** Tiempo entre la acción y la aparición del efecto.\n• **PE (Persistencia):** Tiempo que permanecería el efecto.\n• **RV (Reversibilidad):** Capacidad del medio de retornar a su estado inicial.\n• **Otros:** Sinergia, Acumulación, Efecto, Periodicidad y Recuperabilidad.\n\n**Interpretación:** I < 25 (Irrelevante), 25-50 (Moderado), 50-75 (Severo), > 75 (Crítico).",
           },
         ],
       },
       {
         id: "battelle-columbus",
         title: "Battelle-Columbus: Cuantificación Pura",
-        content: "Diseñado para proyectos hídricos, este sistema utiliza **Unidades de Impacto Ambiental (UIA)** y una estructura jerárquica de 4 niveles: 4 Categorías, 18 Componentes y 78 Parámetros ambientales. Se basa en funciones de transformación que convierten medidas físicas (ej. mg/L de DBO) en una escala de 0 a 1 de calidad ambiental. Incorpora un sistema de 'banderas rojas' para alertar sobre riesgos críticos que exceden los límites de absorción del medio.",
+        content: "Diseñado para la planificación de proyectos hídricos (Dee et al., 1973), este sistema utiliza **Unidades de Impacto Ambiental (UIA)** y una estructura jerárquica de 4 categorías, 18 componentes y 78 parámetros ambientales. Se basa en funciones de transformación que convierten medidas físicas (ej. mg/L de DBO) en una escala de 0 a 1 de calidad ambiental. Incorpora un sistema de 'banderas rojas' que señala posibles problemas que merecen una atención más detallada.",
       },
       {
         "id": "ejemplo-conesa",
@@ -80,12 +80,12 @@ const article: BlogArticle = blogArticleSchema.parse({
           {
             id: "faq-2",
             title: "¿Cómo evalúa la matriz de Leopold cada celda?",
-            content: "La matriz, diseñada originalmente con 100 acciones y 88 factores, evalúa cada celda con dos valores: la magnitud, en una escala de −10 a +10 que representa la extensión de la alteración, y la importancia.",
+            content: "La matriz, diseñada originalmente con 100 acciones y 88 características ambientales (8.800 interacciones posibles), evalúa cada celda significativa con dos valores: la magnitud, en una escala de 1 a 10 que representa la extensión de la alteración (los impactos beneficiosos se marcan con +), y la importancia, también de 1 a 10.",
           },
           {
             id: "faq-3",
             title: "¿Qué integra la fórmula de Conesa?",
-            content: "La fórmula de Importancia (I) integra 11 atributos técnicos, entre ellos intensidad, extensión, momento, persistencia, reversibilidad, sinergia y acumulación, para asignar un valor numérico a cada impacto.",
+            content: "La fórmula de Importancia (I) integra 10 atributos técnicos, entre ellos intensidad, extensión, momento, persistencia, reversibilidad, sinergia y acumulación, para asignar un valor numérico a cada impacto.",
           },
           {
             id: "faq-4",
@@ -95,9 +95,29 @@ const article: BlogArticle = blogArticleSchema.parse({
         ],
       },
     ],
-    conclusion: "Las matrices de impacto ambiental no son tablas estáticas; son modelos dinámicos de riesgo territorial. Al utilizar metodologías rigurosas como Conesa y herramientas de automatización, garantizamos que los Planes de Manejo Ambiental (PMA) sean sólidos frente a la revisión de la autoridad ambiental.",
+    conclusion: "Las matrices de impacto ambiental no son tablas estáticas; son modelos dinámicos de riesgo territorial. Al utilizar metodologías rigurosas como Conesa y herramientas de automatización, ayudamos a que los Planes de Manejo Ambiental (PMA) sean sólidos frente a la revisión de la autoridad ambiental.",
   },
   tags: ["EIA", "Leopold", "Conesa", "Battelle", "licencia ambiental", "impacto ambiental", "ANLA"],
+  references: [
+    {
+      title: "A procedure for evaluating environmental impact (Circular 645)",
+      url: "https://pubs.usgs.gov/publication/cir645",
+      source: "Leopold, L. B., Clarke, F. E., Hanshaw, B. B. y Balsley, J. R. (1971). U.S. Geological Survey",
+      description: "Origen de la matriz de Leopold: 100 acciones por 88 características ambientales (8.800 interacciones posibles); magnitud e importancia de 1 a 10. DOI 10.3133/cir645. Consultado el 19 de noviembre de 2026.",
+    },
+    {
+      title: "Guía metodológica para la evaluación del impacto ambiental",
+      url: "https://www.casadellibro.com.co/libro-guia-metodologica-para-la-evaluacion-del-impacto-ambiental/9788471144454/213860",
+      source: "Vicente Conesa Fernández-Vítora, Mundi-Prensa",
+      description: "Obra en la que se basa el método de Conesa (ficha del libro, ISBN 9788471144454). Consultada el 19 de noviembre de 2026.",
+    },
+    {
+      title: "The Battelle Environmental Evaluation System for Water Resource Planning",
+      url: "https://ponce.sdsu.edu/the_battelle_ees.html",
+      source: "Victor M. Ponce, San Diego State University; cita Dee et al. (1973), Water Resources Research 9(3), 523-535",
+      description: "Describe el sistema de Battelle-Columbus: 4 categorías, 18 componentes y 78 parámetros, valores transformados a una escala de 0 a 1 y «banderas rojas». Consultado el 19 de noviembre de 2026.",
+    },
+  ],
   nextArticle: {
     slug: "navegador-normas-ambientales",
     title: "Guía de Normatividad Ambiental en Colombia: Agua, Aire, Vertimientos y Residuos Sólidos",
