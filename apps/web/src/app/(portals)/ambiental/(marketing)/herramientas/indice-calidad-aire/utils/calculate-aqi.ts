@@ -92,13 +92,17 @@ export function calculatePollutantSubIndex(
     return null;
   }
 
-  const breakpoint = findBreakpoint(concentration, bpConfig.breakpoints);
+  const lookup =
+    bpConfig.truncateDecimals === undefined
+      ? concentration
+      : Math.floor(concentration * 10 ** bpConfig.truncateDecimals + 1e-9) / 10 ** bpConfig.truncateDecimals;
+  const breakpoint = findBreakpoint(lookup, bpConfig.breakpoints);
 
   if (!breakpoint) {
     return null;
   }
 
-  const subIndex = calculateSubIndex(concentration, breakpoint);
+  const subIndex = calculateSubIndex(lookup, breakpoint);
   const category = getCategory(subIndex, categories);
   const pollutant = POLLUTANTS[pollutantId];
 

@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   parseCSV,
   csvToWaterSamples,
+  csvToWaterSamplesDetailed,
   generateExampleCSV,
   waterSamplesToCSV,
   validateSample,
@@ -179,7 +180,7 @@ describe("csvToWaterSamples", () => {
     expect(result[0].parameters[0].name).toBe("pH");
   });
 
-  it("debe manejar valores no numéricos como 0", () => {
+  it("un valor no numérico NO se convierte en 0: se omite y se reporta (DOM-001 B2)", () => {
     const csvData = [
       {
         fecha: "2024-01-01",
@@ -191,8 +192,11 @@ describe("csvToWaterSamples", () => {
     ];
 
     const result = csvToWaterSamples(csvData, "Colombia");
+    expect(result[0].parameters).toHaveLength(0);
 
-    expect(result[0].parameters[0].value).toBe(0);
+    const detailed = csvToWaterSamplesDetailed(csvData, "Colombia");
+    expect(detailed.issues).toHaveLength(1);
+    expect(detailed.issues[0].raw).toBe("no disponible");
   });
 
   it("debe generar IDs únicos para cada muestra", () => {

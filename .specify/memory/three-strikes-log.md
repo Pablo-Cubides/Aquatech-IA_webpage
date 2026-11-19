@@ -45,4 +45,14 @@
 
 ---
 
+## [2026-11-17] — Constantes normativas duplicadas (DOM-001)
+
+- **Detected by**: cargo Dominio Técnico-Normativo
+- **Pattern**: los mismos límites de calidad del aire/agua vivían en 3 copias divergentes (JSON público, texto de artículos, cortes del calculador de ICA)
+- **Instances**: `public/data/calidad-aire/colombia.json`, artículos de normas/aire, `indice-calidad-aire/data/breakpoints/*`, `indice-calidad-agua/data/irca-parameters.ts`
+- **Artifact created**: `apps/web/src/lib/normativa/` (fuente canónica con cita y vigencia por constante) + `__tests__/normativa.test.ts` (fija valores y verifica que el JSON público coincida)
+- **Result**: las herramientas importan de `@/lib/normativa`; los artículos deben citar esos valores, no copiarlos de otra parte
+
+---
+
 *Add new entries above this line when a new three-strikes trigger occurs.*

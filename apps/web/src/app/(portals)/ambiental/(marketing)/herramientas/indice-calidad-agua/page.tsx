@@ -4,7 +4,7 @@ import { useState } from "react";
 import type { WaterSample, DataSource, Country, IndexResult } from "./types";
 import DataSourceSelector from "./components/DataSourceSelector";
 import ManualDataEntry from "./components/ManualDataEntry";
-import { calculateIRCA, explainIRCACalculation } from "./utils/calculate-irca";
+import { calculateIRCA, explainIRCACalculation, calculateMonthlyIRCA } from "./utils/calculate-irca";
 import { calculateWQI, explainWQICalculation } from "./utils/calculate-wqi";
 import { calculateDWQI, explainDWQICalculation } from "./utils/calculate-dwqi";
 import { getIRCARiskCategory } from "./data/irca-parameters";
@@ -12,13 +12,14 @@ import { getWQICategory } from "./data/wqi-parameters";
 import { getDWQICategory } from "./data/dwqi-parameters";
 import {
   parseCSV,
-  csvToWaterSamples,
+  csvToWaterSamplesDetailed,
   generateIRCAExampleCSV,
   generateWQIExampleCSV,
   generateDWQIExampleCSV,
   downloadCSV,
 } from "./utils/csv-utils";
 import { exportToPDF, printReport } from "./utils/pdf-export";
+import IRCAScopeNotice from "./components/IRCAScopeNotice";
 
 type Step =
   | "select-source"
@@ -52,7 +53,18 @@ export default function IndiceCalidadAguaPage() {
     reader.onload = (e) => {
       const text = e.target?.result as string;
       const rows = parseCSV(text);
-      const waterSamples = csvToWaterSamples(rows);
+      const { samples: waterSamples, issues: valueIssues } = csvToWaterSamplesDetailed(rows);
+
+      // Valores ilegibles: error visible, nunca un 0 silencioso (DOM-001 B2)
+      if (valueIssues.length > 0) {
+        const lines = valueIssues
+          .slice(0, 3)
+          .map((i) => `línea ${i.line}, "${i.parameter}" (${i.location}): "${i.raw}" — ${i.reason}`);
+        setCsvError(
+          `No se pudieron leer ${valueIssues.length} valor(es) del archivo; corríjalos y vuelva a cargarlo. Se aceptan decimales con coma o punto y valores censurados como "<0,1" (los campos con coma van entre comillas):\n• ${lines.join("\n• ")}${valueIssues.length > 3 ? `\n...y ${valueIssues.length - 3} más.` : ""}`
+        );
+        return;
+      }
 
       if (waterSamples.length === 0) {
         setCsvError("El archivo CSV no contiene registros válidos o las columnas requeridas (fecha, ubicacion, parametro, valor, unidad).");
@@ -360,6 +372,26 @@ export default function IndiceCalidadAguaPage() {
             </div>
           )}
 
+          {/* IRCA mensual (Res. 2115, art. 14): promedio de los IRCA por muestra del mes */}
+          {calculateMonthlyIRCA(samples).length > 0 && (
+            <div className="bg-white rounded-lg shadow p-4 mb-6 text-sm text-gray-700" data-testid="irca-mensual">
+              <h3 className="font-semibold text-gray-900 mb-2">IRCA mensual (art. 14)</h3>
+              <ul className="space-y-1">
+                {calculateMonthlyIRCA(samples).map((m) => (
+                  <li key={m.month}>
+                    <strong>{m.month}:</strong> {m.value.toFixed(2)}% — {m.category} ({m.sampleCount} muestra
+                    {m.sampleCount === 1 ? "" : "s"}
+                    {m.excludedSamples > 0 ? `; ${m.excludedSamples} sin IRCA calculable, excluida(s)` : ""})
+                  </li>
+                ))}
+              </ul>
+              <p className="text-xs text-gray-500 mt-2">
+                Promedio simple de los IRCA por muestra de todas las muestras cargadas del mes. Cargue solo muestras de un
+                mismo sistema de suministro.
+              </p>
+            </div>
+          )}
+
           {/* Tarjetas de Índices */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
             {/* IRCA */}
@@ -514,10 +546,15 @@ function IndexCard({
 
       <p className="text-sm text-gray-600 mb-4">{result.riskLevel}</p>
 
-      {result.missingParameters && result.missingParameters.length > 0 && (
-        <div className="text-xs text-yellow-700 bg-yellow-50 p-2 rounded">
-          ⚠️ Faltan {result.missingParameters.length} parámetros
-        </div>
+      {result.scope ? (
+        <IRCAScopeNotice scope={result.scope} />
+      ) : (
+        result.missingParameters &&
+        result.missingParameters.length > 0 && (
+          <div className="text-xs text-yellow-700 bg-yellow-50 p-2 rounded">
+            ⚠️ Faltan {result.missingParameters.length} parámetros
+          </div>
+        )
       )}
     </div>
   );

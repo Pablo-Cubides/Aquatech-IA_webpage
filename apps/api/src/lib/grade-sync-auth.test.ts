@@ -66,7 +66,7 @@ describe("scoped Colega authentication", () => {
         {
           studentCode: "00001234",
           courseId: "other-course",
-          cuts: { "2": null, "3": null },
+          cuts: { "2": null, "3": null } as Record<string, number | null>,
           grades: [
             {
               activityId: "test",
@@ -91,6 +91,10 @@ describe("scoped Colega authentication", () => {
     );
     batch.cut = 3;
     batch.students[0].grades[0].cut = 3;
+    expect(parseGradeSyncBatch(JSON.stringify(batch)).cut).toBe(3);
+    batch.cut = 1;
+    batch.students[0].grades[0].cut = 1;
+    batch.students[0].cuts = { "1": null, "2": null, "3": null };
     expect(() => parseGradeSyncBatch(JSON.stringify(batch))).toThrow("alcance");
   });
 });

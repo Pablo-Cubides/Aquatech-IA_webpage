@@ -88,6 +88,12 @@ export interface PollutantBreakpoints {
   /** Averaging period in hours (e.g., 1, 8, 24) */
   averagingPeriod: number;
   breakpoints: Breakpoint[];
+  /**
+   * Si se define, la concentración se TRUNCA a ese número de decimales antes de buscar el
+   * rango (los puntos de corte oficiales no se solapan ni cubren los decimales intermedios,
+   * p. ej. 12 y 13 en el ICA colombiano de PM2.5).
+   */
+  truncateDecimals?: number;
 }
 
 // ============================================

@@ -19,7 +19,7 @@ Las notas conciliadas de Colega deben coincidir con el Excel oficial, el Centro 
 - El acceso nuevo a base de datos permanece en apps/api mediante @ia-next/database; contratos Zod compartidos y portales separados.
 - La respuesta pública muestra código exacto, curso/grupo/corte, actividad, escala real y justificación sin nombres ni correos. Las razones originales permanecen privadas en Colega.
 - Cero y pendiente se distinguen. La sincronización no recalifica, no aplica penalizaciones y no convierte pendientes en cero.
-- La importación interactiva exige ADMIN. La herramienta de Colega usa una credencial de firma limitada a 2026-3, segundo corte y los tres cursos autorizados.
+- La importación interactiva exige ADMIN. La herramienta de Colega usa una credencial de firma limitada a 2026-3 y los tres cursos autorizados; el servidor acepta los cortes 2 y 3 del período 2026-3 para esos cursos, y fusionar este cambio habilita el corte 3.
 - Publicación por rama/PR con pruebas y preview, seguida de la integración de GitHub/Vercel existente. Notas y respaldos permanecen fuera del repositorio público.
 - Consultas limitadas, sin caché ni indexación; ADR-0013 permite un contador transaccional en Supabase solo para grade-reports cuando no se usa Upstash. El contador indisponible detiene la consulta.
 
