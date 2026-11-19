@@ -1,4 +1,5 @@
 import React from "react";
+import { classifyStrength, STRENGTH_LEGEND } from "../src/utils/correlations";
 
 interface CorrelationResult {
   column_a: string;
@@ -16,10 +17,11 @@ interface CorrelationHeatmapProps {
   selectedPair?: [string, string] | null;
 }
 
-function getColor(value: number) {
+export function getColor(value: number) {
   // Azul fuerte = correlación fuerte, amarillo = moderada, rojo = débil
-  if (Math.abs(value) > 0.75) return "bg-blue-400 text-white";
-  if (Math.abs(value) >= 0.4) return "bg-yellow-300 text-gray-900";
+  const strength = classifyStrength(value);
+  if (strength === "strong") return "bg-blue-400 text-white";
+  if (strength === "moderate") return "bg-yellow-300 text-gray-900";
   return "bg-red-300 text-gray-900";
 }
 
@@ -104,13 +106,13 @@ export default function CorrelationHeatmap({
       {/* Leyenda de colores */}
       <div className="mt-2 text-xs text-gray-500">
         <span className="bg-blue-400 text-white px-2 py-1 rounded">
-          Fuerte (&gt; 0.75)
+          {STRENGTH_LEGEND.strong}
         </span>
         <span className="bg-yellow-300 text-gray-900 px-2 py-1 rounded ml-2">
-          Moderada (0.4–0.75)
+          {STRENGTH_LEGEND.moderate}
         </span>
         <span className="bg-red-300 text-gray-900 px-2 py-1 rounded ml-2">
-          Débil (&lt; 0.4)
+          {STRENGTH_LEGEND.weak}
         </span>
       </div>
 
