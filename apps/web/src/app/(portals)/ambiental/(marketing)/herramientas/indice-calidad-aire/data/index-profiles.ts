@@ -47,7 +47,7 @@ export const IBOCA_PROFILE: IndexProfile = {
   name: 'IBOCA',
   nameLong: 'Índice Bogotano de Calidad del Aire',
   country: 'Colombia - Bogotá',
-  description: 'Índice local de Bogotá para gestión de episodios de contaminación atmosférica',
+  description: 'Índice local de Bogotá para gestión del riesgo en ambiente y salud (PM con media móvil ponderada NowCast de 12 h)',
   normativeReference: 'Resolución 2840 de 2023',
   range: { min: 0, max: 500 },
   pollutantBreakpoints: IBOCA_BREAKPOINTS,

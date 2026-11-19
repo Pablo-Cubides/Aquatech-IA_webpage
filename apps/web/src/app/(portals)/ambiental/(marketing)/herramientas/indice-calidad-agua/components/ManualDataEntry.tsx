@@ -3,6 +3,8 @@
 import { useState, useMemo } from "react";
 import type { WaterSample, Country } from "../types";
 import { IRCA_PARAMETERS } from "../data/irca-parameters";
+import { IRCA_OPTIONAL_INPUT_LABEL } from "../data/irca-scope";
+import { SUSTANCIAS_ART5 } from "@/lib/normativa";
 
 interface ManualDataEntryProps {
   selectedCountry: Country;
@@ -40,6 +42,12 @@ export default function ManualDataEntry({
   );
 
   const [formSubmitted, setFormSubmitted] = useState(false);
+
+  // Resultados OPCIONALES de los arts. 5 y 8 y de Giardia/Cryptosporidium (Res. 2115, art. 13 parágrafo).
+  // No cuentan como parámetros pendientes ni se exigen: solo se usan si el usuario los tiene.
+  const [optionalValues, setOptionalValues] = useState<Record<string, string>>({});
+  const [giardiaPresent, setGiardiaPresent] = useState(false);
+  const [cryptoPresent, setCryptoPresent] = useState(false);
 
   const handleParameterChange = (index: number, newValue: string) => {
     const updated = [...parameters];
@@ -173,6 +181,17 @@ export default function ManualDataEntry({
         unit: p.unit,
       }));
 
+    // Opcionales (arts. 5 y 8, Giardia/Cryptosporidium): solo los que el usuario ingresó
+    for (const [name, raw] of Object.entries(optionalValues)) {
+      if (raw.trim() === "") continue;
+      const v = parseFloat(raw);
+      if (!isNaN(v) && v >= 0) {
+        filledParameters.push({ name, value: v, unit: "mg/L" });
+      }
+    }
+    if (giardiaPresent) filledParameters.push({ name: "Giardia", value: 1, unit: "presencia" });
+    if (cryptoPresent) filledParameters.push({ name: "Cryptosporidium", value: 1, unit: "presencia" });
+
     if (filledParameters.length === 0) {
       return;
     }
@@ -190,6 +209,10 @@ export default function ManualDataEntry({
 
   // Contar cuántos parámetros se han llenado
   const filledCount = parameters.filter((p) => p.value.trim() !== "").length;
+  const optionalFilled =
+    Object.values(optionalValues).filter((v) => v.trim() !== "").length +
+    (giardiaPresent ? 1 : 0) +
+    (cryptoPresent ? 1 : 0);
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -437,6 +460,59 @@ export default function ManualDataEntry({
             </div>
           </div>
 
+          {/* Opcional: arts. 5 y 8 y Giardia/Cryptosporidium. Sin contadores ni asteriscos: no son parámetros pendientes. */}
+          {selectedCountry === "Colombia" && (
+            <details className="bg-white rounded-lg shadow-lg p-6 mb-6">
+              <summary className="cursor-pointer text-sm font-semibold text-gray-800">
+                ¿Tiene resultados de otras sustancias (arts. 5 y 8) o de Giardia/Cryptosporidium? (opcional)
+              </summary>
+              <p className="text-sm text-gray-600 mt-3 mb-4">
+                {IRCA_OPTIONAL_INPUT_LABEL} Si ingresa un resultado por encima del máximo aceptable, o confirma
+                presencia, el parágrafo del art. 13 de la Res. 2115 lleva el IRCA a 100.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {SUSTANCIAS_ART5.map((s) => (
+                  <label key={s.id} className="flex items-center justify-between gap-2 text-sm text-gray-700">
+                    <span>
+                      {s.nombre} <span className="text-gray-400">(mg/L)</span>
+                    </span>
+                    <input
+                      type="number"
+                      step="any"
+                      min="0"
+                      value={optionalValues[s.nombre] ?? ""}
+                      onChange={(e) => setOptionalValues({ ...optionalValues, [s.nombre]: e.target.value })}
+                      className="w-28 px-2.5 py-1.5 border border-gray-300 rounded-md text-sm"
+                    />
+                  </label>
+                ))}
+                <label className="flex items-center justify-between gap-2 text-sm text-gray-700">
+                  <span>
+                    Suma de plaguicidas <span className="text-gray-400">(mg/L)</span>
+                  </span>
+                  <input
+                    type="number"
+                    step="any"
+                    min="0"
+                    value={optionalValues["Plaguicidas"] ?? ""}
+                    onChange={(e) => setOptionalValues({ ...optionalValues, Plaguicidas: e.target.value })}
+                    className="w-28 px-2.5 py-1.5 border border-gray-300 rounded-md text-sm"
+                  />
+                </label>
+              </div>
+              <div className="mt-4 space-y-2 text-sm text-gray-700">
+                <label className="flex items-center gap-2">
+                  <input type="checkbox" checked={giardiaPresent} onChange={(e) => setGiardiaPresent(e.target.checked)} />
+                  Se confirmó presencia de Giardia
+                </label>
+                <label className="flex items-center gap-2">
+                  <input type="checkbox" checked={cryptoPresent} onChange={(e) => setCryptoPresent(e.target.checked)} />
+                  Se confirmó presencia de Cryptosporidium
+                </label>
+              </div>
+            </details>
+          )}
+
           {/* Botones */}
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <button
@@ -454,7 +530,7 @@ export default function ManualDataEntry({
               )}
               <button
                 type="submit"
-                disabled={filledCount === 0 || validationResults.hasErrors}
+                disabled={(filledCount === 0 && optionalFilled === 0) || validationResults.hasErrors}
                 className="w-full sm:w-auto px-6 py-3 bg-green-600 text-white rounded-md font-semibold hover:bg-green-700 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed transition-all shadow-sm"
               >
                 Calcular Índices →
@@ -475,8 +551,8 @@ export default function ManualDataEntry({
                 puntajes analizados) × 100
               </p>
               <p>
-                El IRCA se calcula solo con los parámetros que usted ingrese.
-                Entre más parámetros ingrese, más preciso será el resultado.
+                El IRCA se calcula solo con las características del Cuadro 6 que usted ingrese; el
+                resultado indica sobre cuántas de las 22 se calculó.
               </p>
               <p className="mt-2">
                 <strong>Categorías:</strong>

@@ -153,6 +153,7 @@ function generateReportHTML(
         </h2>
         <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
           ${indices.IRCA ? generateIndexCard("IRCA", "Resolución 2115 Colombia", indices.IRCA) : ""}
+          ${indices.IRCA?.scope ? generateIRCAScopeBlock(indices.IRCA.scope) : ""}
           ${indices.WQI ? generateIndexCard("WQI", "NSF Water Quality Index", indices.WQI) : ""}
           ${indices.DWQI ? generateIndexCard("DWQI", "Drinking Water Quality Index", indices.DWQI) : ""}
         </div>
@@ -278,4 +279,28 @@ export function printReport(
     printWindow.document.close();
     printWindow.print();
   }
+}
+
+
+function escapeHtml(t: string): string {
+  return t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+/** Alcance del IRCA en el reporte: sobre qué se calculó y qué no cubre (DOM-001 B1). */
+function generateIRCAScopeBlock(scope: NonNullable<IndexResult["scope"]>): string {
+  const overrides = scope.overrides.length
+    ? `<p style="margin:0 0 6px 0;color:#991b1b;"><strong>IRCA = 100 por el parágrafo del art. 13 (Res. 2115/2007):</strong> ${scope.overrides
+        .map((o) => escapeHtml(`${o.motivo} (${o.cita})`))
+        .join("; ")}. Valor por fórmula del art. 14: ${scope.formulaValue}%.</p>`
+    : "";
+  const unrecognized = scope.unrecognized.length
+    ? `<p style="margin:0 0 6px 0;color:#92400e;">No reconocidos (no entraron al cálculo): ${escapeHtml(scope.unrecognized.join(", "))}.</p>`
+    : "";
+  return `
+    <div style="margin:12px 0;padding:10px;border:1px solid #e5e7eb;background:#f9fafb;border-radius:6px;font-size:11px;color:#374151;">
+      ${overrides}
+      <p style="margin:0 0 6px 0;"><strong>Calculado sobre ${scope.calculatedOn} de las ${scope.totalCharacteristics} características del Cuadro 6</strong> (suma de puntajes analizados: ${scope.analyzedScore} de 100).</p>
+      ${unrecognized}
+      <p style="margin:0;">${escapeHtml(scope.reminder)}</p>
+    </div>`;
 }
