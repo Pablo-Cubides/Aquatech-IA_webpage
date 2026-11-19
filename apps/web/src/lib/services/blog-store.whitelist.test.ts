@@ -50,4 +50,51 @@ describe("blog-store: lista blanca de campos actualizables", () => {
     const picked = pickUpdatableFields({ title: "t", slug: undefined, __proto__: { status: "X" }, id: "1" } as Record<string, unknown>);
     expect(picked).toEqual({ title: "t" });
   });
+
+  it("SEC-005b: un content en TEXTO se guarda estructurado y la lectura posterior no se rompe", async () => {
+    const markdown =
+      "Introducción con texto suficiente para parecer un artículo real y no una frase suelta cualquiera.\n\n" +
+      "## Primera sección\nContenido de la primera sección con más de cincuenta caracteres de texto.\n\n" +
+      "## Segunda sección\nContenido de la segunda sección, también con más de cincuenta caracteres.";
+    // La base devuelve la fila con lo que se le pasó (como haría Prisma).
+    updateMock.mockImplementation(async ({ data }: { data: Record<string, unknown> }) => ({
+      id: "abc",
+      portal: "IA",
+      slug: "x",
+      title: "t",
+      category: "c",
+      excerpt: "e",
+      readTime: 1,
+      heroImage: null,
+      authorName: null,
+      authorAvatar: null,
+      authorBio: null,
+      tags: ["a", "b", "c"],
+      status: "PUBLISHED",
+      source: "ADMIN",
+      references: null,
+      nextArticle: null,
+      publishedAt: new Date("2026-01-01"),
+      createdAt: new Date("2026-01-01"),
+      updatedAt: new Date("2026-01-01"),
+      ...data,
+    }));
+
+    const result = await updateStoredArticle("abc", { content: markdown });
+
+    const { data } = updateMock.mock.calls[0][0];
+    expect(typeof data.content).toBe("object"); // antes: el string markdown tal cual
+    expect(Array.isArray(data.content.sections)).toBe(true);
+    expect(data.content.sections.map((s: { title: string }) => s.title)).toEqual(["Primera sección", "Segunda sección"]);
+    // Y lo que lee la página existe: antes mapDbPostToStoredArticle hacía JSON.parse del markdown y lanzaba.
+    expect(result).not.toBeNull();
+    expect(Array.isArray(result!.content.sections)).toBe(true);
+    expect(result!.content.introduction).toContain("Introducción con texto suficiente");
+  });
+
+  it("un content ya estructurado pasa sin cambios", async () => {
+    const structured = { introduction: "i".repeat(120), sections: [{ id: "a", title: "A", content: "c".repeat(60) }] };
+    await updateStoredArticle("abc", { content: structured });
+    expect(updateMock.mock.calls[0][0].data.content).toEqual(structured);
+  });
 });

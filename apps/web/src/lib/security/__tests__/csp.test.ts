@@ -42,3 +42,28 @@ describe("Content-Security-Policy (next.config.mjs)", () => {
     expect(policy["base-uri"]).toBe("'self'");
   });
 });
+
+describe("SEC-005b: cabeceras de seguridad endurecidas (comprobado en navegador, ver bitácora SEC)", () => {
+  async function allHeaders(): Promise<Record<string, string>> {
+    const rules: HeaderRule[] = await nextConfig.headers();
+    const all = rules.find((rule) => rule.source === "/(.*)");
+    return Object.fromEntries((all?.headers ?? []).map((h) => [h.key, h.value]));
+  }
+
+  it("script-src sin 'unsafe-eval' en producción y sin Google Tag Manager / Analytics", async () => {
+    const script = (await csp())["script-src"];
+    expect(script).toContain("'self'");
+    expect(script).not.toContain("'unsafe-eval'");
+    expect(script).not.toContain("googletagmanager");
+    expect(script).not.toContain("google-analytics");
+  });
+
+  it("X-XSS-Protection desactivado (0): el filtro heredado es obsoleto y explotable", async () => {
+    expect((await allHeaders())["X-XSS-Protection"]).toBe("0");
+  });
+
+  it("worker-src permite 'self' y blob: (los workers de MapLibre y de jspdf)", async () => {
+    expect((await csp())["worker-src"]).toContain("'self'");
+    expect((await csp())["worker-src"]).toContain("blob:");
+  });
+});

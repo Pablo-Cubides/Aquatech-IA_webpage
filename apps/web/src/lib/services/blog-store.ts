@@ -559,6 +559,13 @@ export async function updateStoredArticle(
   rawUpdates: object
 ): Promise<StoredBlogArticle | null> {
   const updates = pickUpdatableFields(rawUpdates as Record<string, unknown>);
+  // SEC-005b: un `content` en TEXTO (markdown) se estructura en secciones igual que en la creación.
+  // Antes se guardaba el string tal cual y la lectura (`JSON.parse` / `content.sections`) rompía la
+  // página de ese artículo.
+  const incoming = updates as { content?: unknown };
+  if (typeof incoming.content === "string") {
+    incoming.content = parseMarkdownToSections(incoming.content);
+  }
   try {
     const data: Record<string, unknown> = { ...updates };
     if (updates.portal) {

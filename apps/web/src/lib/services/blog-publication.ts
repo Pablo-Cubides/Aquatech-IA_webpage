@@ -121,7 +121,8 @@ const PATCH_TO_CANONICAL: Record<string, string> = {
  *    en uno de los artículos antiguos (hoy 10 solo tienen 2 etiquetas guardadas) no queda bloqueado
  *    por defectos que ya tenía y que el PATCH no empeora.
  *  - Si el resultado es borrador/pausado/archivado: laxo.
- * `content` en forma de texto se deja pasar como hasta ahora (solo se valida el contenido estructurado).
+ * `content` en forma de texto se estructura con `parseMarkdownToSections` (el mismo camino que el POST)
+ * y se valida como cualquier otro contenido.
  */
 export function checkPatchForPublication(existing: StoredBlogArticle, patch: PatchLike): PublicationCheck {
   const resultingStatus = patch.status ?? existing.status;
@@ -138,7 +139,13 @@ export function checkPatchForPublication(existing: StoredBlogArticle, patch: Pat
     excerpt: patch.excerpt ?? existing.excerpt,
     heroImage: patch.heroImage ?? existing.heroImage,
     author: { ...existing.author, ...(patch.author ?? {}) },
-    content: patch.content !== undefined && typeof patch.content === "object" ? patch.content : existing.content,
+    // Un `content` en texto se valida ya estructurado, igual que lo guardará el almacén.
+    content:
+      typeof patch.content === "string"
+        ? parseMarkdownToSections(patch.content)
+        : patch.content !== undefined && typeof patch.content === "object"
+          ? patch.content
+          : existing.content,
     tags: patch.tags ?? existing.tags,
     nextArticle: patch.nextArticle !== undefined ? patch.nextArticle : existing.nextArticle,
     references: patch.references !== undefined ? patch.references : existing.references,
@@ -153,9 +160,6 @@ export function checkPatchForPublication(existing: StoredBlogArticle, patch: Pat
       .map((key) => PATCH_TO_CANONICAL[key])
       .filter((key): key is string => Boolean(key)),
   );
-  // Un PATCH de contenido en texto no toca el contenido estructurado.
-  if (typeof patch.content === "string") touched.delete("content");
-
   const relevant = result.error.issues.filter((issue) => publishing || touched.has(String(issue.path[0])));
   if (relevant.length === 0) return { ok: true };
   return { ok: false, issues: relevant.map((issue) => describe(issue.path, issue.message)) };
