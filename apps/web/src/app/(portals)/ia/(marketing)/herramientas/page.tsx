@@ -1,7 +1,7 @@
 "use client";
 
+import { safeJsonLd } from "@/lib/security/safe-json-ld";
 import Link from "next/link";
-import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 // TODO: Move metadata to layout.tsx file
 
@@ -12,8 +12,6 @@ export default function IAHerramientasPage() {
     name: "Herramientas de IA | Aquatech IA",
     url: "https://aquatechia.com/ia/herramientas",
     description: "Catálogo de simuladores y herramientas interactivas de inteligencia artificial para explorar arquitectura LLM, decodificación y moderación algorítmica.",
-    datePublished: "2024-01-01",
-    dateModified: "2026-09-06",
     publisher: {
       "@type": "Organization",
       name: "AquatechIA"
@@ -26,7 +24,7 @@ export default function IAHerramientasPage() {
     >
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(collectionSchema) }}
       />
       {/* Hero Section */}
       <section className="relative py-16 md:py-24 overflow-hidden">
@@ -604,10 +602,6 @@ export default function IAHerramientasPage() {
             </div>
           </section>
 
-          {/* Authoritative References GEO/SEO */}
-          <section className="mt-16 pt-12 border-t border-[rgba(0,239,255,0.1)]">
-            <AuthoritativeReferences theme="dark" />
-          </section>
         </div>
       </div>
 

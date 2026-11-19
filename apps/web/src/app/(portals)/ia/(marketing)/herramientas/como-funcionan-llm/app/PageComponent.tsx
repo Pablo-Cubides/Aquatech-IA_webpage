@@ -10,7 +10,6 @@ import AutoregressiveStep from "./components/AutoregressiveStep";
 import BibliographyStep from "./components/BibliographyStep";
 import { ProcessProvider, useProcess } from "../context/ProcessContext";
 import { WebPageStructuredData } from "@/components/seo/StructuredData";
-import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 const DEMO_TEXTS = [
   "Los pájaros vuelan porque tienen alas",
@@ -111,8 +110,6 @@ function ExploraModeloApp() {
         title="Cómo Funcionan los Grandes Modelos de Lenguaje (LLM) | Aquatech IA"
         description="Cómo funcionan los modelos de lenguaje (LLM), paso a paso: tokenización, embeddings, atención, probabilidades y generación de texto."
         url="https://aquatechia.com/ia/herramientas/como-funcionan-llm"
-        datePublished="2024-06-01"
-        dateModified="2026-09-06"
       />
       <div className="min-h-screen bg-gradient-to-b from-[var(--ia-bg)] via-[var(--ia-bg-2)] to-[var(--ia-bg)]">
         {/* Header - Moderno y limpio */}
@@ -303,10 +300,6 @@ function ExploraModeloApp() {
             </div>
           </div>
 
-          {/* Referencias Académicas Autorizadas GEO */}
-          <div className="mt-12">
-            <AuthoritativeReferences theme="dark" />
-          </div>
         </section>
       </main>
     </div>

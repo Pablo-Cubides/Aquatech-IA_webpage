@@ -1,4 +1,5 @@
 import path from "path";
+import { withSentryConfig } from "@sentry/nextjs/config";
 import { fileURLToPath } from "url";
 import { retiredArticleRedirects } from "./src/lib/retired-articles.mjs";
 
@@ -8,6 +9,58 @@ const aquaQuizApiOrigin = (
 ).replace(/\/$/, "");
 
 /** @type {import('next').NextConfig} */
+// CSP movida desde proxy.ts: aplicarla por config evita ejecutar codigo en CADA visita (CPU de Vercel).
+const isDev = process.env.NODE_ENV === "development";
+// SEC-005b: en PRODUCCION no hay 'unsafe-eval' (solo el modo desarrollo lo necesita, para el refresco en
+// caliente) y ya no se permiten scripts de Google Tag Manager / Analytics: ningun codigo del sitio los
+// inyecta (solo hay un dns-prefetch y llamadas a window.gtag condicionadas a que exista). Si algun dia se
+// anade GA, se anade aqui el origen que cargue y se prueba en navegador. 'unsafe-inline' sigue: los
+// scripts de runtime de Next.js son en linea; quitarlo exige CSP con nonce (ver bitacora SEC).
+const scriptSrc = [
+  "script-src 'self'",
+  "'unsafe-inline'",
+  isDev ? "'unsafe-eval'" : "",
+]
+  .filter(Boolean)
+  .join(" ");
+
+const styleSrc = [
+  "style-src 'self'",
+  "'unsafe-inline'", // Required for Next.js inline styles in all envs
+  "https://fonts.googleapis.com",
+]
+  .filter(Boolean)
+  .join(" ");
+
+const contentSecurityPolicy = [
+  "default-src 'self'",
+  scriptSrc,
+  styleSrc,
+  "font-src 'self' https://fonts.gstatic.com data:",
+  "img-src 'self' data: https: blob:",
+  [
+    "connect-src 'self'",
+    "https://www.google-analytics.com",
+    "https://vitals.vercel-insights.com",
+    // SEC-003: el navegador ya no llama directo a ningun proveedor (OpenAQ, GBIF, WQP, EONET,
+    // Hugging Face, arXiv, Supabase) ni a *.vercel.app: todo pasa por /api/* del mismo origen
+    // (las rutas de apps/api llegan por rewrites). Una lista de destinos de red mas corta limita
+    // a donde puede exfiltrar datos un script inyectado.
+    isDev ? "ws://localhost:*" : "",
+    isDev ? "wss://localhost:*" : "",
+  ]
+    .filter(Boolean)
+    .join(" "),
+  "frame-src 'self' https://accounts.google.com",
+  "worker-src 'self' blob:",
+  "child-src 'self' blob:",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self' https://accounts.google.com",
+  "frame-ancestors 'none'",
+  "upgrade-insecure-requests",
+].join("; ");
+
 const nextConfig = {
   // Trace files from monorepo root
   outputFileTracingRoot: path.join(__dirname, "../../"),
@@ -21,7 +74,6 @@ const nextConfig = {
       "**/coverage/**",
       "**/public/static/**",
       "**/public/images/**",
-      "**/components/static/cases/**",
       "**/visor-cases/**",
       "**/*.gif",
       "**/*.png",
@@ -61,6 +113,12 @@ const nextConfig = {
         {
           source: "/api/aquaquiz/:path*",
           destination: `${aquaQuizApiOrigin}/api/aquaquiz/:path*`,
+        },
+        {
+          // VIS-004: version Markdown de cada articulo. beforeFiles para que blog/[slug] no capture "x.md" como slug.
+          // El handler vive en app/md/[portal]/[slug]/route.ts.
+          source: "/:portal(ia|ambiental)/blog/:slug.md",
+          destination: "/md/:portal/:slug",
         },
       ],
     };
@@ -139,8 +197,10 @@ const nextConfig = {
             value: "nosniff",
           },
           {
+            // SEC-005b: "0" desactiva el filtro XSS heredado de los navegadores antiguos (obsoleto y
+            // explotable); la defensa real es la CSP y el escape de salida. Recomendacion de OWASP.
             key: "X-XSS-Protection",
-            value: "1; mode=block",
+            value: "0",
           },
           {
             key: "Strict-Transport-Security",
@@ -152,7 +212,11 @@ const nextConfig = {
           },
           {
             key: "Permissions-Policy",
-            value: "camera=(), microphone=(), payment=(self)",
+            value: "camera=(), microphone=(), geolocation=(), payment=(self)",
+          },
+          {
+            key: "Content-Security-Policy",
+            value: contentSecurityPolicy,
           },
         ],
       },
@@ -243,8 +307,13 @@ const nextConfig = {
       },
       // Author tools - consolidate to IA portal (301 redirects)
       {
-        source: "/ambiental/autor/herramientas/ruleta-academica",
-        destination: "/ia/autor/herramientas/ruleta-academica",
+        source: "/ambiental/autor/herramientas/ruleta-academica/:path*",
+        destination: "/ia/autor/herramientas/ruleta-academica/:path*",
+        permanent: true,
+      },
+      {
+        source: "/ambiental/autor/herramientas/consulta-nota",
+        destination: "/ia/autor/herramientas/consulta-nota",
         permanent: true,
       },
       {
@@ -277,4 +346,22 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+// Sentry (OPS-001): solo se envuelve la configuración si hay DSN en el entorno de
+// build. Sin DSN el build es idéntico al de antes y el SDK queda inerte.
+// `tunnelRoute` manda los eventos del navegador por /monitoring (mismo origen): no
+// hace falta tocar la CSP (`connect-src`) ni sufren los bloqueadores de anuncios.
+const hasSentryDsn = Boolean(
+  (process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN)?.trim(),
+);
+
+export default hasSentryDsn
+  ? withSentryConfig(nextConfig, {
+      org: process.env.SENTRY_ORG,
+      project: process.env.SENTRY_PROJECT,
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+      silent: !process.env.CI,
+      telemetry: false,
+      tunnelRoute: "/monitoring",
+      webpack: { treeshake: { removeDebugLogging: true } },
+    })
+  : nextConfig;

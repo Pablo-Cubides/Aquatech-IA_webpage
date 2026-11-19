@@ -252,11 +252,10 @@ pnpm lint
 pnpm typecheck
 ```
 
-- Generate and apply database migrations (api package):
+- Generate the Prisma client (the only schema lives in `packages/@ia-next/database`; migrations are the manual SQL files in `packages/@ia-next/database/prisma/migrations/manual/`, there is no `db push`):
 
 ```pwsh
-pnpm --filter @ia-next/api prisma:migrate
-pnpm --filter @ia-next/api prisma:push
+pnpm --filter @ia-next/api prisma:generate
 ```
 
 **Executive summary & next steps (for lead dev)**

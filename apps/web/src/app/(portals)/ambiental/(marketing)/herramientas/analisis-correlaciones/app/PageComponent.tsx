@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import FileUploader from "../components/FileUploader";
-import ResultsSection from "./ResultsSection";
+import dynamic from "next/dynamic";
 import ErrorModal from "../components/ErrorModal";
 import DataSourceSelector, {
   type DataSource,
@@ -14,10 +14,8 @@ import AnalysisTypeSelector, {
   type AnalysisType,
 } from "../components/AnalysisTypeSelector";
 import AggregationOptions from "../components/AggregationOptions";
-import Papa from "papaparse";
-import * as XLSX from "xlsx";
-import { sampleCorrelation } from "simple-statistics";
 import { getMultipleIndicators } from "../src/utils/worldbank";
+import { pearson, spearman, kendallTauB } from "../src/utils/correlations";
 import { getMultipleWHOIndicators } from "@/utils/who";
 import {
   aggregateByYear,
@@ -34,38 +32,19 @@ import {
 } from "../src/utils/aggregation";
 import type { CorrelationResult } from "../types/analysis";
 
-// Function to calculate Pearson correlation
-function pearsonCorrelation(x: number[], y: number[]): number {
-  return sampleCorrelation(x, y);
-}
-
-// Function to calculate Spearman correlation (basic implementation)
-function spearmanCorrelation(x: number[], y: number[]): number {
-  const rankX = x
-    .map((val, idx) => ({ val, idx }))
-    .sort((a, b) => a.val - b.val)
-    .map((_item, rank) => rank + 1);
-  const rankY = y
-    .map((val, idx) => ({ val, idx }))
-    .sort((a, b) => a.val - b.val)
-    .map((item, rank) => rank + 1);
-  return sampleCorrelation(rankX, rankY);
-}
-
-// Function to calculate Kendall correlation (basic implementation)
-function kendallCorrelation(x: number[], y: number[]): number {
-  let concordant = 0;
-  let discordant = 0;
-  for (let i = 0; i < x.length; i++) {
-    for (let j = i + 1; j < x.length; j++) {
-      const signX = Math.sign(x[j] - x[i]);
-      const signY = Math.sign(y[j] - y[i]);
-      if (signX === signY) concordant++;
-      else if (signX !== signY) discordant++;
-    }
-  }
-  return (concordant - discordant) / (concordant + discordant);
-}
+// OPS-002: recharts, jspdf y html-to-image (gráficos y exportación) solo se descargan
+// cuando hay resultados que mostrar, no en el primer render de la página.
+const ResultsSection = dynamic(() => import("./ResultsSection"), {
+  loading: () => (
+    <div
+      role="status"
+      aria-live="polite"
+      style={{ padding: "24px", textAlign: "center", color: "#475569" }}
+    >
+      Cargando resultados…
+    </div>
+  ),
+});
 
 // Type definitions
 import { type AnalysisResult, type DataRow } from "../types/analysis";
@@ -84,8 +63,11 @@ function getErrorMessage(error: unknown): string {
 
 // Function to parse file
 async function parseFile(file: File): Promise<DataRow[]> {
+  // OPS-002: papaparse y xlsx se descargan al subir un archivo, no al cargar la página.
+  const Papa = file.name.endsWith(".csv") ? (await import("papaparse")).default : null;
+  const XLSX = file.name.endsWith(".xlsx") ? await import("xlsx") : null;
   return new Promise((resolve, reject) => {
-    if (file.name.endsWith(".csv")) {
+    if (Papa) {
       Papa.parse(file, {
         header: true,
         skipEmptyLines: true,
@@ -126,7 +108,7 @@ async function parseFile(file: File): Promise<DataRow[]> {
           reject(new Error("Error parsing CSV"));
         },
       });
-    } else if (file.name.endsWith(".xlsx")) {
+    } else if (XLSX) {
       const reader = new FileReader();
       reader.onload = (e) => {
         try {
@@ -185,28 +167,17 @@ function calculateCorrelations(data: DataRow[]): {
       const xVals = pairs.map((p) => p.x);
       const yVals = pairs.map((p) => p.y);
 
-      let pearson = null;
-      let spearman = null;
-      let kendall = null;
-
-      try {
-        pearson = pearsonCorrelation(xVals, yVals);
-      } catch {}
-
-      try {
-        spearman = spearmanCorrelation(xVals, yVals);
-      } catch {}
-
-      try {
-        kendall = kendallCorrelation(xVals, yVals);
-      } catch {}
+      // Los coeficientes no definidos (serie constante, etc.) llegan como null y la tabla los pinta "N/A".
+      const pearsonValue = pearson(xVals, yVals);
+      const spearmanValue = spearman(xVals, yVals);
+      const kendallValue = kendallTauB(xVals, yVals);
 
       results.push({
         column_a: col1,
         column_b: col2,
-        pearson: pearson !== null ? parseFloat(pearson.toFixed(4)) : null,
-        spearman: spearman !== null ? parseFloat(spearman.toFixed(4)) : null,
-        kendall: kendall !== null ? parseFloat(kendall.toFixed(4)) : null,
+        pearson: pearsonValue !== null ? parseFloat(pearsonValue.toFixed(4)) : null,
+        spearman: spearmanValue !== null ? parseFloat(spearmanValue.toFixed(4)) : null,
+        kendall: kendallValue !== null ? parseFloat(kendallValue.toFixed(4)) : null,
       });
     }
   }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import EducationalPanel from "@/components/EducationalPanel";
+import EducationalPanel from "../components/EducationalPanel";
 
 // Modelos y prompts originales
 const caseInfo: Record<string, { model: string; originalPrompt: string }> = {

@@ -77,7 +77,7 @@ const article: BlogArticle = blogArticleSchema.parse({
     ],
     conclusion: "[conclusion text]", // ~100 words. Reinforces core message, avoids repetition.
   },
-  tags: ["[tag1]", "[tag2]", "[tag3]"], // 3-7 tags, from glossary taxonomy
+  tags: ["[tag1]", "[tag2]", "[tag3]"], // 3-7 tags; glossary taxonomy recommended, specific technical tags allowed
   nextArticle: {             // OPTIONAL but recommended
     slug: "[related-slug]",  // Must be an existing, published article
     title: "[related title]",
@@ -127,7 +127,7 @@ Run validation mentally before writing the final file:
 ✓ readTime: within 20% of wordCount / 200
 ✓ excerpt: ≤ 280 chars
 ✓ heroImage: valid URL (Cloudinary) or valid /public path
-✓ tags: 3-7 items, from approved taxonomy
+✓ tags: 3-7 items (glossary taxonomy recommended; specific technical tags allowed, not generic synonyms)
 ✓ All section IDs: unique within the article
 ✓ nextArticle.slug: verified to exist in the articles library
 ✓ content.introduction: ≥ 100 words
@@ -165,4 +165,4 @@ Both must pass before opening a PR.
 | `nextArticle` pointing to non-existent slug | Verify slug exists before setting |
 | Long, run-on sentences in `content` | Break into shorter sentences or lists |
 | `date` in the future | Set to today's date for immediate publish |
-| Tags not in glossary | Add the tag to glossary first, then use it |
+| Generic synonym of an existing tag | Use the existing tag; tags outside the glossary only when they add technical specificity (ADR-0015) |

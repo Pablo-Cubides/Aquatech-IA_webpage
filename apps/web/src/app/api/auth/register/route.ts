@@ -33,6 +33,9 @@ export async function POST(request: NextRequest) {
     const rateLimitResult = await rateLimitByIP(clientIP, {
       interval: 15 * 60 * 1000,
       uniqueTokenPerInterval: 10,
+      // failureMode "closed" (decisión SEC-001): alta de cuentas = ruta de
+      // autenticación; sin almacén de límites se deniega.
+      failureMode: "closed",
     });
 
     if (!rateLimitResult.success) {
@@ -69,8 +72,10 @@ export async function POST(request: NextRequest) {
     });
 
     if (existingUser) {
+      // Sin el correo en el log (dato personal). Decisión SEC-002: se mantiene el 409 porque, sin
+      // flujo de confirmación por correo, una respuesta idéntica haría creer al usuario nuevo que
+      // su contraseña quedó registrada; la enumeración queda acotada por el límite de tasa (cerrado).
       await logger.warn("Registration attempt for existing email", {
-        email,
         ipAddress: clientIP,
       });
       return NextResponse.json(

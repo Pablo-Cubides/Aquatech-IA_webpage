@@ -1,366 +1,73 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import {
   logEvent,
   trackPageView,
   trackToolEvent,
   trackError,
 } from "../analytics";
-import * as Sentry from "@sentry/nextjs";
+import { reportClientError } from "@/lib/observability/sentry-client";
 
-import type { MockInstance } from "vitest";
+// Mock del reporte a Sentry (carga diferida) y del helper de envío de uso
+vi.mock("@/lib/observability/sentry-client", () => ({ reportClientError: vi.fn() }));
+const sendMock = vi.hoisted(() => vi.fn());
+vi.mock("@/lib/analytics/track", () => ({ sendToolEvent: sendMock }));
 
-// Mock Sentry
-vi.mock("@sentry/nextjs", () => ({
-  captureMessage: vi.fn(),
-  captureException: vi.fn(),
-}));
-
-describe("Análisis de Correlaciones - Analytics", () => {
-  let consoleLogSpy: MockInstance;
-  let consoleErrorSpy: MockInstance;
-
+describe("Análisis de Correlaciones - Analytics (OPS-001)", () => {
   beforeEach(() => {
-    consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     vi.clearAllMocks();
   });
 
-  afterEach(() => {
-    consoleLogSpy.mockRestore();
-    consoleErrorSpy.mockRestore();
-    vi.unstubAllEnvs();
-  });
+  it("el uso va a la tabla de eventos como tool_action y NUNCA a Sentry", () => {
+    logEvent("test_event", { param1: "value1" });
 
-  describe("logEvent", () => {
-    it("should log events in development", () => {
-      vi.stubEnv("NODE_ENV", "development");
-
-      logEvent("test_event", { param1: "value1" });
-
-      expect(consoleLogSpy).toHaveBeenCalled();
-      expect(Sentry.captureMessage).toHaveBeenCalledWith(
-        "Tool Event: test_event",
-        expect.objectContaining({
-          level: "info",
-          tags: expect.objectContaining({
-            tool: "analisis-correlaciones",
-            event: "test_event",
-          }),
-        }),
-      );
-    });
-
-    it("should log events without params", () => {
-      logEvent("simple_event");
-
-      expect(Sentry.captureMessage).toHaveBeenCalledWith(
-        "Tool Event: simple_event",
-        expect.objectContaining({
-          level: "info",
-        }),
-      );
-    });
-
-    it("should include userId in tags when provided", () => {
-      logEvent("user_event", { action: "upload" }, "user123");
-
-      expect(Sentry.captureMessage).toHaveBeenCalledWith(
-        "Tool Event: user_event",
-        expect.objectContaining({
-          tags: expect.objectContaining({
-            userId: "user123",
-          }),
-        }),
-      );
-    });
-
-    it("should include params in extra field", () => {
-      const params = { fileSize: "2MB", columns: 5 };
-      logEvent("file_uploaded", params);
-
-      expect(Sentry.captureMessage).toHaveBeenCalledWith(
-        "Tool Event: file_uploaded",
-        expect.objectContaining({
-          extra: params,
-        }),
-      );
-    });
-
-    it("should handle Sentry errors gracefully", () => {
-      vi.mocked(Sentry.captureMessage).mockImplementationOnce(() => {
-        throw new Error("Sentry error");
-      });
-
-      expect(() => logEvent("test")).not.toThrow();
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
-        "Failed to log event to Sentry:",
-        expect.any(Error),
-      );
-    });
-  });
-
-  describe("trackPageView", () => {
-    it("should track page views", () => {
-      trackPageView("/correlaciones");
-
-      expect(Sentry.captureMessage).toHaveBeenCalledWith(
-        "Tool Event: page_view",
-        expect.objectContaining({
-          extra: { page_path: "/correlaciones" },
-        }),
-      );
-    });
-
-    it("should track page views with userId", () => {
-      trackPageView("/correlaciones/about", "user456");
-
-      expect(Sentry.captureMessage).toHaveBeenCalledWith(
-        "Tool Event: page_view",
-        expect.objectContaining({
-          tags: expect.objectContaining({
-            userId: "user456",
-          }),
-          extra: { page_path: "/correlaciones/about" },
-        }),
-      );
-    });
-  });
-
-  describe("trackToolEvent", () => {
-    it("should track tool events with prefixed name", () => {
-      trackToolEvent("file_upload", { format: "csv" });
-
-      expect(Sentry.captureMessage).toHaveBeenCalledWith(
-        "Tool Event: tool_file_upload",
-        expect.objectContaining({
-          extra: { format: "csv" },
-        }),
-      );
-    });
-
-    it("should track tool events with userId", () => {
-      trackToolEvent(
-        "correlation_calculated",
-        { method: "pearson" },
-        "user789",
-      );
-
-      expect(Sentry.captureMessage).toHaveBeenCalledWith(
-        "Tool Event: tool_correlation_calculated",
-        expect.objectContaining({
-          tags: expect.objectContaining({
-            userId: "user789",
-          }),
-          extra: { method: "pearson" },
-        }),
-      );
-    });
-
-    it("should track tool events without details", () => {
-      trackToolEvent("export_clicked");
-
-      expect(Sentry.captureMessage).toHaveBeenCalledWith(
-        "Tool Event: tool_export_clicked",
-        expect.any(Object),
-      );
-    });
-  });
-
-  describe("trackError", () => {
-    it("should capture exceptions in Sentry", () => {
-      const error = new Error("Test error");
-      trackError(error);
-
-      expect(Sentry.captureException).toHaveBeenCalledWith(
-        error,
-        expect.objectContaining({
-          tags: expect.objectContaining({
-            tool: "analisis-correlaciones",
-          }),
-        }),
-      );
-    });
-
-    it("should include context in error tracking", () => {
-      const error = new Error("Parsing failed");
-      const context = { file: "data.csv", line: 42 };
-
-      trackError(error, context);
-
-      expect(Sentry.captureException).toHaveBeenCalledWith(
-        error,
-        expect.objectContaining({
-          extra: context,
-        }),
-      );
-    });
-
-    it("should include userId in error tracking", () => {
-      const error = new Error("Upload failed");
-      trackError(error, { reason: "size" }, "user999");
-
-      expect(Sentry.captureException).toHaveBeenCalledWith(
-        error,
-        expect.objectContaining({
-          tags: expect.objectContaining({
-            userId: "user999",
-          }),
-        }),
-      );
-    });
-  });
-});
-
-describe("Correlación de Pearson", () => {
-  // Helper function to calculate Pearson (copied from implementation)
-  function pearsonCorrelation(x: number[], y: number[]): number {
-    const n = x.length;
-    const sumX = x.reduce((a, b) => a + b, 0);
-    const sumY = y.reduce((a, b) => a + b, 0);
-    const sumXY = x.reduce((sum, xi, i) => sum + xi * y[i], 0);
-    const sumX2 = x.reduce((sum, xi) => sum + xi * xi, 0);
-    const sumY2 = y.reduce((sum, yi) => sum + yi * yi, 0);
-
-    const numerator = n * sumXY - sumX * sumY;
-    const denominator = Math.sqrt(
-      (n * sumX2 - sumX * sumX) * (n * sumY2 - sumY * sumY),
+    expect(sendMock).toHaveBeenCalledWith(
+      "analisis-correlaciones",
+      "tool_action",
+      expect.objectContaining({ action: "test_event", param1: "value1" }),
     );
-
-    return denominator === 0 ? 0 : numerator / denominator;
-  }
-
-  it("should calculate perfect positive correlation", () => {
-    const x = [1, 2, 3, 4, 5];
-    const y = [2, 4, 6, 8, 10];
-    const r = pearsonCorrelation(x, y);
-    expect(r).toBeCloseTo(1.0, 10);
+    expect(reportClientError).not.toHaveBeenCalled();
   });
 
-  it("should calculate perfect negative correlation", () => {
-    const x = [1, 2, 3, 4, 5];
-    const y = [10, 8, 6, 4, 2];
-    const r = pearsonCorrelation(x, y);
-    expect(r).toBeCloseTo(-1.0, 10);
+  it("ignora userId: el correo del usuario no sale en ningún evento", () => {
+    logEvent("user_event", { action: "upload" }, "ana@uni.edu.co");
+
+    expect(JSON.stringify(sendMock.mock.calls)).not.toContain("ana@uni.edu.co");
+    expect(reportClientError).not.toHaveBeenCalled();
   });
 
-  it("should calculate zero correlation for independent variables", () => {
-    const x = [1, 2, 3, 4, 5];
-    const y = [5, 3, 7, 2, 8];
-    const r = pearsonCorrelation(x, y);
-    expect(Math.abs(r)).toBeLessThan(0.5);
-  });
+  it("trackToolEvent antepone tool_ al nombre de la acción", () => {
+    trackToolEvent("file_upload", { format: "csv" });
 
-  it("should handle constant values gracefully", () => {
-    const x = [5, 5, 5, 5, 5];
-    const y = [1, 2, 3, 4, 5];
-    const r = pearsonCorrelation(x, y);
-    expect(r).toBe(0); // No variation in X
-  });
-});
-
-describe("Correlación de Spearman", () => {
-  // Helper function for ranking (must maintain original indices)
-  function getRanks(arr: number[]): number[] {
-    const indexed = arr.map((val, idx) => ({ val, idx }));
-    indexed.sort((a, b) => a.val - b.val);
-
-    const ranks = new Array(arr.length);
-    indexed.forEach((item, rank) => {
-      ranks[item.idx] = rank + 1;
-    });
-
-    return ranks;
-  }
-
-  function spearmanCorrelation(x: number[], y: number[]): number {
-    const rankX = getRanks(x);
-    const rankY = getRanks(y);
-
-    const n = rankX.length;
-    const sumX = rankX.reduce((a, b) => a + b, 0);
-    const sumY = rankY.reduce((a, b) => a + b, 0);
-    const sumXY = rankX.reduce((sum, xi, i) => sum + xi * rankY[i], 0);
-    const sumX2 = rankX.reduce((sum, xi) => sum + xi * xi, 0);
-    const sumY2 = rankY.reduce((sum, yi) => sum + yi * yi, 0);
-
-    const numerator = n * sumXY - sumX * sumY;
-    const denominator = Math.sqrt(
-      (n * sumX2 - sumX * sumX) * (n * sumY2 - sumY * sumY),
+    expect(sendMock).toHaveBeenCalledWith(
+      "analisis-correlaciones",
+      "tool_action",
+      expect.objectContaining({ action: "tool_file_upload", format: "csv" }),
     );
-
-    return denominator === 0 ? 0 : numerator / denominator;
-  }
-
-  it("should calculate perfect monotonic relationship", () => {
-    const x = [1, 2, 3, 4, 5];
-    const y = [1, 4, 9, 16, 25]; // x^2, non-linear but monotonic
-    const r = spearmanCorrelation(x, y);
-    expect(r).toBeCloseTo(1.0, 10);
   });
 
-  it("should calculate negative monotonic relationship", () => {
-    const x = [1, 2, 3, 4, 5];
-    const y = [25, 16, 9, 4, 1];
-    const r = spearmanCorrelation(x, y);
-    expect(r).toBeCloseTo(-1.0, 10);
+  it("trackPageView no duplica la visita que ya cuenta el layout", () => {
+    trackPageView("/correlaciones", "user456");
+
+    expect(sendMock).not.toHaveBeenCalled();
   });
 
-  it("should handle tied ranks", () => {
-    const x = [1, 2, 3, 3, 4];
-    const y = [2, 4, 6, 6, 8];
-    const r = spearmanCorrelation(x, y);
-    expect(r).toBeGreaterThan(0.9);
+  it("trackError envía el error a Sentry con la etiqueta de herramienta, sin userId ni contexto", () => {
+    const error = new Error("Parsing failed");
+
+    trackError(error, { file: "datos-de-estudiantes.csv" }, "user999");
+
+    expect(reportClientError).toHaveBeenCalledWith(error, { tool: "analisis-correlaciones" });
+    expect(sendMock).toHaveBeenCalledWith("analisis-correlaciones", "tool_error", {
+      kind: "handled",
+      name: "Error",
+    });
   });
+
 });
 
-describe("Correlación de Kendall Tau", () => {
-  function kendallCorrelation(x: number[], y: number[]): number {
-    let concordant = 0;
-    let discordant = 0;
-
-    for (let i = 0; i < x.length; i++) {
-      for (let j = i + 1; j < x.length; j++) {
-        const signX = Math.sign(x[j] - x[i]);
-        const signY = Math.sign(y[j] - y[i]);
-
-        if (signX === signY && signX !== 0) concordant++;
-        else if (signX !== signY && signX !== 0 && signY !== 0) discordant++;
-      }
-    }
-
-    return (concordant - discordant) / (concordant + discordant);
-  }
-
-  it("should calculate perfect concordance", () => {
-    const x = [1, 2, 3, 4, 5];
-    const y = [1, 2, 3, 4, 5];
-    const tau = kendallCorrelation(x, y);
-    expect(tau).toBe(1.0);
-  });
-
-  it("should calculate perfect discordance", () => {
-    const x = [1, 2, 3, 4, 5];
-    const y = [5, 4, 3, 2, 1];
-    const tau = kendallCorrelation(x, y);
-    expect(tau).toBe(-1.0);
-  });
-
-  it("should handle mixed concordance", () => {
-    const x = [1, 2, 3, 4];
-    const y = [1, 3, 2, 4];
-    const tau = kendallCorrelation(x, y);
-    expect(tau).toBeGreaterThan(0);
-    expect(tau).toBeLessThan(1);
-  });
-
-  it("should be symmetric", () => {
-    const x = [1, 2, 3, 4, 5];
-    const y = [2, 3, 1, 5, 4];
-    const tau1 = kendallCorrelation(x, y);
-    const tau2 = kendallCorrelation(y, x);
-    expect(tau1).toBeCloseTo(tau2, 10);
-  });
-});
+// Las pruebas de Pearson, Spearman y Kendall que había aquí probaban COPIAS locales de las funciones,
+// no el código de producción (por eso nadie vio que el Spearman daba siempre 1,00). Se retiraron en
+// ARQ-010: las pruebas reales, contra valores de referencia independientes, están en correlations-math.test.ts.
 
 describe("Validación de datos numéricos", () => {
   function isNumericColumn(data: Record<string, unknown>[], column: string): boolean {

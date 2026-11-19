@@ -1,7 +1,29 @@
 import { getServerSession } from "next-auth";
+import { z } from "zod";
 import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/db";
+import { prisma } from "@ia-next/database";
 import { NextResponse } from "next/server";
+
+const httpUrl = z
+  .string()
+  .max(2048)
+  .refine((value) => {
+    try {
+      const { protocol } = new URL(value);
+      return protocol === "https:" || protocol === "http:";
+    } catch {
+      return false;
+    }
+  }, "URL inválida");
+
+const profileSchema = z
+  .object({
+    name: z.string().trim().min(1).max(100).optional(),
+    image: httpUrl.optional(),
+  })
+  .refine((value) => value.name !== undefined || value.image !== undefined, {
+    message: "Missing fields",
+  });
 
 export async function PATCH(req: Request) {
   try {
@@ -11,20 +33,23 @@ export async function PATCH(req: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const body = await req.json();
-    const { name, image } = body;
+    const parsed = profileSchema.safeParse(await req.json().catch(() => null));
 
-    // Validation
-    if (!name && !image) {
-      return new NextResponse("Missing fields", { status: 400 });
+    if (!parsed.success) {
+      return new NextResponse("Invalid fields", { status: 400 });
     }
 
+    const { name, image } = parsed.data;
+
+    // `select` explícito: nunca devolver el registro completo (incluye el hash
+    // de `password`, el `role` y los `credits`).
     const updatedUser = await prisma.user.update({
       where: { email: session.user.email },
       data: {
         ...(name && { name }),
         ...(image && { image }),
       },
+      select: { id: true, name: true, image: true },
     });
 
     return NextResponse.json(updatedUser);

@@ -1,0 +1,206 @@
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { NextRequest } from "next/server";
+
+const { getServerSessionMock, prismaMock, rateLimitMock } = vi.hoisted(() => ({
+  getServerSessionMock: vi.fn(),
+  prismaMock: {
+    user: { findUnique: vi.fn() },
+    toolAnalytics: {
+      create: vi.fn(),
+      count: vi.fn(),
+      groupBy: vi.fn(),
+      deleteMany: vi.fn(),
+    },
+  },
+  rateLimitMock: vi.fn(),
+}));
+
+vi.mock("next-auth/next", () => ({ getServerSession: getServerSessionMock }));
+vi.mock("@/lib/auth", () => ({ authOptions: { marker: "authOptions" } }));
+vi.mock("@ia-next/database", () => ({ prisma: prismaMock }));
+vi.mock("@sentry/nextjs", () => ({ captureException: vi.fn(), captureMessage: vi.fn() }));
+vi.mock("@/lib/security/rate-limit", () => ({
+  rateLimit: rateLimitMock,
+  getClientIP: () => "203.0.113.7",
+}));
+
+import { GET, POST } from "./route";
+
+const post = (body: unknown, raw = false) =>
+  new NextRequest("http://localhost/api/tools/analytics", {
+    method: "POST",
+    headers: { "content-type": "application/json", "user-agent": "vitest" },
+    body: raw ? (body as string) : JSON.stringify(body),
+  });
+
+const valid = { tool: "visor-difusion", eventName: "generate_image", eventData: { steps: 20, cached: true } };
+
+describe("/api/tools/analytics", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    rateLimitMock.mockResolvedValue({ success: true, limit: 60, remaining: 59, reset: Date.now() + 60_000 });
+    getServerSessionMock.mockResolvedValue(null);
+    prismaMock.toolAnalytics.create.mockResolvedValue({ id: "evt1" });
+  });
+
+  describe("POST", () => {
+    it("pasa authOptions a getServerSession (antes lo llamaba sin opciones)", async () => {
+      await POST(post(valid));
+      expect(getServerSessionMock).toHaveBeenCalledWith({ marker: "authOptions" });
+    });
+
+    it("guarda el evento anónimo sin correo ni IP", async () => {
+      const response = await POST(post(valid));
+
+      expect(response.status).toBe(200);
+      const { data } = prismaMock.toolAnalytics.create.mock.calls[0][0];
+      expect(data.ipAddress).toBeNull();
+      expect(data.userId).toBeNull();
+      expect(JSON.stringify(data)).not.toContain("203.0.113.7");
+    });
+
+    it("OPS-001: el país lo fija el servidor desde la cabecera de Vercel y no se puede falsear", async () => {
+      const request = new NextRequest("http://localhost/api/tools/analytics", {
+        method: "POST",
+        headers: { "content-type": "application/json", "x-vercel-ip-country": "co" },
+        body: JSON.stringify({ ...valid, eventData: { ...valid.eventData, country: "ZZ" } }),
+      });
+      await POST(request);
+
+      const { data } = prismaMock.toolAnalytics.create.mock.calls[0][0];
+      expect(data.eventData.country).toBe("CO");
+    });
+
+    it("OPS-001: sin cabecera de país guarda XX, y una cabecera inválida también", async () => {
+      await POST(post(valid));
+      expect(prismaMock.toolAnalytics.create.mock.calls[0][0].data.eventData.country).toBe("XX");
+
+      const bad = new NextRequest("http://localhost/api/tools/analytics", {
+        method: "POST",
+        headers: { "content-type": "application/json", "x-vercel-ip-country": "<script>" },
+        body: JSON.stringify(valid),
+      });
+      await POST(bad);
+      expect(prismaMock.toolAnalytics.create.mock.calls[1][0].data.eventData.country).toBe("XX");
+    });
+
+    it("OPS-001: no manda un mensaje a Sentry por cada evento de uso", async () => {
+      const Sentry = await import("@sentry/nextjs");
+      await POST(post(valid));
+      expect(Sentry.captureMessage).not.toHaveBeenCalled();
+    });
+
+    it("con sesión guarda un seudónimo estable (HMAC), nunca el id real ni el correo", async () => {
+      vi.stubEnv("NEXTAUTH_SECRET", "secreto-de-prueba");
+      getServerSessionMock.mockResolvedValue({ user: { id: "cuid_123", email: "ana@example.com" } });
+
+      await POST(post(valid));
+      await POST(post(valid));
+
+      const first = prismaMock.toolAnalytics.create.mock.calls[0][0].data;
+      const second = prismaMock.toolAnalytics.create.mock.calls[1][0].data;
+      expect(first.userId).toMatch(/^[0-9a-f]{32}$/);
+      expect(first.userId).toBe(second.userId); // estable: permite contar quién repite
+      expect(JSON.stringify(first)).not.toContain("cuid_123");
+      expect(JSON.stringify(first)).not.toContain("ana@example.com");
+      vi.unstubAllEnvs();
+    });
+
+    it("sin NEXTAUTH_SECRET el evento se guarda sin identificador en lugar de fallar", async () => {
+      vi.stubEnv("NEXTAUTH_SECRET", "");
+      vi.stubEnv("AUTH_SECRET", "");
+      getServerSessionMock.mockResolvedValue({ user: { id: "cuid_123" } });
+
+      const response = await POST(post(valid));
+
+      expect(response.status).toBe(200);
+      expect(prismaMock.toolAnalytics.create.mock.calls[0][0].data.userId).toBeNull();
+      vi.unstubAllEnvs();
+    });
+
+    it("aplica límite de tasa y no escribe si no hay almacén (cerrado)", async () => {
+      rateLimitMock.mockResolvedValue({
+        success: false, limit: 60, remaining: 0, reset: Date.now(), reason: "backend-unavailable",
+      });
+
+      const response = await POST(post(valid));
+
+      expect(response.status).toBe(503);
+      expect(prismaMock.toolAnalytics.create).not.toHaveBeenCalled();
+      expect(rateLimitMock).toHaveBeenCalledWith(
+        "analytics:203.0.113.7",
+        expect.objectContaining({ failureMode: "closed" }),
+      );
+    });
+
+    it("responde 429 al superar el límite", async () => {
+      rateLimitMock.mockResolvedValue({ success: false, limit: 60, remaining: 0, reset: Date.now(), reason: "limit-exceeded" });
+      expect((await POST(post(valid))).status).toBe(429);
+    });
+
+    it.each([
+      ["campos desconocidos (esquema cerrado)", { ...valid, ipAddress: "1.2.3.4" }],
+      ["email en el cuerpo", { ...valid, email: "x@y.co" }],
+      ["tool con caracteres inválidos", { ...valid, tool: "Visor Difusión!" }],
+      ["eventName vacío", { ...valid, eventName: "" }],
+      ["eventData anidado", { ...valid, eventData: { a: { b: 1 } } }],
+      ["eventData como array", { ...valid, eventData: [1, 2] }],
+      ["valor de eventData demasiado largo", { ...valid, eventData: { a: "x".repeat(201) } }],
+      ["más de 20 claves en eventData", { ...valid, eventData: Object.fromEntries(Array.from({ length: 21 }, (_, i) => [`k${i}`, i])) }],
+      ["faltan campos", { tool: "visor-difusion" }],
+    ])("rechaza %s con 400", async (_label, body) => {
+      const response = await POST(post(body));
+
+      expect(response.status).toBe(400);
+      expect(prismaMock.toolAnalytics.create).not.toHaveBeenCalled();
+    });
+
+    it("rechaza JSON inválido con 400 y cuerpos de más de 4 KB con 413", async () => {
+      expect((await POST(post("{no json", true))).status).toBe(400);
+      expect((await POST(post(JSON.stringify({ ...valid, eventData: { a: "x".repeat(200) }, pad: "y".repeat(5000) }), true))).status).toBe(413);
+      expect(prismaMock.toolAnalytics.create).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("GET", () => {
+    it("pasa authOptions y responde 401 sin sesión", async () => {
+      const response = await GET();
+
+      expect(getServerSessionMock).toHaveBeenCalledWith({ marker: "authOptions" });
+      expect(response.status).toBe(401);
+    });
+
+    it("un usuario sin rol ADMIN recibe 404", async () => {
+      getServerSessionMock.mockResolvedValue({ user: { id: "u1", role: "USER" } });
+      prismaMock.user.findUnique.mockResolvedValue({ role: "USER" });
+      expect((await GET()).status).toBe(404);
+      expect(prismaMock.toolAnalytics.count).not.toHaveBeenCalled();
+    });
+
+    it("SEC-004: un token que dice ADMIN pero cuyo rol en la base ya no lo es recibe 404", async () => {
+      getServerSessionMock.mockResolvedValue({ user: { id: "a1", role: "ADMIN" } });
+      prismaMock.user.findUnique.mockResolvedValue({ role: "USER" }); // degradado tras emitirse el JWT
+      expect((await GET()).status).toBe(404);
+      expect(prismaMock.toolAnalytics.count).not.toHaveBeenCalled();
+    });
+
+    it("SEC-004: si la base no responde, no se concede el privilegio (404)", async () => {
+      getServerSessionMock.mockResolvedValue({ user: { id: "a1", role: "ADMIN" } });
+      prismaMock.user.findUnique.mockRejectedValue(new Error("db down"));
+      expect((await GET()).status).toBe(404);
+    });
+
+    it("un ADMIN recibe las estadísticas agregadas", async () => {
+      getServerSessionMock.mockResolvedValue({ user: { id: "a1", role: "ADMIN" } });
+      prismaMock.user.findUnique.mockResolvedValue({ role: "ADMIN" });
+      prismaMock.toolAnalytics.count.mockResolvedValue(42);
+      prismaMock.toolAnalytics.groupBy.mockResolvedValue([{ userId: "a" }, { userId: "b" }]);
+
+      const response = await GET();
+      const body = await response.json();
+
+      expect(response.status).toBe(200);
+      expect(body.stats).toMatchObject({ recentEvents: 42, uniqueUsers: 2 });
+    });
+  });
+});

@@ -588,3 +588,14 @@ model GradeRequestWindow {
   @@index([expiresAt], map: "grade_request_windows_expiry_idx")
   @@map("grade_request_windows")
 }
+
+// OPS-001: contador de ventana fija del limitador de apps/web. La clave es un
+// HMAC del identificador (sin IP ni correo). Migración: manual/20261115_rate_limit_windows.sql
+model RateLimitWindow {
+  bucket    String   @id
+  hits      Int
+  expiresAt DateTime @db.Timestamptz(6)
+
+  @@index([expiresAt], map: "rate_limit_windows_expiry_idx")
+  @@map("rate_limit_windows")
+}

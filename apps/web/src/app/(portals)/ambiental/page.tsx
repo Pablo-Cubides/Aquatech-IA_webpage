@@ -1,8 +1,10 @@
+import { safeJsonLd } from "@/lib/security/safe-json-ld";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getFeaturedAmbientalTools } from "@/lib/ambiental-tools";
-import { getLatestArticles } from "@/lib/new-ambiental-articles";
+import { getLatestArticles } from "@/lib/blog-articles";
 import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
+import { AMBIENTAL_OFFICIAL_RESOURCES, OFFICIAL_RESOURCES_SUBTITLE, OFFICIAL_RESOURCES_TITLE } from "@/components/seo/official-resources";
 
 import { SITE_URL } from "@/lib/site-config";
 
@@ -39,15 +41,15 @@ export const metadata: Metadata = {
   },
 };
 
-export default function AmbientalPage() {
+export default async function AmbientalPage() {
+  // Artículos de TODAS las fuentes (antes solo new-*.ts: la portada IA salía vacía y se perdían los de la base de datos).
+  const latestArticles = await getLatestArticles("ambiental", 3);
   const portalSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "Portal Ambiental - AquatechIA",
     url: "https://aquatechia.com/ambiental",
     description: "Mapas, normas y herramientas para proteger nuestros recursos naturales. Gestión ambiental con tecnología para un futuro sostenible.",
-    datePublished: "2024-01-01",
-    dateModified: "2026-09-06",
     publisher: {
       "@type": "Organization",
       name: "AquatechIA"
@@ -58,7 +60,7 @@ export default function AmbientalPage() {
     <div className="bg-white text-black">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(portalSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(portalSchema) }}
       />
       {/* HERO */}
       <section className="relative overflow-hidden min-h-screen lg:h-screen flex items-center text-center">
@@ -216,7 +218,7 @@ export default function AmbientalPage() {
           </p>
 
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {getLatestArticles(3).map((article) => (
+            {latestArticles.map((article) => (
               <Link key={article.slug} href={`/ambiental/blog/${article.slug}`}>
                 <article className="overflow-hidden rounded-2xl border border-[#E5EDF2] bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg h-full flex flex-col">
                   <img
@@ -324,10 +326,15 @@ export default function AmbientalPage() {
         </div>
       </section>
 
-      {/* REFERENCIAS AUTORIZADAS GEO/SEO */}
+      {/* Recursos oficiales: lista explícita y verificada (VIS-005) */}
       <section className="py-12 bg-white border-t border-slate-200">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <AuthoritativeReferences theme="light" />
+          <AuthoritativeReferences
+            sources={AMBIENTAL_OFFICIAL_RESOURCES}
+            title={OFFICIAL_RESOURCES_TITLE}
+            subtitle={OFFICIAL_RESOURCES_SUBTITLE}
+            theme="light"
+          />
         </div>
       </section>
 

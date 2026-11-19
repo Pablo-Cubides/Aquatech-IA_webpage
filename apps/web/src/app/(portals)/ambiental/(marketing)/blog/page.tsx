@@ -1,9 +1,11 @@
+import { safeJsonLd } from "@/lib/security/safe-json-ld";
 import { Metadata } from "next";
 import { getAllArticles } from "@/lib/blog-articles";
 import { getCategories } from "@/lib/blog-categories";
 import { BlogContent } from "@/components/blog/BlogContent";
 import { FAQStructuredData } from "@/components/seo/StructuredData";
 import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
+import { AMBIENTAL_OFFICIAL_RESOURCES, OFFICIAL_RESOURCES_SUBTITLE, OFFICIAL_RESOURCES_TITLE } from "@/components/seo/official-resources";
 import { SITE_URL, DEFAULT_LOGO } from "@/lib/site-config";
 
 // SEO Metadata
@@ -40,33 +42,6 @@ export const metadata: Metadata = {
   },
 };
 
-const blogAmbientalReferences = [
-  {
-    title: "Ministerio de Ambiente y Desarrollo Sostenible de Colombia",
-    url: "https://www.minambiente.gov.co/",
-    organization: "MinAmbiente Colombia",
-    domain: "minambiente.gov.co",
-  },
-  {
-    title: "Instituto de Hidrología, Meteorología y Estudios Ambientales (IDEAM)",
-    url: "http://www.ideam.gov.co/",
-    organization: "IDEAM",
-    domain: "ideam.gov.co",
-  },
-  {
-    title: "United Nations Environment Programme (UNEP)",
-    url: "https://www.unep.org/",
-    organization: "United Nations",
-    domain: "unep.org",
-  },
-  {
-    title: "USGS Water Resources Mission Area",
-    url: "https://www.usgs.gov/mission-areas/water-resources",
-    organization: "U.S. Geological Survey",
-    domain: "usgs.gov",
-  },
-];
-
 const blogAmbientalFaqs = [
   {
     question: "¿Qué contenido se analiza en el Blog Ambiental de Aquatech IA?",
@@ -91,8 +66,6 @@ function generateBlogSchema() {
     description:
       "Artículos, análisis y soluciones innovadoras para los desafíos ambientales.",
     url: `${SITE_URL}/ambiental/blog`,
-    datePublished: "2024-01-01",
-    dateModified: "2026-09-06",
     publisher: {
       "@type": "Organization",
       name: "AquatechIA",
@@ -104,7 +77,7 @@ function generateBlogSchema() {
   };
 }
 
-export const revalidate = 60;
+export const revalidate = 3600; // 1h: antes 60s (CPU por regeneraciones constantes)
 
 export default async function BlogAmbientalPage() {
   const articles = await getAllArticles("ambiental");
@@ -117,7 +90,7 @@ export default async function BlogAmbientalPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(blogSchema),
+          __html: safeJsonLd(blogSchema),
         }}
       />
       <FAQStructuredData faqs={blogAmbientalFaqs} />
@@ -128,7 +101,12 @@ export default async function BlogAmbientalPage() {
       />
       <div className="bg-slate-50 py-12 px-4 border-t border-slate-200">
         <div className="container mx-auto max-w-6xl">
-          <AuthoritativeReferences customSources={blogAmbientalReferences} theme="light" />
+          <AuthoritativeReferences
+            sources={AMBIENTAL_OFFICIAL_RESOURCES}
+            title={OFFICIAL_RESOURCES_TITLE}
+            subtitle={OFFICIAL_RESOURCES_SUBTITLE}
+            theme="light"
+          />
         </div>
       </div>
     </>

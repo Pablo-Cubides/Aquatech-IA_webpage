@@ -17,7 +17,6 @@ import PatternRadarChart from "../components/PatternRadarChart";
 import PatternTimeline from "../components/PatternTimeline";
 import AcademicReferences from "../components/AcademicReferences";
 import { WebPageStructuredData } from "@/components/seo/StructuredData";
-import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 // Referencias académicas por parámetro para SEO y credibilidad
 const academicReferences = {
@@ -367,8 +366,6 @@ export default function Home() {
         title="Parámetros de Decodificación (LLM Tune) | Aquatech IA"
         description="Playground interactivo para experimentar con Temperatura, Top-k, Top-p y penalización por repetición en modelos de lenguaje grandes."
         url="https://aquatechia.com/ia/herramientas/parametros-decodificacion"
-        datePublished="2024-06-01"
-        dateModified="2026-09-06"
       />
       <main className="max-w-7xl mx-auto p-8 text-white">
         {/* Enhanced header with LLM Tune logo */}
@@ -1092,10 +1089,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Citas y Referencias Oficiales GEO */}
-        <div className="mt-8">
-          <AuthoritativeReferences theme="dark" />
-        </div>
       </section>
 
       <footer className="text-center text-sm text-[#CCCCCC] mt-16 pb-8 border-t border-white/5 pt-8">

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth";
+import { isAdminInDatabase } from "@/lib/security/admin-session";
 import type { Metadata } from "next";
 import { authOptions } from "@/lib/auth";
 import GradeReportLookup from "./GradeReportLookup";
@@ -11,6 +12,8 @@ export const metadata: Metadata = {
 };
 export default async function ConsultaNotaIAPage() {
   const session = await getServerSession(authOptions);
+  // SEC-004: el rol se comprueba en la base de datos, no en el JWT.
+  const isAdmin = await isAdminInDatabase(session?.user?.id);
   return (
     <main className="min-h-screen bg-slate-950 px-4 py-10 text-white sm:px-8">
       <div className="mx-auto max-w-5xl">
@@ -33,7 +36,7 @@ export default async function ConsultaNotaIAPage() {
           </p>
         </header>
         <GradeReportLookup />
-        {session?.user.role === "ADMIN" ? <GradeReportUpload /> : null}
+        {isAdmin ? <GradeReportUpload /> : null}
       </div>
     </main>
   );

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { SITE_URL } from '@/lib/site-config';
+import { SITE_URL, TWITTER_HANDLE } from '@/lib/site-config';
 import ToolSeoBlock from "@/components/seo/ToolSeoBlock";
 
 export const metadata: Metadata = {
@@ -55,31 +55,12 @@ export const metadata: Metadata = {
     title: 'Calculadora AQI - Calidad del Aire',
     description:
       'Calcula índices de calidad del aire para múltiples metodologías internacionales.',
-    creator: '@aquatechia',
+    creator: TWITTER_HANDLE,
   },
   category: 'technology',
 };
 
-const structuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'WebApplication',
-  name: 'Calculadora de Índices de Calidad del Aire',
-  description:
-    'Herramienta para calcular índices de calidad del aire (AQI) usando metodologías US EPA, ICA Colombia, IBOCA Bogotá, EAQI Europa y OMS',
-  url: `${SITE_URL}/ambiental/herramientas/indice-calidad-aire`,
-  applicationCategory: 'EnvironmentalApplication',
-  operatingSystem: 'Web Browser',
-  offers: {
-    '@type': 'Offer',
-    price: '0',
-    priceCurrency: 'USD',
-  },
-  provider: {
-    '@type': 'Organization',
-    name: 'AquatechIA',
-    url: SITE_URL,
-  },
-  featureList: [
+const FEATURE_LIST = [
     'US AQI (EPA) - Índice oficial de Estados Unidos',
     'ICA Colombia - Resolución 2254 de 2017',
     'IBOCA Bogotá - Resolución 2840 de 2023',
@@ -88,8 +69,7 @@ const structuredData = {
     'Soporte para PM2.5, PM10, O3, NO2, SO2, CO',
     'Carga de datos CSV',
     'Integración con OpenAQ',
-  ],
-};
+  ];
 
 export default function IndiceCalidadAireLayout({
   children,
@@ -98,14 +78,8 @@ export default function IndiceCalidadAireLayout({
 }) {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData),
-        }}
-      />
       {children}
-      <ToolSeoBlock slug="indice-calidad-aire" portal="ambiental" />
+      <ToolSeoBlock featureList={FEATURE_LIST} slug="indice-calidad-aire" portal="ambiental" />
     </>
   );
 }

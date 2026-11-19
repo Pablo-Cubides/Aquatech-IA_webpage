@@ -52,7 +52,7 @@ normas-ambientales/
     ├── components/
     │   └── ...             # Componentes UI
     ├── context/
-    │   └── ProcessContext.tsx
+    │   └── (sin ProcessContext local: ProcessProvider viene de @ia-next/ui)
     └── lib/
         ├── __tests__/
         │   └── normas.test.ts  # Tests unitarios

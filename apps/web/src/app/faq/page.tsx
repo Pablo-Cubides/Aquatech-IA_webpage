@@ -1,3 +1,4 @@
+import { safeJsonLd } from "@/lib/security/safe-json-ld";
 import type { Metadata } from "next";
 import Link from "next/link";
 import HeaderAmbiental from "@/components/nav/HeaderAmbiental";
@@ -81,7 +82,7 @@ export default function FAQPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(faqSchema) }}
       />
       <HeaderAmbiental />
       <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex-grow">

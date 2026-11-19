@@ -1,3 +1,4 @@
+import { safeJsonLd } from "@/lib/security/safe-json-ld";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -26,7 +27,7 @@ export default function IACursosPage() {
     <div>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(collectionSchema) }}
       />
       <h1>Cursos - IA Portal</h1>
       {/* TODO: Diseñar listado de cursos IA */}

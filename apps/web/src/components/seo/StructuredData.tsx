@@ -3,6 +3,7 @@
  * These components generate Schema.org structured data for educational tools
  */
 
+import { safeJsonLd } from "@/lib/security/safe-json-ld";
 import React from "react";
 import { SITE_URL, DEFAULT_LOGO, DEFAULT_OG_IMAGE } from "@/lib/site-config";
 
@@ -23,7 +24,7 @@ export function ToolStructuredData({
   name,
   description,
   url,
-  datePublished = "2024-01-01",
+  datePublished,
   dateModified,
   author = "AquatechIA",
   keywords = [],
@@ -55,8 +56,9 @@ export function ToolStructuredData({
         url: DEFAULT_LOGO,
       },
     },
-    datePublished,
-    dateModified: dateModified || "2026-09-06",
+    // Solo fechas reales: si no se pasan, el campo se omite (una fecha inventada en JSON-LD es peor que ninguna).
+    ...(datePublished ? { datePublished } : {}),
+    ...(dateModified ? { dateModified } : {}),
     keywords: keywords.join(", "),
     inLanguage: "es",
     isAccessibleForFree: true,
@@ -65,7 +67,7 @@ export function ToolStructuredData({
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(structuredData) }}
     />
   );
 }
@@ -87,7 +89,7 @@ export function ArticleStructuredData({
   title,
   description,
   url,
-  datePublished = "2024-01-01",
+  datePublished,
   dateModified,
   author = "AquatechIA",
   image = DEFAULT_OG_IMAGE,
@@ -113,8 +115,9 @@ export function ArticleStructuredData({
         url: DEFAULT_LOGO,
       },
     },
-    datePublished,
-    dateModified: dateModified || "2026-09-06",
+    // Solo fechas reales: si no se pasan, el campo se omite (una fecha inventada en JSON-LD es peor que ninguna).
+    ...(datePublished ? { datePublished } : {}),
+    ...(dateModified ? { dateModified } : {}),
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": url,
@@ -125,7 +128,7 @@ export function ArticleStructuredData({
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(structuredData) }}
     />
   );
 }
@@ -157,7 +160,7 @@ export function BreadcrumbStructuredData({
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(structuredData) }}
     />
   );
 }
@@ -186,7 +189,7 @@ export function FAQStructuredData({ faqs }: FAQStructuredDataProps) {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(structuredData) }}
     />
   );
 }
@@ -220,7 +223,7 @@ export function HowToStructuredData({ name, description, steps }: HowToStructure
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(structuredData) }}
     />
   );
 }
@@ -240,8 +243,8 @@ export function WebPageStructuredData({
   title,
   description,
   url,
-  datePublished = "2024-01-01",
-  dateModified = "2026-09-06",
+  datePublished,
+  dateModified,
   breadcrumb,
 }: WebPageStructuredDataProps) {
   const pageName = name || title || "Aquatech IA";
@@ -251,8 +254,8 @@ export function WebPageStructuredData({
     name: pageName,
     description,
     url,
-    datePublished,
-    dateModified,
+    ...(datePublished ? { datePublished } : {}),
+    ...(dateModified ? { dateModified } : {}),
     inLanguage: "es",
     publisher: {
       "@type": "Organization",
@@ -280,7 +283,7 @@ export function WebPageStructuredData({
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(structuredData) }}
     />
   );
 }

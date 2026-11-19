@@ -31,6 +31,15 @@ let globalProjects: ResearchProject[] = (seedData as unknown as ResearchProject[
   complementa: p.complementa || [],
 }));
 
+/** Campos con datos personales o de gestión interna: solo para ADMIN. */
+export type PublicResearchProject = Omit<ResearchProject, "estudiante" | "notas_admin">;
+
+export function toPublicProject(project: ResearchProject): PublicResearchProject {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { estudiante: _estudiante, notas_admin: _notasAdmin, ...publicFields } = project;
+  return publicFields;
+}
+
 export function getAllProjects(): ResearchProject[] {
   return globalProjects;
 }

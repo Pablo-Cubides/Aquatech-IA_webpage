@@ -1,24 +1,42 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
+import { z } from "zod";
+import {
+  fetchUpstreamJson,
+  guardPublicProxy,
+  proxyError,
+  proxyJson,
+  queryInt,
+} from "@/lib/security/public-proxy";
 
 /**
  * Hugging Face Trending Models API
  *
- * Fetches trending models from Hugging Face Hub API with caching
- * @param period - 'week' (likes7d) or 'month' (likes30d)
- * @param limit - Number of models to fetch (5-50)
- * @param category - Optional pipeline_tag filter
+ * Modelos en tendencia del Hub de Hugging Face.
+ * @param period - 'week' (likes7d) o 'month' (likes30d)
+ * @param limit - número de modelos (5-50)
+ * @param category - filtro opcional por pipeline_tag
+ *
+ * SEC-003:
+ *  - SIN datos de respaldo: si el Hub falla se responde 502/503/504. Antes se devolvía una lista
+ *    FIJA de siete modelos de 2019-2024 con la forma de la respuesta real y `source: "...(mock)"`:
+ *    una lista "en tendencia" que es por definición vieja y que la interfaz mostraba como actual.
+ *  - La caché en memoria guarda SOLO respuestas reales previas (el campo `cached` ya se informa)
+ *    y se usa únicamente como primera barrera, nunca como sustituto de un fallo.
+ *  - Límite: la clave HUGGINGFACE_API_KEY (opcional) identifica la cuenta => almacén compartido,
+ *    cerrado, más un presupuesto global bajo el límite documentado del Hub para la API
+ *    (500 peticiones / 5 min por IP anónima; Vercel comparte IP entre muchas instancias).
  */
 
 const HF_API_BASE = "https://huggingface.co/api/models";
-const CACHE_DURATION = 3600; // 1 hour in seconds
+const CACHE_DURATION = 3600; // 1 hora en segundos
 
-// In-memory cache
 interface CacheEntry {
   data: HFModel[];
   timestamp: number;
 }
 
 const cache: Map<string, CacheEntry> = new Map();
+const MAX_CACHE_ENTRIES = 200;
 
 export interface HFModel {
   id: string;
@@ -35,242 +53,99 @@ export interface HFModel {
   private: boolean;
 }
 
-interface HFAPIResponse {
-  _id: string;
-  id: string;
-  modelId: string;
-  likes: number;
-  downloads: number;
-  trendingScore: number;
-  pipeline_tag?: string;
-  tags: string[];
-  createdAt: string;
-  lastModified?: string;
-  library_name?: string;
-  private: boolean;
-}
+const rawModelSchema = z.object({
+  id: z.string().min(1),
+  modelId: z.string().optional(),
+  likes: z.number().optional(),
+  downloads: z.number().optional(),
+  trendingScore: z.number().optional(),
+  pipeline_tag: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  createdAt: z.string().optional(),
+  lastModified: z.string().optional(),
+  library_name: z.string().optional(),
+  private: z.boolean().optional(),
+});
 
-function getCacheKey(period: string, limit: number, category?: string): string {
-  return `${period}-${limit}-${category || "all"}`;
-}
+const querySchema = z.strictObject({
+  period: z.enum(["week", "month"]).default("week"),
+  limit: queryInt(5, 50).default(20),
+  // "all" o un pipeline_tag del Hub (p. ej. "text-generation").
+  category: z
+    .string()
+    .regex(/^[a-z0-9][a-z0-9-]{0,49}$/, "categoría inválida")
+    .default("all"),
+});
 
 function isValidCache(entry: CacheEntry): boolean {
   return Date.now() - entry.timestamp < CACHE_DURATION * 1000;
 }
 
 export async function GET(request: NextRequest) {
-  try {
-    const { searchParams } = new URL(request.url);
-    const period = searchParams.get("period") || "week";
-    const limit = Math.min(Math.max(parseInt(searchParams.get("limit") || "20"), 5), 50);
-    const category = searchParams.get("category") || undefined;
+  const guard = await guardPublicProxy(request, {
+    name: "huggingface:trending",
+    schema: querySchema,
+    perMinutePerIp: 30,
+    limiter: "shared",
+    upstreamBudget: { max: 300, intervalMs: 5 * 60_000 },
+  });
+  if (!guard.ok) return guard.response;
+  const { period, limit, category } = guard.query;
 
-    // Validate period
-    if (!["week", "month"].includes(period)) {
-      return NextResponse.json(
-        { error: "Invalid period. Use 'week' or 'month'" },
-        { status: 400 }
-      );
-    }
-
-    // Check cache
-    const cacheKey = getCacheKey(period, limit, category);
-    const cached = cache.get(cacheKey);
-    if (cached && isValidCache(cached)) {
-      return NextResponse.json({
-        models: cached.data,
-        cached: true,
-        period,
-        limit,
-        category: category || "all",
-      });
-    }
-
-    // Build API URL
-    const sortField = period === "week" ? "likes7d" : "likes30d";
-    const params = new URLSearchParams({
-      sort: sortField,
-      direction: "-1",
-      limit: limit.toString(),
-    });
-
-    if (category && category !== "all") {
-      params.append("pipeline_tag", category);
-    }
-
-    const apiUrl = `${HF_API_BASE}?${params.toString()}`;
-
-    // Fetch from Hugging Face API
-    const hfHeaders: Record<string, string> = {
-      "Content-Type": "application/json",
-    };
-    if (process.env.HUGGINGFACE_API_KEY) {
-      hfHeaders["Authorization"] = `Bearer ${process.env.HUGGINGFACE_API_KEY}`;
-    }
-
-    const response = await fetch(apiUrl, {
-      headers: hfHeaders,
-      next: { revalidate: CACHE_DURATION },
-    });
-
-    if (!response.ok) {
-      console.warn("[HF API] Error or rate limit, falling back to mock data:", response.status);
-      const mockModels = generateMockHFModels(limit, category);
-      return NextResponse.json({
-        models: mockModels,
-        cached: false,
-        period,
-        limit,
-        category: category || "all",
-        source: "huggingface.co (mock)",
-      });
-    }
-
-    const rawModels: HFAPIResponse[] = await response.json();
-
-    // Transform data
-    const models: HFModel[] = rawModels.map((model) => ({
-      id: model.id,
-      modelId: model.modelId || model.id,
-      author: model.id.split("/")[0] || "unknown",
-      likes: model.likes || 0,
-      downloads: model.downloads || 0,
-      trendingScore: model.trendingScore || 0,
-      pipeline_tag: model.pipeline_tag,
-      tags: model.tags || [],
-      createdAt: model.createdAt,
-      lastModified: model.lastModified,
-      library_name: model.library_name,
-      private: model.private || false,
-    }));
-
-    // Update cache
-    cache.set(cacheKey, {
-      data: models,
-      timestamp: Date.now(),
-    });
-
-    return NextResponse.json({
-      models,
-      cached: false,
-      period,
-      limit,
-      category: category || "all",
-      source: "huggingface.co",
-    });
-  } catch (error) {
-    console.error("[HF Trending API] Error, falling back to mock data:", error);
-    const mockModels = generateMockHFModels(20, undefined);
-    return NextResponse.json({
-      models: mockModels,
-      cached: false,
-      period: "week",
-      limit: 20,
-      category: "all",
-      source: "huggingface.co (mock-fallback)",
-    });
-  }
-}
-
-function generateMockHFModels(limit: number, category?: string): HFModel[] {
-  const allMocks: HFModel[] = [
-    {
-      id: "meta-llama/Llama-3-8B-Instruct",
-      modelId: "meta-llama/Llama-3-8B-Instruct",
-      author: "meta-llama",
-      likes: 12543,
-      downloads: 453920,
-      trendingScore: 98.5,
-      pipeline_tag: "text-generation",
-      tags: ["llama-3", "instruct", "meta", "conversational", "text-generation"],
-      createdAt: "2024-04-18T12:00:00Z",
-      library_name: "transformers",
-      private: false
-    },
-    {
-      id: "google/gemma-7b-it",
-      modelId: "google/gemma-7b-it",
-      author: "google",
-      likes: 8432,
-      downloads: 219803,
-      trendingScore: 88.2,
-      pipeline_tag: "text-generation",
-      tags: ["gemma", "instruction-tuned", "google", "text-generation"],
-      createdAt: "2024-02-21T10:00:00Z",
-      library_name: "transformers",
-      private: false
-    },
-    {
-      id: "mistralai/Mistral-7B-Instruct-v0.2",
-      modelId: "mistralai/Mistral-7B-Instruct-v0.2",
-      author: "mistralai",
-      likes: 9248,
-      downloads: 312040,
-      trendingScore: 92.1,
-      pipeline_tag: "text-generation",
-      tags: ["mistral", "instruct", "transformers", "text-generation"],
-      createdAt: "2023-12-11T09:00:00Z",
-      library_name: "transformers",
-      private: false
-    },
-    {
-      id: "openai-community/gpt2",
-      modelId: "openai-community/gpt2",
-      author: "openai-community",
-      likes: 1420,
-      downloads: 12480392,
-      trendingScore: 45.3,
-      pipeline_tag: "text-generation",
-      tags: ["gpt2", "text-generation", "transformers"],
-      createdAt: "2019-02-14T08:00:00Z",
-      library_name: "transformers",
-      private: false
-    },
-    {
-      id: "google-t5/t5-small",
-      modelId: "google-t5/t5-small",
-      author: "google-t5",
-      likes: 890,
-      downloads: 3840291,
-      trendingScore: 35.1,
-      pipeline_tag: "text2text-generation",
-      tags: ["t5", "translation", "summarization", "text2text-generation"],
-      createdAt: "2020-03-12T08:00:00Z",
-      library_name: "transformers",
-      private: false
-    },
-    {
-      id: "Qwen/Qwen2.5-7B-Instruct",
-      modelId: "Qwen/Qwen2.5-7B-Instruct",
-      author: "Qwen",
-      likes: 10432,
-      downloads: 389201,
-      trendingScore: 97.4,
-      pipeline_tag: "text-generation",
-      tags: ["qwen", "conversational", "text-generation", "transformers"],
-      createdAt: "2024-09-18T10:00:00Z",
-      library_name: "transformers",
-      private: false
-    },
-    {
-      id: "stabilityai/stable-diffusion-3-medium",
-      modelId: "stabilityai/stable-diffusion-3-medium",
-      author: "stabilityai",
-      likes: 11029,
-      downloads: 504930,
-      trendingScore: 96.2,
-      pipeline_tag: "text-to-image",
-      tags: ["stable-diffusion", "text-to-image", "diffusers"],
-      createdAt: "2024-06-12T12:00:00Z",
-      library_name: "diffusers",
-      private: false
-    }
-  ];
-
-  let filtered = allMocks;
-  if (category && category !== "all") {
-    filtered = allMocks.filter(m => m.pipeline_tag === category);
+  const cacheKey = `${period}-${limit}-${category}`;
+  const cached = cache.get(cacheKey);
+  if (cached && isValidCache(cached)) {
+    return proxyJson(
+      { models: cached.data, cached: true, period, limit, category },
+      { sMaxAge: CACHE_DURATION },
+    );
   }
 
-  return filtered.slice(0, limit);
+  const params = new URLSearchParams({
+    direction: "-1",
+    limit: String(limit),
+    sort: period === "week" ? "likes7d" : "likes30d",
+  });
+  if (category !== "all") params.set("pipeline_tag", category);
+
+  const headers: Record<string, string> = { Accept: "application/json" };
+  const apiKey = process.env.HUGGINGFACE_API_KEY?.trim();
+  if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
+
+  const result = await fetchUpstreamJson("huggingface:trending", `${HF_API_BASE}?${params.toString()}`, {
+    headers,
+    timeoutMs: 10_000,
+  });
+  if (!result.ok) return result.response;
+
+  const parsed = z.array(rawModelSchema).safeParse(result.data);
+  if (!parsed.success) {
+    return proxyError(502, "upstream_invalid", "Respuesta inválida del proveedor de datos.");
+  }
+
+  const models: HFModel[] = parsed.data.map((model) => ({
+    id: model.id,
+    modelId: model.modelId || model.id,
+    author: model.id.split("/")[0] || "unknown",
+    likes: model.likes ?? 0,
+    downloads: model.downloads ?? 0,
+    trendingScore: model.trendingScore ?? 0,
+    pipeline_tag: model.pipeline_tag,
+    tags: model.tags ?? [],
+    createdAt: model.createdAt ?? "",
+    lastModified: model.lastModified,
+    library_name: model.library_name,
+    private: model.private ?? false,
+  }));
+
+  if (cache.size >= MAX_CACHE_ENTRIES) {
+    const oldest = cache.keys().next().value;
+    if (oldest !== undefined) cache.delete(oldest);
+  }
+  cache.set(cacheKey, { data: models, timestamp: Date.now() });
+
+  return proxyJson(
+    { models, cached: false, period, limit, category, source: "huggingface.co" },
+    { sMaxAge: CACHE_DURATION },
+  );
 }

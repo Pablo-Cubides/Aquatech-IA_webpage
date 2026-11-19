@@ -1,47 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { authorizeBlogAdmin } from "@/lib/security/blog-admin-auth";
+import {
+  createArticleSchema,
+  describeInvalidBody,
+  readBoundedJson,
+} from "@/lib/schemas/blog-article.zod";
 import {
   createStoredArticle,
   getStoredArticles,
   CreateArticleInput,
 } from "@/lib/services/blog-store";
 import { getAllArticles } from "@/lib/blog-articles";
-
-const AGENT_API_KEY = process.env.BLOG_AGENT_API_KEY || "aquatech-agent-key-2026";
-
-async function isAuthorized(req: NextRequest): Promise<boolean> {
-  const authHeader = req.headers.get("authorization");
-  if (authHeader) {
-    const token = authHeader.replace(/^Bearer\s+/i, "").trim();
-    if (token === AGENT_API_KEY) {
-      return true;
-    }
-  }
-
-  // Check admin NextAuth session
-  try {
-    const session = await getServerSession(authOptions);
-    // @ts-ignore
-    if (session?.user?.role === "ADMIN") {
-      return true;
-    }
-  } catch (e) {
-    // Session check error
-  }
-
-  return false;
-}
+import { checkCreateForPublication, describePublicationFailure } from "@/lib/services/blog-publication";
 
 // GET /api/admin/blog/articles
 export async function GET(req: NextRequest) {
-  if (!(await isAuthorized(req))) {
-    return NextResponse.json(
-      { error: "No autorizado. Se requiere token Bearer de agente o sesión de Administrador." },
-      { status: 401 }
-    );
-  }
+  const auth = await authorizeBlogAdmin(req);
+  if (!auth.ok) return auth.response;
 
   const { searchParams } = new URL(req.url);
   const portal = searchParams.get("portal") as "ia" | "ambiental" | null;
@@ -92,60 +68,52 @@ export async function GET(req: NextRequest) {
 
 // POST /api/admin/blog/articles
 export async function POST(req: NextRequest) {
-  if (!(await isAuthorized(req))) {
-    return NextResponse.json(
-      {
-        error:
-          "No autorizado. Envía la cabecera 'Authorization: Bearer <BLOG_AGENT_API_KEY>' o inicia sesión como Administrador.",
-      },
-      { status: 401 }
-    );
-  }
+  const auth = await authorizeBlogAdmin(req);
+  if (!auth.ok) return auth.response;
 
   try {
-    const body = await req.json();
-
-    if (!body.portal || (body.portal !== "ia" && body.portal !== "ambiental")) {
+    const raw = await readBoundedJson(req);
+    if (!raw.ok) {
       return NextResponse.json(
-        { error: "El campo 'portal' es requerido y debe ser 'ia' o 'ambiental'." },
-        { status: 400 }
+        { error: raw.status === 413 ? "Cuerpo demasiado grande" : "JSON inválido" },
+        { status: raw.status },
       );
     }
 
-    if (!body.title || typeof body.title !== "string" || !body.title.trim()) {
-      return NextResponse.json(
-        { error: "El campo 'title' es requerido." },
-        { status: 400 }
-      );
+    const parsed = createArticleSchema.safeParse(raw.value);
+    if (!parsed.success) {
+      return NextResponse.json(describeInvalidBody(parsed.error), { status: 400 });
     }
-
-    if (!body.content) {
-      return NextResponse.json(
-        { error: "El campo 'content' (texto Markdown o secciones estructuradas) es requerido." },
-        { status: 400 }
-      );
-    }
+    const body = parsed.data;
 
     const defaultCategory =
       body.portal === "ia" ? "Inteligencia Artificial" : "Gestión Ambiental";
 
     const input: CreateArticleInput = {
       portal: body.portal,
-      title: body.title.trim(),
+      title: body.title,
       slug: body.slug,
       category: body.category?.trim() || defaultCategory,
-      excerpt: body.excerpt?.trim() || body.title.trim(),
+      excerpt: body.excerpt?.trim() || body.title,
       content: body.content,
       heroImage: body.heroImage,
       authorName: body.authorName,
       authorAvatar: body.authorAvatar,
       authorBio: body.authorBio,
       readTime: body.readTime,
-      tags: Array.isArray(body.tags) ? body.tags : undefined,
+      tags: body.tags,
       status: body.status,
       publishedAt: body.publishedAt,
-      source: body.source || (req.headers.get("authorization") ? "AGENT" : "ADMIN"),
+      // La procedencia la fija el servidor: un cliente no puede declararse "ADMIN" ni "AGENT".
+      source: auth.via === "agent" ? "AGENT" : "ADMIN",
     };
+
+    // SEC-004b: un artículo que va a quedar visible (PUBLISHED/SCHEDULED) cumple el mismo contrato
+    // que los de código; los borradores siguen siendo laxos.
+    const publication = checkCreateForPublication(input);
+    if (!publication.ok) {
+      return NextResponse.json(describePublicationFailure(publication.issues), { status: 400 });
+    }
 
     const created = await createStoredArticle(input);
 

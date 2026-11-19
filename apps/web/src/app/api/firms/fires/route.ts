@@ -1,108 +1,97 @@
 /**
  * API Route: GET /api/firms/fires
- * Proxy for NASA FIRMS API (requires MAP_KEY)
+ * Proxy de la API de NASA FIRMS (requiere MAP_KEY propia, SOLO servidor).
+ *
+ * SEC-003:
+ *  - La clave se lee de `FIRMS_MAP_KEY` (sin NEXT_PUBLIC_: no viaja al navegador). FIRMS
+ *    la exige en la RUTA de la URL, por eso la URL nunca se escribe en los logs.
+ *  - SIN datos de respaldo: si no hay clave o el proveedor falla se responde 503/502 con un
+ *    cuerpo claro. Antes se devolvían incendios inventados al azar con la forma de los reales:
+ *    un dato falso presentado como real es peor que ningún dato.
+ *  - Parámetros verificados contra la documentación de FIRMS (area/csv): fuente de la lista
+ *    documentada, `area` = oeste,sur,este,norte, day_range 1-5.
+ *  - Límite: clave propia => almacén compartido, cerrado, más un presupuesto global bajo el
+ *    máximo documentado por FIRMS (5000 transacciones / 10 min por clave).
  */
 
-export async function GET(request: Request) {
-  try {
-    const MAP_KEY = process.env.NEXT_PUBLIC_FIRMS_MAP_KEY;
-    const url = new URL(request.url);
-    const source = url.searchParams.get("source") || "VIIRS_SNPP_NRT";
-    const dayRange = url.searchParams.get("day_range") || "2";
-    
-    // Use Colombia BBOX by default instead of "world" to avoid timeouts
-    const area = url.searchParams.get("area") || "-82,-5,-66,14"; 
+import { NextRequest } from "next/server";
+import { z } from "zod";
+import { logger } from "@/lib/logger";
+import {
+  bboxString,
+  fetchUpstreamText,
+  guardPublicProxy,
+  proxyError,
+  proxyJson,
+  queryInt,
+} from "@/lib/security/public-proxy";
 
-    // If no MAP_KEY, return mock data for Colombia
-    if (!MAP_KEY) {
-      console.warn("FIRMS MAP_KEY not configured, returning mock data");
-      return Response.json(generateMockFires(parseInt(dayRange)), {
-        headers: { "Cache-Control": "public, s-maxage=60" }
-      });
-    }
+const FIRMS_SOURCES = [
+  "VIIRS_SNPP_NRT",
+  "VIIRS_NOAA20_NRT",
+  "VIIRS_NOAA21_NRT",
+  "MODIS_NRT",
+] as const;
 
-    // FIRMS CSV API endpoint
-    const firmsUrl = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${MAP_KEY}/${source}/${area}/${dayRange}`;
-    console.log("FIRMS request URL:", firmsUrl);
+// Colombia por defecto (no "world": evita respuestas enormes y timeouts).
+const DEFAULT_AREA = "-82,-5,-66,14";
+const MAX_RECORDS = 5000;
 
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000);
+const firmsQuerySchema = z.strictObject({
+  source: z.enum(FIRMS_SOURCES).default("VIIRS_SNPP_NRT"),
+  day_range: queryInt(1, 5).default(2),
+  area: bboxString.default(DEFAULT_AREA),
+});
 
-    const response = await fetch(firmsUrl, {
-      signal: controller.signal,
-    });
+export async function GET(request: NextRequest) {
+  const guard = await guardPublicProxy(request, {
+    name: "firms:fires",
+    schema: firmsQuerySchema,
+    perMinutePerIp: 30,
+    limiter: "shared",
+    upstreamBudget: { max: 1000, intervalMs: 10 * 60_000 },
+  });
+  if (!guard.ok) return guard.response;
+  const { source, day_range: dayRange, area } = guard.query;
 
-    clearTimeout(timeoutId);
-
-    if (!response.ok) {
-      const error = await response.text();
-      console.error("FIRMS API error:", response.status, error);
-      // Fallback to mock data if API fails (e.g. rate limit, bad key)
-      console.warn("FIRMS API failed, falling back to mock data");
-      return Response.json(generateMockFires(parseInt(dayRange)), {
-        headers: { "Cache-Control": "public, s-maxage=60" }
-      });
-    }
-
-    const csvText = await response.text();
-
-    // Parse CSV to JSON
-    const lines = csvText.trim().split("\n");
-    if (lines.length < 2) {
-      return Response.json([]);
-    }
-
-    const headers = lines[0].split(",").map(h => h.trim());
-    const records = lines.slice(1).map(line => {
-      const values = line.split(",");
-      const record: Record<string, string> = {};
-      headers.forEach((header, idx) => {
-        record[header] = (values[idx] || "").trim();
-      });
-      return record;
-    });
-
-    // Limit to 5000 fire points for performance
-    const limitedRecords = records.slice(0, 5000);
-
-    console.log(`FIRMS returned ${records.length} fires, sending ${limitedRecords.length}`);
-
-    return Response.json(limitedRecords, {
-      headers: {
-        "Cache-Control": "public, s-maxage=1800, stale-while-revalidate=3600",
-      },
-    });
-  } catch (error) {
-    console.error("Error fetching FIRMS data:", error);
-    // Return mock data on any network failure
-    return Response.json(generateMockFires(2), {
-      headers: { "Cache-Control": "public, s-maxage=60" }
-    });
+  const mapKey = process.env.FIRMS_MAP_KEY?.trim();
+  if (!mapKey) {
+    logger.error("[proxy:firms:fires] FIRMS_MAP_KEY no está configurada");
+    return proxyError(
+      503,
+      "not_configured",
+      "Los datos de incendios no están disponibles en este momento.",
+    );
   }
-}
 
-function generateMockFires(days: number) {
-  const fires = [];
-  // Generate some random points in Colombia
-  for (let i = 0; i < 50 * days; i++) {
-    // Colombia approx bounds: lat -4 to 12, lon -79 to -67
-    const lat = Math.random() * 16 - 4;
-    const lon = Math.random() * 12 - 79;
-    const confidence = Math.random() > 0.8 ? "h" : Math.random() > 0.4 ? "n" : "l";
-    fires.push({
-      latitude: lat.toString(),
-      longitude: lon.toString(),
-      bright_ti4: (300 + Math.random() * 100).toFixed(1),
-      scan: "0.5",
-      track: "0.5",
-      acq_date: new Date().toISOString().split('T')[0],
-      acq_time: "1200",
-      satellite: "N",
-      instrument: "VIIRS",
-      confidence: confidence,
-      frp: (5 + Math.random() * 50).toFixed(1),
-      daynight: "D"
-    });
+  const result = await fetchUpstreamText(
+    "firms:fires",
+    `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${encodeURIComponent(mapKey)}/${source}/${area}/${dayRange}`,
+    { timeoutMs: 15_000, maxBytes: 8 * 1024 * 1024 },
+  );
+  if (!result.ok) return result.response;
+
+  const lines = result.text.trim().split(/\r?\n/);
+  const header = (lines[0] ?? "").split(",").map((h) => h.trim());
+
+  // Un cuerpo vacío es "sin incendios". Una primera línea que no es una cabecera CSV (p. ej.
+  // un mensaje de clave inválida con estado 200) NO es "sin incendios": es un fallo.
+  if (result.text.trim() === "") {
+    return proxyJson([], { sMaxAge: 1800, swr: 3600 });
   }
-  return fires;
+  if (!header.includes("latitude") || !header.includes("longitude")) {
+    logger.warn("[proxy:firms:fires] respuesta del proveedor sin cabecera CSV esperada");
+    return proxyError(502, "upstream_invalid", "Respuesta inválida del proveedor de datos.");
+  }
+
+  const records = lines.slice(1, MAX_RECORDS + 1).map((line) => {
+    const values = line.split(",");
+    const record: Record<string, string> = {};
+    header.forEach((name, index) => {
+      record[name] = (values[index] ?? "").trim();
+    });
+    return record;
+  });
+
+  return proxyJson(records, { sMaxAge: 1800, swr: 3600 });
 }

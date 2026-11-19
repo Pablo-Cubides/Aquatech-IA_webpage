@@ -97,7 +97,7 @@ export default function FIRMSLayerControl({
               Últimos días
             </label>
             <div className="grid grid-cols-5 gap-1">
-              {[1, 2, 3, 5, 7].map((d) => (
+              {[1, 2, 3, 4, 5].map((d) => (
                 <button
                   key={d}
                   onClick={() => handleDayRangeChange(d)}
@@ -114,7 +114,7 @@ export default function FIRMSLayerControl({
           </div>
 
           <div className="text-xs text-amber-700 bg-amber-50 p-2 rounded">
-            ⚠️ Si no aparecen datos, asegúrate de haber configurado la variable de entorno <code>NEXT_PUBLIC_FIRMS_MAP_KEY</code> y verificar los filtros.
+            ⚠️ Si no aparecen datos, el servicio de incendios (NASA FIRMS) puede no estar disponible o no estar configurado en el servidor (variable <code>FIRMS_MAP_KEY</code>). No se muestran datos de ejemplo.
           </div>
           <div className="text-xs text-gray-600 bg-orange-50 p-2 rounded">
             💡 Los colores indican el nivel de confianza de la detección satelital (rojo = alta).

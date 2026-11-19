@@ -108,7 +108,7 @@ const article: BlogArticle = blogArticleSchema.parse({
     ],
     conclusion: "",          // [OPTIONAL] ~100 words
   },
-  tags: [],                  // [REQUIRED] 3-7 tags from docs/domain/glossary.md taxonomy
+  tags: [],                  // [REQUIRED] 3-7 tags; glossary taxonomy recommended, specific technical tags allowed
   // nextArticle: {          // [OPTIONAL] Link to related article
   //   slug: "",
   //   title: "",

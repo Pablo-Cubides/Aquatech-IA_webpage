@@ -1,1 +1,1 @@
-export { default } from "@/app/(portals)/ia/(marketing)/autor/herramientas/aula-score/page";
+export { default } from "@/components/autor-tools/aula-score/ConfigurationPage";

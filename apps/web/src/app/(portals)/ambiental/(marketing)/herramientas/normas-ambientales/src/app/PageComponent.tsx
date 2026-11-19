@@ -7,18 +7,17 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+} from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import { Badge } from "../components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
 import { Info, Zap } from "lucide-react";
 import { WATER_USE_SECTORS, WaterUseSector } from "@/lib/types";
-import { getSectorEmoji } from "@/lib/sectorIcons";
+import { getSectorEmoji } from "../lib/sectorIcons";
 import { useState } from "react";
-import { DOMINIOS, getFlagEmoji } from "@/lib/constants";
-import { API_BASE } from "@/lib/api";
+import { DOMINIOS, getFlagEmoji } from "../lib/constants";
+import { API_BASE } from "../lib/api";
 import { WebPageStructuredData } from "@/components/seo/StructuredData";
-import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 // Convert country slug to ISO-2 code for flagcdn
 function slugToIso(slug: string): string | null {
@@ -197,8 +196,6 @@ export default function HomePage() {
             title="Normas Ambientales por País (NormaGlobal) | Aquatech IA"
             description="Compendio de normativas y estándares ambientales internacionales para agua, aire, residuos y vertimientos clasificados por país y sector."
             url="https://aquatechia.com/ambiental/herramientas/normas-ambientales"
-            datePublished="2024-06-01"
-            dateModified="2026-09-06"
           />
           <div className="max-w-3xl mx-auto text-center">
             {/* Logo */}
@@ -505,11 +502,6 @@ export default function HomePage() {
                   </p>
                 </div>
               </div>
-            </div>
-
-            {/* Referencias Autorizadas GEO */}
-            <div className="mt-12">
-              <AuthoritativeReferences theme="light" />
             </div>
           </div>
         </div>

@@ -7,11 +7,11 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "./ui/select";
 import { useRouter } from "next/navigation";
 
-import { getFlagEmoji } from "@/lib/constants";
-import { API_BASE, ROUTE_BASE } from "@/lib/api";
+import { getFlagEmoji } from "../lib/constants";
+import { API_BASE, ROUTE_BASE } from "../lib/api";
 
 interface ApiCountry {
   code: string;

@@ -1,10 +1,16 @@
 /**
- * Rate limiting using Upstash Redis
- * Protects API routes from abuse
+ * Rate limiting: protege las rutas de la API contra abuso.
+ *
+ * Almacén (OPS-001): PostgreSQL por defecto (`rate-limit-postgres.ts`, sin
+ * dependencias externas). Upstash Redis se usa si `UPSTASH_REDIS_REST_URL` y
+ * `UPSTASH_REDIS_REST_TOKEN` están definidas. `RATE_LIMIT_BACKEND=postgres|upstash`
+ * fuerza uno. La POLÍTICA cuando el almacén falla (failureMode) no depende del
+ * almacén y es del cargo SEC.
  */
 
 import { Redis } from "@upstash/redis";
 import { logger } from "@/lib/logger";
+import { incrementWindow } from "./rate-limit-postgres";
 
 let redisClient: Redis | null = null;
 let redisDisabled = false;
@@ -18,8 +24,7 @@ function getRedisClient(): Redis | null {
     return null;
   }
 
-  const url = process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  const { url, token } = upstashCredentials();
 
   if (!url || !token) {
     redisDisabled = true;
@@ -33,9 +38,33 @@ function getRedisClient(): Redis | null {
   return redisClient;
 }
 
+/**
+ * Política cuando el almacén de límites no responde (sin Redis configurado o
+ * error de red):
+ *  - "closed" (por defecto): se DENIEGA la petición. Es lo correcto para
+ *    autenticación, escritura, coste o datos personales.
+ *  - "open": se PERMITE (sin límite efectivo). Solo para rutas públicas de
+ *    lectura sin efectos laterales, y debe elegirse de forma explícita y
+ *    justificada en el sitio de la llamada. Nunca se infiere del identificador.
+ */
+export type RateLimitFailureMode = "closed" | "open";
+
 export type RateLimitConfig = {
   interval: number; // Time window in milliseconds
   uniqueTokenPerInterval: number; // Max requests per interval
+  failureMode?: RateLimitFailureMode; // default: "closed"
+};
+
+export type RateLimitResult = {
+  success: boolean;
+  limit: number;
+  remaining: number;
+  reset: number;
+  /**
+   * Por qué se rechazó/permitió sin contar: "limit-exceeded" (límite superado) o
+   * "backend-unavailable" (el almacén no respondió; se aplicó failureMode).
+   */
+  reason?: "limit-exceeded" | "backend-unavailable";
 };
 
 export class RateLimitError extends Error {
@@ -43,6 +72,64 @@ export class RateLimitError extends Error {
     super(message);
     this.name = "RateLimitError";
   }
+}
+
+export type RateLimitBackend = "postgres" | "upstash";
+
+/** Lee una variable ignorando espacios; vacía o solo espacios cuenta como no definida. */
+function readEnv(name: string): string | undefined {
+  const value = process.env[name]?.trim();
+  return value ? value : undefined;
+}
+
+/** Credenciales de Upstash solo si están las DOS y no vacías (Vercel: se pegan a mano). */
+function upstashCredentials(): { url?: string; token?: string } {
+  const url = readEnv("UPSTASH_REDIS_REST_URL");
+  const token = readEnv("UPSTASH_REDIS_REST_TOKEN");
+  return url && token ? { url, token } : {};
+}
+
+let warnedPartialUpstash = false;
+
+/**
+ * Elige el almacén. Upstash solo si URL Y TOKEN están completos; con una sola de
+ * las dos (o ninguna) se usa PostgreSQL. `RATE_LIMIT_BACKEND=postgres` fuerza
+ * PostgreSQL; `=upstash` fuerza Upstash solo si las credenciales están completas.
+ */
+export function selectRateLimitBackend(): RateLimitBackend {
+  const forced = readEnv("RATE_LIMIT_BACKEND")?.toLowerCase();
+  const { url, token } = upstashCredentials();
+  const complete = Boolean(url && token);
+
+  if (!complete) {
+    const partial =
+      Boolean(readEnv("UPSTASH_REDIS_REST_URL")) !==
+      Boolean(readEnv("UPSTASH_REDIS_REST_TOKEN"));
+    if ((partial || forced === "upstash") && !warnedPartialUpstash) {
+      warnedPartialUpstash = true;
+      logger.warn(
+        "Rate limit: credenciales de Upstash incompletas, se usa PostgreSQL",
+      );
+    }
+    return "postgres";
+  }
+  return forced === "postgres" ? "postgres" : "upstash";
+}
+
+/** Resultado cuando no hay almacén: depende SOLO de failureMode. */
+function backendUnavailable(
+  failureMode: RateLimitFailureMode,
+  limit: number,
+  reset: number,
+): RateLimitResult {
+  const allow = failureMode === "open";
+  return {
+    success: allow,
+    limit,
+    remaining: allow ? limit : 0,
+    reset,
+    reason: "backend-unavailable",
+  };
 }
 
 /**
@@ -54,31 +141,41 @@ export async function rateLimit(
     interval: 60 * 1000, // 1 minute
     uniqueTokenPerInterval: 10, // 10 requests per minute
   },
-): Promise<{
-  success: boolean;
-  limit: number;
-  remaining: number;
-  reset: number;
-}> {
+): Promise<RateLimitResult> {
   const key = `rate-limit:${identifier}`;
   const now = Date.now();
   const window = config.interval;
   const limit = config.uniqueTokenPerInterval;
+  const failureMode = config.failureMode ?? "closed";
+
+  if (selectRateLimitBackend() === "postgres") {
+    try {
+      const { hits, resetAt } = await incrementWindow(key, window, limit);
+      if (hits > limit) {
+        return {
+          success: false,
+          limit,
+          remaining: 0,
+          reset: resetAt,
+          reason: "limit-exceeded",
+        };
+      }
+      return {
+        success: true,
+        limit,
+        remaining: Math.max(limit - hits, 0),
+        reset: resetAt,
+      };
+    } catch (error: unknown) {
+      logger.error("Rate limiting error (postgres)", error);
+      return backendUnavailable(failureMode, limit, now + window);
+    }
+  }
+
   const redis = getRedisClient();
 
   if (!redis) {
-    const isSensitive =
-      identifier.includes("payment") ||
-      identifier.includes("admin") ||
-      identifier.includes("auth") ||
-      identifier.includes("delete");
-
-    return {
-      success: !isSensitive,
-      limit,
-      remaining: isSensitive ? 0 : limit,
-      reset: now + window,
-    };
+    return backendUnavailable(failureMode, limit, now + window);
   }
 
   try {
@@ -109,6 +206,7 @@ export async function rateLimit(
         limit,
         remaining: 0,
         reset,
+        reason: "limit-exceeded",
       };
     }
 
@@ -120,30 +218,7 @@ export async function rateLimit(
     };
   } catch (error: unknown) {
     logger.error("Rate limiting error", error, { identifier });
-    // SECURITY: Fail closed for sensitive endpoints
-    // If identifier suggests sensitive operation, deny on error
-    const isSensitive =
-      identifier.includes("payment") ||
-      identifier.includes("admin") ||
-      identifier.includes("auth") ||
-      identifier.includes("delete");
-
-    if (isSensitive) {
-      return {
-        success: false,
-        limit,
-        remaining: 0,
-        reset: now + window,
-      };
-    }
-
-    // Fail open for read-only operations
-    return {
-      success: true,
-      limit,
-      remaining: limit,
-      reset: now + window,
-    };
+    return backendUnavailable(failureMode, limit, now + window);
   }
 }
 
@@ -153,12 +228,7 @@ export async function rateLimit(
 export async function rateLimitByIP(
   ip: string,
   config?: RateLimitConfig,
-): Promise<{
-  success: boolean;
-  limit: number;
-  remaining: number;
-  reset: number;
-}> {
+): Promise<RateLimitResult> {
   return rateLimit(`ip:${ip}`, config);
 }
 
@@ -168,12 +238,7 @@ export async function rateLimitByIP(
 export async function rateLimitByUser(
   userId: string,
   config?: RateLimitConfig,
-): Promise<{
-  success: boolean;
-  limit: number;
-  remaining: number;
-  reset: number;
-}> {
+): Promise<RateLimitResult> {
   return rateLimit(`user:${userId}`, config);
 }
 

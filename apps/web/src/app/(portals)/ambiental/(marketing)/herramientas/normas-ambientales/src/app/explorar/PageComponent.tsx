@@ -2,11 +2,11 @@
 
 import { Suspense } from "react";
 import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
+import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+import { Button } from "../../components/ui/button";
+import { Badge } from "../../components/ui/badge";
+import { Input } from "../../components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "../../components/ui/select";
 import {
   ArrowLeft,
   Search,
@@ -19,9 +19,9 @@ import {
   Trash2,
   Waves,
 } from "lucide-react";
-import { LoadingSkeleton, TableSkeleton } from "@/components/LoadingSkeleton";
-import { useExplorarState } from "@/lib/hooks";
-import { DOMINIOS, REGULATORY_SOURCES, getCountryIsoCode } from "@/lib/constants";
+import { LoadingSkeleton, TableSkeleton } from "../../components/LoadingSkeleton";
+import { useExplorarState } from "../../lib/hooks";
+import { DOMINIOS, REGULATORY_SOURCES, getCountryIsoCode } from "../../lib/constants";
 
 type AnyRecord = Record<string, unknown>;
 

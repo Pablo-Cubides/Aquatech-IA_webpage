@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
-import { Prisma } from "@prisma/client";
+import { prisma } from "@ia-next/database";
+import { Prisma } from "@ia-next/database";
 import { parsePagination, createPaginatedResponse } from "@/lib/pagination";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { getClientIP, rateLimit } from "@/lib/security/rate-limit";
 import { logger } from "@/lib/logger";
+import { isAdminInDatabase } from "@/lib/security/admin-session";
 
 // Type for note input data
 interface NoteInput {
@@ -86,7 +87,8 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "No autorizado" }, { status: 401 });
     }
 
-    if (session.user.role !== "ADMIN") {
+    // SEC-004: rol leido de la base de datos, no del JWT.
+    if (!(await isAdminInDatabase(session.user.id))) {
       return NextResponse.json({ error: "Prohibido" }, { status: 403 });
     }
 
@@ -95,6 +97,10 @@ export async function GET(req: Request) {
       {
         interval: 60 * 1000,
         uniqueTokenPerInterval: 120,
+        // failureMode "open" (decisión SEC-001): ruta ya protegida por sesión ADMIN;
+        // el límite es un control secundario y no debe dejar sin servicio a
+        // la herramienta de administración si el almacén de límites cae.
+        failureMode: "open",
       },
     );
 
@@ -207,7 +213,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "No autorizado" }, { status: 401 });
     }
 
-    if (session.user.role !== "ADMIN") {
+    // SEC-004: rol leido de la base de datos, no del JWT.
+    if (!(await isAdminInDatabase(session.user.id))) {
       return NextResponse.json({ error: "Prohibido" }, { status: 403 });
     }
 
@@ -216,6 +223,10 @@ export async function POST(req: Request) {
       {
         interval: 60 * 1000,
         uniqueTokenPerInterval: 10,
+        // failureMode "open" (decisión SEC-001): ruta ya protegida por sesión ADMIN;
+        // el límite es un control secundario y no debe dejar sin servicio a
+        // la herramienta de administración si el almacén de límites cae.
+        failureMode: "open",
       },
     );
 

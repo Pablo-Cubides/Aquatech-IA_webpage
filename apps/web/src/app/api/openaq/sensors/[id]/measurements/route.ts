@@ -1,70 +1,40 @@
 /**
  * API Route: GET /api/openaq/sensors/[id]/measurements
- * Proxy para OpenAQ API sensor measurements endpoint
+ * Proxy de OpenAQ v3 /sensors/{id}/measurements (SEC-003). El `[id]` entra en la RUTA del
+ * upstream: solo se admite un entero decimal, nunca texto libre.
  */
+import { NextRequest } from "next/server";
+import { z } from "zod";
+import { guardPublicProxy, proxyJson, queryInt, queryIntClamped, toUpstreamQuery } from "@/lib/security/public-proxy";
+import { fetchOpenAq, OPENAQ_BUDGET } from "@/lib/security/openaq-upstream";
 
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
-  try {
-    const { id } = await params;
-    const url = new URL(request.url);
-    const queryParams = new URLSearchParams();
+const querySchema = z.strictObject({
+  id: z.string().regex(/^[1-9]\d{0,11}$/, "id de sensor inválido"),
+  limit: queryIntClamped(1, 1000).optional(),
+  page: queryInt(1, 100000).optional(),
+});
 
-    // Forward query parameters with validation
-    const limitStr = url.searchParams.get("limit");
-    if (limitStr) {
-      const limit = parseInt(limitStr, 10);
-      if (!isNaN(limit)) {
-        const cappedLimit = Math.min(Math.max(limit, 1), 1000);
-        queryParams.append("limit", cappedLimit.toString());
-      }
-    }
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const guard = await guardPublicProxy(
+    request,
+    {
+      name: "openaq:sensor-measurements",
+      schema: querySchema,
+      perMinutePerIp: 30,
+      limiter: "shared",
+      upstreamBudget: OPENAQ_BUDGET,
+    },
+    { id },
+  );
+  if (!guard.ok) return guard.response;
+  const { id: sensorId, ...forward } = guard.query;
 
-    const page = url.searchParams.get("page");
-    if (page) {
-      queryParams.append("page", page);
-    }
-
-    const openaqUrl = `https://api.openaq.org/v3/sensors/${id}/measurements?${queryParams.toString()}`;
-    console.log("OpenAQ sensor measurements request:", openaqUrl);
-
-    const apiKey = process.env.OPENAQ_API_KEY;
-    const headers: HeadersInit = {
-      Accept: "application/json",
-    };
-
-    if (apiKey) {
-      headers["X-API-Key"] = apiKey;
-    }
-
-    const response = await fetch(openaqUrl, {
-      headers,
-    });
-
-    console.log("OpenAQ sensor measurements response status:", response.status);
-
-    if (!response.ok) {
-      const error = await response.text();
-      console.error("OpenAQ API error:", response.status, error);
-      return Response.json(
-        { error: `OpenAQ API error: ${response.status}`, details: error },
-        { status: response.status },
-      );
-    }
-
-    const data = await response.json();
-    return Response.json(data, {
-      headers: {
-        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
-      },
-    });
-  } catch (error) {
-    console.error("Error fetching OpenAQ sensor measurements:", error);
-    return Response.json(
-      { error: "Failed to fetch OpenAQ sensor measurements" },
-      { status: 500 },
-    );
-  }
+  const result = await fetchOpenAq(
+    "openaq:sensor-measurements",
+    `/sensors/${sensorId}/measurements`,
+    toUpstreamQuery(forward),
+  );
+  if (!result.ok) return result.response;
+  return proxyJson(result.data, { sMaxAge: 300, swr: 600 });
 }

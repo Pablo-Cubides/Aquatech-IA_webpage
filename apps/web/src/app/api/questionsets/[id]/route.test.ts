@@ -27,7 +27,7 @@ vi.mock("@/lib/auth", () => ({
   authOptions: {},
 }));
 
-vi.mock("@/lib/db", () => ({
+vi.mock("@ia-next/database", () => ({
   prisma: prismaMock,
 }));
 

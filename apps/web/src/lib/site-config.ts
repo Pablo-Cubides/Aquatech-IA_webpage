@@ -15,6 +15,20 @@ export const DEFAULT_OG_IMAGE = `${SITE_URL}/images/og-image.jpg`;
 export const DEFAULT_LOGO = `${SITE_URL}/images/logo-aquatech.png`;
 
 /**
+ * Perfiles oficiales de AquatechIA. Fuente de verdad: los enlaces del pie de pagina (FooterIA / FooterAmbiental).
+ * No agregar aqui perfiles que no existan: un dato inventado en JSON-LD es peor que su ausencia (no hay LinkedIn de empresa).
+ */
+export const SOCIAL_PROFILES = [
+  "https://x.com/Aquatech_ia",
+  "https://www.facebook.com/Aquatechia/",
+  "https://www.instagram.com/aquatech_ia/",
+  "https://www.youtube.com/@AquatechIA",
+] as const;
+
+/** Handle real de la cuenta de X (x.com/Aquatech_ia) para twitter:creator. */
+export const TWITTER_HANDLE = "@Aquatech_ia";
+
+/**
  * Helper to generate absolute canonical URLs safely.
  */
 export function getCanonicalUrl(path: string = ""): string {

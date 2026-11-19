@@ -14,6 +14,10 @@ export async function GET(request: NextRequest) {
   const limit = await rateLimit(`proxy:who:${clientIP}`, {
     interval: 60 * 1000,
     uniqueTokenPerInterval: 60,
+    // failureMode "open" (decisión SEC-001): proxy público de solo lectura de datos
+    // abiertos de la OMS; sin datos de usuario ni base de datos. Con "closed", sin
+    // almacén de límites las herramientas que lo usan quedarían sin datos.
+    failureMode: "open",
   });
 
   if (!limit.success) {

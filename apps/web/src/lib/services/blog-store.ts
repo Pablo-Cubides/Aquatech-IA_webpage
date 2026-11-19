@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import type { BlogArticle } from "@/lib/blog-articles";
+import { reportDegradation } from "@/lib/observability/degradation";
 import {
   prisma,
   type BlogPost,
@@ -26,6 +27,11 @@ let cachedArticlesPath: string | null = null;
 
 // Find repository content path deterministically for local cache/fallback
 function getArticlesFilePath(): string {
+  // Override explícito (los tests lo apuntan a un temporal: el archivo versionado es el
+  // fallback real de producción y nunca debe reescribirse desde una suite).
+  const override = process.env.BLOG_ARTICLES_FILE?.trim();
+  if (override) return path.resolve(override);
+
   if (cachedArticlesPath && fs.existsSync(cachedArticlesPath)) {
     return cachedArticlesPath;
   }
@@ -172,8 +178,13 @@ export function mapDbPostToStoredArticle(post: BlogPost): StoredBlogArticle {
   };
 }
 
-// Read all stored dynamic articles (from PostgreSQL via Prisma, with fallback to disk)
-export async function getStoredArticles(): Promise<StoredBlogArticle[]> {
+// Lectura ESTRICTA de PostgreSQL: si la base falla, lanza. No hay fallback a disco.
+// Es el unico camino que debe usar quien necesite saber si el contenido esta COMPLETO
+// (contadores, sitemap, llms.txt). Hay dos capas que tragan el error de la base
+// (getStoredArticles aqui y getAllArticles en ../blog-articles); desde fuera de ellas un
+// `length < N` nunca ve nada raro. NO "arregles" este camino con un try/catch: para eso
+// existen getStoredArticles / getAllArticles, que degradan a proposito.
+export async function getStoredArticlesStrict(): Promise<StoredBlogArticle[]> {
   const isBrowser =
     typeof window !== "undefined" &&
     (typeof process === "undefined" || !process.versions?.node);
@@ -181,16 +192,23 @@ export async function getStoredArticles(): Promise<StoredBlogArticle[]> {
     return [];
   }
 
+  const posts = await prisma.blogPost.findMany({
+    orderBy: { publishedAt: "desc" },
+  });
+  return posts.map(mapDbPostToStoredArticle);
+}
 
+// Read all stored dynamic articles (from PostgreSQL via Prisma, with fallback to disk)
+export async function getStoredArticles(): Promise<StoredBlogArticle[]> {
   try {
-    const posts = await prisma.blogPost.findMany({
-      orderBy: { publishedAt: "desc" },
-    });
-    const articles = posts.map(mapDbPostToStoredArticle);
-    return articles;
+    return await getStoredArticlesStrict();
   } catch (error) {
     console.warn("[BlogStore] Prisma query failed, falling back to disk cache:", error);
-    return getStoredArticlesFromDisk();
+    const fromDisk = getStoredArticlesFromDisk();
+    // OPS-001: sin la base, listados, sitemap y llms.txt pierden los artículos que
+    // solo viven en PostgreSQL. Que no pase en silencio.
+    reportDegradation("blog-store-db-fallback", error, { articlesFromDisk: fromDisk.length });
+    return fromDisk;
   }
 }
 
@@ -298,6 +316,23 @@ export function slugify(text: string): string {
     .replace(/-+/g, "-");
 }
 
+// Minutos de lectura = ceil(palabras / 200), la misma regla de .specify/scripts/lint-content.mjs.
+export function estimateReadTime(content: {
+  introduction?: string;
+  sections?: Array<{ title?: string; content?: string }>;
+  conclusion?: string;
+}): number {
+  const text = [
+    content.introduction,
+    ...(content.sections ?? []).flatMap((s) => [s.title, s.content]),
+    content.conclusion,
+  ]
+    .filter((t): t is string => typeof t === "string")
+    .join(" ");
+  const words = text.split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.ceil(words / 200));
+}
+
 export interface CreateArticleInput {
   portal: "ia" | "ambiental";
   title: string;
@@ -322,47 +357,56 @@ export interface CreateArticleInput {
   source?: BlogArticleSource;
 }
 
+export const DEFAULT_AUTHOR_NAME = "Pablo Cubides";
+
+/** Valores por defecto que el servidor aplica a un artículo de un portal (los usa la creación y la validación de publicación). */
+export function articleDefaultsFor(portal: "ia" | "ambiental") {
+  return {
+    category: portal === "ia" ? "Inteligencia Artificial" : "Gestión Ambiental",
+    heroImage:
+      portal === "ia"
+        ? "/images/portal-ia/blog/llm-transformers-architecture.jpg"
+        : "/images/portal-ambiental/blog/irca-calidad-agua-potable.jpg",
+    authorAvatar:
+      portal === "ia"
+        ? "/images/portal-ia/autor/pablo-cubides.png"
+        : "/images/portal-ambiental/autor/pablo-cubides.jpg",
+    authorBio:
+      portal === "ia" ? "Investigador en IA y Automatización" : "Ingeniero Ambiental y Químico",
+  };
+}
+
+/** Estado final de un artículo nuevo: una fecha futura con estado PUBLISHED (o sin estado) queda SCHEDULED. */
+export function resolveFinalStatus(
+  status: BlogArticleStatus | undefined,
+  publishedDate: Date,
+  now: Date = new Date(),
+): BlogArticleStatus {
+  const isFuture = publishedDate.getTime() > now.getTime();
+  return isFuture && (!status || status === "PUBLISHED") ? "SCHEDULED" : status || "PUBLISHED";
+}
+
 // Create or enqueue an article from Agent or Admin directly into PostgreSQL
 export async function createStoredArticle(input: CreateArticleInput): Promise<StoredBlogArticle> {
   const slug = input.slug?.trim() ? slugify(input.slug) : slugify(input.title);
 
   const now = new Date();
   const publishedDate = input.publishedAt ? new Date(input.publishedAt) : now;
-  const isFuture = publishedDate.getTime() > now.getTime();
-
-  const finalStatus: BlogArticleStatus =
-    isFuture && (!input.status || input.status === "PUBLISHED")
-      ? "SCHEDULED"
-      : (input.status || "PUBLISHED");
-
+  const finalStatus: BlogArticleStatus = resolveFinalStatus(input.status, publishedDate, now);
 
   const structuredContent =
     typeof input.content === "string"
       ? parseMarkdownToSections(input.content)
       : input.content;
 
-  const defaultHeroImage =
-    input.portal === "ia"
-      ? "/images/portal-ia/blog/llm-transformers-architecture.jpg"
-      : "/images/portal-ambiental/blog/irca-calidad-agua-potable.jpg";
+  const defaults = articleDefaultsFor(input.portal);
+  const defaultHeroImage = defaults.heroImage;
+  const defaultAuthorAvatar = defaults.authorAvatar;
+  const defaultAuthorBio = defaults.authorBio;
 
-  const defaultAuthorAvatar =
-    input.portal === "ia"
-      ? "/images/portal-ia/autor/pablo-cubides.png"
-      : "/images/portal-ambiental/autor/pablo-cubides.jpg";
+  const calculatedReadTime = input.readTime || estimateReadTime(structuredContent);
 
-  const defaultAuthorBio =
-    input.portal === "ia"
-      ? "Investigador en IA y Automatización"
-      : "Ingeniero Ambiental y Químico";
-
-  const calculatedReadTime =
-    input.readTime ||
-    Math.max(3, Math.round((JSON.stringify(structuredContent).length / 1000) * 1.5));
-
-  const defaultCategory =
-    input.portal === "ia" ? "Inteligencia Artificial" : "Gestión Ambiental";
-  const category = input.category?.trim() || defaultCategory;
+  const category = input.category?.trim() || defaults.category;
 
   const portalEnum = input.portal.toUpperCase() as "IA" | "AMBIENTAL";
   const tags =
@@ -477,10 +521,51 @@ export async function createStoredArticle(input: CreateArticleInput): Promise<St
 }
 
 // Update article status (e.g. PAUSE, PUBLISH, SCHEDULE) or metadata
+// Lista blanca de campos que un update legítimo puede tocar (SEC-002). `id`, `createdAt`,
+// `updatedAt` y `source` los controla el servidor. Se aplica aquí además de en el Zod de la ruta:
+// el tipo `Omit<...>` solo existe en compilación y en runtime `updates` puede traer cualquier cosa.
+export const UPDATABLE_ARTICLE_FIELDS = [
+  "title",
+  "slug",
+  "excerpt",
+  "content",
+  "heroImage",
+  "category",
+  "tags",
+  "readTime",
+  "references",
+  "nextArticle",
+  "status",
+  "publishedAt",
+  "portal",
+  "author",
+] as const;
+
+export function pickUpdatableFields(
+  updates: Record<string, unknown>,
+): Partial<Omit<StoredBlogArticle, "id" | "createdAt">> {
+  const picked: Record<string, unknown> = {};
+  for (const key of UPDATABLE_ARTICLE_FIELDS) {
+    if (Object.prototype.hasOwnProperty.call(updates, key) && updates[key] !== undefined) {
+      picked[key] = updates[key];
+    }
+  }
+  return picked as Partial<Omit<StoredBlogArticle, "id" | "createdAt">>;
+}
+
 export async function updateStoredArticle(
   id: string,
-  updates: Partial<Omit<StoredBlogArticle, "id" | "createdAt">>
+  // `object`: lo que llegue se filtra con la lista blanca; el tipo no es una garantía en runtime.
+  rawUpdates: object
 ): Promise<StoredBlogArticle | null> {
+  const updates = pickUpdatableFields(rawUpdates as Record<string, unknown>);
+  // SEC-005b: un `content` en TEXTO (markdown) se estructura en secciones igual que en la creación.
+  // Antes se guardaba el string tal cual y la lectura (`JSON.parse` / `content.sections`) rompía la
+  // página de ese artículo.
+  const incoming = updates as { content?: unknown };
+  if (typeof incoming.content === "string") {
+    incoming.content = parseMarkdownToSections(incoming.content);
+  }
   try {
     const data: Record<string, unknown> = { ...updates };
     if (updates.portal) {

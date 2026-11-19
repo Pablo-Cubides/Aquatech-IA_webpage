@@ -87,7 +87,7 @@ Acceptance Criteria:
       - Has no unverified statistics without source attribution
       - Has no future promises ("próximamente") without confirmed dates
       - Has excerpt ≤280 chars
-      - Has 3-7 tags from approved taxonomy
+      - Has 3-7 tags (glossary taxonomy recommended; specific technical tags allowed, ADR-0015)
       - Has a CTA section linking to a relevant tool (if applicable)
 ```
 
@@ -148,5 +148,5 @@ Acceptance Criteria:
 - [x] Agent reads constitution before generating (§9, rule 1).
 - [x] Zod validation of all generated content (§3.1).
 - [x] Content follows image policy for heroImage (§7.1).
-- [x] Tags from approved taxonomy (§7.1).
+- [x] 3-7 tags; glossary taxonomy recommended, specific technical tags allowed (§7.1).
 - [x] Conventional commit for article PR (§3.5).

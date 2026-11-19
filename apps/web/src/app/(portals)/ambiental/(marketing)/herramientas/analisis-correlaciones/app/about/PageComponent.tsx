@@ -14,10 +14,10 @@ export default function AboutPage() {
             <strong>Pearson:</strong> Mide la relación lineal entre dos variables numéricas. Valores cercanos a 1 o -1 indican una relación lineal fuerte.
           </li>
           <li>
-            <strong>Spearman:</strong> Evalúa la relación monótona (no necesariamente lineal) entre dos variables, usando los rangos de los datos.
+            <strong>Spearman:</strong> Evalúa la relación monótona (no necesariamente lineal) entre dos variables, usando los rangos de los datos (los valores repetidos comparten el rango promedio).
           </li>
           <li>
-            <strong>Kendall Tau:</strong> Mide la concordancia en el orden de los valores entre dos variables. Es robusto ante valores atípicos y útil para relaciones no lineales.
+            <strong>Kendall Tau:</strong> Mide la concordancia en el orden de los valores entre dos variables (pares concordantes y discordantes). Usa la variante tau-b, que tiene en cuenta los empates. Es robusto ante valores atípicos y sirve para relaciones monótonas aunque no sean lineales.
           </li>
         </ul>
       </div>

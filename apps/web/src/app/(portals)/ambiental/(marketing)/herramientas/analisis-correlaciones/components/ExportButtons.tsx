@@ -1,5 +1,4 @@
 import React from "react";
-import { exportCorrelationsPDF } from "../src/utils/pdf-export";
 import type { AnalysisResult } from "../types/analysis";
 
 interface CorrelationResult {
@@ -19,8 +18,6 @@ interface ExportButtonsProps {
   analysisType?: "correlation" | "growth" | "trend" | "comparison";
   results?: AnalysisResult; // Full result object for extended PDF generation
 }
-
-import { toPng } from "html-to-image";
 
 const exportCSV = (data: CorrelationResult[]) => {
   const headers = [
@@ -68,6 +65,8 @@ const exportHeatmapPNG = async (
 ) => {
   if (!ref.current) return;
   try {
+    // OPS-002: html-to-image se descarga al exportar, no al mostrar el resultado.
+    const { toPng } = await import("html-to-image");
     const dataUrl = await toPng(ref.current, {
       backgroundColor: "#ffffff",
       quality: 0.95,
@@ -91,6 +90,8 @@ export default function ExportButtons({
   results,
 }: ExportButtonsProps) {
   const handleExportPDF = async () => {
+    // OPS-002: jspdf (y su módulo de reporte) se descargan al pulsar el botón.
+    const { exportCorrelationsPDF } = await import("../src/utils/pdf-export");
     await exportCorrelationsPDF(
       {
         filename: filename || "Analisis_Correlacion",

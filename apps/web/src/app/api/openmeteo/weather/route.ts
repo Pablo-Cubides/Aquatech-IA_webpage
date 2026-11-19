@@ -1,49 +1,46 @@
 /**
  * API Route: GET /api/openmeteo/weather
- * Proxy for Open-Meteo API to avoid client-side fetches and potential CORS/blocking issues.
+ * Proxy de Open-Meteo (SEC-003). Uso gratuito no comercial, ~10 000 llamadas/día por IP (la IP de
+ * Vercel es compartida): coordenadas validadas y redondeadas a 2 decimales (~1 km) para que
+ * peticiones cercanas compartan caché del CDN, y límite por IP en memoria.
  */
+import { NextRequest } from "next/server";
+import { z } from "zod";
+import { fetchUpstreamJson, guardPublicProxy, proxyJson } from "@/lib/security/public-proxy";
 
-export async function GET(request: Request) {
-  try {
-    const url = new URL(request.url);
-    const lat = url.searchParams.get("latitude");
-    const lon = url.searchParams.get("longitude");
+const coord = (max: number) =>
+  z
+    .string()
+    .regex(/^-?\d{1,3}(\.\d{1,17})?$/, "número decimal")
+    .transform(Number)
+    .refine((n) => Math.abs(n) <= max, `fuera de rango (±${max})`)
+    .transform((n) => Math.round(n * 100) / 100);
 
-    if (!lat || !lon) {
-      return Response.json({ error: "Missing latitude or longitude" }, { status: 400 });
-    }
+const querySchema = z.strictObject({
+  latitude: coord(90),
+  longitude: coord(180),
+});
 
-    const params = new URLSearchParams({
-      latitude: lat,
-      longitude: lon,
-      current: "temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,wind_speed_10m,wind_direction_10m,weather_code,cloud_cover",
-      timezone: "auto"
-    });
+export async function GET(request: NextRequest) {
+  const guard = await guardPublicProxy(request, {
+    name: "openmeteo:weather",
+    schema: querySchema,
+    perMinutePerIp: 30,
+    limiter: "memory",
+  });
+  if (!guard.ok) return guard.response;
 
-    const openMeteoUrl = `https://api.open-meteo.com/v1/forecast?${params.toString()}`;
-    
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000);
+  const params = new URLSearchParams({
+    latitude: String(guard.query.latitude),
+    longitude: String(guard.query.longitude),
+    current:
+      "temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,wind_speed_10m,wind_direction_10m,weather_code,cloud_cover",
+    timezone: "auto",
+  });
 
-    const response = await fetch(openMeteoUrl, { signal: controller.signal });
-    clearTimeout(timeoutId);
-
-    if (!response.ok) {
-      throw new Error(`Open-Meteo API error: ${response.status}`);
-    }
-
-    const data = await response.json();
-
-    return Response.json(data, {
-      headers: {
-        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
-      },
-    });
-  } catch (error) {
-    console.error("Error in Open-Meteo proxy:", error);
-    return Response.json(
-      { error: "Failed to fetch weather data" },
-      { status: 500 }
-    );
-  }
+  const result = await fetchUpstreamJson("openmeteo:weather", `https://api.open-meteo.com/v1/forecast?${params}`, {
+    timeoutMs: 10_000,
+  });
+  if (!result.ok) return result.response;
+  return proxyJson(result.data, { sMaxAge: 300, swr: 600 });
 }

@@ -58,7 +58,7 @@ run("Spec index lint", "node .specify/scripts/lint-specs.mjs");
 run("Contracts sync check", "node .specify/scripts/sync-contracts.mjs --check");
 run(
   "Image budget (changed files)",
-  "node .specify/scripts/image-budget.mjs --changed-only",
+  "node .specify/scripts/image-budget.mjs --changed-only --baseline",
 );
 
 console.log(`\n\x1b[1mSecurity\x1b[0m`);

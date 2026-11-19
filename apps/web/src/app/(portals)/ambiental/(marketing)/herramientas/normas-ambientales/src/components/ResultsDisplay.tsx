@@ -1,11 +1,11 @@
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { Badge } from './ui/badge';
+import { Button } from './ui/button';
 import { ExternalLink, Download } from 'lucide-react';
 import { WATER_USE_SECTORS } from '@/lib/types';
-import { RegulatorySource } from '@/lib/constants';
+import { RegulatorySource } from '../lib/constants';
 import { RegulatorySourcesCard } from './RegulatorySourcesCard';
 
 type AnyRecord = Record<string, unknown>;

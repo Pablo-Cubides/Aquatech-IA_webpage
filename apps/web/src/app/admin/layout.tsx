@@ -1,5 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { isAdminInDatabase } from "@/lib/security/admin-session";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { LayoutDashboard, Users, Newspaper, ShieldAlert } from "lucide-react";
@@ -11,8 +12,8 @@ export default async function AdminLayout({
 }) {
   const session = await getServerSession(authOptions);
 
-  // @ts-ignore
-  if (!session || session.user?.role !== "ADMIN") {
+  // SEC-004: el rol se comprueba en la base de datos, no en el JWT.
+  if (!session || !(await isAdminInDatabase(session.user?.id))) {
     redirect("/");
   }
 

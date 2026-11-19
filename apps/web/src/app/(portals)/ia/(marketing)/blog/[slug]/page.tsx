@@ -1,3 +1,4 @@
+import { safeJsonLd } from "@/lib/security/safe-json-ld";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,11 +8,11 @@ import { getArticle, getAllArticles } from "@/lib/blog-articles";
 import { extractFaqs, generateArticleSchema, generateBreadcrumbSchema, generateFaqSchema } from "@/lib/blog-seo";
 import { fitTitle } from "@/lib/seo-title";
 import { renderSafeRichText } from "@/lib/security/safe-rich-text";
-import { SITE_URL } from "@/lib/site-config";
+import { SITE_URL, TWITTER_HANDLE } from "@/lib/site-config";
 import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 export const dynamicParams = true;
-export const revalidate = 60;
+export const revalidate = 21600; // 6h: antes 60s (CPU)
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -59,10 +60,12 @@ export async function generateMetadata({
       title: article.title,
       description: article.excerpt,
       images: [article.heroImage],
-      creator: "@aquatechia",
+      creator: TWITTER_HANDLE,
     },
     alternates: {
       canonical: articleUrl,
+      // VIS-004: version Markdown del articulo (se descubre desde el HTML; para citar se usa la canonica).
+      types: { "text/markdown": `${articleUrl}.md` },
     },
   };
 }
@@ -108,33 +111,6 @@ function formatDate(iso: string) {
   });
 }
 
-const defaultIASources = [
-  {
-    title: "Attention Is All You Need (Transformer Architecture)",
-    url: "https://arxiv.org/abs/1706.03762",
-    source: "arXiv (.org)",
-    description: "Paper seminal sobre arquitecturas de atención y modelos de lenguaje.",
-  },
-  {
-    title: "Stanford Natural Language Processing Research",
-    url: "https://nlp.stanford.edu/",
-    source: "Stanford University (.edu)",
-    description: "Publicaciones y avances en procesamiento de lenguaje natural.",
-  },
-  {
-    title: "OpenAI Research & Technical Reports",
-    url: "https://openai.com/research",
-    source: "OpenAI Research",
-    description: "Estudios empíricos sobre escalado, alineación y modelos generativos.",
-  },
-  {
-    title: "W3C Artificial Intelligence Standards & Semantics",
-    url: "https://www.w3.org/",
-    source: "W3C (.org)",
-    description: "Estándares web, accesibilidad y datos estructurados.",
-  },
-];
-
 export default async function BlogArticlePage({ params }: PageProps) {
   const { slug } = await params;
   const article = await getArticle("ia", slug);
@@ -159,16 +135,16 @@ export default async function BlogArticlePage({ params }: PageProps) {
       {/* JSON-LD Schema */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(schema) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
       />
       {faqs.length >= 2 ? (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(generateFaqSchema(faqs)) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(generateFaqSchema(faqs)) }}
         />
       ) : null}
 
@@ -471,11 +447,10 @@ export default async function BlogArticlePage({ params }: PageProps) {
                 ))}
               </div>
 
-              {/* Fuentes y Referencias Autoritativas (GEO) */}
-              <AuthoritativeReferences
-                sources={article.references && article.references.length > 0 ? article.references : defaultIASources}
-                theme="dark"
-              />
+              {/* Fuentes: solo las `references` reales del artículo; sin ellas no se pinta nada (VIS-005) */}
+              {article.references && article.references.length > 0 && (
+                <AuthoritativeReferences sources={article.references} theme="dark" />
+              )}
             </div>
           </article>
 

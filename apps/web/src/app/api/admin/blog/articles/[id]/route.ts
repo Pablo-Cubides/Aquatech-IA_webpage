@@ -1,54 +1,58 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { authorizeBlogAdmin } from "@/lib/security/blog-admin-auth";
+import {
+  articleIdSchema,
+  describeInvalidBody,
+  readBoundedJson,
+  updateArticleSchema,
+} from "@/lib/schemas/blog-article.zod";
 import {
   getStoredArticles,
   updateStoredArticle,
   deleteStoredArticle,
 } from "@/lib/services/blog-store";
-
-const AGENT_API_KEY = process.env.BLOG_AGENT_API_KEY || "aquatech-agent-key-2026";
-
-async function isAuthorized(req: NextRequest): Promise<boolean> {
-  const authHeader = req.headers.get("authorization");
-  if (authHeader) {
-    const token = authHeader.replace(/^Bearer\s+/i, "").trim();
-    if (token === AGENT_API_KEY) {
-      return true;
-    }
-  }
-
-  try {
-    const session = await getServerSession(authOptions);
-    // @ts-ignore
-    if (session?.user?.role === "ADMIN") {
-      return true;
-    }
-  } catch (e) {
-    // Session check error
-  }
-
-  return false;
-}
+import { checkPatchForPublication, describePublicationFailure } from "@/lib/services/blog-publication";
 
 // PATCH /api/admin/blog/articles/[id]
 export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  if (!(await isAuthorized(req))) {
-    return NextResponse.json(
-      { error: "No autorizado. Se requiere token de agente o sesión de Administrador." },
-      { status: 401 }
-    );
-  }
+  const auth = await authorizeBlogAdmin(req);
+  if (!auth.ok) return auth.response;
 
-  const { id } = await params;
+  const parsedId = articleIdSchema.safeParse((await params).id);
+  if (!parsedId.success) {
+    return NextResponse.json({ error: "ID inválido" }, { status: 400 });
+  }
+  const id = parsedId.data;
 
   try {
-    const body = await req.json();
-    const updated = await updateStoredArticle(id, body);
+    const raw = await readBoundedJson(req);
+    if (!raw.ok) {
+      return NextResponse.json(
+        { error: raw.status === 413 ? "Cuerpo demasiado grande" : "JSON inválido" },
+        { status: raw.status },
+      );
+    }
+
+    // Esquema cerrado: id, createdAt, updatedAt y source no se aceptan (400 con las claves rechazadas).
+    const parsed = updateArticleSchema.safeParse(raw.value);
+    if (!parsed.success) {
+      return NextResponse.json(describeInvalidBody(parsed.error), { status: 400 });
+    }
+
+    // SEC-004b: el resultado de un PATCH que deja el artículo visible cumple el contrato canónico.
+    const existing = (await getStoredArticles()).find((article) => article.id === id);
+    if (existing) {
+      const publication = checkPatchForPublication(existing, parsed.data);
+      if (!publication.ok) {
+        return NextResponse.json(describePublicationFailure(publication.issues), { status: 400 });
+      }
+    }
+
+    const updated = await updateStoredArticle(id, parsed.data);
 
     if (!updated) {
       return NextResponse.json(
@@ -86,12 +90,8 @@ export async function DELETE(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  if (!(await isAuthorized(req))) {
-    return NextResponse.json(
-      { error: "No autorizado. Se requiere token de agente o sesión de Administrador." },
-      { status: 401 }
-    );
-  }
+  const auth = await authorizeBlogAdmin(req);
+  if (!auth.ok) return auth.response;
 
   const { id } = await params;
 

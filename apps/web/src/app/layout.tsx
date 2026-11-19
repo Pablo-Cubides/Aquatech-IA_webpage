@@ -1,3 +1,4 @@
+import { safeJsonLd } from "@/lib/security/safe-json-ld";
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "../components/auth/Providers";
@@ -6,6 +7,8 @@ import {
   DEFAULT_LOCALE,
   DEFAULT_OG_IMAGE,
   DEFAULT_LOGO,
+  SOCIAL_PROFILES,
+  TWITTER_HANDLE,
 } from "@/lib/site-config";
 import { Analytics } from "@vercel/analytics/next";
 import { spaceGrotesk, notoSans } from "@/lib/fonts";
@@ -56,7 +59,7 @@ export const metadata: Metadata = {
     description:
       "Plataforma de IA para gestión ambiental sostenible. Herramientas y cursos.",
     images: [DEFAULT_OG_IMAGE],
-    creator: "@aquatechia",
+    creator: TWITTER_HANDLE,
   },
   robots: {
     index: true,
@@ -93,10 +96,7 @@ export default function RootLayout({
     logo: DEFAULT_LOGO,
     description:
       "Plataforma educativa de Inteligencia Artificial para la gestión ambiental sostenible",
-    sameAs: [
-      "https://twitter.com/aquatechia",
-      "https://linkedin.com/company/aquatechia",
-    ],
+    sameAs: [...SOCIAL_PROFILES],
     knowsAbout: [
       "Inteligencia Artificial",
       "Machine Learning",
@@ -111,33 +111,17 @@ export default function RootLayout({
     },
   };
 
-  const websiteSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: "AquatechIA",
-    url: SITE_URL,
-    description:
-      "Plataforma de IA para gestión ambiental sostenible con herramientas y cursos",
-  };
-
   return (
     <html
       lang="es"
       className={`${spaceGrotesk.variable} ${notoSans.variable}`}
     >
       <head>
-        {/* Structured Data - Organization */}
+        {/* Structured Data - Organization (el WebSite solo se emite en la home: app/page.tsx) */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationSchema),
-          }}
-        />
-        {/* Structured Data - Website */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(websiteSchema),
+            __html: safeJsonLd(organizationSchema),
           }}
         />
         {/* DNS Prefetch for performance */}

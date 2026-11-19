@@ -1,3 +1,4 @@
+import { safeJsonLd } from "@/lib/security/safe-json-ld";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,11 +8,11 @@ import { getArticle, getAllArticles } from "@/lib/blog-articles";
 import { extractFaqs, generateArticleSchema, generateBreadcrumbSchema, generateFaqSchema } from "@/lib/blog-seo";
 import { fitTitle } from "@/lib/seo-title";
 import { renderSafeRichText } from "@/lib/security/safe-rich-text";
-import { SITE_URL } from "@/lib/site-config";
+import { SITE_URL, TWITTER_HANDLE } from "@/lib/site-config";
 import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 export const dynamicParams = true;
-export const revalidate = 60;
+export const revalidate = 21600; // 6h: antes 60s (CPU)
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -59,10 +60,12 @@ export async function generateMetadata({
       title: article.title,
       description: article.excerpt,
       images: [article.heroImage],
-      creator: "@aquatechia",
+      creator: TWITTER_HANDLE,
     },
     alternates: {
       canonical: articleUrl,
+      // VIS-004: version Markdown del articulo (se descubre desde el HTML; para citar se usa la canonica).
+      types: { "text/markdown": `${articleUrl}.md` },
     },
   };
 }
@@ -108,33 +111,6 @@ function formatDate(iso: string) {
   });
 }
 
-const defaultAmbientalSources = [
-  {
-    title: "Normatividad Ambiental y Guías de Manejo",
-    url: "https://www.minambiente.gov.co/",
-    source: "MinAmbiente (.gov.co)",
-    description: "Marco legal, decretos y políticas ambientales del territorio nacional.",
-  },
-  {
-    title: "Monitoreo Hidrológico y Calidad de Cuencas",
-    url: "http://www.ideam.gov.co/",
-    source: "IDEAM (.gov.co)",
-    description: "Datos científicos y meteorológicos oficiales sobre el recurso hídrico.",
-  },
-  {
-    title: "Water Resources & Environmental Guidelines",
-    url: "https://www.usgs.gov/",
-    source: "USGS (.gov)",
-    description: "Estándares y protocolos científicos internacionales de gestión ambiental.",
-  },
-  {
-    title: "Programa de las Naciones Unidas para el Medio Ambiente",
-    url: "https://www.unep.org/es",
-    source: "UNEP (ONU)",
-    description: "Evaluaciones globales y metas de sostenibilidad hídrica.",
-  },
-];
-
 export default async function BlogArticlePage({ params }: PageProps) {
   const { slug } = await params;
   const article = await getArticle("ambiental", slug);
@@ -159,16 +135,16 @@ export default async function BlogArticlePage({ params }: PageProps) {
       {/* JSON-LD Schema */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(schema) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
       />
       {faqs.length >= 2 ? (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(generateFaqSchema(faqs)) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(generateFaqSchema(faqs)) }}
         />
       ) : null}
 
@@ -472,11 +448,10 @@ export default async function BlogArticlePage({ params }: PageProps) {
                 ))}
               </div>
 
-              {/* Fuentes y Referencias Autoritativas (GEO) */}
-              <AuthoritativeReferences
-                sources={article.references && article.references.length > 0 ? article.references : defaultAmbientalSources}
-                theme="light"
-              />
+              {/* Fuentes: solo las `references` reales del artículo; sin ellas no se pinta nada (VIS-005) */}
+              {article.references && article.references.length > 0 && (
+                <AuthoritativeReferences sources={article.references} theme="light" />
+              )}
             </div>
           </article>
 

@@ -104,7 +104,7 @@ Acceptance Criteria:
 - **BR-002**: `date` must be a valid ISO 8601 date. Articles cannot be future-dated.
 - **BR-003**: `readTime` must be within 20% of `ceil(wordCount / 200)`.
 - **BR-004**: `heroImage` must be non-empty for any article in production (not a `// DRAFT` file).
-- **BR-005**: `tags` must contain 3–7 items from the approved taxonomy in `docs/domain/glossary.md`.
+- **BR-005**: `tags` must contain 3–7 items. The taxonomy in `docs/domain/glossary.md` is the recommended canonical set; tags outside it are allowed when they add technical specificity (a resolution number, a method, a specific index), not generic synonyms (ADR-0015).
 - **BR-006**: Each article is one file. Mega-files with multiple articles are prohibited.
 - **BR-007**: `nextArticle.slug` must reference an existing, published article slug.
 

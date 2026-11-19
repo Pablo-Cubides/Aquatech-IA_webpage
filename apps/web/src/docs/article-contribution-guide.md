@@ -4,7 +4,7 @@ Esta guía establece los estándares para la creación, edición y publicación 
 
 ## 1. Estructura de Datos
 
-Los artículos se gestionan en `apps/web/src/lib/new-ambiental-articles.ts`. Cada artículo es un objeto con la siguiente estructura:
+Cada artículo es un archivo propio, `apps/web/src/lib/articles/ambiental/<slug>.ts` (se genera con `pnpm content:new ambiental <slug>`), que valida el objeto contra el contrato `blogArticleSchema` al cargarse. El objeto tiene la siguiente estructura:
 
 ```typescript
 "slug-del-articulo": {
@@ -65,7 +65,7 @@ Los artículos se gestionan en `apps/web/src/lib/new-ambiental-articles.ts`. Cad
 
 1.  **Preparar Activos**: Generar o seleccionar imágenes y guardarlas en la carpeta `public`.
 2.  **Redactar**: Escribir el contenido siguiendo la estructura de secciones.
-3.  **Insertar**: Agregar el nuevo objeto a `NEW_AMBIENTAL_ARTICLES`.
+3.  **Registrar**: Importar el archivo y añadirlo AL FINAL de la lista `NEW_AMBIENTAL_ARTICLES_V2` de `apps/web/src/lib/articles/index.ts` (a igual fecha, el orden de la lista decide el orden del listado).
 4.  **Verificar**:
     - Ejecutar `pnpm build` para asegurar que no hay errores de TypeScript.
     - Revisar visualmente el renderizado de negritas y caracteres especiales.

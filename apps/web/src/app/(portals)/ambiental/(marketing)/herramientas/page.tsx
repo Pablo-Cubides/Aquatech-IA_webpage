@@ -1,5 +1,6 @@
 "use client";
 
+import { safeJsonLd } from "@/lib/security/safe-json-ld";
 import Link from "next/link";
 
 export default function AmbientalHerramientasPage() {
@@ -21,7 +22,7 @@ export default function AmbientalHerramientasPage() {
     >
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(collectionSchema) }}
       />
       {/* Hero Section */}
       <section className="relative py-16 md:py-24 overflow-hidden bg-white">

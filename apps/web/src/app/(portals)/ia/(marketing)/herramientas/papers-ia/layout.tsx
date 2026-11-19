@@ -1,5 +1,6 @@
+import { safeJsonLd } from "@/lib/security/safe-json-ld";
 import type { Metadata } from 'next';
-import { SITE_URL, DEFAULT_LOGO } from '@/lib/site-config';
+import { SITE_URL, DEFAULT_LOGO, TWITTER_HANDLE } from '@/lib/site-config';
 import ToolSeoBlock from "@/components/seo/ToolSeoBlock";
 
 export const metadata: Metadata = {
@@ -51,7 +52,7 @@ export const metadata: Metadata = {
     title: 'Papers de IA | Investigación ArXiv',
     description:
       'Explora los artículos científicos más recientes sobre inteligencia artificial desde ArXiv.',
-    creator: '@aquatechia',
+    creator: TWITTER_HANDLE,
   },
   category: 'technology',
 };
@@ -135,7 +136,7 @@ export default function PapersIALayout({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData),
+          __html: safeJsonLd(structuredData),
         }}
       />
       {children}

@@ -17,7 +17,7 @@
     "test:watch": "turbo run test:watch",
     "test:ui": "turbo run test:ui",
     "clean": "turbo clean && rm -rf node_modules",
-    "postinstall": "turbo run postinstall --parallel",
+    "postinstall": "turbo run postinstall",
     "prepare": "lefthook install",
     "spec:new": "node .specify/scripts/new-feature.mjs",
     "content:new": "node .specify/scripts/new-content.mjs",
@@ -40,7 +40,7 @@
     "husky": "^9.1.7",
     "jsdom": "^27.4.0",
     "lefthook": "^2.2.2",
-    "next": "16.4.3",
+    "next": "16.4.5",
     "potrace-wasm": "^1.0.4",
     "prettier": "^3.9.10",
     "sharp": "^0.35.5",
@@ -64,6 +64,7 @@
       "glob@>=9.0.0 <=14.0.1": "14.0.2",
       "minimatch@<11.0.1": "11.0.1",
       "uuid@>=9 <10": "11.1.1",
+      "fast-xml-parser": ">=5.12.0",
       "@opentelemetry/api": "1.9.0"
     }
   },

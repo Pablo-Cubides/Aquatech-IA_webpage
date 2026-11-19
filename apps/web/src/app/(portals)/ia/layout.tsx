@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import HeaderIA from "../../../components/nav/HeaderIA";
 import FooterIA from "../../../components/nav/FooterIA";
-import { SITE_URL, DEFAULT_LOCALE } from "@/lib/site-config";
+import { SITE_URL, DEFAULT_LOCALE, TWITTER_HANDLE } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "Portal de Inteligencia Artificial | Modelos, Herramientas y Cursos",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     title: "Portal IA | AquatechIA",
     description: "Inteligencia Artificial aplicada al agua y ambiente",
     images: [`${SITE_URL}/images/og-image-ia.jpg`],
-    creator: "@aquatechia",
+    creator: TWITTER_HANDLE,
   },
 };
 

@@ -1,7 +1,9 @@
+import { safeJsonLd } from "@/lib/security/safe-json-ld";
 import Link from "next/link";
 import Image from "next/image";
 import { ChevronRight } from "lucide-react";
 import type { Metadata } from "next";
+import { TWITTER_HANDLE } from "@/lib/site-config";
 
 const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "https://aquatechia.com").trim().replace(/\/+$/, "");
 
@@ -43,7 +45,7 @@ export const metadata: Metadata = {
     description:
       "Inteligencia Artificial y Gestión Ambiental Sostenible. Herramientas y Cursos Educativos.",
     images: [`${baseUrl}/images/og-image.jpg`],
-    creator: "@aquatechia",
+    creator: TWITTER_HANDLE,
   },
   alternates: {
     canonical: baseUrl,
@@ -60,8 +62,6 @@ export default function Home() {
     url: baseUrl,
     description:
       "Plataforma educativa de inteligencia artificial y gestión ambiental sostenible.",
-    datePublished: "2024-01-01",
-    dateModified: "2026-09-06",
     publisher: {
       "@type": "Organization",
       name: "AquatechIA",
@@ -77,7 +77,7 @@ export default function Home() {
     <main className="min-h-screen relative overflow-x-hidden bg-black text-white flex flex-col justify-between">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(homeSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(homeSchema) }}
       />
       {/* Fondo dividido con texturas - oculto en móvil */}
       <div className="absolute inset-0 hidden lg:flex pointer-events-none">

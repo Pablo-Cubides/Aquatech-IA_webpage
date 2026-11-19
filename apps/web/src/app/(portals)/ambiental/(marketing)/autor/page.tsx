@@ -1,3 +1,4 @@
+import { safeJsonLd } from "@/lib/security/safe-json-ld";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { spaceGrotesk } from "@/lib/fonts";
@@ -227,11 +228,11 @@ export default function AmbientalAutorPage() {
       {/* JSON-LD SEO */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(personJsonLd) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(faqJsonLd) }}
       />
 
       <main className="min-h-screen bg-[#F5F9F8] text-gray-600">
@@ -562,7 +563,7 @@ export default function AmbientalAutorPage() {
                   </div>
                 </div>
                 <Link
-                  href="/ambiental/autor/herramientas/consulta-nota"
+                  href="/ia/autor/herramientas/consulta-nota"
                   className="inline-flex items-center gap-2 w-full justify-center bg-gradient-to-r from-[#0077B6] to-[#10B981] text-white font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition-opacity"
                 >
                   <FileText className="w-4 h-4" />
@@ -746,13 +747,6 @@ export default function AmbientalAutorPage() {
                 category="Tecnología"
                 readTime="12 min"
                 href="/ambiental/blog/cerebro-digital-gestion-ambiental-esg"
-              />
-              <ArticleCard
-                title="Gestión Comunitaria del Agua Rural"
-                excerpt="Modelos sostenibles e inclusivos para la gobernanza del agua en comunidades vulnerables."
-                category="Social"
-                readTime="10 min"
-                href="/ambiental/blog/gestion-comunitaria-agua-rural-inclusiva-sostenible"
               />
               <ArticleCard
                 title="El Desafío del Agua en América Latina Rural"

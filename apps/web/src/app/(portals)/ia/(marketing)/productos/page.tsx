@@ -1,5 +1,6 @@
 "use client";
 
+import { safeJsonLd } from "@/lib/security/safe-json-ld";
 import Link from "next/link";
 
 export default function ProductosIAPage() {
@@ -167,7 +168,7 @@ export default function ProductosIAPage() {
     >
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(itemListJsonLd) }}
       />
       {/* Design System */}
       <style jsx global>{`

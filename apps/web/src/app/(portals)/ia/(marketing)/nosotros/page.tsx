@@ -1,5 +1,8 @@
+import { safeJsonLd } from "@/lib/security/safe-json-ld";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { IA_TOOLS } from "@/lib/ia-tools";
+import { getPublishedArticleCount } from "@/lib/articles-for-indexing";
 
 export const metadata: Metadata = {
   title: "Nosotros — Aquatech IA",
@@ -7,7 +10,12 @@ export const metadata: Metadata = {
     "Conoce la misión, visión y valores de Aquatech IA: IA responsable aplicada al agua y al ambiente, con herramientas públicas, rigor científico y foco en impacto.",
 };
 
-export default function NosotrosPage() {
+// El contador de artículos viene de la base de datos: se regenera cada hora.
+export const revalidate = 3600;
+
+export default async function NosotrosPage() {
+  // null si la base de datos no responde: entonces la tarjeta no se pinta (nunca una cifra parcial).
+  const articleCount = await getPublishedArticleCount("ia");
   const aboutSchema = {
     "@context": "https://schema.org",
     "@type": "AboutPage",
@@ -24,7 +32,7 @@ export default function NosotrosPage() {
     <div className="bg-[#000000] text-[#FFFFFF]">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(aboutSchema) }}
       />
       {/* HERO */}
       <section className="relative overflow-hidden bg-[#000000] py-20 sm:py-28 lg:py-32">
@@ -130,7 +138,7 @@ export default function NosotrosPage() {
                 <span className="font-medium text-[#F3F6FF]">
                   Rigor científico continuo:
                 </span>{" "}
-                validación con expertos, trazabilidad de datos y evaluación de
+                fuentes citadas, trazabilidad de datos y evaluación de
                 sesgos.
               </li>
               <li>
@@ -241,7 +249,7 @@ export default function NosotrosPage() {
               ["Transparencia", "Modelos, supuestos y fuentes trazables."],
               [
                 "Rigor científico",
-                "Validación, reproducibilidad y pares expertos.",
+                "Fuentes citadas, método publicado y reproducibilidad.",
               ],
               ["Impacto", "Métricas claras ambientales y sociales."],
               ["Ética de IA", "Filtros responsables y revisión humana."],
@@ -268,21 +276,20 @@ export default function NosotrosPage() {
               className="text-3xl font-bold"
               style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
             >
-              Nuestro Impacto
+              El proyecto en cifras
             </h2>
             <p className="mt-3 text-lg text-[#B6C2DF]">
-              Números que reflejan nuestro compromiso con la excelencia.
+              Cifras que el propio sitio calcula.
             </p>
           </div>
-          <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
+          {/* Solo cifras que el sitio deriva de su propio código: no se escriben a mano. */}
+          <div className="mx-auto grid max-w-2xl grid-cols-1 sm:grid-cols-2 gap-6">
             {[
-              ["+120K", "Registros de calidad de agua analizados"],
-              ["6", "Herramientas publicadas (3 IA / 3 Ambientales)"],
-              ["12", "Alianzas y datasets integrados"],
-              ["97%", "Uptime promedio en herramientas públicas"],
+              [String(IA_TOOLS.filter((t) => t.status === "available").length), "Herramientas de IA públicas"],
+              ...(articleCount === null ? [] : [[String(articleCount), "Artículos técnicos publicados"]]),
             ].map(([kpi, label]) => (
               <div
-                key={kpi}
+                key={label}
                 className="rounded-lg border border-white/10 bg-[#10111A] p-6 text-center transition-all hover:-translate-y-1 hover:shadow-[0_0_15px_0_rgba(0,239,255,0.2)]"
               >
                 <div className="text-3xl font-bold text-[#00EFFF]">{kpi}</div>

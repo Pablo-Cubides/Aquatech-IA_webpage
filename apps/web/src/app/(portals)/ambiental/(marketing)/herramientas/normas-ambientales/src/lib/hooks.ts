@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { CountryStandards, Country } from "@/lib/types";
-import { DOMINIOS } from "@/lib/constants";
-import { getFlagEmoji } from "@/lib/constants";
-import { API_BASE, ROUTE_BASE } from "@/lib/api";
+import { DOMINIOS } from "./constants";
+import { getFlagEmoji } from "./constants";
+import { API_BASE, ROUTE_BASE } from "./api";
 
 type AnyRecord = Record<string, unknown>;
 

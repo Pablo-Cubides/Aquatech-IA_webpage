@@ -1,1 +1,1 @@
-export { default } from "@/app/(portals)/ia/(marketing)/autor/herramientas/proyectos-investigacion/admin/page";
+export { default } from "@/components/autor-tools/proyectos-investigacion/AdminProyectosPage";

@@ -60,28 +60,28 @@ analisis-correlaciones/
 
 ## Algoritmos Implementados
 
+Viven en `src/utils/correlations.ts` (módulo puro, sin React ni red) y se prueban contra valores de
+referencia independientes en `src/utils/__tests__/correlations-math.test.ts`. Los coeficientes que no
+están definidos (menos de 2 datos o una serie constante) devuelven `null` (la tabla muestra "N/A"), nunca `NaN`.
+
 ### Correlación de Pearson
 ```typescript
-function pearsonCorrelation(x: number[], y: number[]): number {
-  // Coeficiente de correlación producto-momento
-  // Rango: -1 a +1
-}
+function pearson(x: number[], y: number[]): number | null
+// Coeficiente de correlación producto-momento (relación lineal). Rango: -1 a +1
 ```
 
 ### Correlación de Spearman
 ```typescript
-function spearmanCorrelation(x: number[], y: number[]): number {
-  // Basado en rangos
-  // Más robusto a distribuciones no normales
-}
+function spearman(x: number[], y: number[]): number | null
+// Pearson sobre los RANGOS. Cada valor recibe el rango de su posición ordenada,
+// asignado a su índice original, y los empates reciben el rango promedio.
 ```
 
-### Correlación de Kendall
+### Correlación de Kendall (tau-b)
 ```typescript
-function kendallCorrelation(x: number[], y: number[]): number {
-  // Basado en pares concordantes/discordantes
-  // Más robusto a outliers
-}
+function kendallTauB(x: number[], y: number[]): number | null
+// (C - D) / sqrt((n0 - n1) * (n0 - n2)): pares concordantes y discordantes, con
+// corrección por empates (la variante estándar, la misma de scipy.stats.kendalltau).
 ```
 
 ## Análisis Adicionales

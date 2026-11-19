@@ -95,6 +95,14 @@ export default function MapComponent({
             import("maplibre-gl"),
             import("maplibre-gl/dist/maplibre-gl.css"),
           ]);
+          // SEC-005b: MapLibre 6 busca su worker como un archivo HERMANO de su módulo
+          // (`./maplibre-gl-worker.mjs`). Empaquetado en un chunk de Next, ese archivo no existe y la URL
+          // devuelve la página 404 en HTML: "Worker failed to load" y las capas GeoJSON (GBIF, WQP, USGS,
+          // FIRMS…) no se dibujaban. No es la CSP (que ya permite worker-src 'self' blob:). Se le indica
+          // el archivo, que webpack emite como recurso estático con su hash.
+          maplibregl.setWorkerUrl(
+            new URL("maplibre-gl/dist/maplibre-gl-worker.mjs", import.meta.url).href,
+          );
           maplibreRef.current = maplibregl;
         }
 

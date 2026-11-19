@@ -4,7 +4,6 @@ import MenuCasos from "../components/MenuCasos";
 import VisualizadorCaso from "../components/VisualizadorCaso";
 import { CasosProvider } from "../context/CasosContext";
 import { WebPageStructuredData } from "@/components/seo/StructuredData";
-import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 export default function Home() {
   return (
@@ -13,8 +12,6 @@ export default function Home() {
         title="Cómo la IA Filtra Respuestas | Aquatech IA"
         description="Comprende los mecanismos de seguridad, moderación y filtrado que utilizan los modelos de IA para analizar y clasificar las respuestas generadas."
         url="https://aquatechia.com/ia/herramientas/filtrado-ia"
-        datePublished="2024-06-01"
-        dateModified="2026-09-06"
       />
       <CasosProvider>
         <main className="min-h-screen bg-slate-950 text-slate-100 py-8 px-4 sm:px-6 lg:px-8">
@@ -75,10 +72,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Referencias Oficiales Autorizadas GEO */}
-            <div className="mt-12">
-              <AuthoritativeReferences theme="dark" />
-            </div>
           </section>
         </main>
       </CasosProvider>

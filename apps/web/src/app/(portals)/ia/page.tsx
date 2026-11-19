@@ -1,9 +1,11 @@
+import { safeJsonLd } from "@/lib/security/safe-json-ld";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { getFeaturedIATools } from "@/lib/ia-tools";
-import { getLatestIAArticles } from "@/lib/new-blog-articles";
+import { getLatestArticles } from "@/lib/blog-articles";
 import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
+import { IA_OFFICIAL_RESOURCES, OFFICIAL_RESOURCES_SUBTITLE, OFFICIAL_RESOURCES_TITLE } from "@/components/seo/official-resources";
 
 import { SITE_URL } from "@/lib/site-config";
 
@@ -40,15 +42,15 @@ export const metadata: Metadata = {
   },
 };
 
-export default function IAPage() {
+export default async function IAPage() {
+  // Artículos de TODAS las fuentes (antes solo new-*.ts: la portada IA salía vacía y se perdían los de la base de datos).
+  const latestArticles = await getLatestArticles("ia", 3);
   const portalSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "IA Portal - AquatechIA",
     url: "https://aquatechia.com/ia",
     description: "Explora modelos generativos, visualizaciones y herramientas prácticas de inteligencia artificial aplicadas al agua y medio ambiente.",
-    datePublished: "2024-01-01",
-    dateModified: "2026-09-06",
     publisher: {
       "@type": "Organization",
       name: "AquatechIA"
@@ -59,7 +61,7 @@ export default function IAPage() {
     <div className="bg-black text-white">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(portalSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(portalSchema) }}
       />
       {/* Hero */}
       <section className="relative overflow-hidden min-h-screen lg:h-screen flex items-center text-center">
@@ -214,7 +216,7 @@ export default function IAPage() {
           </h2>
 
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {getLatestIAArticles(3).map((article) => (
+            {latestArticles.map((article) => (
               <Link key={article.slug} href={`/ia/blog/${article.slug}`}>
                 <article className="group overflow-hidden rounded-2xl border border-cyan-500/20 bg-gray-900/30 transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20 h-full flex flex-col">
                   <img
@@ -404,32 +406,9 @@ export default function IAPage() {
       {/* Fuentes y Referencias Autoritativas (GEO) */}
       <section className="container mx-auto px-4 py-8">
         <AuthoritativeReferences
-          sources={[
-            {
-              title: "Attention Is All You Need (Transformer Architecture)",
-              url: "https://arxiv.org/abs/1706.03762",
-              source: "arXiv (.org)",
-              description: "Paper seminal sobre arquitecturas de atención y modelos de lenguaje.",
-            },
-            {
-              title: "Stanford Artificial Intelligence & NLP Group",
-              url: "https://nlp.stanford.edu/",
-              source: "Stanford University (.edu)",
-              description: "Investigación fundamental sobre modelos de lenguaje y representación del conocimiento.",
-            },
-            {
-              title: "World Wide Web Consortium (W3C) - Standards & Data",
-              url: "https://www.w3.org/",
-              source: "W3C (.org)",
-              description: "Estándares web abiertos y esquemas semánticos para la interoperabilidad.",
-            },
-            {
-              title: "United Nations Environment Programme (UNEP) - Science & Data",
-              url: "https://www.unep.org/es",
-              source: "UNEP (ONU)",
-              description: "Metodologías globales de monitoreo de recursos hídricos e impacto ambiental.",
-            },
-          ]}
+          sources={IA_OFFICIAL_RESOURCES}
+          title={OFFICIAL_RESOURCES_TITLE}
+          subtitle={OFFICIAL_RESOURCES_SUBTITLE}
           theme="dark"
         />
       </section>

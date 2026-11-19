@@ -2,7 +2,7 @@ import React from "react";
 import { Metadata } from "next";
 import HeaderAmbiental from "@/components/nav/HeaderAmbiental";
 import FooterAmbiental from "@/components/nav/FooterAmbiental";
-import { SITE_URL, DEFAULT_LOCALE } from "@/lib/site-config";
+import { SITE_URL, DEFAULT_LOCALE, TWITTER_HANDLE } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "Gestión ambiental: normas, mapas y herramientas",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     title: "Portal Ambiental | AquatechIA",
     description: "Gestión ambiental sostenible con herramientas innovadoras",
     images: [`${SITE_URL}/images/og-image-ambiental.jpg`],
-    creator: "@aquatechia",
+    creator: TWITTER_HANDLE,
   },
 };
 

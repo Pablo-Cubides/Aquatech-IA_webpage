@@ -1,5 +1,6 @@
 "use client";
 
+import { safeJsonLd } from "@/lib/security/safe-json-ld";
 import Image from "next/image";
 import { useMemo, useState, useEffect } from "react";
 import Filters, {
@@ -16,7 +17,6 @@ import { filterItems, sortItems } from "@/lib/filters-env";
 import { buildAffiliateUrl, trackViewList } from "@/lib/track-env";
 import type { Resource } from "@/lib/types-env";
 import { FAQStructuredData, WebPageStructuredData } from "@/components/seo/StructuredData";
-import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 
 import data from "@/data/recommendations-ambiental.json";
 
@@ -76,8 +76,6 @@ export default function ProductosAmbientalPage() {
         title="Productos y Recursos Recomendados en Gestión Ambiental e IA | Aquatech IA"
         description="Catálogo curado de software técnico, equipamiento instrumental, literatura científica y cursos especializados seleccionados por expertos de Aquatech IA."
         url="https://aquatechia.com/ambiental/productos"
-        datePublished="2024-06-01"
-        dateModified="2026-09-06"
       />
       <FAQStructuredData faqs={productosFaqs} />
       <style jsx global>{`
@@ -266,12 +264,6 @@ export default function ProductosAmbientalPage() {
         </div>
       </section>
 
-      {/* REFERENCIAS AUTORIZADAS GEO */}
-      <section className="py-12 bg-white border-t border-[var(--border)]">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <AuthoritativeReferences theme="light" />
-        </div>
-      </section>
 
       {/* CTA FINAL */}
       <section className="border-t border-[var(--border)] bg-[var(--panel)]">
@@ -313,7 +305,7 @@ export default function ProductosAmbientalPage() {
       {/* JSON-LD */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(itemListJsonLd) }}
       />
     </>
   );

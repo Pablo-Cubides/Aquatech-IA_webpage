@@ -4,12 +4,19 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - "apps/web/public/images/**"
+      - "apps/web/public/**"
+      - "apps/web/src/lib/articles/**"
       - ".specify/scripts/image-budget.mjs"
+      - ".specify/image-budget-baseline.json"
+      - ".github/workflows/image-budget.yml"
   push:
     branches: [main]
     paths:
-      - "apps/web/public/images/**"
+      - "apps/web/public/**"
+      - "apps/web/src/lib/articles/**"
+      - ".specify/scripts/image-budget.mjs"
+      - ".specify/image-budget-baseline.json"
+      - ".github/workflows/image-budget.yml"
 
 concurrency:
   group: image-budget-${{ github.ref }}
@@ -23,23 +30,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2  # needed for git diff HEAD~1 HEAD
+          fetch-depth: 0 # historial completo: el diff contra la base y HEAD~1 deben existir
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-
-      - name: Install root dependencies only
-        run: pnpm install --frozen-lockfile --filter '.' --ignore-scripts
-
-      - name: Check image budgets (changed files only)
-        run: node .specify/scripts/image-budget.mjs --changed-only
+      # El script solo usa módulos de Node: no hace falta pnpm install (más rápido y sin fallos de instalación).
+      #
+      # POLÍTICA (OPS-001): trinquete. Hoy hay imágenes sobre presupuesto heredadas (la lista exacta está
+      # en .specify/image-budget-baseline.json). Una puerta que falla siempre es una puerta que se ignora,
+      # así que:
+      #   - BLOQUEA: toda imagen sobre presupuesto que NO esté en la línea base, o que pese más que en ella.
+      #   - INFORMA: la deuda conocida (cuántas, y cuáles han dejado de serlo).
+      # Camino a bloquear TODO: cada arreglo de imágenes termina con `node .specify/scripts/image-budget.mjs
+      # --update-baseline` y la línea base solo puede encoger. Cuando quede vacía se elimina `--baseline`
+      # de este paso y la puerta pasa a bloquear cualquier imagen sobre presupuesto.
+      - name: Check image budgets (blocks new or heavier images, reports known debt)
+        run: node .specify/scripts/image-budget.mjs --baseline
 
       - name: Check for missing alt text in changed articles
         if: always()

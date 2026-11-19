@@ -361,6 +361,9 @@ export default function IndiceCalidadAirePage() {
                 >
                   Seleccionar Archivo
                 </label>
+                <p className="mt-3 text-sm text-gray-600 text-center">
+                  Límite práctico: unas 12 000 filas con 6 contaminantes (un año de datos horarios son 8 760 filas). Si tu archivo es más largo, divídelo por periodos y calcula cada parte por separado.
+                </p>
                 {csvFile && (
                   <p className="mt-3 text-sm text-gray-600">
                     {csvFile.name} ({csvData.length} mediciones)

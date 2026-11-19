@@ -26,6 +26,7 @@ interface APIResponse {
   limit: number;
   category: string;
   error?: string;
+  message?: string;
 }
 
 const CATEGORIES = [
@@ -62,7 +63,8 @@ export default function ModelosTendenciaPage() {
       const data: APIResponse = await response.json();
 
       if (data.error) {
-        throw new Error(data.error);
+        // El proxy responde { error: código, message: texto legible } (SEC-003): sin datos de respaldo.
+        throw new Error(data.message || data.error);
       }
 
       setModels(data.models);

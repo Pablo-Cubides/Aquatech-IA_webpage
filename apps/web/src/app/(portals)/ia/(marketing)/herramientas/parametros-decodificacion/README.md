@@ -52,7 +52,7 @@ parametros-decodificacion/
     │   ├── PatternTimeline.tsx     # Pattern history
     │   └── AcademicReferences.tsx  # Research paper links
     ├── context/
-    │   └── ProcessContext.tsx
+    │   └── (sin ProcessContext local: ProcessProvider viene de @ia-next/ui)
     ├── data/
     │   └── cases.ts    # Pre-configured examples with variants
     ├── types/

@@ -14,6 +14,17 @@ import type {
 const OPENAQ_BASE_URL = "https://api.openaq.org/v3";
 
 /**
+ * La API v3 de OpenAQ exige X-API-Key en TODAS las peticiones (sin clave responde 401).
+ * Este cliente solo se usa en servidor (ruta /api/aqi-stations); la clave no sale de ahí.
+ */
+function openaqRequestInit(): RequestInit {
+  const headers: Record<string, string> = { Accept: "application/json" };
+  const apiKey = process.env.OPENAQ_API_KEY?.trim();
+  if (apiKey) headers["X-API-Key"] = apiKey;
+  return { headers, signal: AbortSignal.timeout(12_000) };
+}
+
+/**
  * Map OpenAQ parameter names to our internal pollutant IDs
  */
 const PARAMETER_MAP: Record<string, PollutantId> = {
@@ -55,13 +66,7 @@ export async function searchLocations(params: {
 
   try {
     const response = await fetch(
-      `${OPENAQ_BASE_URL}/locations?${searchParams.toString()}`,
-      {
-        headers: {
-          Accept: "application/json",
-        },
-      },
-    );
+      `${OPENAQ_BASE_URL}/locations?${searchParams.toString()}`, openaqRequestInit());
 
     if (!response.ok) {
       throw new Error(`OpenAQ API error: ${response.status}`);
@@ -120,13 +125,7 @@ export async function getMeasurements(params: {
 
   try {
     const response = await fetch(
-      `${OPENAQ_BASE_URL}/measurements?${searchParams.toString()}`,
-      {
-        headers: {
-          Accept: "application/json",
-        },
-      },
-    );
+      `${OPENAQ_BASE_URL}/measurements?${searchParams.toString()}`, openaqRequestInit());
 
     if (!response.ok) {
       throw new Error(`OpenAQ API error: ${response.status}`);
@@ -205,13 +204,7 @@ export async function getLatestByCountry(
 ): Promise<AirQualityMeasurement[]> {
   try {
     const response = await fetch(
-      `${OPENAQ_BASE_URL}/latest?countries_id=${countryCode}&limit=${limit}`,
-      {
-        headers: {
-          Accept: "application/json",
-        },
-      },
-    );
+      `${OPENAQ_BASE_URL}/latest?countries_id=${countryCode}&limit=${limit}`, openaqRequestInit());
 
     if (!response.ok) {
       throw new Error(`OpenAQ API error: ${response.status}`);
@@ -282,11 +275,7 @@ export async function getCountries(): Promise<
   Array<{ code: string; name: string; count: number }>
 > {
   try {
-    const response = await fetch(`${OPENAQ_BASE_URL}/countries?limit=200`, {
-      headers: {
-        Accept: "application/json",
-      },
-    });
+    const response = await fetch(`${OPENAQ_BASE_URL}/countries?limit=200`, openaqRequestInit());
 
     if (!response.ok) {
       throw new Error(`OpenAQ API error: ${response.status}`);

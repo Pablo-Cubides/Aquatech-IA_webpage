@@ -1,6 +1,7 @@
 import { MetadataRoute } from "next";
 import { getToolsByPortal } from "@/lib/services/tools-registry";
-import { getCategories, getAllArticles } from "@/lib/blog-seo";
+import { getCategories } from "@/lib/blog-seo";
+import { getArticlesForIndexing } from "@/lib/articles-for-indexing";
 import { SITE_URL } from "@/lib/site-config";
 
 // Los articulos del agente se publican por la API sin desplegar: sin esto el sitemap quedaba congelado hasta el siguiente deploy.
@@ -21,8 +22,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Get blog categories and articles
   const iaCategories = getCategories("ia");
   const ambientalCategories = getCategories("ambiental");
-  const iaArticles = await getAllArticles("ia");
-  const ambientalArticles = await getAllArticles("ambiental");
+  const iaArticles = await getArticlesForIndexing("ia");
+  const ambientalArticles = await getArticlesForIndexing("ambiental");
 
 
   // Main pages
@@ -192,6 +193,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.6,
     },
+    // Paginas de metodologia (formula, pasos, referencias): /matrices/[type] solo acepta estos tres ids.
+    ...["leopold", "conesa", "battelle"].map((type) => ({
+      url: `${baseUrl}/ambiental/herramientas/generador-matrices/matrices/${type}`,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    })),
     {
       url: `${baseUrl}/ambiental/herramientas/generador-matrices/selector`,
       changeFrequency: "monthly",

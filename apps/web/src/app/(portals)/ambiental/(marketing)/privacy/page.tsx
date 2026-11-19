@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import PrivacyPageContent from "../../../ia/(marketing)/privacy/page";
+import PrivacyContent from "@/components/legal/PrivacyContent";
 
 export const metadata: Metadata = {
   title: "Política de Privacidad | AquatechIA Ambiental",
@@ -8,5 +8,7 @@ export const metadata: Metadata = {
   robots: "index, follow",
 };
 
-// Reutilizar el contenido del portal IA (mismos términos)
-export default PrivacyPageContent;
+// Mismo contenido legal que el portal IA, compartido desde components/legal (la URL del JSON-LD sale del portal)
+export default function Page() {
+  return <PrivacyContent portal="ambiental" />;
+}

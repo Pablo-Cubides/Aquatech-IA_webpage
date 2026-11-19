@@ -1,6 +1,7 @@
 import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 import path from "path";
+import { hermeticTestEnv } from "../../vitest.hermetic";
 
 export default defineConfig({
   plugins: [react() as any],
@@ -9,7 +10,9 @@ export default defineConfig({
   test: {
     globals: true,
     environment: "jsdom",
-    dangerouslyIgnoreUnhandledErrors: true,
+    // Entorno hermético (OPS-001): nada de base real, Sentry, Upstash ni escrituras al repo.
+    env: hermeticTestEnv,
+    globalSetup: ["./vitest.global-setup.ts"],
     testTimeout: 30000,
     hookTimeout: 30000,
     pool: "forks",
@@ -32,10 +35,6 @@ export default defineConfig({
     dedupe: ["react", "react-dom"],
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      "@/tools/llm": path.resolve(
-        __dirname,
-        "./src/app/(portals)/ia/(marketing)/herramientas/explora-modelo/src",
-      ),
     },
   },
 });

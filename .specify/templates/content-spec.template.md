@@ -91,7 +91,7 @@
 - [ ] No future promises ("soon", "upcoming") without confirmed dates.
 - [ ] `readTime` field matches: `ceil(wordCount / 200)` ± 1 minute.
 - [ ] `date` is publish date in ISO 8601 (YYYY-MM-DD).
-- [ ] `tags`: 3–7 tags from approved taxonomy in `docs/domain/glossary.md`.
+- [ ] `tags`: 3–7 tags (glossary taxonomy recommended; specific technical tags allowed, no generic synonyms).
 - [ ] `nextArticle` links to a real, published article slug.
 - [ ] `heroImage` URL resolves correctly (Cloudinary URL or verified local path).
 

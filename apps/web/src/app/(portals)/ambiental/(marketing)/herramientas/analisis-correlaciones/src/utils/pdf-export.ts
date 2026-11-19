@@ -354,7 +354,7 @@ export async function exportCorrelationsPDF(
     yPosition += 4;
     doc.setFont("helvetica", "normal");
     const spearmanText =
-      "Evalúa la relación monotónica entre variables usando el orden de los datos en lugar de valores exactos. Es más robusta ante valores atípicos (outliers) y es ideal cuando los datos no siguen una distribución normal.";
+      "Evalúa la relación monotónica entre variables usando el orden de los datos en lugar de valores exactos; los valores repetidos comparten el rango promedio. Es menos sensible a valores atípicos (outliers) que Pearson y no exige que los datos sigan una distribución normal.";
     const spearmanLines = doc.splitTextToSize(
       spearmanText,
       pageWidth - margin * 2,
@@ -368,7 +368,7 @@ export async function exportCorrelationsPDF(
     yPosition += 4;
     doc.setFont("helvetica", "normal");
     const kendallText =
-      "Mide la concordancia entre pares de observaciones. Es la más conservadora y funciona bien con muestras pequeñas o cuando hay muchos empates en los datos.";
+      "Mide la concordancia entre pares de observaciones. Para los mismos datos suele dar valores de menor magnitud que Pearson y Spearman. Usa la variante tau-b, que tiene en cuenta los empates.";
     const kendallLines = doc.splitTextToSize(
       kendallText,
       pageWidth - margin * 2,

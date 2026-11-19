@@ -1,39 +1,24 @@
 /**
  * API Route: GET /api/eonet/categories
- * Proxy para NASA EONET Categories API
+ * Proxy de NASA EONET categories (SEC-003): sin parámetros, límite en memoria, caché 1 día.
  */
+import { NextRequest } from "next/server";
+import { z } from "zod";
+import { fetchUpstreamJson, guardPublicProxy, proxyJson } from "@/lib/security/public-proxy";
 
-export async function GET() {
-  try {
-    const eonetUrl = "https://eonet.gsfc.nasa.gov/api/v3/categories";
+export async function GET(request: NextRequest) {
+  const guard = await guardPublicProxy(request, {
+    name: "eonet:categories",
+    schema: z.strictObject({}),
+    perMinutePerIp: 60,
+    limiter: "memory",
+  });
+  if (!guard.ok) return guard.response;
 
-    const response = await fetch(eonetUrl, {
-      headers: {
-        Accept: "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      const error = await response.text();
-      console.error("EONET API error:", response.status, error);
-      return Response.json(
-        { error: `EONET API error: ${response.status}` },
-        { status: response.status },
-      );
-    }
-
-    const data = await response.json();
-    return Response.json(data, {
-      headers: {
-        "Cache-Control":
-          "public, s-maxage=86400, stale-while-revalidate=172800",
-      },
-    });
-  } catch (error) {
-    console.error("Error fetching EONET categories:", error);
-    return Response.json(
-      { error: "Failed to fetch EONET categories" },
-      { status: 500 },
-    );
-  }
+  const result = await fetchUpstreamJson("eonet:categories", "https://eonet.gsfc.nasa.gov/api/v3/categories", {
+    headers: { Accept: "application/json" },
+    timeoutMs: 12_000,
+  });
+  if (!result.ok) return result.response;
+  return proxyJson(result.data, { sMaxAge: 86400, swr: 172800 });
 }

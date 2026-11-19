@@ -1,5 +1,8 @@
+import { safeJsonLd } from "@/lib/security/safe-json-ld";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { AMBIENTAL_TOOLS } from "@/lib/ambiental-tools";
+import { getPublishedArticleCount } from "@/lib/articles-for-indexing";
 
 export const metadata: Metadata = {
   title: "Aquatech Ambiental — Nosotros",
@@ -7,7 +10,12 @@ export const metadata: Metadata = {
     "Impulsamos la gestión ambiental con datos, análisis y tecnología de vanguardia para proteger nuestros ecosistemas.",
 };
 
-export default function AmbientalNosotrosPage() {
+// El contador de artículos viene de la base de datos: se regenera cada hora.
+export const revalidate = 3600;
+
+export default async function AmbientalNosotrosPage() {
+  // null si la base de datos no responde: entonces la tarjeta no se pinta (nunca una cifra parcial).
+  const articleCount = await getPublishedArticleCount("ambiental");
   const aboutSchema = {
     "@context": "https://schema.org",
     "@type": "AboutPage",
@@ -24,7 +32,7 @@ export default function AmbientalNosotrosPage() {
     <div className="bg-[#F5F9F8] text-[#0D161C]">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(aboutSchema) }}
       />
       {/* HERO */}
       <section className="relative overflow-hidden py-20 sm:py-28 lg:py-32 bg-white">
@@ -248,7 +256,7 @@ export default function AmbientalNosotrosPage() {
               },
               {
                 title: "Rigor Analítico",
-                desc: "Validamos metodologías con expertos y estándares científicos.",
+                desc: "Nuestro estándar editorial: contrastar cada dato con la norma o la fuente primaria y citarla.",
               },
               {
                 title: "Impacto Positivo",
@@ -287,21 +295,20 @@ export default function AmbientalNosotrosPage() {
               className="text-3xl font-bold"
               style={{ fontFamily: "var(--font-space), 'Space Grotesk', sans-serif" }}
             >
-              Nuestro Impacto
+              El proyecto en cifras
             </h2>
             <p className="mt-3 text-lg text-gray-700">
-              Datos que reflejan nuestro compromiso ambiental.
+              Cifras que el propio sitio calcula.
             </p>
           </div>
-          <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
+          {/* Solo cifras que el sitio deriva de su propio código: no se escriben a mano. */}
+          <div className="mx-auto grid max-w-2xl grid-cols-1 sm:grid-cols-2 gap-6">
             {[
-              ["+50K", "Hectáreas de ecosistemas monitoreados"],
-              ["25", "Proyectos ambientales completados"],
-              ["8", "Alianzas con organizaciones locales"],
-              ["95%", "Precisión en análisis de calidad del agua"],
+              [String(AMBIENTAL_TOOLS.filter((t) => t.status === "available").length), "Herramientas ambientales públicas"],
+              ...(articleCount === null ? [] : [[String(articleCount), "Artículos técnicos publicados"]]),
             ].map(([kpi, label]) => (
               <div
-                key={kpi}
+                key={label}
                 className="rounded-lg border border-gray-200 bg-white p-6 text-center shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
               >
                 <div className="text-3xl font-bold text-[#10B981]">{kpi}</div>
@@ -403,7 +410,7 @@ const faqItems = [
   },
   {
     q: "¿Cómo garantizan la calidad de los datos?",
-    a: "Aplicamos validación cruzada con fuentes múltiples, limpieza para eliminar anomalías y trabajamos con expertos para asegurar interpretación correcta y confiabilidad.",
+    a: "Aplicamos validación cruzada con fuentes múltiples y limpieza para eliminar anomalías, y citamos las fuentes para que puedas verificar cada dato.",
   },
   {
     q: "¿Qué tecnologías utilizan?",

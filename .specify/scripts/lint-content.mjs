@@ -2,10 +2,14 @@
 /**
  * Content linting for AquatechIA blog articles.
  *
- * Validaciones en dos capas:
- *   Capa 1 — Estructural (regex, rápida): slug uniqueness, section IDs, campos requeridos
- *   Capa 2 — Zod schema (import dinámico con --experimental-strip-types, Node ≥22)
- *            Si Zod falla, los errores se reportan con el campo exacto.
+ * Capa estructural (regex, rápida) sobre `lib/articles/<portal>/*.ts`: slug uniqueness, section IDs,
+ * campos requeridos.
+ *
+ * La validación con el contrato Zod (`blogArticleSchema` de @ia-next/contracts) NO se hace aquí
+ * (ARQ-004): este script la intentaba con `node --experimental-strip-types`, y nunca se ejecutó
+ * (rutas absolutas de Windows sin file://, y el índice del paquete importa sin extensión, que Node
+ * no resuelve). La hace la prueba apps/web/src/lib/__tests__/articles-contract.test.ts, que ve
+ * todo el registro y corre en `pnpm test`. Desde ARQ-007 el registro es la única fuente de artículos en código.
  *
  * Usage: node .specify/scripts/lint-content.mjs [--self-test]
  * Exit code: 0 = all pass, 1 = errors found
@@ -14,7 +18,7 @@
 import { existsSync, readdirSync, readFileSync } from "fs";
 import { dirname, join, relative } from "path";
 import { fileURLToPath } from "url";
-import { execSync } from "child_process";
+import { RETIRED_ARTICLES } from "../../apps/web/src/lib/retired-articles.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..", "..");
@@ -23,6 +27,7 @@ const ARTICLES_ROOT =
   process.env.LINT_CONTENT_ARTICLES_ROOT ||
   join(ROOT, "apps", "web", "src", "lib", "articles");
 const PORTALS = ["ia", "ambiental"];
+const RETIRED_SLUGS = new Set(RETIRED_ARTICLES.map((entry) => entry.slug));
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 let errors = 0;
@@ -54,53 +59,6 @@ function readTimeWithinTolerance(actual, expected) {
   const lower = Math.max(1, Math.floor(expected * 0.8));
   const upper = Math.max(1, Math.ceil(expected * 1.2));
   return actual >= lower && actual <= upper;
-}
-
-// ─── Capa 2: Validación Zod via subprocess (Node ≥22 strip-types) ────────────
-/**
- * Valida un archivo de artículo con el schema Zod canónico.
- * Usa un subprocess con --experimental-strip-types para importar el .ts.
- * Devuelve array de error messages, o [] si pasa.
- */
-function validateWithZod(articlePath, contractPath) {
-  if (!existsSync(contractPath)) return [];
-
-  const script = `
-import schema from ${JSON.stringify(contractPath)};
-import article from ${JSON.stringify(articlePath)};
-const { blogArticleSchema } = schema;
-if (!blogArticleSchema) {
-  console.log(JSON.stringify({ ok: true, note: "no schema export" }));
-  process.exit(0);
-}
-const result = blogArticleSchema.safeParse(article.default ?? article);
-if (result.success) {
-  console.log(JSON.stringify({ ok: true }));
-} else {
-  const issues = result.error.issues.map(i => i.path.join('.') + ': ' + i.message);
-  console.log(JSON.stringify({ ok: false, issues }));
-}
-`;
-
-  try {
-    const output = execSync(
-      `node --experimental-strip-types --input-type=module`,
-      {
-        input: script,
-        cwd: ROOT,
-        stdio: ["pipe", "pipe", "pipe"],
-        timeout: 10000,
-      }
-    ).toString().trim();
-
-    const result = JSON.parse(output);
-    if (result.ok) return [];
-    return result.issues || [];
-  } catch {
-    // Si el import falla (ej: el archivo tiene syntax error TS avanzada),
-    // ignora la capa Zod — la capa regex ya cubrió las validaciones básicas.
-    return [];
-  }
 }
 
 // ─── Self-test ────────────────────────────────────────────────────────────────
@@ -135,13 +93,6 @@ console.log(`\n\x1b[36m[lint-content]\x1b[0m Scanning ${articleFiles.length} art
 if (articleFiles.length === 0) {
   console.log("No article files found — skipping content lint.");
   process.exit(0);
-}
-
-// Ruta al contrato Zod canónico (app copy)
-const zodContractPath = join(ROOT, "apps", "web", "src", "lib", "contracts", "article.zod.ts");
-const hasZodContract = existsSync(zodContractPath);
-if (!hasZodContract) {
-  warn(zodContractPath, "Zod contract not found — skipping schema validation layer. Run: pnpm sync:contracts");
 }
 
 // ─── Lint each file ───────────────────────────────────────────────────────────
@@ -217,7 +168,13 @@ for (const { portal, path, slug } of articleFiles) {
       existsSync(join(ARTICLES_ROOT, p, `${nextSlug}.ts`))
     );
     if (!exists) {
-      err(path, `nextArticle.slug "${nextSlug}" does not exist in any portal`);
+      // Un artículo puede vivir solo en PostgreSQL (ARQ-007: 12 de 23), y eso no se ve desde aquí.
+      // Por eso "no está en el registro" es AVISO, no error. Sí es error apuntar a uno retirado (301).
+      if (RETIRED_SLUGS.has(nextSlug)) {
+        err(path, `nextArticle.slug "${nextSlug}" apunta a un artículo retirado (retired-articles.mjs)`);
+      } else {
+        warn(path, `nextArticle.slug "${nextSlug}" no está en el registro (si vive solo en PostgreSQL no se puede comprobar aquí)`);
+      }
     }
   }
 
@@ -244,18 +201,15 @@ for (const { portal, path, slug } of articleFiles) {
     err(path, `${emptySections.length} section(s) have empty content strings`);
   }
 
-  // ── Capa 2: Validación Zod (import dinámico, Node ≥22) ─────────────────────
-  if (hasZodContract) {
-    const zodErrors = validateWithZod(path, zodContractPath);
-    for (const issue of zodErrors) {
-      err(path, `[Zod] ${issue}`);
-    }
-  }
 }
 
 // ─── Summary ─────────────────────────────────────────────────────────────────
 console.log(`\n${"─".repeat(50)}`);
-console.log(`Articles scanned: ${articleFiles.length}`);
+console.log(`Articles scanned: ${articleFiles.length} (todo el código: el registro lib/articles/<portal>/*.ts es la única fuente estática)`);
+console.log(
+  "No cubre: el contrato Zod (se valida al cargar cada artículo y en apps/web/src/lib/__tests__/articles-contract.test.ts) " +
+    "ni los artículos que viven solo en PostgreSQL (se validan al escribirlos por la API de admin/agente).",
+);
 if (errors === 0 && warnings === 0) {
   console.log(`\x1b[32m✅ All content checks passed!\x1b[0m\n`);
 } else {

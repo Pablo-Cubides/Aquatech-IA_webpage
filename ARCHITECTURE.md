@@ -1502,8 +1502,9 @@ cp .env.example .env.local
 # Edit .env.local with your credentials
 
 # 4. Setup database
-pnpm --filter @ia-next/api prisma:push
-pnpm --filter @ia-next/api prisma:studio  # Optional: visual DB
+pnpm --filter @ia-next/api prisma:generate  # genera el cliente desde @ia-next/database
+# Los cambios de esquema se aplican con las migraciones SQL manuales de
+# packages/@ia-next/database/prisma/migrations/manual/ (no hay `db push`)
 
 # 5. Start development
 pnpm dev
@@ -1534,10 +1535,9 @@ pnpm test
 pnpm test:watch
 pnpm test:coverage
 
-# Database
-pnpm --filter @ia-next/api prisma:studio
-pnpm --filter @ia-next/api prisma:migrate
-pnpm --filter @ia-next/api prisma:push
+# Database (esquema unico: packages/@ia-next/database/prisma/schema.prisma)
+pnpm --filter @ia-next/api prisma:generate
+# Migraciones: SQL manual en packages/@ia-next/database/prisma/migrations/manual/
 ```
 
 ### Git Workflow
