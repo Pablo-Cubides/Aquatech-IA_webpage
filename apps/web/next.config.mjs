@@ -11,12 +11,15 @@ const aquaQuizApiOrigin = (
 /** @type {import('next').NextConfig} */
 // CSP movida desde proxy.ts: aplicarla por config evita ejecutar codigo en CADA visita (CPU de Vercel).
 const isDev = process.env.NODE_ENV === "development";
+// SEC-005b: en PRODUCCION no hay 'unsafe-eval' (solo el modo desarrollo lo necesita, para el refresco en
+// caliente) y ya no se permiten scripts de Google Tag Manager / Analytics: ningun codigo del sitio los
+// inyecta (solo hay un dns-prefetch y llamadas a window.gtag condicionadas a que exista). Si algun dia se
+// anade GA, se anade aqui el origen que cargue y se prueba en navegador. 'unsafe-inline' sigue: los
+// scripts de runtime de Next.js son en linea; quitarlo exige CSP con nonce (ver bitacora SEC).
 const scriptSrc = [
   "script-src 'self'",
-  "'unsafe-inline'", // Required for Next.js runtime scripts in all envs
-  "'unsafe-eval'",   // Required for Turbopack/SSR hydration
-  "https://www.googletagmanager.com",
-  "https://www.google-analytics.com",
+  "'unsafe-inline'",
+  isDev ? "'unsafe-eval'" : "",
 ]
   .filter(Boolean)
   .join(" ");
@@ -194,8 +197,10 @@ const nextConfig = {
             value: "nosniff",
           },
           {
+            // SEC-005b: "0" desactiva el filtro XSS heredado de los navegadores antiguos (obsoleto y
+            // explotable); la defensa real es la CSP y el escape de salida. Recomendacion de OWASP.
             key: "X-XSS-Protection",
-            value: "1; mode=block",
+            value: "0",
           },
           {
             key: "Strict-Transport-Security",
