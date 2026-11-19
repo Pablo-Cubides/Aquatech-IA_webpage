@@ -5,6 +5,15 @@ import GrowthResults from "../components/GrowthResults";
 import TrendResults from "../components/TrendResults";
 import ComparisonResults from "../components/ComparisonResults";
 import type { AnalysisResult } from "../types/analysis";
+import { classifyStrength, STRENGTH_LEGEND } from "../src/utils/correlations";
+
+/** Color del valor en el resumen: fuerte en verde, débil en gris; usa la escala única de correlations.ts. */
+export function getSummaryColor(value: number | null | undefined): string {
+  const strength = classifyStrength(value);
+  if (strength === "strong") return "text-green-600";
+  if (strength === "weak") return "text-gray-400";
+  return "text-gray-700";
+}
 
 export default function ResultsSection({ result }: { result: AnalysisResult }) {
   const contentRef = React.useRef<HTMLDivElement | null>(null);
@@ -120,20 +129,17 @@ export default function ResultsSection({ result }: { result: AnalysisResult }) {
                           {row.column_b.length > 35 ? row.column_b.substring(0, 35) + '...' : row.column_b}
                         </td>
                         <td className={`p-3 text-center font-medium ${
-                          Math.abs(row.pearson || 0) > 0.7 ? 'text-green-600' : 
-                          Math.abs(row.pearson || 0) < 0.3 ? 'text-gray-400' : 'text-gray-700'
+                          getSummaryColor(row.pearson)
                         }`}>
                           {row.pearson?.toFixed(3) ?? 'N/A'}
                         </td>
                         <td className={`p-3 text-center font-medium ${
-                          Math.abs(row.spearman || 0) > 0.7 ? 'text-green-600' : 
-                          Math.abs(row.spearman || 0) < 0.3 ? 'text-gray-400' : 'text-gray-700'
+                          getSummaryColor(row.spearman)
                         }`}>
                           {row.spearman?.toFixed(3) ?? 'N/A'}
                         </td>
                         <td className={`p-3 text-center font-medium ${
-                          Math.abs(row.kendall || 0) > 0.7 ? 'text-green-600' : 
-                          Math.abs(row.kendall || 0) < 0.3 ? 'text-gray-400' : 'text-gray-700'
+                          getSummaryColor(row.kendall)
                         }`}>
                           {row.kendall?.toFixed(3) ?? 'N/A'}
                         </td>
@@ -162,11 +168,10 @@ export default function ResultsSection({ result }: { result: AnalysisResult }) {
                   Valores cercanos a <span className="text-gray-500 font-medium">0</span> indican que no existe relación lineal.
                 </p>
                 <div className="mt-2 p-3 bg-white rounded border text-xs">
-                  <strong>Interpretación de rangos:</strong><br/>
-                  • <span className="text-blue-700">0.75 a 1.00:</span> Correlación muy fuerte<br/>
-                  • <span className="text-blue-600">0.50 a 0.74:</span> Correlación moderada<br/>
-                  • <span className="text-yellow-600">0.25 a 0.49:</span> Correlación débil<br/>
-                  • <span className="text-gray-500">0.00 a 0.24:</span> Sin correlación significativa
+                  <strong>Interpretación de rangos</strong> (sobre el valor absoluto; es la convención de esta herramienta, no un umbral universal):<br/>
+                  • <span className="text-blue-600">{STRENGTH_LEGEND.strong}</span><br/>
+                  • <span className="text-yellow-600">{STRENGTH_LEGEND.moderate}</span><br/>
+                  • <span className="text-red-600">{STRENGTH_LEGEND.weak}</span>, incluida la ausencia de correlación
                 </div>
              </div>
              
@@ -203,9 +208,9 @@ export default function ResultsSection({ result }: { result: AnalysisResult }) {
              <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
                 <h4 className="mb-2 font-semibold text-blue-800">💡 Consejo práctico</h4>
                 <p className="text-blue-900">
-                  En análisis ambientales, una correlación de <strong>0.5 o superior</strong> generalmente indica una relación 
-                  significativa entre variables. Sin embargo, recuerda que <strong>correlación no implica causalidad</strong>: 
-                  que dos variables estén correlacionadas no significa que una cause la otra.
+                  Los rangos de arriba son la convención de esta herramienta, no un umbral universal. Que una correlación sea además 
+                  estadísticamente significativa depende del tamaño de la muestra; esta herramienta no calcula el p-valor. Recuerda también que 
+                  <strong>correlación no implica causalidad</strong>: que dos variables estén correlacionadas no significa que una cause la otra.
                 </p>
              </div>
             </div>
