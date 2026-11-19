@@ -155,4 +155,25 @@ describe("PATCH: el resultado visible cumple el contrato", () => {
     updateMock.mockResolvedValue(null);
     expect((await PATCH(req("PATCH", { status: "PUBLISHED" }), ctx("nope"))).status).toBe(404);
   });
+
+  it("SEC-005b: PATCH con content en TEXTO sobre un artículo publicado se estructura y se valida", async () => {
+    const good =
+      "Introducción con texto suficiente para parecer un artículo real y no una frase suelta cualquiera, de más de cien caracteres.\n\n" +
+      "## Primera sección\nContenido de la primera sección con más de cincuenta caracteres de texto.";
+    expect((await PATCH(req("PATCH", { content: good }), ctx("abc123"))).status).toBe(200);
+    expect(updateMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("SEC-005b: un texto demasiado corto para un artículo publicado se rechaza con los motivos (no se guarda)", async () => {
+    const response = await PATCH(req("PATCH", { content: "## Intro\ntexto" }), ctx("abc123"));
+    const body = await response.json();
+    expect(response.status).toBe(400);
+    expect(body.error).toContain("content");
+    expect(updateMock).not.toHaveBeenCalled();
+  });
+
+  it("SEC-005b: el mismo texto corto sobre un borrador se acepta (laxo)", async () => {
+    getStoredMock.mockResolvedValue([{ ...legacy, status: "DRAFT" }]);
+    expect((await PATCH(req("PATCH", { content: "## Intro\ntexto" }), ctx("abc123"))).status).toBe(200);
+  });
 });

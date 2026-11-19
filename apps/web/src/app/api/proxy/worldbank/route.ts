@@ -2,7 +2,7 @@
  * Proxy de la API del Banco Mundial (v2): GET /api/proxy/worldbank?path=...
  *
  * SEC-005a: el patrón de SEC-001 (`/^[a-zA-Z0-9/_-]+$/`) no admitía el punto, y TODOS los indicadores
- * del Banco Mundial lo llevan (`AG.LND.FRST.ZS`, `EN.ATM.CO2E.PC`, `NY.GDP.MKTP.CD`…): la fuente nunca
+ * del Banco Mundial lo llevan (`AG.LND.FRST.ZS`, `EN.GHG.CO2.PC.CE.AR5`, `NY.GDP.MKTP.CD`…): la fuente nunca
  * devolvía datos. Ahora el `path` se valida POR SEGMENTOS: cada segmento es un identificador
  * (letras, dígitos, `_`, `-` y puntos INTERNOS); un segmento `.` o `..`, vacío, con `:`, `;`, `\`,
  * `%` o un esquema se rechaza. Sin clave propia => límite en memoria (lectura pública cacheable).
