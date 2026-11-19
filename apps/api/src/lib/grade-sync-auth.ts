@@ -30,7 +30,7 @@ export function parseGradeSyncBatch(body: string) {
   const batch = gradeBatchSchema.parse(JSON.parse(body));
   if (
     batch.period !== "2026-3" ||
-    batch.cut !== 2 ||
+    ![2, 3].includes(batch.cut) ||
     !courses.has(batch.courseId)
   )
     throw Error("Lote fuera del alcance de Colega.");
