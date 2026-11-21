@@ -195,12 +195,53 @@ function limitedResponse(
   );
 }
 
+/**
+ * SEC-006: identificación ante los proveedores. Los servicios abiertos (GBIF, OSM, arXiv, WHO...) piden
+ * un `User-Agent` que diga quién llama y cómo contactar. Es la URL del sitio: nunca un correo ni datos
+ * personales del dueño.
+ */
+export const UPSTREAM_USER_AGENT = "AquatechIA/1.0 (+https://aquatechia.com)";
+
 export type UpstreamOptions = {
   headers?: Record<string, string>;
   timeoutMs: number;
   /** Tope de la respuesta en bytes (por defecto 2 MB). */
   maxBytes?: number;
+  /**
+   * Caché de datos de Next (`next.revalidate`): sirve la copia anterior mientras revalida y la conserva
+   * si la revalidación falla. Opt-in. Límite de Vercel: 2 MB por entrada (una respuesta mayor NO se
+   * guarda; ver la caché de obsolescencia en memoria de gbif/search).
+   */
+  cache?: { revalidate: number };
 };
+
+/** Cabeceras de la petición saliente: `User-Agent` por defecto; la ruta puede sobrescribirlo. */
+export function upstreamHeaders(extra: Record<string, string> = {}): Record<string, string> {
+  const hasUserAgent = Object.keys(extra).some((key) => key.toLowerCase() === "user-agent");
+  return hasUserAgent ? { ...extra } : { "User-Agent": UPSTREAM_USER_AGENT, ...extra };
+}
+
+const RATE_LIMIT_HEADER = /^(retry-after|x-varnish-rl[a-z]*|x-?rate-?limit.*|ratelimit.*)$/i;
+
+/**
+ * Un 429 del proveedor, con lo necesario para saber SI nos limita por IP o por identificación.
+ * Va por `console.warn` y no por `logger.warn`: en producción el logger solo emite `error`, así que
+ * los avisos de proxy nunca llegaban a los registros de Vercel. Sin URL (puede llevar la clave) y con
+ * el cuerpo recortado a 200 caracteres y sin saltos de línea.
+ */
+export async function logUpstreamRateLimit(name: string, upstream: Response): Promise<void> {
+  const headers: Record<string, string> = {};
+  upstream.headers.forEach((value, key) => {
+    if (RATE_LIMIT_HEADER.test(key)) headers[key.toLowerCase()] = value.slice(0, 100);
+  });
+  let body = "";
+  try {
+    body = (await upstream.text()).slice(0, 200).replace(/[\u0000-\u001f\u007f]+/g, " ");
+  } catch {
+    body = "(sin cuerpo legible)";
+  }
+  console.warn(JSON.stringify({ tag: "upstream-429", proxy: name, status: 429, headers, body }));
+}
 
 export type UpstreamResult =
   | { ok: true; text: string; response: Response }
@@ -220,8 +261,9 @@ export async function fetchUpstreamText(
   let response: Response;
   try {
     response = await fetch(url, {
-      headers: options.headers,
+      headers: upstreamHeaders(options.headers),
       signal: AbortSignal.timeout(options.timeoutMs),
+      ...(options.cache ? { next: { revalidate: options.cache.revalidate } } : {}),
     });
   } catch (error) {
     const timedOut = error instanceof Error && (error.name === "TimeoutError" || error.name === "AbortError");
@@ -236,6 +278,7 @@ export async function fetchUpstreamText(
 
   if (!response.ok) {
     logger.warn(`[proxy:${name}] el proveedor respondió ${response.status}`);
+    if (response.status === 429) await logUpstreamRateLimit(name, response);
     return { ok: false, response: mapUpstreamStatus(response) };
   }
 

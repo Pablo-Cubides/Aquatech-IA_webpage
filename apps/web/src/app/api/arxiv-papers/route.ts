@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { guardPublicProxy, queryInt, queryIntClamped, queryText, queryToken } from "@/lib/security/public-proxy";
+import {
+  UPSTREAM_USER_AGENT,
+  guardPublicProxy,
+  queryInt,
+  queryIntClamped,
+  queryText,
+  queryToken,
+} from "@/lib/security/public-proxy";
 import {
   ArxivPaper,
   ArxivApiResponse,
@@ -182,10 +189,7 @@ async function fetchWithRetry(
 ): Promise<Response> {
   try {
     const response = await fetch(url, {
-      headers: {
-        "User-Agent":
-          "AquatechIA/1.0 (https://aquatechia.com; contact@aquatechia.com)",
-      },
+      headers: { "User-Agent": UPSTREAM_USER_AGENT },
       next: { revalidate: 3600 },
       signal: AbortSignal.timeout(12_000),
     });
