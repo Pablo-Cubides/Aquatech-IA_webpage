@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import { getArticle, getAllArticles } from "@/lib/blog-articles";
 import { extractFaqs, generateArticleSchema, generateBreadcrumbSchema, generateFaqSchema } from "@/lib/blog-seo";
 import { fitTitle } from "@/lib/seo-title";
+import { realModifiedDate, toSchemaDateTime } from "@/lib/seo/article-dates";
 import { renderSafeRichText } from "@/lib/security/safe-rich-text";
 import { SITE_URL, TWITTER_HANDLE } from "@/lib/site-config";
 import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
@@ -42,8 +43,9 @@ export async function generateMetadata({
       title: article.title,
       description: article.excerpt,
       type: "article",
-      publishedTime: article.date,
-      modifiedTime: article.dateModified || article.date,
+      publishedTime: toSchemaDateTime(article.date),
+      // Solo con fecha de modificacion real; sin respaldo (VIS-007).
+      modifiedTime: toSchemaDateTime(realModifiedDate(article)),
       authors: [article.author.name],
       images: [
         {

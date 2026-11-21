@@ -1,4 +1,5 @@
 import { toPlainText } from "@/lib/text/plain-text";
+import { realModifiedDate, toSchemaDateTime } from "@/lib/seo/article-dates";
 import { BlogArticle, getAllArticles } from "./blog-articles";
 import {
   BlogCategory,
@@ -115,6 +116,9 @@ export function generateArticleSchema(
 ) {
   const publisherName =
     portal === "ia" ? "AquatechIA - Portal IA" : "AquatechIA - Portal Ambiental";
+  const datePublished = toSchemaDateTime(article.date);
+  const modifiedRaw = realModifiedDate(article);
+  const dateModified = modifiedRaw ? toSchemaDateTime(modifiedRaw) : undefined;
 
   return {
     "@context": "https://schema.org",
@@ -123,9 +127,10 @@ export function generateArticleSchema(
     description: article.excerpt,
     // Google exige URL absoluta para la imagen del Article.
     image: /^https?:\/\//.test(article.heroImage) ? article.heroImage : `${baseUrl}${article.heroImage.startsWith("/") ? "" : "/"}${article.heroImage}`,
-    datePublished: article.date,
-    // dateModified nunca puede ser anterior a datePublished (antes caia a una fecha fija y 8 articulos quedaron invertidos)
-    dateModified: (article as { dateModified?: string }).dateModified || article.date,
+    // VIS-007: fecha-hora con zona (convencion de formato, ver lib/seo/article-dates.ts).
+    ...(datePublished ? { datePublished } : {}),
+    // Solo si el articulo declara una fecha de modificacion real y no anterior a la de publicacion. Sin respaldo.
+    ...(dateModified ? { dateModified } : {}),
     inLanguage: "es",
     author: {
       "@type": "Person",
@@ -231,7 +236,7 @@ export function generateCategorySchema(
           "@type": "Article",
           headline: article.title,
           url: `${baseUrl}/${portal}/blog/${article.slug}`,
-          datePublished: article.date,
+          ...(toSchemaDateTime(article.date) ? { datePublished: toSchemaDateTime(article.date) } : {}),
           author: {
             "@type": "Person",
             name: article.author.name,

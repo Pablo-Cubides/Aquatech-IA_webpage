@@ -13,6 +13,7 @@ import { getToolsByPortal } from "@/lib/services/tools-registry";
 import { GUIDE_MISMATCH_SLUGS, TOOL_SPECS } from "@/lib/seo/tool-specs";
 import { TOOL_PUBLISHED } from "@/lib/seo/tool-dates";
 import { toPlainText } from "@/lib/text/plain-text";
+import { realModifiedDate } from "@/lib/seo/article-dates";
 import type { Tool } from "@/lib/types";
 
 type Portal = "ia" | "ambiental";
@@ -27,9 +28,13 @@ function shiftHeadings(markdown: string, by: number): string {
   return markdown.replace(/^(#{1,6})([ \t]+)/gm, (_, hashes: string, space: string) => `${"#".repeat(Math.min(6, hashes.length + by))}${space}`);
 }
 
-/** Cuerpo en Markdown limpio: sin HTML, sin negritas ni enlaces, con encabezados como jerarquia y listas como viñetas. */
-const body = (markdown: string | undefined, headingShift = 0) =>
-  toPlainText(shiftHeadings(markdown ?? "", headingShift), { multiline: true, keepHeadings: true });
+/**
+ * Cuerpo en Markdown limpio: sin HTML ni negritas, con encabezados como jerarquia y listas como viñetas. Los enlaces se
+ * reducen a su texto, salvo que se pase `links` (VIS-007): entonces los destinos citables salen como `texto (url)`.
+ * Solo los articulos lo pasan; las guias de herramientas no.
+ */
+const body = (markdown: string | undefined, headingShift = 0, links?: { baseUrl: string }) =>
+  toPlainText(shiftHeadings(markdown ?? "", headingShift), { multiline: true, keepHeadings: true, ...(links ? { keepLinks: links } : {}) });
 
 export function articleUrl(baseUrl: string, portal: Portal, slug: string) {
   return `${baseUrl}/${portal}/blog/${slug}`;
@@ -41,8 +46,11 @@ export function articleMarkdownUrl(baseUrl: string, portal: Portal, slug: string
 }
 
 export function renderArticle(article: BlogArticle, portal: Portal, baseUrl: string): string {
+  // Enlaces del texto con su URL (VIS-007): quien cita necesita el destino, no solo el rotulo.
+  const links = { baseUrl };
   const published = article.date;
-  const updated = article.dateModified || article.date;
+  // Sin respaldo: «Actualizado» solo si el articulo declara una fecha de modificacion real (VIS-007).
+  const updated = realModifiedDate(article);
   const out: string[] = [
     `### ${toPlainText(article.title)}`,
     "",
@@ -52,31 +60,31 @@ export function renderArticle(article: BlogArticle, portal: Portal, baseUrl: str
     `- Categoría: ${toPlainText(article.category)}`,
     `- Autor: ${toPlainText(article.author.name)}`,
     `- Publicado: ${published}`,
-    `- Actualizado: ${updated}`,
+    ...(updated ? [`- Actualizado: ${updated}`] : []),
     `- Lectura estimada: ${article.readTime} min`,
   ];
   if (article.tags?.length) out.push(`- Etiquetas: ${article.tags.map((tag) => toPlainText(tag)).join(", ")}`);
   out.push("", `Resumen: ${oneLine(article.excerpt, 600)}`, "");
 
-  const intro = body(article.content.introduction, 2);
+  const intro = body(article.content.introduction, 2, links);
   if (intro) out.push(intro, "");
 
   for (const section of article.content.sections) {
     out.push(`#### ${toPlainText(section.title)}`, "");
-    const text = body(section.content, 3);
+    const text = body(section.content, 3, links);
     if (text) out.push(text, "");
     if (section.callout) {
-      out.push(`Nota — ${toPlainText(section.callout.title)}:`, "", body(section.callout.content, 3), "");
+      out.push(`Nota — ${toPlainText(section.callout.title)}:`, "", body(section.callout.content, 3, links), "");
     }
     for (const sub of section.subsections ?? []) {
       out.push(`##### ${toPlainText(sub.title)}`, "");
-      const subText = body(sub.content, 4);
+      const subText = body(sub.content, 4, links);
       if (subText) out.push(subText, "");
     }
   }
 
   if (article.content.conclusion) {
-    out.push("#### Conclusión", "", body(article.content.conclusion, 3), "");
+    out.push("#### Conclusión", "", body(article.content.conclusion, 3, links), "");
   }
   if (article.references?.length) {
     out.push("#### Referencias", "");

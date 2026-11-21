@@ -3,6 +3,7 @@ import { getToolsByPortal } from "@/lib/services/tools-registry";
 import { getCategories } from "@/lib/blog-seo";
 import { getArticlesForIndexing } from "@/lib/articles-for-indexing";
 import { SITE_URL } from "@/lib/site-config";
+import { realModifiedDate, toSchemaDateTime } from "@/lib/seo/article-dates";
 
 // Los articulos del agente se publican por la API sin desplegar: sin esto el sitemap quedaba congelado hasta el siguiente deploy.
 export const revalidate = 3600;
@@ -11,9 +12,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = SITE_URL;
   // lastmod solo donde es real: los articulos usan su fecha; el resto lo omite (antes todo decia "ahora" y Google lo ignoraba).
   const realDate = (value?: string) => {
-    const parsed = value ? new Date(value) : null;
+    // Misma convencion que el JSON-LD (lib/seo/article-dates.ts): un dia suelto es la medianoche de Colombia.
+    const stamp = toSchemaDateTime(value);
+    const parsed = stamp ? new Date(stamp) : null;
     return parsed && !Number.isNaN(parsed.getTime()) ? parsed : undefined;
   };
+  // Ultima modificacion real si el articulo la declara; si no, la fecha de publicacion (nunca una fecha mas reciente que las conocidas).
+  const articleLastMod = (article: { date: string; dateModified?: string | null }) =>
+    realDate(realModifiedDate(article) ?? article.date);
 
   // Get tools for both portals
   const iaTools = getToolsByPortal("ia");
@@ -132,7 +138,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // IA Blog Article pages
   const iaArticlePages: MetadataRoute.Sitemap = iaArticles.map((article) => ({
     url: `${baseUrl}/ia/blog/${article.slug}`,
-    lastModified: realDate(article.date),
+    lastModified: articleLastMod(article),
     changeFrequency: "monthly" as const,
     priority: 0.7,
   }));
@@ -224,7 +230,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const ambientalArticlePages: MetadataRoute.Sitemap = ambientalArticles.map(
     (article) => ({
       url: `${baseUrl}/ambiental/blog/${article.slug}`,
-      lastModified: realDate(article.date),
+      lastModified: articleLastMod(article),
       changeFrequency: "monthly" as const,
       priority: 0.7,
     }),
