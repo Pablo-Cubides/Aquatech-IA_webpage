@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { localRateLimit } from "@/lib/security/local-rate-limit";
+import { UPSTREAM_USER_AGENT } from "@/lib/security/public-proxy";
 import { getClientIP } from "@/lib/security/rate-limit";
 
 const MAX_ZOOM = 19;
@@ -48,7 +49,7 @@ export async function GET(
 
   try {
     const response = await fetch(`https://tile.openstreetmap.org/${zoom}/${x}/${y}.png`, {
-      headers: { "User-Agent": "IA-Next/1.0 (Map Viewer)" },
+      headers: { "User-Agent": UPSTREAM_USER_AGENT },
       signal: AbortSignal.timeout(8000),
     });
 

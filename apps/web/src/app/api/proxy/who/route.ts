@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { UPSTREAM_USER_AGENT } from "@/lib/security/public-proxy";
 import { getClientIP, rateLimit } from "@/lib/security/rate-limit";
 
 const WHO_API_BASE = "https://ghoapi.azureedge.net/api";
@@ -76,6 +77,7 @@ export async function GET(request: NextRequest) {
       cache: "no-store",
       headers: {
         Accept: "application/json",
+        "User-Agent": UPSTREAM_USER_AGENT,
       },
       signal: controller.signal,
     });
