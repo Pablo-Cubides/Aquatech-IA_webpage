@@ -13,6 +13,8 @@ vi.mock("@/lib/security/rate-limit", () => ({
   getClientIP: () => "203.0.113.7",
 }));
 vi.mock("@/lib/logger", () => ({ logger: loggerMock }));
+// SEC-006: fuera del runtime de Next no hay caché de datos; aquí `unstable_cache` es transparente.
+vi.mock("next/cache", () => ({ unstable_cache: (fn: unknown) => fn }));
 
 import { resetLocalRateLimitForTests } from "@/lib/security/local-rate-limit";
 import { GET as usgsGET } from "../usgs/earthquakes/route";
