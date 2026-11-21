@@ -1,0 +1,27 @@
+{
+  "_comment": "Presupuesto de JS inicial por pagina (OPS-003, constitucion 5.1). Las claves de `pages` son las rutas vigiladas; sus valores son la linea base en KB (gzip). Techo duro sin excepciones; regresion = base + regressionKb. NO edites las bases a mano: node .specify/scripts/bundle-size.mjs --serve --update-baseline. Toda SUBIDA de una base va en un commit propio (pagina, delta y porque en el mensaje); la revisa el coordinador en cada integracion.",
+  "ceilingKb": 250,
+  "regressionKb": 8,
+  "generated": "2026-11-21",
+  "pages": {
+    "/": 159.3,
+    "/ia": 170.5,
+    "/ambiental": 165.2,
+    "/ia/blog": 175.6,
+    "/ambiental/blog": 175.8,
+    "/ia/blog/difusion-stable-diffusion": 170.5,
+    "/ambiental/blog/calculadora-irca-calidad-agua": 170.7,
+    "/ia/herramientas/como-funcionan-llm": 195.8,
+    "/ia/herramientas/filtrado-ia": 178.3,
+    "/ia/herramientas/modelos-tendencia": 176.8,
+    "/ia/herramientas/papers-ia": 181.5,
+    "/ia/herramientas/parametros-decodificacion": 187.5,
+    "/ia/herramientas/visor-difusion": 178.6,
+    "/ambiental/herramientas/analisis-correlaciones": 185.4,
+    "/ambiental/herramientas/generador-matrices": 169.1,
+    "/ambiental/herramientas/indice-calidad-agua": 186.6,
+    "/ambiental/herramientas/indice-calidad-aire": 176.1,
+    "/ambiental/herramientas/normas-ambientales": 182.2,
+    "/ambiental/herramientas/visor-mapas-ambientales": 203.3
+  }
+}
