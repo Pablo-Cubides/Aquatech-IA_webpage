@@ -17,8 +17,7 @@ type Rule = { source: string; headers: { key: string; value: string }[] };
 
 async function connectSrc(): Promise<string[]> {
   const rules: Rule[] = await nextConfig.headers();
-  const all = rules.find((rule) => rule.source === "/(.*)");
-  const csp = all?.headers.find((h) => h.key === "Content-Security-Policy")?.value ?? "";
+  const csp = rules.flatMap((rule) => rule.headers).find((h) => h.key === "Content-Security-Policy")?.value ?? "";
   const directive = csp.split(";").map((d) => d.trim()).find((d) => d.startsWith("connect-src"));
   return (directive ?? "").split(/\s+/).slice(1);
 }

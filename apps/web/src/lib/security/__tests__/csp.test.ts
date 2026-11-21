@@ -6,8 +6,7 @@ type HeaderRule = { source: string; headers: { key: string; value: string }[] };
 
 async function csp(): Promise<Record<string, string>> {
   const rules: HeaderRule[] = await nextConfig.headers();
-  const all = rules.find((rule) => rule.source === "/(.*)");
-  const value = all?.headers.find((h) => h.key === "Content-Security-Policy")?.value ?? "";
+  const value = rules.flatMap((rule) => rule.headers).find((h) => h.key === "Content-Security-Policy")?.value ?? "";
   const directives: Record<string, string> = {};
   for (const part of value.split(";")) {
     const [name, ...rest] = part.trim().split(/\s+/);
