@@ -50,6 +50,19 @@ const BUDGETS = {
   icon: 10 * 1024,
 };
 
+// Material del visor de difusión (OPS-003): NO son imágenes editoriales y se muestran tal cual,
+// sin que el peso sea una decisión de diseño. `static/noise/*` es el ruido gaussiano de cada paso
+// de la difusión (`loadStaticNoiseImage`, visor-difusion/PageComponent.tsx): ruido puro, incompresible
+// sin pérdida, y lo que se enseña ES el ruido. `static/visor-cases/*` son los casos de ejemplo que
+// sirve `/api/visor-step`. Se excluyen del presupuesto con un tope propio por archivo para que la
+// carpeta no sea una puerta trasera: un archivo mayor de EXCLUDED_MAX_BYTES vuelve a contar.
+const EXCLUDED_PREFIXES = [
+  "apps/web/public/static/noise/",
+  "apps/web/public/static/visor-cases/",
+];
+const EXCLUDED_MAX_BYTES = 300 * 1024;
+let excluded = 0;
+
 // ─── Args ────────────────────────────────────────────────────────────────────
 const args = Object.fromEntries(
   process.argv.slice(2).map((a) => {
@@ -90,6 +103,10 @@ function checkFile(filePath) {
 
   const rel = relative(ROOT, filePath).replace(/\\/g, "/");
   const size = statSync(filePath).size;
+  if (size <= EXCLUDED_MAX_BYTES && EXCLUDED_PREFIXES.some((prefix) => rel.startsWith(prefix))) {
+    excluded++;
+    return;
+  }
   const context = detectContext(filePath);
   const budget = BUDGETS[context];
   checked++;
@@ -182,7 +199,8 @@ if (useBaseline) {
 
 const lines = [
   `\n${"─".repeat(60)}`,
-  `Imágenes revisadas: ${checked} · sobre presupuesto: ${violationList.length}`,
+  `Imágenes revisadas: ${checked} · sobre presupuesto: ${violationList.length}` +
+    (excluded ? ` · excluidas por diseño (visor de difusión, ≤${EXCLUDED_MAX_BYTES / 1024} KB): ${excluded}` : ""),
 ];
 if (useBaseline) {
   lines.push(`Deuda conocida (línea base): ${known.length} · NUEVAS o más pesadas: ${blocking.length}`);
