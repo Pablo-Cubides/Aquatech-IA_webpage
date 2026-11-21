@@ -41,9 +41,10 @@ describe("extractFaqs", () => {
 });
 
 describe("generateArticleSchema", () => {
-  it("dateModified nunca queda antes de datePublished", () => {
+  it("sin dateModified declarado no se emite (VIS-007: sin frescura inventada) y las fechas llevan zona", () => {
     const schema = generateArticleSchema(article([], { date: "2026-10-12" }), "ia", "https://aquatechia.com");
-    expect(schema.dateModified).toBe("2026-10-12");
+    expect(schema).not.toHaveProperty("dateModified");
+    expect(schema.datePublished).toBe("2026-10-12T00:00:00-05:00");
     expect(schema.author.url).toBe("https://aquatechia.com/ia/autor");
   });
 });
