@@ -268,6 +268,13 @@ jobs:
           ls -la apps/web/.next || echo "web build missing"
           ls -la apps/api/.next || echo "api build missing"
 
+      # OPS-003: puerta de presupuesto de JS inicial por pagina (constitucion 5.1). BLOQUEANTE:
+      # techo de 250 KB por pagina y linea base + 8 KB (.specify/bundle-budget.json). Levanta
+      # `next start` sobre el build de arriba (mismas variables de entorno), mide, y falla cerrado
+      # si el servidor no arranca o una ruta no responde. La tabla sale en el resumen del job.
+      - name: Bundle budget (JS inicial por pagina)
+        run: node .specify/scripts/bundle-size.mjs --serve
+
   # Security audit
   security:
     name: Security Audit

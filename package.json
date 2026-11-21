@@ -23,6 +23,7 @@
     "content:new": "node .specify/scripts/new-content.mjs",
     "img:optimize": "node .specify/scripts/optimize-image.mjs",
     "img:budget": "node .specify/scripts/image-budget.mjs",
+    "bundle:budget": "node .specify/scripts/bundle-size.mjs --serve",
     "lint:content": "node .specify/scripts/lint-content.mjs",
     "lint:specs": "node .specify/scripts/lint-specs.mjs",
     "sync:contracts": "node .specify/scripts/sync-contracts.mjs",
