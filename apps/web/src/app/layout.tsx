@@ -125,7 +125,6 @@ export default function RootLayout({
           }}
         />
         {/* DNS Prefetch for performance */}
-        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
       </head>
       <body className={notoSans.className}>
         <SectionBreadcrumbSchema />

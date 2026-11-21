@@ -15,6 +15,11 @@ export function buildAffiliateUrl(r: Resource, ctx: Ctx) {
   return url.toString();
 }
 
+// OJO (SEC-006): estas dos funciones NO miden nada hoy. Solo emiten si existe `window.gtag`, y ningun
+// codigo del sitio carga Google Analytics (su script se quito de la CSP en SEC-005b y connect-src ya no
+// admite su host), asi que son un no-op. Si se decide medir clics de afiliados, hay que cargar GA (o usar
+// los eventos de @vercel/analytics, que van al mismo origen) y abrir la CSP a conciencia; mientras tanto,
+// no hay datos de afiliados que consultar.
 declare global {
   interface Window { gtag?: (...args: unknown[]) => void }
 }
