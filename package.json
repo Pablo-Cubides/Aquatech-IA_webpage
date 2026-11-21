@@ -23,6 +23,7 @@
     "content:new": "node .specify/scripts/new-content.mjs",
     "img:optimize": "node .specify/scripts/optimize-image.mjs",
     "img:budget": "node .specify/scripts/image-budget.mjs",
+    "bundle:budget": "node .specify/scripts/bundle-size.mjs --serve",
     "lint:content": "node .specify/scripts/lint-content.mjs",
     "lint:specs": "node .specify/scripts/lint-specs.mjs",
     "sync:contracts": "node .specify/scripts/sync-contracts.mjs",
@@ -65,7 +66,8 @@
       "minimatch@<11.0.1": "11.0.1",
       "uuid@>=9 <10": "11.1.1",
       "fast-xml-parser": ">=5.12.0",
-      "@opentelemetry/api": "1.9.0"
+      "@opentelemetry/api": "1.9.0",
+      "effect": ">=3.22.1 <4"
     }
   },
   "dependencies": {

@@ -12,6 +12,7 @@ overrides:
   uuid@>=9 <10: 11.1.1
   fast-xml-parser: '>=5.12.0'
   '@opentelemetry/api': 1.9.0
+  effect: '>=3.22.1 <4'
 
 importers:
 
@@ -1759,7 +1760,7 @@ packages:
     dependencies:
       c12: 3.3.4
       deepmerge-ts: 8.0.2
-      effect: 3.20.0
+      effect: 3.22.5
       empathic: 2.0.0
     transitivePeerDependencies:
       - magicast
@@ -4869,8 +4870,8 @@ packages:
       safe-buffer: 5.2.1
     dev: false
 
-  /effect@3.20.0:
-    resolution: {integrity: sha512-qMLfDJscrNG8p/aw+IkT9W7fgj50Z4wG5bLBy0Txsxz8iUHjDIkOgO3SV0WZfnQbNG2VJYb0b+rDLMrhM4+Krw==}
+  /effect@3.22.5:
+    resolution: {integrity: sha512-AdIU4llI19BzhJ4xUBZix7kS8oiYSlCsJ61j3UM3UyJw9ecDrsrrweDFm/Ku1nHbJWMLoynK+1Me4it3Zkmjpw==}
     dependencies:
       '@standard-schema/spec': 1.1.0
       fast-check: 3.23.2

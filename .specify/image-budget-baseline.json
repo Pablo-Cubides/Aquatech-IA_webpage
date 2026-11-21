@@ -1,6 +1,6 @@
 {
-  "generated": "2026-11-17",
-  "count": 39,
+  "generated": "2026-11-21",
+  "count": 35,
   "files": {
     "apps/web/public/images/portal-ambiental/blog/agua-rural-contaminacion.jpg": 395047,
     "apps/web/public/images/portal-ambiental/blog/cafe-filtro.png": 496326,
@@ -36,10 +36,6 @@
     "apps/web/public/images/portal-ia/blog/transcripcion-reuniones.jpg": 110380,
     "apps/web/public/static/noise_step_5.png": 256190,
     "apps/web/public/static/noise_step_6.png": 169183,
-    "apps/web/public/static/noise_step_7.png": 95305,
-    "apps/web/public/static/noise/noise_step_5.png": 256190,
-    "apps/web/public/static/noise/noise_step_6.png": 169183,
-    "apps/web/public/static/noise/noise_step_7.png": 95305,
-    "apps/web/public/static/visor-cases/3/Create a 4K digital photograph of a beautiful youn (1).webp": 153172
+    "apps/web/public/static/noise_step_7.png": 95305
   }
 }
