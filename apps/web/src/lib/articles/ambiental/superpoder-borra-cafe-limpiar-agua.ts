@@ -8,8 +8,9 @@ const article: BlogArticle = blogArticleSchema.parse({
   title: "De tu taza al grifo: El \"superpoder\" oculto de la borra de café para limpiar el agua",
   category: "Nuevas Tecnologías Ambientales",
   date: "2026-04-07",
-  readTime: 5,
-  excerpt: "La borra de café puede ayudar a eliminar nitratos y cromo del agua. Qué dice la química ambiental sobre este residuo cotidiano.",
+  dateModified: "2026-11-21",
+  readTime: 4,
+  excerpt: "Un estudio de la Universidad Nacional de Colombia (Revista Mutis, 2014) probó la borra de café para retirar cromo VI del agua: qué mostró, con qué condiciones y qué falta por probar.",
   heroImage: "/images/portal-ambiental/blog/cafe-filtro.png",
   author: {
     name: "Pablo Cubides",
@@ -17,69 +18,67 @@ const article: BlogArticle = blogArticleSchema.parse({
     bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
   },
   content: {
-    introduction: "¿Sabías que cada vez que preparas un café, estás desechando una de las herramientas más poderosas de la química ambiental? Lo que tú llamas \"desecho\" o borra de café (SCG, por sus siglas en inglés), la ciencia lo llama bioadsorbente de alto rendimiento.\n\nA nivel mundial, producimos más de 6 millones de toneladas de este residuo al año. Pero, ¿y si te dijera que este residuo tiene la clave para eliminar contaminantes letales como los nitratos de la agricultura y el cromo hexavalente de la industria?",
-    sections: [
+    "introduction": "¿Sabías que la borra de café que sobra de tu taza se ha probado como adsorbente para limpiar agua? Lo que tú llamas \"desecho\", los ingenieros ambientales lo llaman bioadsorbente: un material que atrapa contaminantes en su superficie.\n\nEste artículo cuenta un caso concreto y publicado: el estudio sobre la adsorción de cromo hexavalente (Cr VI) con residuos de café que hicimos en la Universidad Nacional de Colombia (Cubides-Guerrero y Ramírez-Franco, Revista Mutis, 2014), qué mostró y qué no mostró.",
+    "sections": [
       {
-        id: "quimica-esponja-negra",
-        title: "🧪 La Química detrás de la \"Esponja\" Negra",
-        content: "No es magia, es ciencia de superficies. La borra de café no es solo polvo quemado; es una estructura lignocelulósica ultra-porosa rica en celulosa, lignina y grupos funcionales clave como:\n\n*   Hidroxilos (–OH)\n*   Carboxilos (–COOH)\n*   Aminas (N–H)\n\nEstos grupos actúan como \"imanes químicos\" que atrapan metales y aniones mientras el agua fluye a través de ellos."
+        "id": "el-estudio",
+        "title": "🧪 El estudio en pocas palabras",
+        "content": "**Qué se probó:** la adsorción de cromo VI sobre tres materiales: carbón activado comercial, carbón activado preparado a partir de residuos de café y el residuo de café sin tratar (el \"cuncho\").\n\n**Con qué agua:** soluciones acuosas sintéticas de dicromato de potasio, a 5 µg/mL de cromo VI. No se usó agua de río ni vertimientos reales.\n\n**Quién lo hizo:** Pablo Cubides Guerrero, autor de este sitio, y José Herney Ramírez Franco, del Departamento de Ingeniería Química y Ambiental de la Universidad Nacional de Colombia. El trabajo se hizo en el Grupo de Investigación RESA de la Universidad Nacional de Colombia y el semillero SIRSA.\n\n**Dónde se publicó:** Revista Mutis, vol. 4, núm. 2 (2014), pp. 18-25, revista de la Universidad de Bogotá Jorge Tadeo Lozano."
       },
       {
-        id: "desafio-nitratos",
-        title: "🚫 El Desafío de los Nitratos (NO3-)",
-        content: "La contaminación por nitratos es una bomba de tiempo silenciosa en nuestras zonas agrícolas, causando desde la degradación de ecosistemas (eutrofización) hasta problemas graves de salud como la metahemoglobinemia en bebés.\n\n**¿Cómo lo soluciona el café?**\nLa investigación más reciente (2020-2025) revela que no basta con usar la borra cruda. Para los nitratos, la clave es la activación:\n\n*   **Tratamiento con HCl (Ácido Clorhídrico):** Una concentración de 0.4 M prepara la superficie para atraer específicamente los aniones de nitrato.\n*   **Carbonización a Baja Temperatura:** Calentar la borra de café a solo 200 °C crea un biochar que mantiene intactos los grupos funcionales necesarios, logrando recuperaciones de nitratos superiores al 80%."
-      },
-      {
-        id: "caso-cromo-vi",
-        title: "🏭 El Caso del Cromo VI (Cr VI): ¡Más eficiente que el carbón comercial!",
-        content: "Basado en estudios locales recientes realizados en la Universidad Nacional de Colombia, se ha demostrado que los residuos de café (o \"cunchos\") son una alternativa revolucionaria para limpiar ríos contaminados por curtiembres.\n\n**El hallazgo:** En pruebas comparativas, los residuos de café sin tratamiento costoso mostraron una capacidad de remoción de Cromo VI superior al 95%, ajustándose perfectamente al modelo de Freundlich.\n\n**El impacto:** Esto significa que podemos tratar aguas industriales con un material que hoy es gratuito, compitiendo codo a codo con carbones activados comerciales de alto costo.\n\nReferencia del estudio: [Repositorio UTadeo](https://expeditiorepositorio.utadeo.edu.co/entities/publication/110fcfae-def6-4dbb-a827-ed6ef84cc2b1)",
-        callout: {
-          type: "info",
-          title: "Referencia Clave",
-          content: "Para consultar el estudio sobre bioadsorbentes de Cromo VI a base de café, visita la investigación académica completa en el repositorio."
+        "id": "caso-cromo-vi",
+        "title": "🏭 El caso del cromo VI (Cr VI)",
+        "content": "**El hallazgo:** con el residuo de café se obtuvieron adsorciones superiores al 95 % del cromo VI de las soluciones. El proceso se ajustó al modelo de Freundlich y a una cinética de segundo orden.\n\n**Frente al carbón comercial:** los autores eligieron el residuo de café como la mejor alternativa entre las analizadas y, en las condiciones estudiadas, no encontraron diferencias significativas en los porcentajes de adsorción entre los adsorbentes comparados.\n\n**Por qué importa:** los autores concluyen que el proceso tiene potencial para tratar las aguas residuales del proceso de curtido, que contienen cromo.\n\n**Lo que el estudio no demuestra:** que funcione con agua de río o con vertimientos reales de curtiembres; para eso harían falta pruebas adicionales.",
+        "callout": {
+          "type": "info",
+          "title": "Referencia del estudio",
+          "content": "Cubides-Guerrero, P. A. y Ramírez-Franco, J. H. (2014). Adsorción de Cr VI sobre residuos de café. Revista Mutis, 4(2), 18-25. DOI 10.21789/22561498.953.\n\n [Leer el estudio en la Revista Mutis](https://revistas.utadeo.edu.co/index.php/mutis/article/view/953)"
         }
       },
       {
-        id: "innovacion-ia",
-        title: "🤖 Innovación 2025: Inteligencia Artificial en el Laboratorio",
-        content: "La frontera de esta investigación ya no es solo química, es digital. Se están utilizando modelos de Machine Learning (como Random Forest y Redes Neuronales) para predecir exactamente cuánta borra de café necesitas según el pH y la temperatura del agua.\n\n**Precisión asombrosa:** Estos modelos logran una exactitud superior al 90% (R² > 0.89), permitiendo optimizar plantas de tratamiento rurales sin necesidad de costosos experimentos de prueba y error."
+        "id": "datos-del-estudio",
+        "title": "📊 Las condiciones del experimento",
+        "content": "• **Contaminante:** cromo VI, a 5 µg/mL en solución acuosa sintética\n• **Dosis de residuo de café:** entre 0,01 % y 4 % en peso\n• **Tiempo de contacto y temperatura (isoterma de adsorción):** 60 minutos a 36 °C\n• **Resultado:** adsorciones superiores al 95 % de cromo VI\n• **Modelos:** isoterma de Freundlich y cinética de segundo orden"
       },
       {
-        id: "datos-rapidos-eficiencia",
-        title: "📊 Datos Rápidos: Café vs. El Mundo",
-        content: "| Contaminante | Eficiencia con Café Modificado | Condición Óptima |\n| :--- | :--- | :--- |\n| **Nitratos (NO3-)** | 80.7% - 83.8% | pH ácido (3-4) |\n| **Cromo VI (Cr VI)** | > 95% | Tiempo de contacto 60 min |\n| **Plomo (Pb2+)** | 98% | Biochar optimizado |\n| **Colorantes (Azul Metileno)** | 100% | 6 ciclos de reutilización |"
-      },
-      {
-        id: "preguntas-frecuentes",
-        title: "Preguntas frecuentes",
-        content: "Respuestas breves a las dudas más comunes sobre este tema.",
-        subsections: [
+        "id": "preguntas-frecuentes",
+        "title": "Preguntas frecuentes",
+        "content": "Respuestas breves a las dudas más comunes sobre este tema.",
+        "subsections": [
           {
-            id: "faq-1",
-            title: "¿Por qué la borra de café sirve para limpiar agua?",
-            content: "Es una estructura lignocelulósica muy porosa, rica en celulosa, lignina y grupos funcionales (hidroxilos, carboxilos y aminas) que actúan como imanes químicos y atrapan contaminantes.",
+            "id": "faq-1",
+            "title": "¿Qué estudió el trabajo?",
+            "content": "La adsorción de cromo VI sobre tres materiales: carbón activado comercial, carbón activado de residuos de café y residuo de café sin tratar, con soluciones acuosas sintéticas de dicromato de potasio a 5 µg/mL."
           },
           {
-            id: "faq-2",
-            title: "¿Qué contaminantes remueve y con qué eficiencia?",
-            content: "Según los datos del artículo: nitratos entre 80,7 % y 83,8 % (pH ácido de 3 a 4), cromo VI por encima de 95 % (con 60 minutos de contacto), plomo 98 % (con biochar optimizado) y azul de metileno 100 %.",
+            "id": "faq-2",
+            "title": "¿Qué resultados obtuvo?",
+            "content": "Adsorciones superiores al 95 % del cromo VI, con ajuste al modelo de Freundlich y cinética de segundo orden. En las condiciones estudiadas no hubo diferencias significativas entre los adsorbentes comparados, y los autores eligieron el residuo de café como la mejor alternativa entre las analizadas."
           },
           {
-            id: "faq-3",
-            title: "¿Cuánta borra de café se genera?",
-            content: "A escala mundial se producen más de 6 millones de toneladas al año de este residuo.",
+            "id": "faq-3",
+            "title": "¿Se probó con agua real de un río o de una curtiembre?",
+            "content": "No. Se usaron soluciones sintéticas en laboratorio. Los autores concluyen que el proceso tiene potencial para tratar aguas residuales del proceso de curtido, pero eso requeriría pruebas con agua real."
           },
           {
-            id: "faq-4",
-            title: "¿Cómo ayuda la inteligencia artificial en esta investigación?",
-            content: "Se usan modelos de machine learning, como Random Forest y redes neuronales, para predecir cuánta borra de café se necesita según el pH y la temperatura del agua.",
-          },
-        ],
-      },
+            "id": "faq-4",
+            "title": "¿Quién hizo el estudio y dónde se publicó?",
+            "content": "Pablo Cubides Guerrero, autor de este sitio, y José Herney Ramírez Franco, en la Universidad Nacional de Colombia (Grupo de Investigación RESA y semillero SIRSA). Se publicó en la Revista Mutis 4(2), 2014 (DOI 10.21789/22561498.953)."
+          }
+        ]
+      }
     ],
-    conclusion: "🌍 **Sostenibilidad y Futuro**\nImplementar filtros de borra de café no solo limpia el agua; reduce la huella de carbono de la industria cafetalera y evita que los residuos orgánicos terminen en vertederos produciendo gases de efecto invernadero.\n\n¿El siguiente paso? Proyectos comunitarios y \"CoffeeBots\" (nanopartículas magnéticas de café) que ya están siendo probados para limpiar microplásticos y aceites en el mar.\n\n💡 **Conclusión**\nLa próxima vez que disfrutes tu café, mira esos restos negros con otros ojos. No son basura; son la tecnología de limpieza hídrica del futuro: barata, sostenible y ultra-eficiente.\n\n¿Te interesa la ciencia ambiental? ¡Comparte este post y ayudemos a que la economía circular llegue a cada taza!\n\n*Este artículo se basa en investigaciones académicas publicadas entre 2014 y 2025 en revistas como Revista Mutis, MDPI, SciELO y Frontiers in Chemical Engineering.*"
+    "conclusion": "🧾 **Qué nos deja este estudio**\nLa borra de café, un residuo que hoy se desecha, mostró en laboratorio adsorciones superiores al 95 % de cromo VI en soluciones sintéticas y un desempeño comparable al de los otros adsorbentes probados. Es una señal alentadora para pensar en el tratamiento de aguas de curtido, pero es un primer paso: faltan pruebas con agua real y a mayor escala.\n\n*Este artículo recoge un estudio publicado: Cubides-Guerrero, P. A. y Ramírez-Franco, J. H. (2014), Revista Mutis 4(2), 18-25, DOI 10.21789/22561498.953. Su primer autor es el autor de este sitio.*"
   },
   tags: ["Economía Circular", "Tratamiento de Agua", "Borra de Café", "Sostenibilidad", "Innovación", "Ciencia Ambiental", "SCG"],
+  references: [
+    {
+      title: "Adsorción de Cr VI sobre residuos de café",
+      url: "https://revistas.utadeo.edu.co/index.php/mutis/article/view/953",
+      source: "Cubides-Guerrero, P. A. y Ramírez-Franco, J. H. (2014). Revista Mutis 4(2), 18-25, Universidad de Bogotá Jorge Tadeo Lozano. DOI 10.21789/22561498.953",
+      description: "Estudio de adsorción de cromo VI sobre carbón activado comercial, carbón activado de residuos de café y residuo de café, con soluciones acuosas sintéticas a 5 µg/mL; adsorciones superiores al 95 %, ajuste a Freundlich y cinética de segundo orden. El primer autor es el autor de este sitio. Consultado el 2026-11-21.",
+    },
+  ],
   nextArticle: {
     slug: "desafios-mecanismos-tratamiento-aguas-riego",
     title: "Desafíos y Mecanismos de Tratamiento Avanzado para Aguas de Riego"
