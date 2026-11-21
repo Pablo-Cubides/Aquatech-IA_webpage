@@ -3,6 +3,8 @@ import { z } from "zod";
 import {
   UPSTREAM_USER_AGENT,
   guardPublicProxy,
+  logUpstreamRateLimit,
+  mapUpstreamFailure,
   queryInt,
   queryIntClamped,
   queryText,
@@ -182,6 +184,16 @@ function buildArxivUrl(params: {
   return `https://export.arxiv.org/api/query?${queryParams.toString()}`;
 }
 
+/** Error del proveedor con su estado y `Retry-After`; nunca lleva el cuerpo de la respuesta. */
+class ArxivUpstreamError extends Error {
+  constructor(
+    readonly status: number,
+    readonly retryAfter: string | null,
+  ) {
+    super(`ArXiv API error: ${status}`);
+  }
+}
+
 async function fetchWithRetry(
   url: string,
   retries = 1,
@@ -194,6 +206,8 @@ async function fetchWithRetry(
       signal: AbortSignal.timeout(12_000),
     });
 
+    if (response.status === 429) await logUpstreamRateLimit("arxiv:papers", response.clone());
+
     if (response.status === 429 && retries > 0) {
       console.warn(`ArXiv 429 Rate Limit. Retrying in ${backoff}ms...`);
       await new Promise((resolve) => setTimeout(resolve, backoff));
@@ -201,7 +215,7 @@ async function fetchWithRetry(
     }
 
     if (!response.ok) {
-      throw new Error(`ArXiv API error: ${response.status}`);
+      throw new ArxivUpstreamError(response.status, response.headers.get("retry-after"));
     }
 
     return response;
@@ -338,6 +352,10 @@ export async function GET(request: NextRequest) {
     });
   } catch (error: unknown) {
     console.error("ArXiv API error:", getErrorMessage(error));
+    // SEC-006: el 429 de arXiv es "reintenta más tarde" (503 + Retry-After), no un fallo del proveedor.
+    if (error instanceof ArxivUpstreamError && error.status === 429) {
+      return mapUpstreamFailure(429, error.retryAfter);
+    }
     return NextResponse.json(
       { error: "upstream_error", message: "No se pudieron obtener los artículos de arXiv." },
       { status: 502, headers: { "Cache-Control": "public, s-maxage=15" } },

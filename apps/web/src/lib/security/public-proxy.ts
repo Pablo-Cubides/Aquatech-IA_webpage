@@ -326,9 +326,16 @@ export async function fetchUpstreamJson(
 }
 
 function mapUpstreamStatus(upstream: Response): NextResponse {
-  const status = upstream.status;
+  return mapUpstreamFailure(upstream.status, upstream.headers.get("retry-after"));
+}
+
+/**
+ * Estado del proveedor -> respuesta para el cliente, sin su cuerpo. Lo usan también los proxies que
+ * hacen su propio fetch (arXiv, con cola y reintento): 429 => 503 + Retry-After, no un 502.
+ */
+export function mapUpstreamFailure(status: number, retryAfterHeader: string | null): NextResponse {
   if (status === 429) {
-    const header = Number(upstream.headers.get("retry-after"));
+    const header = Number(retryAfterHeader);
     const retry = Number.isFinite(header) && header >= 1 ? Math.min(Math.ceil(header), 3600) : 60;
     return proxyError(503, "upstream_rate_limited", "El proveedor de datos limitó las solicitudes. Reintenta más tarde.", {
       "Retry-After": String(retry),
