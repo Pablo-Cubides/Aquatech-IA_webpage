@@ -117,7 +117,6 @@ class EmailService {
       }
 
       await logger.info("Email sent successfully", {
-        to,
         template,
         templateId: finalTemplateId,
         messageId: result.body?.messageId,
@@ -128,7 +127,6 @@ class EmailService {
     } catch (error: unknown) {
       const errorMessage = getErrorMessage(error);
       await logger.error("Failed to send email", {
-        to,
         template,
         error: errorMessage,
       });
@@ -174,8 +172,9 @@ class EmailService {
       const { eventType, messageId, raw } = parseWebhookEvent(event);
 
       if (!messageId) {
+        // Solo el tipo: el evento completo trae correo e IP del destinatario.
         await logger.warn("Received webhook event without message ID", {
-          event,
+          eventType,
         });
         return;
       }

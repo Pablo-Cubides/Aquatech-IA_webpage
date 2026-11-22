@@ -75,9 +75,8 @@ export async function POST(request: NextRequest) {
       // Sin el correo en el log (dato personal). Decisión SEC-002: se mantiene el 409 porque, sin
       // flujo de confirmación por correo, una respuesta idéntica haría creer al usuario nuevo que
       // su contraseña quedó registrada; la enumeración queda acotada por el límite de tasa (cerrado).
-      await logger.warn("Registration attempt for existing email", {
-        ipAddress: clientIP,
-      });
+      // Sin correo ni IP: el limitador ya usa la IP para limitar; en el aviso no aporta nada.
+      await logger.warn("Registration attempt for existing email");
       return NextResponse.json(
         { error: "No fue posible crear la cuenta" },
         { status: 409 },
@@ -108,7 +107,6 @@ export async function POST(request: NextRequest) {
   } catch (error: unknown) {
     logger.error("Error creating user", {
       error: getErrorMessage(error),
-      ipAddress: clientIP,
     });
 
     return NextResponse.json(
