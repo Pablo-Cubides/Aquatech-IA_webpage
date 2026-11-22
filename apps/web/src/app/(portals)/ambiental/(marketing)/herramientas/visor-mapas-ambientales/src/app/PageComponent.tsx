@@ -33,6 +33,7 @@ import { searchStations, getSiteTypeColor, US_STATES } from "@/lib/wqp";
 import { getEarthquakes, type USGSEarthquakeParams } from "@/lib/usgs";
 import { getActiveFires, type FIRMSParams } from "@/lib/firms";
 import { getWeatherDescription } from "@/lib/openmeteo";
+import { formatCalendarDate } from "@/lib/dates/calendar-date";
 
 // Dynamically import MapComponent to avoid SSR issues
 const MapComponent = dynamic(() => import("../components/MapComponent"), {
@@ -1732,7 +1733,7 @@ interface WQPResultItem {
                                 </span>
                               </div>
                               <div className="text-xs text-gray-500 mt-1">
-                                {res.ActivityStartDate ? new Date(res.ActivityStartDate).toLocaleDateString("es-ES") : "Fecha no disponible"}
+                                {formatCalendarDate(res.ActivityStartDate, "es-ES") || "Fecha no disponible"}
                               </div>
                             </div>
                           ))}

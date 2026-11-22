@@ -119,10 +119,14 @@ class Logger {
     // - Winston para logs estructurados
     // - CloudWatch/Datadog para monitoring
 
-    // For now, we only save to avoid losing critical information
-    if (logEntry.level === "error") {
-      console.error(JSON.stringify(logEntry));
-    }
+    // OPS-006: antes solo salía `error`, y todos los `warn`/`info` instrumentados (proxies, límite
+    // de tasa, caché) se perdían sin que nadie lo notara. Salen por el método de consola de su
+    // nivel (Vercel conserva el nivel). En el navegador solo warn/error, para no llenar la consola
+    // de quien visita. `debug` nunca llega aquí en producción.
+    const level = logEntry.level;
+    if (level !== "error" && level !== "warn" && level !== "info") return;
+    if (level === "info" && typeof window !== "undefined") return;
+    console[level](JSON.stringify(logEntry));
   }
 }
 

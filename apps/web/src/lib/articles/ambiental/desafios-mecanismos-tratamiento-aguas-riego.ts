@@ -8,8 +8,9 @@ const article: BlogArticle = blogArticleSchema.parse({
   title: "Desafíos y Mecanismos de Tratamiento Avanzado para Aguas de Riego: Gestión de Contaminantes Emergentes",
   category: "Control y Tratamiento de Contaminación",
   date: "2026-04-07",
+  dateModified: "2026-11-21",
   readTime: 5,
-  excerpt: "El reúso de aguas residuales en esquemas agrícolas exige una transición urgente. Análisis sobre la gestión de contaminantes emergentes en la Sabana de Bogotá.",
+  excerpt: "El reúso de aguas residuales en agricultura exige tratar contaminantes que muchas PTAR convencionales no están diseñadas para remover: mecanismos de un tren con coagulación, adsorción y fotocatálisis.",
   heroImage: "https://res.cloudinary.com/lv3hwy1f/image/upload/v1793701243/articulos/aquatech-ambiental/tratamiento-riego.jpg",
   author: {
     name: "Pablo Cubides",
@@ -17,16 +18,16 @@ const article: BlogArticle = blogArticleSchema.parse({
     bio: "Científico ambiental, Ingeniero Químico y M.Sc. en Ingeniería Ambiental. Docente e investigador especializado en gestión integral del recurso hídrico.",
   },
   content: {
-    introduction: "El reúso de aguas residuales en esquemas agrícolas, particularmente en sistemas hidráulicos de alta presión antrópica como **La Ramada** (Sabana Occidental de Cundinamarca), exige una transición urgente en los paradigmas de tratamiento actuales.\n\nLa problemática central radica en que las Plantas de Tratamiento de Aguas Residuales (PTAR) convencionales están diseñadas principalmente para la remoción de macronutrientes y la Demanda Bioquímica de Oxígeno (DBO). Sin embargo, estas infraestructuras resultan ineficientes ante la creciente presencia de **Contaminantes Emergentes (CE)**.",
+    introduction: "El reúso de aguas residuales en esquemas agrícolas, particularmente en distritos de riego como **La Ramada** (Sabana Occidental de Cundinamarca), exige revisar los esquemas de tratamiento actuales.\n\nLa problemática central radica en que las Plantas de Tratamiento de Aguas Residuales (PTAR) convencionales, en muchos casos, están diseñadas principalmente para la remoción de macronutrientes y la Demanda Bioquímica de Oxígeno (DBO), y no para eliminar **Contaminantes Emergentes (CE)** como los fármacos.\n\nSobre La Ramada: una tesis de maestría de la Universidad Nacional de Colombia evaluó la toxicidad de los sedimentos de los canales del distrito de riego con dos bioensayos (*Hydra attenuata* y *Daphnia magna*), con análisis de metales, plaguicidas y antibióticos en tres zonas (agrícola, urbana y urbano-industrial) y en épocas seca y de lluvias; la mayor toxicidad se encontró en la zona urbano-industrial (Sánchez Romero, 2020).\n\n*Este artículo presenta el diseño y la evaluación de un tren de tratamiento para contaminantes emergentes en agua de riego, con fotocatálisis heterogénea a base de ilmenita y peróxido de hidrógeno, desarrollados por el autor. El trabajo se encuentra en proceso de postulación para publicación científica; por eso no se presentan concentraciones, porcentajes de remoción ni condiciones de ensayo, que se reservan para esa publicación.*",
     sections: [
       {
         id: "problematica-contaminantes-emergentes",
         title: "La Problemática de los Contaminantes Emergentes (CE)",
-        content: "Los CE abarcan una amplia gama de productos farmacéuticos como *antibióticos, analgésicos y antihipertensivos*. Estos compuestos presentan estructuras moleculares complejas que les confieren una **alta recalcitrancia** (resistencia a la degradación). \n\nPara mitigar este impacto ambiental y sanitario, es indispensable estructurar trenes de tratamiento modulares que combinen separaciones físicas tradicionales con procesos de degradación química de alta energía.",
+        content: "Los CE abarcan una amplia gama de productos farmacéuticos como *antibióticos, analgésicos y antihipertensivos*. Estos compuestos presentan estructuras moleculares complejas que les confieren una **alta recalcitrancia** (resistencia a la degradación). \n\nPara reducir su presencia en el agua, una alternativa es estructurar trenes de tratamiento modulares que combinen separaciones físicas tradicionales con procesos de degradación química de alta energía.",
         callout: {
-          type: "warning",
-          title: "Riesgo de Bioacumulación",
-          content: "Al ingresar a los canales de riego en concentraciones del orden de los microgramos por litro (μg/L), estos contaminantes generan una fuerte presión selectiva sobre los ecosistemas edáficos y representan un grave vector de bioacumulación.",
+          type: "info",
+          title: "Por qué importan en el agua de riego",
+          content: "Los contaminantes emergentes pueden llegar a los canales de riego con los vertimientos; reducir su presencia en el agua es lo que motiva un tratamiento específico.",
         }
       },
       {
@@ -42,7 +43,7 @@ const article: BlogArticle = blogArticleSchema.parse({
       {
         id: "fotocatalisis-heterogenea",
         title: "3. Fotocatálisis Heterogénea: Procesos de Oxidación Avanzada (POA)",
-        content: "El núcleo tecnológico para la degradación de moléculas recalcitrantes reside en los POA. Específicamente, mediante el uso de semiconductores minerales como la **ilmenita** (un óxido de hierro y titanio) acoplados a agentes oxidantes como el peróxido de hidrógeno (H2O2).\n\n**Mecanismo de Activación:** Al irradiar el catalizador con fotones que superan su energía de banda prohibida (*Band Gap*), se promueve un electrón desde la banda de valencia hacia la banda de conducción, generando un par electrón-hueco (e- / h+).\n\n**Ruta Radicalaria:** Estos pares interactúan con el agua y el peróxido de hidrógeno circundante para producir **radicales hidroxilo (HO•)**. Este radical es un oxidante no selectivo con un potencial de oxidación extremadamente alto (2.80 V), capaz de romper enlaces carbono-carbono y conducir a la completa mineralización de los fármacos (transformándolos en CO2, H2O y ácidos inorgánicos).\n\n**Transición Energética:** El diseño avanzado del reactor evalúa la cinética de reacción bajo iniciación con radiación UV-C (alta energía, menor longitud de onda), seguida de un sostenimiento mediante radiación solar, buscando la máxima viabilidad técnica y eficiencia energética a escala real."
+        content: "El núcleo tecnológico para la degradación de moléculas recalcitrantes reside en los POA. Específicamente, mediante el uso de semiconductores minerales como la **ilmenita** (un óxido de hierro y titanio) acoplados a agentes oxidantes como el peróxido de hidrógeno (H2O2).\n\n**Mecanismo de Activación:** Al irradiar el catalizador con fotones que superan su energía de banda prohibida (*Band Gap*), se promueve un electrón desde la banda de valencia hacia la banda de conducción, generando un par electrón-hueco (e- / h+).\n\n**Ruta Radicalaria:** Estos pares interactúan con el agua y el peróxido de hidrógeno circundante para producir **radicales hidroxilo (HO•)**. Este radical es un oxidante no selectivo y muy reactivo, que puede degradar los compuestos orgánicos hasta CO2, agua y ácidos inorgánicos (mineralización), según el compuesto y las condiciones.\n\n**Diseño del reactor:** el diseño del autor considera radiación UV-C y radiación solar como fuentes de activación del catalizador, con el objetivo de combinar viabilidad técnica y eficiencia energética. Los detalles de operación y los resultados se reservan para la publicación científica."
       },
       {
         id: "preguntas-frecuentes",
@@ -51,8 +52,8 @@ const article: BlogArticle = blogArticleSchema.parse({
         subsections: [
           {
             id: "faq-1",
-            title: "¿Por qué las PTAR convencionales no bastan para aguas de riego?",
-            content: "Están diseñadas sobre todo para remover macronutrientes y demanda bioquímica de oxígeno (DBO), y no eliminan bien los contaminantes emergentes, como antibióticos, analgésicos y antihipertensivos, que tienen alta recalcitrancia, es decir, resistencia a la degradación.",
+            title: "¿Por qué muchas PTAR convencionales no bastan para aguas de riego?",
+            content: "Muchas están diseñadas sobre todo para remover macronutrientes y demanda bioquímica de oxígeno (DBO), y no para eliminar contaminantes emergentes como antibióticos, analgésicos y antihipertensivos, que tienen alta recalcitrancia, es decir, resistencia a la degradación.",
           },
           {
             id: "faq-2",
@@ -62,19 +63,32 @@ const article: BlogArticle = blogArticleSchema.parse({
           {
             id: "faq-3",
             title: "¿Cómo se complementan los tres procesos?",
-            content: "La coagulación acondiciona la matriz y reduce los interferentes ópticos, la fotocatálisis oxida los fármacos y la carga microbiológica, y la adsorción actúa como barrera final.",
+            content: "El diseño los plantea como complementarios: la coagulación acondiciona el agua y reduce los interferentes ópticos, la fotocatálisis busca oxidar los fármacos y la adsorción actúa como barrera final.",
           },
           {
             id: "faq-4",
-            title: "¿Qué caso de estudio se menciona?",
-            content: "El reúso de aguas residuales en esquemas agrícolas, en particular el sistema hidráulico de La Ramada, en la Sabana Occidental de Cundinamarca.",
+            title: "¿Qué se sabe del agua de riego de La Ramada?",
+            content: "Una tesis de maestría de la Universidad Nacional de Colombia (Sánchez Romero, 2020) evaluó la toxicidad de los sedimentos de los canales del distrito de riego con dos bioensayos y encontró la mayor toxicidad en la zona urbano-industrial.",
+          },
+          {
+            id: "faq-5",
+            title: "¿Hay resultados?",
+            content: "El trabajo está en proceso de postulación para publicación científica. Sus resultados se reservan para esa publicación; este artículo explica los mecanismos y el diseño, no cifras de remoción.",
           },
         ],
       },
     ],
-    conclusion: "La integración de estos tres sistemas busca crear un efecto sinérgico poderoso: la Coagulación acondiciona la matriz reduciendo interferentes ópticos, la Fotocatálisis oxida estructuralmente los fármacos y la microbiología, y la Adsorción actúa como barrera final.\n\nLa evaluación metodológica rigurosa de estas variables cinéticas e isotérmicas, transitando desde moléculas trazadoras modelo hasta matrices reales complejas, establece los parámetros de diseño necesarios para escalar estas infraestructuras de tratamiento. \n\nEl objetivo final es claro: **asegurar la viabilidad toxicológica del agua y proteger el futuro de la agroindustria colombiana.**"
+    conclusion: "Los tres procesos están pensados para complementarse: la coagulación acondiciona el agua reduciendo interferentes ópticos, la fotocatálisis busca oxidar los fármacos y la adsorción actúa como barrera final.\n\nEl trabajo del autor busca definir parámetros de diseño para escalar estas infraestructuras de tratamiento; su evidencia se publicará en la literatura científica. \n\nEl objetivo final es claro: **reducir la presencia de contaminantes emergentes en el agua de riego.**"
   },
   tags: ["contaminantes emergentes", "PTAR", "fotocatálisis", "coagulación", "adsorción", "reúso", "Sabana de Bogotá"],
+  references: [
+    {
+      title: "Evaluación de la toxicidad en sedimentos de los canales del Distrito de Riego de La Ramada mediante la utilización de dos bioensayos",
+      url: "https://repositorio.unal.edu.co/items/29b60b50-91dd-45af-a5b0-2ec2572133e8",
+      source: "Sánchez Romero, C. A. (2020). Tesis de Maestría en Ingeniería Ambiental, Universidad Nacional de Colombia, Sede Bogotá",
+      description: "Evaluación de la toxicidad de sedimentos de los canales del distrito de riego de La Ramada con Hydra attenuata y Daphnia magna, con análisis de metales, plaguicidas y antibióticos. Consultado el 2026-11-21.",
+    },
+  ],
   nextArticle: {
     slug: "superpoder-borra-cafe-limpiar-agua",
     title: "De tu taza al grifo: El 'superpoder' oculto de la borra de café para limpiar el agua"

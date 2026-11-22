@@ -97,7 +97,6 @@ export async function POST(request: NextRequest) {
     await contactsApi.createContact(createContact);
 
     await logger.info("Newsletter subscription successful", {
-      email,
       portal,
       source,
     });

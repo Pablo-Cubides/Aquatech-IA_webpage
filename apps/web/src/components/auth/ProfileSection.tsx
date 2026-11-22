@@ -554,6 +554,7 @@ export default function ProfileSection({ portal }: ProfileSectionProps) {
                       <span>Blogs favoritos</span>
                     </a>
                   </li>
+                  {currentPortal !== "ia" && (
                   <li>
                     <a
                       href={`/${currentPortal}/productos`}
@@ -575,6 +576,7 @@ export default function ProfileSection({ portal }: ProfileSectionProps) {
                       <span>Mis productos</span>
                     </a>
                   </li>
+                  )}
                 </ul>
               </section>
 

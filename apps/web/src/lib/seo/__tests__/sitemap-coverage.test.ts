@@ -34,7 +34,6 @@ const EXCLUDED: Record<string, string> = {
   "/ambiental/cursos": "noindex deliberado (cursos congelados)",
   "/ia/links": "duplicado de /links: canonica apunta a /links",
   "/ambiental/links": "duplicado de /links: canonica apunta a /links",
-  "/ia/productos": "pendiente de decision PROD/CONT: catalogo con enlaces a rutas inexistentes y precios",
   "/ambiental/herramientas/normas-ambientales/explorar": "pendiente: pagina cliente sin metadata propia (proxy de un componente)",
   "/ambiental/herramientas/generador-matrices/builder/[caseId]/[matriz]": "herramienta interactiva por caso de usuario; sin contenido propio",
   "/ia/autor/herramientas/aquaquiz/*": "noindex en su layout",

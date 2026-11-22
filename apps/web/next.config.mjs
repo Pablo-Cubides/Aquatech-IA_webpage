@@ -257,6 +257,12 @@ const nextConfig = {
         destination: "/ia",
         permanent: true,
       },
+      // /ia/productos era un catalogo de productos que nunca existieron (CONT-011, 2026-11-21).
+      {
+        source: "/ia/productos",
+        destination: "/ia/herramientas",
+        permanent: true,
+      },
       {
         source: "/ambiental/home",
         destination: "/ambiental",
