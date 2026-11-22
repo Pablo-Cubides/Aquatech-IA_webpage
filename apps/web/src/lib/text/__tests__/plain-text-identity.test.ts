@@ -9,6 +9,7 @@
  * se recalcula con `git stash` del cambio de `plain-text.ts` (o comprobando que la salida de la función sigue siendo la
  * de este commit) y se anota aquí el nuevo commit. Para recalcular: ejecutar esta prueba, copiar el hash que imprime
  * el fallo y actualizar la constante, dejando constancia del commit.
+ * Recalculado el 2026-11-21 por cambio de CONTENIDO (CONT-011: articulo de riego reescrito), sobre main f1dec7c; plain-text.ts sin cambios.
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -16,7 +17,7 @@ import { getStaticArticles } from "@/lib/blog-articles";
 import { guidesData } from "@/lib/guides-data";
 import { toPlainText, type PlainTextOptions } from "../plain-text";
 
-const EXPECTED_SHA256 = "39b681060156dc7403513a2c986d1fdfa5aa4bde31b100a925572dc0a7436098";
+const EXPECTED_SHA256 = "f32be70580a77527eacd4b34ed2a3c20ab38baad480a9b7f172cb215c80e55cf";
 
 const MODES: PlainTextOptions[] = [{}, { multiline: true }, { keepHeadings: true }, { multiline: true, keepHeadings: true }];
 
