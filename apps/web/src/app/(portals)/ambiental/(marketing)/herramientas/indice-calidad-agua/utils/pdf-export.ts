@@ -1,7 +1,33 @@
 // Utilidades para exportar el reporte de calidad de agua a PDF
 // Usando html2canvas y jspdf para generar el PDF
 
+import type { jsPDF } from "jspdf";
 import type { WaterSample, IndexResult } from "../types";
+
+/**
+ * Pega una imagen de la página completa repartiéndola en tantas hojas A4 como hagan falta.
+ * Antes se metía entera en UNA hoja: con muchos parámetros el informe se cortaba por abajo y
+ * entregaba datos incompletos sin avisar. Cada hoja muestra la franja que le corresponde (la
+ * imagen se desplaza hacia arriba y la hoja recorta lo que sobra).
+ * Devuelve el número de hojas.
+ */
+export function addPaginatedImage(
+  pdf: jsPDF,
+  imgData: string,
+  canvasWidth: number,
+  canvasHeight: number,
+): number {
+  const pageWidth = pdf.internal.pageSize.getWidth();
+  const pageHeight = pdf.internal.pageSize.getHeight();
+  const imgHeight = (canvasHeight * pageWidth) / canvasWidth;
+  const pages = Math.max(1, Math.ceil(imgHeight / pageHeight - 1e-3));
+
+  for (let page = 0; page < pages; page++) {
+    if (page > 0) pdf.addPage();
+    pdf.addImage(imgData, "PNG", 0, -page * pageHeight, pageWidth, imgHeight);
+  }
+  return pages;
+}
 
 /**
  * Genera y descarga un PDF con el reporte de calidad de agua
@@ -43,13 +69,10 @@ export async function exportToPDF(
       orientation: "portrait",
       unit: "mm",
       format: "a4",
+      compress: true,
     });
 
-    const imgData = canvas.toDataURL("image/png");
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-
-    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+    addPaginatedImage(pdf, canvas.toDataURL("image/png"), canvas.width, canvas.height);
 
     // Descargar
     const fileName = `Reporte-Calidad-Agua-${sample.location.replace(/\s+/g, "-")}-${new Date().toISOString().split("T")[0]}.pdf`;
