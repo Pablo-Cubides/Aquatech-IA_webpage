@@ -2,6 +2,7 @@
 
 import type { WaterSample, Country } from "../types";
 import { parseLabValue } from "./parse-value";
+import { parseCalendarDate } from "@/lib/dates/calendar-date";
 
 // Función para generar IDs únicos
 function generateId(): string {
@@ -129,7 +130,8 @@ export function csvToWaterSamplesDetailed(
       sample = {
         id: generateId(),
         sampleDate: dateStr, // Formato string para compatibilidad
-        date: dateStr ? new Date(dateStr) : new Date(),
+        // Un dia suelto YYYY-MM-DD se lee como dia de calendario (mediodia local), no como medianoche UTC.
+        date: dateStr ? (parseCalendarDate(dateStr) ?? new Date(dateStr)) : new Date(),
         location,
         country,
         dataSource: "csv", // Para tests

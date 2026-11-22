@@ -4,6 +4,7 @@ import { ExternalLink, BookOpen, CheckCircle2, AlertCircle } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import type { RegulatorySource } from '../lib/constants';
+import { formatCalendarDate } from "@/lib/dates/calendar-date";
 
 interface RegulatorySourcesCardProps {
   sources: RegulatorySource[];
@@ -103,7 +104,7 @@ export function RegulatorySourcesCard({ sources, country }: RegulatorySourcesCar
                   <p className="text-sm text-gray-700 mb-2">{source.description}</p>
                   {source.lastValidated && (
                     <p className="text-xs text-gray-500">
-                      Validado: {new Date(source.lastValidated).toLocaleDateString('es-ES')}
+                      Validado: {formatCalendarDate(source.lastValidated, 'es-ES')}
                     </p>
                   )}
                 </div>
