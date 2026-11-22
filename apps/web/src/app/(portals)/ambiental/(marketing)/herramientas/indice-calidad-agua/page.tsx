@@ -19,6 +19,7 @@ import {
   downloadCSV,
 } from "./utils/csv-utils";
 import { exportToPDF, printReport } from "./utils/pdf-export";
+import { formatCalendarDate } from "@/lib/dates/calendar-date";
 import IRCAScopeNotice from "./components/IRCAScopeNotice";
 
 type Step =
@@ -327,7 +328,7 @@ export default function IndiceCalidadAguaPage() {
               <div>
                 <span className="text-sm text-gray-500">Fecha:</span>
                 <p className="font-medium">
-                  {currentSample.date?.toLocaleDateString() ?? currentSample.sampleDate ?? "N/A"}
+                  {(currentSample.sampleDate ? formatCalendarDate(currentSample.sampleDate) || currentSample.sampleDate : currentSample.date?.toLocaleDateString()) ?? "N/A"}
                 </p>
               </div>
               <div>

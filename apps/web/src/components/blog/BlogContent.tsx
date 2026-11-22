@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { type BlogArticle } from "@/lib/blog-articles";
 import { type BlogCategory } from "@/lib/blog-categories";
+import { formatCalendarDate } from "@/lib/dates/calendar-date";
 
 interface BlogContentProps {
   articles: BlogArticle[];
@@ -17,8 +18,8 @@ function classNames(...classes: (string | false | undefined)[]) {
 }
 
 function formatDate(iso: string) {
-  const date = new Date(iso);
-  return date.toLocaleDateString("es-ES", {
+  // Un dia suelto se muestra como dia de calendario: igual en servidor y cliente, sin correrse en Colombia.
+  return formatCalendarDate(iso, "es-ES", {
     day: "2-digit",
     month: "short",
     year: "numeric",

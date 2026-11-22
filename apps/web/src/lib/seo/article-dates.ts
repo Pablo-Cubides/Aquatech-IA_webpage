@@ -14,10 +14,11 @@
  * a poner un respaldo (hay una prueba que falla si vuelve).
  */
 
+import { DATE_ONLY } from "@/lib/dates/calendar-date";
+
 /** Zona de la convención: medianoche en Colombia. */
 export const DATE_ONLY_OFFSET = "-05:00";
 
-const DATE_ONLY = /^\d{4}-\d{2}-\d{2}$/;
 
 /**
  * Fecha-hora ISO 8601 con zona para JSON-LD y Open Graph.
