@@ -25,6 +25,7 @@
 | [ADR-0014](0014-shared-code-between-portals.md) | Shared code between portals | accepted | 2026-11-15 |
 | [ADR-0015](0015-etiquetas-taxonomia-recomendada.md) | Etiquetas de artículos: taxonomía recomendada, no cerrada | accepted | 2026-11-16 |
 | [ADR-0016](0016-contrato-articulos-api-y-codigo.md) | Contrato de artículos: qué valida el canónico y qué valida la API | accepted | 2026-11-17 |
+| [ADR-0017](0017-csp-por-niveles.md) | CSP por niveles: nonce en /admin y /auth, unsafe-inline en las páginas públicas | accepted | 2026-11-21 |
 
 ---
 
