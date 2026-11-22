@@ -121,9 +121,9 @@ export async function checkRateLimit(
       await ratelimit.limit(identifier);
 
     if (!success) {
+      // Sin `identifier`: lleva la IP del cliente (y en `grade` puede llevar un código de estudiante).
       await logger.warn("Rate limit exceeded", {
         limitType,
-        identifier,
         limit,
         remaining,
         reset: new Date(reset).toISOString(),
@@ -136,7 +136,6 @@ export async function checkRateLimit(
     // Si el almacén falla se aplica la política declarada en failureModeFor (cerrado por defecto)
     await logger.error("Rate limit check failed", {
       limitType,
-      identifier,
       error: getErrorMessage(error),
       ...context,
     });
