@@ -152,7 +152,7 @@ export default async function NosotrosPage() {
                 <span className="font-medium text-[#F3F6FF]">
                   Comunidad y formación:
                 </span>{" "}
-                productos, guías y repositorios para acelerar adopción real.
+                guías y repositorios para acelerar adopción real.
               </li>
             </ul>
             <Link
@@ -353,8 +353,8 @@ export default async function NosotrosPage() {
             ¿Listo para explorar el futuro del agua y el medio ambiente?
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-lg text-[#CCCCCC]">
-            Sumérgete en nuestras herramientas, descubre nuestros productos o
-            colabora con nosotros.
+            Sumérgete en nuestras herramientas, explora el blog o colabora con
+            nosotros.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
@@ -364,10 +364,10 @@ export default async function NosotrosPage() {
               Comenzar ahora
             </Link>
             <Link
-              href="/ia/productos"
+              href="/ia/blog"
               className="inline-block rounded-lg border border-white/20 bg-[#10111A] px-8 py-4 text-lg font-bold transition-all duration-200 hover:scale-105 hover:border-[#00EFFF] hover:text-[#00EFFF]"
             >
-              Ver productos
+              Ver el blog
             </Link>
           </div>
         </div>

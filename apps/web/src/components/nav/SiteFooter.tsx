@@ -204,7 +204,7 @@ export default function SiteFooter({ portal }: { portal: FooterPortal }) {
           <div>
             <h3 className={cls.heading}>Mapa del sitio</h3>
             <nav aria-label={cfg.navAria} className="mt-4 flex flex-col gap-2">
-              {SITE_LINKS.map(([label, path]) => (
+              {SITE_LINKS.filter(([, path]) => !(portal === "ia" && path === "/productos")).map(([label, path]) => (
                 <Link key={path} href={`${routeBase}${path}`} className={cls.navLink}>
                   {label}
                 </Link>
