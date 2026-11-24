@@ -20,6 +20,9 @@ export const RETIRED_ARTICLES = [
   { portal: "ambiental", slug: "analisis-correlaciones-estadistica-ambiental", to: "/ambiental/herramientas/analisis-correlaciones" },
   { portal: "ambiental", slug: "aquatech-ia-portal-ambiental-digital", to: "/ambiental" },
   { portal: "ambiental", slug: "gestion-comunitaria-agua-rural-inclusiva-sostenible", to: "/ambiental/blog/desafio-agua-america-latina-rural-estadisticas" },
+  // 2026-11-24: competian por "implementar IA en una empresa" (posiciones 27 a 82). La guia practica absorbe a esta; sus secciones
+  // unicas (seis dimensiones de evaluacion y arquitectura/MLOps/Centro de Excelencia) pasaron a la guia por la API.
+  { portal: "ia", slug: "como-implementar-ia-en-una-empresa", to: "/ia/blog/guia-practica-implementacion-ia-empresas" },
 ];
 
 /** @param {string} portal @param {string} slug */
