@@ -2,6 +2,7 @@ import { safeJsonLd } from "@/lib/security/safe-json-ld";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import { preload } from "react-dom";
 import { getFeaturedIATools } from "@/lib/ia-tools";
 import { getLatestArticles } from "@/lib/blog-articles";
 import { optimizedImageUrl } from "@/lib/image-url";
@@ -44,6 +45,9 @@ export const metadata: Metadata = {
 };
 
 export default async function IAPage() {
+  // La imagen de fondo del hero es el elemento mas grande de la pagina y vive en CSS: sin esto el navegador la descubre tarde
+  // (PageSpeed movil: 0,9 s de espera antes de pedirla, LCP de 4-5 s).
+  preload("/images/technology-hero.jpg", { as: "image", fetchPriority: "high" });
   // Artículos de TODAS las fuentes (antes solo new-*.ts: la portada IA salía vacía y se perdían los de la base de datos).
   const latestArticles = await getLatestArticles("ia", 3);
   const portalSchema = {

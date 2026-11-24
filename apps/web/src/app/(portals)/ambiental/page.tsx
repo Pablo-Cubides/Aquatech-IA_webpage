@@ -1,6 +1,7 @@
 import { safeJsonLd } from "@/lib/security/safe-json-ld";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { preload } from "react-dom";
 import { getFeaturedAmbientalTools } from "@/lib/ambiental-tools";
 import { getLatestArticles } from "@/lib/blog-articles";
 import { optimizedImageUrl } from "@/lib/image-url";
@@ -43,6 +44,8 @@ export const metadata: Metadata = {
 };
 
 export default async function AmbientalPage() {
+  // Igual que la portada IA: la imagen de fondo del hero se descubre tarde si solo esta en CSS.
+  preload("/images/mountains-hero.jpg", { as: "image", fetchPriority: "high" });
   // Artículos de TODAS las fuentes (antes solo new-*.ts: la portada IA salía vacía y se perdían los de la base de datos).
   const latestArticles = await getLatestArticles("ambiental", 3);
   const portalSchema = {
