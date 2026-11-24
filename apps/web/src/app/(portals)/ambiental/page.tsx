@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getFeaturedAmbientalTools } from "@/lib/ambiental-tools";
 import { getLatestArticles } from "@/lib/blog-articles";
+import { optimizedImageUrl } from "@/lib/image-url";
 import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 import { AMBIENTAL_OFFICIAL_RESOURCES, OFFICIAL_RESOURCES_SUBTITLE, OFFICIAL_RESOURCES_TITLE } from "@/components/seo/official-resources";
 
@@ -133,7 +134,9 @@ export default async function AmbientalPage() {
             <img
               alt="Equipo de gestión ambiental"
               className="h-auto w-full max-w-md rounded-2xl object-cover shadow-lg transition-transform duration-300 hover:scale-105"
-              src="https://res.cloudinary.com/lv3hwy1f/image/upload/v1793669957/articulos/aquatech-ambiental/home-nosotros-ambiental.jpg"
+              src={optimizedImageUrl("https://res.cloudinary.com/lv3hwy1f/image/upload/v1793669957/articulos/aquatech-ambiental/home-nosotros-ambiental.jpg", 900)}
+              loading="lazy"
+              decoding="async"
             />
           </div>
         </div>
@@ -224,7 +227,9 @@ export default async function AmbientalPage() {
                   <img
                     alt={article.title}
                     className="h-56 w-full object-cover"
-                    src={article.heroImage}
+                    src={optimizedImageUrl(article.heroImage, 800)}
+                    loading="lazy"
+                    decoding="async"
                   />
                   <div className="p-6 flex-grow flex flex-col">
                     <div className="text-sm text-gray-600">

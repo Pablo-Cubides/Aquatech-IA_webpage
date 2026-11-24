@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { getFeaturedIATools } from "@/lib/ia-tools";
 import { getLatestArticles } from "@/lib/blog-articles";
+import { optimizedImageUrl } from "@/lib/image-url";
 import { AuthoritativeReferences } from "@/components/seo/AuthoritativeReferences";
 import { IA_OFFICIAL_RESOURCES, OFFICIAL_RESOURCES_SUBTITLE, OFFICIAL_RESOURCES_TITLE } from "@/components/seo/official-resources";
 
@@ -136,7 +137,9 @@ export default async function IAPage() {
             <img
               alt="Innovación en IA Ambiental"
               className="h-auto w-full max-w-md rounded-2xl object-cover shadow-lg transition-transform duration-300 hover:scale-105"
-              src="https://res.cloudinary.com/lv3hwy1f/image/upload/v1793669955/articulos/aquatech-ia/home-nosotros-ia.jpg"
+              src={optimizedImageUrl("https://res.cloudinary.com/lv3hwy1f/image/upload/v1793669955/articulos/aquatech-ia/home-nosotros-ia.jpg", 900)}
+              loading="lazy"
+              decoding="async"
             />
           </div>
         </div>
@@ -222,7 +225,9 @@ export default async function IAPage() {
                   <img
                     alt={article.title}
                     className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    src={article.heroImage}
+                    src={optimizedImageUrl(article.heroImage, 800)}
+                    loading="lazy"
+                    decoding="async"
                   />
                   <div className="p-6 flex-grow flex flex-col">
                     <p className="text-xs text-[#CCCCCC]">
