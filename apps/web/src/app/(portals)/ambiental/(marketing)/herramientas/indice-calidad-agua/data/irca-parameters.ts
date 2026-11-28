@@ -2,6 +2,7 @@
 // FUENTE CANÓNICA: @/lib/normativa (res-2115-2007.ts). Este archivo solo adapta esos datos
 // a la forma que usa la herramienta; no define valores normativos propios.
 
+import { findBand } from "@/lib/scales/find-band";
 import type { IRCAParameter } from "../types";
 import {
   CARACTERISTICAS_IRCA,
@@ -44,13 +45,17 @@ export const IRCA_RISK_CATEGORIES: IRCARiskCategory[] = IRCA_NIVELES_RIESGO.map(
   color: IRCA_COLORS[i],
 }));
 
-export function getIRCARiskCategory(ircaValue: number): IRCARiskCategory {
-  // La Resolución 2115 publica los rangos con un decimal (0–5, 5.1–14, 14.1–35, 35.1–80, 80.1–100). Un valor como 5.05 o 14.05
-  // (frecuente cuando no se analizan todos los parámetros) caía entre dos rangos y se clasificaba como "Inviable sanitariamente".
-  // Se clasifica con el valor a un decimal: 5.05 → 5.1 (riesgo bajo).
+/**
+ * Categoría de riesgo de un IRCA. `null` si el valor no es un número: nunca una categoría
+ * inventada (antes, un NaN se etiquetaba «Inviable sanitariamente», el peor nivel).
+ *
+ * La Resolución 2115 publica los rangos con un decimal (0–5, 5.1–14, 14.1–35, 35.1–80, 80.1–100).
+ * Un valor como 5.05 o 14.05 (frecuente cuando no se analizan todos los parámetros) caía entre dos
+ * rangos. Se clasifica con el valor a un decimal: 5.05 → 5.1 (riesgo bajo). Fuera de 0-100 se
+ * acota, porque el IRCA es un porcentaje y solo puede salirse por error de coma flotante.
+ */
+export function getIRCARiskCategory(ircaValue: number): IRCARiskCategory | null {
+  if (!Number.isFinite(ircaValue)) return null;
   const value = Math.min(100, Math.max(0, Math.round(ircaValue * 10) / 10));
-  return (
-    IRCA_RISK_CATEGORIES.find((cat) => value >= cat.min && value <= cat.max) ||
-    IRCA_RISK_CATEGORIES[IRCA_RISK_CATEGORIES.length - 1]
-  );
+  return findBand(value, IRCA_RISK_CATEGORIES, { gap: "upper" });
 }

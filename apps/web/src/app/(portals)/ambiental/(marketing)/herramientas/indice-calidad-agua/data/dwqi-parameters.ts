@@ -1,5 +1,6 @@
 // Constantes para Drinking Water Quality Index (DWQI) - Método WA-WQI
 
+import { findBand } from "@/lib/scales/find-band";
 import type { DWQIParameter } from "../types";
 
 // Parámetros DWQI con valores estándar (Si) y valores ideales (Vi)
@@ -179,10 +180,12 @@ export const DWQI_CATEGORIES: DWQICategory[] = [
   },
 ];
 
-export function getDWQICategory(dwqiValue: number): DWQICategory {
-  return (
-    DWQI_CATEGORIES.find(
-      (cat) => dwqiValue >= cat.min && dwqiValue <= cat.max
-    ) || DWQI_CATEGORIES[DWQI_CATEGORIES.length - 1]
-  );
+/**
+ * Categoría de un DWQI. `null` si el valor no es un número no negativo: nunca una categoría
+ * inventada (antes, lo que no encajaba en ningún rango entero se etiquetaba «No apta»).
+ * Un valor entre dos rangos enteros (25.5) cae en el superior, la categoría peor y prudente;
+ * por encima de 101 sigue siendo «No apta» (la escala no tiene techo).
+ */
+export function getDWQICategory(dwqiValue: number): DWQICategory | null {
+  return findBand(dwqiValue, DWQI_CATEGORIES, { gap: "upper", openTop: true });
 }

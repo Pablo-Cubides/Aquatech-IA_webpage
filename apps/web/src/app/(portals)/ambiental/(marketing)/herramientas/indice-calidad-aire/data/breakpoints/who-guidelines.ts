@@ -7,6 +7,7 @@
  * We create an internal "WHO Index" based on percentage over guideline.
  */
 
+import { findBand } from '@/lib/scales/find-band';
 import type { WHOGuideline, Category } from '../../types';
 
 /**
@@ -126,15 +127,21 @@ export function getWHOGuideline(
 }
 
 /**
- * Get category based on percentage over WHO guideline
+ * Identificador de cada categoría de `WHO_INDEX_CATEGORIES` (mismo orden). Una sola escala:
+ * antes `calculate-who.ts` tenía una segunda copia de los umbrales (<=100, <=150, <=300) con
+ * criterio distinto al de estos rangos enteros, y las dos se contradecían entre 100 y 101.
  */
-export function getWHOCategory(percentage: number): Category {
-  for (const category of WHO_INDEX_CATEGORIES) {
-    if (percentage >= category.min && percentage <= category.max) {
-      return category;
-    }
-  }
-  return WHO_INDEX_CATEGORIES[WHO_INDEX_CATEGORIES.length - 1];
+export const WHO_CATEGORY_IDS = ["complies", "slight-excess", "high-excess", "extreme-excess"] as const;
+
+/**
+ * Get category based on percentage over WHO guideline.
+ * `null` si el porcentaje no es un número finito o es negativo: nunca la categoría extrema por
+ * respaldo (antes, 100.5 % de la guía —entre los rangos 0-100 y 101-150— se etiquetaba «Exceso
+ * extremo»). Un valor entre dos rangos cae en el superior: superar la guía, aunque sea por poco,
+ * ya no es «Cumple». Por encima del último rango sigue siendo exceso extremo.
+ */
+export function getWHOCategory(percentage: number): Category | null {
+  return findBand(percentage, WHO_INDEX_CATEGORIES, { gap: "upper", openTop: true });
 }
 
 /**
