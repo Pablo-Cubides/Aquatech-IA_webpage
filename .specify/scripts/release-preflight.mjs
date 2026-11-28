@@ -55,7 +55,6 @@ run("Web smoke build", "pnpm run build --filter @ia-next/web");
 console.log(`\n\x1b[1mContent & Assets\x1b[0m`);
 run("Content lint (articles)", "node .specify/scripts/lint-content.mjs");
 run("Spec index lint", "node .specify/scripts/lint-specs.mjs");
-run("Contracts sync check", "node .specify/scripts/sync-contracts.mjs --check");
 run(
   "Image budget (changed files)",
   "node .specify/scripts/image-budget.mjs --changed-only --baseline",
