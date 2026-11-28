@@ -172,7 +172,10 @@ jobs:
         # Record versions as an annotation so CI-only transformer failures are diagnosable.
         run: |
           pnpm --filter web exec node -e "console.log('::notice title=Test toolchain::Node ' + process.version + '; Vitest ' + require('vitest/package.json').version + '; Vite ' + require('vite/package.json').version + '; React ' + require('react/package.json').version)"
-          pnpm --filter web run test -- --coverage --reporter=json --reporter=default
+          # ING-002b: `pnpm run test -- ...` entregaba un `--` literal a vitest, que deja de leer
+          # banderas a partir de ahi: `--coverage` nunca llegaba y no se generaba ningun informe
+          # (por eso la puerta vieja decia siempre "skipping"). Se invoca vitest directamente.
+          pnpm --filter web exec vitest run --coverage --reporter=default
         env:
           NODE_ENV: test
 
