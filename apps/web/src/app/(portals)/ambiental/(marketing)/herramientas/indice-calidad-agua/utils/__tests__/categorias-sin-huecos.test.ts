@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+
 /**
  * Las categorías de los índices (WQI, DWQI, IRCA) no pueden tener huecos ni responder con una
  * categoría inventada cuando no encaja ninguna.

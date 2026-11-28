@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+
 /**
  * Índice OMS: la categoría de un porcentaje sobre la guía no puede tener huecos (ING-002).
  * `WHO_INDEX_CATEGORIES` usa rangos enteros (0-100, 101-150, 151-300, 301+) y `getWHOCategory`
