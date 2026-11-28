@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { SITE_URL } from "@/lib/site-config";
 import { WebPageStructuredData } from "@/components/seo/StructuredData";
 
@@ -307,8 +308,10 @@ export default function PrivacyContent({ portal = "ia" }: { portal?: "ia" | "amb
                 📧 <strong>Email:</strong> privacy@aquatechia.com
               </p>
               <p>
-                💬 <strong>Formulario de Contacto:</strong>{" "}
-                https://aquatechia.com/contacto
+                💬 <strong>Centro de soporte:</strong>{" "}
+                <Link href="/soporte" className="text-[#00EFFF] underline">
+                  {SITE_URL}/soporte
+                </Link>
               </p>
             </div>
           </section>

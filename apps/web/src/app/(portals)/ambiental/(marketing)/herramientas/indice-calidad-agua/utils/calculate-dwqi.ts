@@ -1,6 +1,7 @@
 // Utilidades para calcular el Drinking Water Quality Index (DWQI)
 // Método WA-WQI (Weighted Arithmetic Water Quality Index)
 
+import { logger } from "@/lib/logger";
 import type { WaterSample, IndexResult, IndexDetail } from "../types";
 import {
   DWQI_PARAMETERS,
@@ -132,7 +133,7 @@ export function calculateDWQI(sample: WaterSample): IndexResult | null {
     (sum, p) => sum + p.qi * p.weight,
     0
   );
-  const dwqiValue = weightedSum / totalWeight;
+  const dwqiValue = Math.round((weightedSum / totalWeight) * 100) / 100;
 
   // Paso 5: Preparar detalles
   for (const p of paramsWithWeights) {
@@ -154,10 +155,15 @@ export function calculateDWQI(sample: WaterSample): IndexResult | null {
   }
 
   // Obtener categoría
+  // Categoría del valor que se muestra (a 2 decimales). Sin categoría no se publica un resultado.
   const category = getDWQICategory(dwqiValue);
+  if (!category) {
+    logger.warn("DWQI fuera de escala: no se publica resultado", { dwqiValue, sampleId: sample.id });
+    return null;
+  }
 
   return {
-    value: Math.round(dwqiValue * 100) / 100,
+    value: dwqiValue,
     category: category.category,
     riskLevel: category.description,
     details: details.sort((a, b) => (b.qi || 0) - (a.qi || 0)), // Ordenar por Qi descendente

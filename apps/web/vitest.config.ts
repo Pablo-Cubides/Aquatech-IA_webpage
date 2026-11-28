@@ -21,7 +21,8 @@ export default defineConfig({
     include: ["**/*.{test,spec}.{ts,tsx}"],
     coverage: {
       provider: "v8",
-      reporter: ["text", "json", "html"],
+      // `json-summary` genera coverage-summary.json, que lee la puerta de cobertura del CI (ING-002).
+      reporter: ["text", "json", "json-summary", "html"],
       exclude: [
         "node_modules/",
         "dist/",
