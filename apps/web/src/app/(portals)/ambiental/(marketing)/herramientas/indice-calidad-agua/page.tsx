@@ -22,6 +22,9 @@ import { exportToPDF, printReport } from "./utils/pdf-export";
 import { formatCalendarDate } from "@/lib/dates/calendar-date";
 import IRCAScopeNotice from "./components/IRCAScopeNotice";
 
+// Gris neutro para un valor sin categoría (nunca el color de una categoría inventada).
+const NO_CATEGORY_COLOR = "#9ca3af";
+
 type Step =
   | "select-source"
   | "input-data"
@@ -402,7 +405,7 @@ export default function IndiceCalidadAguaPage() {
                 subtitle="Índice de Riesgo - Colombia"
                 result={currentSample.indices.IRCA}
                 color={
-                  getIRCARiskCategory(currentSample.indices.IRCA.value).color
+                  getIRCARiskCategory(currentSample.indices.IRCA.value)?.color ?? NO_CATEGORY_COLOR
                 }
                 onExplain={() => {
                   if (currentSample.indices?.IRCA) {
@@ -422,7 +425,7 @@ export default function IndiceCalidadAguaPage() {
                 title="WQI"
                 subtitle="NSF Water Quality Index"
                 result={currentSample.indices.WQI}
-                color={getWQICategory(currentSample.indices.WQI.value).color}
+                color={getWQICategory(currentSample.indices.WQI.value)?.color ?? NO_CATEGORY_COLOR}
                 onExplain={() => {
                   if (currentSample.indices?.WQI) {
                     const explanation = explainWQICalculation(
@@ -441,7 +444,7 @@ export default function IndiceCalidadAguaPage() {
                 title="DWQI"
                 subtitle="Drinking Water Quality Index"
                 result={currentSample.indices.DWQI}
-                color={getDWQICategory(currentSample.indices.DWQI.value).color}
+                color={getDWQICategory(currentSample.indices.DWQI.value)?.color ?? NO_CATEGORY_COLOR}
                 onExplain={() => {
                   if (currentSample.indices?.DWQI) {
                     const explanation = explainDWQICalculation(

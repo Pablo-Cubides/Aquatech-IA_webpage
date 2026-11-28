@@ -191,7 +191,7 @@ describe("calculateIRCA", () => {
 
 describe("getIRCARiskCategory", () => {
   it("clasifica los bordes de la Resolución 2115 y los valores entre rangos", () => {
-    const category = (value: number) => getIRCARiskCategory(value).category;
+    const category = (value: number) => getIRCARiskCategory(value)?.category;
     expect(category(0)).toBe("Sin riesgo");
     expect(category(5)).toBe("Sin riesgo");
     expect(category(5.05)).toBe("Riesgo bajo"); // 5/99: antes caía en "Inviable sanitariamente"

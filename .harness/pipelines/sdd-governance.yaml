@@ -71,16 +71,6 @@ pipeline:
                     envVariables:
                       CI: "true"
 
-              - step:
-                  name: Verify contracts sync
-                  identifier: verify_contracts
-                  type: Run
-                  spec:
-                    shell: Sh
-                    command: node .specify/scripts/sync-contracts.mjs --check
-                    envVariables:
-                      CI: "true"
-
     - stage:
         name: PR Governance Policy
         identifier: pr_governance

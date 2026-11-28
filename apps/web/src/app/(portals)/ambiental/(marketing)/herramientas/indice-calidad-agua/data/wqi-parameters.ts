@@ -1,5 +1,6 @@
 // Constantes para NSF Water Quality Index (WQI)
 
+import { findBand } from "@/lib/scales/find-band";
 import type { WQIParameter } from "../types";
 
 // Parámetros NSF con sus pesos estándar
@@ -163,12 +164,13 @@ export const WQI_CATEGORIES: WQICategory[] = [
   },
 ];
 
-export function getWQICategory(wqiValue: number): WQICategory {
-  return (
-    WQI_CATEGORIES.find(
-      (cat) => wqiValue >= cat.min && wqiValue <= cat.max
-    ) || WQI_CATEGORIES[0]
-  );
+/**
+ * Categoría de un WQI. `null` si el valor no es un número entre 0 y 100: nunca una categoría
+ * inventada (antes, lo que no encajaba en ningún rango entero se etiquetaba «Muy mala»).
+ * Un valor entre dos rangos enteros (89.79) cae en el inferior, la categoría prudente.
+ */
+export function getWQICategory(wqiValue: number): WQICategory | null {
+  return findBand(wqiValue, WQI_CATEGORIES, { gap: "lower" });
 }
 
 // Función para interpolar Qi a partir de las curvas
@@ -177,7 +179,11 @@ export function interpolateQi(
   measuredValue: number
 ): number {
   const curve = QI_CURVES[parameterName];
-  if (!curve) return 50; // Valor por defecto si no existe la curva
+  // Sin curva no hay Qi: antes se devolvía 50 y el parámetro entraba al índice con un valor inventado.
+  if (!curve) throw new Error(`WQI: no hay curva Qi para el parámetro "${parameterName}"`);
+  if (!Number.isFinite(measuredValue)) {
+    throw new Error(`WQI: valor no numérico para "${parameterName}"`);
+  }
 
   // Si el valor está fuera de rango, usar los extremos
   if (measuredValue <= curve[0].value) return curve[0].qi;
@@ -195,5 +201,6 @@ export function interpolateQi(
     }
   }
 
-  return 50; // Fallback
+  // Con curvas ordenadas y un valor finito, el bucle de arriba siempre encuentra su tramo.
+  throw new Error(`WQI: curva Qi de "${parameterName}" no ordenada o con huecos`);
 }

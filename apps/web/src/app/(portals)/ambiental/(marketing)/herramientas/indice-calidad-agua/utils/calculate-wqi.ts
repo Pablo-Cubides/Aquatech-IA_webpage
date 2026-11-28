@@ -1,5 +1,6 @@
 // Utilidades para calcular el NSF Water Quality Index (WQI)
 
+import { logger } from "@/lib/logger";
 import type { WaterSample, IndexResult, IndexDetail } from "../types";
 import {
   WQI_PARAMETERS,
@@ -54,13 +55,17 @@ export function calculateWQI(sample: WaterSample): IndexResult | null {
       }
     );
 
+    // Un valor que no es un número (NaN) no es una medición: antes la interpolación le asignaba
+    // Qi = 50 en silencio. Se trata como parámetro no medido.
+    if (measuredParam && !Number.isFinite(measuredParam.value)) {
+      missingParameters.push(wqiParam.name);
+      continue;
+    }
+
     if (measuredParam) {
       // Calcular Qi usando interpolación de curvas
       const qi = interpolateQi(wqiParam.name, measuredParam.value);
-      
-      // Si el Qi es 0 o negativo, saltar este parámetro
-      if (qi <= 0) continue;
-      
+
       // Si el Qi es 0 o negativo, saltar este parámetro
       if (qi <= 0) continue;
 
@@ -89,13 +94,18 @@ export function calculateWQI(sample: WaterSample): IndexResult | null {
   }
 
   // Calcular WQI normalizado
-  const wqiValue = weightedSum / totalWeight;
+  const wqiValue = Math.round((weightedSum / totalWeight) * 100) / 100;
 
-  // Obtener categoría
+  // Categoría del valor que se muestra (a 2 decimales): lo que ve el usuario y su categoría
+  // coinciden. Sin categoría no se publica un resultado: mejor nada que una etiqueta inventada.
   const category = getWQICategory(wqiValue);
+  if (!category) {
+    logger.warn("WQI fuera de escala: no se publica resultado", { wqiValue, sampleId: sample.id });
+    return null;
+  }
 
   return {
-    value: Math.round(wqiValue * 100) / 100,
+    value: wqiValue,
     category: category.category,
     riskLevel: category.description,
     details: details.sort((a, b) => (b.weight || 0) - (a.weight || 0)), // Ordenar por peso

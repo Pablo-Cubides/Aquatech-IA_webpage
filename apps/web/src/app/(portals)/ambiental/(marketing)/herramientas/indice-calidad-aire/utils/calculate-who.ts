@@ -8,26 +8,18 @@ import type {
   AirQualityMeasurement,
   WHOResult,
   AQIResult,
+  Category,
 } from "../types";
 import { POLLUTANTS } from "../types";
 import {
   WHO_GUIDELINES,
   WHO_INDEX_CATEGORIES,
+  WHO_CATEGORY_IDS,
   getWHOGuideline,
   getWHOCategory,
   calculateWHOPercentage,
 } from "../data/breakpoints/who-guidelines";
 import { WHO_INDEX_PROFILE } from "../data/index-profiles";
-
-/**
- * Get WHO category name from percentage
- */
-function getWHOCategoryName(percentage: number): string {
-  if (percentage <= 100) return "complies";
-  if (percentage <= 150) return "slight-excess";
-  if (percentage <= 300) return "high-excess";
-  return "extreme-excess";
-}
 
 /**
  * Calculate WHO result for a single pollutant
@@ -45,6 +37,8 @@ export function calculateWHOPollutant(
 
   const percentage = calculateWHOPercentage(concentration, guideline);
   const category = getWHOCategory(percentage);
+  // Porcentaje no numérico o negativo (concentración inválida): no hay categoría que dar.
+  if (!category) return null;
   const pollutant = POLLUTANTS[pollutantId];
 
   return {
@@ -53,7 +47,7 @@ export function calculateWHOPollutant(
     concentration,
     guideline,
     percentage: Math.round(percentage * 10) / 10, // Round to 1 decimal
-    category: getWHOCategoryName(percentage) as WHOResult["category"],
+    category: WHO_CATEGORY_IDS[WHO_INDEX_CATEGORIES.indexOf(category)],
     categoryName: category.name,
     color: category.color,
   };
@@ -68,6 +62,7 @@ export function calculateWHOIndex(
   const subIndices: AQIResult["subIndices"] = [];
   const missingPollutants: PollutantId[] = [];
   const whoResults: WHOResult[] = [];
+  const categories: Category[] = []; // misma posición que whoResults
 
   // Process each pollutant
   for (const guideline of WHO_GUIDELINES) {
@@ -98,10 +93,11 @@ export function calculateWHOIndex(
     );
 
     if (result) {
-      whoResults.push(result);
-
       // Convert to SubIndexResult format
       const category = getWHOCategory(result.percentage);
+      if (!category) continue; // sin categoría no se publica el contaminante
+      whoResults.push(result);
+      categories.push(category);
       subIndices.push({
         pollutantId: result.pollutantId,
         pollutantName: result.pollutantName,
@@ -135,11 +131,13 @@ export function calculateWHOIndex(
   }
 
   // Find the pollutant with highest percentage over guideline
-  const maxResult = whoResults.reduce((max, current) =>
-    current.percentage > max.percentage ? current : max,
+  const maxIndex = whoResults.reduce(
+    (best, current, i) => (current.percentage > whoResults[best].percentage ? i : best),
+    0,
   );
+  const maxResult = whoResults[maxIndex];
 
-  const finalCategory = getWHOCategory(maxResult.percentage);
+  const finalCategory = categories[maxIndex];
 
   return {
     profileId: "who-index",

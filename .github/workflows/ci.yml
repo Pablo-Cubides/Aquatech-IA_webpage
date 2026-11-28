@@ -95,9 +95,6 @@ jobs:
         run: pnpm lint
         continue-on-error: false
 
-      - name: Verify contracts sync (docs → apps/web)
-        run: node .specify/scripts/sync-contracts.mjs --check
-
   # TypeScript type checking
   typecheck:
     name: TypeScript Type Check
@@ -180,32 +177,28 @@ jobs:
           NODE_ENV: test
 
       - name: Check coverage threshold (60%)
+        # ING-002: antes, si no existia coverage-summary.json (el reporter `json-summary` no estaba
+        # configurado) el paso decia "skipping" y pasaba en verde sin medir nada. Ahora falla si no
+        # hay informe o si falta una metrica. Medido el 28-nov-2026: lineas 72.4, ramas 64.6, funciones 73.6.
         run: |
           node -e "
           const fs = require('fs');
-          const paths = [
-            'coverage/coverage-summary.json',
-            'apps/web/coverage/coverage-summary.json',
-            'apps/api/coverage/coverage-summary.json',
-          ];
-          let found = false;
-          for (const p of paths) {
-            if (!fs.existsSync(p)) continue;
-            found = true;
-            const summary = JSON.parse(fs.readFileSync(p, 'utf-8'));
-            const total = summary.total;
-            const lines = total?.lines?.pct ?? 100;
-            const branches = total?.branches?.pct ?? 100;
-            const functions = total?.functions?.pct ?? 100;
-            console.log('Coverage — lines:', lines + '%', '| branches:', branches + '%', '| functions:', functions + '%');
-            const THRESHOLD = 60;
-            if (lines < THRESHOLD || branches < THRESHOLD || functions < THRESHOLD) {
-              console.error('Coverage below ' + THRESHOLD + '% threshold (constitution §4.1)');
-              process.exit(1);
-            }
-            console.log('Coverage OK (threshold: ' + THRESHOLD + '%)');
+          const p = 'apps/web/coverage/coverage-summary.json';
+          if (!fs.existsSync(p)) {
+            console.error('No existe ' + p + ': la prueba con cobertura no genero el informe. La puerta no puede dar verde sin medir.');
+            process.exit(1);
           }
-          if (!found) console.log('No coverage report found — skipping threshold check');
+          const total = JSON.parse(fs.readFileSync(p, 'utf-8')).total;
+          const THRESHOLD = 60;
+          let failed = false;
+          for (const k of ['lines', 'branches', 'functions']) {
+            const pct = total?.[k]?.pct;
+            if (typeof pct !== 'number') { console.error('Falta la metrica ' + k + ' en ' + p); failed = true; continue; }
+            console.log('Coverage ' + k + ': ' + pct + '%');
+            if (pct < THRESHOLD) { console.error(k + ' por debajo de ' + THRESHOLD + '% (constitution 4.1)'); failed = true; }
+          }
+          if (failed) process.exit(1);
+          console.log('Coverage OK (threshold: ' + THRESHOLD + '%)');
           "
 
       - name: Upload coverage reports

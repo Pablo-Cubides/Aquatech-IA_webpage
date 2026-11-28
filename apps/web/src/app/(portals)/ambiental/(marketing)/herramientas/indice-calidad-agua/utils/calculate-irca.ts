@@ -1,6 +1,7 @@
 // Utilidades para calcular el índice IRCA (Índice de Riesgo de la Calidad del Agua)
 // Resolución 2115 de 2007 (arts. 13-15). Constantes: @/lib/normativa (fuente canónica).
 
+import { logger } from "@/lib/logger";
 import type {
   WaterSample,
   WaterParameter,
@@ -268,6 +269,10 @@ export function calculateIRCA(sample: WaterSample): IndexResult | null {
   const ircaValue = overrides.length > 0 ? 100 : formulaValue;
 
   const category = getIRCARiskCategory(ircaValue);
+  if (!category) {
+    logger.warn("IRCA no numérico: no se publica resultado", { ircaValue, sampleId: sample.id });
+    return null;
+  }
 
   const scope: IRCAScope = {
     calculatedOn: details.length,
@@ -353,6 +358,7 @@ export function calculateMonthlyIRCA(samples: WaterSample[]): MonthlyIRCA[] {
     const mean = perSample.reduce((acc, x) => acc + x.irca, 0) / perSample.length;
     const value = Math.round(mean * 100) / 100;
     const cat = getIRCARiskCategory(value);
+    if (!cat) continue; // media no numérica: no hay categoría que mostrar
     out.push({
       month,
       value,

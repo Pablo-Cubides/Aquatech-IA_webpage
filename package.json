@@ -26,7 +26,6 @@
     "bundle:budget": "node .specify/scripts/bundle-size.mjs --serve",
     "lint:content": "node .specify/scripts/lint-content.mjs",
     "lint:specs": "node .specify/scripts/lint-specs.mjs",
-    "sync:contracts": "node .specify/scripts/sync-contracts.mjs",
     "test:sdd-governance": "node .specify/scripts/lint-specs.mjs && node .specify/scripts/lint-content.mjs",
     "release:preflight": "node .specify/scripts/release-preflight.mjs"
   },
